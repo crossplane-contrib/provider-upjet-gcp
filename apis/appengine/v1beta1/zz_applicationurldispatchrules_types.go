@@ -54,10 +54,12 @@ type ApplicationURLDispatchRulesParameters struct {
 
 	// Rules to match an HTTP request and dispatch that request to a service.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	DispatchRules []DispatchRulesParameters `json:"dispatchRules,omitempty" tf:"dispatch_rules,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -91,10 +93,12 @@ type DispatchRulesParameters struct {
 
 	// Domain name to match against. The wildcard "" is supported if specified before a period: ".".
 	// Defaults to matching all domains: "*".
+	// +kubebuilder:validation:Optional
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
 	// Pathname within the host. Must start with a "/". A single "*" can be included at the end of the path.
 	// The sum of the lengths of the domain and path may not exceed 100 characters.
+	// +kubebuilder:validation:Optional
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
 	// Pathname within the host. Must start with a "/". A single "*" can be included at the end of the path.

@@ -66,6 +66,7 @@ type VPNGatewayObservation struct {
 type VPNGatewayParameters struct {
 
 	// An optional description of this resource.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The network this VPN gateway is accepting traffic for.
@@ -84,6 +85,7 @@ type VPNGatewayParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The region this gateway should sit in.

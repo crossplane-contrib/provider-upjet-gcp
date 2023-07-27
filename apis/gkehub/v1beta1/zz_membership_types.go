@@ -43,6 +43,7 @@ type AuthorityParameters struct {
 
 	// A JSON Web Token (JWT) issuer URI. issuer must start with https:// and // be a valid
 	// with length <2000 characters. For example: https://container.googleapis.com/v1/projects/my-project/locations/us-west1/clusters/my-cluster (must be locations rather than zones).googleapis.com/v1/${google_container_cluster.my-cluster.id}".
+	// +kubebuilder:validation:Optional
 	Issuer *string `json:"issuer,omitempty" tf:"issuer,omitempty"`
 }
 
@@ -64,6 +65,7 @@ type EndpointParameters struct {
 
 	// If this Membership is a Kubernetes API server hosted on GKE, this is a self link to its GCP resource.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	GkeCluster []GkeClusterParameters `json:"gkeCluster,omitempty" tf:"gke_cluster,omitempty"`
 }
 
@@ -151,17 +153,21 @@ type MembershipParameters struct {
 	// See the workload identity documentation for more details:
 	// https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Authority []AuthorityParameters `json:"authority,omitempty" tf:"authority,omitempty"`
 
 	// If this Membership is a Kubernetes API server hosted on GKE, this is a self link to its GCP resource.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Endpoint []EndpointParameters `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
 
 	// Labels to apply to this membership.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 

@@ -40,6 +40,7 @@ type CategoricalThresholdConfigObservation struct {
 type CategoricalThresholdConfigParameters struct {
 
 	// Specify a threshold value that can trigger the alert. For numerical feature, the distribution distance is calculated by Jensen–Shannon divergence. Each feature must have a non-zero threshold if they need to be monitored. Otherwise no alert will be triggered for that feature. The default value is 0.3.
+	// +kubebuilder:validation:Optional
 	Value *float64 `json:"value,omitempty" tf:"value,omitempty"`
 }
 
@@ -97,6 +98,7 @@ type FeaturestoreEntitytypeObservation struct {
 type FeaturestoreEntitytypeParameters struct {
 
 	// Optional. Description of the EntityType.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The name of the Featurestore to use, in the format projects/{project}/locations/{location}/featurestores/{featurestore}.
@@ -114,14 +116,17 @@ type FeaturestoreEntitytypeParameters struct {
 	FeaturestoreSelector *v1.Selector `json:"featurestoreSelector,omitempty" tf:"-"`
 
 	// A set of key/value label pairs to assign to this EntityType.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The default monitoring configuration for all Features under this EntityType.
 	// If this is populated with [FeaturestoreMonitoringConfig.monitoring_interval] specified, snapshot analysis monitoring is enabled. Otherwise, snapshot analysis monitoring is disabled.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	MonitoringConfig []MonitoringConfigParameters `json:"monitoringConfig,omitempty" tf:"monitoring_config,omitempty"`
 
 	// The name of the EntityType. This value may be up to 60 characters, and valid characters are [a-z0-9_]. The first character cannot be a number.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
@@ -146,9 +151,11 @@ type ImportFeaturesAnalysisObservation struct {
 type ImportFeaturesAnalysisParameters struct {
 
 	// Defines the baseline to do anomaly detection for feature values imported by each [entityTypes.importFeatureValues][] operation. The value must be one of the values below:
+	// +kubebuilder:validation:Optional
 	AnomalyDetectionBaseline *string `json:"anomalyDetectionBaseline,omitempty" tf:"anomaly_detection_baseline,omitempty"`
 
 	// Whether to enable / disable / inherite default hebavior for import features analysis. The value must be one of the values below:
+	// +kubebuilder:validation:Optional
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
 
@@ -194,18 +201,22 @@ type MonitoringConfigParameters struct {
 
 	// Threshold for categorical features of anomaly detection. This is shared by all types of Featurestore Monitoring for categorical features (i.e. Features with type (Feature.ValueType) BOOL or STRING).
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	CategoricalThresholdConfig []CategoricalThresholdConfigParameters `json:"categoricalThresholdConfig,omitempty" tf:"categorical_threshold_config,omitempty"`
 
 	// The config for ImportFeatures Analysis Based Feature Monitoring.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	ImportFeaturesAnalysis []ImportFeaturesAnalysisParameters `json:"importFeaturesAnalysis,omitempty" tf:"import_features_analysis,omitempty"`
 
 	// Threshold for numerical features of anomaly detection. This is shared by all objectives of Featurestore Monitoring for numerical features (i.e. Features with type (Feature.ValueType) DOUBLE or INT64).
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	NumericalThresholdConfig []NumericalThresholdConfigParameters `json:"numericalThresholdConfig,omitempty" tf:"numerical_threshold_config,omitempty"`
 
 	// The config for Snapshot Analysis Based Feature Monitoring.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	SnapshotAnalysis []SnapshotAnalysisParameters `json:"snapshotAnalysis,omitempty" tf:"snapshot_analysis,omitempty"`
 }
 
@@ -224,6 +235,7 @@ type NumericalThresholdConfigObservation struct {
 type NumericalThresholdConfigParameters struct {
 
 	// Specify a threshold value that can trigger the alert. For numerical feature, the distribution distance is calculated by Jensen–Shannon divergence. Each feature must have a non-zero threshold if they need to be monitored. Otherwise no alert will be triggered for that feature. The default value is 0.3.
+	// +kubebuilder:validation:Optional
 	Value *float64 `json:"value,omitempty" tf:"value,omitempty"`
 }
 
@@ -256,13 +268,16 @@ type SnapshotAnalysisObservation struct {
 type SnapshotAnalysisParameters struct {
 
 	// The monitoring schedule for snapshot analysis. For EntityType-level config: unset / disabled = true indicates disabled by default for Features under it; otherwise by default enable snapshot analysis monitoring with monitoringInterval for Features under it.
+	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
 	// Configuration of the snapshot analysis based monitoring pipeline running interval. The value indicates number of days. The default value is 1.
 	// If both FeaturestoreMonitoringConfig.SnapshotAnalysis.monitoring_interval_days and [FeaturestoreMonitoringConfig.SnapshotAnalysis.monitoring_interval][] are set when creating/updating EntityTypes/Features, FeaturestoreMonitoringConfig.SnapshotAnalysis.monitoring_interval_days will be used.
+	// +kubebuilder:validation:Optional
 	MonitoringIntervalDays *float64 `json:"monitoringIntervalDays,omitempty" tf:"monitoring_interval_days,omitempty"`
 
 	// Customized export features time window for snapshot analysis. Unit is one day. The default value is 21 days. Minimum value is 1 day. Maximum value is 4000 days.
+	// +kubebuilder:validation:Optional
 	StalenessDays *float64 `json:"stalenessDays,omitempty" tf:"staleness_days,omitempty"`
 }
 

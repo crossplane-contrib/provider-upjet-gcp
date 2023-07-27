@@ -85,9 +85,11 @@ type VersionObservation struct {
 type VersionParameters struct {
 
 	// The description of the version. The maximum length is 500 characters. If exceeded, the request is rejected.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The human-readable name of the version. Limit of 64 characters.
+	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The Flow to create an Version for.

@@ -78,6 +78,7 @@ type ArgumentsParameters struct {
 	// Defaults to FIXED_TYPE.
 	// Default value is FIXED_TYPE.
 	// Possible values are: FIXED_TYPE, ANY_TYPE.
+	// +kubebuilder:validation:Optional
 	ArgumentKind *string `json:"argumentKind,omitempty" tf:"argument_kind,omitempty"`
 
 	// A JSON schema for the data type. Required unless argumentKind = ANY_TYPE.
@@ -87,13 +88,16 @@ type ArgumentsParameters struct {
 	// or replaced STRUCT field type with RECORD field type, we currently cannot
 	// suppress the recurring diff this causes. As a workaround, we recommend using
 	// the schema as returned by the API.
+	// +kubebuilder:validation:Optional
 	DataType *string `json:"dataType,omitempty" tf:"data_type,omitempty"`
 
 	// Specifies whether the argument is input or output. Can be set for procedures only.
 	// Possible values are: IN, OUT, INOUT.
+	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
 	// The name of this argument. Can be absent for function return argument.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
@@ -217,6 +221,7 @@ type RoutineParameters_2 struct {
 
 	// Input/output argument of a function or a stored procedure.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Arguments []ArgumentsParameters `json:"arguments,omitempty" tf:"arguments,omitempty"`
 
 	// The ID of the dataset containing this routine
@@ -234,31 +239,38 @@ type RoutineParameters_2 struct {
 
 	// The body of the routine. For functions, this is the expression in the AS clause.
 	// If language=SQL, it is the substring inside (but excluding) the parentheses.
+	// +kubebuilder:validation:Optional
 	DefinitionBody *string `json:"definitionBody,omitempty" tf:"definition_body,omitempty"`
 
 	// The description of the routine if defined.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The determinism level of the JavaScript UDF if defined.
 	// Possible values are: DETERMINISM_LEVEL_UNSPECIFIED, DETERMINISTIC, NOT_DETERMINISTIC.
+	// +kubebuilder:validation:Optional
 	DeterminismLevel *string `json:"determinismLevel,omitempty" tf:"determinism_level,omitempty"`
 
 	// Optional. If language = "JAVASCRIPT", this field stores the path of the
 	// imported JAVASCRIPT libraries.
+	// +kubebuilder:validation:Optional
 	ImportedLibraries []*string `json:"importedLibraries,omitempty" tf:"imported_libraries,omitempty"`
 
 	// The language of the routine.
 	// Possible values are: SQL, JAVASCRIPT.
+	// +kubebuilder:validation:Optional
 	Language *string `json:"language,omitempty" tf:"language,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Optional. Can be set only if routineType = "TABLE_VALUED_FUNCTION".
 	// If absent, the return table type is inferred from definitionBody at query time in each query
 	// that references this routine. If present, then the columns in the evaluated table result will
 	// be cast to match the column types specificed in return table type, at query time.
+	// +kubebuilder:validation:Optional
 	ReturnTableType *string `json:"returnTableType,omitempty" tf:"return_table_type,omitempty"`
 
 	// A JSON schema for the return type. Optional if language = "SQL"; required otherwise.
@@ -270,10 +282,12 @@ type RoutineParameters_2 struct {
 	// d the order of values or replaced STRUCT field type with RECORD field type, we currently
 	// cannot suppress the recurring diff this causes. As a workaround, we recommend using
 	// the schema as returned by the API.
+	// +kubebuilder:validation:Optional
 	ReturnType *string `json:"returnType,omitempty" tf:"return_type,omitempty"`
 
 	// The type of routine.
 	// Possible values are: SCALAR_FUNCTION, PROCEDURE, TABLE_VALUED_FUNCTION.
+	// +kubebuilder:validation:Optional
 	RoutineType *string `json:"routineType,omitempty" tf:"routine_type,omitempty"`
 }
 

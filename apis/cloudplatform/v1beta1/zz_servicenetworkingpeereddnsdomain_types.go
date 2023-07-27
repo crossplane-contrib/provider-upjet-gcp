@@ -58,6 +58,7 @@ type ServiceNetworkingPeeredDNSDomainObservation struct {
 type ServiceNetworkingPeeredDNSDomainParameters struct {
 
 	// The DNS domain suffix of the peered DNS domain. Make sure to suffix with a . (dot).
+	// +kubebuilder:validation:Optional
 	DNSSuffix *string `json:"dnsSuffix,omitempty" tf:"dns_suffix,omitempty"`
 
 	// The network in the consumer project.
@@ -65,6 +66,7 @@ type ServiceNetworkingPeeredDNSDomainParameters struct {
 	Network *string `json:"network" tf:"network,omitempty"`
 
 	// The producer project number. If not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Private service connection between service and consumer network, defaults to servicenetworking.googleapis.com

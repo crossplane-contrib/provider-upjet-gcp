@@ -97,13 +97,16 @@ type TargetPoolParameters struct {
 
 	// URL to the backup target pool. Must also set
 	// failover_ratio.
+	// +kubebuilder:validation:Optional
 	BackupPool *string `json:"backupPool,omitempty" tf:"backup_pool,omitempty"`
 
 	// Textual description field.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Ratio (0 to 1) of failed nodes before using the
 	// backup pool (which must also be set).
+	// +kubebuilder:validation:Optional
 	FailoverRatio *float64 `json:"failoverRatio,omitempty" tf:"failover_ratio,omitempty"`
 
 	// List of zero or one health check name or self_link. Only
@@ -122,10 +125,12 @@ type TargetPoolParameters struct {
 
 	// List of instances in the pool. They can be given as
 	// URLs, or in the form of "zone/name".
+	// +kubebuilder:validation:Optional
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Where the target pool resides. Defaults to project
@@ -136,6 +141,7 @@ type TargetPoolParameters struct {
 	// How to distribute load. Options are "NONE" (no
 	// affinity). "CLIENT_IP" (hash of the source/dest addresses / ports), and
 	// "CLIENT_IP_PROTO" also includes the protocol (default "NONE").
+	// +kubebuilder:validation:Optional
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
 }
 

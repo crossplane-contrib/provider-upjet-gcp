@@ -42,10 +42,14 @@ type TableIAMMemberConditionObservation struct {
 }
 
 type TableIAMMemberConditionParameters struct {
+
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
@@ -76,13 +80,17 @@ type TableIAMMemberObservation struct {
 }
 
 type TableIAMMemberParameters struct {
+
+	// +kubebuilder:validation:Optional
 	Condition []TableIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Member *string `json:"member" tf:"member,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// +kubebuilder:validation:Required

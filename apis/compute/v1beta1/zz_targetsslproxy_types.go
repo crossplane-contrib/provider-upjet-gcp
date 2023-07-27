@@ -116,19 +116,23 @@ type TargetSSLProxyParameters struct {
 	// A reference to the CertificateMap resource uri that identifies a certificate map
 	// associated with the given target proxy. This field can only be set for global target proxies.
 	// Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificateMaps/{resourceName}.
+	// +kubebuilder:validation:Optional
 	CertificateMap *string `json:"certificateMap,omitempty" tf:"certificate_map,omitempty"`
 
 	// An optional description of this resource.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Specifies the type of proxy header to append before sending data to
 	// the backend.
 	// Default value is NONE.
 	// Possible values are: NONE, PROXY_V1.
+	// +kubebuilder:validation:Optional
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
 	// A list of SslCertificate resources that are used to authenticate
@@ -149,6 +153,7 @@ type TargetSSLProxyParameters struct {
 	// A reference to the SslPolicy resource that will be associated with
 	// the TargetSslProxy resource. If not set, the TargetSslProxy
 	// resource will not have any SSL policy configured.
+	// +kubebuilder:validation:Optional
 	SSLPolicy *string `json:"sslPolicy,omitempty" tf:"ssl_policy,omitempty"`
 }
 

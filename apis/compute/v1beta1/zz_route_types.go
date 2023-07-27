@@ -132,10 +132,12 @@ type RouteParameters struct {
 
 	// An optional description of this resource. Provide this property
 	// when you create the resource.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The destination range of outgoing packets that this route applies to.
 	// Only IPv4 is supported.
+	// +kubebuilder:validation:Optional
 	DestRange *string `json:"destRange,omitempty" tf:"dest_range,omitempty"`
 
 	// The network that this route applies to.
@@ -154,9 +156,11 @@ type RouteParameters struct {
 	// URL to a gateway that should handle matching packets.
 	// Currently, you can only specify the internet gateway, using a full or
 	// partial valid URL:
+	// +kubebuilder:validation:Optional
 	NextHopGateway *string `json:"nextHopGateway,omitempty" tf:"next_hop_gateway,omitempty"`
 
 	// Network IP address of an instance that should handle matching packets.
+	// +kubebuilder:validation:Optional
 	NextHopIP *string `json:"nextHopIp,omitempty" tf:"next_hop_ip,omitempty"`
 
 	// The IP address or URL to a forwarding rule of type
@@ -180,9 +184,11 @@ type RouteParameters struct {
 
 	// URL to an instance that should handle matching packets.
 	// You can specify this as a full or partial URL. For example:
+	// +kubebuilder:validation:Optional
 	NextHopInstance *string `json:"nextHopInstance,omitempty" tf:"next_hop_instance,omitempty"`
 
 	// .
+	// +kubebuilder:validation:Optional
 	NextHopInstanceZone *string `json:"nextHopInstanceZone,omitempty" tf:"next_hop_instance_zone,omitempty"`
 
 	// URL to a VpnTunnel that should handle matching packets.
@@ -203,13 +209,16 @@ type RouteParameters struct {
 	// In the case of two routes with equal prefix length, the one with the
 	// lowest-numbered priority value wins.
 	// Default value is 1000. Valid range is 0 through 65535.
+	// +kubebuilder:validation:Optional
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// A list of instance tags to which this route applies.
+	// +kubebuilder:validation:Optional
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 

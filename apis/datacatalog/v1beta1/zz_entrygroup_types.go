@@ -74,20 +74,25 @@ type EntryGroupObservation struct {
 type EntryGroupParameters struct {
 
 	// Entry group description, which can consist of several sentences or paragraphs that describe entry group contents.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// A short name to identify the entry group, for example, "analytics data - jan 2011".
+	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The id of the entry group to create. The id must begin with a letter or underscore,
 	// contain only English letters, numbers and underscores, and be at most 64 characters.
+	// +kubebuilder:validation:Optional
 	EntryGroupID *string `json:"entryGroupId,omitempty" tf:"entry_group_id,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// EntryGroup location region.
+	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
 

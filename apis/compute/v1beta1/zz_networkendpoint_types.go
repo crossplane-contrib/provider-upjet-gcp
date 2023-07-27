@@ -81,6 +81,7 @@ type NetworkEndpointParameters struct {
 	// IPv4 address of network endpoint. The IP address must belong
 	// to a VM in GCE (either the primary IP or as part of an aliased IP
 	// range).
+	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
 	// The name for a specific VM instance that the IP address belongs to.
@@ -114,13 +115,16 @@ type NetworkEndpointParameters struct {
 	// Port number of network endpoint.
 	// Note port is required unless the Network Endpoint Group is created
 	// with the type of GCE_VM_IP
+	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Zone where the containing network endpoint group is located.
+	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 

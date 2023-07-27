@@ -88,15 +88,19 @@ type TenantInboundSAMLConfigIdPConfigParameters struct {
 
 	// The IDP's certificate data to verify the signature in the SAMLResponse issued by the IDP.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	IdPCertificates []IdPConfigIdPCertificatesParameters `json:"idpCertificates,omitempty" tf:"idp_certificates,omitempty"`
 
 	// Unique identifier for all SAML entities
+	// +kubebuilder:validation:Optional
 	IdPEntityID *string `json:"idpEntityId,omitempty" tf:"idp_entity_id,omitempty"`
 
 	// Indicates if outbounding SAMLRequest should be signed.
+	// +kubebuilder:validation:Optional
 	SignRequest *bool `json:"signRequest,omitempty" tf:"sign_request,omitempty"`
 
 	// URL to send Authentication request to.
+	// +kubebuilder:validation:Optional
 	SsoURL *string `json:"ssoUrl,omitempty" tf:"sso_url,omitempty"`
 }
 
@@ -163,27 +167,33 @@ type TenantInboundSAMLConfigObservation struct {
 type TenantInboundSAMLConfigParameters struct {
 
 	// Human friendly display name.
+	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// If this config allows users to sign in with the provider.
+	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// SAML IdP configuration when the project acts as the relying party
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	IdPConfig []TenantInboundSAMLConfigIdPConfigParameters `json:"idpConfig,omitempty" tf:"idp_config,omitempty"`
 
 	// The name of the InboundSamlConfig resource. Must start with 'saml.' and can only have alphanumeric characters,
 	// hyphens, underscores or periods. The part after 'saml.' must also start with a lowercase letter, end with an
 	// alphanumeric character, and have at least 2 characters.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// SAML SP (Service Provider) configuration when the project acts as the relying party to receive
 	// and accept an authentication assertion issued by a SAML identity provider.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	SpConfig []TenantInboundSAMLConfigSpConfigParameters `json:"spConfig,omitempty" tf:"sp_config,omitempty"`
 
 	// The name of the tenant where this inbound SAML config resource exists
@@ -227,9 +237,11 @@ type TenantInboundSAMLConfigSpConfigObservation struct {
 type TenantInboundSAMLConfigSpConfigParameters struct {
 
 	// Callback URI where responses from IDP are handled. Must start with https://.
+	// +kubebuilder:validation:Optional
 	CallbackURI *string `json:"callbackUri,omitempty" tf:"callback_uri,omitempty"`
 
 	// Unique identifier for all SAML entities.
+	// +kubebuilder:validation:Optional
 	SpEntityID *string `json:"spEntityId,omitempty" tf:"sp_entity_id,omitempty"`
 }
 

@@ -46,9 +46,11 @@ type ActionObservation struct {
 type ActionParameters struct {
 
 	// The Storage Class of the new bucket. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE.
+	// +kubebuilder:validation:Optional
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
 
 	// The type of the action of this Lifecycle Rule. Supported values include: Delete, SetStorageClass and AbortIncompleteMultipartUpload.
+	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -67,6 +69,7 @@ type AutoclassObservation struct {
 type AutoclassParameters struct {
 
 	// While set to true, autoclass automatically transitions objects in your bucket to appropriate storage classes based on each object's access pattern.
+	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
@@ -199,59 +202,77 @@ type BucketObservation struct {
 type BucketParameters struct {
 
 	// The bucket's Autoclass configuration.  Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Autoclass []AutoclassParameters `json:"autoclass,omitempty" tf:"autoclass,omitempty"`
 
 	// The bucket's Cross-Origin Resource Sharing (CORS) configuration. Multiple blocks of this type are permitted. Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Cors []CorsParameters `json:"cors,omitempty" tf:"cors,omitempty"`
 
 	// The bucket's custom location configuration, which specifies the individual regions that comprise a dual-region bucket. If the bucket is designated a single or multi-region, the parameters are empty. Structure is documented below.
+	// +kubebuilder:validation:Optional
 	CustomPlacementConfig []CustomPlacementConfigParameters `json:"customPlacementConfig,omitempty" tf:"custom_placement_config,omitempty"`
 
 	// Whether or not to automatically apply an eventBasedHold to new objects added to the bucket.
+	// +kubebuilder:validation:Optional
 	DefaultEventBasedHold *bool `json:"defaultEventBasedHold,omitempty" tf:"default_event_based_hold,omitempty"`
 
 	// The bucket's encryption configuration. Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Encryption []EncryptionParameters `json:"encryption,omitempty" tf:"encryption,omitempty"`
 
 	// When deleting a bucket, this
 	// boolean option will delete all contained objects.
+	// +kubebuilder:validation:Optional
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
 
 	// A map of key/value label pairs to assign to the bucket.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The bucket's Lifecycle Rules configuration. Multiple blocks of this type are permitted. Structure is documented below.
+	// +kubebuilder:validation:Optional
 	LifecycleRule []LifecycleRuleParameters `json:"lifecycleRule,omitempty" tf:"lifecycle_rule,omitempty"`
 
 	// The GCS location.
+	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// The bucket's Access & Storage Logs configuration. Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Logging []LoggingParameters `json:"logging,omitempty" tf:"logging,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Prevents public access to a bucket. Acceptable values are "inherited" or "enforced". If "inherited", the bucket uses public access prevention. only if the bucket is subject to the public access prevention organization policy constraint. Defaults to "inherited".
+	// +kubebuilder:validation:Optional
 	PublicAccessPrevention *string `json:"publicAccessPrevention,omitempty" tf:"public_access_prevention,omitempty"`
 
 	// Enables Requester Pays on a storage bucket.
+	// +kubebuilder:validation:Optional
 	RequesterPays *bool `json:"requesterPays,omitempty" tf:"requester_pays,omitempty"`
 
 	// Configuration of the bucket's data retention policy for how long objects in the bucket should be retained. Structure is documented below.
+	// +kubebuilder:validation:Optional
 	RetentionPolicy []RetentionPolicyParameters `json:"retentionPolicy,omitempty" tf:"retention_policy,omitempty"`
 
 	// The Storage Class of the new bucket. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE.
+	// +kubebuilder:validation:Optional
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
 
 	// Enables Uniform bucket-level access access to a bucket.
+	// +kubebuilder:validation:Optional
 	UniformBucketLevelAccess *bool `json:"uniformBucketLevelAccess,omitempty" tf:"uniform_bucket_level_access,omitempty"`
 
 	// The bucket's Versioning configuration.  Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Versioning []VersioningParameters `json:"versioning,omitempty" tf:"versioning,omitempty"`
 
 	// Configuration if the bucket acts as a website. Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Website []WebsiteParameters `json:"website,omitempty" tf:"website,omitempty"`
 }
 
@@ -330,36 +351,47 @@ type ConditionObservation struct {
 type ConditionParameters struct {
 
 	// Minimum age of an object in days to satisfy this condition.
+	// +kubebuilder:validation:Optional
 	Age *float64 `json:"age,omitempty" tf:"age,omitempty"`
 
 	// A date in the RFC 3339 format YYYY-MM-DD. This condition is satisfied when an object is created before midnight of the specified date in UTC.
+	// +kubebuilder:validation:Optional
 	CreatedBefore *string `json:"createdBefore,omitempty" tf:"created_before,omitempty"`
 
 	// A date in the RFC 3339 format YYYY-MM-DD. This condition is satisfied when the customTime metadata for the object is set to an earlier date than the date used in this lifecycle condition.
+	// +kubebuilder:validation:Optional
 	CustomTimeBefore *string `json:"customTimeBefore,omitempty" tf:"custom_time_before,omitempty"`
 
 	// Days since the date set in the customTime metadata for the object. This condition is satisfied when the current date and time is at least the specified number of days after the customTime.
+	// +kubebuilder:validation:Optional
 	DaysSinceCustomTime *float64 `json:"daysSinceCustomTime,omitempty" tf:"days_since_custom_time,omitempty"`
 
 	// Relevant only for versioned objects. Number of days elapsed since the noncurrent timestamp of an object.
+	// +kubebuilder:validation:Optional
 	DaysSinceNoncurrentTime *float64 `json:"daysSinceNoncurrentTime,omitempty" tf:"days_since_noncurrent_time,omitempty"`
 
 	// One or more matching name prefixes to satisfy this condition.
+	// +kubebuilder:validation:Optional
 	MatchesPrefix []*string `json:"matchesPrefix,omitempty" tf:"matches_prefix,omitempty"`
 
 	// Storage Class of objects to satisfy this condition. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE, DURABLE_REDUCED_AVAILABILITY.
+	// +kubebuilder:validation:Optional
 	MatchesStorageClass []*string `json:"matchesStorageClass,omitempty" tf:"matches_storage_class,omitempty"`
 
 	// One or more matching name suffixes to satisfy this condition.
+	// +kubebuilder:validation:Optional
 	MatchesSuffix []*string `json:"matchesSuffix,omitempty" tf:"matches_suffix,omitempty"`
 
 	// Relevant only for versioned objects. The date in RFC 3339 (e.g. 2017-06-13) when the object became nonconcurrent.
+	// +kubebuilder:validation:Optional
 	NoncurrentTimeBefore *string `json:"noncurrentTimeBefore,omitempty" tf:"noncurrent_time_before,omitempty"`
 
 	// Relevant only for versioned objects. The number of newer versions of an object to satisfy this condition.
+	// +kubebuilder:validation:Optional
 	NumNewerVersions *float64 `json:"numNewerVersions,omitempty" tf:"num_newer_versions,omitempty"`
 
 	// Match to live and/or archived objects. Unversioned buckets have only live objects. Supported values include: "LIVE", "ARCHIVED", "ANY".
+	// +kubebuilder:validation:Optional
 	WithState *string `json:"withState,omitempty" tf:"with_state,omitempty"`
 }
 
@@ -396,15 +428,19 @@ type CorsObservation struct {
 type CorsParameters struct {
 
 	// The value, in seconds, to return in the Access-Control-Max-Age header used in preflight responses.
+	// +kubebuilder:validation:Optional
 	MaxAgeSeconds *float64 `json:"maxAgeSeconds,omitempty" tf:"max_age_seconds,omitempty"`
 
 	// The list of HTTP methods on which to include CORS response headers, (GET, OPTIONS, POST, etc) Note: "*" is permitted in the list of methods, and means "any method".
+	// +kubebuilder:validation:Optional
 	Method []*string `json:"method,omitempty" tf:"method,omitempty"`
 
 	// The list of Origins eligible to receive CORS response headers. Note: "*" is permitted in the list of origins, and means "any Origin".
+	// +kubebuilder:validation:Optional
 	Origin []*string `json:"origin,omitempty" tf:"origin,omitempty"`
 
 	// The list of HTTP headers other than the simple response headers to give permission for the user-agent to share across domains.
+	// +kubebuilder:validation:Optional
 	ResponseHeader []*string `json:"responseHeader,omitempty" tf:"response_header,omitempty"`
 }
 
@@ -423,6 +459,7 @@ type CustomPlacementConfigObservation struct {
 type CustomPlacementConfigParameters struct {
 
 	// The list of individual regions that comprise a dual-region bucket. See Cloud Storage bucket locations for a list of acceptable regions. Note: If any of the data_locations changes, it will recreate the bucket.
+	// +kubebuilder:validation:Optional
 	DataLocations []*string `json:"dataLocations,omitempty" tf:"data_locations,omitempty"`
 }
 
@@ -447,6 +484,7 @@ type EncryptionParameters struct {
 	// : The id of a Cloud KMS key that will be used to encrypt objects inserted into this bucket, if no encryption method is specified.
 	// You must pay attention to whether the crypto key is available in the location that this bucket is created in.
 	// See the docs for more details.
+	// +kubebuilder:validation:Optional
 	DefaultKMSKeyName *string `json:"defaultKmsKeyName,omitempty" tf:"default_kms_key_name,omitempty"`
 }
 
@@ -471,9 +509,11 @@ type LifecycleRuleObservation struct {
 type LifecycleRuleParameters struct {
 
 	// The Lifecycle Rule's action configuration. A single block of this type is supported. Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Action []ActionParameters `json:"action,omitempty" tf:"action,omitempty"`
 
 	// The Lifecycle Rule's condition configuration. A single block of this type is supported. Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Condition []ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 }
 
@@ -500,10 +540,12 @@ type LoggingObservation struct {
 type LoggingParameters struct {
 
 	// The bucket that will receive log objects.
+	// +kubebuilder:validation:Optional
 	LogBucket *string `json:"logBucket,omitempty" tf:"log_bucket,omitempty"`
 
 	// The object prefix for log objects. If it's not provided,
 	// by default GCS sets this to this bucket's name.
+	// +kubebuilder:validation:Optional
 	LogObjectPrefix *string `json:"logObjectPrefix,omitempty" tf:"log_object_prefix,omitempty"`
 }
 
@@ -528,9 +570,11 @@ type RetentionPolicyObservation struct {
 type RetentionPolicyParameters struct {
 
 	// If set to true, the bucket will be locked and permanently restrict edits to the bucket's retention policy.  Caution: Locking a bucket is an irreversible action.
+	// +kubebuilder:validation:Optional
 	IsLocked *bool `json:"isLocked,omitempty" tf:"is_locked,omitempty"`
 
 	// The period of time, in seconds, that objects in the bucket must be retained and cannot be deleted, overwritten, or archived. The value must be less than 2,147,483,647 seconds.
+	// +kubebuilder:validation:Optional
 	RetentionPeriod *float64 `json:"retentionPeriod,omitempty" tf:"retention_period,omitempty"`
 }
 
@@ -549,6 +593,7 @@ type VersioningObservation struct {
 type VersioningParameters struct {
 
 	// While set to true, versioning is fully enabled for this bucket.
+	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
@@ -578,10 +623,12 @@ type WebsiteParameters struct {
 
 	// Behaves as the bucket's directory index where
 	// missing objects are treated as potential directories.
+	// +kubebuilder:validation:Optional
 	MainPageSuffix *string `json:"mainPageSuffix,omitempty" tf:"main_page_suffix,omitempty"`
 
 	// The custom object to return when a requested
 	// resource is not found.
+	// +kubebuilder:validation:Optional
 	NotFoundPage *string `json:"notFoundPage,omitempty" tf:"not_found_page,omitempty"`
 }
 

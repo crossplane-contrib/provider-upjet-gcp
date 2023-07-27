@@ -38,8 +38,11 @@ type ProjectIAMAuditConfigAuditLogConfigObservation struct {
 }
 
 type ProjectIAMAuditConfigAuditLogConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
 	ExemptedMembers []*string `json:"exemptedMembers,omitempty" tf:"exempted_members,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	LogType *string `json:"logType,omitempty" tf:"log_type,omitempty"`
 }
 
@@ -62,6 +65,8 @@ type ProjectIAMAuditConfigObservation struct {
 }
 
 type ProjectIAMAuditConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
 	AuditLogConfig []ProjectIAMAuditConfigAuditLogConfigParameters `json:"auditLogConfig,omitempty" tf:"audit_log_config,omitempty"`
 
 	// +crossplane:generate:reference:type=Project
@@ -76,6 +81,7 @@ type ProjectIAMAuditConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
+	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 

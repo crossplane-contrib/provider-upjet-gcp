@@ -105,26 +105,32 @@ type PerInstanceConfigParameters struct {
 
 	// The minimal action to perform on the instance during an update.
 	// Default is NONE. Possible values are:
+	// +kubebuilder:validation:Optional
 	MinimalAction *string `json:"minimalAction,omitempty" tf:"minimal_action,omitempty"`
 
 	// The most disruptive action to perform on the instance during an update.
 	// Default is REPLACE. Possible values are:
+	// +kubebuilder:validation:Optional
 	MostDisruptiveAllowedAction *string `json:"mostDisruptiveAllowedAction,omitempty" tf:"most_disruptive_allowed_action,omitempty"`
 
 	// The name for this per-instance config and its corresponding instance.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The preserved state for this instance.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	PreservedState []PreservedStateParameters `json:"preservedState,omitempty" tf:"preserved_state,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// When true, deleting this config will immediately remove any specified state from the underlying instance.
 	// When false, deleting this config will not immediately remove any state from the underlying instance.
 	// State will be removed on the next instance recreation or update.
+	// +kubebuilder:validation:Optional
 	RemoveInstanceStateOnDestroy *bool `json:"removeInstanceStateOnDestroy,omitempty" tf:"remove_instance_state_on_destroy,omitempty"`
 
 	// Zone where the containing instance group manager is located
@@ -195,14 +201,17 @@ type PreservedStateDiskParameters struct {
 	// deleted from the instance group.
 	// Default value is NEVER.
 	// Possible values are: NEVER, ON_PERMANENT_INSTANCE_DELETION.
+	// +kubebuilder:validation:Optional
 	DeleteRule *string `json:"deleteRule,omitempty" tf:"delete_rule,omitempty"`
 
 	// A unique device name that is reflected into the /dev/ tree of a Linux operating system running within the instance.
+	// +kubebuilder:validation:Optional
 	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
 	// The mode of the disk.
 	// Default value is READ_WRITE.
 	// Possible values are: READ_ONLY, READ_WRITE.
+	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
 	// The URI of an existing persistent disk to attach under the specified device-name in the format
@@ -245,9 +254,11 @@ type PreservedStateParameters struct {
 
 	// Stateful disks for the instance.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Disk []PreservedStateDiskParameters `json:"disk,omitempty" tf:"disk,omitempty"`
 
 	// Preserved metadata defined for this instance. This is a list of key->value pairs.
+	// +kubebuilder:validation:Optional
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 }
 

@@ -63,13 +63,16 @@ type AgentPoolParameters struct {
 
 	// Specifies the bandwidth limit details. If this field is unspecified, the default value is set as 'No Limit'.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	BandwidthLimit []BandwidthLimitParameters `json:"bandwidthLimit,omitempty" tf:"bandwidth_limit,omitempty"`
 
 	// Specifies the client-specified AgentPool description.
+	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -88,6 +91,7 @@ type BandwidthLimitObservation struct {
 type BandwidthLimitParameters struct {
 
 	// Bandwidth rate in megabytes per second, distributed across all the agents in the pool.
+	// +kubebuilder:validation:Optional
 	LimitMbps *string `json:"limitMbps,omitempty" tf:"limit_mbps,omitempty"`
 }
 

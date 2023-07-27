@@ -73,18 +73,22 @@ type DNSAuthorizationObservation struct {
 type DNSAuthorizationParameters struct {
 
 	// A human-readable description of the resource.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// A domain which is being authorized. A DnsAuthorization resource covers a
 	// single domain and its wildcard, e.g. authorization for "example.com" can
 	// be used to issue certificates for "example.com" and "*.example.com".
+	// +kubebuilder:validation:Optional
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
 	// Set of label tags associated with the DNS Authorization resource.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 

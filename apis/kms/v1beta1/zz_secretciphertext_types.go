@@ -73,6 +73,7 @@ type SecretCiphertextParameters struct {
 
 	// The plaintext to be encrypted.
 	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
 	Plaintext *string `json:"plaintext,omitempty" tf:"plaintext,omitempty"`
 }
 

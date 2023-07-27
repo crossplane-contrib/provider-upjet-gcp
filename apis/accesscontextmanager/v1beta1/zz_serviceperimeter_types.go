@@ -58,12 +58,14 @@ type EgressFromParameters struct {
 	// A list of identities that are allowed access through this ingress policy.
 	// Should be in the format of email address. The email address should represent
 	// individual user or service account only.
+	// +kubebuilder:validation:Optional
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
 
 	// Specifies the type of identities that are allowed access from outside the
 	// perimeter. If left unspecified, then members of identities field will be
 	// allowed access.
 	// Possible values are: IDENTITY_TYPE_UNSPECIFIED, ANY_IDENTITY, ANY_USER_ACCOUNT, ANY_SERVICE_ACCOUNT.
+	// +kubebuilder:validation:Optional
 	IdentityType *string `json:"identityType,omitempty" tf:"identity_type,omitempty"`
 }
 
@@ -100,12 +102,14 @@ type EgressPoliciesEgressFromParameters struct {
 	// A list of identities that are allowed access through this ingress policy.
 	// Should be in the format of email address. The email address should represent
 	// individual user or service account only.
+	// +kubebuilder:validation:Optional
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
 
 	// Specifies the type of identities that are allowed access from outside the
 	// perimeter. If left unspecified, then members of identities field will be
 	// allowed access.
 	// Possible values are: IDENTITY_TYPE_UNSPECIFIED, ANY_IDENTITY, ANY_USER_ACCOUNT, ANY_SERVICE_ACCOUNT.
+	// +kubebuilder:validation:Optional
 	IdentityType *string `json:"identityType,omitempty" tf:"identity_type,omitempty"`
 }
 
@@ -150,16 +154,19 @@ type EgressPoliciesEgressToParameters struct {
 	// A list of external resources that are allowed to be accessed. A request
 	// matches if it contains an external resource in this list (Example:
 	// s3://bucket/path). Currently '*' is not allowed.
+	// +kubebuilder:validation:Optional
 	ExternalResources []*string `json:"externalResources,omitempty" tf:"external_resources,omitempty"`
 
 	// A list of ApiOperations the sources specified in corresponding IngressFrom
 	// are allowed to perform in this ServicePerimeter.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Operations []EgressToOperationsParameters `json:"operations,omitempty" tf:"operations,omitempty"`
 
 	// A list of GCP resources that are inside of the service perimeter.
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
+	// +kubebuilder:validation:Optional
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
 }
 
@@ -191,11 +198,13 @@ type EgressPoliciesParameters struct {
 
 	// Defines conditions on the source of a request causing this EgressPolicy to apply.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	EgressFrom []EgressFromParameters `json:"egressFrom,omitempty" tf:"egress_from,omitempty"`
 
 	// Defines the conditions on the ApiOperation and destination resources that
 	// cause this EgressPolicy to apply.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	EgressTo []EgressToParameters `json:"egressTo,omitempty" tf:"egress_to,omitempty"`
 }
 
@@ -279,10 +288,12 @@ type EgressToOperationsMethodSelectorsParameters struct {
 	// Value for method should be a valid method name for the corresponding
 	// serviceName in ApiOperation. If * used as value for method, then
 	// ALL methods and permissions are allowed.
+	// +kubebuilder:validation:Optional
 	Method *string `json:"method,omitempty" tf:"method,omitempty"`
 
 	// Value for permission should be a valid Cloud IAM permission for the
 	// corresponding serviceName in ApiOperation.
+	// +kubebuilder:validation:Optional
 	Permission *string `json:"permission,omitempty" tf:"permission,omitempty"`
 }
 
@@ -308,11 +319,13 @@ type EgressToOperationsParameters struct {
 	// with * specified for the method field will allow all methods AND
 	// permissions for the service specified in serviceName.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	MethodSelectors []EgressToOperationsMethodSelectorsParameters `json:"methodSelectors,omitempty" tf:"method_selectors,omitempty"`
 
 	// The name of the API whose methods or permissions the IngressPolicy or
 	// EgressPolicy want to allow. A single ApiOperation with serviceName
 	// field set to * will allow all methods AND permissions for all services.
+	// +kubebuilder:validation:Optional
 	ServiceName *string `json:"serviceName,omitempty" tf:"service_name,omitempty"`
 }
 
@@ -321,16 +334,19 @@ type EgressToParameters struct {
 	// A list of external resources that are allowed to be accessed. A request
 	// matches if it contains an external resource in this list (Example:
 	// s3://bucket/path). Currently '*' is not allowed.
+	// +kubebuilder:validation:Optional
 	ExternalResources []*string `json:"externalResources,omitempty" tf:"external_resources,omitempty"`
 
 	// A list of ApiOperations the sources specified in corresponding IngressFrom
 	// are allowed to perform in this ServicePerimeter.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Operations []OperationsParameters `json:"operations,omitempty" tf:"operations,omitempty"`
 
 	// A list of GCP resources that are inside of the service perimeter.
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
+	// +kubebuilder:validation:Optional
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
 }
 
@@ -375,16 +391,19 @@ type IngressFromParameters struct {
 	// A list of identities that are allowed access through this ingress policy.
 	// Should be in the format of email address. The email address should represent
 	// individual user or service account only.
+	// +kubebuilder:validation:Optional
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
 
 	// Specifies the type of identities that are allowed access from outside the
 	// perimeter. If left unspecified, then members of identities field will be
 	// allowed access.
 	// Possible values are: IDENTITY_TYPE_UNSPECIFIED, ANY_IDENTITY, ANY_USER_ACCOUNT, ANY_SERVICE_ACCOUNT.
+	// +kubebuilder:validation:Optional
 	IdentityType *string `json:"identityType,omitempty" tf:"identity_type,omitempty"`
 
 	// Sources that this IngressPolicy authorizes access from.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Sources []SourcesParameters `json:"sources,omitempty" tf:"sources,omitempty"`
 }
 
@@ -449,6 +468,7 @@ type IngressFromSourcesParameters struct {
 	// The project may be in any Google Cloud organization, not just the
 	// organization that the perimeter is defined in. * is not allowed, the case
 	// of allowing all Google Cloud resources only is not supported.
+	// +kubebuilder:validation:Optional
 	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
 }
 
@@ -493,16 +513,19 @@ type IngressPoliciesIngressFromParameters struct {
 	// A list of identities that are allowed access through this ingress policy.
 	// Should be in the format of email address. The email address should represent
 	// individual user or service account only.
+	// +kubebuilder:validation:Optional
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
 
 	// Specifies the type of identities that are allowed access from outside the
 	// perimeter. If left unspecified, then members of identities field will be
 	// allowed access.
 	// Possible values are: IDENTITY_TYPE_UNSPECIFIED, ANY_IDENTITY, ANY_USER_ACCOUNT, ANY_SERVICE_ACCOUNT.
+	// +kubebuilder:validation:Optional
 	IdentityType *string `json:"identityType,omitempty" tf:"identity_type,omitempty"`
 
 	// Sources that this IngressPolicy authorizes access from.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Sources []IngressFromSourcesParameters `json:"sources,omitempty" tf:"sources,omitempty"`
 }
 
@@ -569,11 +592,13 @@ type IngressPoliciesIngressToOperationsParameters struct {
 	// with * specified for the method field will allow all methods AND
 	// permissions for the service specified in serviceName.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	MethodSelectors []IngressToOperationsMethodSelectorsParameters `json:"methodSelectors,omitempty" tf:"method_selectors,omitempty"`
 
 	// The name of the API whose methods or permissions the IngressPolicy or
 	// EgressPolicy want to allow. A single ApiOperation with serviceName
 	// field set to * will allow all methods AND permissions for all services.
+	// +kubebuilder:validation:Optional
 	ServiceName *string `json:"serviceName,omitempty" tf:"service_name,omitempty"`
 }
 
@@ -582,11 +607,13 @@ type IngressPoliciesIngressToParameters struct {
 	// A list of ApiOperations the sources specified in corresponding IngressFrom
 	// are allowed to perform in this ServicePerimeter.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Operations []IngressPoliciesIngressToOperationsParameters `json:"operations,omitempty" tf:"operations,omitempty"`
 
 	// A list of GCP resources that are inside of the service perimeter.
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
+	// +kubebuilder:validation:Optional
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
 }
 
@@ -621,11 +648,13 @@ type IngressPoliciesParameters struct {
 	// Defines the conditions on the source of a request causing this IngressPolicy
 	// to apply.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	IngressFrom []IngressFromParameters `json:"ingressFrom,omitempty" tf:"ingress_from,omitempty"`
 
 	// Defines the conditions on the ApiOperation and request destination that cause
 	// this IngressPolicy to apply.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	IngressTo []IngressToParameters `json:"ingressTo,omitempty" tf:"ingress_to,omitempty"`
 }
 
@@ -699,10 +728,12 @@ type IngressToOperationsMethodSelectorsParameters struct {
 	// Value for method should be a valid method name for the corresponding
 	// serviceName in ApiOperation. If * used as value for method, then
 	// ALL methods and permissions are allowed.
+	// +kubebuilder:validation:Optional
 	Method *string `json:"method,omitempty" tf:"method,omitempty"`
 
 	// Value for permission should be a valid Cloud IAM permission for the
 	// corresponding serviceName in ApiOperation.
+	// +kubebuilder:validation:Optional
 	Permission *string `json:"permission,omitempty" tf:"permission,omitempty"`
 }
 
@@ -728,11 +759,13 @@ type IngressToOperationsParameters struct {
 	// with * specified for the method field will allow all methods AND
 	// permissions for the service specified in serviceName.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	MethodSelectors []OperationsMethodSelectorsParameters `json:"methodSelectors,omitempty" tf:"method_selectors,omitempty"`
 
 	// The name of the API whose methods or permissions the IngressPolicy or
 	// EgressPolicy want to allow. A single ApiOperation with serviceName
 	// field set to * will allow all methods AND permissions for all services.
+	// +kubebuilder:validation:Optional
 	ServiceName *string `json:"serviceName,omitempty" tf:"service_name,omitempty"`
 }
 
@@ -741,11 +774,13 @@ type IngressToParameters struct {
 	// A list of ApiOperations the sources specified in corresponding IngressFrom
 	// are allowed to perform in this ServicePerimeter.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Operations []IngressToOperationsParameters `json:"operations,omitempty" tf:"operations,omitempty"`
 
 	// A list of GCP resources that are inside of the service perimeter.
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
+	// +kubebuilder:validation:Optional
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
 }
 
@@ -778,10 +813,12 @@ type MethodSelectorsParameters struct {
 	// Value for method should be a valid method name for the corresponding
 	// serviceName in ApiOperation. If * used as value for method, then
 	// ALL methods and permissions are allowed.
+	// +kubebuilder:validation:Optional
 	Method *string `json:"method,omitempty" tf:"method,omitempty"`
 
 	// Value for permission should be a valid Cloud IAM permission for the
 	// corresponding serviceName in ApiOperation.
+	// +kubebuilder:validation:Optional
 	Permission *string `json:"permission,omitempty" tf:"permission,omitempty"`
 }
 
@@ -829,10 +866,12 @@ type OperationsMethodSelectorsParameters struct {
 	// Value for method should be a valid method name for the corresponding
 	// serviceName in ApiOperation. If * used as value for method, then
 	// ALL methods and permissions are allowed.
+	// +kubebuilder:validation:Optional
 	Method *string `json:"method,omitempty" tf:"method,omitempty"`
 
 	// Value for permission should be a valid Cloud IAM permission for the
 	// corresponding serviceName in ApiOperation.
+	// +kubebuilder:validation:Optional
 	Permission *string `json:"permission,omitempty" tf:"permission,omitempty"`
 }
 
@@ -858,11 +897,13 @@ type OperationsParameters struct {
 	// with * specified for the method field will allow all methods AND
 	// permissions for the service specified in serviceName.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	MethodSelectors []MethodSelectorsParameters `json:"methodSelectors,omitempty" tf:"method_selectors,omitempty"`
 
 	// The name of the API whose methods or permissions the IngressPolicy or
 	// EgressPolicy want to allow. A single ApiOperation with serviceName
 	// field set to * will allow all methods AND permissions for all services.
+	// +kubebuilder:validation:Optional
 	ServiceName *string `json:"serviceName,omitempty" tf:"service_name,omitempty"`
 }
 
@@ -1001,15 +1042,18 @@ type ServicePerimeterParameters struct {
 
 	// Description of the ServicePerimeter and its use. Does not affect
 	// behavior.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Resource name for the ServicePerimeter. The short_name component must
 	// begin with a letter and only include alphanumeric and '_'.
 	// Format: accessPolicies/{policy_id}/servicePerimeters/{short_name}
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The AccessPolicy this ServicePerimeter lives in.
 	// Format: accessPolicies/{policy_id}
+	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Specifies the type of the Perimeter. There are two types: regular and
@@ -1028,6 +1072,7 @@ type ServicePerimeterParameters struct {
 	// themselves.
 	// Default value is PERIMETER_TYPE_REGULAR.
 	// Possible values are: PERIMETER_TYPE_REGULAR, PERIMETER_TYPE_BRIDGE.
+	// +kubebuilder:validation:Optional
 	PerimeterType *string `json:"perimeterType,omitempty" tf:"perimeter_type,omitempty"`
 
 	// Proposed (or dry run) ServicePerimeter configuration.
@@ -1035,15 +1080,18 @@ type ServicePerimeterParameters struct {
 	// without enforcing actual access restrictions. Only allowed to be set when
 	// the useExplicitDryRunSpec flag is set.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Spec []SpecParameters `json:"spec,omitempty" tf:"spec,omitempty"`
 
 	// ServicePerimeter configuration. Specifies sets of resources,
 	// restricted services and access levels that determine
 	// perimeter content and boundaries.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Status []StatusParameters `json:"status,omitempty" tf:"status,omitempty"`
 
 	// Human readable title. Must be unique within the Policy.
+	// +kubebuilder:validation:Optional
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 
 	// Use explicit dry run spec flag. Ordinarily, a dry-run spec implicitly exists
@@ -1055,6 +1103,7 @@ type ServicePerimeterParameters struct {
 	// actually enforcing them. This testing is done through analyzing the differences
 	// between currently enforced and suggested restrictions. useExplicitDryRunSpec must
 	// bet set to True if any of the fields in the spec are set to non-default values.
+	// +kubebuilder:validation:Optional
 	UseExplicitDryRunSpec *bool `json:"useExplicitDryRunSpec,omitempty" tf:"use_explicit_dry_run_spec,omitempty"`
 }
 
@@ -1110,6 +1159,7 @@ type SourcesParameters struct {
 	// with request origins within the perimeter.
 	// Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
 	// If * is specified, then all IngressSources will be allowed.
+	// +kubebuilder:validation:Optional
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
 
 	// A Google Cloud resource that is allowed to ingress the perimeter.
@@ -1118,6 +1168,7 @@ type SourcesParameters struct {
 	// The project may be in any Google Cloud organization, not just the
 	// organization that the perimeter is defined in. * is not allowed, the case
 	// of allowing all Google Cloud resources only is not supported.
+	// +kubebuilder:validation:Optional
 	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
 }
 
@@ -1228,6 +1279,7 @@ type SpecParameters struct {
 	// Access is granted if any EgressPolicy grants it. Must be empty for
 	// a perimeter bridge.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	EgressPolicies []EgressPoliciesParameters `json:"egressPolicies,omitempty" tf:"egress_policies,omitempty"`
 
 	// List of IngressPolicies to apply to the perimeter. A perimeter may
@@ -1235,11 +1287,13 @@ type SpecParameters struct {
 	// separately. Access is granted if any Ingress Policy grants it.
 	// Must be empty for a perimeter bridge.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	IngressPolicies []IngressPoliciesParameters `json:"ingressPolicies,omitempty" tf:"ingress_policies,omitempty"`
 
 	// A list of GCP resources that are inside of the service perimeter.
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
+	// +kubebuilder:validation:Optional
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
 
 	// GCP services that are subject to the Service Perimeter
@@ -1247,11 +1301,13 @@ type SpecParameters struct {
 	// storage.googleapis.com is specified, access to the storage
 	// buckets inside the perimeter must meet the perimeter's access
 	// restrictions.
+	// +kubebuilder:validation:Optional
 	RestrictedServices []*string `json:"restrictedServices,omitempty" tf:"restricted_services,omitempty"`
 
 	// Specifies how APIs are allowed to communicate within the Service
 	// Perimeter.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	VPCAccessibleServices []VPCAccessibleServicesParameters `json:"vpcAccessibleServices,omitempty" tf:"vpc_accessible_services,omitempty"`
 }
 
@@ -1283,11 +1339,13 @@ type StatusEgressPoliciesParameters struct {
 
 	// Defines conditions on the source of a request causing this EgressPolicy to apply.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	EgressFrom []EgressPoliciesEgressFromParameters `json:"egressFrom,omitempty" tf:"egress_from,omitempty"`
 
 	// Defines the conditions on the ApiOperation and destination resources that
 	// cause this EgressPolicy to apply.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	EgressTo []EgressPoliciesEgressToParameters `json:"egressTo,omitempty" tf:"egress_to,omitempty"`
 }
 
@@ -1322,11 +1380,13 @@ type StatusIngressPoliciesParameters struct {
 	// Defines the conditions on the source of a request causing this IngressPolicy
 	// to apply.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	IngressFrom []IngressPoliciesIngressFromParameters `json:"ingressFrom,omitempty" tf:"ingress_from,omitempty"`
 
 	// Defines the conditions on the ApiOperation and request destination that cause
 	// this IngressPolicy to apply.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	IngressTo []IngressPoliciesIngressToParameters `json:"ingressTo,omitempty" tf:"ingress_to,omitempty"`
 }
 
@@ -1437,6 +1497,7 @@ type StatusParameters struct {
 	// Access is granted if any EgressPolicy grants it. Must be empty for
 	// a perimeter bridge.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	EgressPolicies []StatusEgressPoliciesParameters `json:"egressPolicies,omitempty" tf:"egress_policies,omitempty"`
 
 	// List of IngressPolicies to apply to the perimeter. A perimeter may
@@ -1444,11 +1505,13 @@ type StatusParameters struct {
 	// separately. Access is granted if any Ingress Policy grants it.
 	// Must be empty for a perimeter bridge.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	IngressPolicies []StatusIngressPoliciesParameters `json:"ingressPolicies,omitempty" tf:"ingress_policies,omitempty"`
 
 	// A list of GCP resources that are inside of the service perimeter.
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
+	// +kubebuilder:validation:Optional
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
 
 	// GCP services that are subject to the Service Perimeter
@@ -1456,11 +1519,13 @@ type StatusParameters struct {
 	// storage.googleapis.com is specified, access to the storage
 	// buckets inside the perimeter must meet the perimeter's access
 	// restrictions.
+	// +kubebuilder:validation:Optional
 	RestrictedServices []*string `json:"restrictedServices,omitempty" tf:"restricted_services,omitempty"`
 
 	// Specifies how APIs are allowed to communicate within the Service
 	// Perimeter.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	VPCAccessibleServices []StatusVPCAccessibleServicesParameters `json:"vpcAccessibleServices,omitempty" tf:"vpc_accessible_services,omitempty"`
 }
 
@@ -1490,10 +1555,12 @@ type StatusVPCAccessibleServicesParameters struct {
 
 	// The list of APIs usable within the Service Perimeter.
 	// Must be empty unless enableRestriction is True.
+	// +kubebuilder:validation:Optional
 	AllowedServices []*string `json:"allowedServices,omitempty" tf:"allowed_services,omitempty"`
 
 	// Whether to restrict API calls within the Service Perimeter to the
 	// list of APIs specified in 'allowedServices'.
+	// +kubebuilder:validation:Optional
 	EnableRestriction *bool `json:"enableRestriction,omitempty" tf:"enable_restriction,omitempty"`
 }
 
@@ -1523,10 +1590,12 @@ type VPCAccessibleServicesParameters struct {
 
 	// The list of APIs usable within the Service Perimeter.
 	// Must be empty unless enableRestriction is True.
+	// +kubebuilder:validation:Optional
 	AllowedServices []*string `json:"allowedServices,omitempty" tf:"allowed_services,omitempty"`
 
 	// Whether to restrict API calls within the Service Perimeter to the
 	// list of APIs specified in 'allowedServices'.
+	// +kubebuilder:validation:Optional
 	EnableRestriction *bool `json:"enableRestriction,omitempty" tf:"enable_restriction,omitempty"`
 }
 

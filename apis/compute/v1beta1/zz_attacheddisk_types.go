@@ -90,6 +90,7 @@ type AttachedDiskParameters struct {
 	// system running within the instance. This name can be used to
 	// reference the device for mounting, resizing, and so on, from within
 	// the instance.
+	// +kubebuilder:validation:Optional
 	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
 	// name or self_link of the disk that will be attached.
@@ -126,14 +127,17 @@ type AttachedDiskParameters struct {
 	// The mode in which to attach this disk, either READ_WRITE or
 	// READ_ONLY. If not specified, the default is to attach the disk in
 	// READ_WRITE mode.
+	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
 	// The project that the referenced compute instance is a part of. If instance is referenced by its
 	// self_link the project defined in the link will take precedence.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The zone that the referenced compute instance is located within. If instance is referenced by its
 	// self_link the zone defined in the link will take precedence.
+	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 

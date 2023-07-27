@@ -46,9 +46,11 @@ type AcceleratorsObservation struct {
 type AcceleratorsParameters struct {
 
 	// The number of the accelerator cards of this type exposed to this instance. Often restricted to one of 1, 2, 4, or 8.
+	// +kubebuilder:validation:Optional
 	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
 
 	// The short name of the accelerator type to expose to this instance. For example, nvidia-tesla-k80.
+	// +kubebuilder:validation:Optional
 	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
 }
 
@@ -67,6 +69,7 @@ type AutoscalingConfigObservation struct {
 type AutoscalingConfigParameters struct {
 
 	// The autoscaling policy used by the cluster.
+	// +kubebuilder:validation:Optional
 	PolicyURI *string `json:"policyUri,omitempty" tf:"policy_uri,omitempty"`
 }
 
@@ -91,9 +94,11 @@ type AutoscalingObservation struct {
 type AutoscalingParameters struct {
 
 	// The maximum number of nodes in the node pool. Must be >= minNodeCount, and must be > 0.
+	// +kubebuilder:validation:Optional
 	MaxNodeCount *float64 `json:"maxNodeCount,omitempty" tf:"max_node_count,omitempty"`
 
 	// The minimum number of nodes in the node pool. Must be >= 0 and <= maxNodeCount.
+	// +kubebuilder:validation:Optional
 	MinNodeCount *float64 `json:"minNodeCount,omitempty" tf:"min_node_count,omitempty"`
 }
 
@@ -122,6 +127,7 @@ type AuxiliaryServicesConfigMetastoreConfigObservation struct {
 type AuxiliaryServicesConfigMetastoreConfigParameters struct {
 
 	// Resource name of an existing Dataproc Metastore service.
+	// +kubebuilder:validation:Optional
 	DataprocMetastoreService *string `json:"dataprocMetastoreService,omitempty" tf:"dataproc_metastore_service,omitempty"`
 }
 
@@ -139,9 +145,11 @@ type AuxiliaryServicesConfigParameters struct {
 
 	// The config setting for metastore service with the cluster.
 	// Structure defined below.
+	// +kubebuilder:validation:Optional
 	MetastoreConfig []AuxiliaryServicesConfigMetastoreConfigParameters `json:"metastoreConfig,omitempty" tf:"metastore_config,omitempty"`
 
 	// The Spark History Server configuration for the workload.
+	// +kubebuilder:validation:Optional
 	SparkHistoryServerConfig []SparkHistoryServerConfigParameters `json:"sparkHistoryServerConfig,omitempty" tf:"spark_history_server_config,omitempty"`
 }
 
@@ -296,49 +304,61 @@ type ClusterConfigParameters struct {
 	// Note that once set, if autoscaling_config is the only field set in cluster_config, it can
 	// only be removed by setting policy_uri = "", rather than removing the whole block.
 	// Structure defined below.
+	// +kubebuilder:validation:Optional
 	AutoscalingConfig []AutoscalingConfigParameters `json:"autoscalingConfig,omitempty" tf:"autoscaling_config,omitempty"`
 
 	// The Compute Engine accelerator (GPU) configuration for these instances. Can be specified multiple times.
 	// Structure defined below.
+	// +kubebuilder:validation:Optional
 	DataprocMetricConfig []DataprocMetricConfigParameters `json:"dataprocMetricConfig,omitempty" tf:"dataproc_metric_config,omitempty"`
 
 	// The Customer managed encryption keys settings for the cluster.
 	// Structure defined below.
+	// +kubebuilder:validation:Optional
 	EncryptionConfig []EncryptionConfigParameters `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
 	// The config settings for port access on the cluster.
 	// Structure defined below.
+	// +kubebuilder:validation:Optional
 	EndpointConfig []EndpointConfigParameters `json:"endpointConfig,omitempty" tf:"endpoint_config,omitempty"`
 
 	// Common config settings for resources of Google Compute Engine cluster
 	// instances, applicable to all instances in the cluster. Structure defined below.
+	// +kubebuilder:validation:Optional
 	GceClusterConfig []GceClusterConfigParameters `json:"gceClusterConfig,omitempty" tf:"gce_cluster_config,omitempty"`
 
 	// Commands to execute on each node after config is completed.
 	// You can specify multiple versions of these. Structure defined below.
+	// +kubebuilder:validation:Optional
 	InitializationAction []InitializationActionParameters `json:"initializationAction,omitempty" tf:"initialization_action,omitempty"`
 
 	// The settings for auto deletion cluster schedule.
 	// Structure defined below.
+	// +kubebuilder:validation:Optional
 	LifecycleConfig []LifecycleConfigParameters `json:"lifecycleConfig,omitempty" tf:"lifecycle_config,omitempty"`
 
 	// The Google Compute Engine config settings for the master instances
 	// in a cluster. Structure defined below.
+	// +kubebuilder:validation:Optional
 	MasterConfig []MasterConfigParameters `json:"masterConfig,omitempty" tf:"master_config,omitempty"`
 
 	// The config setting for metastore service with the cluster.
 	// Structure defined below.
+	// +kubebuilder:validation:Optional
 	MetastoreConfig []MetastoreConfigParameters `json:"metastoreConfig,omitempty" tf:"metastore_config,omitempty"`
 
 	// The Google Compute Engine config settings for the additional
 	// instances in a cluster. Structure defined below.
+	// +kubebuilder:validation:Optional
 	PreemptibleWorkerConfig []PreemptibleWorkerConfigParameters `json:"preemptibleWorkerConfig,omitempty" tf:"preemptible_worker_config,omitempty"`
 
 	// Security related configuration. Structure defined below.
+	// +kubebuilder:validation:Optional
 	SecurityConfig []SecurityConfigParameters `json:"securityConfig,omitempty" tf:"security_config,omitempty"`
 
 	// The config settings for software inside the cluster.
 	// Structure defined below.
+	// +kubebuilder:validation:Optional
 	SoftwareConfig []SoftwareConfigParameters `json:"softwareConfig,omitempty" tf:"software_config,omitempty"`
 
 	// The Cloud Storage staging bucket used to stage files,
@@ -348,15 +368,18 @@ type ClusterConfigParameters struct {
 	// an auto generated bucket which is solely dedicated to your cluster; it may be shared
 	// with other clusters in the same region/zone also choosing to use the auto generation
 	// option.
+	// +kubebuilder:validation:Optional
 	StagingBucket *string `json:"stagingBucket,omitempty" tf:"staging_bucket,omitempty"`
 
 	// The Cloud Storage temp bucket used to store ephemeral cluster
 	// and jobs data, such as Spark and MapReduce history files.
 	// Note: If you don't explicitly specify a temp_bucket then GCP will auto create / assign one for you.
+	// +kubebuilder:validation:Optional
 	TempBucket *string `json:"tempBucket,omitempty" tf:"temp_bucket,omitempty"`
 
 	// The Google Compute Engine config settings for the worker instances
 	// in a cluster. Structure defined below.
+	// +kubebuilder:validation:Optional
 	WorkerConfig []ClusterConfigWorkerConfigParameters `json:"workerConfig,omitempty" tf:"worker_config,omitempty"`
 }
 
@@ -433,24 +456,29 @@ type ClusterConfigWorkerConfigObservation struct {
 type ClusterConfigWorkerConfigParameters struct {
 
 	// The Compute Engine accelerator configuration for these instances. Can be specified multiple times.
+	// +kubebuilder:validation:Optional
 	Accelerators []WorkerConfigAcceleratorsParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
 	// Disk Config
+	// +kubebuilder:validation:Optional
 	DiskConfig []WorkerConfigDiskConfigParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
 	// The URI for the image to use for this worker.  See the guide
 	// for more information.
+	// +kubebuilder:validation:Optional
 	ImageURI *string `json:"imageUri,omitempty" tf:"image_uri,omitempty"`
 
 	// The name of a Google Compute Engine machine type
 	// to create for the worker nodes. If not specified, GCP will default to a predetermined
 	// computed value (currently n1-standard-4).
+	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
 	// The name of a minimum generation of CPU family
 	// for the master. If not specified, GCP will default to a predetermined computed value
 	// for each zone. See the guide
 	// for details about which CPU families are available (and defaulted) for each zone.
+	// +kubebuilder:validation:Optional
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
 	// Specifies the number of worker nodes to create.
@@ -460,6 +488,7 @@ type ClusterConfigWorkerConfigParameters struct {
 	// In order to take advantage of this you need to set
 	// "dataproc:dataproc.allow.zero.workers" = "true" in
 	// cluster_config.software_config.properties
+	// +kubebuilder:validation:Optional
 	NumInstances *float64 `json:"numInstances,omitempty" tf:"num_instances,omitempty"`
 }
 
@@ -543,6 +572,7 @@ type ClusterParameters struct {
 
 	// Allows you to configure various aspects of the cluster.
 	// Structure defined below.
+	// +kubebuilder:validation:Optional
 	ClusterConfig []ClusterConfigParameters `json:"clusterConfig,omitempty" tf:"cluster_config,omitempty"`
 
 	// Does not affect auto scaling decomissioning from an autoscaling policy.
@@ -552,27 +582,33 @@ type ClusterParameters struct {
 	// Duration).
 	// Only supported on Dataproc image versions 1.2 and higher.
 	// For more context see the docs
+	// +kubebuilder:validation:Optional
 	GracefulDecommissionTimeout *string `json:"gracefulDecommissionTimeout,omitempty" tf:"graceful_decommission_timeout,omitempty"`
 
 	// The list of labels (key/value pairs) to be applied to
 	// instances in the cluster. GCP generates some itself including goog-dataproc-cluster-name
 	// which is the name of the cluster.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of the cluster, unique within the project and
 	// zone.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The ID of the project in which the cluster will exist. If it
 	// is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The region in which the cluster and associated nodes will be created in.
 	// Defaults to global.
+	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// Allows you to configure a virtual Dataproc on GKE cluster.
 	// Structure defined below.
+	// +kubebuilder:validation:Optional
 	VirtualClusterConfig []VirtualClusterConfigParameters `json:"virtualClusterConfig,omitempty" tf:"virtual_cluster_config,omitempty"`
 }
 
@@ -626,22 +662,27 @@ type ConfigParameters struct {
 
 	// The number of local SSD disks to attach to the node,
 	// which is limited by the maximum number of disks allowable per zone.
+	// +kubebuilder:validation:Optional
 	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
 
 	// The name of a Compute Engine machine type.
+	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
 	// Minimum CPU platform to be used by this instance.
 	// The instance may be scheduled on the specified or a newer CPU platform.
 	// Specify the friendly names of CPU platforms, such as "Intel Haswell" or "Intel Sandy Bridge".
+	// +kubebuilder:validation:Optional
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
 	// Whether the nodes are created as preemptible VM instances.
 	// Preemptible nodes cannot be used in a node pool with the CONTROLLER role or in the DEFAULT node pool if the
 	// CONTROLLER role is not assigned (the DEFAULT node pool will assume the CONTROLLER role).
+	// +kubebuilder:validation:Optional
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
 	// Spot flag for enabling Spot VM, which is a rebrand of the existing preemptible flag.
+	// +kubebuilder:validation:Optional
 	Spot *bool `json:"spot,omitempty" tf:"spot,omitempty"`
 }
 
@@ -660,6 +701,7 @@ type DataprocMetricConfigObservation struct {
 type DataprocMetricConfigParameters struct {
 
 	// Metrics sources to enable.
+	// +kubebuilder:validation:Optional
 	Metrics []MetricsParameters `json:"metrics,omitempty" tf:"metrics,omitempty"`
 }
 
@@ -706,14 +748,17 @@ type DiskConfigParameters struct {
 	// smallest allowed disk size is 10GB. GCP will default to a predetermined
 	// computed value if not set (currently 500GB). Note: If SSDs are not
 	// attached, it also contains the HDFS data blocks and Hadoop working directories.
+	// +kubebuilder:validation:Optional
 	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
 
 	// The disk type of the primary disk attached to each node.
 	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+	// +kubebuilder:validation:Optional
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
 
 	// The amount of local SSD disks that will be
 	// attached to each master cluster node. Defaults to 0.
+	// +kubebuilder:validation:Optional
 	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
 }
 
@@ -735,6 +780,7 @@ type EncryptionConfigParameters struct {
 
 	// The Cloud KMS key name to use for PD disk encryption for
 	// all instances in the cluster.
+	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 }
 
@@ -760,6 +806,7 @@ type EndpointConfigParameters struct {
 
 	// The flag to enable http access to specific ports
 	// on the cluster from external sources (aka Component Gateway). Defaults to false.
+	// +kubebuilder:validation:Optional
 	EnableHTTPPortAccess *bool `json:"enableHttpPortAccess,omitempty" tf:"enable_http_port_access,omitempty"`
 }
 
@@ -878,21 +925,26 @@ type GceClusterConfigParameters struct {
 	// instances in the cluster will only have internal IP addresses. Note: Private Google Access
 	// (also known as privateIpGoogleAccess) must be enabled on the subnetwork that the cluster
 	// will be launched in.
+	// +kubebuilder:validation:Optional
 	InternalIPOnly *bool `json:"internalIpOnly,omitempty" tf:"internal_ip_only,omitempty"`
 
 	// A map of the Compute Engine metadata entries to add to all instances
 	// (see Project and instance metadata).
+	// +kubebuilder:validation:Optional
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The name or self_link of the Google Compute Engine
 	// network to the cluster will be part of. Conflicts with subnetwork.
 	// If neither is specified, this defaults to the "default" network.
+	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Node Group Affinity for sole-tenant clusters.
+	// +kubebuilder:validation:Optional
 	NodeGroupAffinity []NodeGroupAffinityParameters `json:"nodeGroupAffinity,omitempty" tf:"node_group_affinity,omitempty"`
 
 	// Reservation Affinity for consuming zonal reservation.
+	// +kubebuilder:validation:Optional
 	ReservationAffinity []ReservationAffinityParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
 	// The service account to be used by the Node VMs.
@@ -911,6 +963,7 @@ type GceClusterConfigParameters struct {
 	// specified. Both OAuth2 URLs and gcloud
 	// short names are supported. To allow full access to all Cloud APIs, use the
 	// cloud-platform scope. See a complete list of scopes here.
+	// +kubebuilder:validation:Optional
 	ServiceAccountScopes []*string `json:"serviceAccountScopes,omitempty" tf:"service_account_scopes,omitempty"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
@@ -918,14 +971,17 @@ type GceClusterConfigParameters struct {
 	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// Shielded Instance Config for clusters using Compute Engine Shielded VMs.
+	// +kubebuilder:validation:Optional
 	ShieldedInstanceConfig []ShieldedInstanceConfigParameters `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
 
 	// The name or self_link of the Google Compute Engine
 	// subnetwork the cluster will be part of. Conflicts with network.
+	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// The list of instance tags applied to instances in the cluster.
 	// Tags are used to identify valid sources or targets for network firewalls.
+	// +kubebuilder:validation:Optional
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The GCP zone where your data is stored and used (i.e. where
@@ -935,6 +991,7 @@ type GceClusterConfigParameters struct {
 	// Note: This setting additionally determines and restricts
 	// which computing resources are available for use with other configs such as
 	// cluster_config.master_config.machine_type and cluster_config.worker_config.machine_type.
+	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
@@ -966,11 +1023,13 @@ type GkeClusterConfigParameters struct {
 
 	// A target GKE cluster to deploy to. It must be in the same project and region as the Dataproc cluster
 	// (the GKE cluster can be zonal or regional)
+	// +kubebuilder:validation:Optional
 	GkeClusterTarget *string `json:"gkeClusterTarget,omitempty" tf:"gke_cluster_target,omitempty"`
 
 	// GKE node pools where workloads will be scheduled. At least one node pool must be assigned the DEFAULT
 	// GkeNodePoolTarget.Role. If a GkeNodePoolTarget is not specified, Dataproc constructs a DEFAULT GkeNodePoolTarget.
 	// Each role can be given to only one GkeNodePoolTarget. All node pools must have the same location settings.
+	// +kubebuilder:validation:Optional
 	NodePoolTarget []NodePoolTargetParameters `json:"nodePoolTarget,omitempty" tf:"node_pool_target,omitempty"`
 }
 
@@ -1002,11 +1061,13 @@ type InitializationActionParameters struct {
 
 	// The script to be executed during initialization of the cluster.
 	// The script must be a GCS file with a gs:// prefix.
+	// +kubebuilder:validation:Optional
 	Script *string `json:"script,omitempty" tf:"script,omitempty"`
 
 	// The maximum duration (in seconds) which script is
 	// allowed to take to execute its action. GCP will default to a predetermined
 	// computed value if not set (currently 300).
+	// +kubebuilder:validation:Optional
 	TimeoutSec *float64 `json:"timeoutSec,omitempty" tf:"timeout_sec,omitempty"`
 }
 
@@ -1142,63 +1203,78 @@ type KerberosConfigParameters struct {
 
 	// The admin server (IP or hostname) for the
 	// remote trusted realm in a cross realm trust relationship.
+	// +kubebuilder:validation:Optional
 	CrossRealmTrustAdminServer *string `json:"crossRealmTrustAdminServer,omitempty" tf:"cross_realm_trust_admin_server,omitempty"`
 
 	// The KDC (IP or hostname) for the
 	// remote trusted realm in a cross realm trust relationship.
+	// +kubebuilder:validation:Optional
 	CrossRealmTrustKdc *string `json:"crossRealmTrustKdc,omitempty" tf:"cross_realm_trust_kdc,omitempty"`
 
 	// The remote realm the Dataproc on-cluster KDC will
 	// trust, should the user enable cross realm trust.
+	// +kubebuilder:validation:Optional
 	CrossRealmTrustRealm *string `json:"crossRealmTrustRealm,omitempty" tf:"cross_realm_trust_realm,omitempty"`
 
 	// The Cloud Storage URI of a KMS
 	// encrypted file containing the shared password between the on-cluster Kerberos realm
 	// and the remote trusted realm, in a cross realm trust relationship.
+	// +kubebuilder:validation:Optional
 	CrossRealmTrustSharedPasswordURI *string `json:"crossRealmTrustSharedPasswordUri,omitempty" tf:"cross_realm_trust_shared_password_uri,omitempty"`
 
 	// Flag to indicate whether to Kerberize the cluster.
+	// +kubebuilder:validation:Optional
 	EnableKerberos *bool `json:"enableKerberos,omitempty" tf:"enable_kerberos,omitempty"`
 
 	// The URI of the KMS key used to encrypt various sensitive files.
+	// +kubebuilder:validation:Optional
 	KMSKeyURI *string `json:"kmsKeyUri,omitempty" tf:"kms_key_uri,omitempty"`
 
 	// The Cloud Storage URI of a KMS encrypted file containing
 	// the master key of the KDC database.
+	// +kubebuilder:validation:Optional
 	KdcDBKeyURI *string `json:"kdcDbKeyUri,omitempty" tf:"kdc_db_key_uri,omitempty"`
 
 	// The Cloud Storage URI of a KMS encrypted file containing
 	// the password to the user provided key. For the self-signed certificate, this password
 	// is generated by Dataproc.
+	// +kubebuilder:validation:Optional
 	KeyPasswordURI *string `json:"keyPasswordUri,omitempty" tf:"key_password_uri,omitempty"`
 
 	// The Cloud Storage URI of a KMS encrypted file containing
 	// the password to the user provided keystore. For the self-signed certificated, the password
 	// is generated by Dataproc.
+	// +kubebuilder:validation:Optional
 	KeystorePasswordURI *string `json:"keystorePasswordUri,omitempty" tf:"keystore_password_uri,omitempty"`
 
 	// The Cloud Storage URI of the keystore file used for SSL encryption.
 	// If not provided, Dataproc will provide a self-signed certificate.
+	// +kubebuilder:validation:Optional
 	KeystoreURI *string `json:"keystoreUri,omitempty" tf:"keystore_uri,omitempty"`
 
 	// The name of the on-cluster Kerberos realm. If not specified, the
 	// uppercased domain of hostnames will be the realm.
+	// +kubebuilder:validation:Optional
 	Realm *string `json:"realm,omitempty" tf:"realm,omitempty"`
 
 	// The Cloud Storage URI of a KMS encrypted file
 	// containing the root principal password.
+	// +kubebuilder:validation:Optional
 	RootPrincipalPasswordURI *string `json:"rootPrincipalPasswordUri,omitempty" tf:"root_principal_password_uri,omitempty"`
 
 	// The lifetime of the ticket granting ticket, in hours.
+	// +kubebuilder:validation:Optional
 	TgtLifetimeHours *float64 `json:"tgtLifetimeHours,omitempty" tf:"tgt_lifetime_hours,omitempty"`
 
 	// The Cloud Storage URI of a KMS encrypted file
 	// containing the password to the user provided truststore. For the self-signed
 	// certificate, this password is generated by Dataproc.
+	// +kubebuilder:validation:Optional
 	TruststorePasswordURI *string `json:"truststorePasswordUri,omitempty" tf:"truststore_password_uri,omitempty"`
 
 	// The Cloud Storage URI of the truststore file used for
 	// SSL encryption. If not provided, Dataproc will provide a self-signed certificate.
+	// +kubebuilder:validation:Optional
 	TruststoreURI *string `json:"truststoreUri,omitempty" tf:"truststore_uri,omitempty"`
 }
 
@@ -1235,15 +1311,18 @@ type KubernetesClusterConfigObservation struct {
 type KubernetesClusterConfigParameters struct {
 
 	// The configuration for running the Dataproc cluster on GKE.
+	// +kubebuilder:validation:Optional
 	GkeClusterConfig []GkeClusterConfigParameters `json:"gkeClusterConfig,omitempty" tf:"gke_cluster_config,omitempty"`
 
 	// A namespace within the Kubernetes cluster to deploy into.
 	// If this namespace does not exist, it is created.
 	// If it  exists, Dataproc verifies that another Dataproc VirtualCluster is not installed into it.
 	// If not specified, the name of the Dataproc Cluster is used.
+	// +kubebuilder:validation:Optional
 	KubernetesNamespace *string `json:"kubernetesNamespace,omitempty" tf:"kubernetes_namespace,omitempty"`
 
 	// The software configuration for this Dataproc cluster running on Kubernetes.
+	// +kubebuilder:validation:Optional
 	KubernetesSoftwareConfig []KubernetesSoftwareConfigParameters `json:"kubernetesSoftwareConfig,omitempty" tf:"kubernetes_software_config,omitempty"`
 }
 
@@ -1273,10 +1352,12 @@ type KubernetesSoftwareConfigParameters struct {
 
 	// The components that should be installed in this Dataproc cluster. The key must be a string from the
 	// KubernetesComponent enumeration. The value is the version of the software to be installed. At least one entry must be specified.
+	// +kubebuilder:validation:Optional
 	ComponentVersion map[string]*string `json:"componentVersion,omitempty" tf:"component_version,omitempty"`
 
 	// The properties to set on daemon config files. Property keys are specified in prefix:property format,
 	// for example spark:spark.kubernetes.container.image.
+	// +kubebuilder:validation:Optional
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
@@ -1313,10 +1394,12 @@ type LifecycleConfigParameters struct {
 	// The time when cluster will be auto-deleted.
 	// A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds.
 	// Example: "2014-10-02T15:01:23.045123456Z".
+	// +kubebuilder:validation:Optional
 	AutoDeleteTime *string `json:"autoDeleteTime,omitempty" tf:"auto_delete_time,omitempty"`
 
 	// The duration to keep the cluster alive while idling
 	// (no jobs running). After this TTL, the cluster will be deleted. Valid range: [10m, 14d].
+	// +kubebuilder:validation:Optional
 	IdleDeleteTTL *string `json:"idleDeleteTtl,omitempty" tf:"idle_delete_ttl,omitempty"`
 }
 
@@ -1383,28 +1466,34 @@ type MasterConfigObservation struct {
 type MasterConfigParameters struct {
 
 	// The Compute Engine accelerator (GPU) configuration for these instances. Can be specified multiple times.
+	// +kubebuilder:validation:Optional
 	Accelerators []AcceleratorsParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
 	// Disk Config
+	// +kubebuilder:validation:Optional
 	DiskConfig []DiskConfigParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
 	// The URI for the image to use for this worker.  See the guide
 	// for more information.
+	// +kubebuilder:validation:Optional
 	ImageURI *string `json:"imageUri,omitempty" tf:"image_uri,omitempty"`
 
 	// The name of a Google Compute Engine machine type
 	// to create for the master. If not specified, GCP will default to a predetermined
 	// computed value (currently n1-standard-4).
+	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
 	// The name of a minimum generation of CPU family
 	// for the master. If not specified, GCP will default to a predetermined computed value
 	// for each zone. See the guide
 	// for details about which CPU families are available (and defaulted) for each zone.
+	// +kubebuilder:validation:Optional
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
 	// Specifies the number of master nodes to create.
 	// If not specified, GCP will default to a predetermined computed value (currently 1).
+	// +kubebuilder:validation:Optional
 	NumInstances *float64 `json:"numInstances,omitempty" tf:"num_instances,omitempty"`
 }
 
@@ -1423,6 +1512,7 @@ type MetastoreConfigObservation struct {
 type MetastoreConfigParameters struct {
 
 	// Resource name of an existing Dataproc Metastore service.
+	// +kubebuilder:validation:Optional
 	DataprocMetastoreService *string `json:"dataprocMetastoreService,omitempty" tf:"dataproc_metastore_service,omitempty"`
 }
 
@@ -1447,9 +1537,11 @@ type MetricsObservation struct {
 type MetricsParameters struct {
 
 	// One or more [available OSS metrics] (https://cloud.google.com/dataproc/docs/guides/monitoring#available_oss_metrics) to collect for the metric course.
+	// +kubebuilder:validation:Optional
 	MetricOverrides []*string `json:"metricOverrides,omitempty" tf:"metric_overrides,omitempty"`
 
 	// A source for the collection of Dataproc OSS metrics (see available OSS metrics).
+	// +kubebuilder:validation:Optional
 	MetricSource *string `json:"metricSource,omitempty" tf:"metric_source,omitempty"`
 }
 
@@ -1468,6 +1560,7 @@ type NodeGroupAffinityObservation struct {
 type NodeGroupAffinityParameters struct {
 
 	// The URI of a sole-tenant node group resource that the cluster will be created on.
+	// +kubebuilder:validation:Optional
 	NodeGroupURI *string `json:"nodeGroupUri,omitempty" tf:"node_group_uri,omitempty"`
 }
 
@@ -1503,13 +1596,16 @@ type NodePoolConfigParameters struct {
 
 	// The autoscaler configuration for this node pool.
 	// The autoscaler is enabled only when a valid configuration is present.
+	// +kubebuilder:validation:Optional
 	Autoscaling []AutoscalingParameters `json:"autoscaling,omitempty" tf:"autoscaling,omitempty"`
 
 	// The node pool configuration.
+	// +kubebuilder:validation:Optional
 	Config []ConfigParameters `json:"config,omitempty" tf:"config,omitempty"`
 
 	// The list of Compute Engine zones where node pool nodes associated
 	// with a Dataproc on GKE virtual cluster will be located.
+	// +kubebuilder:validation:Optional
 	Locations []*string `json:"locations,omitempty" tf:"locations,omitempty"`
 }
 
@@ -1548,16 +1644,19 @@ type NodePoolTargetObservation struct {
 type NodePoolTargetParameters struct {
 
 	// The target GKE node pool.
+	// +kubebuilder:validation:Optional
 	NodePool *string `json:"nodePool,omitempty" tf:"node_pool,omitempty"`
 
 	// (Input only) The configuration for the GKE node pool.
 	// If specified, Dataproc attempts to create a node pool with the specified shape.
 	// If one with the same name already exists, it is verified against all specified fields.
 	// If a field differs, the virtual cluster creation will fail.
+	// +kubebuilder:validation:Optional
 	NodePoolConfig []NodePoolConfigParameters `json:"nodePoolConfig,omitempty" tf:"node_pool_config,omitempty"`
 
 	// The roles associated with the GKE node pool.
 	// One of "DEFAULT", "CONTROLLER", "SPARK_DRIVER" or "SPARK_EXECUTOR".
+	// +kubebuilder:validation:Optional
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 }
 
@@ -1604,14 +1703,17 @@ type PreemptibleWorkerConfigDiskConfigParameters struct {
 	// smallest allowed disk size is 10GB. GCP will default to a predetermined
 	// computed value if not set (currently 500GB). Note: If SSDs are not
 	// attached, it also contains the HDFS data blocks and Hadoop working directories.
+	// +kubebuilder:validation:Optional
 	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
 
 	// The disk type of the primary disk attached to each node.
 	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+	// +kubebuilder:validation:Optional
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
 
 	// The amount of local SSD disks that will be
 	// attached to each master cluster node. Defaults to 0.
+	// +kubebuilder:validation:Optional
 	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
 }
 
@@ -1650,14 +1752,17 @@ type PreemptibleWorkerConfigObservation struct {
 type PreemptibleWorkerConfigParameters struct {
 
 	// Disk Config
+	// +kubebuilder:validation:Optional
 	DiskConfig []PreemptibleWorkerConfigDiskConfigParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
 	// Specifies the number of preemptible nodes to create.
 	// Defaults to 0.
+	// +kubebuilder:validation:Optional
 	NumInstances *float64 `json:"numInstances,omitempty" tf:"num_instances,omitempty"`
 
 	// Specifies the preemptibility of the secondary workers. The default value is PREEMPTIBLE
 	// Accepted values are:
+	// +kubebuilder:validation:Optional
 	Preemptibility *string `json:"preemptibility,omitempty" tf:"preemptibility,omitempty"`
 }
 
@@ -1688,12 +1793,15 @@ type ReservationAffinityObservation struct {
 type ReservationAffinityParameters struct {
 
 	// Corresponds to the type of reservation consumption.
+	// +kubebuilder:validation:Optional
 	ConsumeReservationType *string `json:"consumeReservationType,omitempty" tf:"consume_reservation_type,omitempty"`
 
 	// Corresponds to the label key of reservation resource.
+	// +kubebuilder:validation:Optional
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// Corresponds to the label values of reservation resource.
+	// +kubebuilder:validation:Optional
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
@@ -1712,6 +1820,7 @@ type SecurityConfigObservation struct {
 type SecurityConfigParameters struct {
 
 	// Kerberos Configuration
+	// +kubebuilder:validation:Optional
 	KerberosConfig []KerberosConfigParameters `json:"kerberosConfig,omitempty" tf:"kerberos_config,omitempty"`
 }
 
@@ -1742,12 +1851,15 @@ type ShieldedInstanceConfigObservation struct {
 type ShieldedInstanceConfigParameters struct {
 
 	// Defines whether instances have integrity monitoring enabled.
+	// +kubebuilder:validation:Optional
 	EnableIntegrityMonitoring *bool `json:"enableIntegrityMonitoring,omitempty" tf:"enable_integrity_monitoring,omitempty"`
 
 	// Defines whether instances have Secure Boot enabled.
+	// +kubebuilder:validation:Optional
 	EnableSecureBoot *bool `json:"enableSecureBoot,omitempty" tf:"enable_secure_boot,omitempty"`
 
 	// Defines whether instances have the vTPM enabled.
+	// +kubebuilder:validation:Optional
 	EnableVtpm *bool `json:"enableVtpm,omitempty" tf:"enable_vtpm,omitempty"`
 }
 
@@ -1800,15 +1912,18 @@ type SoftwareConfigParameters struct {
 	// installed onto the nodes when you create clusters. If not specified, defaults to the
 	// latest version. For a list of valid versions see
 	// Cloud Dataproc versions
+	// +kubebuilder:validation:Optional
 	ImageVersion *string `json:"imageVersion,omitempty" tf:"image_version,omitempty"`
 
 	// The set of optional components to activate on the cluster. See Available Optional Components.
+	// +kubebuilder:validation:Optional
 	OptionalComponents []*string `json:"optionalComponents,omitempty" tf:"optional_components,omitempty"`
 
 	// A list of override and additional properties (key/value pairs)
 	// used to modify various aspects of the common configuration files used when creating
 	// a cluster. For a list of valid properties please see
 	// Cluster properties
+	// +kubebuilder:validation:Optional
 	OverrideProperties map[string]*string `json:"overrideProperties,omitempty" tf:"override_properties,omitempty"`
 }
 
@@ -1827,6 +1942,7 @@ type SparkHistoryServerConfigObservation struct {
 type SparkHistoryServerConfigParameters struct {
 
 	// Resource name of an existing Dataproc Cluster to act as a Spark History Server for the workload.
+	// +kubebuilder:validation:Optional
 	DataprocCluster *string `json:"dataprocCluster,omitempty" tf:"dataproc_cluster,omitempty"`
 }
 
@@ -1874,10 +1990,12 @@ type VirtualClusterConfigParameters struct {
 
 	// Configuration of auxiliary services used by this cluster.
 	// Structure defined below.
+	// +kubebuilder:validation:Optional
 	AuxiliaryServicesConfig []AuxiliaryServicesConfigParameters `json:"auxiliaryServicesConfig,omitempty" tf:"auxiliary_services_config,omitempty"`
 
 	// The configuration for running the Dataproc cluster on Kubernetes.
 	// Structure defined below.
+	// +kubebuilder:validation:Optional
 	KubernetesClusterConfig []KubernetesClusterConfigParameters `json:"kubernetesClusterConfig,omitempty" tf:"kubernetes_cluster_config,omitempty"`
 
 	// The Cloud Storage staging bucket used to stage files,
@@ -1887,6 +2005,7 @@ type VirtualClusterConfigParameters struct {
 	// an auto generated bucket which is solely dedicated to your cluster; it may be shared
 	// with other clusters in the same region/zone also choosing to use the auto generation
 	// option.
+	// +kubebuilder:validation:Optional
 	StagingBucket *string `json:"stagingBucket,omitempty" tf:"staging_bucket,omitempty"`
 }
 
@@ -1911,9 +2030,11 @@ type WorkerConfigAcceleratorsObservation struct {
 type WorkerConfigAcceleratorsParameters struct {
 
 	// The number of the accelerator cards of this type exposed to this instance. Often restricted to one of 1, 2, 4, or 8.
+	// +kubebuilder:validation:Optional
 	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
 
 	// The short name of the accelerator type to expose to this instance. For example, nvidia-tesla-k80.
+	// +kubebuilder:validation:Optional
 	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
 }
 
@@ -1960,14 +2081,17 @@ type WorkerConfigDiskConfigParameters struct {
 	// smallest allowed disk size is 10GB. GCP will default to a predetermined
 	// computed value if not set (currently 500GB). Note: If SSDs are not
 	// attached, it also contains the HDFS data blocks and Hadoop working directories.
+	// +kubebuilder:validation:Optional
 	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
 
 	// The disk type of the primary disk attached to each node.
 	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+	// +kubebuilder:validation:Optional
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
 
 	// The amount of local SSD disks that will be
 	// attached to each master cluster node. Defaults to 0.
+	// +kubebuilder:validation:Optional
 	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
 }
 

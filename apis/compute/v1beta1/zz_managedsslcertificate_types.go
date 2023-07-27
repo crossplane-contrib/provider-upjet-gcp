@@ -43,6 +43,7 @@ type ManagedParameters struct {
 
 	// Domains for which a managed SSL certificate will be valid.  Currently,
 	// there can be up to 100 domains in this list.
+	// +kubebuilder:validation:Optional
 	Domains []*string `json:"domains,omitempty" tf:"domains,omitempty"`
 }
 
@@ -112,24 +113,29 @@ type ManagedSSLCertificateObservation struct {
 type ManagedSSLCertificateParameters struct {
 
 	// The unique identifier for the resource.
+	// +kubebuilder:validation:Optional
 	CertificateID *float64 `json:"certificateId,omitempty" tf:"certificate_id,omitempty"`
 
 	// An optional description of this resource.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Properties relevant to a managed certificate.  These will be used if the
 	// certificate is managed (as indicated by a value of MANAGED in type).
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Managed []ManagedParameters `json:"managed,omitempty" tf:"managed,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Enum field whose value is always MANAGED - used to signal to the API
 	// which type this is.
 	// Default value is MANAGED.
 	// Possible values are: MANAGED.
+	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 

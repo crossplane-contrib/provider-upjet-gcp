@@ -58,15 +58,19 @@ type DiscoverySpecCsvOptionsObservation struct {
 type DiscoverySpecCsvOptionsParameters struct {
 
 	// Optional. The delimiter being used to separate values. This defaults to ','.
+	// +kubebuilder:validation:Optional
 	Delimiter *string `json:"delimiter,omitempty" tf:"delimiter,omitempty"`
 
 	// Optional. Whether to disable the inference of data type for Json data. If true, all columns will be registered as their primitive types (strings, number or boolean).
+	// +kubebuilder:validation:Optional
 	DisableTypeInference *bool `json:"disableTypeInference,omitempty" tf:"disable_type_inference,omitempty"`
 
 	// Optional. The character encoding of the data. The default is UTF-8.
+	// +kubebuilder:validation:Optional
 	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
 
 	// Optional. The number of rows to interpret as header rows that should be skipped when reading data rows.
+	// +kubebuilder:validation:Optional
 	HeaderRows *float64 `json:"headerRows,omitempty" tf:"header_rows,omitempty"`
 }
 
@@ -91,9 +95,11 @@ type DiscoverySpecJSONOptionsObservation struct {
 type DiscoverySpecJSONOptionsParameters struct {
 
 	// Optional. Whether to disable the inference of data type for Json data. If true, all columns will be registered as their primitive types (strings, number or boolean).
+	// +kubebuilder:validation:Optional
 	DisableTypeInference *bool `json:"disableTypeInference,omitempty" tf:"disable_type_inference,omitempty"`
 
 	// Optional. The character encoding of the data. The default is UTF-8.
+	// +kubebuilder:validation:Optional
 	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
 }
 
@@ -157,21 +163,27 @@ type ZoneDiscoverySpecObservation struct {
 type ZoneDiscoverySpecParameters struct {
 
 	// Optional. Configuration for CSV data.
+	// +kubebuilder:validation:Optional
 	CsvOptions []DiscoverySpecCsvOptionsParameters `json:"csvOptions,omitempty" tf:"csv_options,omitempty"`
 
 	// Required. Whether discovery is enabled.
+	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// Optional. The list of patterns to apply for selecting data to exclude during discovery. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names.
+	// +kubebuilder:validation:Optional
 	ExcludePatterns []*string `json:"excludePatterns,omitempty" tf:"exclude_patterns,omitempty"`
 
 	// Optional. The list of patterns to apply for selecting data to include during discovery if only a subset of the data should considered. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names.
+	// +kubebuilder:validation:Optional
 	IncludePatterns []*string `json:"includePatterns,omitempty" tf:"include_patterns,omitempty"`
 
 	// Optional. Configuration for Json data.
+	// +kubebuilder:validation:Optional
 	JSONOptions []DiscoverySpecJSONOptionsParameters `json:"jsonOptions,omitempty" tf:"json_options,omitempty"`
 
 	// Optional. Cron schedule (https://en.wikipedia.org/wiki/Cron) for running discovery periodically. Successive discovery runs must be scheduled at least 60 minutes apart. The default value is to run discovery every 60 minutes. To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database. For example, "CRON_TZ=America/New_York 1 * * * *", or "TZ=America/New_York 1 * * * *".
+	// +kubebuilder:validation:Optional
 	Schedule *string `json:"schedule,omitempty" tf:"schedule,omitempty"`
 }
 
@@ -250,15 +262,19 @@ type ZoneObservation struct {
 type ZoneParameters struct {
 
 	// Optional. Description of the zone.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Required. Specification of the discovery feature applied to data in this zone.
+	// +kubebuilder:validation:Optional
 	DiscoverySpec []ZoneDiscoverySpecParameters `json:"discoverySpec,omitempty" tf:"discovery_spec,omitempty"`
 
 	// Optional. User friendly display name.
+	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Optional. User defined labels for the zone.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The lake for the resource
@@ -279,12 +295,15 @@ type ZoneParameters struct {
 	Location *string `json:"location" tf:"location,omitempty"`
 
 	// The project for the resource
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Required. Immutable. Specification of the resources that are referenced by the assets within this zone.
+	// +kubebuilder:validation:Optional
 	ResourceSpec []ZoneResourceSpecParameters `json:"resourceSpec,omitempty" tf:"resource_spec,omitempty"`
 
 	// Required. Immutable. The type of the zone. Possible values: TYPE_UNSPECIFIED, RAW, CURATED
+	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -303,6 +322,7 @@ type ZoneResourceSpecObservation struct {
 type ZoneResourceSpecParameters struct {
 
 	// Required. Immutable. The location type of the resources that are allowed to be attached to the assets within this zone. Possible values: LOCATION_TYPE_UNSPECIFIED, SINGLE_REGION, MULTI_REGION
+	// +kubebuilder:validation:Optional
 	LocationType *string `json:"locationType,omitempty" tf:"location_type,omitempty"`
 }
 

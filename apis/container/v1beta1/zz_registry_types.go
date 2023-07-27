@@ -52,9 +52,11 @@ type RegistryObservation struct {
 type RegistryParameters struct {
 
 	// The location of the registry. One of ASIA, EU, US or not specified. See the official documentation for more information on registry locations.
+	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 

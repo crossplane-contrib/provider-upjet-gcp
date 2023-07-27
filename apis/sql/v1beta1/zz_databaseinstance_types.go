@@ -43,6 +43,7 @@ type ActiveDirectoryConfigParameters struct {
 
 	// The domain name for the active directory (e.g., mydomain.com).
 	// Can only be used with SQL Server.
+	// +kubebuilder:validation:Optional
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 }
 
@@ -61,6 +62,7 @@ type AdvancedMachineFeaturesObservation struct {
 type AdvancedMachineFeaturesParameters struct {
 
 	// The number of threads per core. The value of this flag can be 1 or 2. To disable SMT, set this flag to 1. Only available in Cloud SQL for SQL Server instances. See smt for more details.
+	// +kubebuilder:validation:Optional
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
 }
 
@@ -98,14 +100,17 @@ type AuthorizedNetworksParameters struct {
 
 	// The RFC 3339
 	// formatted date time string indicating when this whitelist expires.
+	// +kubebuilder:validation:Optional
 	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
 
 	// A name for this whitelist entry.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// A CIDR notation IPv4 or IPv6 address that is allowed to
 	// access this instance. Must be set even if other two attributes are not for
 	// the whitelist to become active.
+	// +kubebuilder:validation:Optional
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
@@ -164,26 +169,33 @@ type BackupConfigurationObservation struct {
 type BackupConfigurationParameters struct {
 
 	// Backup retention settings. The configuration is detailed below.
+	// +kubebuilder:validation:Optional
 	BackupRetentionSettings []BackupRetentionSettingsParameters `json:"backupRetentionSettings,omitempty" tf:"backup_retention_settings,omitempty"`
 
 	// True if binary logging is enabled.
 	// Can only be used with MySQL.
+	// +kubebuilder:validation:Optional
 	BinaryLogEnabled *bool `json:"binaryLogEnabled,omitempty" tf:"binary_log_enabled,omitempty"`
 
 	// True if backup configuration is enabled.
+	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// The region where the backup will be stored
+	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// True if Point-in-time recovery is enabled. Will restart database if enabled after instance creation. Valid only for PostgreSQL and SQL Server instances.
+	// +kubebuilder:validation:Optional
 	PointInTimeRecoveryEnabled *bool `json:"pointInTimeRecoveryEnabled,omitempty" tf:"point_in_time_recovery_enabled,omitempty"`
 
 	// HH:MM format time indicating when backup
 	// configuration starts.
+	// +kubebuilder:validation:Optional
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 
 	// The number of days of transaction logs we retain for point in time restore, from 1-7.
+	// +kubebuilder:validation:Optional
 	TransactionLogRetentionDays *float64 `json:"transactionLogRetentionDays,omitempty" tf:"transaction_log_retention_days,omitempty"`
 }
 
@@ -211,9 +223,11 @@ type BackupRetentionSettingsParameters struct {
 
 	// Depending on the value of retention_unit, this is used to determine if a backup needs to be deleted. If retention_unit
 	// is 'COUNT', we will retain this many backups.
+	// +kubebuilder:validation:Optional
 	RetainedBackups *float64 `json:"retainedBackups,omitempty" tf:"retained_backups,omitempty"`
 
 	// The unit that 'retained_backups' represents. Defaults to COUNT.
+	// +kubebuilder:validation:Optional
 	RetentionUnit *string `json:"retentionUnit,omitempty" tf:"retention_unit,omitempty"`
 }
 
@@ -250,15 +264,19 @@ type CloneObservation struct {
 type CloneParameters struct {
 
 	// The name of the allocated ip range for the private ip CloudSQL instance. For example: "google-managed-services-default". If set, the cloned instance ip will be created in the allocated range. The range name must comply with RFC 1035. Specifically, the name must be 1-63 characters long and match the regular expression a-z?.
+	// +kubebuilder:validation:Optional
 	AllocatedIPRange *string `json:"allocatedIpRange,omitempty" tf:"allocated_ip_range,omitempty"`
 
 	// (SQL Server only, use with point_in_time) Clone only the specified databases from the source instance. Clone all databases if empty.
+	// +kubebuilder:validation:Optional
 	DatabaseNames []*string `json:"databaseNames,omitempty" tf:"database_names,omitempty"`
 
 	// The timestamp of the point in time that should be restored.
+	// +kubebuilder:validation:Optional
 	PointInTime *string `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
 
 	// Name of the source instance which will be cloned.
+	// +kubebuilder:validation:Optional
 	SourceInstanceName *string `json:"sourceInstanceName,omitempty" tf:"source_instance_name,omitempty"`
 }
 
@@ -287,11 +305,13 @@ type DatabaseFlagsObservation struct {
 type DatabaseFlagsParameters struct {
 
 	// A name for this whitelist entry.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// A CIDR notation IPv4 or IPv6 address that is allowed to
 	// access this instance. Must be set even if other two attributes are not for
 	// the whitelist to become active.
+	// +kubebuilder:validation:Optional
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
@@ -448,6 +468,7 @@ type DatabaseInstanceParameters struct {
 
 	// The context needed to create this instance as a clone of another instance. The
 	// configuration is detailed below.
+	// +kubebuilder:validation:Optional
 	Clone []CloneParameters `json:"clone,omitempty" tf:"clone,omitempty"`
 
 	// The MySQL, PostgreSQL or
@@ -459,9 +480,11 @@ type DatabaseInstanceParameters struct {
 	// SQLSERVER_2019_WEB.
 	// Database Version Policies
 	// includes an up-to-date reference of supported versions.
+	// +kubebuilder:validation:Optional
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
 
 	// Defaults to true.
+	// +kubebuilder:validation:Optional
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// The full path to the encryption key used for the CMEK disk encryption.
@@ -471,30 +494,37 @@ type DatabaseInstanceParameters struct {
 	// manually, please see this step.
 	// That service account needs the Cloud KMS > Cloud KMS CryptoKey Encrypter/Decrypter role on your
 	// key - please see this step.
+	// +kubebuilder:validation:Optional
 	EncryptionKeyName *string `json:"encryptionKeyName,omitempty" tf:"encryption_key_name,omitempty"`
 
 	// The current software version on the instance. This attribute can not be set during creation. Refer to available_maintenance_versions attribute to see what maintenance_version are available for upgrade. When this attribute gets updated, it will cause an instance restart. Setting a maintenance_version value that is older than the current one on the instance will be ignored.
+	// +kubebuilder:validation:Optional
 	MaintenanceVersion *string `json:"maintenanceVersion,omitempty" tf:"maintenance_version,omitempty"`
 
 	// The name of the existing instance that will
 	// act as the master in the replication setup. Note, this requires the master to
 	// have binary_log_enabled set, as well as existing backups.
+	// +kubebuilder:validation:Optional
 	MasterInstanceName *string `json:"masterInstanceName,omitempty" tf:"master_instance_name,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The region the instance will sit in. If a region is not provided in the resource definition,
 	// the provider region will be used instead.
+	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The configuration for replication. The
 	// configuration is detailed below. Valid only for MySQL instances.
+	// +kubebuilder:validation:Optional
 	ReplicaConfiguration []ReplicaConfigurationParameters `json:"replicaConfiguration,omitempty" tf:"replica_configuration,omitempty"`
 
 	// The context needed to restore the database to a backup run. The configuration is detailed below. Adding or modifying this
 	// block during resource creation/update will trigger the restore action after the resource is created/updated.
+	// +kubebuilder:validation:Optional
 	RestoreBackupContext []RestoreBackupContextParameters `json:"restoreBackupContext,omitempty" tf:"restore_backup_context,omitempty"`
 
 	// Initial root password. Can be updated. Required for MS SQL Server.
@@ -503,6 +533,7 @@ type DatabaseInstanceParameters struct {
 
 	// The settings to use for the database. The
 	// configuration is detailed below. Required if clone is not set.
+	// +kubebuilder:validation:Optional
 	Settings []SettingsParameters `json:"settings,omitempty" tf:"settings,omitempty"`
 }
 
@@ -533,12 +564,15 @@ type DenyMaintenancePeriodObservation struct {
 type DenyMaintenancePeriodParameters struct {
 
 	// "deny maintenance period" end date. If the year of the end date is empty, the year of the start date also must be empty. In this case, it means the no maintenance interval recurs every year. The date is in format yyyy-mm-dd i.e., 2020-11-01, or mm-dd, i.e., 11-01
+	// +kubebuilder:validation:Optional
 	EndDate *string `json:"endDate,omitempty" tf:"end_date,omitempty"`
 
 	// "deny maintenance period" start date. If the year of the start date is empty, the year of the end date also must be empty. In this case, it means the deny maintenance period recurs every year. The date is in format yyyy-mm-dd i.e., 2020-11-01, or mm-dd, i.e., 11-01
+	// +kubebuilder:validation:Optional
 	StartDate *string `json:"startDate,omitempty" tf:"start_date,omitempty"`
 
 	// Time in UTC when the "deny maintenance period" starts on startDate and ends on endDate. The time is in format: HH:mm:SS, i.e., 00:00:00
+	// +kubebuilder:validation:Optional
 	Time *string `json:"time,omitempty" tf:"time,omitempty"`
 }
 
@@ -609,16 +643,20 @@ type IPConfigurationObservation struct {
 type IPConfigurationParameters struct {
 
 	// The name of the allocated ip range for the private ip CloudSQL instance. For example: "google-managed-services-default". If set, the instance ip will be created in the allocated range. The range name must comply with RFC 1035. Specifically, the name must be 1-63 characters long and match the regular expression a-z?.
+	// +kubebuilder:validation:Optional
 	AllocatedIPRange *string `json:"allocatedIpRange,omitempty" tf:"allocated_ip_range,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	AuthorizedNetworks []AuthorizedNetworksParameters `json:"authorizedNetworks,omitempty" tf:"authorized_networks,omitempty"`
 
 	// Whether Google Cloud services such as BigQuery are allowed to access data in this Cloud SQL instance over a private IP connection. SQLSERVER database type is not supported.
+	// +kubebuilder:validation:Optional
 	EnablePrivatePathForGoogleCloudServices *bool `json:"enablePrivatePathForGoogleCloudServices,omitempty" tf:"enable_private_path_for_google_cloud_services,omitempty"`
 
 	// Whether this Cloud SQL instance should be assigned
 	// a public IPV4 address. At least ipv4_enabled must be enabled or a
 	// private_network must be configured.
+	// +kubebuilder:validation:Optional
 	IPv4Enabled *bool `json:"ipv4Enabled,omitempty" tf:"ipv4_enabled,omitempty"`
 
 	// The VPC network from which the Cloud SQL
@@ -640,6 +678,7 @@ type IPConfigurationParameters struct {
 	PrivateNetworkSelector *v1.Selector `json:"privateNetworkSelector,omitempty" tf:"-"`
 
 	// Whether SSL connections over IP are enforced or not.
+	// +kubebuilder:validation:Optional
 	RequireSSL *bool `json:"requireSsl,omitempty" tf:"require_ssl,omitempty"`
 }
 
@@ -682,18 +721,23 @@ type InsightsConfigObservation struct {
 type InsightsConfigParameters struct {
 
 	// True if Query Insights feature is enabled.
+	// +kubebuilder:validation:Optional
 	QueryInsightsEnabled *bool `json:"queryInsightsEnabled,omitempty" tf:"query_insights_enabled,omitempty"`
 
 	// Number of query execution plans captured by Insights per minute for all queries combined. Between 0 and 20. Default to 5.
+	// +kubebuilder:validation:Optional
 	QueryPlansPerMinute *float64 `json:"queryPlansPerMinute,omitempty" tf:"query_plans_per_minute,omitempty"`
 
 	// Maximum query length stored in bytes. Between 256 and 4500. Default to 1024.
+	// +kubebuilder:validation:Optional
 	QueryStringLength *float64 `json:"queryStringLength,omitempty" tf:"query_string_length,omitempty"`
 
 	// True if Query Insights will record application tags from query when enabled.
+	// +kubebuilder:validation:Optional
 	RecordApplicationTags *bool `json:"recordApplicationTags,omitempty" tf:"record_application_tags,omitempty"`
 
 	// True if Query Insights will record client address when enabled.
+	// +kubebuilder:validation:Optional
 	RecordClientAddress *bool `json:"recordClientAddress,omitempty" tf:"record_client_address,omitempty"`
 }
 
@@ -729,13 +773,16 @@ type LocationPreferenceParameters struct {
 
 	// A GAE application whose zone to remain
 	// in. Must be in the same region as this instance.
+	// +kubebuilder:validation:Optional
 	FollowGaeApplication *string `json:"followGaeApplication,omitempty" tf:"follow_gae_application,omitempty"`
 
 	// The preferred Compute Engine zone for the secondary/failover.
+	// +kubebuilder:validation:Optional
 	SecondaryZone *string `json:"secondaryZone,omitempty" tf:"secondary_zone,omitempty"`
 
 	// The preferred compute engine
 	// zone.
+	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
@@ -768,13 +815,16 @@ type MaintenanceWindowObservation struct {
 type MaintenanceWindowParameters struct {
 
 	// Day of week (1-7), starting on Monday
+	// +kubebuilder:validation:Optional
 	Day *float64 `json:"day,omitempty" tf:"day,omitempty"`
 
 	// Hour of day (0-23), ignored if day not set
+	// +kubebuilder:validation:Optional
 	Hour *float64 `json:"hour,omitempty" tf:"hour,omitempty"`
 
 	// Receive updates earlier (canary) or later
 	// (stable)
+	// +kubebuilder:validation:Optional
 	UpdateTrack *string `json:"updateTrack,omitempty" tf:"update_track,omitempty"`
 }
 
@@ -823,21 +873,27 @@ type PasswordValidationPolicyObservation struct {
 type PasswordValidationPolicyParameters struct {
 
 	// Checks if the password is a combination of lowercase, uppercase, numeric, and non-alphanumeric characters.
+	// +kubebuilder:validation:Optional
 	Complexity *string `json:"complexity,omitempty" tf:"complexity,omitempty"`
 
 	// Prevents the use of the username in the password.
+	// +kubebuilder:validation:Optional
 	DisallowUsernameSubstring *bool `json:"disallowUsernameSubstring,omitempty" tf:"disallow_username_substring,omitempty"`
 
 	// Enables or disable the password validation policy.
+	// +kubebuilder:validation:Optional
 	EnablePasswordPolicy *bool `json:"enablePasswordPolicy,omitempty" tf:"enable_password_policy,omitempty"`
 
 	// Specifies the minimum number of characters that the password must have.
+	// +kubebuilder:validation:Optional
 	MinLength *float64 `json:"minLength,omitempty" tf:"min_length,omitempty"`
 
 	// Specifies the minimum duration after which you can change the password.
+	// +kubebuilder:validation:Optional
 	PasswordChangeInterval *string `json:"passwordChangeInterval,omitempty" tf:"password_change_interval,omitempty"`
 
 	// Specifies the number of previous passwords that you can't reuse.
+	// +kubebuilder:validation:Optional
 	ReuseInterval *float64 `json:"reuseInterval,omitempty" tf:"reuse_interval,omitempty"`
 }
 
@@ -929,45 +985,55 @@ type ReplicaConfigurationParameters struct {
 
 	// PEM representation of the trusted CA's x509
 	// certificate.
+	// +kubebuilder:validation:Optional
 	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
 
 	// PEM representation of the replica's x509
 	// certificate.
+	// +kubebuilder:validation:Optional
 	ClientCertificate *string `json:"clientCertificate,omitempty" tf:"client_certificate,omitempty"`
 
 	// PEM representation of the replica's private key. The
 	// corresponding public key in encoded in the client_certificate.
+	// +kubebuilder:validation:Optional
 	ClientKey *string `json:"clientKey,omitempty" tf:"client_key,omitempty"`
 
 	// The number of seconds
 	// between connect retries. MySQL's default is 60 seconds.
+	// +kubebuilder:validation:Optional
 	ConnectRetryInterval *float64 `json:"connectRetryInterval,omitempty" tf:"connect_retry_interval,omitempty"`
 
 	// Path to a SQL file in GCS from which replica
 	// instances are created. Format is gs://bucket/filename.
+	// +kubebuilder:validation:Optional
 	DumpFilePath *string `json:"dumpFilePath,omitempty" tf:"dump_file_path,omitempty"`
 
 	// Specifies if the replica is the failover target.
 	// If the field is set to true the replica will be designated as a failover replica.
 	// If the master instance fails, the replica instance will be promoted as
 	// the new master instance.
+	// +kubebuilder:validation:Optional
 	FailoverTarget *bool `json:"failoverTarget,omitempty" tf:"failover_target,omitempty"`
 
 	// Time in ms between replication
 	// heartbeats.
+	// +kubebuilder:validation:Optional
 	MasterHeartbeatPeriod *float64 `json:"masterHeartbeatPeriod,omitempty" tf:"master_heartbeat_period,omitempty"`
 
 	// Password for the replication connection.
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
+	// +kubebuilder:validation:Optional
 	SSLCipher *string `json:"sslCipher,omitempty" tf:"ssl_cipher,omitempty"`
 
 	// Username for replication connection.
+	// +kubebuilder:validation:Optional
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 
 	// True if the master's common name
 	// value is checked during the SSL handshake.
+	// +kubebuilder:validation:Optional
 	VerifyServerCertificate *bool `json:"verifyServerCertificate,omitempty" tf:"verify_server_certificate,omitempty"`
 }
 
@@ -1000,13 +1066,16 @@ type RestoreBackupContextObservation struct {
 type RestoreBackupContextParameters struct {
 
 	// The ID of the backup run to restore from.
+	// +kubebuilder:validation:Optional
 	BackupRunID *float64 `json:"backupRunId,omitempty" tf:"backup_run_id,omitempty"`
 
 	// The ID of the instance that the backup was taken from. If left empty,
 	// this instance's ID will be used.
+	// +kubebuilder:validation:Optional
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
 	// The full project ID of the source instance.`
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -1037,12 +1106,15 @@ type SQLServerAuditConfigObservation struct {
 type SQLServerAuditConfigParameters struct {
 
 	// The name of the destination bucket (e.g., gs://mybucket).
+	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// How long to keep generated audit files. A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
+	// +kubebuilder:validation:Optional
 	RetentionInterval *string `json:"retentionInterval,omitempty" tf:"retention_interval,omitempty"`
 
 	// How often to upload generated audit files. A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
+	// +kubebuilder:validation:Optional
 	UploadInterval *string `json:"uploadInterval,omitempty" tf:"upload_interval,omitempty"`
 }
 
@@ -1223,10 +1295,13 @@ type SettingsParameters struct {
 
 	// This specifies when the instance should be
 	// active. Can be either ALWAYS, NEVER or ON_DEMAND.
+	// +kubebuilder:validation:Optional
 	ActivationPolicy *string `json:"activationPolicy,omitempty" tf:"activation_policy,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	ActiveDirectoryConfig []ActiveDirectoryConfigParameters `json:"activeDirectoryConfig,omitempty" tf:"active_directory_config,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	AdvancedMachineFeatures []AdvancedMachineFeaturesParameters `json:"advancedMachineFeatures,omitempty" tf:"advanced_machine_features,omitempty"`
 
 	// The availability type of the Cloud SQL
@@ -1235,59 +1310,80 @@ type SettingsParameters struct {
 	// For MySQL instances, ensure that settings.backup_configuration.binary_log_enabled is set to true.
 	// For Postgres and SQL Server instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled
 	// is set to true. Defaults to ZONAL.
+	// +kubebuilder:validation:Optional
 	AvailabilityType *string `json:"availabilityType,omitempty" tf:"availability_type,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	BackupConfiguration []BackupConfigurationParameters `json:"backupConfiguration,omitempty" tf:"backup_configuration,omitempty"`
 
 	// The name of server instance collation.
+	// +kubebuilder:validation:Optional
 	Collation *string `json:"collation,omitempty" tf:"collation,omitempty"`
 
 	// Specifies if connections must use Cloud SQL connectors.
+	// +kubebuilder:validation:Optional
 	ConnectorEnforcement *string `json:"connectorEnforcement,omitempty" tf:"connector_enforcement,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	DatabaseFlags []DatabaseFlagsParameters `json:"databaseFlags,omitempty" tf:"database_flags,omitempty"`
 
 	// .
+	// +kubebuilder:validation:Optional
 	DeletionProtectionEnabled *bool `json:"deletionProtectionEnabled,omitempty" tf:"deletion_protection_enabled,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	DenyMaintenancePeriod []DenyMaintenancePeriodParameters `json:"denyMaintenancePeriod,omitempty" tf:"deny_maintenance_period,omitempty"`
 
 	// Enables auto-resizing of the storage size. Defaults to true.
+	// +kubebuilder:validation:Optional
 	DiskAutoresize *bool `json:"diskAutoresize,omitempty" tf:"disk_autoresize,omitempty"`
 
 	// The maximum size to which storage capacity can be automatically increased. The default value is 0, which specifies that there is no limit.
+	// +kubebuilder:validation:Optional
 	DiskAutoresizeLimit *float64 `json:"diskAutoresizeLimit,omitempty" tf:"disk_autoresize_limit,omitempty"`
 
 	// The size of data disk, in GB. Size of a running instance cannot be reduced but can be increased. The minimum value is 10GB.
+	// +kubebuilder:validation:Optional
 	DiskSize *float64 `json:"diskSize,omitempty" tf:"disk_size,omitempty"`
 
 	// The type of data disk: PD_SSD or PD_HDD. Defaults to PD_SSD.
+	// +kubebuilder:validation:Optional
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	IPConfiguration []IPConfigurationParameters `json:"ipConfiguration,omitempty" tf:"ip_configuration,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	InsightsConfig []InsightsConfigParameters `json:"insightsConfig,omitempty" tf:"insights_config,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	LocationPreference []LocationPreferenceParameters `json:"locationPreference,omitempty" tf:"location_preference,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	MaintenanceWindow []MaintenanceWindowParameters `json:"maintenanceWindow,omitempty" tf:"maintenance_window,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	PasswordValidationPolicy []PasswordValidationPolicyParameters `json:"passwordValidationPolicy,omitempty" tf:"password_validation_policy,omitempty"`
 
 	// Pricing plan for this instance, can only be PER_USE.
+	// +kubebuilder:validation:Optional
 	PricingPlan *string `json:"pricingPlan,omitempty" tf:"pricing_plan,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	SQLServerAuditConfig []SQLServerAuditConfigParameters `json:"sqlServerAuditConfig,omitempty" tf:"sql_server_audit_config,omitempty"`
 
 	// The machine type to use. See tiers
 	// for more details and supported versions. Postgres supports only shared-core machine types,
 	// and custom machine types such as db-custom-2-13312. See the Custom Machine Type Documentation to learn about specifying custom machine types.
+	// +kubebuilder:validation:Optional
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 
 	// The time_zone to be used by the database engine (supported only for SQL Server), in SQL Server timezone format.
+	// +kubebuilder:validation:Optional
 	TimeZone *string `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
 
 	// A set of key/value user label pairs to assign to the instance.
+	// +kubebuilder:validation:Optional
 	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
 }
 

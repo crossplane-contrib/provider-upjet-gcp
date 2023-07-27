@@ -121,9 +121,11 @@ type AnalyticsHubListingParameters struct {
 
 	// Shared dataset i.e. BigQuery dataset source.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	BigqueryDataset []BigqueryDatasetParameters `json:"bigqueryDataset,omitempty" tf:"bigquery_dataset,omitempty"`
 
 	// Categories of the listing. Up to two categories are allowed.
+	// +kubebuilder:validation:Optional
 	Categories []*string `json:"categories,omitempty" tf:"categories,omitempty"`
 
 	// The ID of the data exchange. Must contain only Unicode letters, numbers (0-9), underscores (_). Should not use characters that require URL-escaping, or characters outside of ASCII, spaces.
@@ -142,18 +144,23 @@ type AnalyticsHubListingParameters struct {
 
 	// Details of the data provider who owns the source data.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	DataProvider []DataProviderParameters `json:"dataProvider,omitempty" tf:"data_provider,omitempty"`
 
 	// Short description of the listing. The description must not contain Unicode non-characters and C0 and C1 control codes except tabs (HT), new lines (LF), carriage returns (CR), and page breaks (FF).
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Human-readable display name of the listing. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), ampersands (&) and can't start or end with spaces.
+	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Documentation describing the listing.
+	// +kubebuilder:validation:Optional
 	Documentation *string `json:"documentation,omitempty" tf:"documentation,omitempty"`
 
 	// Base64 encoded image representing the listing.
+	// +kubebuilder:validation:Optional
 	Icon *string `json:"icon,omitempty" tf:"icon,omitempty"`
 
 	// The name of the location this data exchange listing.
@@ -161,17 +168,21 @@ type AnalyticsHubListingParameters struct {
 	Location *string `json:"location" tf:"location,omitempty"`
 
 	// Email or URL of the listing publisher.
+	// +kubebuilder:validation:Optional
 	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Details of the publisher who owns the listing and who can share the source data.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Publisher []PublisherParameters `json:"publisher,omitempty" tf:"publisher,omitempty"`
 
 	// Email or URL of the request access of the listing. Subscribers can use this reference to request access.
+	// +kubebuilder:validation:Optional
 	RequestAccess *string `json:"requestAccess,omitempty" tf:"request_access,omitempty"`
 }
 
@@ -222,9 +233,11 @@ type DataProviderObservation struct {
 type DataProviderParameters struct {
 
 	// Name of the data provider.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Email or URL of the data provider.
+	// +kubebuilder:validation:Optional
 	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
 }
 
@@ -249,9 +262,11 @@ type PublisherObservation struct {
 type PublisherParameters struct {
 
 	// Name of the listing publisher.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Email or URL of the listing publisher.
+	// +kubebuilder:validation:Optional
 	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
 }
 

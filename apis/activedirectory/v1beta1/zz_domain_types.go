@@ -99,29 +99,36 @@ type DomainParameters struct {
 
 	// The name of delegated administrator account used to perform Active Directory operations.
 	// If not specified, setupadmin will be used.
+	// +kubebuilder:validation:Optional
 	Admin *string `json:"admin,omitempty" tf:"admin,omitempty"`
 
 	// The full names of the Google Compute Engine networks the domain instance is connected to. The domain is only available on networks listed in authorizedNetworks.
 	// If CIDR subnets overlap between networks, domain creation will fail.
+	// +kubebuilder:validation:Optional
 	AuthorizedNetworks []*string `json:"authorizedNetworks,omitempty" tf:"authorized_networks,omitempty"`
 
 	// The fully qualified domain name. e.g. mydomain.myorganization.com, with the restrictions,
 	// https://cloud.google.com/managed-microsoft-ad/reference/rest/v1/projects.locations.global.domains.
+	// +kubebuilder:validation:Optional
 	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
 
 	// Resource labels that can contain user-provided metadata
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Locations where domain needs to be provisioned. [regions][compute/docs/regions-zones/]
 	// e.g. us-west1 or us-east4 Service supports up to 4 locations at once. Each location will use a /26 block.
+	// +kubebuilder:validation:Optional
 	Locations []*string `json:"locations,omitempty" tf:"locations,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The CIDR range of internal addresses that are reserved for this domain. Reserved networks must be /24 or larger.
 	// Ranges must be unique and non-overlapping with existing subnets in authorizedNetworks
+	// +kubebuilder:validation:Optional
 	ReservedIPRange *string `json:"reservedIpRange,omitempty" tf:"reserved_ip_range,omitempty"`
 }
 

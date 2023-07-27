@@ -86,13 +86,16 @@ type GarbageCollectionPolicyObservation struct {
 type GarbageCollectionPolicyParameters struct {
 
 	// The name of the column family.
+	// +kubebuilder:validation:Optional
 	ColumnFamily *string `json:"columnFamily,omitempty" tf:"column_family,omitempty"`
 
 	// The deletion policy for the GC policy.
 	// Setting ABANDON allows the resource to be abandoned rather than deleted. This is useful for GC policy as it cannot be deleted in a replicated instance.
+	// +kubebuilder:validation:Optional
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Serialized JSON object to represent a more complex GC policy. Conflicts with mode, max_age and max_version. Conflicts with mode, max_age and max_version.
+	// +kubebuilder:validation:Optional
 	GcRules *string `json:"gcRules,omitempty" tf:"gc_rules,omitempty"`
 
 	// The name of the Bigtable instance.
@@ -109,15 +112,19 @@ type GarbageCollectionPolicyParameters struct {
 	InstanceNameSelector *v1.Selector `json:"instanceNameSelector,omitempty" tf:"-"`
 
 	// GC policy that applies to all cells older than the given age.
+	// +kubebuilder:validation:Optional
 	MaxAge []MaxAgeParameters `json:"maxAge,omitempty" tf:"max_age,omitempty"`
 
 	// GC policy that applies to all versions of a cell except for the most recent.
+	// +kubebuilder:validation:Optional
 	MaxVersion []MaxVersionParameters `json:"maxVersion,omitempty" tf:"max_version,omitempty"`
 
 	// If multiple policies are set, you should choose between UNION OR INTERSECTION.
+	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The name of the table.
@@ -155,9 +162,11 @@ type MaxAgeObservation struct {
 type MaxAgeParameters struct {
 
 	// Number of days before applying GC policy.
+	// +kubebuilder:validation:Optional
 	Days *float64 `json:"days,omitempty" tf:"days,omitempty"`
 
 	// Duration before applying GC policy (ex. "8h"). This is required when days isn't set
+	// +kubebuilder:validation:Optional
 	Duration *string `json:"duration,omitempty" tf:"duration,omitempty"`
 }
 
@@ -176,6 +185,7 @@ type MaxVersionObservation struct {
 type MaxVersionParameters struct {
 
 	// Number of version before applying the GC policy.
+	// +kubebuilder:validation:Optional
 	Number *float64 `json:"number,omitempty" tf:"number,omitempty"`
 }
 

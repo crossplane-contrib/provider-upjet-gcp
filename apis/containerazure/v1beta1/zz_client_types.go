@@ -67,6 +67,7 @@ type ClientObservation struct {
 type ClientParameters struct {
 
 	// The Azure Active Directory Application ID.
+	// +kubebuilder:validation:Optional
 	ApplicationID *string `json:"applicationId,omitempty" tf:"application_id,omitempty"`
 
 	// The location for the resource
@@ -74,9 +75,11 @@ type ClientParameters struct {
 	Location *string `json:"location" tf:"location,omitempty"`
 
 	// The project for the resource
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The Azure Active Directory Tenant ID.
+	// +kubebuilder:validation:Optional
 	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
 }
 

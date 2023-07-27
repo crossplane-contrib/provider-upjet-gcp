@@ -42,10 +42,14 @@ type KeyRingIAMMemberConditionObservation struct {
 }
 
 type KeyRingIAMMemberConditionParameters struct {
+
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
@@ -72,6 +76,8 @@ type KeyRingIAMMemberObservation struct {
 }
 
 type KeyRingIAMMemberParameters struct {
+
+	// +kubebuilder:validation:Optional
 	Condition []KeyRingIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// +crossplane:generate:reference:type=KeyRing
@@ -87,8 +93,10 @@ type KeyRingIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	KeyRingIDSelector *v1.Selector `json:"keyRingIdSelector,omitempty" tf:"-"`
 
+	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 

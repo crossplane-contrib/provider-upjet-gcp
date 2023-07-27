@@ -45,6 +45,7 @@ type RegionDiskDiskEncryptionKeyObservation struct {
 type RegionDiskDiskEncryptionKeyParameters struct {
 
 	// The name of the encryption key that is stored in Google Cloud KMS.
+	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
@@ -220,6 +221,7 @@ type RegionDiskParameters struct {
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Encrypts the disk using a customer-supplied encryption key.
@@ -232,9 +234,11 @@ type RegionDiskParameters struct {
 	// the disk will be encrypted using an automatically generated key and
 	// you do not need to provide a key to use the disk later.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	DiskEncryptionKey []RegionDiskDiskEncryptionKeyParameters `json:"diskEncryptionKey,omitempty" tf:"disk_encryption_key,omitempty"`
 
 	// Labels to apply to this disk.  A list of key->value pairs.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Physical block size of the persistent disk, in bytes. If not present
@@ -242,10 +246,12 @@ type RegionDiskParameters struct {
 	// are 4096 and 16384, other sizes may be added in the future.
 	// If an unsupported value is requested, the error message will list
 	// the supported values for the caller's project.
+	// +kubebuilder:validation:Optional
 	PhysicalBlockSizeBytes *float64 `json:"physicalBlockSizeBytes,omitempty" tf:"physical_block_size_bytes,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// A reference to the region where the disk resides.
@@ -253,6 +259,7 @@ type RegionDiskParameters struct {
 	Region *string `json:"region" tf:"region,omitempty"`
 
 	// URLs of the zones where the disk should be replicated to.
+	// +kubebuilder:validation:Optional
 	ReplicaZones []*string `json:"replicaZones,omitempty" tf:"replica_zones,omitempty"`
 
 	// Size of the persistent disk, specified in GB. You can specify this
@@ -262,6 +269,7 @@ type RegionDiskParameters struct {
 	// If you specify this field along with sourceImage or sourceSnapshot,
 	// the value of sizeGb must not be less than the size of the sourceImage
 	// or the size of the snapshot.
+	// +kubebuilder:validation:Optional
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
 	// The source snapshot used to create this disk. You can provide this as
@@ -282,16 +290,19 @@ type RegionDiskParameters struct {
 
 	// The source disk used to create this disk. You can provide this as a partial or full URL to the resource.
 	// For example, the following are valid values:
+	// +kubebuilder:validation:Optional
 	SourceDisk *string `json:"sourceDisk,omitempty" tf:"source_disk,omitempty"`
 
 	// The customer-supplied encryption key of the source snapshot. Required
 	// if the source snapshot is protected by a customer-supplied encryption
 	// key.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	SourceSnapshotEncryptionKey []RegionDiskSourceSnapshotEncryptionKeyParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
 
 	// URL of the disk type resource describing which disk type to use to
 	// create the disk. Provide this when creating the disk.
+	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -318,6 +329,7 @@ type RegionDiskSourceSnapshotEncryptionKeyParameters struct {
 
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// +kubebuilder:validation:Optional
 	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
 }
 

@@ -69,6 +69,7 @@ type GlobalNetworkEndpointParameters struct {
 
 	// Fully qualified domain name of network endpoint.
 	// This can only be specified when network_endpoint_type of the NEG is INTERNET_FQDN_PORT.
+	// +kubebuilder:validation:Optional
 	Fqdn *string `json:"fqdn,omitempty" tf:"fqdn,omitempty"`
 
 	// The global network endpoint group this endpoint is part of.
@@ -85,13 +86,16 @@ type GlobalNetworkEndpointParameters struct {
 	GlobalNetworkEndpointGroupSelector *v1.Selector `json:"globalNetworkEndpointGroupSelector,omitempty" tf:"-"`
 
 	// IPv4 address external endpoint.
+	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
 	// Port number of the external endpoint.
+	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 

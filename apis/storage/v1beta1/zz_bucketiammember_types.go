@@ -42,10 +42,14 @@ type BucketIAMMemberConditionObservation struct {
 }
 
 type BucketIAMMemberConditionParameters struct {
+
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
@@ -85,10 +89,13 @@ type BucketIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
+	// +kubebuilder:validation:Optional
 	Condition []BucketIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 

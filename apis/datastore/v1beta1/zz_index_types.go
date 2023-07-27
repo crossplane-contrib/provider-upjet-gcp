@@ -74,17 +74,21 @@ type IndexParameters struct {
 	// Policy for including ancestors in the index.
 	// Default value is NONE.
 	// Possible values are: NONE, ALL_ANCESTORS.
+	// +kubebuilder:validation:Optional
 	Ancestor *string `json:"ancestor,omitempty" tf:"ancestor,omitempty"`
 
 	// The entity kind which the index applies to.
+	// +kubebuilder:validation:Optional
 	Kind *string `json:"kind,omitempty" tf:"kind,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// An ordered list of properties to index on.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Properties []PropertiesParameters `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
@@ -112,9 +116,11 @@ type PropertiesParameters struct {
 
 	// The direction the index should optimize for sorting.
 	// Possible values are: ASCENDING, DESCENDING.
+	// +kubebuilder:validation:Optional
 	Direction *string `json:"direction,omitempty" tf:"direction,omitempty"`
 
 	// The property name to index.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 

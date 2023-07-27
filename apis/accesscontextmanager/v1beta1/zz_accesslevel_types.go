@@ -86,26 +86,32 @@ type AccessLevelParameters struct {
 
 	// A set of predefined conditions for the access level and a combining function.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Basic []BasicParameters `json:"basic,omitempty" tf:"basic,omitempty"`
 
 	// Custom access level conditions are set using the Cloud Common Expression Language to represent the necessary conditions for the level to apply to a request.
 	// See CEL spec at: https://github.com/google/cel-spec.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Custom []CustomParameters `json:"custom,omitempty" tf:"custom,omitempty"`
 
 	// Description of the AccessLevel and its use. Does not affect behavior.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Resource name for the Access Level. The short_name component must begin
 	// with a letter and only include alphanumeric and '_'.
 	// Format: accessPolicies/{policy_id}/accessLevels/{short_name}
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The AccessPolicy this AccessLevel lives in.
 	// Format: accessPolicies/{policy_id}
+	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Human readable title. Must be unique within the Policy.
+	// +kubebuilder:validation:Optional
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
@@ -150,10 +156,12 @@ type BasicParameters struct {
 	// for the AccessLevel to be applied.
 	// Default value is AND.
 	// Possible values are: AND, OR.
+	// +kubebuilder:validation:Optional
 	CombiningFunction *string `json:"combiningFunction,omitempty" tf:"combining_function,omitempty"`
 
 	// A set of requirements for the AccessLevel to be granted.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Conditions []ConditionsParameters `json:"conditions,omitempty" tf:"conditions,omitempty"`
 }
 
@@ -257,6 +265,7 @@ type ConditionsParameters struct {
 	// the Condition to be true. If not specified, all devices are
 	// allowed.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	DevicePolicy []DevicePolicyParameters `json:"devicePolicy,omitempty" tf:"device_policy,omitempty"`
 
 	// A list of CIDR block IP subnetwork specification. May be IPv4
@@ -269,6 +278,7 @@ type ConditionsParameters struct {
 	// is not. The originating IP of a request must be in one of the
 	// listed subnets in order for this Condition to be true.
 	// If empty, all IP addresses are allowed.
+	// +kubebuilder:validation:Optional
 	IPSubnetworks []*string `json:"ipSubnetworks,omitempty" tf:"ip_subnetworks,omitempty"`
 
 	// An allowed list of members (users, service accounts).
@@ -278,16 +288,19 @@ type ConditionsParameters struct {
 	// from any user (logged in/not logged in, not present in any
 	// groups, etc.).
 	// Formats: user:{emailid}, serviceAccount:{emailid}
+	// +kubebuilder:validation:Optional
 	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
 
 	// Whether to negate the Condition. If true, the Condition becomes
 	// a NAND over its non-empty fields, each field must be false for
 	// the Condition overall to be satisfied. Defaults to false.
+	// +kubebuilder:validation:Optional
 	Negate *bool `json:"negate,omitempty" tf:"negate,omitempty"`
 
 	// The request must originate from one of the provided
 	// countries/regions.
 	// Format: A valid ISO 3166-1 alpha-2 code.
+	// +kubebuilder:validation:Optional
 	Regions []*string `json:"regions,omitempty" tf:"regions,omitempty"`
 
 	// A list of other access levels defined in the same Policy,
@@ -295,6 +308,7 @@ type ConditionsParameters struct {
 	// does not exist is an error. All access levels listed must be
 	// granted for the Condition to be true.
 	// Format: accessPolicies/{policy_id}/accessLevels/{short_name}
+	// +kubebuilder:validation:Optional
 	RequiredAccessLevels []*string `json:"requiredAccessLevels,omitempty" tf:"required_access_levels,omitempty"`
 }
 
@@ -322,6 +336,7 @@ type CustomParameters struct {
 	// This page details the objects and attributes that are used to the build the CEL expressions for
 	// custom access levels - https://cloud.google.com/access-context-manager/docs/custom-access-level-spec.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Expr []ExprParameters `json:"expr,omitempty" tf:"expr,omitempty"`
 }
 
@@ -386,26 +401,32 @@ type DevicePolicyParameters struct {
 	// A list of allowed device management levels.
 	// An empty list allows all management levels.
 	// Each value may be one of: MANAGEMENT_UNSPECIFIED, NONE, BASIC, COMPLETE.
+	// +kubebuilder:validation:Optional
 	AllowedDeviceManagementLevels []*string `json:"allowedDeviceManagementLevels,omitempty" tf:"allowed_device_management_levels,omitempty"`
 
 	// A list of allowed encryptions statuses.
 	// An empty list allows all statuses.
 	// Each value may be one of: ENCRYPTION_UNSPECIFIED, ENCRYPTION_UNSUPPORTED, UNENCRYPTED, ENCRYPTED.
+	// +kubebuilder:validation:Optional
 	AllowedEncryptionStatuses []*string `json:"allowedEncryptionStatuses,omitempty" tf:"allowed_encryption_statuses,omitempty"`
 
 	// A list of allowed OS versions.
 	// An empty list allows all types and all versions.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	OsConstraints []OsConstraintsParameters `json:"osConstraints,omitempty" tf:"os_constraints,omitempty"`
 
 	// Whether the device needs to be approved by the customer admin.
+	// +kubebuilder:validation:Optional
 	RequireAdminApproval *bool `json:"requireAdminApproval,omitempty" tf:"require_admin_approval,omitempty"`
 
 	// Whether the device needs to be corp owned.
+	// +kubebuilder:validation:Optional
 	RequireCorpOwned *bool `json:"requireCorpOwned,omitempty" tf:"require_corp_owned,omitempty"`
 
 	// Whether or not screenlock is required for the DevicePolicy
 	// to be true. Defaults to false.
+	// +kubebuilder:validation:Optional
 	RequireScreenLock *bool `json:"requireScreenLock,omitempty" tf:"require_screen_lock,omitempty"`
 }
 
@@ -442,15 +463,19 @@ type ExprObservation struct {
 type ExprParameters struct {
 
 	// Description of the expression
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Textual representation of an expression in Common Expression Language syntax.
+	// +kubebuilder:validation:Optional
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
 
 	// String indicating the location of the expression for error reporting, e.g. a file name and a position in the file
+	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// Title for the expression, i.e. a short string describing its purpose.
+	// +kubebuilder:validation:Optional
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
@@ -489,13 +514,16 @@ type OsConstraintsParameters struct {
 	// The minimum allowed OS version. If not set, any version
 	// of this OS satisfies the constraint.
 	// Format: "major.minor.patch" such as "10.5.301", "9.2.1".
+	// +kubebuilder:validation:Optional
 	MinimumVersion *string `json:"minimumVersion,omitempty" tf:"minimum_version,omitempty"`
 
 	// The operating system type of the device.
 	// Possible values are: OS_UNSPECIFIED, DESKTOP_MAC, DESKTOP_WINDOWS, DESKTOP_LINUX, DESKTOP_CHROME_OS, ANDROID, IOS.
+	// +kubebuilder:validation:Optional
 	OsType *string `json:"osType,omitempty" tf:"os_type,omitempty"`
 
 	// If you specify DESKTOP_CHROME_OS for osType, you can optionally include requireVerifiedChromeOs to require Chrome Verified Access.
+	// +kubebuilder:validation:Optional
 	RequireVerifiedChromeOs *bool `json:"requireVerifiedChromeOs,omitempty" tf:"require_verified_chrome_os,omitempty"`
 }
 

@@ -77,6 +77,7 @@ type SSLCertParameters struct {
 
 	// The common name to be used in the certificate to identify the
 	// client. Constrained to [a-zA-Z.-_ ]+. Changing this forces a new resource to be created.
+	// +kubebuilder:validation:Optional
 	CommonName *string `json:"commonName,omitempty" tf:"common_name,omitempty"`
 
 	// The name of the Cloud SQL instance. Changing this
@@ -95,6 +96,7 @@ type SSLCertParameters struct {
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 

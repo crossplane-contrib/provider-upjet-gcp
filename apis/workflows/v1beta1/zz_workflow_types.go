@@ -113,26 +113,33 @@ type WorkflowParameters struct {
 
 	// The KMS key used to encrypt workflow and execution data.
 	// Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey}
+	// +kubebuilder:validation:Optional
 	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
 
 	// Description of the workflow provided by the user. Must be at most 1000 unicode characters long.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// A set of key/value label pairs to assign to this Workflow.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Name of the Workflow.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Creates a unique name beginning with the
 	// specified prefix. If this and name are unspecified, a random value is chosen for the name.
+	// +kubebuilder:validation:Optional
 	NamePrefix *string `json:"namePrefix,omitempty" tf:"name_prefix,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The region of the workflow.
+	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// Name of the service account associated with the latest workflow version. This service
@@ -156,6 +163,7 @@ type WorkflowParameters struct {
 	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// Workflow code to be executed. The size limit is 32KB.
+	// +kubebuilder:validation:Optional
 	SourceContents *string `json:"sourceContents,omitempty" tf:"source_contents,omitempty"`
 }
 

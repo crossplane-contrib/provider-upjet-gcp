@@ -51,10 +51,12 @@ type BasicServiceParameters struct {
 
 	// Labels that specify the resource that emits the monitoring data
 	// which is used for SLO reporting of this Service.
+	// +kubebuilder:validation:Optional
 	ServiceLabels map[string]*string `json:"serviceLabels,omitempty" tf:"service_labels,omitempty"`
 
 	// The type of service that this basic service defines, e.g.
 	// APP_ENGINE service type
+	// +kubebuilder:validation:Optional
 	ServiceType *string `json:"serviceType,omitempty" tf:"service_type,omitempty"`
 }
 
@@ -123,13 +125,16 @@ type ServiceParameters struct {
 	// Valid values of service types and services labels are described at
 	// https://cloud.google.com/stackdriver/docs/solutions/slo-monitoring/api/api-structures#basic-svc-w-basic-sli
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	BasicService []BasicServiceParameters `json:"basicService,omitempty" tf:"basic_service,omitempty"`
 
 	// Name used for UI elements listing this Service.
+	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Labels which have been used to annotate the service. Label keys must start
@@ -138,6 +143,7 @@ type ServiceParameters struct {
 	// length of 63 characters, and must be less than 128 bytes in size. Up to 64
 	// label entries may be stored. For labels which do not have a semantic value,
 	// the empty string may be supplied for the label value.
+	// +kubebuilder:validation:Optional
 	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
 }
 

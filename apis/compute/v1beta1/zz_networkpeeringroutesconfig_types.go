@@ -63,9 +63,11 @@ type NetworkPeeringRoutesConfigObservation struct {
 type NetworkPeeringRoutesConfigParameters struct {
 
 	// Whether to export the custom routes to the peer network.
+	// +kubebuilder:validation:Optional
 	ExportCustomRoutes *bool `json:"exportCustomRoutes,omitempty" tf:"export_custom_routes,omitempty"`
 
 	// Whether to import the custom routes to the peer network.
+	// +kubebuilder:validation:Optional
 	ImportCustomRoutes *bool `json:"importCustomRoutes,omitempty" tf:"import_custom_routes,omitempty"`
 
 	// The name of the primary network for the peering.
@@ -96,6 +98,7 @@ type NetworkPeeringRoutesConfigParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 

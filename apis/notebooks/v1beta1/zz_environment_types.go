@@ -49,9 +49,11 @@ type ContainerImageParameters struct {
 
 	// The path to the container image repository.
 	// For example: gcr.io/{project_id}/{imageName}
+	// +kubebuilder:validation:Optional
 	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
 
 	// The tag of the container image. If not specified, this defaults to the latest tag.
+	// +kubebuilder:validation:Optional
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 }
 
@@ -118,12 +120,15 @@ type EnvironmentParameters struct {
 
 	// Use a container image to start the notebook instance.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	ContainerImage []ContainerImageParameters `json:"containerImage,omitempty" tf:"container_image,omitempty"`
 
 	// A brief description of this environment.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Display name of this environment for the UI.
+	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// A reference to the zone where the machine resides.
@@ -132,14 +137,17 @@ type EnvironmentParameters struct {
 
 	// Path to a Bash script that automatically runs after a notebook instance fully boots up.
 	// The path must be a URL or Cloud Storage path. Example: "gs://path-to-file/file-name"
+	// +kubebuilder:validation:Optional
 	PostStartupScript *string `json:"postStartupScript,omitempty" tf:"post_startup_script,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Use a Compute Engine VM image to start the notebook instance.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	VMImage []VMImageParameters `json:"vmImage,omitempty" tf:"vm_image,omitempty"`
 }
 
@@ -172,13 +180,16 @@ type VMImageObservation struct {
 type VMImageParameters struct {
 
 	// Use this VM image family to find the image; the newest image in this family will be used.
+	// +kubebuilder:validation:Optional
 	ImageFamily *string `json:"imageFamily,omitempty" tf:"image_family,omitempty"`
 
 	// Use VM image name to find the image.
+	// +kubebuilder:validation:Optional
 	ImageName *string `json:"imageName,omitempty" tf:"image_name,omitempty"`
 
 	// The name of the Google Cloud project that this VM image belongs to.
 	// Format: projects/{project_id}
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 

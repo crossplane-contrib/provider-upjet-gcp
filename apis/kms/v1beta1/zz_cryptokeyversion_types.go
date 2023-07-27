@@ -125,6 +125,7 @@ type CryptoKeyVersionParameters struct {
 
 	// The current state of the CryptoKeyVersion.
 	// Possible values are: PENDING_GENERATION, ENABLED, DISABLED, DESTROYED, DESTROY_SCHEDULED, PENDING_IMPORT, IMPORT_FAILED.
+	// +kubebuilder:validation:Optional
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
 

@@ -79,6 +79,7 @@ type NetworkFirewallPolicyAssociationParameters struct {
 	FirewallPolicySelector *v1.Selector `json:"firewallPolicySelector,omitempty" tf:"-"`
 
 	// The project for the resource
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 

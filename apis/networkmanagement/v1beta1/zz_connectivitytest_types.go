@@ -158,6 +158,7 @@ type ConnectivityTestParameters struct {
 
 	// The user-supplied description of the Connectivity Test.
 	// Maximum of 512 characters.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Required. Destination specification of the Connectivity Test.
@@ -175,24 +176,30 @@ type ConnectivityTestParameters struct {
 	// is ambiguous. However, the result can include endpoints that you
 	// don't intend to test.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Destination []DestinationParameters `json:"destination,omitempty" tf:"destination,omitempty"`
 
 	// Resource labels to represent user-provided metadata.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Unique name for the connectivity test.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// IP Protocol of the test. When not provided, "TCP" is assumed.
+	// +kubebuilder:validation:Optional
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
 	// Other projects that may be relevant for reachability analysis.
 	// This is applicable to scenarios where a test can cross project
 	// boundaries.
+	// +kubebuilder:validation:Optional
 	RelatedProjects []*string `json:"relatedProjects,omitempty" tf:"related_projects,omitempty"`
 
 	// Required. Source specification of the Connectivity Test.
@@ -214,6 +221,7 @@ type ConnectivityTestParameters struct {
 	// ambiguous. However, the test result may include endpoints that
 	// you don't intend to test.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Source []SourceParameters `json:"source,omitempty" tf:"source,omitempty"`
 }
 
@@ -295,6 +303,7 @@ type DestinationParameters struct {
 
 	// The IP protocol port of the endpoint. Only applicable when
 	// protocol is TCP or UDP.
+	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// Project ID where the endpoint is located. The Project ID can be
@@ -400,10 +409,12 @@ type SourceParameters struct {
 
 	// Type of the network where the endpoint is located.
 	// Possible values are: GCP_NETWORK, NON_GCP_NETWORK.
+	// +kubebuilder:validation:Optional
 	NetworkType *string `json:"networkType,omitempty" tf:"network_type,omitempty"`
 
 	// The IP protocol port of the endpoint. Only applicable when
 	// protocol is TCP or UDP.
+	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// Project ID where the endpoint is located. The Project ID can be

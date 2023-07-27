@@ -66,6 +66,7 @@ type ServicePerimeterResourceParameters struct {
 	// A GCP resource that is inside of the service perimeter.
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
+	// +kubebuilder:validation:Optional
 	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
 }
 

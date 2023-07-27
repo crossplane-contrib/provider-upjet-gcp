@@ -55,6 +55,7 @@ type GoogleChannelConfigObservation struct {
 type GoogleChannelConfigParameters struct {
 
 	// Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern projects/*/locations/*/keyRings/*/cryptoKeys/*.
+	// +kubebuilder:validation:Optional
 	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
 
 	// The location for the resource
@@ -62,6 +63,7 @@ type GoogleChannelConfigParameters struct {
 	Location *string `json:"location" tf:"location,omitempty"`
 
 	// The project for the resource
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 

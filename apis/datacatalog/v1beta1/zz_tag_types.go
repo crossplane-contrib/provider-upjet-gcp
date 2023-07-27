@@ -80,21 +80,27 @@ type FieldsObservation struct {
 type FieldsParameters struct {
 
 	// Holds the value for a tag field with boolean type.
+	// +kubebuilder:validation:Optional
 	BoolValue *bool `json:"boolValue,omitempty" tf:"bool_value,omitempty"`
 
 	// Holds the value for a tag field with double type.
+	// +kubebuilder:validation:Optional
 	DoubleValue *float64 `json:"doubleValue,omitempty" tf:"double_value,omitempty"`
 
 	// Holds the value for a tag field with enum type. This value must be one of the allowed values in the definition of this enum.
+	// +kubebuilder:validation:Optional
 	EnumValue *string `json:"enumValue,omitempty" tf:"enum_value,omitempty"`
 
 	// The identifier for this object. Format specified above.
+	// +kubebuilder:validation:Optional
 	FieldName *string `json:"fieldName,omitempty" tf:"field_name,omitempty"`
 
 	// Holds the value for a tag field with string type.
+	// +kubebuilder:validation:Optional
 	StringValue *string `json:"stringValue,omitempty" tf:"string_value,omitempty"`
 
 	// Holds the value for a tag field with timestamp type.
+	// +kubebuilder:validation:Optional
 	TimestampValue *string `json:"timestampValue,omitempty" tf:"timestamp_value,omitempty"`
 }
 
@@ -153,11 +159,13 @@ type TagParameters struct {
 	// individual column based on that schema.
 	// For attaching a tag to a nested column, use . to separate the column names. Example:
 	// outer_column.inner_column
+	// +kubebuilder:validation:Optional
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
 	// This maps the ID of a tag field to the value of and additional information about that field.
 	// Valid field IDs are defined by the tag's template. A tag must have at least 1 field and at most 500 fields.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Fields []FieldsParameters `json:"fields,omitempty" tf:"fields,omitempty"`
 
 	// The name of the parent this tag is attached to. This can be the name of an entry or an entry group. If an entry group, the tag will be attached to

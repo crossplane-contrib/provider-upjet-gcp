@@ -64,6 +64,7 @@ type AttestationAuthorityParameters struct {
 	// in security sensitive contexts, such as when looking up
 	// Attestations to verify.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Hint []HintParameters `json:"hint,omitempty" tf:"hint,omitempty"`
 }
 
@@ -85,6 +86,7 @@ type HintParameters struct {
 
 	// The human readable name of this Attestation Authority, for
 	// example "qa".
+	// +kubebuilder:validation:Optional
 	HumanReadableName *string `json:"humanReadableName,omitempty" tf:"human_readable_name,omitempty"`
 }
 
@@ -182,26 +184,33 @@ type NoteParameters struct {
 	// Attestation Occurrences, even if they don't all live in the same
 	// project.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	AttestationAuthority []AttestationAuthorityParameters `json:"attestationAuthority,omitempty" tf:"attestation_authority,omitempty"`
 
 	// Time of expiration for this note. Leave empty if note does not expire.
+	// +kubebuilder:validation:Optional
 	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
 
 	// A detailed description of the note
+	// +kubebuilder:validation:Optional
 	LongDescription *string `json:"longDescription,omitempty" tf:"long_description,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Names of other notes related to this note.
+	// +kubebuilder:validation:Optional
 	RelatedNoteNames []*string `json:"relatedNoteNames,omitempty" tf:"related_note_names,omitempty"`
 
 	// URLs associated with this note and related metadata.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	RelatedURL []RelatedURLParameters `json:"relatedUrl,omitempty" tf:"related_url,omitempty"`
 
 	// A one sentence description of the note.
+	// +kubebuilder:validation:Optional
 	ShortDescription *string `json:"shortDescription,omitempty" tf:"short_description,omitempty"`
 }
 
@@ -226,9 +235,11 @@ type RelatedURLObservation struct {
 type RelatedURLParameters struct {
 
 	// Label to describe usage of the URL
+	// +kubebuilder:validation:Optional
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
 
 	// Specific URL associated with the resource.
+	// +kubebuilder:validation:Optional
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 }
 

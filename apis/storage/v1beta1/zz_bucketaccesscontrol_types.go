@@ -115,10 +115,12 @@ type BucketAccessControlParameters struct {
 	// group-example@googlegroups.com.
 	// To refer to all members of the Google Apps for Business domain
 	// example.com, the entity would be domain-example.com.
+	// +kubebuilder:validation:Optional
 	Entity *string `json:"entity,omitempty" tf:"entity,omitempty"`
 
 	// The access permission for the entity.
 	// Possible values are: OWNER, READER, WRITER.
+	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 

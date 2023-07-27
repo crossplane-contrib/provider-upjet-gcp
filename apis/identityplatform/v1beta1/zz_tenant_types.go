@@ -76,21 +76,26 @@ type TenantObservation struct {
 type TenantParameters struct {
 
 	// Whether to allow email/password user authentication.
+	// +kubebuilder:validation:Optional
 	AllowPasswordSignup *bool `json:"allowPasswordSignup,omitempty" tf:"allow_password_signup,omitempty"`
 
 	// Whether authentication is disabled for the tenant. If true, the users under
 	// the disabled tenant are not allowed to sign-in. Admins of the disabled tenant
 	// are not able to manage its users.
+	// +kubebuilder:validation:Optional
 	DisableAuth *bool `json:"disableAuth,omitempty" tf:"disable_auth,omitempty"`
 
 	// Human friendly display name of the tenant.
+	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Whether to enable email link user authentication.
+	// +kubebuilder:validation:Optional
 	EnableEmailLinkSignin *bool `json:"enableEmailLinkSignin,omitempty" tf:"enable_email_link_signin,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 

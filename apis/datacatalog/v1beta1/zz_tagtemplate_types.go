@@ -40,6 +40,7 @@ type AllowedValuesObservation struct {
 type AllowedValuesParameters struct {
 
 	// The display name for this field.
+	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 }
 
@@ -73,6 +74,7 @@ type EnumTypeParameters struct {
 	// and renaming of enum values are not supported.
 	// Can have up to 500 allowed values.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	AllowedValues []AllowedValuesParameters `json:"allowedValues,omitempty" tf:"allowed_values,omitempty"`
 }
 
@@ -131,24 +133,30 @@ type TagTemplateFieldsObservation struct {
 type TagTemplateFieldsParameters struct {
 
 	// A description for this field.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The display name for this field.
+	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The identifier for this object. Format specified above.
+	// +kubebuilder:validation:Optional
 	FieldID *string `json:"fieldId,omitempty" tf:"field_id,omitempty"`
 
 	// Whether this is a required field. Defaults to false.
+	// +kubebuilder:validation:Optional
 	IsRequired *bool `json:"isRequired,omitempty" tf:"is_required,omitempty"`
 
 	// The order of this field with respect to other fields in this tag template.
 	// A higher value indicates a more important field. The value can be negative.
 	// Multiple fields can have the same order, and field orders within a tag do not have to be sequential.
+	// +kubebuilder:validation:Optional
 	Order *float64 `json:"order,omitempty" tf:"order,omitempty"`
 
 	// The type of value this tag field can contain.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Type []TypeParameters `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -198,17 +206,21 @@ type TagTemplateObservation struct {
 type TagTemplateParameters struct {
 
 	// The display name for this field.
+	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Set of tag template field IDs and the settings for the field. This set is an exhaustive list of the allowed fields. This set must contain at least one field and at most 500 fields. The change of field_id will be resulting in re-creating of field. The change of primitive_type will be resulting in re-creating of field, however if the field is a required, you cannot update it.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Fields []TagTemplateFieldsParameters `json:"fields,omitempty" tf:"fields,omitempty"`
 
 	// This confirms the deletion of any possible tags using this template. Must be set to true in order to delete the tag template.
+	// +kubebuilder:validation:Optional
 	ForceDelete *bool `json:"forceDelete,omitempty" tf:"force_delete,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Template location region.
@@ -247,11 +259,13 @@ type TypeParameters struct {
 	// Represents an enum type.
 	// Exactly one of primitive_type or enum_type must be set
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	EnumType []EnumTypeParameters `json:"enumType,omitempty" tf:"enum_type,omitempty"`
 
 	// Represents primitive types - string, bool etc.
 	// Exactly one of primitive_type or enum_type must be set
 	// Possible values are: DOUBLE, STRING, BOOL, TIMESTAMP.
+	// +kubebuilder:validation:Optional
 	PrimitiveType *string `json:"primitiveType,omitempty" tf:"primitive_type,omitempty"`
 }
 

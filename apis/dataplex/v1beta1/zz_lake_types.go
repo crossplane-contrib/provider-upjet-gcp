@@ -106,12 +106,15 @@ type LakeObservation struct {
 type LakeParameters struct {
 
 	// Optional. Description of the lake.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Optional. User friendly display name.
+	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Optional. User-defined labels for the lake.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location for the resource
@@ -119,9 +122,11 @@ type LakeParameters struct {
 	Location *string `json:"location" tf:"location,omitempty"`
 
 	// Optional. Settings to manage lake and Dataproc Metastore service instance association.
+	// +kubebuilder:validation:Optional
 	Metastore []MetastoreParameters `json:"metastore,omitempty" tf:"metastore,omitempty"`
 
 	// The project for the resource
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -140,6 +145,7 @@ type MetastoreObservation struct {
 type MetastoreParameters struct {
 
 	// Optional. A relative reference to the Dataproc Metastore (https://cloud.google.com/dataproc-metastore/docs) service associated with the lake: projects/{project_id}/locations/{location_id}/services/{service_id}
+	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 

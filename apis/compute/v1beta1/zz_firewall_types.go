@@ -67,12 +67,14 @@ type AllowParameters struct {
 	// applies to connections through any port.
 	// Example inputs include: ["22"], ["80","443"], and
 	// ["12345-12349"].
+	// +kubebuilder:validation:Optional
 	Ports []*string `json:"ports,omitempty" tf:"ports,omitempty"`
 
 	// The IP protocol to which this rule applies. The protocol type is
 	// required when creating a firewall rule. This value can either be
 	// one of the following well known protocol strings (tcp, udp,
 	// icmp, esp, ah, sctp, ipip, all), or the IP protocol number.
+	// +kubebuilder:validation:Optional
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 }
 
@@ -118,12 +120,14 @@ type DenyParameters struct {
 	// applies to connections through any port.
 	// Example inputs include: ["22"], ["80","443"], and
 	// ["12345-12349"].
+	// +kubebuilder:validation:Optional
 	Ports []*string `json:"ports,omitempty" tf:"ports,omitempty"`
 
 	// The IP protocol to which this rule applies. The protocol type is
 	// required when creating a firewall rule. This value can either be
 	// one of the following well known protocol strings (tcp, udp,
 	// icmp, esp, ah, sctp, ipip, all), or the IP protocol number.
+	// +kubebuilder:validation:Optional
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 }
 
@@ -252,6 +256,7 @@ type FirewallLogConfigParameters struct {
 
 	// This field denotes whether to include or exclude metadata for firewall logs.
 	// Possible values are: EXCLUDE_ALL_METADATA, INCLUDE_ALL_METADATA.
+	// +kubebuilder:validation:Optional
 	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 }
 
@@ -380,41 +385,49 @@ type FirewallParameters struct {
 	// specifies a protocol and port-range tuple that describes a permitted
 	// connection.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Allow []AllowParameters `json:"allow,omitempty" tf:"allow,omitempty"`
 
 	// The list of DENY rules specified by this firewall. Each rule specifies
 	// a protocol and port-range tuple that describes a denied connection.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Deny []DenyParameters `json:"deny,omitempty" tf:"deny,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// If destination ranges are specified, the firewall will apply only to
 	// traffic that has destination IP address in these ranges. These ranges
 	// must be expressed in CIDR format. IPv4 or IPv6 ranges are supported.
+	// +kubebuilder:validation:Optional
 	DestinationRanges []*string `json:"destinationRanges,omitempty" tf:"destination_ranges,omitempty"`
 
 	// Direction of traffic to which this firewall applies; default is
 	// INGRESS. Note: For INGRESS traffic, one of source_ranges,
 	// source_tags or source_service_accounts is required.
 	// Possible values are: INGRESS, EGRESS.
+	// +kubebuilder:validation:Optional
 	Direction *string `json:"direction,omitempty" tf:"direction,omitempty"`
 
 	// Denotes whether the firewall rule is disabled, i.e not applied to the
 	// network it is associated with. When set to true, the firewall rule is
 	// not enforced and the network behaves as if it did not exist. If this
 	// is unspecified, the firewall rule will be enabled.
+	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
 	// This field denotes whether to enable logging for a particular firewall rule.
 	// If logging is enabled, logs will be exported to Stackdriver. Deprecated in favor of log_config
+	// +kubebuilder:validation:Optional
 	EnableLogging *bool `json:"enableLogging,omitempty" tf:"enable_logging,omitempty"`
 
 	// This field denotes the logging options for a particular firewall rule.
 	// If defined, logging is enabled, and logs will be exported to Cloud Logging.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	LogConfig []FirewallLogConfigParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
 
 	// The name or self_link of the network to attach this firewall to.
@@ -437,10 +450,12 @@ type FirewallParameters struct {
 	// priority implies higher precedence (eg, a rule with priority 0 has
 	// higher precedence than a rule with priority 1). DENY rules take
 	// precedence over ALLOW rules having equal priority.
+	// +kubebuilder:validation:Optional
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// If source ranges are specified, the firewall will apply only to
@@ -452,6 +467,7 @@ type FirewallParameters struct {
 	// connection does not need to match both properties for the firewall to
 	// apply. IPv4 or IPv6 ranges are supported. For INGRESS traffic, one of
 	// source_ranges, source_tags or source_service_accounts is required.
+	// +kubebuilder:validation:Optional
 	SourceRanges []*string `json:"sourceRanges,omitempty" tf:"source_ranges,omitempty"`
 
 	// If source service accounts are specified, the firewall will apply only
@@ -466,6 +482,7 @@ type FirewallParameters struct {
 	// properties for the firewall to apply. sourceServiceAccounts cannot be
 	// used at the same time as sourceTags or targetTags. For INGRESS traffic,
 	// one of source_ranges, source_tags or source_service_accounts is required.
+	// +kubebuilder:validation:Optional
 	SourceServiceAccounts []*string `json:"sourceServiceAccounts,omitempty" tf:"source_service_accounts,omitempty"`
 
 	// If source tags are specified, the firewall will apply only to traffic
@@ -478,6 +495,7 @@ type FirewallParameters struct {
 	// a tag listed in the sourceTags property. The connection does not need
 	// to match both properties for the firewall to apply. For INGRESS traffic,
 	// one of source_ranges, source_tags or source_service_accounts is required.
+	// +kubebuilder:validation:Optional
 	SourceTags []*string `json:"sourceTags,omitempty" tf:"source_tags,omitempty"`
 
 	// A list of service accounts indicating sets of instances located in the
@@ -486,12 +504,14 @@ type FirewallParameters struct {
 	// sourceTags. If neither targetServiceAccounts nor targetTags are
 	// specified, the firewall rule applies to all instances on the specified
 	// network.
+	// +kubebuilder:validation:Optional
 	TargetServiceAccounts []*string `json:"targetServiceAccounts,omitempty" tf:"target_service_accounts,omitempty"`
 
 	// A list of instance tags indicating sets of instances located in the
 	// network that may make network connections as specified in allowed[].
 	// If no targetTags are specified, the firewall rule applies to all
 	// instances on the specified network.
+	// +kubebuilder:validation:Optional
 	TargetTags []*string `json:"targetTags,omitempty" tf:"target_tags,omitempty"`
 }
 

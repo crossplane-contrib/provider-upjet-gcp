@@ -69,13 +69,16 @@ type AccessPolicyParameters struct {
 
 	// The parent of this AccessPolicy in the Cloud Resource Hierarchy.
 	// Format: organizations/{organization_id}
+	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Folder or project on which this policy is applicable.
 	// Format: folders/{{folder_id}} or projects/{{project_id}}
+	// +kubebuilder:validation:Optional
 	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
 
 	// Human readable title. Does not affect behavior.
+	// +kubebuilder:validation:Optional
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 

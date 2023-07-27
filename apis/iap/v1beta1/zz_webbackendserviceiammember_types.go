@@ -42,10 +42,14 @@ type WebBackendServiceIAMMemberConditionObservation struct {
 }
 
 type WebBackendServiceIAMMemberConditionParameters struct {
+
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
@@ -76,12 +80,17 @@ type WebBackendServiceIAMMemberObservation struct {
 }
 
 type WebBackendServiceIAMMemberParameters struct {
+
+	// +kubebuilder:validation:Optional
 	Condition []WebBackendServiceIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.BackendService

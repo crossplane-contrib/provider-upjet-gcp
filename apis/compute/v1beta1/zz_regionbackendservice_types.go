@@ -72,13 +72,16 @@ type ConsistentHashHTTPCookieParameters struct {
 	// first character must be a lowercase letter, and all following
 	// characters must be a dash, lowercase letter, or digit, except the last
 	// character, which cannot be a dash.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Path to set for the cookie.
+	// +kubebuilder:validation:Optional
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
 	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
 	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	// +kubebuilder:validation:Optional
 	TTL []HTTPCookieTTLParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
@@ -150,12 +153,14 @@ type FailoverPolicyParameters struct {
 	// of 10 min.
 	// This can be set to true only if the protocol is TCP.
 	// The default is false.
+	// +kubebuilder:validation:Optional
 	DisableConnectionDrainOnFailover *bool `json:"disableConnectionDrainOnFailover,omitempty" tf:"disable_connection_drain_on_failover,omitempty"`
 
 	// This option is used only when no healthy VMs are detected in the primary
 	// and backup instance groups. When set to true, traffic is dropped. When
 	// set to false, new connections are sent across all VMs in the primary group.
 	// The default is false.
+	// +kubebuilder:validation:Optional
 	DropTrafficIfUnhealthy *bool `json:"dropTrafficIfUnhealthy,omitempty" tf:"drop_traffic_if_unhealthy,omitempty"`
 
 	// The value of the field must be in [0, 1]. If the ratio of the healthy
@@ -166,6 +171,7 @@ type FailoverPolicyParameters struct {
 	// backend in the "force" mode, where traffic will be spread to the healthy
 	// VMs with the best effort, or to all VMs when no VM is healthy.
 	// This field is only used with l4 load balancing.
+	// +kubebuilder:validation:Optional
 	FailoverRatio *float64 `json:"failoverRatio,omitempty" tf:"failover_ratio,omitempty"`
 }
 
@@ -201,10 +207,12 @@ type HTTPCookieTTLParameters struct {
 	// resolution. Durations less than one second are represented
 	// with a 0 seconds field and a positive nanos field. Must
 	// be from 0 to 999,999,999 inclusive.
+	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
 	// Span of time at a resolution of a second.
 	// Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
 	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
@@ -240,10 +248,12 @@ type OutlierDetectionBaseEjectionTimeParameters struct {
 	// resolution. Durations less than one second are represented
 	// with a 0 seconds field and a positive nanos field. Must
 	// be from 0 to 999,999,999 inclusive.
+	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
 	// Span of time at a resolution of a second.
 	// Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
 	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
@@ -279,10 +289,12 @@ type OutlierDetectionIntervalParameters struct {
 	// resolution. Durations less than one second are represented
 	// with a 0 seconds field and a positive nanos field. Must
 	// be from 0 to 999,999,999 inclusive.
+	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
 	// Span of time at a resolution of a second.
 	// Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
 	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
@@ -473,6 +485,7 @@ type RegionBackendServiceBackendParameters struct {
 	// for an explanation of load balancing modes.
 	// Default value is CONNECTION.
 	// Possible values are: UTILIZATION, RATE, CONNECTION.
+	// +kubebuilder:validation:Optional
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
 
 	// A multiplier applied to the group's maximum servicing capacity
@@ -483,14 +496,17 @@ type RegionBackendServiceBackendParameters struct {
 	// capacity_scaler for all backends must be non-zero.
 	// A setting of 0 means the group is completely drained, offering
 	// 0% of its available Capacity. Valid range is [0.0,1.0].
+	// +kubebuilder:validation:Optional
 	CapacityScaler *float64 `json:"capacityScaler,omitempty" tf:"capacity_scaler,omitempty"`
 
 	// An optional description of this resource.
 	// Provide this property when you create the resource.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// This field designates whether this is a failover backend. More
 	// than one failover backend can be configured for a given RegionBackendService.
+	// +kubebuilder:validation:Optional
 	Failover *bool `json:"failover,omitempty" tf:"failover,omitempty"`
 
 	// The fully-qualified URL of an Instance Group or Network Endpoint
@@ -528,6 +544,7 @@ type RegionBackendServiceBackendParameters struct {
 	// For CONNECTION mode, either maxConnections or one
 	// of maxConnectionsPerInstance or maxConnectionsPerEndpoint,
 	// as appropriate for group type, must be set.
+	// +kubebuilder:validation:Optional
 	MaxConnections *float64 `json:"maxConnections,omitempty" tf:"max_connections,omitempty"`
 
 	// The max number of simultaneous connections that a single backend
@@ -537,6 +554,7 @@ type RegionBackendServiceBackendParameters struct {
 	// used in either CONNECTION or UTILIZATION balancing modes. For
 	// CONNECTION mode, either maxConnections or
 	// maxConnectionsPerEndpoint must be set.
+	// +kubebuilder:validation:Optional
 	MaxConnectionsPerEndpoint *float64 `json:"maxConnectionsPerEndpoint,omitempty" tf:"max_connections_per_endpoint,omitempty"`
 
 	// The max number of simultaneous connections that a single
@@ -546,6 +564,7 @@ type RegionBackendServiceBackendParameters struct {
 	// Can be used in either CONNECTION or UTILIZATION balancing modes.
 	// For CONNECTION mode, either maxConnections or
 	// maxConnectionsPerInstance must be set.
+	// +kubebuilder:validation:Optional
 	MaxConnectionsPerInstance *float64 `json:"maxConnectionsPerInstance,omitempty" tf:"max_connections_per_instance,omitempty"`
 
 	// The max requests per second (RPS) of the group. Cannot be set
@@ -554,6 +573,7 @@ type RegionBackendServiceBackendParameters struct {
 	// but required if RATE mode. Either maxRate or one
 	// of maxRatePerInstance or maxRatePerEndpoint, as appropriate for
 	// group type, must be set.
+	// +kubebuilder:validation:Optional
 	MaxRate *float64 `json:"maxRate,omitempty" tf:"max_rate,omitempty"`
 
 	// The max requests per second (RPS) that a single backend network
@@ -561,6 +581,7 @@ type RegionBackendServiceBackendParameters struct {
 	// the group. Can be used in either balancing mode. For RATE mode,
 	// either maxRate or maxRatePerEndpoint must be set. Cannot be set
 	// for INTERNAL backend services.
+	// +kubebuilder:validation:Optional
 	MaxRatePerEndpoint *float64 `json:"maxRatePerEndpoint,omitempty" tf:"max_rate_per_endpoint,omitempty"`
 
 	// The max requests per second (RPS) that a single backend
@@ -568,11 +589,13 @@ type RegionBackendServiceBackendParameters struct {
 	// the group. Can be used in either balancing mode. For RATE mode,
 	// either maxRate or maxRatePerInstance must be set. Cannot be set
 	// for INTERNAL backend services.
+	// +kubebuilder:validation:Optional
 	MaxRatePerInstance *float64 `json:"maxRatePerInstance,omitempty" tf:"max_rate_per_instance,omitempty"`
 
 	// Used when balancingMode is UTILIZATION. This ratio defines the
 	// CPU utilization target for the group. Valid range is [0.0, 1.0].
 	// Cannot be set for INTERNAL backend services.
+	// +kubebuilder:validation:Optional
 	MaxUtilization *float64 `json:"maxUtilization,omitempty" tf:"max_utilization,omitempty"`
 }
 
@@ -647,12 +670,15 @@ type RegionBackendServiceCdnPolicyCacheKeyPolicyObservation struct {
 type RegionBackendServiceCdnPolicyCacheKeyPolicyParameters struct {
 
 	// If true requests to different hosts will be cached separately.
+	// +kubebuilder:validation:Optional
 	IncludeHost *bool `json:"includeHost,omitempty" tf:"include_host,omitempty"`
 
 	// Names of cookies to include in cache keys.
+	// +kubebuilder:validation:Optional
 	IncludeNamedCookies []*string `json:"includeNamedCookies,omitempty" tf:"include_named_cookies,omitempty"`
 
 	// If true, http and https requests will be cached separately.
+	// +kubebuilder:validation:Optional
 	IncludeProtocol *bool `json:"includeProtocol,omitempty" tf:"include_protocol,omitempty"`
 
 	// If true, include query string parameters in the cache key
@@ -661,6 +687,7 @@ type RegionBackendServiceCdnPolicyCacheKeyPolicyParameters struct {
 	// string will be included.
 	// If false, the query string will be excluded from the cache
 	// key entirely.
+	// +kubebuilder:validation:Optional
 	IncludeQueryString *bool `json:"includeQueryString,omitempty" tf:"include_query_string,omitempty"`
 
 	// Names of query string parameters to exclude in cache keys.
@@ -668,6 +695,7 @@ type RegionBackendServiceCdnPolicyCacheKeyPolicyParameters struct {
 	// query_string_whitelist or query_string_blacklist, not both.
 	// '&' and '=' will be percent encoded and not treated as
 	// delimiters.
+	// +kubebuilder:validation:Optional
 	QueryStringBlacklist []*string `json:"queryStringBlacklist,omitempty" tf:"query_string_blacklist,omitempty"`
 
 	// Names of query string parameters to include in cache keys.
@@ -675,6 +703,7 @@ type RegionBackendServiceCdnPolicyCacheKeyPolicyParameters struct {
 	// query_string_whitelist or query_string_blacklist, not both.
 	// '&' and '=' will be percent encoded and not treated as
 	// delimiters.
+	// +kubebuilder:validation:Optional
 	QueryStringWhitelist []*string `json:"queryStringWhitelist,omitempty" tf:"query_string_whitelist,omitempty"`
 }
 
@@ -740,6 +769,7 @@ type RegionBackendServiceCdnPolicyNegativeCachingPolicyParameters struct {
 
 	// The HTTP status code to define a TTL against. Only HTTP status codes 300, 301, 308, 404, 405, 410, 421, 451 and 501
 	// can be specified as values, and you cannot specify a status code more than once.
+	// +kubebuilder:validation:Optional
 	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
 }
 
@@ -791,32 +821,40 @@ type RegionBackendServiceCdnPolicyParameters struct {
 
 	// The CacheKeyPolicy for this CdnPolicy.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	CacheKeyPolicy []RegionBackendServiceCdnPolicyCacheKeyPolicyParameters `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
 
 	// Specifies the cache setting for all responses from this backend.
 	// The possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL and CACHE_ALL_STATIC
 	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
+	// +kubebuilder:validation:Optional
 	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
 
 	// Specifies the maximum allowed TTL for cached content served by this origin.
+	// +kubebuilder:validation:Optional
 	ClientTTL *float64 `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
 
 	// Specifies the default TTL for cached content served by this origin for responses
 	// that do not have an existing valid TTL (max-age or s-max-age).
+	// +kubebuilder:validation:Optional
 	DefaultTTL *float64 `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
 
 	// Specifies the maximum allowed TTL for cached content served by this origin.
+	// +kubebuilder:validation:Optional
 	MaxTTL *float64 `json:"maxTtl,omitempty" tf:"max_ttl,omitempty"`
 
 	// Negative caching allows per-status code TTLs to be set, in order to apply fine-grained caching for common errors or redirects.
+	// +kubebuilder:validation:Optional
 	NegativeCaching *bool `json:"negativeCaching,omitempty" tf:"negative_caching,omitempty"`
 
 	// Sets a cache TTL for the specified HTTP status code. negativeCaching must be enabled to configure negativeCachingPolicy.
 	// Omitting the policy and leaving negativeCaching enabled will use Cloud CDN's default cache TTLs.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	NegativeCachingPolicy []RegionBackendServiceCdnPolicyNegativeCachingPolicyParameters `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
 
 	// Serve existing content from the cache (if available) when revalidating content with the origin, or when an error is encountered when refreshing the cache.
+	// +kubebuilder:validation:Optional
 	ServeWhileStale *float64 `json:"serveWhileStale,omitempty" tf:"serve_while_stale,omitempty"`
 
 	// Maximum number of seconds the response to a signed URL request
@@ -828,6 +866,7 @@ type RegionBackendServiceCdnPolicyParameters struct {
 	// "Cache-Control: public, max-age=[TTL]" header, regardless of any
 	// existing Cache-Control header. The actual headers served in
 	// responses will not be altered.
+	// +kubebuilder:validation:Optional
 	SignedURLCacheMaxAgeSec *float64 `json:"signedUrlCacheMaxAgeSec,omitempty" tf:"signed_url_cache_max_age_sec,omitempty"`
 }
 
@@ -885,24 +924,29 @@ type RegionBackendServiceCircuitBreakersParameters struct {
 
 	// The maximum number of connections to the backend cluster.
 	// Defaults to 1024.
+	// +kubebuilder:validation:Optional
 	MaxConnections *float64 `json:"maxConnections,omitempty" tf:"max_connections,omitempty"`
 
 	// The maximum number of pending requests to the backend cluster.
 	// Defaults to 1024.
+	// +kubebuilder:validation:Optional
 	MaxPendingRequests *float64 `json:"maxPendingRequests,omitempty" tf:"max_pending_requests,omitempty"`
 
 	// The maximum number of parallel requests to the backend cluster.
 	// Defaults to 1024.
+	// +kubebuilder:validation:Optional
 	MaxRequests *float64 `json:"maxRequests,omitempty" tf:"max_requests,omitempty"`
 
 	// Maximum requests for a single backend connection. This parameter
 	// is respected by both the HTTP/1.1 and HTTP/2 implementations. If
 	// not specified, there is no limit. Setting this parameter to 1
 	// will effectively disable keep alive.
+	// +kubebuilder:validation:Optional
 	MaxRequestsPerConnection *float64 `json:"maxRequestsPerConnection,omitempty" tf:"max_requests_per_connection,omitempty"`
 
 	// The maximum number of parallel retries to the backend cluster.
 	// Defaults to 3.
+	// +kubebuilder:validation:Optional
 	MaxRetries *float64 `json:"maxRetries,omitempty" tf:"max_retries,omitempty"`
 }
 
@@ -957,10 +1001,12 @@ type RegionBackendServiceConsistentHashParameters struct {
 	// balancer. If the cookie is not present, it will be generated.
 	// This field is applicable if the sessionAffinity is set to HTTP_COOKIE.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	HTTPCookie []ConsistentHashHTTPCookieParameters `json:"httpCookie,omitempty" tf:"http_cookie,omitempty"`
 
 	// The hash based on the value of the specified header field.
 	// This field is applicable if the sessionAffinity is set to HEADER_FIELD.
+	// +kubebuilder:validation:Optional
 	HTTPHeaderName *string `json:"httpHeaderName,omitempty" tf:"http_header_name,omitempty"`
 
 	// The minimum number of virtual nodes to use for the hash ring.
@@ -969,6 +1015,7 @@ type RegionBackendServiceConsistentHashParameters struct {
 	// is larger than the ring size, each host will be assigned a single
 	// virtual node.
 	// Defaults to 1024.
+	// +kubebuilder:validation:Optional
 	MinimumRingSize *float64 `json:"minimumRingSize,omitempty" tf:"minimum_ring_size,omitempty"`
 }
 
@@ -987,6 +1034,7 @@ type RegionBackendServiceIapObservation struct {
 type RegionBackendServiceIapParameters struct {
 
 	// OAuth2 Client ID for IAP
+	// +kubebuilder:validation:Optional
 	Oauth2ClientID *string `json:"oauth2ClientId,omitempty" tf:"oauth2_client_id,omitempty"`
 
 	// OAuth2 Client Secret for IAP
@@ -1120,12 +1168,14 @@ type RegionBackendServiceLogConfigObservation struct {
 type RegionBackendServiceLogConfigParameters struct {
 
 	// Whether to enable logging for the load balancer traffic served by this backend service.
+	// +kubebuilder:validation:Optional
 	Enable *bool `json:"enable,omitempty" tf:"enable,omitempty"`
 
 	// This field can only be specified if logging is enabled for this backend service. The value of
 	// the field must be in [0, 1]. This configures the sampling rate of requests to the load balancer
 	// where 1.0 means all logged requests are reported and 0.0 means no logged requests are reported.
 	// The default value is 1.0.
+	// +kubebuilder:validation:Optional
 	SampleRate *float64 `json:"sampleRate,omitempty" tf:"sample_rate,omitempty"`
 }
 
@@ -1385,46 +1435,55 @@ type RegionBackendServiceOutlierDetectionParameters struct {
 	// time multiplied by the number of times the host has been ejected. Defaults to
 	// 30000ms or 30s.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	BaseEjectionTime []OutlierDetectionBaseEjectionTimeParameters `json:"baseEjectionTime,omitempty" tf:"base_ejection_time,omitempty"`
 
 	// Number of errors before a host is ejected from the connection pool. When the
 	// backend host is accessed over HTTP, a 5xx return code qualifies as an error.
 	// Defaults to 5.
+	// +kubebuilder:validation:Optional
 	ConsecutiveErrors *float64 `json:"consecutiveErrors,omitempty" tf:"consecutive_errors,omitempty"`
 
 	// The number of consecutive gateway failures (502, 503, 504 status or connection
 	// errors that are mapped to one of those status codes) before a consecutive
 	// gateway failure ejection occurs. Defaults to 5.
+	// +kubebuilder:validation:Optional
 	ConsecutiveGatewayFailure *float64 `json:"consecutiveGatewayFailure,omitempty" tf:"consecutive_gateway_failure,omitempty"`
 
 	// The percentage chance that a host will be actually ejected when an outlier
 	// status is detected through consecutive 5xx. This setting can be used to disable
 	// ejection or to ramp it up slowly. Defaults to 100.
+	// +kubebuilder:validation:Optional
 	EnforcingConsecutiveErrors *float64 `json:"enforcingConsecutiveErrors,omitempty" tf:"enforcing_consecutive_errors,omitempty"`
 
 	// The percentage chance that a host will be actually ejected when an outlier
 	// status is detected through consecutive gateway failures. This setting can be
 	// used to disable ejection or to ramp it up slowly. Defaults to 0.
+	// +kubebuilder:validation:Optional
 	EnforcingConsecutiveGatewayFailure *float64 `json:"enforcingConsecutiveGatewayFailure,omitempty" tf:"enforcing_consecutive_gateway_failure,omitempty"`
 
 	// The percentage chance that a host will be actually ejected when an outlier
 	// status is detected through success rate statistics. This setting can be used to
 	// disable ejection or to ramp it up slowly. Defaults to 100.
+	// +kubebuilder:validation:Optional
 	EnforcingSuccessRate *float64 `json:"enforcingSuccessRate,omitempty" tf:"enforcing_success_rate,omitempty"`
 
 	// Time interval between ejection sweep analysis. This can result in both new
 	// ejections as well as hosts being returned to service. Defaults to 10 seconds.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Interval []OutlierDetectionIntervalParameters `json:"interval,omitempty" tf:"interval,omitempty"`
 
 	// Maximum percentage of hosts in the load balancing pool for the backend service
 	// that can be ejected. Defaults to 10%.
+	// +kubebuilder:validation:Optional
 	MaxEjectionPercent *float64 `json:"maxEjectionPercent,omitempty" tf:"max_ejection_percent,omitempty"`
 
 	// The number of hosts in a cluster that must have enough request volume to detect
 	// success rate outliers. If the number of hosts is less than this setting, outlier
 	// detection via success rate statistics is not performed for any host in the
 	// cluster. Defaults to 5.
+	// +kubebuilder:validation:Optional
 	SuccessRateMinimumHosts *float64 `json:"successRateMinimumHosts,omitempty" tf:"success_rate_minimum_hosts,omitempty"`
 
 	// The minimum number of total requests that must be collected in one interval (as
@@ -1432,6 +1491,7 @@ type RegionBackendServiceOutlierDetectionParameters struct {
 	// based outlier detection. If the volume is lower than this setting, outlier
 	// detection via success rate statistics is not performed for that host. Defaults
 	// to 100.
+	// +kubebuilder:validation:Optional
 	SuccessRateRequestVolume *float64 `json:"successRateRequestVolume,omitempty" tf:"success_rate_request_volume,omitempty"`
 
 	// This factor is used to determine the ejection threshold for success rate outlier
@@ -1440,6 +1500,7 @@ type RegionBackendServiceOutlierDetectionParameters struct {
 	// success rate: mean - (stdev * success_rate_stdev_factor). This factor is divided
 	// by a thousand to get a double. That is, if the desired factor is 1.9, the
 	// runtime value should be 1900. Defaults to 1900.
+	// +kubebuilder:validation:Optional
 	SuccessRateStdevFactor *float64 `json:"successRateStdevFactor,omitempty" tf:"success_rate_stdev_factor,omitempty"`
 }
 
@@ -1450,24 +1511,29 @@ type RegionBackendServiceParameters struct {
 	// only until the end of the browser session (or equivalent). The
 	// maximum allowed value for TTL is one day.
 	// When the load balancing scheme is INTERNAL, this field is not used.
+	// +kubebuilder:validation:Optional
 	AffinityCookieTTLSec *float64 `json:"affinityCookieTtlSec,omitempty" tf:"affinity_cookie_ttl_sec,omitempty"`
 
 	// The set of backends that serve this RegionBackendService.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Backend []RegionBackendServiceBackendParameters `json:"backend,omitempty" tf:"backend,omitempty"`
 
 	// Cloud CDN configuration for this BackendService.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	CdnPolicy []RegionBackendServiceCdnPolicyParameters `json:"cdnPolicy,omitempty" tf:"cdn_policy,omitempty"`
 
 	// Settings controlling the volume of connections to a backend service. This field
 	// is applicable only when the load_balancing_scheme is set to INTERNAL_MANAGED
 	// and the protocol is set to HTTP, HTTPS, or HTTP2.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	CircuitBreakers []RegionBackendServiceCircuitBreakersParameters `json:"circuitBreakers,omitempty" tf:"circuit_breakers,omitempty"`
 
 	// Time for which instance will be drained (not accept new
 	// connections, but still work to finish started).
+	// +kubebuilder:validation:Optional
 	ConnectionDrainingTimeoutSec *float64 `json:"connectionDrainingTimeoutSec,omitempty" tf:"connection_draining_timeout_sec,omitempty"`
 
 	// Consistent Hash-based load balancing can be used to provide soft session
@@ -1477,16 +1543,20 @@ type RegionBackendServiceParameters struct {
 	// destination service. This field specifies parameters that control consistent
 	// hashing.
 	// This field only applies when all of the following are true -
+	// +kubebuilder:validation:Optional
 	ConsistentHash []RegionBackendServiceConsistentHashParameters `json:"consistentHash,omitempty" tf:"consistent_hash,omitempty"`
 
 	// An optional description of this resource.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// If true, enable Cloud CDN for this RegionBackendService.
+	// +kubebuilder:validation:Optional
 	EnableCdn *bool `json:"enableCdn,omitempty" tf:"enable_cdn,omitempty"`
 
 	// Policy for failovers.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	FailoverPolicy []FailoverPolicyParameters `json:"failoverPolicy,omitempty" tf:"failover_policy,omitempty"`
 
 	// The set of URLs to HealthCheck resources for health checking
@@ -1509,28 +1579,34 @@ type RegionBackendServiceParameters struct {
 
 	// Settings for enabling Cloud Identity Aware Proxy
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Iap []RegionBackendServiceIapParameters `json:"iap,omitempty" tf:"iap,omitempty"`
 
 	// is set to INTERNAL_MANAGED
+	// +kubebuilder:validation:Optional
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
 	// is set to MAGLEV or RING_HASH
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	LocalityLBPolicy *string `json:"localityLbPolicy,omitempty" tf:"locality_lb_policy,omitempty"`
 
 	// This field denotes the logging options for the load balancer traffic served by this backend service.
 	// If logging is enabled, logs will be exported to Stackdriver.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	LogConfig []RegionBackendServiceLogConfigParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
 
 	// The URL of the network to which this backend service belongs.
 	// This field can only be specified when the load balancing scheme is set to INTERNAL.
+	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
 	// This field is applicable only when the load_balancing_scheme is set
 	// to INTERNAL_MANAGED and the protocol is set to HTTP, HTTPS, or HTTP2.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	OutlierDetection []RegionBackendServiceOutlierDetectionParameters `json:"outlierDetection,omitempty" tf:"outlier_detection,omitempty"`
 
 	// A named port on a backend instance group representing the port for
@@ -1540,13 +1616,16 @@ type RegionBackendServiceParameters struct {
 	// backend instance group. This parameter has no meaning if the backends are NEGs. API sets a
 	// default of "http" if not given.
 	// Must be omitted when the loadBalancingScheme is INTERNAL (Internal TCP/UDP Load Balancing).
+	// +kubebuilder:validation:Optional
 	PortName *string `json:"portName,omitempty" tf:"port_name,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// is set to HTTP, HTTPS, or HTTP2
+	// +kubebuilder:validation:Optional
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
 	// The Region in which the created backend service should reside.
@@ -1557,10 +1636,12 @@ type RegionBackendServiceParameters struct {
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
 	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, CLIENT_IP_NO_DESTINATION.
+	// +kubebuilder:validation:Optional
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
 
 	// How many seconds to wait for the backend before considering it a
 	// failed request. Default is 30 seconds. Valid range is [1, 86400].
+	// +kubebuilder:validation:Optional
 	TimeoutSec *float64 `json:"timeoutSec,omitempty" tf:"timeout_sec,omitempty"`
 }
 

@@ -70,15 +70,19 @@ type ReservationAssignmentObservation struct {
 type ReservationAssignmentParameters struct {
 
 	// The resource which will use the reservation. E.g. projects/myproject, folders/123, organizations/456.
+	// +kubebuilder:validation:Optional
 	Assignee *string `json:"assignee,omitempty" tf:"assignee,omitempty"`
 
 	// Types of job, which could be specified when using the reservation. Possible values: JOB_TYPE_UNSPECIFIED, PIPELINE, QUERY
+	// +kubebuilder:validation:Optional
 	JobType *string `json:"jobType,omitempty" tf:"job_type,omitempty"`
 
 	// The location for the resource
+	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// The project for the resource
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The reservation for the resource

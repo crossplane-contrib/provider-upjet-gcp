@@ -40,6 +40,7 @@ type DefaultVersionObservation struct {
 type DefaultVersionParameters struct {
 
 	// The name specified for the version when it was created.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
@@ -113,29 +114,37 @@ type ModelParameters struct {
 	// The default version of the model. This version will be used to handle
 	// prediction requests that do not specify a version.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	DefaultVersion []DefaultVersionParameters `json:"defaultVersion,omitempty" tf:"default_version,omitempty"`
 
 	// The description specified for the model when it was created.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// One or more labels that you can add, to organize your models.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name specified for the model.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// If true, online prediction nodes send stderr and stdout streams to Stackdriver Logging
+	// +kubebuilder:validation:Optional
 	OnlinePredictionConsoleLogging *bool `json:"onlinePredictionConsoleLogging,omitempty" tf:"online_prediction_console_logging,omitempty"`
 
 	// If true, online prediction access logs are sent to StackDriver Logging.
+	// +kubebuilder:validation:Optional
 	OnlinePredictionLogging *bool `json:"onlinePredictionLogging,omitempty" tf:"online_prediction_logging,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The list of regions where the model is going to be deployed.
 	// Currently only one region per model is supported
+	// +kubebuilder:validation:Optional
 	Regions []*string `json:"regions,omitempty" tf:"regions,omitempty"`
 }
 

@@ -42,10 +42,14 @@ type RegionDiskIAMMemberConditionObservation struct {
 }
 
 type RegionDiskIAMMemberConditionParameters struct {
+
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
@@ -80,8 +84,11 @@ type RegionDiskIAMMemberObservation struct {
 }
 
 type RegionDiskIAMMemberParameters struct {
+
+	// +kubebuilder:validation:Optional
 	Condition []RegionDiskIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
 	// +crossplane:generate:reference:type=RegionDisk
@@ -96,10 +103,13 @@ type RegionDiskIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
 
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 

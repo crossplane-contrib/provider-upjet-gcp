@@ -69,6 +69,7 @@ type EventNotificationConfigsParameters struct {
 	// leading '/' character. If empty, all strings are matched. Empty
 	// value can only be used for the last event_notification_configs
 	// item.
+	// +kubebuilder:validation:Optional
 	SubfolderMatches *string `json:"subfolderMatches,omitempty" tf:"subfolder_matches,omitempty"`
 }
 
@@ -87,6 +88,7 @@ type RegistryCredentialsObservation struct {
 type RegistryCredentialsParameters struct {
 
 	// A public key certificate format and data.
+	// +kubebuilder:validation:Optional
 	PublicKeyCertificate map[string]string `json:"publicKeyCertificate,omitempty" tf:"public_key_certificate,omitempty"`
 }
 
@@ -185,15 +187,18 @@ type RegistryParameters struct {
 
 	// List of public key certificates to authenticate devices.
 	// The structure is documented below.
+	// +kubebuilder:validation:Optional
 	Credentials []RegistryCredentialsParameters `json:"credentials,omitempty" tf:"credentials,omitempty"`
 
 	// List of configurations for event notifications, such as PubSub topics
 	// to publish device events to.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	EventNotificationConfigs []EventNotificationConfigsParameters `json:"eventNotificationConfigs,omitempty" tf:"event_notification_configs,omitempty"`
 
 	// Activate or deactivate HTTP.
 	// The structure is documented below.
+	// +kubebuilder:validation:Optional
 	HTTPConfig map[string]string `json:"httpConfig,omitempty" tf:"http_config,omitempty"`
 
 	// The default logging verbosity for activity from devices in this
@@ -203,25 +208,31 @@ type RegistryParameters struct {
 	// will also enable ERROR logging.
 	// Default value is NONE.
 	// Possible values are: NONE, ERROR, INFO, DEBUG.
+	// +kubebuilder:validation:Optional
 	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
 
 	// Activate or deactivate MQTT.
 	// The structure is documented below.
+	// +kubebuilder:validation:Optional
 	MqttConfig map[string]string `json:"mqttConfig,omitempty" tf:"mqtt_config,omitempty"`
 
 	// A unique name for the resource, required by device registry.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The region in which the created registry should reside.
 	// If it is not provided, the provider region is used.
+	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// A PubSub topic to publish device state updates.
 	// The structure is documented below.
+	// +kubebuilder:validation:Optional
 	StateNotificationConfig map[string]string `json:"stateNotificationConfig,omitempty" tf:"state_notification_config,omitempty"`
 }
 

@@ -46,6 +46,7 @@ type NetworkSettingsParameters struct {
 	// The ingress settings for version or service.
 	// Default value is INGRESS_TRAFFIC_ALLOWED_UNSPECIFIED.
 	// Possible values are: INGRESS_TRAFFIC_ALLOWED_UNSPECIFIED, INGRESS_TRAFFIC_ALLOWED_ALL, INGRESS_TRAFFIC_ALLOWED_INTERNAL_ONLY, INGRESS_TRAFFIC_ALLOWED_INTERNAL_AND_LB.
+	// +kubebuilder:validation:Optional
 	IngressTrafficAllowed *string `json:"ingressTrafficAllowed,omitempty" tf:"ingress_traffic_allowed,omitempty"`
 }
 
@@ -81,10 +82,12 @@ type ServiceNetworkSettingsParameters struct {
 
 	// Ingress settings for this service. Will apply to all versions.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	NetworkSettings []NetworkSettingsParameters `json:"networkSettings,omitempty" tf:"network_settings,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The name of the service these settings apply to.

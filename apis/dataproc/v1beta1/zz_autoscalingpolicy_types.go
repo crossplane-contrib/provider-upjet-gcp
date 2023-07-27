@@ -77,6 +77,7 @@ type AutoscalingPolicyParameters struct {
 
 	// Basic algorithm for autoscaling.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	BasicAlgorithm []BasicAlgorithmParameters `json:"basicAlgorithm,omitempty" tf:"basic_algorithm,omitempty"`
 
 	// The  location where the autoscaling policy should reside.
@@ -86,14 +87,17 @@ type AutoscalingPolicyParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Describes how the autoscaler will operate for secondary workers.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	SecondaryWorkerConfig []SecondaryWorkerConfigParameters `json:"secondaryWorkerConfig,omitempty" tf:"secondary_worker_config,omitempty"`
 
 	// Describes how the autoscaler will operate for primary workers.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	WorkerConfig []WorkerConfigParameters `json:"workerConfig,omitempty" tf:"worker_config,omitempty"`
 }
 
@@ -126,10 +130,12 @@ type BasicAlgorithmParameters struct {
 	// Duration between scaling events. A scaling period starts after the
 	// update operation from the previous event has completed.
 	// Bounds: [2m, 1d]. Default: 2m.
+	// +kubebuilder:validation:Optional
 	CooldownPeriod *string `json:"cooldownPeriod,omitempty" tf:"cooldown_period,omitempty"`
 
 	// YARN autoscaling configuration.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	YarnConfig []YarnConfigParameters `json:"yarnConfig,omitempty" tf:"yarn_config,omitempty"`
 }
 
@@ -188,9 +194,11 @@ type SecondaryWorkerConfigParameters struct {
 	// Maximum number of instances for this group. Note that by default, clusters will not use
 	// secondary workers. Required for secondary workers if the minimum secondary instances is set.
 	// Bounds: [minInstances, ). Defaults to 0.
+	// +kubebuilder:validation:Optional
 	MaxInstances *float64 `json:"maxInstances,omitempty" tf:"max_instances,omitempty"`
 
 	// Minimum number of instances for this group. Bounds: [0, maxInstances]. Defaults to 0.
+	// +kubebuilder:validation:Optional
 	MinInstances *float64 `json:"minInstances,omitempty" tf:"min_instances,omitempty"`
 
 	// Weight for the instance group, which is used to determine the fraction of total workers
@@ -205,6 +213,7 @@ type SecondaryWorkerConfigParameters struct {
 	// within the configured size bounds for each group. If weight is set for one group only,
 	// the cluster will default to zero weight on the unset group. For example if weight is set
 	// only on primary workers, the cluster will use primary workers only and no secondary workers.
+	// +kubebuilder:validation:Optional
 	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }
 
@@ -257,9 +266,11 @@ type WorkerConfigObservation struct {
 type WorkerConfigParameters struct {
 
 	// Maximum number of instances for this group.
+	// +kubebuilder:validation:Optional
 	MaxInstances *float64 `json:"maxInstances,omitempty" tf:"max_instances,omitempty"`
 
 	// Minimum number of instances for this group. Bounds: [2, maxInstances]. Defaults to 2.
+	// +kubebuilder:validation:Optional
 	MinInstances *float64 `json:"minInstances,omitempty" tf:"min_instances,omitempty"`
 
 	// Weight for the instance group, which is used to determine the fraction of total workers
@@ -274,6 +285,7 @@ type WorkerConfigParameters struct {
 	// within the configured size bounds for each group. If weight is set for one group only,
 	// the cluster will default to zero weight on the unset group. For example if weight is set
 	// only on primary workers, the cluster will use primary workers only and no secondary workers.
+	// +kubebuilder:validation:Optional
 	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }
 
@@ -361,6 +373,7 @@ type YarnConfigParameters struct {
 	// duration to wait for jobs to complete before forcefully removing workers
 	// (and potentially interrupting jobs). Only applicable to downscaling operations.
 	// Bounds: [0s, 1d].
+	// +kubebuilder:validation:Optional
 	GracefulDecommissionTimeout *string `json:"gracefulDecommissionTimeout,omitempty" tf:"graceful_decommission_timeout,omitempty"`
 
 	// Fraction of average pending memory in the last cooldown period for which to
@@ -369,6 +382,7 @@ type YarnConfigParameters struct {
 	// A scale-down factor of 0 disables removing workers, which can be beneficial for
 	// autoscaling a single job.
 	// Bounds: [0.0, 1.0].
+	// +kubebuilder:validation:Optional
 	ScaleDownFactor *float64 `json:"scaleDownFactor,omitempty" tf:"scale_down_factor,omitempty"`
 
 	// Minimum scale-down threshold as a fraction of total cluster size before scaling occurs.
@@ -376,6 +390,7 @@ type YarnConfigParameters struct {
 	// recommend at least a 2 worker scale-down for the cluster to scale. A threshold of 0
 	// means the autoscaler will scale down on any recommended change.
 	// Bounds: [0.0, 1.0]. Default: 0.0.
+	// +kubebuilder:validation:Optional
 	ScaleDownMinWorkerFraction *float64 `json:"scaleDownMinWorkerFraction,omitempty" tf:"scale_down_min_worker_fraction,omitempty"`
 
 	// Fraction of average pending memory in the last cooldown period for which to
@@ -384,6 +399,7 @@ type YarnConfigParameters struct {
 	// A scale-up factor closer to 0 will result in a smaller magnitude of scaling up
 	// (less aggressive scaling).
 	// Bounds: [0.0, 1.0].
+	// +kubebuilder:validation:Optional
 	ScaleUpFactor *float64 `json:"scaleUpFactor,omitempty" tf:"scale_up_factor,omitempty"`
 
 	// Minimum scale-up threshold as a fraction of total cluster size before scaling
@@ -391,6 +407,7 @@ type YarnConfigParameters struct {
 	// must recommend at least a 2-worker scale-up for the cluster to scale. A threshold of
 	// 0 means the autoscaler will scale up on any recommended change.
 	// Bounds: [0.0, 1.0]. Default: 0.0.
+	// +kubebuilder:validation:Optional
 	ScaleUpMinWorkerFraction *float64 `json:"scaleUpMinWorkerFraction,omitempty" tf:"scale_up_min_worker_fraction,omitempty"`
 }
 

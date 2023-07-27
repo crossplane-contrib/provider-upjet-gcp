@@ -115,17 +115,21 @@ type TargetHTTPSProxyParameters struct {
 	// A reference to the CertificateMap resource uri that identifies a certificate map
 	// associated with the given target proxy. This field can only be set for global target proxies.
 	// Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificateMaps/{resourceName}.
+	// +kubebuilder:validation:Optional
 	CertificateMap *string `json:"certificateMap,omitempty" tf:"certificate_map,omitempty"`
 
 	// An optional description of this resource.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// This field only applies when the forwarding rule that references
 	// this target proxy has a loadBalancingScheme set to INTERNAL_SELF_MANAGED.
+	// +kubebuilder:validation:Optional
 	ProxyBind *bool `json:"proxyBind,omitempty" tf:"proxy_bind,omitempty"`
 
 	// Specifies the QUIC override policy for this resource. This determines
@@ -134,6 +138,7 @@ type TargetHTTPSProxyParameters struct {
 	// specified, Google manages whether QUIC is used.
 	// Default value is NONE.
 	// Possible values are: NONE, ENABLE, DISABLE.
+	// +kubebuilder:validation:Optional
 	QuicOverride *string `json:"quicOverride,omitempty" tf:"quic_override,omitempty"`
 
 	// A list of SslCertificate resources that are used to authenticate
@@ -154,6 +159,7 @@ type TargetHTTPSProxyParameters struct {
 	// A reference to the SslPolicy resource that will be associated with
 	// the TargetHttpsProxy resource. If not set, the TargetHttpsProxy
 	// resource will not have any SSL policy configured.
+	// +kubebuilder:validation:Optional
 	SSLPolicy *string `json:"sslPolicy,omitempty" tf:"ssl_policy,omitempty"`
 
 	// A reference to the UrlMap resource that defines the mapping from URL

@@ -40,6 +40,7 @@ type AdminUsersObservation struct {
 type AdminUsersParameters struct {
 
 	// The name of the user, e.g. my-gcp-id@gmail.com.
+	// +kubebuilder:validation:Optional
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
@@ -58,6 +59,7 @@ type AuthorizationObservation struct {
 type AuthorizationParameters struct {
 
 	// Users to perform operations as a cluster admin. A managed ClusterRoleBinding will be created to grant the cluster-admin ClusterRole to the users. Up to ten admin users can be provided. For more info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
+	// +kubebuilder:validation:Optional
 	AdminUsers []AdminUsersParameters `json:"adminUsers,omitempty" tf:"admin_users,omitempty"`
 }
 
@@ -82,9 +84,11 @@ type AwsServicesAuthenticationObservation struct {
 type AwsServicesAuthenticationParameters struct {
 
 	// The Amazon Resource Name (ARN) of the role that the Anthos Multi-Cloud API will assume when managing AWS resources on your account.
+	// +kubebuilder:validation:Optional
 	RoleArn *string `json:"roleArn,omitempty" tf:"role_arn,omitempty"`
 
 	// Optional. An identifier for the assumed role session. When unspecified, it defaults to multicloud-service-agent.
+	// +kubebuilder:validation:Optional
 	RoleSessionName *string `json:"roleSessionName,omitempty" tf:"role_session_name,omitempty"`
 }
 
@@ -175,21 +179,27 @@ type ClusterObservation struct {
 type ClusterParameters struct {
 
 	// Optional. Annotations on the cluster. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix  and name , separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between.
+	// +kubebuilder:validation:Optional
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Configuration related to the cluster RBAC settings.
+	// +kubebuilder:validation:Optional
 	Authorization []AuthorizationParameters `json:"authorization,omitempty" tf:"authorization,omitempty"`
 
 	// The AWS region where the cluster runs. Each Google Cloud region supports a subset of nearby AWS regions. You can call to list all supported AWS regions within a given Google Cloud region.
+	// +kubebuilder:validation:Optional
 	AwsRegion *string `json:"awsRegion,omitempty" tf:"aws_region,omitempty"`
 
 	// Configuration related to the cluster control plane.
+	// +kubebuilder:validation:Optional
 	ControlPlane []ControlPlaneParameters `json:"controlPlane,omitempty" tf:"control_plane,omitempty"`
 
 	// Optional. A human readable description of this cluster. Cannot be longer than 255 UTF-8 encoded bytes.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Fleet configuration.
+	// +kubebuilder:validation:Optional
 	Fleet []FleetParameters `json:"fleet,omitempty" tf:"fleet,omitempty"`
 
 	// The location for the resource
@@ -197,9 +207,11 @@ type ClusterParameters struct {
 	Location *string `json:"location" tf:"location,omitempty"`
 
 	// Cluster-wide networking configuration.
+	// +kubebuilder:validation:Optional
 	Networking []NetworkingParameters `json:"networking,omitempty" tf:"networking,omitempty"`
 
 	// The project for the resource
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -218,6 +230,7 @@ type ConfigEncryptionObservation struct {
 type ConfigEncryptionParameters struct {
 
 	// Optional. The Amazon Resource Name (ARN) of the Customer Managed Key (CMK) used to encrypt AWS EBS volumes. If not specified, the default Amazon managed key associated to the AWS region where this cluster runs will be used.
+	// +kubebuilder:validation:Optional
 	KMSKeyArn *string `json:"kmsKeyArn,omitempty" tf:"kms_key_arn,omitempty"`
 }
 
@@ -308,42 +321,55 @@ type ControlPlaneObservation struct {
 type ControlPlaneParameters struct {
 
 	// Authentication configuration for management of AWS resources.
+	// +kubebuilder:validation:Optional
 	AwsServicesAuthentication []AwsServicesAuthenticationParameters `json:"awsServicesAuthentication,omitempty" tf:"aws_services_authentication,omitempty"`
 
 	// The ARN of the AWS KMS key used to encrypt cluster configuration.
+	// +kubebuilder:validation:Optional
 	ConfigEncryption []ConfigEncryptionParameters `json:"configEncryption,omitempty" tf:"config_encryption,omitempty"`
 
 	// The ARN of the AWS KMS key used to encrypt cluster secrets.
+	// +kubebuilder:validation:Optional
 	DatabaseEncryption []DatabaseEncryptionParameters `json:"databaseEncryption,omitempty" tf:"database_encryption,omitempty"`
 
 	// The name of the AWS IAM instance pofile to assign to each control plane replica.
+	// +kubebuilder:validation:Optional
 	IAMInstanceProfile *string `json:"iamInstanceProfile,omitempty" tf:"iam_instance_profile,omitempty"`
 
 	// Optional. The AWS instance type. When unspecified, it defaults to m5.large.
+	// +kubebuilder:validation:Optional
 	InstanceType *string `json:"instanceType,omitempty" tf:"instance_type,omitempty"`
 
 	// Optional. Configuration related to the main volume provisioned for each control plane replica. The main volume is in charge of storing all of the cluster's etcd state. Volumes will be provisioned in the availability zone associated with the corresponding subnet. When unspecified, it defaults to 8 GiB with the GP2 volume type.
+	// +kubebuilder:validation:Optional
 	MainVolume []MainVolumeParameters `json:"mainVolume,omitempty" tf:"main_volume,omitempty"`
 
 	// Proxy configuration for outbound HTTP(S) traffic.
+	// +kubebuilder:validation:Optional
 	ProxyConfig []ProxyConfigParameters `json:"proxyConfig,omitempty" tf:"proxy_config,omitempty"`
 
 	// Optional. Configuration related to the root volume provisioned for each control plane replica. Volumes will be provisioned in the availability zone associated with the corresponding subnet. When unspecified, it defaults to 32 GiB with the GP2 volume type.
+	// +kubebuilder:validation:Optional
 	RootVolume []RootVolumeParameters `json:"rootVolume,omitempty" tf:"root_volume,omitempty"`
 
 	// Optional. SSH configuration for how to access the underlying control plane machines.
+	// +kubebuilder:validation:Optional
 	SSHConfig []SSHConfigParameters `json:"sshConfig,omitempty" tf:"ssh_config,omitempty"`
 
 	// Optional. The IDs of additional security groups to add to control plane replicas. The Anthos Multi-Cloud API will automatically create and manage security groups with the minimum rules needed for a functioning cluster.
+	// +kubebuilder:validation:Optional
 	SecurityGroupIds []*string `json:"securityGroupIds,omitempty" tf:"security_group_ids,omitempty"`
 
 	// The list of subnets where control plane replicas will run. A replica will be provisioned on each subnet and up to three values can be provided. Each subnet must be in a different AWS Availability Zone (AZ).
+	// +kubebuilder:validation:Optional
 	SubnetIds []*string `json:"subnetIds,omitempty" tf:"subnet_ids,omitempty"`
 
 	// Optional. A set of AWS resource tags to propagate to all underlying managed AWS resources. Specify at most 50 pairs containing alphanumerics, spaces, and symbols (.+-=_:@/). Keys can be up to 127 Unicode characters. Values can be up to 255 Unicode characters.
+	// +kubebuilder:validation:Optional
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The Kubernetes version to run on control plane replicas (e.g. 1.19.10-gke.1000). You can list all supported versions on a given Google Cloud region by calling .
+	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
@@ -362,6 +388,7 @@ type DatabaseEncryptionObservation struct {
 type DatabaseEncryptionParameters struct {
 
 	// Optional. The Amazon Resource Name (ARN) of the Customer Managed Key (CMK) used to encrypt AWS EBS volumes. If not specified, the default Amazon managed key associated to the AWS region where this cluster runs will be used.
+	// +kubebuilder:validation:Optional
 	KMSKeyArn *string `json:"kmsKeyArn,omitempty" tf:"kms_key_arn,omitempty"`
 }
 
@@ -383,6 +410,7 @@ type FleetObservation struct {
 type FleetParameters struct {
 
 	// The number of the Fleet host project where this cluster will be registered.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -419,15 +447,19 @@ type MainVolumeObservation struct {
 type MainVolumeParameters struct {
 
 	// Optional. The number of I/O operations per second (IOPS) to provision for GP3 volume.
+	// +kubebuilder:validation:Optional
 	Iops *float64 `json:"iops,omitempty" tf:"iops,omitempty"`
 
 	// Optional. The Amazon Resource Name (ARN) of the Customer Managed Key (CMK) used to encrypt AWS EBS volumes. If not specified, the default Amazon managed key associated to the AWS region where this cluster runs will be used.
+	// +kubebuilder:validation:Optional
 	KMSKeyArn *string `json:"kmsKeyArn,omitempty" tf:"kms_key_arn,omitempty"`
 
 	// Optional. The size of the volume, in GiBs. When unspecified, a default value is provided. See the specific reference in the parent resource.
+	// +kubebuilder:validation:Optional
 	SizeGib *float64 `json:"sizeGib,omitempty" tf:"size_gib,omitempty"`
 
 	// Optional. Type of the EBS volume. When unspecified, it defaults to GP2 volume. Possible values: VOLUME_TYPE_UNSPECIFIED, GP2, GP3
+	// +kubebuilder:validation:Optional
 	VolumeType *string `json:"volumeType,omitempty" tf:"volume_type,omitempty"`
 }
 
@@ -458,12 +490,15 @@ type NetworkingObservation struct {
 type NetworkingParameters struct {
 
 	// All pods in the cluster are assigned an RFC1918 IPv4 address from these ranges. Only a single range is supported. This field cannot be changed after creation.
+	// +kubebuilder:validation:Optional
 	PodAddressCidrBlocks []*string `json:"podAddressCidrBlocks,omitempty" tf:"pod_address_cidr_blocks,omitempty"`
 
 	// All services in the cluster are assigned an RFC1918 IPv4 address from these ranges. Only a single range is supported. This field cannot be changed after creation.
+	// +kubebuilder:validation:Optional
 	ServiceAddressCidrBlocks []*string `json:"serviceAddressCidrBlocks,omitempty" tf:"service_address_cidr_blocks,omitempty"`
 
 	// The VPC associated with the cluster. All component clusters (i.e. control plane and node pools) run on a single VPC. This field cannot be changed after creation.
+	// +kubebuilder:validation:Optional
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 }
 
@@ -488,9 +523,11 @@ type ProxyConfigObservation struct {
 type ProxyConfigParameters struct {
 
 	// The ARN of the AWS Secret Manager secret that contains the HTTP(S) proxy configuration.
+	// +kubebuilder:validation:Optional
 	SecretArn *string `json:"secretArn,omitempty" tf:"secret_arn,omitempty"`
 
 	// The version string of the AWS Secret Manager secret that contains the HTTP(S) proxy configuration.
+	// +kubebuilder:validation:Optional
 	SecretVersion *string `json:"secretVersion,omitempty" tf:"secret_version,omitempty"`
 }
 
@@ -527,15 +564,19 @@ type RootVolumeObservation struct {
 type RootVolumeParameters struct {
 
 	// Optional. The number of I/O operations per second (IOPS) to provision for GP3 volume.
+	// +kubebuilder:validation:Optional
 	Iops *float64 `json:"iops,omitempty" tf:"iops,omitempty"`
 
 	// Optional. The Amazon Resource Name (ARN) of the Customer Managed Key (CMK) used to encrypt AWS EBS volumes. If not specified, the default Amazon managed key associated to the AWS region where this cluster runs will be used.
+	// +kubebuilder:validation:Optional
 	KMSKeyArn *string `json:"kmsKeyArn,omitempty" tf:"kms_key_arn,omitempty"`
 
 	// Optional. The size of the volume, in GiBs. When unspecified, a default value is provided. See the specific reference in the parent resource.
+	// +kubebuilder:validation:Optional
 	SizeGib *float64 `json:"sizeGib,omitempty" tf:"size_gib,omitempty"`
 
 	// Optional. Type of the EBS volume. When unspecified, it defaults to GP2 volume. Possible values: VOLUME_TYPE_UNSPECIFIED, GP2, GP3
+	// +kubebuilder:validation:Optional
 	VolumeType *string `json:"volumeType,omitempty" tf:"volume_type,omitempty"`
 }
 
@@ -554,6 +595,7 @@ type SSHConfigObservation struct {
 type SSHConfigParameters struct {
 
 	// The name of the EC2 key pair used to login into cluster machines.
+	// +kubebuilder:validation:Optional
 	EC2KeyPair *string `json:"ec2KeyPair,omitempty" tf:"ec2_key_pair,omitempty"`
 }
 

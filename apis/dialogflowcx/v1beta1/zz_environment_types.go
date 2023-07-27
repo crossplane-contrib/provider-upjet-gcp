@@ -67,9 +67,11 @@ type EnvironmentObservation struct {
 type EnvironmentParameters struct {
 
 	// The human-readable description of the environment. The maximum length is 500 characters. If exceeded, the request is rejected.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The human-readable name of the environment (unique in an agent). Limit of 64 characters.
+	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The Agent to create an Environment for.
@@ -89,6 +91,7 @@ type EnvironmentParameters struct {
 
 	// A list of configurations for flow versions. You should include version configs for all flows that are reachable from [Start Flow][Agent.start_flow] in the agent. Otherwise, an error will be returned.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	VersionConfigs []VersionConfigsParameters `json:"versionConfigs,omitempty" tf:"version_configs,omitempty"`
 }
 

@@ -86,6 +86,7 @@ type ObjectAccessControlParameters struct {
 	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The entity holding the permission, in one of the following forms:
+	// +kubebuilder:validation:Optional
 	Entity *string `json:"entity,omitempty" tf:"entity,omitempty"`
 
 	// The name of the object to apply the access control to.
@@ -104,6 +105,7 @@ type ObjectAccessControlParameters struct {
 
 	// The access permission for the entity.
 	// Possible values are: OWNER, READER.
+	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 

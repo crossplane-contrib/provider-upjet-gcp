@@ -38,8 +38,11 @@ type AuditLogConfigObservation struct {
 }
 
 type AuditLogConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
 	ExemptedMembers []*string `json:"exemptedMembers,omitempty" tf:"exempted_members,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	LogType *string `json:"logType,omitempty" tf:"log_type,omitempty"`
 }
 
@@ -64,10 +67,14 @@ type OrganizationIAMAuditConfigObservation struct {
 }
 
 type OrganizationIAMAuditConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
 	AuditLogConfig []AuditLogConfigParameters `json:"auditLogConfig,omitempty" tf:"audit_log_config,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 

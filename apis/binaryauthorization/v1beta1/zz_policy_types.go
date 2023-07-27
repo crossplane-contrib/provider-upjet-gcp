@@ -49,6 +49,7 @@ type AdmissionWhitelistPatternsParameters struct {
 	// registry/path/to/image. This supports a trailing * as a
 	// wildcard, but this is allowed only in text after the registry/
 	// part.
+	// +kubebuilder:validation:Optional
 	NamePattern *string `json:"namePattern,omitempty" tf:"name_pattern,omitempty"`
 }
 
@@ -103,14 +104,17 @@ type ClusterAdmissionRulesObservation struct {
 type ClusterAdmissionRulesParameters struct {
 
 	// The identifier for this object. Format specified above.
+	// +kubebuilder:validation:Optional
 	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
 
 	// The action when a pod creation is denied by the admission rule.
 	// Possible values are: ENFORCED_BLOCK_AND_AUDIT_LOG, DRYRUN_AUDIT_LOG_ONLY.
+	// +kubebuilder:validation:Optional
 	EnforcementMode *string `json:"enforcementMode,omitempty" tf:"enforcement_mode,omitempty"`
 
 	// How this admission rule will be evaluated.
 	// Possible values are: ALWAYS_ALLOW, REQUIRE_ATTESTATION, ALWAYS_DENY.
+	// +kubebuilder:validation:Optional
 	EvaluationMode *string `json:"evaluationMode,omitempty" tf:"evaluation_mode,omitempty"`
 
 	// The resource names of the attestors that must attest to a
@@ -121,6 +125,7 @@ type ClusterAdmissionRulesParameters struct {
 	// request must be able to read the attestor resource.
 	// Note: this field must be non-empty when the evaluation_mode field
 	// specifies REQUIRE_ATTESTATION, otherwise it must be empty.
+	// +kubebuilder:validation:Optional
 	RequireAttestationsBy []*string `json:"requireAttestationsBy,omitempty" tf:"require_attestations_by,omitempty"`
 }
 
@@ -170,10 +175,12 @@ type DefaultAdmissionRuleParameters struct {
 
 	// The action when a pod creation is denied by the admission rule.
 	// Possible values are: ENFORCED_BLOCK_AND_AUDIT_LOG, DRYRUN_AUDIT_LOG_ONLY.
+	// +kubebuilder:validation:Optional
 	EnforcementMode *string `json:"enforcementMode,omitempty" tf:"enforcement_mode,omitempty"`
 
 	// How this admission rule will be evaluated.
 	// Possible values are: ALWAYS_ALLOW, REQUIRE_ATTESTATION, ALWAYS_DENY.
+	// +kubebuilder:validation:Optional
 	EvaluationMode *string `json:"evaluationMode,omitempty" tf:"evaluation_mode,omitempty"`
 
 	// The resource names of the attestors that must attest to a
@@ -184,6 +191,7 @@ type DefaultAdmissionRuleParameters struct {
 	// request must be able to read the attestor resource.
 	// Note: this field must be non-empty when the evaluation_mode field
 	// specifies REQUIRE_ATTESTATION, otherwise it must be empty.
+	// +kubebuilder:validation:Optional
 	RequireAttestationsBy []*string `json:"requireAttestationsBy,omitempty" tf:"require_attestations_by,omitempty"`
 }
 
@@ -264,6 +272,7 @@ type PolicyParameters struct {
 	// image's name matches a whitelist pattern, the image's admission
 	// requests will always be permitted regardless of your admission rules.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	AdmissionWhitelistPatterns []AdmissionWhitelistPatternsParameters `json:"admissionWhitelistPatterns,omitempty" tf:"admission_whitelist_patterns,omitempty"`
 
 	// Per-cluster admission rules. An admission rule specifies either that
@@ -271,24 +280,29 @@ type PolicyParameters struct {
 	// to by one or more attestors, that all pod creations will be allowed,
 	// or that all pod creations will be denied. There can be at most one
 	// admission rule per cluster spec.
+	// +kubebuilder:validation:Optional
 	ClusterAdmissionRules []ClusterAdmissionRulesParameters `json:"clusterAdmissionRules,omitempty" tf:"cluster_admission_rules,omitempty"`
 
 	// Default admission rule for a cluster without a per-cluster admission
 	// rule.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	DefaultAdmissionRule []DefaultAdmissionRuleParameters `json:"defaultAdmissionRule,omitempty" tf:"default_admission_rule,omitempty"`
 
 	// A descriptive comment.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Controls the evaluation of a Google-maintained global admission policy
 	// for common system-level images. Images not covered by the global
 	// policy will be subject to the project admission policy.
 	// Possible values are: ENABLE, DISABLE.
+	// +kubebuilder:validation:Optional
 	GlobalPolicyEvaluationMode *string `json:"globalPolicyEvaluationMode,omitempty" tf:"global_policy_evaluation_mode,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 

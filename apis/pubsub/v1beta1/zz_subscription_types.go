@@ -63,16 +63,20 @@ type BigqueryConfigParameters struct {
 
 	// When true and useTopicSchema is true, any fields that are a part of the topic schema that are not part of the BigQuery table schema are dropped when writing to BigQuery.
 	// Otherwise, the schemas must be kept in sync and any messages with extra fields are not written and remain in the subscription's backlog.
+	// +kubebuilder:validation:Optional
 	DropUnknownFields *bool `json:"dropUnknownFields,omitempty" tf:"drop_unknown_fields,omitempty"`
 
 	// The name of the table to which to write data, of the form {projectId}:{datasetId}.{tableId}
+	// +kubebuilder:validation:Optional
 	Table *string `json:"table,omitempty" tf:"table,omitempty"`
 
 	// When true, use the topic's schema as the columns to write to in BigQuery, if it exists.
+	// +kubebuilder:validation:Optional
 	UseTopicSchema *bool `json:"useTopicSchema,omitempty" tf:"use_topic_schema,omitempty"`
 
 	// When true, write the subscription name, messageId, publishTime, attributes, and orderingKey to additional columns in the table.
 	// The subscription name, messageId, and publishTime fields are put in their own columns while all other message properties (other than data) are written to a JSON object in the attributes column.
+	// +kubebuilder:validation:Optional
 	WriteMetadata *bool `json:"writeMetadata,omitempty" tf:"write_metadata,omitempty"`
 }
 
@@ -145,6 +149,7 @@ type DeadLetterPolicyParameters struct {
 	// client libraries may automatically extend ack_deadlines.
 	// This field will be honored on a best effort basis.
 	// If this parameter is 0, a default value of 5 is used.
+	// +kubebuilder:validation:Optional
 	MaxDeliveryAttempts *float64 `json:"maxDeliveryAttempts,omitempty" tf:"max_delivery_attempts,omitempty"`
 }
 
@@ -175,6 +180,7 @@ type ExpirationPolicyParameters struct {
 	// If ttl is set to "", the associated resource never expires.
 	// A duration in seconds with up to nine fractional digits, terminated by 's'.
 	// Example - "3.5s".
+	// +kubebuilder:validation:Optional
 	TTL *string `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
@@ -220,12 +226,14 @@ type OidcTokenParameters struct {
 	// for the audience field is not supported. More info about the OIDC JWT
 	// token audience here: https://tools.ietf.org/html/rfc7519#section-4.1.3
 	// Note: if not specified, the Push endpoint URL will be used.
+	// +kubebuilder:validation:Optional
 	Audience *string `json:"audience,omitempty" tf:"audience,omitempty"`
 
 	// Service account email to be used for generating the OIDC token.
 	// The caller (for subscriptions.create, subscriptions.patch, and
 	// subscriptions.modifyPushConfig RPCs) must have the
 	// iam.serviceAccounts.actAs permission for the service account.
+	// +kubebuilder:validation:Optional
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 }
 
@@ -309,16 +317,19 @@ type PushConfigParameters struct {
 	// calls will always return a valid version, even if the
 	// subscription was created without this attribute.
 	// The possible values for this attribute are:
+	// +kubebuilder:validation:Optional
 	Attributes map[string]*string `json:"attributes,omitempty" tf:"attributes,omitempty"`
 
 	// If specified, Pub/Sub will generate and attach an OIDC JWT token as
 	// an Authorization header in the HTTP request for every pushed message.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	OidcToken []OidcTokenParameters `json:"oidcToken,omitempty" tf:"oidc_token,omitempty"`
 
 	// A URL locating the endpoint to which messages should be pushed.
 	// For example, a Webhook endpoint might use
 	// "https://example.com/push".
+	// +kubebuilder:validation:Optional
 	PushEndpoint *string `json:"pushEndpoint,omitempty" tf:"push_endpoint,omitempty"`
 }
 
@@ -348,10 +359,12 @@ type RetryPolicyParameters struct {
 
 	// The maximum delay between consecutive deliveries of a given message. Value should be between 0 and 600 seconds. Defaults to 600 seconds.
 	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
+	// +kubebuilder:validation:Optional
 	MaximumBackoff *string `json:"maximumBackoff,omitempty" tf:"maximum_backoff,omitempty"`
 
 	// The minimum delay between consecutive deliveries of a given message. Value should be between 0 and 600 seconds. Defaults to 10 seconds.
 	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
+	// +kubebuilder:validation:Optional
 	MinimumBackoff *string `json:"minimumBackoff,omitempty" tf:"minimum_backoff,omitempty"`
 }
 
@@ -570,12 +583,14 @@ type SubscriptionParameters struct {
 	// for the call to the push endpoint.
 	// If the subscriber never acknowledges the message, the Pub/Sub system
 	// will eventually redeliver the message.
+	// +kubebuilder:validation:Optional
 	AckDeadlineSeconds *float64 `json:"ackDeadlineSeconds,omitempty" tf:"ack_deadline_seconds,omitempty"`
 
 	// If delivery to BigQuery is used with this subscription, this field is used to configure it.
 	// Either pushConfig or bigQueryConfig can be set, but not both.
 	// If both are empty, then the subscriber will pull and ack messages using API methods.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	BigqueryConfig []BigqueryConfigParameters `json:"bigqueryConfig,omitempty" tf:"bigquery_config,omitempty"`
 
 	// A policy that specifies the conditions for dead lettering messages in
@@ -586,15 +601,18 @@ type SubscriptionParameters struct {
 	// service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have
 	// permission to Acknowledge() messages on this subscription.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	DeadLetterPolicy []DeadLetterPolicyParameters `json:"deadLetterPolicy,omitempty" tf:"dead_letter_policy,omitempty"`
 
 	// If true, Pub/Sub provides the following guarantees for the delivery
 	// of a message with a given value of messageId on this Subscriptions':
+	// +kubebuilder:validation:Optional
 	EnableExactlyOnceDelivery *bool `json:"enableExactlyOnceDelivery,omitempty" tf:"enable_exactly_once_delivery,omitempty"`
 
 	// If true, messages published with the same orderingKey in PubsubMessage will be delivered to
 	// the subscribers in the order in which they are received by the Pub/Sub system. Otherwise, they
 	// may be delivered in any order.
+	// +kubebuilder:validation:Optional
 	EnableMessageOrdering *bool `json:"enableMessageOrdering,omitempty" tf:"enable_message_ordering,omitempty"`
 
 	// A policy that specifies the conditions for this subscription's expiration.
@@ -605,15 +623,18 @@ type SubscriptionParameters struct {
 	// resource never expires.  The minimum allowed value for expirationPolicy.ttl
 	// is 1 day.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	ExpirationPolicy []ExpirationPolicyParameters `json:"expirationPolicy,omitempty" tf:"expiration_policy,omitempty"`
 
 	// The subscription only delivers the messages that match the filter.
 	// Pub/Sub automatically acknowledges the messages that don't match the filter. You can filter messages
 	// by their attributes. The maximum length of a filter is 256 bytes. After creating the subscription,
 	// you can't modify the filter.
+	// +kubebuilder:validation:Optional
 	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
 
 	// A set of key/value label pairs to assign to this Subscription.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// How long to retain unacknowledged messages in the subscription's
@@ -624,28 +645,33 @@ type SubscriptionParameters struct {
 	// than 7 days ("604800s") or less than 10 minutes ("600s").
 	// A duration in seconds with up to nine fractional digits, terminated
 	// by 's'. Example: "600.5s".
+	// +kubebuilder:validation:Optional
 	MessageRetentionDuration *string `json:"messageRetentionDuration,omitempty" tf:"message_retention_duration,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// If push delivery is used with this subscription, this field is used to
 	// configure it. An empty pushConfig signifies that the subscriber will
 	// pull and ack messages using API methods.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	PushConfig []PushConfigParameters `json:"pushConfig,omitempty" tf:"push_config,omitempty"`
 
 	// Indicates whether to retain acknowledged messages. If true, then
 	// messages are not expunged from the subscription's backlog, even if
 	// they are acknowledged, until they fall out of the
 	// messageRetentionDuration window.
+	// +kubebuilder:validation:Optional
 	RetainAckedMessages *bool `json:"retainAckedMessages,omitempty" tf:"retain_acked_messages,omitempty"`
 
 	// A policy that specifies how Pub/Sub retries message delivery for this subscription.
 	// If not set, the default retry policy is applied. This generally implies that messages will be retried as soon as possible for healthy subscribers.
 	// RetryPolicy will be triggered on NACKs or acknowledgement deadline exceeded events for a given message
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	RetryPolicy []RetryPolicyParameters `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
 
 	// A reference to a Topic resource.

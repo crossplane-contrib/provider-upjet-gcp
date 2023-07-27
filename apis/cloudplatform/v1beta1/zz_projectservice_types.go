@@ -72,11 +72,13 @@ type ProjectServiceParameters struct {
 	// and which depend on this service should also be disabled when this service is
 	// destroyed. If false or unset, an error will be generated if any enabled
 	// services depend on this service when destroying it.
+	// +kubebuilder:validation:Optional
 	DisableDependentServices *bool `json:"disableDependentServices,omitempty" tf:"disable_dependent_services,omitempty"`
 
 	// Defaults to true. May be useful in the event
 	// that a project is long-lived but the infrastructure running in that project
 	// changes frequently.
+	// +kubebuilder:validation:Optional
 	DisableOnDestroy *bool `json:"disableOnDestroy,omitempty" tf:"disable_on_destroy,omitempty"`
 
 	// The project ID. If not provided, the provider project
@@ -94,6 +96,7 @@ type ProjectServiceParameters struct {
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// The service to enable.
+	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 

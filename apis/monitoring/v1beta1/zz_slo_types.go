@@ -40,6 +40,7 @@ type AvailabilityObservation struct {
 type AvailabilityParameters struct {
 
 	// Whether an availability SLI is enabled or not. Must be set to true. Defaults to true.
+	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
@@ -117,10 +118,12 @@ type BasicSliParameters struct {
 
 	// Availability based SLI, dervied from count of requests made to this service that return successfully.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Availability []AvailabilityParameters `json:"availability,omitempty" tf:"availability,omitempty"`
 
 	// Parameters for a latency threshold SLI.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Latency []LatencyParameters `json:"latency,omitempty" tf:"latency,omitempty"`
 
 	// An optional set of locations to which this SLI is relevant.
@@ -129,6 +132,7 @@ type BasicSliParameters struct {
 	// locations in which the Service has activity. For service types
 	// that don't support breaking down by location, setting this
 	// field will result in an error.
+	// +kubebuilder:validation:Optional
 	Location []*string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// An optional set of RPCs to which this SLI is relevant.
@@ -137,6 +141,7 @@ type BasicSliParameters struct {
 	// the Service's methods. For service types that don't support
 	// breaking down by method, setting this field will result in an
 	// error.
+	// +kubebuilder:validation:Optional
 	Method []*string `json:"method,omitempty" tf:"method,omitempty"`
 
 	// The set of API versions to which this SLI is relevant.
@@ -145,6 +150,7 @@ type BasicSliParameters struct {
 	// this SLI applies to all API versions. For service types
 	// that don't support breaking down by version, setting this
 	// field will result in an error.
+	// +kubebuilder:validation:Optional
 	Version []*string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
@@ -163,6 +169,7 @@ type BasicSliPerformanceAvailabilityObservation struct {
 type BasicSliPerformanceAvailabilityParameters struct {
 
 	// Whether an availability SLI is enabled or not. Must be set to true. Defaults to true.
+	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
@@ -222,6 +229,7 @@ type BasicSliPerformanceLatencyParameters struct {
 	// A duration string, e.g. 10s.
 	// Good service is defined to be the count of requests made to
 	// this service that return in no more than threshold.
+	// +kubebuilder:validation:Optional
 	Threshold *string `json:"threshold,omitempty" tf:"threshold,omitempty"`
 }
 
@@ -264,10 +272,12 @@ type BasicSliPerformanceParameters struct {
 
 	// Availability based SLI, dervied from count of requests made to this service that return successfully.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Availability []BasicSliPerformanceAvailabilityParameters `json:"availability,omitempty" tf:"availability,omitempty"`
 
 	// Parameters for a latency threshold SLI.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Latency []BasicSliPerformanceLatencyParameters `json:"latency,omitempty" tf:"latency,omitempty"`
 
 	// An optional set of locations to which this SLI is relevant.
@@ -276,6 +286,7 @@ type BasicSliPerformanceParameters struct {
 	// locations in which the Service has activity. For service types
 	// that don't support breaking down by location, setting this
 	// field will result in an error.
+	// +kubebuilder:validation:Optional
 	Location []*string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// An optional set of RPCs to which this SLI is relevant.
@@ -284,6 +295,7 @@ type BasicSliPerformanceParameters struct {
 	// the Service's methods. For service types that don't support
 	// breaking down by method, setting this field will result in an
 	// error.
+	// +kubebuilder:validation:Optional
 	Method []*string `json:"method,omitempty" tf:"method,omitempty"`
 
 	// The set of API versions to which this SLI is relevant.
@@ -292,6 +304,7 @@ type BasicSliPerformanceParameters struct {
 	// this SLI applies to all API versions. For service types
 	// that don't support breaking down by version, setting this
 	// field will result in an error.
+	// +kubebuilder:validation:Optional
 	Version []*string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
@@ -337,6 +350,7 @@ type DistributionCutParameters struct {
 	// aggregating values to quantify the good service provided.
 	// Must have ValueType = DISTRIBUTION and
 	// MetricKind = DELTA or MetricKind = CUMULATIVE.
+	// +kubebuilder:validation:Optional
 	DistributionFilter *string `json:"distributionFilter,omitempty" tf:"distribution_filter,omitempty"`
 
 	// Range of numerical values. The computed good_service
@@ -346,6 +360,7 @@ type DistributionCutParameters struct {
 	// just one of min or max. Summed value X should satisfy
 	// range.min <= X <= range.max for a good window.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Range []RangeParameters `json:"range,omitempty" tf:"range,omitempty"`
 }
 
@@ -375,10 +390,12 @@ type DistributionCutRangeParameters struct {
 
 	// max value for the range (inclusive). If not given,
 	// will be set to 0
+	// +kubebuilder:validation:Optional
 	Max *float64 `json:"max,omitempty" tf:"max,omitempty"`
 
 	// Min value for the range (inclusive). If not given,
 	// will be set to 0
+	// +kubebuilder:validation:Optional
 	Min *float64 `json:"min,omitempty" tf:"min,omitempty"`
 }
 
@@ -450,6 +467,7 @@ type GoodTotalRatioParameters struct {
 	// must have MetricKind = DELTA or MetricKind = CUMULATIVE.
 	// Exactly two of good_service_filter,bad_service_filter,total_service_filter
 	// must be set (good + bad = total is assumed).
+	// +kubebuilder:validation:Optional
 	BadServiceFilter *string `json:"badServiceFilter,omitempty" tf:"bad_service_filter,omitempty"`
 
 	// A TimeSeries monitoring filter
@@ -458,6 +476,7 @@ type GoodTotalRatioParameters struct {
 	// must have MetricKind = DELTA or MetricKind = CUMULATIVE.
 	// Exactly two of good_service_filter,bad_service_filter,total_service_filter
 	// must be set (good + bad = total is assumed).
+	// +kubebuilder:validation:Optional
 	GoodServiceFilter *string `json:"goodServiceFilter,omitempty" tf:"good_service_filter,omitempty"`
 
 	// A TimeSeries monitoring filter
@@ -466,6 +485,7 @@ type GoodTotalRatioParameters struct {
 	// must have MetricKind = DELTA or MetricKind = CUMULATIVE.
 	// Exactly two of good_service_filter,bad_service_filter,total_service_filter
 	// must be set (good + bad = total is assumed).
+	// +kubebuilder:validation:Optional
 	TotalServiceFilter *string `json:"totalServiceFilter,omitempty" tf:"total_service_filter,omitempty"`
 }
 
@@ -505,15 +525,18 @@ type GoodTotalRatioThresholdParameters struct {
 
 	// Basic SLI to evaluate to judge window quality.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	BasicSliPerformance []BasicSliPerformanceParameters `json:"basicSliPerformance,omitempty" tf:"basic_sli_performance,omitempty"`
 
 	// Request-based SLI to evaluate to judge window quality.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Performance []PerformanceParameters `json:"performance,omitempty" tf:"performance,omitempty"`
 
 	// A duration string, e.g. 10s.
 	// Good service is defined to be the count of requests made to
 	// this service that return in no more than threshold.
+	// +kubebuilder:validation:Optional
 	Threshold *float64 `json:"threshold,omitempty" tf:"threshold,omitempty"`
 }
 
@@ -538,6 +561,7 @@ type LatencyParameters struct {
 	// A duration string, e.g. 10s.
 	// Good service is defined to be the count of requests made to
 	// this service that return in no more than threshold.
+	// +kubebuilder:validation:Optional
 	Threshold *string `json:"threshold,omitempty" tf:"threshold,omitempty"`
 }
 
@@ -592,6 +616,7 @@ type MetricMeanInRangeParameters struct {
 	// just one of min or max. Summed value X should satisfy
 	// range.min <= X <= range.max for a good window.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Range []MetricMeanInRangeRangeParameters `json:"range,omitempty" tf:"range,omitempty"`
 
 	// A monitoring filter
@@ -601,6 +626,7 @@ type MetricMeanInRangeParameters struct {
 	// MetricKind = GAUGE.
 	// Summed value X should satisfy
 	// range.min <= X <= range.max for a good window.
+	// +kubebuilder:validation:Optional
 	TimeSeries *string `json:"timeSeries,omitempty" tf:"time_series,omitempty"`
 }
 
@@ -630,10 +656,12 @@ type MetricMeanInRangeRangeParameters struct {
 
 	// max value for the range (inclusive). If not given,
 	// will be set to 0
+	// +kubebuilder:validation:Optional
 	Max *float64 `json:"max,omitempty" tf:"max,omitempty"`
 
 	// Min value for the range (inclusive). If not given,
 	// will be set to 0
+	// +kubebuilder:validation:Optional
 	Min *float64 `json:"min,omitempty" tf:"min,omitempty"`
 }
 
@@ -688,6 +716,7 @@ type MetricSumInRangeParameters struct {
 	// just one of min or max. Summed value X should satisfy
 	// range.min <= X <= range.max for a good window.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Range []MetricSumInRangeRangeParameters `json:"range,omitempty" tf:"range,omitempty"`
 
 	// A monitoring filter
@@ -697,6 +726,7 @@ type MetricSumInRangeParameters struct {
 	// MetricKind = GAUGE.
 	// Summed value X should satisfy
 	// range.min <= X <= range.max for a good window.
+	// +kubebuilder:validation:Optional
 	TimeSeries *string `json:"timeSeries,omitempty" tf:"time_series,omitempty"`
 }
 
@@ -726,10 +756,12 @@ type MetricSumInRangeRangeParameters struct {
 
 	// max value for the range (inclusive). If not given,
 	// will be set to 0
+	// +kubebuilder:validation:Optional
 	Max *float64 `json:"max,omitempty" tf:"max,omitempty"`
 
 	// Min value for the range (inclusive). If not given,
 	// will be set to 0
+	// +kubebuilder:validation:Optional
 	Min *float64 `json:"min,omitempty" tf:"min,omitempty"`
 }
 
@@ -775,6 +807,7 @@ type PerformanceDistributionCutParameters struct {
 	// aggregating values to quantify the good service provided.
 	// Must have ValueType = DISTRIBUTION and
 	// MetricKind = DELTA or MetricKind = CUMULATIVE.
+	// +kubebuilder:validation:Optional
 	DistributionFilter *string `json:"distributionFilter,omitempty" tf:"distribution_filter,omitempty"`
 
 	// Range of numerical values. The computed good_service
@@ -784,6 +817,7 @@ type PerformanceDistributionCutParameters struct {
 	// just one of min or max. Summed value X should satisfy
 	// range.min <= X <= range.max for a good window.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Range []DistributionCutRangeParameters `json:"range,omitempty" tf:"range,omitempty"`
 }
 
@@ -855,6 +889,7 @@ type PerformanceGoodTotalRatioParameters struct {
 	// must have MetricKind = DELTA or MetricKind = CUMULATIVE.
 	// Exactly two of good_service_filter,bad_service_filter,total_service_filter
 	// must be set (good + bad = total is assumed).
+	// +kubebuilder:validation:Optional
 	BadServiceFilter *string `json:"badServiceFilter,omitempty" tf:"bad_service_filter,omitempty"`
 
 	// A TimeSeries monitoring filter
@@ -863,6 +898,7 @@ type PerformanceGoodTotalRatioParameters struct {
 	// must have MetricKind = DELTA or MetricKind = CUMULATIVE.
 	// Exactly two of good_service_filter,bad_service_filter,total_service_filter
 	// must be set (good + bad = total is assumed).
+	// +kubebuilder:validation:Optional
 	GoodServiceFilter *string `json:"goodServiceFilter,omitempty" tf:"good_service_filter,omitempty"`
 
 	// A TimeSeries monitoring filter
@@ -871,6 +907,7 @@ type PerformanceGoodTotalRatioParameters struct {
 	// must have MetricKind = DELTA or MetricKind = CUMULATIVE.
 	// Exactly two of good_service_filter,bad_service_filter,total_service_filter
 	// must be set (good + bad = total is assumed).
+	// +kubebuilder:validation:Optional
 	TotalServiceFilter *string `json:"totalServiceFilter,omitempty" tf:"total_service_filter,omitempty"`
 }
 
@@ -925,6 +962,7 @@ type PerformanceParameters struct {
 	// measuring good service and total service.
 	// Exactly one of distribution_cut or good_total_ratio can be set.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	DistributionCut []PerformanceDistributionCutParameters `json:"distributionCut,omitempty" tf:"distribution_cut,omitempty"`
 
 	// A means to compute a ratio of good_service to total_service.
@@ -934,6 +972,7 @@ type PerformanceParameters struct {
 	// will be assumed.
 	// Exactly one of distribution_cut or good_total_ratio can be set.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	GoodTotalRatio []PerformanceGoodTotalRatioParameters `json:"goodTotalRatio,omitempty" tf:"good_total_ratio,omitempty"`
 }
 
@@ -963,10 +1002,12 @@ type RangeParameters struct {
 
 	// max value for the range (inclusive). If not given,
 	// will be set to 0
+	// +kubebuilder:validation:Optional
 	Max *float64 `json:"max,omitempty" tf:"max,omitempty"`
 
 	// Min value for the range (inclusive). If not given,
 	// will be set to 0
+	// +kubebuilder:validation:Optional
 	Min *float64 `json:"min,omitempty" tf:"min,omitempty"`
 }
 
@@ -1021,6 +1062,7 @@ type RequestBasedSliParameters struct {
 	// measuring good service and total service.
 	// Exactly one of distribution_cut or good_total_ratio can be set.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	DistributionCut []DistributionCutParameters `json:"distributionCut,omitempty" tf:"distribution_cut,omitempty"`
 
 	// A means to compute a ratio of good_service to total_service.
@@ -1030,6 +1072,7 @@ type RequestBasedSliParameters struct {
 	// will be assumed.
 	// Exactly one of distribution_cut or good_total_ratio can be set.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	GoodTotalRatio []GoodTotalRatioParameters `json:"goodTotalRatio,omitempty" tf:"good_total_ratio,omitempty"`
 }
 
@@ -1178,22 +1221,27 @@ type SLOParameters struct {
 	// Exactly one of the following must be set:
 	// basic_sli, request_based_sli, windows_based_sli
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	BasicSli []BasicSliParameters `json:"basicSli,omitempty" tf:"basic_sli,omitempty"`
 
 	// A calendar period, semantically "since the start of the current
 	// ".
 	// Possible values are: DAY, WEEK, FORTNIGHT, MONTH.
+	// +kubebuilder:validation:Optional
 	CalendarPeriod *string `json:"calendarPeriod,omitempty" tf:"calendar_period,omitempty"`
 
 	// Name used for UI elements listing this SLO.
+	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The fraction of service that must be good in order for this objective
 	// to be met. 0 < goal <= 0.999
+	// +kubebuilder:validation:Optional
 	Goal *float64 `json:"goal,omitempty" tf:"goal,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// A request-based SLI defines a SLI for which atomic units of
@@ -1204,13 +1252,16 @@ type SLOParameters struct {
 	// Exactly one of the following must be set:
 	// basic_sli, request_based_sli, windows_based_sli
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	RequestBasedSli []RequestBasedSliParameters `json:"requestBasedSli,omitempty" tf:"request_based_sli,omitempty"`
 
 	// A rolling time period, semantically "in the past X days".
 	// Must be between 1 to 30 days, inclusive.
+	// +kubebuilder:validation:Optional
 	RollingPeriodDays *float64 `json:"rollingPeriodDays,omitempty" tf:"rolling_period_days,omitempty"`
 
 	// The id to use for this ServiceLevelObjective. If omitted, an id will be generated instead.
+	// +kubebuilder:validation:Optional
 	SLOID *string `json:"sloId,omitempty" tf:"slo_id,omitempty"`
 
 	// ID of the service to which this SLO belongs.
@@ -1232,6 +1283,7 @@ type SLOParameters struct {
 	// to 63 Unicode characters or 128 bytes, whichever is smaller. Labels and values
 	// can contain only lowercase letters, numerals, underscores, and dashes. Keys
 	// must begin with a letter.
+	// +kubebuilder:validation:Optional
 	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
 
 	// A windows-based SLI defines the criteria for time windows.
@@ -1243,6 +1295,7 @@ type SLOParameters struct {
 	// Exactly one of the following must be set:
 	// basic_sli, request_based_sli, windows_based_sli
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	WindowsBasedSli []WindowsBasedSliParameters `json:"windowsBasedSli,omitempty" tf:"windows_based_sli,omitempty"`
 }
 
@@ -1337,6 +1390,7 @@ type WindowsBasedSliParameters struct {
 	// appear in the window. One of good_bad_metric_filter,
 	// good_total_ratio_threshold, metric_mean_in_range,
 	// metric_sum_in_range must be set for windows_based_sli.
+	// +kubebuilder:validation:Optional
 	GoodBadMetricFilter *string `json:"goodBadMetricFilter,omitempty" tf:"good_bad_metric_filter,omitempty"`
 
 	// Criterion that describes a window as good if its performance is
@@ -1344,6 +1398,7 @@ type WindowsBasedSliParameters struct {
 	// good_total_ratio_threshold, metric_mean_in_range,
 	// metric_sum_in_range must be set for windows_based_sli.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	GoodTotalRatioThreshold []GoodTotalRatioThresholdParameters `json:"goodTotalRatioThreshold,omitempty" tf:"good_total_ratio_threshold,omitempty"`
 
 	// Criterion that describes a window as good if the metric's value
@@ -1354,6 +1409,7 @@ type WindowsBasedSliParameters struct {
 	// Average value X of time_series should satisfy
 	// range.min <= X <= range.max for a good window.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	MetricMeanInRange []MetricMeanInRangeParameters `json:"metricMeanInRange,omitempty" tf:"metric_mean_in_range,omitempty"`
 
 	// Criterion that describes a window as good if the metric's value
@@ -1364,11 +1420,13 @@ type WindowsBasedSliParameters struct {
 	// good_total_ratio_threshold, metric_mean_in_range,
 	// metric_sum_in_range must be set for windows_based_sli.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	MetricSumInRange []MetricSumInRangeParameters `json:"metricSumInRange,omitempty" tf:"metric_sum_in_range,omitempty"`
 
 	// Duration over which window quality is evaluated, given as a
 	// duration string "{X}s" representing X seconds. Must be an
 	// integer fraction of a day and at least 60s.
+	// +kubebuilder:validation:Optional
 	WindowPeriod *string `json:"windowPeriod,omitempty" tf:"window_period,omitempty"`
 }
 

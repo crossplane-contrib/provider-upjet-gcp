@@ -83,23 +83,29 @@ type OrganizationIAMCustomRoleObservation struct {
 type OrganizationIAMCustomRoleParameters struct {
 
 	// A human-readable description for the role.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The numeric ID of the organization in which you want to create a custom role.
+	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
 	// The names of the permissions this role grants when bound in an IAM policy. At least one permission must be specified.
+	// +kubebuilder:validation:Optional
 	Permissions []*string `json:"permissions,omitempty" tf:"permissions,omitempty"`
 
 	// The role id to use for this role.
+	// +kubebuilder:validation:Optional
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
 
 	// The current launch stage of the role.
 	// Defaults to GA.
 	// List of possible stages is here.
+	// +kubebuilder:validation:Optional
 	Stage *string `json:"stage,omitempty" tf:"stage,omitempty"`
 
 	// A human-readable title for the role.
+	// +kubebuilder:validation:Optional
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 

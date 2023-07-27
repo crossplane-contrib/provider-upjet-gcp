@@ -67,9 +67,11 @@ type NetworkFirewallPolicyObservation struct {
 type NetworkFirewallPolicyParameters struct {
 
 	// An optional description of this resource. Provide this property when you create the resource.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The project for the resource
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 

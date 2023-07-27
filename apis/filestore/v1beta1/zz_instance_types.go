@@ -63,13 +63,16 @@ type FileSharesParameters struct {
 
 	// File share capacity in GiB. This must be at least 1024 GiB
 	// for the standard tier, or 2560 GiB for the premium tier.
+	// +kubebuilder:validation:Optional
 	CapacityGb *float64 `json:"capacityGb,omitempty" tf:"capacity_gb,omitempty"`
 
 	// Nfs Export Options. There is a limit of 10 export options per file share.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	NFSExportOptions []NFSExportOptionsParameters `json:"nfsExportOptions,omitempty" tf:"nfs_export_options,omitempty"`
 
 	// The name of the fileshare (16 characters or less)
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
@@ -152,11 +155,13 @@ type InstanceObservation struct {
 type InstanceParameters struct {
 
 	// A description of the instance.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// File system shares on the instance. For this version, only a
 	// single file share is supported.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	FileShares []FileSharesParameters `json:"fileShares,omitempty" tf:"file_shares,omitempty"`
 
 	// KMS key name used for data encryption.
@@ -174,6 +179,7 @@ type InstanceParameters struct {
 	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 
 	// Resource labels to represent user-provided metadata.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of the location of the instance. This can be a region for ENTERPRISE tier instances.
@@ -183,17 +189,21 @@ type InstanceParameters struct {
 	// VPC networks to which the instance is connected. For this version,
 	// only a single network is supported.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Networks []NetworksParameters `json:"networks,omitempty" tf:"networks,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The service tier of the instance.
 	// Possible values include: STANDARD, PREMIUM, BASIC_HDD, BASIC_SSD, HIGH_SCALE_SSD and ENTERPRISE
+	// +kubebuilder:validation:Optional
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 
 	// The name of the Filestore zone of the instance.
+	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
@@ -263,27 +273,32 @@ type NFSExportOptionsParameters struct {
 	// or READ_WRITE, for allowing both read and write requests. The default is READ_WRITE.
 	// Default value is READ_WRITE.
 	// Possible values are: READ_ONLY, READ_WRITE.
+	// +kubebuilder:validation:Optional
 	AccessMode *string `json:"accessMode,omitempty" tf:"access_mode,omitempty"`
 
 	// An integer representing the anonymous group id with a default value of 65534.
 	// Anon_gid may only be set with squashMode of ROOT_SQUASH. An error will be returned
 	// if this field is specified for other squashMode settings.
+	// +kubebuilder:validation:Optional
 	AnonGID *float64 `json:"anonGid,omitempty" tf:"anon_gid,omitempty"`
 
 	// An integer representing the anonymous user id with a default value of 65534.
 	// Anon_uid may only be set with squashMode of ROOT_SQUASH. An error will be returned
 	// if this field is specified for other squashMode settings.
+	// +kubebuilder:validation:Optional
 	AnonUID *float64 `json:"anonUid,omitempty" tf:"anon_uid,omitempty"`
 
 	// List of either IPv4 addresses, or ranges in CIDR notation which may mount the file share.
 	// Overlapping IP ranges are not allowed, both within and across NfsExportOptions. An error will be returned.
 	// The limit is 64 IP ranges/addresses for each FileShareConfig among all NfsExportOptions.
+	// +kubebuilder:validation:Optional
 	IPRanges []*string `json:"ipRanges,omitempty" tf:"ip_ranges,omitempty"`
 
 	// Either NO_ROOT_SQUASH, for allowing root access on the exported directory, or ROOT_SQUASH,
 	// for not allowing root access. The default is NO_ROOT_SQUASH.
 	// Default value is NO_ROOT_SQUASH.
 	// Possible values are: NO_ROOT_SQUASH, ROOT_SQUASH.
+	// +kubebuilder:validation:Optional
 	SquashMode *string `json:"squashMode,omitempty" tf:"squash_mode,omitempty"`
 }
 
@@ -344,19 +359,23 @@ type NetworksParameters struct {
 	// DIRECT_PEERING.
 	// Default value is DIRECT_PEERING.
 	// Possible values are: DIRECT_PEERING, PRIVATE_SERVICE_ACCESS.
+	// +kubebuilder:validation:Optional
 	ConnectMode *string `json:"connectMode,omitempty" tf:"connect_mode,omitempty"`
 
 	// IP versions for which the instance has
 	// IP addresses assigned.
 	// Each value may be one of: ADDRESS_MODE_UNSPECIFIED, MODE_IPV4, MODE_IPV6.
+	// +kubebuilder:validation:Optional
 	Modes []*string `json:"modes,omitempty" tf:"modes,omitempty"`
 
 	// The name of the GCE VPC network to which the
 	// instance is connected.
+	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// A /29 CIDR block that identifies the range of IP
 	// addresses reserved for this instance.
+	// +kubebuilder:validation:Optional
 	ReservedIPRange *string `json:"reservedIpRange,omitempty" tf:"reserved_ip_range,omitempty"`
 }
 

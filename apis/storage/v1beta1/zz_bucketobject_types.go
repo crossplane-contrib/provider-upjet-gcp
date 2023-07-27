@@ -169,52 +169,67 @@ type BucketObjectParameters struct {
 
 	// Cache-Control
 	// directive to specify caching behavior of object data. If omitted and object is accessible to all anonymous users, the default will be public, max-age=3600
+	// +kubebuilder:validation:Optional
 	CacheControl *string `json:"cacheControl,omitempty" tf:"cache_control,omitempty"`
 
 	// Data as string to be uploaded. Must be defined if source is not. Note: The content field is marked as sensitive. To view the raw contents of the object, please define an output.
+	// +kubebuilder:validation:Optional
 	Content *string `json:"content,omitempty" tf:"content,omitempty"`
 
 	// Content-Disposition of the object data.
+	// +kubebuilder:validation:Optional
 	ContentDisposition *string `json:"contentDisposition,omitempty" tf:"content_disposition,omitempty"`
 
 	// Content-Encoding of the object data.
+	// +kubebuilder:validation:Optional
 	ContentEncoding *string `json:"contentEncoding,omitempty" tf:"content_encoding,omitempty"`
 
 	// Content-Language of the object data.
+	// +kubebuilder:validation:Optional
 	ContentLanguage *string `json:"contentLanguage,omitempty" tf:"content_language,omitempty"`
 
 	// Content-Type of the object data. Defaults to "application/octet-stream" or "text/plain; charset=utf-8".
+	// +kubebuilder:validation:Optional
 	ContentType *string `json:"contentType,omitempty" tf:"content_type,omitempty"`
 
 	// Enables object encryption with Customer-Supplied Encryption Key (CSEK). [Google documentation about CSEK.](https://cloud.google.com/storage/docs/encryption/customer-supplied-keys)
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	CustomerEncryption []CustomerEncryptionParameters `json:"customerEncryption,omitempty" tf:"customer_encryption,omitempty"`
 
 	// MD5 hash of the data, encoded using base64. This field is not present for composite objects. For more information about using the MD5 hash, see Hashes and ETags: Best Practices.
+	// +kubebuilder:validation:Optional
 	DetectMd5Hash *string `json:"detectMd5Hash,omitempty" tf:"detect_md5hash,omitempty"`
 
 	// Whether an object is under event-based hold. Event-based hold is a way to retain objects until an event occurs, which is signified by the hold's release (i.e. this value is set to false). After being released (set to false), such objects will be subject to bucket-level retention (if any).
+	// +kubebuilder:validation:Optional
 	EventBasedHold *bool `json:"eventBasedHold,omitempty" tf:"event_based_hold,omitempty"`
 
 	// The resource name of the Cloud KMS key that will be used to encrypt the object.
+	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// User-provided metadata, in key/value pairs.
+	// +kubebuilder:validation:Optional
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The name of the object. If you're interpolating the name of this object, see output_name instead.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// A path to the data you want to upload. Must be defined
 	// if content is not.
+	// +kubebuilder:validation:Optional
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`
 
 	// The StorageClass of the new bucket object.
 	// Supported values include: MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE. If not provided, this defaults to the bucket's default
 	// storage class or to a standard class.
+	// +kubebuilder:validation:Optional
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
 
 	// Whether an object is under temporary hold. While this flag is set to true, the object is protected against deletion and overwrites.
+	// +kubebuilder:validation:Optional
 	TemporaryHold *bool `json:"temporaryHold,omitempty" tf:"temporary_hold,omitempty"`
 }
 
@@ -233,6 +248,7 @@ type CustomerEncryptionObservation struct {
 type CustomerEncryptionParameters struct {
 
 	// Encryption algorithm. Default: AES256
+	// +kubebuilder:validation:Optional
 	EncryptionAlgorithm *string `json:"encryptionAlgorithm,omitempty" tf:"encryption_algorithm,omitempty"`
 
 	// Base64 encoded Customer-Supplied Encryption Key.

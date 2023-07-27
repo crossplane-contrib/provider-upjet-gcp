@@ -117,12 +117,14 @@ type ProjectParameters struct {
 	// network slot available to create the project successfully, even if you set auto_create_network to
 	// false.googleapis.com on the project to interact
 	// with the GCE API and currently leaves it enabled.
+	// +kubebuilder:validation:Optional
 	AutoCreateNetwork *bool `json:"autoCreateNetwork,omitempty" tf:"auto_create_network,omitempty"`
 
 	// The alphanumeric ID of the billing account this project
 	// belongs to.user) on the billing account.
 	// See Google Cloud Billing API Access Control
 	// for more details.
+	// +kubebuilder:validation:Optional
 	BillingAccount *string `json:"billingAccount,omitempty" tf:"billing_account,omitempty"`
 
 	// The numeric ID of the folder this project should be
@@ -144,9 +146,11 @@ type ProjectParameters struct {
 	FolderIDSelector *v1.Selector `json:"folderIdSelector,omitempty" tf:"-"`
 
 	// A set of key/value label pairs to assign to the project.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The display name of the project.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The numeric ID of the organization this project belongs to.
@@ -156,11 +160,14 @@ type ProjectParameters struct {
 	// this forces the project to be migrated to the newly specified
 	// organization.
 	// The numeric ID of the organization this project belongs to.
+	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
 	// The project ID. Changing this forces a new project to be created.
+	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	SkipDelete *bool `json:"skipDelete,omitempty" tf:"skip_delete,omitempty"`
 }
 

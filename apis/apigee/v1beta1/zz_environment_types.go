@@ -93,6 +93,7 @@ type EnvironmentParameters struct {
 	// Optional. API Proxy type supported by the environment. The type can be set when creating
 	// the Environment and cannot be changed.
 	// Possible values are: API_PROXY_TYPE_UNSPECIFIED, PROGRAMMABLE, CONFIGURABLE.
+	// +kubebuilder:validation:Optional
 	APIProxyType *string `json:"apiProxyType,omitempty" tf:"api_proxy_type,omitempty"`
 
 	// Optional. Deployment type supported by the environment. The deployment type can be
@@ -103,16 +104,20 @@ type EnvironmentParameters struct {
 	// Creating, updating, or deleting resource files;
 	// Creating, updating, or deleting target servers.
 	// Possible values are: DEPLOYMENT_TYPE_UNSPECIFIED, PROXY, ARCHIVE.
+	// +kubebuilder:validation:Optional
 	DeploymentType *string `json:"deploymentType,omitempty" tf:"deployment_type,omitempty"`
 
 	// Description of the environment.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Display name of the environment.
+	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// NodeConfig for setting the min/max number of nodes associated with the environment.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	NodeConfig []NodeConfigParameters `json:"nodeConfig,omitempty" tf:"node_config,omitempty"`
 
 	// The Apigee Organization associated with the Apigee environment,
@@ -167,11 +172,13 @@ type NodeConfigParameters struct {
 	// The maximum total number of gateway nodes that the is reserved for all instances that
 	// has the specified environment. If not specified, the default is determined by the
 	// recommended maximum number of nodes for that gateway.
+	// +kubebuilder:validation:Optional
 	MaxNodeCount *string `json:"maxNodeCount,omitempty" tf:"max_node_count,omitempty"`
 
 	// The minimum total number of gateway nodes that the is reserved for all instances that
 	// has the specified environment. If not specified, the default is determined by the
 	// recommended minimum number of nodes for that gateway.
+	// +kubebuilder:validation:Optional
 	MinNodeCount *string `json:"minNodeCount,omitempty" tf:"min_node_count,omitempty"`
 }
 

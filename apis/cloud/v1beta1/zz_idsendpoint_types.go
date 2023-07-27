@@ -92,12 +92,15 @@ type IdsEndpointObservation struct {
 type IdsEndpointParameters struct {
 
 	// An optional description of the endpoint.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The location for the endpoint.
+	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// Name of the endpoint in the format projects/{project_id}/locations/{locationId}/endpoints/{endpointId}.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Name of the VPC network that is connected to the IDS endpoint. This can either contain the VPC network name itself (like "src-net") or the full URL to the network (like "projects/{project_id}/global/networks/src-net").
@@ -116,13 +119,16 @@ type IdsEndpointParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The minimum alert severity level that is reported by the endpoint.
 	// Possible values are: INFORMATIONAL, LOW, MEDIUM, HIGH, CRITICAL.
+	// +kubebuilder:validation:Optional
 	Severity *string `json:"severity,omitempty" tf:"severity,omitempty"`
 
 	// Configuration for threat IDs excluded from generating alerts. Limit: 99 IDs.
+	// +kubebuilder:validation:Optional
 	ThreatExceptions []*string `json:"threatExceptions,omitempty" tf:"threat_exceptions,omitempty"`
 }
 

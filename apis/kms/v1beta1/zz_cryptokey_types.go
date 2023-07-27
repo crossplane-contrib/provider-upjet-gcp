@@ -104,9 +104,11 @@ type CryptoKeyParameters struct {
 
 	// The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED.
 	// If not specified at creation time, the default duration is 24 hours.
+	// +kubebuilder:validation:Optional
 	DestroyScheduledDuration *string `json:"destroyScheduledDuration,omitempty" tf:"destroy_scheduled_duration,omitempty"`
 
 	// Whether this key may contain imported versions only.
+	// +kubebuilder:validation:Optional
 	ImportOnly *bool `json:"importOnly,omitempty" tf:"import_only,omitempty"`
 
 	// The KeyRing that this key belongs to.
@@ -125,6 +127,7 @@ type CryptoKeyParameters struct {
 	KeyRingSelector *v1.Selector `json:"keyRingSelector,omitempty" tf:"-"`
 
 	// Labels with user-defined metadata to apply to this resource.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The immutable purpose of this CryptoKey. See the
@@ -132,20 +135,24 @@ type CryptoKeyParameters struct {
 	// for possible inputs.
 	// Default value is ENCRYPT_DECRYPT.
 	// Possible values are: ENCRYPT_DECRYPT, ASYMMETRIC_SIGN, ASYMMETRIC_DECRYPT, MAC.
+	// +kubebuilder:validation:Optional
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 
 	// Every time this period passes, generate a new CryptoKeyVersion and set it as the primary.
 	// The first rotation will take place after the specified period. The rotation period has
 	// the format of a decimal number with up to 9 fractional digits, followed by the
 	// letter s (seconds). It must be greater than a day (ie, 86400).
+	// +kubebuilder:validation:Optional
 	RotationPeriod *string `json:"rotationPeriod,omitempty" tf:"rotation_period,omitempty"`
 
 	// If set to true, the request will create a CryptoKey without any CryptoKeyVersions.
 	// You must use the google_kms_key_ring_import_job resource to import the CryptoKeyVersion.
+	// +kubebuilder:validation:Optional
 	SkipInitialVersionCreation *bool `json:"skipInitialVersionCreation,omitempty" tf:"skip_initial_version_creation,omitempty"`
 
 	// A template describing settings for new crypto key versions.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	VersionTemplate []VersionTemplateParameters `json:"versionTemplate,omitempty" tf:"version_template,omitempty"`
 }
 
@@ -173,9 +180,11 @@ type VersionTemplateParameters struct {
 
 	// The algorithm to use when creating a version based on this template.
 	// See the algorithm reference for possible inputs.
+	// +kubebuilder:validation:Optional
 	Algorithm *string `json:"algorithm,omitempty" tf:"algorithm,omitempty"`
 
 	// The protection level to use when creating a version based on this template. Possible values include "SOFTWARE", "HSM", "EXTERNAL", "EXTERNAL_VPC". Defaults to "SOFTWARE".
+	// +kubebuilder:validation:Optional
 	ProtectionLevel *string `json:"protectionLevel,omitempty" tf:"protection_level,omitempty"`
 }
 

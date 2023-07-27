@@ -81,15 +81,18 @@ type GroupParameters struct {
 
 	// A user-assigned name for this group, used only for display
 	// purposes.
+	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The filter used to determine which monitored resources
 	// belong to this group.
+	// +kubebuilder:validation:Optional
 	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
 
 	// If true, the members of this group are considered to be a
 	// cluster. The system can perform additional analysis on
 	// groups that are clusters.
+	// +kubebuilder:validation:Optional
 	IsCluster *bool `json:"isCluster,omitempty" tf:"is_cluster,omitempty"`
 
 	// The name of the group's parent, if it has one. The format is
@@ -110,6 +113,7 @@ type GroupParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 

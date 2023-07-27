@@ -76,9 +76,11 @@ type FirewallRuleParameters struct {
 
 	// The action to take if this rule matches.
 	// Possible values are: UNSPECIFIED_ACTION, ALLOW, DENY.
+	// +kubebuilder:validation:Optional
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
 	// An optional string description of this rule.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// A positive integer that defines the order of rule evaluation.
@@ -86,6 +88,7 @@ type FirewallRuleParameters struct {
 	// A default rule at priority Int32.MaxValue matches all IPv4 and
 	// IPv6 traffic when no previous rule matches. Only the action of
 	// this rule can be modified by the user.
+	// +kubebuilder:validation:Optional
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -104,6 +107,7 @@ type FirewallRuleParameters struct {
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// IP address or range, defined using CIDR notation, of requests that this rule applies to.
+	// +kubebuilder:validation:Optional
 	SourceRange *string `json:"sourceRange,omitempty" tf:"source_range,omitempty"`
 }
 

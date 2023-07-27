@@ -83,10 +83,12 @@ type ObjectACLParameters struct {
 	ObjectSelector *v1.Selector `json:"objectSelector,omitempty" tf:"-"`
 
 	// The "canned" predefined ACL to apply. Must be set if role_entity is not.
+	// +kubebuilder:validation:Optional
 	PredefinedACL *string `json:"predefinedAcl,omitempty" tf:"predefined_acl,omitempty"`
 
 	// List of role/entity pairs in the form ROLE:entity. See GCS Object ACL documentation for more details.
 	// Must be set if predefined_acl is not.
+	// +kubebuilder:validation:Optional
 	RoleEntity []*string `json:"roleEntity,omitempty" tf:"role_entity,omitempty"`
 }
 

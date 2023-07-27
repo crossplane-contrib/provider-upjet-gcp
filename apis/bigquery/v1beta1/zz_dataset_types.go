@@ -51,10 +51,12 @@ type AccessDatasetParameters struct {
 
 	// The dataset this entry applies to
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Dataset []DatasetDatasetParameters `json:"dataset,omitempty" tf:"dataset,omitempty"`
 
 	// Which resources in the dataset this entry applies to. Currently, only views are supported,
 	// but additional target types may be added in the future. Possible values: VIEWS
+	// +kubebuilder:validation:Optional
 	TargetTypes []*string `json:"targetTypes,omitempty" tf:"target_types,omitempty"`
 }
 
@@ -146,13 +148,16 @@ type AccessParameters struct {
 
 	// Grants all resources of particular types in a particular dataset read access to the current dataset.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Dataset []AccessDatasetParameters `json:"dataset,omitempty" tf:"dataset,omitempty"`
 
 	// A domain to grant access to. Any users signed in with the
 	// domain specified will be granted the specified access
+	// +kubebuilder:validation:Optional
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
 	// An email address of a Google Group to grant access to.
+	// +kubebuilder:validation:Optional
 	GroupByEmail *string `json:"groupByEmail,omitempty" tf:"group_by_email,omitempty"`
 
 	// Describes the rights granted to the user specified by the other
@@ -160,6 +165,7 @@ type AccessParameters struct {
 	// are supported. Predefined roles that have equivalent basic roles
 	// are swapped by the API to their basic counterparts. See
 	// official docs.
+	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
 	// A routine from a different dataset to grant access to. Queries
@@ -168,9 +174,11 @@ type AccessParameters struct {
 	// set. If that routine is updated by any user, access to the routine
 	// needs to be granted again via an update operation.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Routine []RoutineParameters `json:"routine,omitempty" tf:"routine,omitempty"`
 
 	// A special group to grant access to. Possible values include:
+	// +kubebuilder:validation:Optional
 	SpecialGroup *string `json:"specialGroup,omitempty" tf:"special_group,omitempty"`
 
 	// An email address of a user to grant access to. For example:
@@ -194,6 +202,7 @@ type AccessParameters struct {
 	// set. If that view is updated by any user, access to the view
 	// needs to be granted again via an update operation.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	View []ViewParameters `json:"view,omitempty" tf:"view,omitempty"`
 }
 
@@ -228,6 +237,7 @@ type DatasetDatasetParameters struct {
 	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
+	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
 
@@ -370,6 +380,7 @@ type DatasetParameters struct {
 
 	// An array of objects that define dataset access for one or more entities.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Access []AccessParameters `json:"access,omitempty" tf:"access,omitempty"`
 
 	// Defines the default collation specification of future tables created
@@ -379,47 +390,58 @@ type DatasetParameters struct {
 	// specified. A change to this field affects only tables created afterwards,
 	// and does not alter the existing tables.
 	// The following values are supported:
+	// +kubebuilder:validation:Optional
 	DefaultCollation *string `json:"defaultCollation,omitempty" tf:"default_collation,omitempty"`
 
 	// The default encryption key for all tables in the dataset. Once this property is set,
 	// all newly-created partitioned tables in the dataset will have encryption key set to
 	// this value, unless table creation request (or query) overrides the key.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	DefaultEncryptionConfiguration []DefaultEncryptionConfigurationParameters `json:"defaultEncryptionConfiguration,omitempty" tf:"default_encryption_configuration,omitempty"`
 
 	// The default partition expiration for all partitioned tables in
 	// the dataset, in milliseconds.
+	// +kubebuilder:validation:Optional
 	DefaultPartitionExpirationMs *float64 `json:"defaultPartitionExpirationMs,omitempty" tf:"default_partition_expiration_ms,omitempty"`
 
 	// The default lifetime of all tables in the dataset, in milliseconds.
 	// The minimum value is 3600000 milliseconds (one hour).
+	// +kubebuilder:validation:Optional
 	DefaultTableExpirationMs *float64 `json:"defaultTableExpirationMs,omitempty" tf:"default_table_expiration_ms,omitempty"`
 
 	// If set to true, delete all the tables in the
 	// dataset when destroying the resource; otherwise,
 	// destroying the resource will fail if tables are present.
+	// +kubebuilder:validation:Optional
 	DeleteContentsOnDestroy *bool `json:"deleteContentsOnDestroy,omitempty" tf:"delete_contents_on_destroy,omitempty"`
 
 	// A user-friendly description of the dataset
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// A descriptive name for the dataset
+	// +kubebuilder:validation:Optional
 	FriendlyName *string `json:"friendlyName,omitempty" tf:"friendly_name,omitempty"`
 
 	// TRUE if the dataset and its table names are case-insensitive, otherwise FALSE.
 	// By default, this is FALSE, which means the dataset and its table names are
 	// case-sensitive. This field does not affect routine references.
+	// +kubebuilder:validation:Optional
 	IsCaseInsensitive *bool `json:"isCaseInsensitive,omitempty" tf:"is_case_insensitive,omitempty"`
 
 	// The labels associated with this dataset. You can use these to
 	// organize and group your datasets
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The geographic location where the dataset should reside.
 	// See official docs.
+	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// Defines the time travel window in hours. The value can be from 48 to 168 hours (2 to 7 days).
+	// +kubebuilder:validation:Optional
 	MaxTimeTravelHours *string `json:"maxTimeTravelHours,omitempty" tf:"max_time_travel_hours,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -552,14 +574,17 @@ type ViewObservation struct {
 type ViewParameters struct {
 
 	// The ID of the dataset containing this table.
+	// +kubebuilder:validation:Optional
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
 	// The ID of the project containing this table.
+	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// The ID of the table. The ID must contain only letters (a-z,
 	// A-Z), numbers (0-9), or underscores (_). The maximum length
 	// is 1,024 characters.
+	// +kubebuilder:validation:Optional
 	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
 }
 

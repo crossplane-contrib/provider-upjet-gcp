@@ -79,21 +79,26 @@ type ProjectIAMCustomRoleObservation struct {
 type ProjectIAMCustomRoleParameters struct {
 
 	// A human-readable description for the role.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The names of the permissions this role grants when bound in an IAM policy. At least one permission must be specified.
+	// +kubebuilder:validation:Optional
 	Permissions []*string `json:"permissions,omitempty" tf:"permissions,omitempty"`
 
 	// The project that the service account will be created in.
 	// Defaults to the provider project configuration.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The current launch stage of the role.
 	// Defaults to GA.
 	// List of possible stages is here.
+	// +kubebuilder:validation:Optional
 	Stage *string `json:"stage,omitempty" tf:"stage,omitempty"`
 
 	// A human-readable title for the role.
+	// +kubebuilder:validation:Optional
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 

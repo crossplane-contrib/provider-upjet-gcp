@@ -126,15 +126,18 @@ type AddressParameters struct {
 	// IPv4 is supported. An address may only be specified for INTERNAL
 	// address types. The IP address must be inside the specified subnetwork,
 	// if any. Set by the API if undefined.
+	// +kubebuilder:validation:Optional
 	Address *string `json:"address,omitempty" tf:"address,omitempty"`
 
 	// The type of address to reserve.
 	// Note: if you set this argument's value as INTERNAL you need to leave the network_tier argument unset in that resource block.
 	// Default value is EXTERNAL.
 	// Possible values are: INTERNAL, EXTERNAL.
+	// +kubebuilder:validation:Optional
 	AddressType *string `json:"addressType,omitempty" tf:"address_type,omitempty"`
 
 	// An optional description of this resource.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The URL of the network in which to reserve the address. This field
@@ -157,16 +160,20 @@ type AddressParameters struct {
 	// specified, it is assumed to be PREMIUM.
 	// This argument should not be used when configuring Internal addresses, because network tier cannot be set for internal traffic; it's always Premium.
 	// Possible values are: PREMIUM, STANDARD.
+	// +kubebuilder:validation:Optional
 	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
 
 	// The prefix length if the resource represents an IP range.
+	// +kubebuilder:validation:Optional
 	PrefixLength *float64 `json:"prefixLength,omitempty" tf:"prefix_length,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The purpose of this resource, which can be one of the following values.
+	// +kubebuilder:validation:Optional
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 
 	// The Region in which the created address should reside.

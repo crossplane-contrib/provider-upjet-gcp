@@ -171,66 +171,86 @@ type JobObservation struct {
 type JobParameters struct {
 
 	// List of experiments that should be used by the job. An example value is ["enable_stackdriver_agent_metrics"].
+	// +kubebuilder:validation:Optional
 	AdditionalExperiments []*string `json:"additionalExperiments,omitempty" tf:"additional_experiments,omitempty"`
 
 	// Enable/disable the use of Streaming Engine for the job. Note that Streaming Engine is enabled by default for pipelines developed against the Beam SDK for Python v2.21.0 or later when using Python 3.
+	// +kubebuilder:validation:Optional
 	EnableStreamingEngine *bool `json:"enableStreamingEngine,omitempty" tf:"enable_streaming_engine,omitempty"`
 
 	// The configuration for VM IPs.  Options are "WORKER_IP_PUBLIC" or "WORKER_IP_PRIVATE".
+	// +kubebuilder:validation:Optional
 	IPConfiguration *string `json:"ipConfiguration,omitempty" tf:"ip_configuration,omitempty"`
 
 	// The name for the Cloud KMS key for the job. Key format is: projects/PROJECT_ID/locations/LOCATION/keyRings/KEY_RING/cryptoKeys/KEY
+	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// User labels to be specified for the job. Keys and values should follow the restrictions
 	// specified in the labeling restrictions page.
 	// NOTE: Google-provided Dataflow templates often provide default labels that begin with goog-dataflow-provided.
 	// Unless explicitly set in config, these labels will be ignored to prevent diffs on re-apply.
+	// +kubebuilder:validation:Optional
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The machine type to use for the job.
+	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
 	// The number of workers permitted to work on the job.  More workers may improve processing speed at additional cost.
+	// +kubebuilder:validation:Optional
 	MaxWorkers *float64 `json:"maxWorkers,omitempty" tf:"max_workers,omitempty"`
 
 	// A unique name for the resource, required by Dataflow.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The network to which VMs will be assigned. If it is not provided, "default" will be used.
+	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// One of "drain" or "cancel".  See above note.
+	// +kubebuilder:validation:Optional
 	OnDelete *string `json:"onDelete,omitempty" tf:"on_delete,omitempty"`
 
 	// Key/Value pairs to be passed to the Dataflow job (as used in the template).
+	// +kubebuilder:validation:Optional
 	Parameters map[string]string `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// The project in which the resource belongs. If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The region in which the created job should run.
+	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The Service Account email used to create the job.
+	// +kubebuilder:validation:Optional
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// See above note.
+	// +kubebuilder:validation:Optional
 	SkipWaitOnJobTermination *bool `json:"skipWaitOnJobTermination,omitempty" tf:"skip_wait_on_job_termination,omitempty"`
 
 	// The subnetwork to which VMs will be assigned. Should be of the form "regions/REGION/subnetworks/SUBNETWORK". If the subnetwork is located in a Shared VPC network, you must use the complete URL. For example "googleapis.com/compute/v1/projects/PROJECT_ID/regions/REGION/subnetworks/SUBNET_NAME"
+	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// A writeable location on GCS for the Dataflow job to dump its temporary data.
+	// +kubebuilder:validation:Optional
 	TempGcsLocation *string `json:"tempGcsLocation,omitempty" tf:"temp_gcs_location,omitempty"`
 
 	// The GCS path to the Dataflow job template.
+	// +kubebuilder:validation:Optional
 	TemplateGcsPath *string `json:"templateGcsPath,omitempty" tf:"template_gcs_path,omitempty"`
 
 	// Only applicable when updating a pipeline. Map of transform name prefixes of the job to be replaced with the corresponding name prefixes of the new job. This field is not used outside of update.
+	// +kubebuilder:validation:Optional
 	TransformNameMapping map[string]string `json:"transformNameMapping,omitempty" tf:"transform_name_mapping,omitempty"`
 
 	// The zone in which the created job should run. If it is not provided, the provider zone is used.
+	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 

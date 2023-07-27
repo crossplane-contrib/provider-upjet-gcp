@@ -40,6 +40,7 @@ type ColumnFamilyObservation struct {
 type ColumnFamilyParameters struct {
 
 	// The name of the column family.
+	// +kubebuilder:validation:Optional
 	Family *string `json:"family,omitempty" tf:"family,omitempty"`
 }
 
@@ -84,9 +85,11 @@ type TableObservation struct {
 type TableParameters struct {
 
 	// A group of columns within a table which share a common configuration. This can be specified multiple times. Structure is documented below.
+	// +kubebuilder:validation:Optional
 	ColumnFamily []ColumnFamilyParameters `json:"columnFamily,omitempty" tf:"column_family,omitempty"`
 
 	// A field to make the table protected against data loss i.e. when set to PROTECTED, deleting the table, the column families in the table, and the instance containing the table would be prohibited. If not provided, deletion protection will be set to UNPROTECTED.
+	// +kubebuilder:validation:Optional
 	DeletionProtection *string `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// The name of the Bigtable instance.
@@ -104,9 +107,11 @@ type TableParameters struct {
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// A list of predefined keys to split the table on.
+	// +kubebuilder:validation:Optional
 	SplitKeys []*string `json:"splitKeys,omitempty" tf:"split_keys,omitempty"`
 }
 

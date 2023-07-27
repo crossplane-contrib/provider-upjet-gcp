@@ -86,26 +86,32 @@ type AccessLevelConditionDevicePolicyParameters struct {
 	// A list of allowed device management levels.
 	// An empty list allows all management levels.
 	// Each value may be one of: MANAGEMENT_UNSPECIFIED, NONE, BASIC, COMPLETE.
+	// +kubebuilder:validation:Optional
 	AllowedDeviceManagementLevels []*string `json:"allowedDeviceManagementLevels,omitempty" tf:"allowed_device_management_levels,omitempty"`
 
 	// A list of allowed encryptions statuses.
 	// An empty list allows all statuses.
 	// Each value may be one of: ENCRYPTION_UNSPECIFIED, ENCRYPTION_UNSUPPORTED, UNENCRYPTED, ENCRYPTED.
+	// +kubebuilder:validation:Optional
 	AllowedEncryptionStatuses []*string `json:"allowedEncryptionStatuses,omitempty" tf:"allowed_encryption_statuses,omitempty"`
 
 	// A list of allowed OS versions.
 	// An empty list allows all types and all versions.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	OsConstraints []DevicePolicyOsConstraintsParameters `json:"osConstraints,omitempty" tf:"os_constraints,omitempty"`
 
 	// Whether the device needs to be approved by the customer admin.
+	// +kubebuilder:validation:Optional
 	RequireAdminApproval *bool `json:"requireAdminApproval,omitempty" tf:"require_admin_approval,omitempty"`
 
 	// Whether the device needs to be corp owned.
+	// +kubebuilder:validation:Optional
 	RequireCorpOwned *bool `json:"requireCorpOwned,omitempty" tf:"require_corp_owned,omitempty"`
 
 	// Whether or not screenlock is required for the DevicePolicy
 	// to be true. Defaults to false.
+	// +kubebuilder:validation:Optional
 	RequireScreenLock *bool `json:"requireScreenLock,omitempty" tf:"require_screen_lock,omitempty"`
 }
 
@@ -229,6 +235,7 @@ type AccessLevelConditionParameters struct {
 	// the Condition to be true. If not specified, all devices are
 	// allowed.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	DevicePolicy []AccessLevelConditionDevicePolicyParameters `json:"devicePolicy,omitempty" tf:"device_policy,omitempty"`
 
 	// A list of CIDR block IP subnetwork specification. May be IPv4
@@ -241,6 +248,7 @@ type AccessLevelConditionParameters struct {
 	// is not. The originating IP of a request must be in one of the
 	// listed subnets in order for this Condition to be true.
 	// If empty, all IP addresses are allowed.
+	// +kubebuilder:validation:Optional
 	IPSubnetworks []*string `json:"ipSubnetworks,omitempty" tf:"ip_subnetworks,omitempty"`
 
 	// An allowed list of members (users, service accounts).
@@ -250,16 +258,19 @@ type AccessLevelConditionParameters struct {
 	// from any user (logged in/not logged in, not present in any
 	// groups, etc.).
 	// Formats: user:{emailid}, serviceAccount:{emailid}
+	// +kubebuilder:validation:Optional
 	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
 
 	// Whether to negate the Condition. If true, the Condition becomes
 	// a NAND over its non-empty fields, each field must be false for
 	// the Condition overall to be satisfied. Defaults to false.
+	// +kubebuilder:validation:Optional
 	Negate *bool `json:"negate,omitempty" tf:"negate,omitempty"`
 
 	// The request must originate from one of the provided
 	// countries/regions.
 	// Format: A valid ISO 3166-1 alpha-2 code.
+	// +kubebuilder:validation:Optional
 	Regions []*string `json:"regions,omitempty" tf:"regions,omitempty"`
 
 	// A list of other access levels defined in the same Policy,
@@ -267,6 +278,7 @@ type AccessLevelConditionParameters struct {
 	// does not exist is an error. All access levels listed must be
 	// granted for the Condition to be true.
 	// Format: accessPolicies/{policy_id}/accessLevels/{short_name}
+	// +kubebuilder:validation:Optional
 	RequiredAccessLevels []*string `json:"requiredAccessLevels,omitempty" tf:"required_access_levels,omitempty"`
 }
 
@@ -299,10 +311,12 @@ type DevicePolicyOsConstraintsParameters struct {
 	// The minimum allowed OS version. If not set, any version
 	// of this OS satisfies the constraint.
 	// Format: "major.minor.patch" such as "10.5.301", "9.2.1".
+	// +kubebuilder:validation:Optional
 	MinimumVersion *string `json:"minimumVersion,omitempty" tf:"minimum_version,omitempty"`
 
 	// The operating system type of the device.
 	// Possible values are: OS_UNSPECIFIED, DESKTOP_MAC, DESKTOP_WINDOWS, DESKTOP_LINUX, DESKTOP_CHROME_OS, ANDROID, IOS.
+	// +kubebuilder:validation:Optional
 	OsType *string `json:"osType,omitempty" tf:"os_type,omitempty"`
 }
 

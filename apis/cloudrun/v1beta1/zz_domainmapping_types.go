@@ -102,21 +102,26 @@ type DomainMappingObservation struct {
 type DomainMappingParameters struct {
 
 	// The location of the cloud run instance. eg us-central1
+	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// Metadata associated with this DomainMapping.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Metadata []MetadataParameters `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// Name should be a verified domain
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The spec for this DomainMapping.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Spec []SpecParameters `json:"spec,omitempty" tf:"spec,omitempty"`
 }
 
@@ -184,12 +189,14 @@ type MetadataParameters struct {
 	// may be set by external tools to store and retrieve arbitrary metadata. More
 	// info: http://kubernetes.io/docs/user-guide/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
+	// +kubebuilder:validation:Optional
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Map of string keys and values that can be used to organize and categorize
 	// (scope and select) objects. May match selectors of replication controllers
 	// and routes.
 	// More info: http://kubernetes.io/docs/user-guide/labels
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// In Cloud Run the namespace must be equal to either the
@@ -267,12 +274,14 @@ type SpecParameters struct {
 	// The mode of the certificate.
 	// Default value is AUTOMATIC.
 	// Possible values are: NONE, AUTOMATIC.
+	// +kubebuilder:validation:Optional
 	CertificateMode *string `json:"certificateMode,omitempty" tf:"certificate_mode,omitempty"`
 
 	// If set, the mapping will override any mapping set before this spec was set.
 	// It is recommended that the user leaves this empty to receive an error
 	// warning about a potential conflict and only set it once the respective UI
 	// has given such a warning.
+	// +kubebuilder:validation:Optional
 	ForceOverride *bool `json:"forceOverride,omitempty" tf:"force_override,omitempty"`
 
 	// The name of the Cloud Run Service that this DomainMapping applies to.

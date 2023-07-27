@@ -105,19 +105,23 @@ type CertificateMapEntryParameters struct {
 	// A set of Certificates defines for the given hostname.
 	// There can be defined up to fifteen certificates in each Certificate Map Entry.
 	// Each certificate must match pattern projects//locations//certificates/*.
+	// +kubebuilder:validation:Optional
 	Certificates []*string `json:"certificates,omitempty" tf:"certificates,omitempty"`
 
 	// A human-readable description of the resource.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// A Hostname (FQDN, e.g. example.com) or a wildcard hostname expression (*.example.com)
 	// for a set of hostnames with common suffix. Used as Server Name Indication (SNI) for
 	// selecting a proper certificate.
+	// +kubebuilder:validation:Optional
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
 	// Set of labels associated with a Certificate Map Entry.
 	// An object containing a list of "key": value pairs.
 	// Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// A map entry that is inputted into the cetrificate map
@@ -134,10 +138,12 @@ type CertificateMapEntryParameters struct {
 	MapSelector *v1.Selector `json:"mapSelector,omitempty" tf:"-"`
 
 	// A predefined matcher for particular cases, other than SNI selection
+	// +kubebuilder:validation:Optional
 	Matcher *string `json:"matcher,omitempty" tf:"matcher,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 

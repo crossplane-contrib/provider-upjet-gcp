@@ -68,13 +68,16 @@ type DefaultSupportedIdPConfigParameters struct {
 	ClientSecretSecretRef v1.SecretKeySelector `json:"clientSecretSecretRef" tf:"-"`
 
 	// If this IDP allows the user to sign in
+	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// ID of the IDP. Possible values include:
+	// +kubebuilder:validation:Optional
 	IdPID *string `json:"idpId,omitempty" tf:"idp_id,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 

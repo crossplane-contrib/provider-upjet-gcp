@@ -61,6 +61,7 @@ type ProjectUsageExportBucketParameters struct {
 	BucketNameSelector *v1.Selector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// :  A prefix for the reports, for instance, the project name.
+	// +kubebuilder:validation:Optional
 	Prefix *string `json:"prefix,omitempty" tf:"prefix,omitempty"`
 
 	// :  The project to set the export bucket on. If it is not provided, the provider project is used.

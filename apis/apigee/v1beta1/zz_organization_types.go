@@ -123,6 +123,7 @@ type OrganizationObservation struct {
 type OrganizationParameters struct {
 
 	// Primary GCP region for analytics data storage. For valid values, see Create an Apigee organization.
+	// +kubebuilder:validation:Optional
 	AnalyticsRegion *string `json:"analyticsRegion,omitempty" tf:"analytics_region,omitempty"`
 
 	// Compute Engine network used for Service Networking to be peered with Apigee runtime instances.
@@ -142,19 +143,24 @@ type OrganizationParameters struct {
 	AuthorizedNetworkSelector *v1.Selector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
 
 	// Billing type of the Apigee organization. See Apigee pricing.
+	// +kubebuilder:validation:Optional
 	BillingType *string `json:"billingType,omitempty" tf:"billing_type,omitempty"`
 
 	// Description of the Apigee organization.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The display name of the Apigee organization.
+	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The project ID associated with the Apigee organization.
+	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Properties defined in the Apigee organization profile.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Properties []PropertiesParameters `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// Optional. This setting is applicable only for organizations that are soft-deleted (i.e., BillingType
@@ -163,6 +169,7 @@ type OrganizationParameters struct {
 	// After this period, the Organization will no longer be able to be restored.
 	// Default value is DELETION_RETENTION_UNSPECIFIED.
 	// Possible values are: DELETION_RETENTION_UNSPECIFIED, MINIMUM.
+	// +kubebuilder:validation:Optional
 	Retention *string `json:"retention,omitempty" tf:"retention,omitempty"`
 
 	// Cloud KMS key name used for encrypting the data that is stored and replicated across runtime instances.
@@ -185,6 +192,7 @@ type OrganizationParameters struct {
 	// Runtime type of the Apigee organization based on the Apigee subscription purchased.
 	// Default value is CLOUD.
 	// Possible values are: CLOUD, HYBRID.
+	// +kubebuilder:validation:Optional
 	RuntimeType *string `json:"runtimeType,omitempty" tf:"runtime_type,omitempty"`
 }
 
@@ -206,6 +214,7 @@ type PropertiesParameters struct {
 
 	// List of all properties in the object.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Property []PropertyParameters `json:"property,omitempty" tf:"property,omitempty"`
 }
 
@@ -230,9 +239,11 @@ type PropertyObservation struct {
 type PropertyParameters struct {
 
 	// Name of the property.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Value of the property.
+	// +kubebuilder:validation:Optional
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 

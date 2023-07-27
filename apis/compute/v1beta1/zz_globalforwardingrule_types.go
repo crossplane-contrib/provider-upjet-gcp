@@ -78,10 +78,12 @@ type FilterLabelsParameters struct {
 	// For Private Service Connect forwarding rules that forward traffic to Google
 	// APIs, the forwarding rule name must be a 1-20 characters string with
 	// lowercase letters and numbers and must start with a letter.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The value that the label must match. The value has a maximum
 	// length of 1024 characters.
+	// +kubebuilder:validation:Optional
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
@@ -246,6 +248,7 @@ type GlobalForwardingRuleParameters struct {
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// IP address for which this forwarding rule accepts traffic. When a client
@@ -275,13 +278,16 @@ type GlobalForwardingRuleParameters struct {
 	// as described in Load balancing
 	// features.
 	// Possible values are: TCP, UDP, ESP, AH, SCTP, ICMP.
+	// +kubebuilder:validation:Optional
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
 	// The IP Version that will be used by this global forwarding rule.
 	// Possible values are: IPV4, IPV6.
+	// +kubebuilder:validation:Optional
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
 	// Labels to apply to this forwarding rule.  A list of key->value pairs.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Specifies the forwarding rule type.
@@ -289,6 +295,7 @@ type GlobalForwardingRuleParameters struct {
 	// Forwarding rule concepts.
 	// Default value is EXTERNAL.
 	// Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL_SELF_MANAGED.
+	// +kubebuilder:validation:Optional
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
 	// Opaque filter criteria used by Loadbalancer to restrict routing
@@ -306,6 +313,7 @@ type GlobalForwardingRuleParameters struct {
 	// metadataFilters only applies to Loadbalancers that have their
 	// loadBalancingScheme set to INTERNAL_SELF_MANAGED.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	MetadataFilters []MetadataFiltersParameters `json:"metadataFilters,omitempty" tf:"metadata_filters,omitempty"`
 
 	// This field is not used for external load balancing.
@@ -330,6 +338,7 @@ type GlobalForwardingRuleParameters struct {
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// This field can only be used:
+	// +kubebuilder:validation:Optional
 	PortRange *string `json:"portRange,omitempty" tf:"port_range,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -348,6 +357,7 @@ type GlobalForwardingRuleParameters struct {
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// If not empty, this Forwarding Rule will only forward the traffic when the source IP address matches one of the IP addresses or CIDR ranges set here. Note that a Forwarding Rule can only have up to 64 source IP ranges, and this field can only be used with a regional Forwarding Rule whose scheme is EXTERNAL. Each sourceIpRange entry should be either an IP address (for example, 1.2.3.4) or a CIDR range (for example, 1.2.3.0/24).
+	// +kubebuilder:validation:Optional
 	SourceIPRanges []*string `json:"sourceIpRanges,omitempty" tf:"source_ip_ranges,omitempty"`
 
 	// The URL of the target resource to receive the matched traffic.  For
@@ -411,6 +421,7 @@ type MetadataFiltersParameters struct {
 	// provided metadata based on filterMatchCriteria
 	// This list must not be empty and can have at the most 64 entries.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	FilterLabels []FilterLabelsParameters `json:"filterLabels,omitempty" tf:"filter_labels,omitempty"`
 
 	// Specifies how individual filterLabel matches within the list of
@@ -420,6 +431,7 @@ type MetadataFiltersParameters struct {
 	// MATCH_ALL - All filterLabels must have matching labels in the
 	// provided metadata.
 	// Possible values are: MATCH_ANY, MATCH_ALL.
+	// +kubebuilder:validation:Optional
 	FilterMatchCriteria *string `json:"filterMatchCriteria,omitempty" tf:"filter_match_criteria,omitempty"`
 }
 

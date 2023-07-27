@@ -73,10 +73,12 @@ type CredentialsObservation struct {
 type CredentialsParameters struct {
 
 	// The time at which this credential becomes invalid.
+	// +kubebuilder:validation:Optional
 	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
 
 	// A public key used to verify the signature of JSON Web Tokens (JWTs).
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	PublicKey []PublicKeyParameters `json:"publicKey,omitempty" tf:"public_key,omitempty"`
 }
 
@@ -165,21 +167,26 @@ type DeviceObservation struct {
 type DeviceParameters struct {
 
 	// If a device is blocked, connections or requests from this device will fail.
+	// +kubebuilder:validation:Optional
 	Blocked *bool `json:"blocked,omitempty" tf:"blocked,omitempty"`
 
 	// The credentials used to authenticate this device.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Credentials []CredentialsParameters `json:"credentials,omitempty" tf:"credentials,omitempty"`
 
 	// Gateway-related configuration and state.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	GatewayConfig []GatewayConfigParameters `json:"gatewayConfig,omitempty" tf:"gateway_config,omitempty"`
 
 	// The logging verbosity for device activity.
 	// Possible values are: NONE, ERROR, INFO, DEBUG.
+	// +kubebuilder:validation:Optional
 	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
 
 	// The metadata key-value pairs assigned to the device.
+	// +kubebuilder:validation:Optional
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The name of the device registry where this device should be created.
@@ -233,11 +240,13 @@ type GatewayConfigParameters struct {
 
 	// Indicates whether the device is a gateway.
 	// Possible values are: ASSOCIATION_ONLY, DEVICE_AUTH_TOKEN_ONLY, ASSOCIATION_AND_DEVICE_AUTH_TOKEN.
+	// +kubebuilder:validation:Optional
 	GatewayAuthMethod *string `json:"gatewayAuthMethod,omitempty" tf:"gateway_auth_method,omitempty"`
 
 	// Indicates whether the device is a gateway.
 	// Default value is NON_GATEWAY.
 	// Possible values are: GATEWAY, NON_GATEWAY.
+	// +kubebuilder:validation:Optional
 	GatewayType *string `json:"gatewayType,omitempty" tf:"gateway_type,omitempty"`
 }
 
@@ -283,9 +292,11 @@ type PublicKeyParameters struct {
 
 	// The format of the key.
 	// Possible values are: RSA_PEM, RSA_X509_PEM, ES256_PEM, ES256_X509_PEM.
+	// +kubebuilder:validation:Optional
 	Format *string `json:"format,omitempty" tf:"format,omitempty"`
 
 	// The key data.
+	// +kubebuilder:validation:Optional
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 }
 

@@ -101,18 +101,22 @@ type DatabaseParameters struct {
 	// The dialect of the Cloud Spanner Database.
 	// If it is not provided, "GOOGLE_STANDARD_SQL" will be used.
 	// Possible values are: GOOGLE_STANDARD_SQL, POSTGRESQL.
+	// +kubebuilder:validation:Optional
 	DatabaseDialect *string `json:"databaseDialect,omitempty" tf:"database_dialect,omitempty"`
 
 	// An optional list of DDL statements to run inside the newly created
 	// database. Statements can create tables, indexes, etc. These statements
 	// execute atomically with the creation of the database: if there is an
 	// error in any statement, the database is not created.
+	// +kubebuilder:validation:Optional
 	Ddl []*string `json:"ddl,omitempty" tf:"ddl,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// Encryption configuration for the database
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	EncryptionConfig []EncryptionConfigParameters `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
 	// The instance to create the database on.
@@ -130,6 +134,7 @@ type DatabaseParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The retention period for the database. The retention period must be between 1 hour
@@ -137,6 +142,7 @@ type DatabaseParameters struct {
 	// the values 1d, 24h, 1440m, and 86400s are equivalent. Default value is 1h.
 	// If this property is used, you must avoid adding new DDL statements to ddl that
 	// update the database's version_retention_period.
+	// +kubebuilder:validation:Optional
 	VersionRetentionPeriod *string `json:"versionRetentionPeriod,omitempty" tf:"version_retention_period,omitempty"`
 }
 
@@ -158,6 +164,7 @@ type EncryptionConfigParameters struct {
 
 	// Fully qualified name of the KMS key to use to encrypt this database. This key must exist
 	// in the same location as the Spanner Database.
+	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 }
 

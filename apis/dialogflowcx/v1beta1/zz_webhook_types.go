@@ -52,12 +52,15 @@ type GenericWebServiceObservation struct {
 type GenericWebServiceParameters struct {
 
 	// Specifies a list of allowed custom CA certificates (in DER format) for HTTPS verification.
+	// +kubebuilder:validation:Optional
 	AllowedCACerts []*string `json:"allowedCaCerts,omitempty" tf:"allowed_ca_certs,omitempty"`
 
 	// The HTTP request headers to send together with webhook requests.
+	// +kubebuilder:validation:Optional
 	RequestHeaders map[string]*string `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
 
 	// Whether to use speech adaptation for speech recognition.
+	// +kubebuilder:validation:Optional
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
 }
 
@@ -88,12 +91,15 @@ type ServiceDirectoryGenericWebServiceObservation struct {
 type ServiceDirectoryGenericWebServiceParameters struct {
 
 	// Specifies a list of allowed custom CA certificates (in DER format) for HTTPS verification.
+	// +kubebuilder:validation:Optional
 	AllowedCACerts []*string `json:"allowedCaCerts,omitempty" tf:"allowed_ca_certs,omitempty"`
 
 	// The HTTP request headers to send together with webhook requests.
+	// +kubebuilder:validation:Optional
 	RequestHeaders map[string]*string `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
 
 	// Whether to use speech adaptation for speech recognition.
+	// +kubebuilder:validation:Optional
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
 }
 
@@ -121,9 +127,11 @@ type ServiceDirectoryParameters struct {
 
 	// The name of Service Directory service.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	GenericWebService []ServiceDirectoryGenericWebServiceParameters `json:"genericWebService,omitempty" tf:"generic_web_service,omitempty"`
 
 	// The name of Service Directory service.
+	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 
@@ -202,19 +210,24 @@ type WebhookObservation struct {
 type WebhookParameters struct {
 
 	// Indicates whether the webhook is disabled.
+	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
 	// The human-readable name of the webhook, unique within the agent.
+	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Indicates if automatic spell correction is enabled in detect intent requests.
+	// +kubebuilder:validation:Optional
 	EnableSpellCorrection *bool `json:"enableSpellCorrection,omitempty" tf:"enable_spell_correction,omitempty"`
 
 	// Determines whether this agent should log conversation queries.
+	// +kubebuilder:validation:Optional
 	EnableStackdriverLogging *bool `json:"enableStackdriverLogging,omitempty" tf:"enable_stackdriver_logging,omitempty"`
 
 	// Configuration for a generic web service.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	GenericWebService []GenericWebServiceParameters `json:"genericWebService,omitempty" tf:"generic_web_service,omitempty"`
 
 	// The agent to create a webhook for.
@@ -233,13 +246,16 @@ type WebhookParameters struct {
 	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
 
 	// Name of the SecuritySettings reference for the agent. Format: projects//locations//securitySettings/.
+	// +kubebuilder:validation:Optional
 	SecuritySettings *string `json:"securitySettings,omitempty" tf:"security_settings,omitempty"`
 
 	// Configuration for a Service Directory service.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	ServiceDirectory []ServiceDirectoryParameters `json:"serviceDirectory,omitempty" tf:"service_directory,omitempty"`
 
 	// Webhook execution timeout.
+	// +kubebuilder:validation:Optional
 	Timeout *string `json:"timeout,omitempty" tf:"timeout,omitempty"`
 }
 

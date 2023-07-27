@@ -44,6 +44,7 @@ type AccessRoleObservation struct {
 type AccessRoleParameters struct {
 
 	// The user’s AWS IAM Role that trusts the Google-owned AWS IAM user Connection.
+	// +kubebuilder:validation:Optional
 	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
 }
 
@@ -65,6 +66,7 @@ type AwsParameters struct {
 
 	// Authentication using Google owned service account to assume into customer's AWS IAM Role.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	AccessRole []AccessRoleParameters `json:"accessRole,omitempty" tf:"access_role,omitempty"`
 }
 
@@ -109,9 +111,11 @@ type AzureObservation struct {
 type AzureParameters struct {
 
 	// The id of customer's directory that host the data.
+	// +kubebuilder:validation:Optional
 	CustomerTenantID *string `json:"customerTenantId,omitempty" tf:"customer_tenant_id,omitempty"`
 
 	// The Azure Application (client) ID where the federated credentials will be hosted.
+	// +kubebuilder:validation:Optional
 	FederatedApplicationClientID *string `json:"federatedApplicationClientId,omitempty" tf:"federated_application_client_id,omitempty"`
 }
 
@@ -164,6 +168,7 @@ type CloudSQLParameters struct {
 
 	// Cloud SQL properties.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Credential []CredentialParameters `json:"credential,omitempty" tf:"credential,omitempty"`
 
 	// Database name.
@@ -195,6 +200,7 @@ type CloudSQLParameters struct {
 
 	// Type of the Cloud SQL database.
 	// Possible values are: DATABASE_TYPE_UNSPECIFIED, POSTGRES, MYSQL.
+	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -225,12 +231,15 @@ type CloudSpannerObservation struct {
 type CloudSpannerParameters struct {
 
 	// Cloud Spanner database in the form `project/instance/database'
+	// +kubebuilder:validation:Optional
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
 	// If parallelism should be used when reading from Cloud Spanner
+	// +kubebuilder:validation:Optional
 	UseParallelism *bool `json:"useParallelism,omitempty" tf:"use_parallelism,omitempty"`
 
 	// If the serverless analytics service should be used to read data from Cloud Spanner. useParallelism must be set when using serverless analytics
+	// +kubebuilder:validation:Optional
 	UseServerlessAnalytics *bool `json:"useServerlessAnalytics,omitempty" tf:"use_serverless_analytics,omitempty"`
 }
 
@@ -338,31 +347,39 @@ type ConnectionParameters struct {
 
 	// Connection properties specific to Amazon Web Services.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Aws []AwsParameters `json:"aws,omitempty" tf:"aws,omitempty"`
 
 	// Container for connection properties specific to Azure.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Azure []AzureParameters `json:"azure,omitempty" tf:"azure,omitempty"`
 
 	// Container for connection properties for delegation of access to GCP resources.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	CloudResource []CloudResourceParameters `json:"cloudResource,omitempty" tf:"cloud_resource,omitempty"`
 
 	// Connection properties specific to the Cloud SQL.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	CloudSQL []CloudSQLParameters `json:"cloudSql,omitempty" tf:"cloud_sql,omitempty"`
 
 	// Connection properties specific to Cloud Spanner
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	CloudSpanner []CloudSpannerParameters `json:"cloudSpanner,omitempty" tf:"cloud_spanner,omitempty"`
 
 	// Optional connection id that should be assigned to the created connection.
+	// +kubebuilder:validation:Optional
 	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
 
 	// A descriptive description for the connection
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// A descriptive name for the connection
+	// +kubebuilder:validation:Optional
 	FriendlyName *string `json:"friendlyName,omitempty" tf:"friendly_name,omitempty"`
 
 	// The geographic location where the connection should reside.
@@ -372,10 +389,12 @@ type ConnectionParameters struct {
 	// Spanner Connections same as spanner region
 	// AWS allowed regions are aws-us-east-1
 	// Azure allowed regions are azure-eastus2
+	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 

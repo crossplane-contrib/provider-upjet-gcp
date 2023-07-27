@@ -65,10 +65,12 @@ type DiskEncryptionKeyParameters struct {
 	// (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
 	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
 	// See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+	// +kubebuilder:validation:Optional
 	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
 
 	// The service account used for the encryption request for the given KMS key.
 	// If absent, the Compute Engine Service Agent service account is used.
+	// +kubebuilder:validation:Optional
 	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
 
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
@@ -301,6 +303,7 @@ type DiskParameters struct {
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Encrypts the disk using a customer-supplied encryption key.
@@ -313,6 +316,7 @@ type DiskParameters struct {
 	// the disk will be encrypted using an automatically generated key and
 	// you do not need to provide a key to use the disk later.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	DiskEncryptionKey []DiskEncryptionKeyParameters `json:"diskEncryptionKey,omitempty" tf:"disk_encryption_key,omitempty"`
 
 	// The image from which to initialize this disk. This can be
@@ -324,9 +328,11 @@ type DiskParameters struct {
 	// google_compute_image data source.
 	// For instance, the image centos-6-v20180104 includes its family name centos-6.
 	// These images can be referred by family name here.
+	// +kubebuilder:validation:Optional
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
 	// Labels to apply to this disk.  A list of key->value pairs.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Physical block size of the persistent disk, in bytes. If not present
@@ -334,13 +340,16 @@ type DiskParameters struct {
 	// are 4096 and 16384, other sizes may be added in the future.
 	// If an unsupported value is requested, the error message will list
 	// the supported values for the caller's project.
+	// +kubebuilder:validation:Optional
 	PhysicalBlockSizeBytes *float64 `json:"physicalBlockSizeBytes,omitempty" tf:"physical_block_size_bytes,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Indicates how many IOPS must be provisioned for the disk.
+	// +kubebuilder:validation:Optional
 	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
 
 	// Size of the persistent disk, specified in GB. You can specify this
@@ -352,31 +361,37 @@ type DiskParameters struct {
 	// or the size of the snapshot.
 	// You can add lifecycle.prevent_destroy in the config to prevent destroying
 	// and recreating.
+	// +kubebuilder:validation:Optional
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
 	// The source snapshot used to create this disk. You can provide this as
 	// a partial or full URL to the resource. If the snapshot is in another
 	// project than this disk, you must supply a full URL. For example, the
 	// following are valid values:
+	// +kubebuilder:validation:Optional
 	Snapshot *string `json:"snapshot,omitempty" tf:"snapshot,omitempty"`
 
 	// The source disk used to create this disk. You can provide this as a partial or full URL to the resource.
 	// For example, the following are valid values:
+	// +kubebuilder:validation:Optional
 	SourceDisk *string `json:"sourceDisk,omitempty" tf:"source_disk,omitempty"`
 
 	// The customer-supplied encryption key of the source image. Required if
 	// the source image is protected by a customer-supplied encryption key.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	SourceImageEncryptionKey []SourceImageEncryptionKeyParameters `json:"sourceImageEncryptionKey,omitempty" tf:"source_image_encryption_key,omitempty"`
 
 	// The customer-supplied encryption key of the source snapshot. Required
 	// if the source snapshot is protected by a customer-supplied encryption
 	// key.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	SourceSnapshotEncryptionKey []SourceSnapshotEncryptionKeyParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
 
 	// URL of the disk type resource describing which disk type to use to
 	// create the disk. Provide this when creating the disk.
+	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// A reference to the zone where the disk resides.
@@ -432,14 +447,17 @@ type SourceImageEncryptionKeyParameters struct {
 	// (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
 	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
 	// See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+	// +kubebuilder:validation:Optional
 	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
 
 	// The service account used for the encryption request for the given KMS key.
 	// If absent, the Compute Engine Service Agent service account is used.
+	// +kubebuilder:validation:Optional
 	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
 
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// +kubebuilder:validation:Optional
 	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
 }
 
@@ -491,14 +509,17 @@ type SourceSnapshotEncryptionKeyParameters struct {
 	// (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
 	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
 	// See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+	// +kubebuilder:validation:Optional
 	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
 
 	// The service account used for the encryption request for the given KMS key.
 	// If absent, the Compute Engine Service Agent service account is used.
+	// +kubebuilder:validation:Optional
 	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
 
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// +kubebuilder:validation:Optional
 	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
 }
 

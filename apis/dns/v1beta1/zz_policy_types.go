@@ -49,6 +49,7 @@ type AlternativeNameServerConfigParameters struct {
 	// all DNS queries are forwarded to a name server that you choose. Names such as .internal
 	// are not available when an alternative name server is specified.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	TargetNameServers []AlternativeNameServerConfigTargetNameServersParameters `json:"targetNameServers,omitempty" tf:"target_name_servers,omitempty"`
 }
 
@@ -82,9 +83,11 @@ type AlternativeNameServerConfigTargetNameServersParameters struct {
 	// decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
 	// to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
 	// Possible values are: default, private.
+	// +kubebuilder:validation:Optional
 	ForwardingPath *string `json:"forwardingPath,omitempty" tf:"forwarding_path,omitempty"`
 
 	// IPv4 address to forward to.
+	// +kubebuilder:validation:Optional
 	IPv4Address *string `json:"ipv4Address,omitempty" tf:"ipv4_address,omitempty"`
 }
 
@@ -189,27 +192,33 @@ type PolicyParameters struct {
 	// When specified, all DNS queries are forwarded to a name server that you choose.
 	// Names such as .internal are not available when an alternative name server is specified.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	AlternativeNameServerConfig []AlternativeNameServerConfigParameters `json:"alternativeNameServerConfig,omitempty" tf:"alternative_name_server_config,omitempty"`
 
 	// A textual description field.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Allows networks bound to this policy to receive DNS queries sent
 	// by VMs or applications over VPN connections. When enabled, a
 	// virtual IP address will be allocated from each of the sub-networks
 	// that are bound to this policy.
+	// +kubebuilder:validation:Optional
 	EnableInboundForwarding *bool `json:"enableInboundForwarding,omitempty" tf:"enable_inbound_forwarding,omitempty"`
 
 	// Controls whether logging is enabled for the networks bound to this policy.
 	// Defaults to no logging if not set.
+	// +kubebuilder:validation:Optional
 	EnableLogging *bool `json:"enableLogging,omitempty" tf:"enable_logging,omitempty"`
 
 	// List of network names specifying networks to which this policy is applied.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Networks []PolicyNetworksParameters `json:"networks,omitempty" tf:"networks,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 

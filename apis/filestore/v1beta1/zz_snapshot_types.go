@@ -72,6 +72,7 @@ type SnapshotObservation struct {
 type SnapshotParameters struct {
 
 	// A description of the snapshot with 2048 characters or less. Requests with longer descriptions will be rejected.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The resource name of the filestore instance.
@@ -88,6 +89,7 @@ type SnapshotParameters struct {
 	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// Resource labels to represent user-provided metadata.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of the location of the instance. This can be a region for ENTERPRISE tier instances.
@@ -96,6 +98,7 @@ type SnapshotParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 

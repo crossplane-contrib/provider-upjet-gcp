@@ -67,9 +67,11 @@ type ConsumerAcceptListsParameters struct {
 
 	// The number of consumer forwarding rules the consumer project can
 	// create.
+	// +kubebuilder:validation:Optional
 	ConnectionLimit *float64 `json:"connectionLimit,omitempty" tf:"connection_limit,omitempty"`
 
 	// A project that is allowed to connect to this service attachment.
+	// +kubebuilder:validation:Optional
 	ProjectIDOrNum *string `json:"projectIdOrNum,omitempty" tf:"project_id_or_num,omitempty"`
 }
 
@@ -170,29 +172,35 @@ type ServiceAttachmentParameters struct {
 
 	// The connection preference to use for this service attachment. Valid
 	// values include "ACCEPT_AUTOMATIC", "ACCEPT_MANUAL".
+	// +kubebuilder:validation:Optional
 	ConnectionPreference *string `json:"connectionPreference,omitempty" tf:"connection_preference,omitempty"`
 
 	// An array of projects that are allowed to connect to this service
 	// attachment.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	ConsumerAcceptLists []ConsumerAcceptListsParameters `json:"consumerAcceptLists,omitempty" tf:"consumer_accept_lists,omitempty"`
 
 	// An array of projects that are not allowed to connect to this service
 	// attachment.
+	// +kubebuilder:validation:Optional
 	ConsumerRejectLists []*string `json:"consumerRejectLists,omitempty" tf:"consumer_reject_lists,omitempty"`
 
 	// An optional description of this resource.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// If specified, the domain name will be used during the integration between
 	// the PSC connected endpoints and the Cloud DNS. For example, this is a
 	// valid domain name: "p.mycompany.com.". Current max number of domain names
 	// supported is 1.
+	// +kubebuilder:validation:Optional
 	DomainNames []*string `json:"domainNames,omitempty" tf:"domain_names,omitempty"`
 
 	// If true, enable the proxy protocol which is for supplying client TCP/IP
 	// address data in TCP connections that traverse proxies on their way to
 	// destination servers.
+	// +kubebuilder:validation:Optional
 	EnableProxyProtocol *bool `json:"enableProxyProtocol,omitempty" tf:"enable_proxy_protocol,omitempty"`
 
 	// An array of subnets that is provided for NAT in this service attachment.
@@ -210,6 +218,7 @@ type ServiceAttachmentParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// URL of the region where the resource resides.

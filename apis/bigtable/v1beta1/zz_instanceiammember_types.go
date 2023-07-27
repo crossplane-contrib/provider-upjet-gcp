@@ -42,10 +42,14 @@ type InstanceIAMMemberConditionObservation struct {
 }
 
 type InstanceIAMMemberConditionParameters struct {
+
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
@@ -72,6 +76,8 @@ type InstanceIAMMemberObservation struct {
 }
 
 type InstanceIAMMemberParameters struct {
+
+	// +kubebuilder:validation:Optional
 	Condition []InstanceIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -80,6 +86,7 @@ type InstanceIAMMemberParameters struct {
 	// +kubebuilder:validation:Required
 	Member *string `json:"member" tf:"member,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// +kubebuilder:validation:Required

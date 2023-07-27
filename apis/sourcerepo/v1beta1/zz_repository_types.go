@@ -49,6 +49,7 @@ type PubsubConfigsObservation struct {
 type PubsubConfigsParameters struct {
 
 	// The format of the Cloud Pub/Sub messages.
+	// +kubebuilder:validation:Optional
 	MessageFormat *string `json:"messageFormat,omitempty" tf:"message_format,omitempty"`
 
 	// Email address of the service account used for publishing Cloud Pub/Sub messages.
@@ -120,11 +121,13 @@ type RepositoryParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// How this repository publishes a change in the repository through Cloud Pub/Sub.
 	// Keyed by the topic names.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	PubsubConfigs []PubsubConfigsParameters `json:"pubsubConfigs,omitempty" tf:"pubsub_configs,omitempty"`
 }
 

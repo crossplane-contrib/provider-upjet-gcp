@@ -59,6 +59,7 @@ type SecretVersionObservation struct {
 type SecretVersionParameters struct {
 
 	// The current state of the SecretVersion.
+	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// Secret Manager secret resource

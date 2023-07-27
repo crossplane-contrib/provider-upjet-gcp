@@ -105,12 +105,15 @@ type HiveMetastoreConfigKerberosConfigParameters struct {
 
 	// A Kerberos keytab file that can be used to authenticate a service principal with a Kerberos Key Distribution Center (KDC).
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Keytab []KeytabParameters `json:"keytab,omitempty" tf:"keytab,omitempty"`
 
 	// A Cloud Storage URI that specifies the path to a krb5.conf file. It is of the form gs://{bucket_name}/path/to/krb5.conf, although the file does not need to be named krb5.conf explicitly.
+	// +kubebuilder:validation:Optional
 	Krb5ConfigGcsURI *string `json:"krb5ConfigGcsUri,omitempty" tf:"krb5_config_gcs_uri,omitempty"`
 
 	// A Kerberos principal that exists in the both the keytab the KDC to authenticate as. A typical principal is of the form "primary/instance@REALM", but there is no exact format.
+	// +kubebuilder:validation:Optional
 	Principal *string `json:"principal,omitempty" tf:"principal,omitempty"`
 }
 
@@ -132,13 +135,16 @@ type HiveMetastoreConfigParameters struct {
 
 	// A mapping of Hive metastore configuration key-value pairs to apply to the Hive metastore (configured in hive-site.xml).
 	// The mappings override system defaults (some keys cannot be overridden)
+	// +kubebuilder:validation:Optional
 	ConfigOverrides map[string]*string `json:"configOverrides,omitempty" tf:"config_overrides,omitempty"`
 
 	// Information used to configure the Hive metastore service as a service principal in a Kerberos realm.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	KerberosConfig []HiveMetastoreConfigKerberosConfigParameters `json:"kerberosConfig,omitempty" tf:"kerberos_config,omitempty"`
 
 	// The Hive metastore schema version.
+	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
@@ -160,6 +166,7 @@ type KeytabParameters struct {
 
 	// The relative resource name of a Secret Manager secret version, in the following form:
 	// "projects/{projectNumber}/secrets/{secret_id}/versions/{version_id}".
+	// +kubebuilder:validation:Optional
 	CloudSecret *string `json:"cloudSecret,omitempty" tf:"cloud_secret,omitempty"`
 }
 
@@ -187,9 +194,11 @@ type MaintenanceWindowParameters struct {
 
 	// The day of week, when the window starts.
 	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
+	// +kubebuilder:validation:Optional
 	DayOfWeek *string `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
 
 	// The hour of day (0-23) when the window starts.
+	// +kubebuilder:validation:Optional
 	HourOfDay *float64 `json:"hourOfDay,omitempty" tf:"hour_of_day,omitempty"`
 }
 
@@ -359,18 +368,22 @@ type MetastoreServiceParameters struct {
 	// The database type that the Metastore service stores its data.
 	// Default value is MYSQL.
 	// Possible values are: MYSQL, SPANNER.
+	// +kubebuilder:validation:Optional
 	DatabaseType *string `json:"databaseType,omitempty" tf:"database_type,omitempty"`
 
 	// Information used to configure the Dataproc Metastore service to encrypt
 	// customer data at rest.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	EncryptionConfig []MetastoreServiceEncryptionConfigParameters `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
 	// Configuration information specific to running Hive metastore software as the metastore service.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	HiveMetastoreConfig []HiveMetastoreConfigParameters `json:"hiveMetastoreConfig,omitempty" tf:"hive_metastore_config,omitempty"`
 
 	// User-defined labels for the metastore service.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location where the metastore service should reside.
@@ -382,34 +395,42 @@ type MetastoreServiceParameters struct {
 	// This specifies when the service can be restarted for maintenance purposes in UTC time.
 	// Maintenance window is not needed for services with the SPANNER database type.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	MaintenanceWindow []MaintenanceWindowParameters `json:"maintenanceWindow,omitempty" tf:"maintenance_window,omitempty"`
 
 	// The relative resource name of the VPC network on which the instance can be accessed. It is specified in the following form:
 	// "projects/{projectNumber}/global/networks/{network_id}".
+	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// The configuration specifying the network settings for the Dataproc Metastore service.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	NetworkConfig []NetworkConfigParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
 
 	// The TCP port at which the metastore service is reached. Default: 9083.
+	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The release channel of the service. If unspecified, defaults to STABLE.
 	// Default value is STABLE.
 	// Possible values are: CANARY, STABLE.
+	// +kubebuilder:validation:Optional
 	ReleaseChannel *string `json:"releaseChannel,omitempty" tf:"release_channel,omitempty"`
 
 	// The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	TelemetryConfig []TelemetryConfigParameters `json:"telemetryConfig,omitempty" tf:"telemetry_config,omitempty"`
 
 	// The tier of the service.
 	// Possible values are: DEVELOPER, ENTERPRISE.
+	// +kubebuilder:validation:Optional
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 }
 
@@ -431,6 +452,7 @@ type NetworkConfigParameters struct {
 
 	// The consumer-side network configuration for the Dataproc Metastore instance.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Consumers []ConsumersParameters `json:"consumers,omitempty" tf:"consumers,omitempty"`
 }
 
@@ -455,6 +477,7 @@ type TelemetryConfigParameters struct {
 	// The output format of the Dataproc Metastore service's logs.
 	// Default value is JSON.
 	// Possible values are: LEGACY, JSON.
+	// +kubebuilder:validation:Optional
 	LogFormat *string `json:"logFormat,omitempty" tf:"log_format,omitempty"`
 }
 

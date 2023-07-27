@@ -101,6 +101,7 @@ type AttestationAuthorityNoteParameters struct {
 	// If this field is empty, this attestor always returns that no valid
 	// attestations exist.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	PublicKeys []PublicKeysParameters `json:"publicKeys,omitempty" tf:"public_keys,omitempty"`
 }
 
@@ -141,14 +142,17 @@ type AttestorParameters struct {
 
 	// A Container Analysis ATTESTATION_AUTHORITY Note, created by the user.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	AttestationAuthorityNote []AttestationAuthorityNoteParameters `json:"attestationAuthorityNote,omitempty" tf:"attestation_authority_note,omitempty"`
 
 	// A descriptive comment. This field may be updated. The field may be
 	// displayed in chooser dialogs.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -184,6 +188,7 @@ type PkixPublicKeyParameters struct {
 
 	// A PEM-encoded public key, as described in
 	// https://tools.ietf.org/html/rfc7468#section-13
+	// +kubebuilder:validation:Optional
 	PublicKeyPem *string `json:"publicKeyPem,omitempty" tf:"public_key_pem,omitempty"`
 
 	// The signature algorithm used to verify a message against
@@ -191,6 +196,7 @@ type PkixPublicKeyParameters struct {
 	// match the structure and any object identifiers encoded in
 	// publicKeyPem (i.e. this algorithm must match that of the
 	// public key).
+	// +kubebuilder:validation:Optional
 	SignatureAlgorithm *string `json:"signatureAlgorithm,omitempty" tf:"signature_algorithm,omitempty"`
 }
 
@@ -271,9 +277,11 @@ type PublicKeysParameters struct {
 	// as the OpenPGP RFC4880 V4 fingerprint, represented as
 	// upper-case hex. If id is provided by the caller, it will
 	// be overwritten by the API-calculated ID.
+	// +kubebuilder:validation:Optional
 	ASCIIArmoredPgpPublicKey *string `json:"asciiArmoredPgpPublicKey,omitempty" tf:"ascii_armored_pgp_public_key,omitempty"`
 
 	// A descriptive comment. This field may be updated.
+	// +kubebuilder:validation:Optional
 	Comment *string `json:"comment,omitempty" tf:"comment,omitempty"`
 
 	// The ID of this public key. Signatures verified by BinAuthz
@@ -282,6 +290,7 @@ type PublicKeysParameters struct {
 	// field exactly. Additional restrictions on this field can
 	// be imposed based on which public key type is encapsulated.
 	// See the documentation on publicKey cases below for details.
+	// +kubebuilder:validation:Optional
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// A raw PKIX SubjectPublicKeyInfo format public key.
@@ -290,6 +299,7 @@ type PublicKeysParameters struct {
 	// blank, a default one will be computed based on the digest of the DER
 	// encoding of the public key.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	PkixPublicKey []PkixPublicKeyParameters `json:"pkixPublicKey,omitempty" tf:"pkix_public_key,omitempty"`
 }
 

@@ -157,17 +157,21 @@ type InstanceParameters struct {
 	AuthorizedNetworkSelector *v1.Selector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
 
 	// A user-visible name for the instance.
+	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Resource labels to represent user-provided metadata.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Maintenance policy for an instance.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	MaintenancePolicy []MaintenancePolicyParameters `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
 
 	// User-specified parameters for this memcache instance.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	MemcacheParameters []MemcacheParametersParameters `json:"memcacheParameters,omitempty" tf:"memcache_parameters,omitempty"`
 
 	// The major version of Memcached software. If not provided, latest supported version will be used.
@@ -175,27 +179,34 @@ type InstanceParameters struct {
 	// determined by our system based on the latest supported minor version.
 	// Default value is MEMCACHE_1_5.
 	// Possible values are: MEMCACHE_1_5.
+	// +kubebuilder:validation:Optional
 	MemcacheVersion *string `json:"memcacheVersion,omitempty" tf:"memcache_version,omitempty"`
 
 	// The resource name of the instance.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Configuration for memcache nodes.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	NodeConfig []NodeConfigParameters `json:"nodeConfig,omitempty" tf:"node_config,omitempty"`
 
 	// Number of nodes in the memcache instance.
+	// +kubebuilder:validation:Optional
 	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The region of the Memcache instance. If it is not provided, the provider region is used.
+	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// Zones where memcache nodes should be provisioned.  If not
 	// provided, all zones will be used.
+	// +kubebuilder:validation:Optional
 	Zones []*string `json:"zones,omitempty" tf:"zones,omitempty"`
 }
 
@@ -244,12 +255,14 @@ type MaintenancePolicyParameters struct {
 	// Optional. Description of what this policy is for.
 	// Create/Update methods return INVALID_ARGUMENT if the
 	// length is greater than 512.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Required. Maintenance window that is applied to resources covered by this policy.
 	// Minimum 1. For the current version, the maximum number of weekly_maintenance_windows
 	// is expected to be one.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	WeeklyMaintenanceWindow []WeeklyMaintenanceWindowParameters `json:"weeklyMaintenanceWindow,omitempty" tf:"weekly_maintenance_window,omitempty"`
 }
 
@@ -329,6 +342,7 @@ type MemcacheParametersObservation struct {
 type MemcacheParametersParameters struct {
 
 	// User-defined set of parameters to use in the memcache process.
+	// +kubebuilder:validation:Optional
 	Params map[string]*string `json:"params,omitempty" tf:"params,omitempty"`
 }
 
@@ -353,9 +367,11 @@ type NodeConfigObservation struct {
 type NodeConfigParameters struct {
 
 	// Number of CPUs per node.
+	// +kubebuilder:validation:Optional
 	CPUCount *float64 `json:"cpuCount,omitempty" tf:"cpu_count,omitempty"`
 
 	// Memory size in Mebibytes for each memcache node.
+	// +kubebuilder:validation:Optional
 	MemorySizeMb *float64 `json:"memorySizeMb,omitempty" tf:"memory_size_mb,omitempty"`
 }
 
@@ -397,16 +413,20 @@ type StartTimeParameters struct {
 
 	// Hours of day in 24 hour format. Should be from 0 to 23.
 	// An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+	// +kubebuilder:validation:Optional
 	Hours *float64 `json:"hours,omitempty" tf:"hours,omitempty"`
 
 	// Minutes of hour of day. Must be from 0 to 59.
+	// +kubebuilder:validation:Optional
 	Minutes *float64 `json:"minutes,omitempty" tf:"minutes,omitempty"`
 
 	// Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999.
+	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
 	// Seconds of minutes of the time. Must normally be from 0 to 59.
 	// An API may allow the value 60 if it allows leap-seconds.
+	// +kubebuilder:validation:Optional
 	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
@@ -443,15 +463,18 @@ type WeeklyMaintenanceWindowObservation struct {
 type WeeklyMaintenanceWindowParameters struct {
 
 	// Required. The day of week that maintenance updates occur.
+	// +kubebuilder:validation:Optional
 	Day *string `json:"day,omitempty" tf:"day,omitempty"`
 
 	// Required. The length of the maintenance window, ranging from 3 hours to 8 hours.
 	// A duration in seconds with up to nine fractional digits,
 	// terminated by 's'. Example: "3.5s".
+	// +kubebuilder:validation:Optional
 	Duration *string `json:"duration,omitempty" tf:"duration,omitempty"`
 
 	// Required. Start time of the window in UTC time.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	StartTime []StartTimeParameters `json:"startTime,omitempty" tf:"start_time,omitempty"`
 }
 

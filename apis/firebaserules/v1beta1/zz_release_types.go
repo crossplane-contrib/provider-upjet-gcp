@@ -55,6 +55,7 @@ type ReleaseObservation struct {
 type ReleaseParameters struct {
 
 	// The project for the resource
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Name of the Ruleset referred to by this Release. The Ruleset must exist for the Release to be created.

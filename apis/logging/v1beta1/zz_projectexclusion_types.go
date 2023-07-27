@@ -69,19 +69,23 @@ type ProjectExclusionObservation struct {
 type ProjectExclusionParameters struct {
 
 	// A human-readable description.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Whether this exclusion rule should be disabled or not. This defaults to
 	// false.
+	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
 	// The filter to apply when excluding logs. Only log entries that match the filter are excluded.
 	// See Advanced Log Filters for information on how to
 	// write a filter.
+	// +kubebuilder:validation:Optional
 	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
 
 	// The project to create the exclusion in. If omitted, the project associated with the provider is
 	// used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 

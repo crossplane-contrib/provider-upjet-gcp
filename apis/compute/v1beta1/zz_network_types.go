@@ -148,18 +148,22 @@ type NetworkParameters struct {
 	// 10.128.0.0/9 address range.
 	// When set to false, the network is created in "custom subnet mode" so
 	// the user can explicitly connect subnetwork resources.
+	// +kubebuilder:validation:Optional
 	AutoCreateSubnetworks *bool `json:"autoCreateSubnetworks,omitempty" tf:"auto_create_subnetworks,omitempty"`
 
 	// If set to true, default routes (0.0.0.0/0) will be deleted
 	// immediately after network creation. Defaults to false.
+	// +kubebuilder:validation:Optional
 	DeleteDefaultRoutesOnCreate *bool `json:"deleteDefaultRoutesOnCreate,omitempty" tf:"delete_default_routes_on_create,omitempty"`
 
 	// An optional description of this resource. The resource must be
 	// recreated to modify this field.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Enable ULA internal ipv6 on this network. Enabling this feature will assign
 	// a /48 from google defined ULA prefix fd20::/20.
+	// +kubebuilder:validation:Optional
 	EnableUlaInternalIPv6 *bool `json:"enableUlaInternalIpv6,omitempty" tf:"enable_ula_internal_ipv6,omitempty"`
 
 	// When enabling ula internal ipv6, caller optionally can specify the /48 range
@@ -167,6 +171,7 @@ type NetworkParameters struct {
 	// valid /48 ULA IPv6 address and must be within the fd20::/20. Operation will
 	// fail if the speficied /48 is already in used by another resource.
 	// If the field is not speficied, then a /48 range will be randomly allocated from fd20::/20 and returned via this field.
+	// +kubebuilder:validation:Optional
 	InternalIPv6Range *string `json:"internalIpv6Range,omitempty" tf:"internal_ipv6_range,omitempty"`
 
 	// Maximum Transmission Unit in bytes. The default value is 1460 bytes.
@@ -174,15 +179,18 @@ type NetworkParameters struct {
 	// Note that packets larger than 1500 bytes (standard Ethernet) can be subject to TCP-MSS clamping or dropped
 	// with an ICMP Fragmentation-Needed message if the packets are routed to the Internet or other VPCs
 	// with varying MTUs.
+	// +kubebuilder:validation:Optional
 	Mtu *float64 `json:"mtu,omitempty" tf:"mtu,omitempty"`
 
 	// Set the order that Firewall Rules and Firewall Policies are evaluated.
 	// Default value is AFTER_CLASSIC_FIREWALL.
 	// Possible values are: BEFORE_CLASSIC_FIREWALL, AFTER_CLASSIC_FIREWALL.
+	// +kubebuilder:validation:Optional
 	NetworkFirewallPolicyEnforcementOrder *string `json:"networkFirewallPolicyEnforcementOrder,omitempty" tf:"network_firewall_policy_enforcement_order,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The network-wide routing mode to use. If set to REGIONAL, this
@@ -191,6 +199,7 @@ type NetworkParameters struct {
 	// this network's cloud routers will advertise routes with all
 	// subnetworks of this network, across regions.
 	// Possible values are: REGIONAL, GLOBAL.
+	// +kubebuilder:validation:Optional
 	RoutingMode *string `json:"routingMode,omitempty" tf:"routing_mode,omitempty"`
 }
 

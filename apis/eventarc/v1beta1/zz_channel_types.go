@@ -76,6 +76,7 @@ type ChannelObservation struct {
 type ChannelParameters struct {
 
 	// Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern projects/*/locations/*/keyRings/*/cryptoKeys/*.
+	// +kubebuilder:validation:Optional
 	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
 
 	// The location for the resource
@@ -83,9 +84,11 @@ type ChannelParameters struct {
 	Location *string `json:"location" tf:"location,omitempty"`
 
 	// The project for the resource
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The name of the event provider (e.g. Eventarc SaaS partner) associated with the channel. This provider will be granted permissions to publish events to the channel. Format: projects/{project}/locations/{location}/providers/{provider_id}.
+	// +kubebuilder:validation:Optional
 	ThirdPartyProvider *string `json:"thirdPartyProvider,omitempty" tf:"third_party_provider,omitempty"`
 }
 

@@ -49,9 +49,11 @@ type CloudRunServiceObservation struct {
 type CloudRunServiceParameters struct {
 
 	// Optional. The relative path on the GKE service the events should be sent to. The value must conform to the definition of a URI path segment (section 3.3 of RFC2396). Examples: "/route", "route", "route/subroute".
+	// +kubebuilder:validation:Optional
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
 	// Required. The region the Cloud Run service is deployed in.
+	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// Required. Name of the GKE service.
@@ -101,15 +103,19 @@ type DestinationObservation struct {
 type DestinationParameters struct {
 
 	// [WARNING] Configuring a Cloud Function in Trigger is not supported as of today. The Cloud Function resource name. Format: projects/{project}/locations/{location}/functions/{function}
+	// +kubebuilder:validation:Optional
 	CloudFunction *string `json:"cloudFunction,omitempty" tf:"cloud_function,omitempty"`
 
 	// Cloud Run fully-managed service that receives the events. The service should be running in the same project of the trigger.
+	// +kubebuilder:validation:Optional
 	CloudRunService []CloudRunServiceParameters `json:"cloudRunService,omitempty" tf:"cloud_run_service,omitempty"`
 
 	// A GKE service capable of receiving events. The service should be running in the same project as the trigger.
+	// +kubebuilder:validation:Optional
 	Gke []GkeParameters `json:"gke,omitempty" tf:"gke,omitempty"`
 
 	// The resource name of the Workflow whose Executions are triggered by the events. The Workflow resource should be deployed in the same project as the trigger. Format: projects/{project}/locations/{location}/workflows/{workflow}
+	// +kubebuilder:validation:Optional
 	Workflow *string `json:"workflow,omitempty" tf:"workflow,omitempty"`
 }
 
@@ -149,6 +155,7 @@ type GkeObservation struct {
 type GkeParameters struct {
 
 	// Required. The name of the cluster the GKE service is running in. The cluster must be running in the same project as the trigger being created.
+	// +kubebuilder:validation:Optional
 	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
 
 	// The location for the resource
@@ -156,12 +163,15 @@ type GkeParameters struct {
 	Location *string `json:"location" tf:"location,omitempty"`
 
 	// Required. The namespace the GKE service is running in.
+	// +kubebuilder:validation:Optional
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 
 	// Optional. The relative path on the GKE service the events should be sent to. The value must conform to the definition of a URI path segment (section 3.3 of RFC2396). Examples: "/route", "route", "route/subroute".
+	// +kubebuilder:validation:Optional
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
 	// Required. Name of the GKE service.
+	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 
@@ -192,12 +202,15 @@ type MatchingCriteriaObservation struct {
 type MatchingCriteriaParameters struct {
 
 	// Required. The name of a CloudEvents attribute. Currently, only a subset of attributes are supported for filtering. All triggers MUST provide a filter for the 'type' attribute.
+	// +kubebuilder:validation:Optional
 	Attribute *string `json:"attribute,omitempty" tf:"attribute,omitempty"`
 
 	// Optional. The operator used for matching the events with the value of the filter. If not specified, only events that have an exact key-value pair specified in the filter are matched. The only allowed value is match-path-pattern.
+	// +kubebuilder:validation:Optional
 	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 
 	// Required. The value for the attribute. See https://cloud.google.com/eventarc/docs/creating-triggers#trigger-gcloud for available values.
+	// +kubebuilder:validation:Optional
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
@@ -219,6 +232,7 @@ type PubsubObservation struct {
 type PubsubParameters struct {
 
 	// Optional. The name of the Pub/Sub topic created and managed by Eventarc system as a transport for the event delivery. Format: projects/{PROJECT_ID}/topics/{TOPIC_NAME}. You may set an existing topic for triggers of the type google.cloud.pubsub.topic.v1.messagePublished only. The topic you provide here will not be deleted by Eventarc at trigger deletion.
+	// +kubebuilder:validation:Optional
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 }
 
@@ -237,6 +251,7 @@ type TransportObservation struct {
 type TransportParameters struct {
 
 	// The Pub/Sub topic and subscription used by Eventarc as delivery intermediary.
+	// +kubebuilder:validation:Optional
 	Pubsub []PubsubParameters `json:"pubsub,omitempty" tf:"pubsub,omitempty"`
 }
 
@@ -312,12 +327,15 @@ type TriggerObservation struct {
 type TriggerParameters struct {
 
 	// Optional. The name of the channel associated with the trigger in projects/{project}/locations/{location}/channels/{channel} format. You must provide a channel to receive events from Eventarc SaaS partners.
+	// +kubebuilder:validation:Optional
 	Channel *string `json:"channel,omitempty" tf:"channel,omitempty"`
 
 	// Required. Destination specifies where the events should be sent to.
+	// +kubebuilder:validation:Optional
 	Destination []DestinationParameters `json:"destination,omitempty" tf:"destination,omitempty"`
 
 	// Optional. User labels attached to the triggers that can be used to group resources.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location for the resource
@@ -325,15 +343,19 @@ type TriggerParameters struct {
 	Location *string `json:"location" tf:"location,omitempty"`
 
 	// Required. null The list of filters that applies to event attributes. Only events that match all the provided filters will be sent to the destination.
+	// +kubebuilder:validation:Optional
 	MatchingCriteria []MatchingCriteriaParameters `json:"matchingCriteria,omitempty" tf:"matching_criteria,omitempty"`
 
 	// The project for the resource
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Optional. The IAM service account email associated with the trigger. The service account represents the identity of the trigger. The principal who calls this API must have iam.serviceAccounts.actAs permission in the service account. See https://cloud.google.com/iam/docs/understanding-service-accounts#sa_common for more information. For Cloud Run destinations, this service account is used to generate identity tokens when invoking the service. See https://cloud.google.com/run/docs/triggering/pubsub-push#create-service-account for information on how to invoke authenticated Cloud Run services. In order to create Audit Log triggers, the service account should also have roles/eventarc.eventReceiver IAM role.
+	// +kubebuilder:validation:Optional
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	// Optional. In order to deliver messages, Eventarc may use other GCP products as transport intermediary. This field contains a reference to that transport intermediary. This information can be used for debugging purposes.
+	// +kubebuilder:validation:Optional
 	Transport []TransportParameters `json:"transport,omitempty" tf:"transport,omitempty"`
 }
 

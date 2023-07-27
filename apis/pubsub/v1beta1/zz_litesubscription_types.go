@@ -43,6 +43,7 @@ type DeliveryConfigParameters struct {
 
 	// When this subscription should send messages to subscribers relative to messages persistence in storage.
 	// Possible values are: DELIVER_IMMEDIATELY, DELIVER_AFTER_STORED, DELIVERY_REQUIREMENT_UNSPECIFIED.
+	// +kubebuilder:validation:Optional
 	DeliveryRequirement *string `json:"deliveryRequirement,omitempty" tf:"delivery_requirement,omitempty"`
 }
 
@@ -87,13 +88,16 @@ type LiteSubscriptionParameters struct {
 
 	// The settings for this subscription's message delivery.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	DeliveryConfig []DeliveryConfigParameters `json:"deliveryConfig,omitempty" tf:"delivery_config,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The region of the pubsub lite topic.
+	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// A reference to a Topic resource.

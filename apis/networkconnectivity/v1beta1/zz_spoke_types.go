@@ -43,6 +43,7 @@ type InstancesObservation struct {
 type InstancesParameters struct {
 
 	// The IP address on the VM to use for peering.
+	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
 	// The URI of the virtual machine resource
@@ -81,9 +82,11 @@ type LinkedInterconnectAttachmentsObservation struct {
 type LinkedInterconnectAttachmentsParameters struct {
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
+	// +kubebuilder:validation:Optional
 	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer,omitempty" tf:"site_to_site_data_transfer,omitempty"`
 
 	// The URIs of linked interconnect attachment resources
+	// +kubebuilder:validation:Optional
 	Uris []*string `json:"uris,omitempty" tf:"uris,omitempty"`
 }
 
@@ -108,9 +111,11 @@ type LinkedRouterApplianceInstancesObservation struct {
 type LinkedRouterApplianceInstancesParameters struct {
 
 	// The list of router appliance instances
+	// +kubebuilder:validation:Optional
 	Instances []InstancesParameters `json:"instances,omitempty" tf:"instances,omitempty"`
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
+	// +kubebuilder:validation:Optional
 	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer,omitempty" tf:"site_to_site_data_transfer,omitempty"`
 }
 
@@ -135,9 +140,11 @@ type LinkedVPNTunnelsObservation struct {
 type LinkedVPNTunnelsParameters struct {
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
+	// +kubebuilder:validation:Optional
 	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer,omitempty" tf:"site_to_site_data_transfer,omitempty"`
 
 	// The URIs of linked VPN tunnel resources.
+	// +kubebuilder:validation:Optional
 	Uris []*string `json:"uris,omitempty" tf:"uris,omitempty"`
 }
 
@@ -216,6 +223,7 @@ type SpokeObservation struct {
 type SpokeParameters struct {
 
 	// An optional description of the spoke.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Immutable. The URI of the hub that this spoke is attached to.
@@ -233,24 +241,31 @@ type SpokeParameters struct {
 	HubSelector *v1.Selector `json:"hubSelector,omitempty" tf:"-"`
 
 	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// A collection of VLAN attachment resources. These resources should be redundant attachments that all advertise the same prefixes to Google Cloud. Alternatively, in active/passive configurations, all attachments should be capable of advertising the same prefixes.
+	// +kubebuilder:validation:Optional
 	LinkedInterconnectAttachments []LinkedInterconnectAttachmentsParameters `json:"linkedInterconnectAttachments,omitempty" tf:"linked_interconnect_attachments,omitempty"`
 
 	// The URIs of linked Router appliance resources
+	// +kubebuilder:validation:Optional
 	LinkedRouterApplianceInstances []LinkedRouterApplianceInstancesParameters `json:"linkedRouterApplianceInstances,omitempty" tf:"linked_router_appliance_instances,omitempty"`
 
 	// The URIs of linked VPN tunnel resources
+	// +kubebuilder:validation:Optional
 	LinkedVPNTunnels []LinkedVPNTunnelsParameters `json:"linkedVpnTunnels,omitempty" tf:"linked_vpn_tunnels,omitempty"`
 
 	// The location for the resource
+	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// Immutable. The name of the spoke. Spoke names must be unique.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The project for the resource
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 

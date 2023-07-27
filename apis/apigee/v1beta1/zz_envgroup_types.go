@@ -47,6 +47,7 @@ type EnvgroupObservation struct {
 type EnvgroupParameters struct {
 
 	// Hostnames of the environment group.
+	// +kubebuilder:validation:Optional
 	Hostnames []*string `json:"hostnames,omitempty" tf:"hostnames,omitempty"`
 
 	// The Apigee Organization associated with the Apigee environment group,

@@ -105,28 +105,35 @@ type InstanceParameters struct {
 	// is stored. Values are typically of the form regional-europe-west1 , us-central etc.
 	// In order to obtain a valid list please consult the
 	// Configuration section of the docs.
+	// +kubebuilder:validation:Optional
 	Config *string `json:"config,omitempty" tf:"config,omitempty"`
 
 	// The descriptive name for this instance as it appears in UIs. Must be
 	// unique per project and between 4 and 30 characters in length.
+	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// When deleting a spanner instance, this boolean option will delete all backups of this instance.
 	// This must be set to true if you created a backup manually in the console.
+	// +kubebuilder:validation:Optional
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
 
 	// An object containing a list of "key": value pairs.
 	// Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The number of nodes allocated to this instance.
+	// +kubebuilder:validation:Optional
 	NumNodes *float64 `json:"numNodes,omitempty" tf:"num_nodes,omitempty"`
 
 	// The number of processing units allocated to this instance.
+	// +kubebuilder:validation:Optional
 	ProcessingUnits *float64 `json:"processingUnits,omitempty" tf:"processing_units,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 

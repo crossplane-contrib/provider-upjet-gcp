@@ -285,6 +285,7 @@ type ForwardingRuleObservation struct {
 type ForwardingRuleParameters struct {
 
 	// This field can only be used:
+	// +kubebuilder:validation:Optional
 	AllPorts *bool `json:"allPorts,omitempty" tf:"all_ports,omitempty"`
 
 	// This field is used along with the backend_service field for
@@ -294,6 +295,7 @@ type ForwardingRuleParameters struct {
 	// regions.
 	// Otherwise only allows access from clients in the same region as the
 	// internal load balancer.
+	// +kubebuilder:validation:Optional
 	AllowGlobalAccess *bool `json:"allowGlobalAccess,omitempty" tf:"allow_global_access,omitempty"`
 
 	// Identifies the backend service to which the forwarding rule sends traffic.
@@ -314,6 +316,7 @@ type ForwardingRuleParameters struct {
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// IP address for which this forwarding rule accepts traffic. When a client
@@ -343,6 +346,7 @@ type ForwardingRuleParameters struct {
 	// as described in Load balancing
 	// features.
 	// Possible values are: TCP, UDP, ESP, AH, SCTP, ICMP, L3_DEFAULT.
+	// +kubebuilder:validation:Optional
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
 	// Indicates whether or not this load balancer can be used as a collector for
@@ -351,9 +355,11 @@ type ForwardingRuleParameters struct {
 	// PacketMirroring rule applies to them.
 	// This can only be set to true for load balancers that have their
 	// loadBalancingScheme set to INTERNAL.
+	// +kubebuilder:validation:Optional
 	IsMirroringCollector *bool `json:"isMirroringCollector,omitempty" tf:"is_mirroring_collector,omitempty"`
 
 	// Labels to apply to this forwarding rule.  A list of key->value pairs.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Specifies the forwarding rule type.
@@ -361,6 +367,7 @@ type ForwardingRuleParameters struct {
 	// Forwarding rule concepts.
 	// Default value is EXTERNAL.
 	// Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL, INTERNAL_MANAGED.
+	// +kubebuilder:validation:Optional
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
 	// This field is not used for external load balancing.
@@ -394,9 +401,11 @@ type ForwardingRuleParameters struct {
 	// If IPAddress is specified, this value must be equal to the
 	// networkTier of the Address.
 	// Possible values are: PREMIUM, STANDARD.
+	// +kubebuilder:validation:Optional
 	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
 
 	// This field can only be used:
+	// +kubebuilder:validation:Optional
 	PortRange *string `json:"portRange,omitempty" tf:"port_range,omitempty"`
 
 	// and port_range fields are mutually exclusive.
@@ -406,10 +415,12 @@ type ForwardingRuleParameters struct {
 	// For internal forwarding rules within the same VPC network, two or more
 	// forwarding rules cannot use the same [IPAddress, IPProtocol]
 	// pair, and cannot have overlapping portRanges.
+	// +kubebuilder:validation:Optional
 	Ports []*string `json:"ports,omitempty" tf:"ports,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// A reference to the region where the regional forwarding rule resides.
@@ -420,6 +431,7 @@ type ForwardingRuleParameters struct {
 	// Service Directory resources to register this forwarding rule with.
 	// Currently, only supports a single Service Directory resource.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	ServiceDirectoryRegistrations []ServiceDirectoryRegistrationsParameters `json:"serviceDirectoryRegistrations,omitempty" tf:"service_directory_registrations,omitempty"`
 
 	// An optional prefix to the service name for this Forwarding Rule.
@@ -432,9 +444,11 @@ type ForwardingRuleParameters struct {
 	// must be a dash, lowercase letter, or digit, except the last
 	// character, which cannot be a dash.
 	// This field is only used for INTERNAL load balancing.
+	// +kubebuilder:validation:Optional
 	ServiceLabel *string `json:"serviceLabel,omitempty" tf:"service_label,omitempty"`
 
 	// If not empty, this Forwarding Rule will only forward the traffic when the source IP address matches one of the IP addresses or CIDR ranges set here. Note that a Forwarding Rule can only have up to 64 source IP ranges, and this field can only be used with a regional Forwarding Rule whose scheme is EXTERNAL. Each sourceIpRange entry should be either an IP address (for example, 1.2.3.4) or a CIDR range (for example, 1.2.3.0/24).
+	// +kubebuilder:validation:Optional
 	SourceIPRanges []*string `json:"sourceIpRanges,omitempty" tf:"source_ip_ranges,omitempty"`
 
 	// This field identifies the subnetwork that the load balanced IP should
@@ -494,9 +508,11 @@ type ServiceDirectoryRegistrationsObservation struct {
 type ServiceDirectoryRegistrationsParameters struct {
 
 	// Service Directory namespace to register the forwarding rule under.
+	// +kubebuilder:validation:Optional
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 
 	// Service Directory service to register the forwarding rule under.
+	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 

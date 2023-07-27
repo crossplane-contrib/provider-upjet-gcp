@@ -64,6 +64,7 @@ type DefaultObjectACLParameters struct {
 	// List of role/entity pairs in the form ROLE:entity.
 	// See GCS Object ACL documentation for more details.
 	// Omitting the field is the same as providing an empty list.
+	// +kubebuilder:validation:Optional
 	RoleEntity []*string `json:"roleEntity,omitempty" tf:"role_entity,omitempty"`
 }
 

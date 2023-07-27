@@ -85,14 +85,17 @@ type FilterParameters struct {
 
 	// IP CIDR ranges that apply as a filter on the source (ingress) or
 	// destination (egress) IP in the IP header. Only IPv4 is supported.
+	// +kubebuilder:validation:Optional
 	CidrRanges []*string `json:"cidrRanges,omitempty" tf:"cidr_ranges,omitempty"`
 
 	// Direction of traffic to mirror.
 	// Default value is BOTH.
 	// Possible values are: INGRESS, EGRESS, BOTH.
+	// +kubebuilder:validation:Optional
 	Direction *string `json:"direction,omitempty" tf:"direction,omitempty"`
 
 	// Possible IP protocols including tcp, udp, icmp and esp
+	// +kubebuilder:validation:Optional
 	IPProtocols []*string `json:"ipProtocols,omitempty" tf:"ip_protocols,omitempty"`
 }
 
@@ -154,13 +157,16 @@ type MirroredResourcesParameters struct {
 
 	// All the listed instances will be mirrored.  Specify at most 50.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Instances []InstancesParameters `json:"instances,omitempty" tf:"instances,omitempty"`
 
 	// All instances in one of these subnetworks will be mirrored.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Subnetworks []SubnetworksParameters `json:"subnetworks,omitempty" tf:"subnetworks,omitempty"`
 
 	// All instances with these tags will be mirrored.
+	// +kubebuilder:validation:Optional
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
@@ -276,32 +282,39 @@ type PacketMirroringParameters struct {
 	// specified forwarding rule must have is_mirroring_collector
 	// set to true.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	CollectorIlb []CollectorIlbParameters `json:"collectorIlb,omitempty" tf:"collector_ilb,omitempty"`
 
 	// A human-readable description of the rule.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// A filter for mirrored traffic.  If unset, all traffic is mirrored.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Filter []FilterParameters `json:"filter,omitempty" tf:"filter,omitempty"`
 
 	// A means of specifying which resources to mirror.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	MirroredResources []MirroredResourcesParameters `json:"mirroredResources,omitempty" tf:"mirrored_resources,omitempty"`
 
 	// Specifies the mirrored VPC network. Only packets in this network
 	// will be mirrored. All mirrored VMs should have a NIC in the given
 	// network. All mirrored subnetworks should belong to the given network.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Network []PacketMirroringNetworkParameters `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Since only one rule can be active at a time, priority is
 	// used to break ties in the case of two rules that apply to
 	// the same instances.
+	// +kubebuilder:validation:Optional
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The Region in which the created address should reside.
@@ -325,6 +338,7 @@ type SubnetworksObservation struct {
 type SubnetworksParameters struct {
 
 	// The URL of the subnetwork where this rule should be active.
+	// +kubebuilder:validation:Optional
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 }
 

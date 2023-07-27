@@ -80,6 +80,7 @@ type HaVPNGatewayObservation struct {
 type HaVPNGatewayParameters struct {
 
 	// An optional description of this resource.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The network this VPN gateway is accepting traffic for.
@@ -98,6 +99,7 @@ type HaVPNGatewayParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The region this gateway should sit in.
@@ -108,10 +110,12 @@ type HaVPNGatewayParameters struct {
 	// If not specified, IPV4_ONLY will be used.
 	// Default value is IPV4_ONLY.
 	// Possible values are: IPV4_ONLY, IPV4_IPV6.
+	// +kubebuilder:validation:Optional
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
 
 	// A list of interfaces on this VPN gateway.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	VPNInterfaces []VPNInterfacesParameters `json:"vpnInterfaces,omitempty" tf:"vpn_interfaces,omitempty"`
 }
 
@@ -142,6 +146,7 @@ type VPNInterfacesObservation struct {
 type VPNInterfacesParameters struct {
 
 	// The numeric ID of this VPN gateway interface.
+	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
 
 	// URL of the interconnect attachment resource. When the value

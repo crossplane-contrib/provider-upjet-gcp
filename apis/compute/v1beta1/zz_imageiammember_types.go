@@ -42,10 +42,14 @@ type ImageIAMMemberConditionObservation struct {
 }
 
 type ImageIAMMemberConditionParameters struct {
+
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
@@ -76,6 +80,8 @@ type ImageIAMMemberObservation struct {
 }
 
 type ImageIAMMemberParameters struct {
+
+	// +kubebuilder:validation:Optional
 	Condition []ImageIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// +crossplane:generate:reference:type=Image
@@ -90,10 +96,13 @@ type ImageIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	ImageSelector *v1.Selector `json:"imageSelector,omitempty" tf:"-"`
 
+	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 

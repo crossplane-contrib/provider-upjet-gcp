@@ -55,6 +55,7 @@ type MessageStoragePolicyParameters struct {
 	// of GCP altogether) will be routed for storage in one of the
 	// allowed regions. An empty list means that no regions are allowed,
 	// and is not a valid configuration.
+	// +kubebuilder:validation:Optional
 	AllowedPersistenceRegions []*string `json:"allowedPersistenceRegions,omitempty" tf:"allowed_persistence_regions,omitempty"`
 }
 
@@ -91,12 +92,14 @@ type SchemaSettingsParameters struct {
 	// The encoding of messages validated against schema.
 	// Default value is ENCODING_UNSPECIFIED.
 	// Possible values are: ENCODING_UNSPECIFIED, JSON, BINARY.
+	// +kubebuilder:validation:Optional
 	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
 
 	// The name of the schema that messages published should be
 	// validated against. Format is projects/{project}/schemas/{schema}.
 	// The value of this field will be deleted-schema
 	// if the schema has been deleted.
+	// +kubebuilder:validation:Optional
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 }
 
@@ -189,6 +192,7 @@ type TopicParameters struct {
 	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 
 	// A set of key/value label pairs to assign to this Topic.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Indicates the minimum duration to retain a message after it is published
@@ -198,20 +202,24 @@ type TopicParameters struct {
 	// that is up to messageRetentionDuration in the past. If this field is not
 	// set, message retention is controlled by settings on individual subscriptions.
 	// Cannot be more than 31 days or less than 10 minutes.
+	// +kubebuilder:validation:Optional
 	MessageRetentionDuration *string `json:"messageRetentionDuration,omitempty" tf:"message_retention_duration,omitempty"`
 
 	// Policy constraining the set of Google Cloud Platform regions where
 	// messages published to the topic may be stored. If not present, then no
 	// constraints are in effect.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	MessageStoragePolicy []MessageStoragePolicyParameters `json:"messageStoragePolicy,omitempty" tf:"message_storage_policy,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Settings for validating messages published against a schema.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	SchemaSettings []SchemaSettingsParameters `json:"schemaSettings,omitempty" tf:"schema_settings,omitempty"`
 }
 

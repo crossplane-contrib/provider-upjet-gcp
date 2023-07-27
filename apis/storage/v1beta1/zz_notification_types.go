@@ -88,15 +88,19 @@ type NotificationParameters struct {
 	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// A set of key/value attribute pairs to attach to each Cloud PubSub message published for this notification subscription
+	// +kubebuilder:validation:Optional
 	CustomAttributes map[string]*string `json:"customAttributes,omitempty" tf:"custom_attributes,omitempty"`
 
 	// List of event type filters for this notification config. If not specified, Cloud Storage will send notifications for all event types. The valid types are: "OBJECT_FINALIZE", "OBJECT_METADATA_UPDATE", "OBJECT_DELETE", "OBJECT_ARCHIVE"
+	// +kubebuilder:validation:Optional
 	EventTypes []*string `json:"eventTypes,omitempty" tf:"event_types,omitempty"`
 
 	// Specifies a prefix path filter for this notification config. Cloud Storage will only send notifications for objects in this bucket whose names begin with the specified prefix.
+	// +kubebuilder:validation:Optional
 	ObjectNamePrefix *string `json:"objectNamePrefix,omitempty" tf:"object_name_prefix,omitempty"`
 
 	// The desired content of the Payload. One of "JSON_API_V1" or "NONE".
+	// +kubebuilder:validation:Optional
 	PayloadFormat *string `json:"payloadFormat,omitempty" tf:"payload_format,omitempty"`
 
 	// The Cloud PubSub topic to which this subscription publishes. Expects either the

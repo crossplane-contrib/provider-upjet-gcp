@@ -51,10 +51,12 @@ type AcceleratorsParameters struct {
 
 	// The type of an accelator for a CDF instance.
 	// Possible values are: CDC, HEALTHCARE, CCAI_INSIGHTS.
+	// +kubebuilder:validation:Optional
 	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
 
 	// The type of an accelator for a CDF instance.
 	// Possible values are: ENABLED, DISABLED.
+	// +kubebuilder:validation:Optional
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
 
@@ -102,6 +104,7 @@ type EventPublishConfigObservation struct {
 type EventPublishConfigParameters struct {
 
 	// Option to enable Event Publishing.
+	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// The resource name of the Pub/Sub topic. Format: projects/{projectId}/topics/{topic_id}
@@ -288,52 +291,66 @@ type InstanceParameters struct {
 	// If accelerators are enabled it is possible a permadiff will be created with the Options field.
 	// Users will need to either manually update their state file to include these diffed options, or include the field in a lifecycle ignore changes block.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Accelerators []AcceleratorsParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
 	// The crypto key configuration. This field is used by the Customer-Managed Encryption Keys (CMEK) feature.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	CryptoKeyConfig []CryptoKeyConfigParameters `json:"cryptoKeyConfig,omitempty" tf:"crypto_key_config,omitempty"`
 
 	// User-managed service account to set on Dataproc when Cloud Data Fusion creates Dataproc to run data processing pipelines.
+	// +kubebuilder:validation:Optional
 	DataprocServiceAccount *string `json:"dataprocServiceAccount,omitempty" tf:"dataproc_service_account,omitempty"`
 
 	// An optional description of the instance.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Display name for an instance.
+	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Option to enable granular role-based access control.
+	// +kubebuilder:validation:Optional
 	EnableRbac *bool `json:"enableRbac,omitempty" tf:"enable_rbac,omitempty"`
 
 	// Option to enable Stackdriver Logging.
+	// +kubebuilder:validation:Optional
 	EnableStackdriverLogging *bool `json:"enableStackdriverLogging,omitempty" tf:"enable_stackdriver_logging,omitempty"`
 
 	// Option to enable Stackdriver Monitoring.
+	// +kubebuilder:validation:Optional
 	EnableStackdriverMonitoring *bool `json:"enableStackdriverMonitoring,omitempty" tf:"enable_stackdriver_monitoring,omitempty"`
 
 	// Option to enable and pass metadata for event publishing.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	EventPublishConfig []EventPublishConfigParameters `json:"eventPublishConfig,omitempty" tf:"event_publish_config,omitempty"`
 
 	// The resource labels for instance to use to annotate any related underlying resources,
 	// such as Compute Engine VMs.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Network configuration options. These are required when a private Data Fusion instance is to be created.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	NetworkConfig []NetworkConfigParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
 
 	// Map of additional options used to configure the behavior of Data Fusion instance.
+	// +kubebuilder:validation:Optional
 	Options map[string]*string `json:"options,omitempty" tf:"options,omitempty"`
 
 	// Specifies whether the Data Fusion instance should be private. If set to
 	// true, all Data Fusion nodes will have private IP addresses and will not be
 	// able to access the public internet.
+	// +kubebuilder:validation:Optional
 	PrivateInstance *bool `json:"privateInstance,omitempty" tf:"private_instance,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The region of the Data Fusion instance.
@@ -342,12 +359,15 @@ type InstanceParameters struct {
 
 	// Represents the type of Data Fusion instance. Each type is configured with
 	// the default settings for processing and memory.
+	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// Current version of the Data Fusion.
+	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 
 	// Name of the zone in which the Data Fusion instance will be created. Only DEVELOPER instances use this field.
+	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
@@ -379,11 +399,13 @@ type NetworkConfigParameters struct {
 
 	// The IP range in CIDR notation to use for the managed Data Fusion instance
 	// nodes. This range must not overlap with any other ranges used in the Data Fusion instance network.
+	// +kubebuilder:validation:Optional
 	IPAllocation *string `json:"ipAllocation,omitempty" tf:"ip_allocation,omitempty"`
 
 	// Name of the network in the project with which the tenant project
 	// will be peered for executing pipelines. In case of shared VPC where the network resides in another host
 	// project the network should specified in the form of projects/{host-project-id}/global/networks/{network}
+	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 }
 

@@ -85,9 +85,11 @@ type AppProfileObservation struct {
 type AppProfileParameters struct {
 
 	// Long form description of the use case for this app profile.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// If true, ignore safety checks when deleting/updating the app profile.
+	// +kubebuilder:validation:Optional
 	IgnoreWarnings *bool `json:"ignoreWarnings,omitempty" tf:"ignore_warnings,omitempty"`
 
 	// The name of the instance to create the app profile within.
@@ -103,19 +105,23 @@ type AppProfileParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
+	// +kubebuilder:validation:Optional
 	MultiClusterRoutingClusterIds []*string `json:"multiClusterRoutingClusterIds,omitempty" tf:"multi_cluster_routing_cluster_ids,omitempty"`
 
 	// If true, read/write requests are routed to the nearest cluster in the instance, and will fail over to the nearest cluster that is available
 	// in the event of transient errors or delays. Clusters in a region are considered equidistant. Choosing this option sacrifices read-your-writes
 	// consistency to improve availability.
+	// +kubebuilder:validation:Optional
 	MultiClusterRoutingUseAny *bool `json:"multiClusterRoutingUseAny,omitempty" tf:"multi_cluster_routing_use_any,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Use a single-cluster routing policy.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	SingleClusterRouting []SingleClusterRoutingParameters `json:"singleClusterRouting,omitempty" tf:"single_cluster_routing,omitempty"`
 }
 
@@ -143,9 +149,11 @@ type SingleClusterRoutingParameters struct {
 
 	// If true, CheckAndMutateRow and ReadModifyWriteRow requests are allowed by this app profile.
 	// It is unsafe to send these requests to the same table/row/column in multiple clusters.
+	// +kubebuilder:validation:Optional
 	AllowTransactionalWrites *bool `json:"allowTransactionalWrites,omitempty" tf:"allow_transactional_writes,omitempty"`
 
 	// The cluster to which read/write requests should be routed.
+	// +kubebuilder:validation:Optional
 	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
 }
 

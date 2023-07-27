@@ -147,6 +147,7 @@ type NodeObservation struct {
 type NodeParameters struct {
 
 	// The type of hardware accelerators associated with this node.
+	// +kubebuilder:validation:Optional
 	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
 
 	// The CIDR block that the TPU node will use when selecting an IP
@@ -157,12 +158,15 @@ type NodeParameters struct {
 	// currently existing TPU node, the CIDR block conflicts with any
 	// subnetworks in the user's provided network, or the provided network
 	// is peered with another network that is using that CIDR block.
+	// +kubebuilder:validation:Optional
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
 	// The user-supplied description of the TPU. Maximum of 512 characters.
+	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Resource labels to represent user provided metadata.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of a network to peer the TPU node to. It must be a
@@ -184,19 +188,23 @@ type NodeParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Sets the scheduling options for this TPU instance.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	SchedulingConfig []SchedulingConfigParameters `json:"schedulingConfig,omitempty" tf:"scheduling_config,omitempty"`
 
 	// The version of Tensorflow running in the Node.
+	// +kubebuilder:validation:Optional
 	TensorflowVersion *string `json:"tensorflowVersion,omitempty" tf:"tensorflow_version,omitempty"`
 
 	// Whether the VPC peering for the node is set up through Service Networking API.
 	// The VPC Peering should be set up before provisioning the node. If this field is set,
 	// cidr_block field should not be specified. If the network that you want to peer the
 	// TPU Node to is a Shared VPC network, the node must be created with this this field enabled.
+	// +kubebuilder:validation:Optional
 	UseServiceNetworking *bool `json:"useServiceNetworking,omitempty" tf:"use_service_networking,omitempty"`
 
 	// The GCP location for the TPU. If it is not provided, the provider zone is used.
@@ -219,6 +227,7 @@ type SchedulingConfigObservation struct {
 type SchedulingConfigParameters struct {
 
 	// Defines whether the TPU instance is preemptible.
+	// +kubebuilder:validation:Optional
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 }
 

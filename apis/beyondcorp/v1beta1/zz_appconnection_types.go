@@ -102,34 +102,43 @@ type AppConnectionParameters struct {
 
 	// Address of the remote application endpoint for the BeyondCorp AppConnection.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	ApplicationEndpoint []ApplicationEndpointParameters `json:"applicationEndpoint,omitempty" tf:"application_endpoint,omitempty"`
 
 	// List of AppConnectors that are authorised to be associated with this AppConnection
+	// +kubebuilder:validation:Optional
 	Connectors []*string `json:"connectors,omitempty" tf:"connectors,omitempty"`
 
 	// An arbitrary user-provided name for the AppConnection.
+	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Gateway used by the AppConnection.
 	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	Gateway []GatewayParameters `json:"gateway,omitempty" tf:"gateway,omitempty"`
 
 	// Resource labels to represent user provided metadata.
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// ID of the AppConnection.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The region of the AppConnection.
+	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The type of hosting used by the gateway. Refer to
 	// https://cloud.google.com/beyondcorp/docs/reference/rest/v1/projects.locations.appConnections#Type_1
 	// for a list of possible values.
+	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -154,9 +163,11 @@ type ApplicationEndpointObservation struct {
 type ApplicationEndpointParameters struct {
 
 	// Hostname or IP address of the remote application endpoint.
+	// +kubebuilder:validation:Optional
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
 	// Port of the remote application endpoint.
+	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 }
 
@@ -206,6 +217,7 @@ type GatewayParameters struct {
 	// The type of hosting used by the gateway. Refer to
 	// https://cloud.google.com/beyondcorp/docs/reference/rest/v1/projects.locations.appConnections#Type_1
 	// for a list of possible values.
+	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 

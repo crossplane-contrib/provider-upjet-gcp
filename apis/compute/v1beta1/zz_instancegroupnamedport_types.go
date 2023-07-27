@@ -71,20 +71,25 @@ type InstanceGroupNamedPortObservation struct {
 type InstanceGroupNamedPortParameters struct {
 
 	// The name of the instance group.
+	// +kubebuilder:validation:Optional
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
 
 	// The name for this named port. The name must be 1-63 characters
 	// long, and comply with RFC1035.
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The port number, which can be a value between 1 and 65535.
+	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The zone of the instance group.
+	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
