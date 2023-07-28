@@ -1,4 +1,3 @@
----
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RouterPeer
 metadata:
@@ -28,8 +27,7 @@ apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RouterInterface
 metadata:
   annotations:
-    meta.upbound.io/example-id: compute/v1beta1/routerinterface
-    upjet.upbound.io/manual-intervention: "Dependant reference types not currently supported"
+    meta.upbound.io/example-id: compute/v1beta1/routerpeer
   labels:
     testing.upbound.io/example-name: router_peer
   name: peer-router-interface
@@ -48,7 +46,7 @@ apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Router
 metadata:
   annotations:
-    meta.upbound.io/example-id: compute/v1beta1/router_peer
+    meta.upbound.io/example-id: compute/v1beta1/routerpeer
   labels:
     testing.upbound.io/example-name: router_peer
   name: peer-router
@@ -67,7 +65,7 @@ apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Network
 metadata:
   annotations:
-    meta.upbound.io/example-id: compute/v1beta1/router
+    meta.upbound.io/example-id: compute/v1beta1/routerpeer
   labels:
     testing.upbound.io/example-name: router_peer
   name: peer-router-network

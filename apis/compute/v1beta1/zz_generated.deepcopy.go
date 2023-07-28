@@ -54016,16 +54016,6 @@ func (in *RouterInterfaceParameters) DeepCopyInto(out *RouterInterfaceParameters
 		*out = new(string)
 		**out = **in
 	}
-	if in.SubnetworkRef != nil {
-		in, out := &in.SubnetworkRef, &out.SubnetworkRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.SubnetworkSelector != nil {
-		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.VPNTunnel != nil {
 		in, out := &in.VPNTunnel, &out.VPNTunnel
 		*out = new(string)
