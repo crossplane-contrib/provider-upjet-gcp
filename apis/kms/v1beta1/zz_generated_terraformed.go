@@ -91,15 +91,6 @@ func (tr *CryptoKey) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// SetInitParameters for this CryptoKey
-func (tr *CryptoKey) SetInitParameters(params map[string]any) error {
-	p, err := json.TFParser.Marshal(params)
-	if err != nil {
-		return err
-	}
-	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
-}
-
 // LateInitialize this CryptoKey using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *CryptoKey) LateInitialize(attrs []byte) (bool, error) {
@@ -182,15 +173,6 @@ func (tr *CryptoKeyIAMMember) GetInitParameters() (map[string]any, error) {
 	}
 	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(p, &base)
-}
-
-// SetInitParameters for this CryptoKeyIAMMember
-func (tr *CryptoKeyIAMMember) SetInitParameters(params map[string]any) error {
-	p, err := json.TFParser.Marshal(params)
-	if err != nil {
-		return err
-	}
-	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
 }
 
 // LateInitialize this CryptoKeyIAMMember using its observed tfState.
@@ -277,15 +259,6 @@ func (tr *CryptoKeyVersion) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// SetInitParameters for this CryptoKeyVersion
-func (tr *CryptoKeyVersion) SetInitParameters(params map[string]any) error {
-	p, err := json.TFParser.Marshal(params)
-	if err != nil {
-		return err
-	}
-	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
-}
-
 // LateInitialize this CryptoKeyVersion using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *CryptoKeyVersion) LateInitialize(attrs []byte) (bool, error) {
@@ -368,15 +341,6 @@ func (tr *KeyRing) GetInitParameters() (map[string]any, error) {
 	}
 	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(p, &base)
-}
-
-// SetInitParameters for this KeyRing
-func (tr *KeyRing) SetInitParameters(params map[string]any) error {
-	p, err := json.TFParser.Marshal(params)
-	if err != nil {
-		return err
-	}
-	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
 }
 
 // LateInitialize this KeyRing using its observed tfState.
@@ -463,15 +427,6 @@ func (tr *KeyRingIAMMember) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// SetInitParameters for this KeyRingIAMMember
-func (tr *KeyRingIAMMember) SetInitParameters(params map[string]any) error {
-	p, err := json.TFParser.Marshal(params)
-	if err != nil {
-		return err
-	}
-	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
-}
-
 // LateInitialize this KeyRingIAMMember using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *KeyRingIAMMember) LateInitialize(attrs []byte) (bool, error) {
@@ -556,15 +511,6 @@ func (tr *KeyRingImportJob) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// SetInitParameters for this KeyRingImportJob
-func (tr *KeyRingImportJob) SetInitParameters(params map[string]any) error {
-	p, err := json.TFParser.Marshal(params)
-	if err != nil {
-		return err
-	}
-	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
-}
-
 // LateInitialize this KeyRingImportJob using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *KeyRingImportJob) LateInitialize(attrs []byte) (bool, error) {
@@ -647,15 +593,6 @@ func (tr *SecretCiphertext) GetInitParameters() (map[string]any, error) {
 	}
 	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(p, &base)
-}
-
-// SetInitParameters for this SecretCiphertext
-func (tr *SecretCiphertext) SetInitParameters(params map[string]any) error {
-	p, err := json.TFParser.Marshal(params)
-	if err != nil {
-		return err
-	}
-	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
 }
 
 // LateInitialize this SecretCiphertext using its observed tfState.

@@ -91,15 +91,6 @@ func (tr *Asset) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// SetInitParameters for this Asset
-func (tr *Asset) SetInitParameters(params map[string]any) error {
-	p, err := json.TFParser.Marshal(params)
-	if err != nil {
-		return err
-	}
-	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
-}
-
 // LateInitialize this Asset using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *Asset) LateInitialize(attrs []byte) (bool, error) {
@@ -184,15 +175,6 @@ func (tr *Lake) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// SetInitParameters for this Lake
-func (tr *Lake) SetInitParameters(params map[string]any) error {
-	p, err := json.TFParser.Marshal(params)
-	if err != nil {
-		return err
-	}
-	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
-}
-
 // LateInitialize this Lake using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *Lake) LateInitialize(attrs []byte) (bool, error) {
@@ -275,15 +257,6 @@ func (tr *Zone) GetInitParameters() (map[string]any, error) {
 	}
 	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(p, &base)
-}
-
-// SetInitParameters for this Zone
-func (tr *Zone) SetInitParameters(params map[string]any) error {
-	p, err := json.TFParser.Marshal(params)
-	if err != nil {
-		return err
-	}
-	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
 }
 
 // LateInitialize this Zone using its observed tfState.

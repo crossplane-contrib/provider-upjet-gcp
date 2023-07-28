@@ -91,15 +91,6 @@ func (tr *DefaultSupportedIdPConfig) GetInitParameters() (map[string]any, error)
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// SetInitParameters for this DefaultSupportedIdPConfig
-func (tr *DefaultSupportedIdPConfig) SetInitParameters(params map[string]any) error {
-	p, err := json.TFParser.Marshal(params)
-	if err != nil {
-		return err
-	}
-	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
-}
-
 // LateInitialize this DefaultSupportedIdPConfig using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *DefaultSupportedIdPConfig) LateInitialize(attrs []byte) (bool, error) {
@@ -182,15 +173,6 @@ func (tr *InboundSAMLConfig) GetInitParameters() (map[string]any, error) {
 	}
 	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(p, &base)
-}
-
-// SetInitParameters for this InboundSAMLConfig
-func (tr *InboundSAMLConfig) SetInitParameters(params map[string]any) error {
-	p, err := json.TFParser.Marshal(params)
-	if err != nil {
-		return err
-	}
-	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
 }
 
 // LateInitialize this InboundSAMLConfig using its observed tfState.
@@ -277,15 +259,6 @@ func (tr *OAuthIdPConfig) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// SetInitParameters for this OAuthIdPConfig
-func (tr *OAuthIdPConfig) SetInitParameters(params map[string]any) error {
-	p, err := json.TFParser.Marshal(params)
-	if err != nil {
-		return err
-	}
-	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
-}
-
 // LateInitialize this OAuthIdPConfig using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *OAuthIdPConfig) LateInitialize(attrs []byte) (bool, error) {
@@ -368,15 +341,6 @@ func (tr *ProjectDefaultConfig) GetInitParameters() (map[string]any, error) {
 	}
 	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(p, &base)
-}
-
-// SetInitParameters for this ProjectDefaultConfig
-func (tr *ProjectDefaultConfig) SetInitParameters(params map[string]any) error {
-	p, err := json.TFParser.Marshal(params)
-	if err != nil {
-		return err
-	}
-	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
 }
 
 // LateInitialize this ProjectDefaultConfig using its observed tfState.
@@ -463,15 +427,6 @@ func (tr *Tenant) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// SetInitParameters for this Tenant
-func (tr *Tenant) SetInitParameters(params map[string]any) error {
-	p, err := json.TFParser.Marshal(params)
-	if err != nil {
-		return err
-	}
-	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
-}
-
 // LateInitialize this Tenant using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *Tenant) LateInitialize(attrs []byte) (bool, error) {
@@ -554,15 +509,6 @@ func (tr *TenantDefaultSupportedIdPConfig) GetInitParameters() (map[string]any, 
 	}
 	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(p, &base)
-}
-
-// SetInitParameters for this TenantDefaultSupportedIdPConfig
-func (tr *TenantDefaultSupportedIdPConfig) SetInitParameters(params map[string]any) error {
-	p, err := json.TFParser.Marshal(params)
-	if err != nil {
-		return err
-	}
-	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
 }
 
 // LateInitialize this TenantDefaultSupportedIdPConfig using its observed tfState.
@@ -649,15 +595,6 @@ func (tr *TenantInboundSAMLConfig) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// SetInitParameters for this TenantInboundSAMLConfig
-func (tr *TenantInboundSAMLConfig) SetInitParameters(params map[string]any) error {
-	p, err := json.TFParser.Marshal(params)
-	if err != nil {
-		return err
-	}
-	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
-}
-
 // LateInitialize this TenantInboundSAMLConfig using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *TenantInboundSAMLConfig) LateInitialize(attrs []byte) (bool, error) {
@@ -740,15 +677,6 @@ func (tr *TenantOAuthIdPConfig) GetInitParameters() (map[string]any, error) {
 	}
 	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(p, &base)
-}
-
-// SetInitParameters for this TenantOAuthIdPConfig
-func (tr *TenantOAuthIdPConfig) SetInitParameters(params map[string]any) error {
-	p, err := json.TFParser.Marshal(params)
-	if err != nil {
-		return err
-	}
-	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
 }
 
 // LateInitialize this TenantOAuthIdPConfig using its observed tfState.

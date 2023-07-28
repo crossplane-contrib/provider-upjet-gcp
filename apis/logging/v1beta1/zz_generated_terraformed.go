@@ -91,15 +91,6 @@ func (tr *LogView) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// SetInitParameters for this LogView
-func (tr *LogView) SetInitParameters(params map[string]any) error {
-	p, err := json.TFParser.Marshal(params)
-	if err != nil {
-		return err
-	}
-	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
-}
-
 // LateInitialize this LogView using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *LogView) LateInitialize(attrs []byte) (bool, error) {
@@ -182,15 +173,6 @@ func (tr *Metric) GetInitParameters() (map[string]any, error) {
 	}
 	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(p, &base)
-}
-
-// SetInitParameters for this Metric
-func (tr *Metric) SetInitParameters(params map[string]any) error {
-	p, err := json.TFParser.Marshal(params)
-	if err != nil {
-		return err
-	}
-	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
 }
 
 // LateInitialize this Metric using its observed tfState.
@@ -277,15 +259,6 @@ func (tr *ProjectBucketConfig) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// SetInitParameters for this ProjectBucketConfig
-func (tr *ProjectBucketConfig) SetInitParameters(params map[string]any) error {
-	p, err := json.TFParser.Marshal(params)
-	if err != nil {
-		return err
-	}
-	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
-}
-
 // LateInitialize this ProjectBucketConfig using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *ProjectBucketConfig) LateInitialize(attrs []byte) (bool, error) {
@@ -370,15 +343,6 @@ func (tr *ProjectExclusion) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// SetInitParameters for this ProjectExclusion
-func (tr *ProjectExclusion) SetInitParameters(params map[string]any) error {
-	p, err := json.TFParser.Marshal(params)
-	if err != nil {
-		return err
-	}
-	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
-}
-
 // LateInitialize this ProjectExclusion using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *ProjectExclusion) LateInitialize(attrs []byte) (bool, error) {
@@ -461,15 +425,6 @@ func (tr *ProjectSink) GetInitParameters() (map[string]any, error) {
 	}
 	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(p, &base)
-}
-
-// SetInitParameters for this ProjectSink
-func (tr *ProjectSink) SetInitParameters(params map[string]any) error {
-	p, err := json.TFParser.Marshal(params)
-	if err != nil {
-		return err
-	}
-	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
 }
 
 // LateInitialize this ProjectSink using its observed tfState.
