@@ -27,6 +27,3 @@ spec:
   forProvider:
     location: us-central1
     name: my-dataset
-
----
-

@@ -29,9 +29,9 @@ func (mg *AccessLevel) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this AccessLevel.
-func (mg *AccessLevel) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this AccessLevel.
+func (mg *AccessLevel) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this AccessLevel.
@@ -67,9 +67,9 @@ func (mg *AccessLevel) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this AccessLevel.
-func (mg *AccessLevel) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this AccessLevel.
+func (mg *AccessLevel) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this AccessLevel.
@@ -105,9 +105,9 @@ func (mg *AccessLevelCondition) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this AccessLevelCondition.
-func (mg *AccessLevelCondition) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this AccessLevelCondition.
+func (mg *AccessLevelCondition) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this AccessLevelCondition.
@@ -143,9 +143,9 @@ func (mg *AccessLevelCondition) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this AccessLevelCondition.
-func (mg *AccessLevelCondition) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this AccessLevelCondition.
+func (mg *AccessLevelCondition) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this AccessLevelCondition.
@@ -181,9 +181,9 @@ func (mg *AccessPolicy) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this AccessPolicy.
-func (mg *AccessPolicy) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this AccessPolicy.
+func (mg *AccessPolicy) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this AccessPolicy.
@@ -219,9 +219,9 @@ func (mg *AccessPolicy) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this AccessPolicy.
-func (mg *AccessPolicy) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this AccessPolicy.
+func (mg *AccessPolicy) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this AccessPolicy.
@@ -257,9 +257,9 @@ func (mg *AccessPolicyIAMMember) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this AccessPolicyIAMMember.
-func (mg *AccessPolicyIAMMember) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this AccessPolicyIAMMember.
+func (mg *AccessPolicyIAMMember) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this AccessPolicyIAMMember.
@@ -295,9 +295,9 @@ func (mg *AccessPolicyIAMMember) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this AccessPolicyIAMMember.
-func (mg *AccessPolicyIAMMember) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this AccessPolicyIAMMember.
+func (mg *AccessPolicyIAMMember) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this AccessPolicyIAMMember.
@@ -333,9 +333,9 @@ func (mg *ServicePerimeter) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this ServicePerimeter.
-func (mg *ServicePerimeter) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this ServicePerimeter.
+func (mg *ServicePerimeter) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this ServicePerimeter.
@@ -371,9 +371,9 @@ func (mg *ServicePerimeter) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this ServicePerimeter.
-func (mg *ServicePerimeter) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this ServicePerimeter.
+func (mg *ServicePerimeter) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this ServicePerimeter.
@@ -409,9 +409,9 @@ func (mg *ServicePerimeterResource) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this ServicePerimeterResource.
-func (mg *ServicePerimeterResource) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this ServicePerimeterResource.
+func (mg *ServicePerimeterResource) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this ServicePerimeterResource.
@@ -447,9 +447,9 @@ func (mg *ServicePerimeterResource) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this ServicePerimeterResource.
-func (mg *ServicePerimeterResource) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this ServicePerimeterResource.
+func (mg *ServicePerimeterResource) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this ServicePerimeterResource.

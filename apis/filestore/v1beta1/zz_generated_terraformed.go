@@ -81,6 +81,16 @@ func (tr *Backup) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this Backup
+func (tr *Backup) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this Backup using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *Backup) LateInitialize(attrs []byte) (bool, error) {
@@ -155,6 +165,16 @@ func (tr *Instance) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this Instance
+func (tr *Instance) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this Instance using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *Instance) LateInitialize(attrs []byte) (bool, error) {
@@ -227,6 +247,16 @@ func (tr *Snapshot) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this Snapshot
+func (tr *Snapshot) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this Snapshot using its observed tfState.

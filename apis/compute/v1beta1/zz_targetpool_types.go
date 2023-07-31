@@ -25,6 +25,33 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type TargetPoolInitParameters struct {
+
+	// URL to the backup target pool. Must also set
+	// failover_ratio.
+	BackupPool *string `json:"backupPool,omitempty" tf:"backup_pool,omitempty"`
+
+	// Textual description field.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Ratio (0 to 1) of failed nodes before using the
+	// backup pool (which must also be set).
+	FailoverRatio *float64 `json:"failoverRatio,omitempty" tf:"failover_ratio,omitempty"`
+
+	// List of instances in the pool. They can be given as
+	// URLs, or in the form of "zone/name".
+	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// How to distribute load. Options are "NONE" (no
+	// affinity). "CLIENT_IP" (hash of the source/dest addresses / ports), and
+	// "CLIENT_IP_PROTO" also includes the protocol (default "NONE").
+	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
+}
+
 type TargetPoolObservation struct {
 
 	// URL to the backup target pool. Must also set
@@ -122,6 +149,18 @@ type TargetPoolParameters struct {
 type TargetPoolSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     TargetPoolParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider TargetPoolInitParameters `json:"initProvider,omitempty"`
 }
 
 // TargetPoolStatus defines the observed state of TargetPool.

@@ -26,6 +26,3 @@ spec:
     website:
     - mainPageSuffix: index.html
       notFoundPage: 404.html
-
----
-

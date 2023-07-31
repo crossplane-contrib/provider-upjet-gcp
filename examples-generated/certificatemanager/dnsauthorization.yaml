@@ -10,6 +10,3 @@ spec:
   forProvider:
     description: The default dnss
     domain: .hashicorptest.com
-
----
-

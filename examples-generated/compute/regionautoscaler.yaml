@@ -87,6 +87,3 @@ metadata:
   name: foobar
 spec:
   forProvider: {}
-
----
-

@@ -120,6 +120,3 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: example
     skipGracePeriod: true
-
----
-

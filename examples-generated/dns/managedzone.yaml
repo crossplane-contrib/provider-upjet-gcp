@@ -12,6 +12,3 @@ spec:
     dnsName: example-${random_id.rnd.hex}.com.
     labels:
       foo: bar
-
----
-

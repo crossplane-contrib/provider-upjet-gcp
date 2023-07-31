@@ -25,6 +25,33 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type NetworkEndpointGroupInitParameters struct {
+
+	// The default port used if the port number is not specified in the
+	// network endpoint.
+	DefaultPort *float64 `json:"defaultPort,omitempty" tf:"default_port,omitempty"`
+
+	// An optional description of this resource. Provide this property when
+	// you create the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Type of network endpoints in this network endpoint group.
+	// NON_GCP_PRIVATE_IP_PORT is used for hybrid connectivity network
+	// endpoint groups (see https://cloud.google.com/load-balancing/docs/hybrid).
+	// Note that NON_GCP_PRIVATE_IP_PORT can only be used with Backend Services
+	// that 1) have the following load balancing schemes: EXTERNAL, EXTERNAL_MANAGED,
+	// INTERNAL_MANAGED, and INTERNAL_SELF_MANAGED and 2) support the RATE or
+	// CONNECTION balancing modes.
+	// Possible values include: GCE_VM_IP, GCE_VM_IP_PORT, and NON_GCP_PRIVATE_IP_PORT.
+	// Default value is GCE_VM_IP_PORT.
+	// Possible values are: GCE_VM_IP, GCE_VM_IP_PORT, NON_GCP_PRIVATE_IP_PORT.
+	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
 type NetworkEndpointGroupObservation struct {
 
 	// The default port used if the port number is not specified in the
@@ -139,6 +166,18 @@ type NetworkEndpointGroupParameters struct {
 type NetworkEndpointGroupSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     NetworkEndpointGroupParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider NetworkEndpointGroupInitParameters `json:"initProvider,omitempty"`
 }
 
 // NetworkEndpointGroupStatus defines the observed state of NetworkEndpointGroup.

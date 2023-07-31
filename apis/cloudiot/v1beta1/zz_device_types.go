@@ -25,6 +25,9 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ConfigInitParameters struct {
+}
+
 type ConfigObservation struct {
 
 	// The device configuration data.
@@ -47,6 +50,16 @@ type ConfigObservation struct {
 type ConfigParameters struct {
 }
 
+type CredentialsInitParameters struct {
+
+	// The time at which this credential becomes invalid.
+	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
+
+	// A public key used to verify the signature of JSON Web Tokens (JWTs).
+	// Structure is documented below.
+	PublicKey []PublicKeyInitParameters `json:"publicKey,omitempty" tf:"public_key,omitempty"`
+}
+
 type CredentialsObservation struct {
 
 	// The time at which this credential becomes invalid.
@@ -65,8 +78,29 @@ type CredentialsParameters struct {
 
 	// A public key used to verify the signature of JSON Web Tokens (JWTs).
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	PublicKey []PublicKeyParameters `json:"publicKey" tf:"public_key,omitempty"`
+	// +kubebuilder:validation:Optional
+	PublicKey []PublicKeyParameters `json:"publicKey,omitempty" tf:"public_key,omitempty"`
+}
+
+type DeviceInitParameters struct {
+
+	// If a device is blocked, connections or requests from this device will fail.
+	Blocked *bool `json:"blocked,omitempty" tf:"blocked,omitempty"`
+
+	// The credentials used to authenticate this device.
+	// Structure is documented below.
+	Credentials []CredentialsInitParameters `json:"credentials,omitempty" tf:"credentials,omitempty"`
+
+	// Gateway-related configuration and state.
+	// Structure is documented below.
+	GatewayConfig []GatewayConfigInitParameters `json:"gatewayConfig,omitempty" tf:"gateway_config,omitempty"`
+
+	// The logging verbosity for device activity.
+	// Possible values are: NONE, ERROR, INFO, DEBUG.
+	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
+
+	// The metadata key-value pairs assigned to the device.
+	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 }
 
 type DeviceObservation struct {
@@ -170,6 +204,18 @@ type DeviceParameters struct {
 	RegistrySelector *v1.Selector `json:"registrySelector,omitempty" tf:"-"`
 }
 
+type GatewayConfigInitParameters struct {
+
+	// Indicates whether the device is a gateway.
+	// Possible values are: ASSOCIATION_ONLY, DEVICE_AUTH_TOKEN_ONLY, ASSOCIATION_AND_DEVICE_AUTH_TOKEN.
+	GatewayAuthMethod *string `json:"gatewayAuthMethod,omitempty" tf:"gateway_auth_method,omitempty"`
+
+	// Indicates whether the device is a gateway.
+	// Default value is NON_GATEWAY.
+	// Possible values are: GATEWAY, NON_GATEWAY.
+	GatewayType *string `json:"gatewayType,omitempty" tf:"gateway_type,omitempty"`
+}
+
 type GatewayConfigObservation struct {
 
 	// Indicates whether the device is a gateway.
@@ -204,6 +250,9 @@ type GatewayConfigParameters struct {
 	GatewayType *string `json:"gatewayType,omitempty" tf:"gateway_type,omitempty"`
 }
 
+type LastErrorStatusInitParameters struct {
+}
+
 type LastErrorStatusObservation struct {
 
 	// A list of messages that carry the error details.
@@ -217,6 +266,16 @@ type LastErrorStatusObservation struct {
 }
 
 type LastErrorStatusParameters struct {
+}
+
+type PublicKeyInitParameters struct {
+
+	// The format of the key.
+	// Possible values are: RSA_PEM, RSA_X509_PEM, ES256_PEM, ES256_X509_PEM.
+	Format *string `json:"format,omitempty" tf:"format,omitempty"`
+
+	// The key data.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 }
 
 type PublicKeyObservation struct {
@@ -233,12 +292,15 @@ type PublicKeyParameters struct {
 
 	// The format of the key.
 	// Possible values are: RSA_PEM, RSA_X509_PEM, ES256_PEM, ES256_X509_PEM.
-	// +kubebuilder:validation:Required
-	Format *string `json:"format" tf:"format,omitempty"`
+	// +kubebuilder:validation:Optional
+	Format *string `json:"format,omitempty" tf:"format,omitempty"`
 
 	// The key data.
-	// +kubebuilder:validation:Required
-	Key *string `json:"key" tf:"key,omitempty"`
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+}
+
+type StateInitParameters struct {
 }
 
 type StateObservation struct {
@@ -257,6 +319,18 @@ type StateParameters struct {
 type DeviceSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     DeviceParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider DeviceInitParameters `json:"initProvider,omitempty"`
 }
 
 // DeviceStatus defines the observed state of Device.

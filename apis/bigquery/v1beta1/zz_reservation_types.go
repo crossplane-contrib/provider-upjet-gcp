@@ -25,6 +25,12 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AutoscaleInitParameters struct {
+
+	// Number of slots to be scaled when needed.
+	MaxSlots *float64 `json:"maxSlots,omitempty" tf:"max_slots,omitempty"`
+}
+
 type AutoscaleObservation struct {
 
 	// (Output)
@@ -40,6 +46,32 @@ type AutoscaleParameters struct {
 	// Number of slots to be scaled when needed.
 	// +kubebuilder:validation:Optional
 	MaxSlots *float64 `json:"maxSlots,omitempty" tf:"max_slots,omitempty"`
+}
+
+type ReservationInitParameters struct {
+
+	// The configuration parameters for the auto scaling feature.
+	// Structure is documented below.
+	Autoscale []AutoscaleInitParameters `json:"autoscale,omitempty" tf:"autoscale,omitempty"`
+
+	// Maximum number of queries that are allowed to run concurrently in this reservation. This is a soft limit due to asynchronous nature of the system and various optimizations for small queries. Default value is 0 which means that concurrency will be automatically set based on the reservation size.
+	Concurrency *float64 `json:"concurrency,omitempty" tf:"concurrency,omitempty"`
+
+	// The edition type. Valid values are STANDARD, ENTERPRISE, ENTERPRISE_PLUS
+	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
+
+	// If false, any query using this reservation will use idle slots from other reservations within
+	// the same admin project. If true, a query using this reservation will execute with the slot
+	// capacity specified above at most.
+	IgnoreIdleSlots *bool `json:"ignoreIdleSlots,omitempty" tf:"ignore_idle_slots,omitempty"`
+
+	// Applicable only for reservations located within one of the BigQuery multi-regions (US or EU).
+	// If set to true, this reservation is placed in the organization's secondary region which is designated for disaster recovery purposes. If false, this reservation is placed in the organization's default region.
+	MultiRegionAuxiliary *bool `json:"multiRegionAuxiliary,omitempty" tf:"multi_region_auxiliary,omitempty"`
+
+	// Minimum slots available to this reservation. A slot is a unit of computational power in BigQuery, and serves as the
+	// unit of parallelism. Queries using this reservation might use more slots during runtime if ignoreIdleSlots is set to false.
+	SlotCapacity *float64 `json:"slotCapacity,omitempty" tf:"slot_capacity,omitempty"`
 }
 
 type ReservationObservation struct {
@@ -125,6 +157,18 @@ type ReservationParameters struct {
 type ReservationSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ReservationParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ReservationInitParameters `json:"initProvider,omitempty"`
 }
 
 // ReservationStatus defines the observed state of Reservation.
@@ -145,7 +189,7 @@ type ReservationStatus struct {
 type Reservation struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.slotCapacity)",message="slotCapacity is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.slotCapacity) || has(self.initProvider.slotCapacity)",message="slotCapacity is a required parameter"
 	Spec   ReservationSpec   `json:"spec"`
 	Status ReservationStatus `json:"status,omitempty"`
 }

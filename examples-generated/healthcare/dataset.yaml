@@ -11,6 +11,3 @@ spec:
     location: us-central1
     name: example-dataset
     timeZone: UTC
-
----
-

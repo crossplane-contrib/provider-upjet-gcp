@@ -13,6 +13,3 @@ spec:
     labels:
       email_address: fake_email@blahblah.com
     type: email
-
----
-

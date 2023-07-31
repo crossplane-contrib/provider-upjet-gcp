@@ -34,6 +34,3 @@ spec:
       - MODE_IPV4
       network: default
     tier: ENTERPRISE
-
----
-

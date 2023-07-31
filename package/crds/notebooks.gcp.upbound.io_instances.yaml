@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: instances.notebooks.gcp.upbound.io
 spec:
   group: notebooks.gcp.upbound.io
@@ -58,7 +57,7 @@ spec:
                 description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
                   or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicy field in a future release. Currently,
+                  in favor of the ManagementPolicies field in a future release. Currently,
                   both could be set independently and non-default values would be
                   honored if the feature flag is enabled. See the design doc for more
                   information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
@@ -85,9 +84,6 @@ spec:
                             NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS, NVIDIA_TESLA_A100,
                             TPU_V2, TPU_V3.'
                           type: string
-                      required:
-                      - coreCount
-                      - type
                       type: object
                     type: array
                   bootDiskSizeGb:
@@ -113,8 +109,6 @@ spec:
                           description: The tag of the container image. If not specified,
                             this defaults to the latest tag.
                           type: string
-                      required:
-                      - repository
                       type: object
                     type: array
                   customGpuDriverPath:
@@ -224,8 +218,6 @@ spec:
                           items:
                             type: string
                           type: array
-                      required:
-                      - consumeReservationType
                       type: object
                     type: array
                   serviceAccount:
@@ -294,28 +286,269 @@ spec:
                           description: 'The name of the Google Cloud project that
                             this VM image belongs to. Format: projects/{project_id}'
                           type: string
-                      required:
-                      - project
                       type: object
                     type: array
                 required:
                 - location
                 type: object
-              managementPolicy:
-                default: FullControl
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. InitProvider
+                  holds the same fields as ForProvider, with the exception of Identifier
+                  and other resource reference fields. The fields that are in InitProvider
+                  are merged into ForProvider when the resource is created. The same
+                  fields are also added to the terraform ignore_changes hook, to avoid
+                  updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after
+                  creation, for example because of an external controller is managing
+                  them, like an autoscaler.
+                properties:
+                  acceleratorConfig:
+                    description: The hardware accelerator used on this instance. If
+                      you use accelerators, make sure that your configuration has
+                      enough vCPUs and memory to support the machineType you have
+                      selected. Structure is documented below.
+                    items:
+                      properties:
+                        coreCount:
+                          description: Count of cores of this accelerator.
+                          type: number
+                        type:
+                          description: 'Type of this accelerator. Possible values
+                            are: ACCELERATOR_TYPE_UNSPECIFIED, NVIDIA_TESLA_K80, NVIDIA_TESLA_P100,
+                            NVIDIA_TESLA_V100, NVIDIA_TESLA_P4, NVIDIA_TESLA_T4, NVIDIA_TESLA_T4_VWS,
+                            NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS, NVIDIA_TESLA_A100,
+                            TPU_V2, TPU_V3.'
+                          type: string
+                      type: object
+                    type: array
+                  bootDiskSizeGb:
+                    description: The size of the boot disk in GB attached to this
+                      instance, up to a maximum of 64000 GB (64 TB). The minimum recommended
+                      value is 100 GB. If not specified, this defaults to 100.
+                    type: number
+                  bootDiskType:
+                    description: 'Possible disk types for notebook instances. Possible
+                      values are: DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, PD_BALANCED,
+                      PD_EXTREME.'
+                    type: string
+                  containerImage:
+                    description: Use a container image to start the notebook instance.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        repository:
+                          description: 'The path to the container image repository.
+                            For example: gcr.io/{project_id}/{imageName}'
+                          type: string
+                        tag:
+                          description: The tag of the container image. If not specified,
+                            this defaults to the latest tag.
+                          type: string
+                      type: object
+                    type: array
+                  customGpuDriverPath:
+                    description: Specify a custom Cloud Storage path where the GPU
+                      driver is stored. If not specified, we'll automatically choose
+                      from official GPU drivers.
+                    type: string
+                  dataDiskSizeGb:
+                    description: The size of the data disk in GB attached to this
+                      instance, up to a maximum of 64000 GB (64 TB). You can choose
+                      the size of the data disk based on how big your notebooks and
+                      data are. If not specified, this defaults to 100.
+                    type: number
+                  dataDiskType:
+                    description: 'Possible disk types for notebook instances. Possible
+                      values are: DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, PD_BALANCED,
+                      PD_EXTREME.'
+                    type: string
+                  diskEncryption:
+                    description: 'Disk encryption method used on the boot and data
+                      disks, defaults to GMEK. Possible values are: DISK_ENCRYPTION_UNSPECIFIED,
+                      GMEK, CMEK.'
+                    type: string
+                  installGpuDriver:
+                    description: Whether the end user authorizes Google Cloud to install
+                      GPU driver on this instance. If this field is empty or set to
+                      false, the GPU driver won't be installed. Only applicable to
+                      instances with GPUs.
+                    type: boolean
+                  instanceOwners:
+                    description: 'The list of owners of this instance after creation.
+                      Format: alias@example.com. Currently supports one owner only.
+                      If not specified, all of the service account users of your VM
+                      instance''s service account can use the instance.'
+                    items:
+                      type: string
+                    type: array
+                  kmsKey:
+                    description: 'The KMS key used to encrypt the disks, only applicable
+                      if diskEncryption is CMEK. Format: projects/{project_id}/locations/{location}/keyRings/{key_ring_id}/cryptoKeys/{key_id}'
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: 'Labels to apply to this instance. These can be later
+                      modified by the setLabels method. An object containing a list
+                      of "key": value pairs. Example: { "name": "wrench", "mass":
+                      "1.3kg", "count": "3" }.'
+                    type: object
+                  machineType:
+                    description: A reference to a machine type which defines VM kind.
+                    type: string
+                  metadata:
+                    additionalProperties:
+                      type: string
+                    description: 'Custom metadata to apply to this instance. An object
+                      containing a list of "key": value pairs. Example: { "name":
+                      "wrench", "mass": "1.3kg", "count": "3" }.'
+                    type: object
+                  network:
+                    description: 'The name of the VPC that this instance is in. Format:
+                      projects/{project_id}/global/networks/{network_id}'
+                    type: string
+                  nicType:
+                    description: 'The type of vNIC driver. Possible values are: UNSPECIFIED_NIC_TYPE,
+                      VIRTIO_NET, GVNIC.'
+                    type: string
+                  noProxyAccess:
+                    description: The notebook instance will not register with the
+                      proxy..
+                    type: boolean
+                  noPublicIp:
+                    description: No public IP will be assigned to this instance.
+                    type: boolean
+                  noRemoveDataDisk:
+                    description: If true, the data disk will not be auto deleted when
+                      deleting the instance.
+                    type: boolean
+                  postStartupScript:
+                    description: Path to a Bash script that automatically runs after
+                      a notebook instance fully boots up. The path must be a URL or
+                      Cloud Storage path (gs://path-to-file/file-name).
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  reservationAffinity:
+                    description: Reservation Affinity for consuming Zonal reservation.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        consumeReservationType:
+                          description: 'The type of Compute Reservation. Possible
+                            values are: NO_RESERVATION, ANY_RESERVATION, SPECIFIC_RESERVATION.'
+                          type: string
+                        key:
+                          description: Corresponds to the label key of reservation
+                            resource.
+                          type: string
+                        values:
+                          description: Corresponds to the label values of reservation
+                            resource.
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
+                  serviceAccount:
+                    description: The service account on this instance, giving access
+                      to other Google Cloud services. You can use any service account
+                      within the same project, but you must have the service account
+                      user permission to use the instance. If not specified, the Compute
+                      Engine default service account is used.
+                    type: string
+                  serviceAccountScopes:
+                    description: 'Optional. The URIs of service account scopes to
+                      be included in Compute Engine instances. If not specified, the
+                      following scopes are defined:'
+                    items:
+                      type: string
+                    type: array
+                  shieldedInstanceConfig:
+                    description: A set of Shielded Instance options. Check [Images
+                      using supported Shielded VM features] Not all combinations are
+                      valid Structure is documented below.
+                    items:
+                      properties:
+                        enableIntegrityMonitoring:
+                          description: Defines whether the instance has integrity
+                            monitoring enabled. Enables monitoring and attestation
+                            of the boot integrity of the instance. The attestation
+                            is performed against the integrity policy baseline. This
+                            baseline is initially derived from the implicitly trusted
+                            boot image when the instance is created. Enabled by default.
+                          type: boolean
+                        enableSecureBoot:
+                          description: Defines whether the instance has Secure Boot
+                            enabled. Secure Boot helps ensure that the system only
+                            runs authentic software by verifying the digital signature
+                            of all boot components, and halting the boot process if
+                            signature verification fails. Disabled by default.
+                          type: boolean
+                        enableVtpm:
+                          description: Defines whether the instance has the vTPM enabled.
+                            Enabled by default.
+                          type: boolean
+                      type: object
+                    type: array
+                  subnet:
+                    description: 'The name of the subnet that this instance is in.
+                      Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}'
+                    type: string
+                  tags:
+                    description: The Compute Engine tags to add to instance.
+                    items:
+                      type: string
+                    type: array
+                  vmImage:
+                    description: Use a Compute Engine VM image to start the notebook
+                      instance. Structure is documented below.
+                    items:
+                      properties:
+                        imageFamily:
+                          description: Use this VM image family to find the image;
+                            the newest image in this family will be used.
+                          type: string
+                        imageName:
+                          description: Use VM image name to find the image.
+                          type: string
+                        project:
+                          description: 'The name of the Google Cloud project that
+                            this VM image belongs to. Format: projects/{project_id}'
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
                 description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
                   It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. ManagementPolicy
-                  specifies the level of control Crossplane has over the managed external
-                  resource. This field is planned to replace the DeletionPolicy field
-                  in a future release. Currently, both could be set independently
-                  and non-default values would be honored if the feature flag is enabled.
-                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
-                enum:
-                - FullControl
-                - ObserveOnly
-                - OrphanOnDelete
-                type: string
+                  enabled, and may be changed or removed without notice. ManagementPolicies
+                  specify the array of actions Crossplane is allowed to take on the
+                  managed and external resources. This field is planned to replace
+                  the DeletionPolicy field in a future release. Currently, both could
+                  be set independently and non-default values would be honored if
+                  the feature flag is enabled. If both are custom, the DeletionPolicy
+                  field will be ignored. See the design doc for more information:
+                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                items:
+                  description: A ManagementAction represents an action that the Crossplane
+                    controllers can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
               providerConfigRef:
                 default:
                   name: default
@@ -489,7 +722,9 @@ spec:
             type: object
             x-kubernetes-validations:
             - message: machineType is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.machineType)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.machineType)
+                || has(self.initProvider.machineType)'
           status:
             description: InstanceStatus defines the observed state of Instance.
             properties:

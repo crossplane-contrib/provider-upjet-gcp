@@ -10,6 +10,3 @@ spec:
   forProvider:
     nodeType: n1-node-96-624
     region: us-central1
-
----
-

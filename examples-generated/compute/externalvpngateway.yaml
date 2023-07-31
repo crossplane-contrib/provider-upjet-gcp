@@ -201,6 +201,3 @@ spec:
     vpnGatewaySelector:
       matchLabels:
         testing.upbound.io/example-name: ha_gateway
-
----
-

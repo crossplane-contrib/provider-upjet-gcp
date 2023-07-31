@@ -81,6 +81,16 @@ func (tr *Certificate) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this Certificate
+func (tr *Certificate) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this Certificate using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *Certificate) LateInitialize(attrs []byte) (bool, error) {
@@ -153,6 +163,16 @@ func (tr *CertificateMap) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this CertificateMap
+func (tr *CertificateMap) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this CertificateMap using its observed tfState.
@@ -229,6 +249,16 @@ func (tr *CertificateMapEntry) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this CertificateMapEntry
+func (tr *CertificateMapEntry) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this CertificateMapEntry using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *CertificateMapEntry) LateInitialize(attrs []byte) (bool, error) {
@@ -301,6 +331,16 @@ func (tr *DNSAuthorization) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this DNSAuthorization
+func (tr *DNSAuthorization) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this DNSAuthorization using its observed tfState.

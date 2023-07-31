@@ -29,9 +29,9 @@ func (mg *DefaultSupportedIdPConfig) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this DefaultSupportedIdPConfig.
-func (mg *DefaultSupportedIdPConfig) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this DefaultSupportedIdPConfig.
+func (mg *DefaultSupportedIdPConfig) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this DefaultSupportedIdPConfig.
@@ -67,9 +67,9 @@ func (mg *DefaultSupportedIdPConfig) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this DefaultSupportedIdPConfig.
-func (mg *DefaultSupportedIdPConfig) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this DefaultSupportedIdPConfig.
+func (mg *DefaultSupportedIdPConfig) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this DefaultSupportedIdPConfig.
@@ -105,9 +105,9 @@ func (mg *InboundSAMLConfig) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this InboundSAMLConfig.
-func (mg *InboundSAMLConfig) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this InboundSAMLConfig.
+func (mg *InboundSAMLConfig) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this InboundSAMLConfig.
@@ -143,9 +143,9 @@ func (mg *InboundSAMLConfig) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this InboundSAMLConfig.
-func (mg *InboundSAMLConfig) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this InboundSAMLConfig.
+func (mg *InboundSAMLConfig) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this InboundSAMLConfig.
@@ -181,9 +181,9 @@ func (mg *OAuthIdPConfig) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this OAuthIdPConfig.
-func (mg *OAuthIdPConfig) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this OAuthIdPConfig.
+func (mg *OAuthIdPConfig) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this OAuthIdPConfig.
@@ -219,9 +219,9 @@ func (mg *OAuthIdPConfig) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this OAuthIdPConfig.
-func (mg *OAuthIdPConfig) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this OAuthIdPConfig.
+func (mg *OAuthIdPConfig) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this OAuthIdPConfig.
@@ -257,9 +257,9 @@ func (mg *ProjectDefaultConfig) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this ProjectDefaultConfig.
-func (mg *ProjectDefaultConfig) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this ProjectDefaultConfig.
+func (mg *ProjectDefaultConfig) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this ProjectDefaultConfig.
@@ -295,9 +295,9 @@ func (mg *ProjectDefaultConfig) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this ProjectDefaultConfig.
-func (mg *ProjectDefaultConfig) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this ProjectDefaultConfig.
+func (mg *ProjectDefaultConfig) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this ProjectDefaultConfig.
@@ -333,9 +333,9 @@ func (mg *Tenant) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this Tenant.
-func (mg *Tenant) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this Tenant.
+func (mg *Tenant) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this Tenant.
@@ -371,9 +371,9 @@ func (mg *Tenant) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this Tenant.
-func (mg *Tenant) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this Tenant.
+func (mg *Tenant) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this Tenant.
@@ -409,9 +409,9 @@ func (mg *TenantDefaultSupportedIdPConfig) GetDeletionPolicy() xpv1.DeletionPoli
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this TenantDefaultSupportedIdPConfig.
-func (mg *TenantDefaultSupportedIdPConfig) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this TenantDefaultSupportedIdPConfig.
+func (mg *TenantDefaultSupportedIdPConfig) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this TenantDefaultSupportedIdPConfig.
@@ -447,9 +447,9 @@ func (mg *TenantDefaultSupportedIdPConfig) SetDeletionPolicy(r xpv1.DeletionPoli
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this TenantDefaultSupportedIdPConfig.
-func (mg *TenantDefaultSupportedIdPConfig) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this TenantDefaultSupportedIdPConfig.
+func (mg *TenantDefaultSupportedIdPConfig) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this TenantDefaultSupportedIdPConfig.
@@ -485,9 +485,9 @@ func (mg *TenantInboundSAMLConfig) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this TenantInboundSAMLConfig.
-func (mg *TenantInboundSAMLConfig) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this TenantInboundSAMLConfig.
+func (mg *TenantInboundSAMLConfig) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this TenantInboundSAMLConfig.
@@ -523,9 +523,9 @@ func (mg *TenantInboundSAMLConfig) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this TenantInboundSAMLConfig.
-func (mg *TenantInboundSAMLConfig) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this TenantInboundSAMLConfig.
+func (mg *TenantInboundSAMLConfig) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this TenantInboundSAMLConfig.
@@ -561,9 +561,9 @@ func (mg *TenantOAuthIdPConfig) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this TenantOAuthIdPConfig.
-func (mg *TenantOAuthIdPConfig) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this TenantOAuthIdPConfig.
+func (mg *TenantOAuthIdPConfig) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this TenantOAuthIdPConfig.
@@ -599,9 +599,9 @@ func (mg *TenantOAuthIdPConfig) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this TenantOAuthIdPConfig.
-func (mg *TenantOAuthIdPConfig) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this TenantOAuthIdPConfig.
+func (mg *TenantOAuthIdPConfig) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this TenantOAuthIdPConfig.

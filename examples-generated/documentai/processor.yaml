@@ -11,6 +11,3 @@ spec:
     displayName: test-processor
     location: us
     type: OCR_PROCESSOR
-
----
-

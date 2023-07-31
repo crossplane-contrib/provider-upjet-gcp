@@ -13,6 +13,3 @@ spec:
     notificationCategorySubscriptions:
     - ALL
     parent: ${data.google_project.project.id}
-
----
-

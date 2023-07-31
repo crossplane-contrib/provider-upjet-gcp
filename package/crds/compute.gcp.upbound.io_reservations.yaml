@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: reservations.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -58,7 +57,7 @@ spec:
                 description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
                   or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicy field in a future release. Currently,
+                  in favor of the ManagementPolicies field in a future release. Currently,
                   both could be set independently and non-default values would be
                   honored if the feature flag is enabled. See the design doc for more
                   information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
@@ -95,8 +94,6 @@ spec:
                                   as the key of this project config in the project
                                   map.
                                 type: string
-                            required:
-                            - id
                             type: object
                           type: array
                         shareType:
@@ -134,9 +131,6 @@ spec:
                                         If you are creating an instance template,
                                         specify only the accelerator name.'
                                       type: string
-                                  required:
-                                  - acceleratorCount
-                                  - acceleratorType
                                   type: object
                                 type: array
                               localSsds:
@@ -154,8 +148,6 @@ spec:
                                         attaching this disk. Default value is SCSI.
                                         Possible values are: SCSI, NVME.'
                                       type: string
-                                  required:
-                                  - diskSizeGb
                                   type: object
                                 type: array
                               machineType:
@@ -167,13 +159,8 @@ spec:
                                   availability reference](https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform#availablezones)
                                   for information on available CPU platforms.
                                 type: string
-                            required:
-                            - machineType
                             type: object
                           type: array
-                      required:
-                      - count
-                      - instanceProperties
                       type: object
                     type: array
                   specificReservationRequired:
@@ -187,21 +174,147 @@ spec:
                 required:
                 - zone
                 type: object
-              managementPolicy:
-                default: FullControl
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. InitProvider
+                  holds the same fields as ForProvider, with the exception of Identifier
+                  and other resource reference fields. The fields that are in InitProvider
+                  are merged into ForProvider when the resource is created. The same
+                  fields are also added to the terraform ignore_changes hook, to avoid
+                  updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after
+                  creation, for example because of an external controller is managing
+                  them, like an autoscaler.
+                properties:
+                  description:
+                    description: An optional description of this resource.
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  shareSettings:
+                    description: The share setting for reservations. Structure is
+                      documented below.
+                    items:
+                      properties:
+                        projectMap:
+                          description: A map of project number and project config.
+                            This is only valid when shareType's value is SPECIFIC_PROJECTS.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              id:
+                                description: The identifier for this object. Format
+                                  specified above.
+                                type: string
+                              projectId:
+                                description: The project id/number, should be same
+                                  as the key of this project config in the project
+                                  map.
+                                type: string
+                            type: object
+                          type: array
+                        shareType:
+                          description: 'Type of sharing for this shared-reservation
+                            Possible values are: LOCAL, SPECIFIC_PROJECTS.'
+                          type: string
+                      type: object
+                    type: array
+                  specificReservation:
+                    description: Reservation for instances with specific machine shapes.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        count:
+                          description: The number of resources that are allocated.
+                          type: number
+                        instanceProperties:
+                          description: The instance properties for the reservation.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              guestAccelerators:
+                                description: Guest accelerator type and count. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    acceleratorCount:
+                                      description: The number of the guest accelerator
+                                        cards exposed to this instance.
+                                      type: number
+                                    acceleratorType:
+                                      description: 'The full or partial URL of the
+                                        accelerator type to attach to this instance.
+                                        For example: projects/my-project/zones/us-central1-c/acceleratorTypes/nvidia-tesla-p100
+                                        If you are creating an instance template,
+                                        specify only the accelerator name.'
+                                      type: string
+                                  type: object
+                                type: array
+                              localSsds:
+                                description: The amount of local ssd to reserve with
+                                  each instance. This reserves disks of type local-ssd.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    diskSizeGb:
+                                      description: The size of the disk in base-2
+                                        GB.
+                                      type: number
+                                    interface:
+                                      description: 'The disk interface to use for
+                                        attaching this disk. Default value is SCSI.
+                                        Possible values are: SCSI, NVME.'
+                                      type: string
+                                  type: object
+                                type: array
+                              machineType:
+                                description: The name of the machine type to reserve.
+                                type: string
+                              minCpuPlatform:
+                                description: The minimum CPU platform for the reservation.
+                                  For example, "Intel Skylake". See the CPU platform
+                                  availability reference](https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform#availablezones)
+                                  for information on available CPU platforms.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  specificReservationRequired:
+                    description: When set to true, only VMs that target this reservation
+                      by name can consume this reservation. Otherwise, it can be consumed
+                      by VMs with affinity for any reservation. Defaults to false.
+                    type: boolean
+                type: object
+              managementPolicies:
+                default:
+                - '*'
                 description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
                   It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. ManagementPolicy
-                  specifies the level of control Crossplane has over the managed external
-                  resource. This field is planned to replace the DeletionPolicy field
-                  in a future release. Currently, both could be set independently
-                  and non-default values would be honored if the feature flag is enabled.
-                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
-                enum:
-                - FullControl
-                - ObserveOnly
-                - OrphanOnDelete
-                type: string
+                  enabled, and may be changed or removed without notice. ManagementPolicies
+                  specify the array of actions Crossplane is allowed to take on the
+                  managed and external resources. This field is planned to replace
+                  the DeletionPolicy field in a future release. Currently, both could
+                  be set independently and non-default values would be honored if
+                  the feature flag is enabled. If both are custom, the DeletionPolicy
+                  field will be ignored. See the design doc for more information:
+                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                items:
+                  description: A ManagementAction represents an action that the Crossplane
+                    controllers can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
               providerConfigRef:
                 default:
                   name: default
@@ -375,7 +488,9 @@ spec:
             type: object
             x-kubernetes-validations:
             - message: specificReservation is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.specificReservation)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.specificReservation)
+                || has(self.initProvider.specificReservation)'
           status:
             description: ReservationStatus defines the observed state of Reservation.
             properties:

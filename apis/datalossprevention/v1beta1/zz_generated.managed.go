@@ -29,9 +29,9 @@ func (mg *DeidentifyTemplate) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this DeidentifyTemplate.
-func (mg *DeidentifyTemplate) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this DeidentifyTemplate.
+func (mg *DeidentifyTemplate) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this DeidentifyTemplate.
@@ -67,9 +67,9 @@ func (mg *DeidentifyTemplate) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this DeidentifyTemplate.
-func (mg *DeidentifyTemplate) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this DeidentifyTemplate.
+func (mg *DeidentifyTemplate) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this DeidentifyTemplate.
@@ -105,9 +105,9 @@ func (mg *InspectTemplate) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this InspectTemplate.
-func (mg *InspectTemplate) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this InspectTemplate.
+func (mg *InspectTemplate) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this InspectTemplate.
@@ -143,9 +143,9 @@ func (mg *InspectTemplate) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this InspectTemplate.
-func (mg *InspectTemplate) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this InspectTemplate.
+func (mg *InspectTemplate) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this InspectTemplate.
@@ -181,9 +181,9 @@ func (mg *JobTrigger) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this JobTrigger.
-func (mg *JobTrigger) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this JobTrigger.
+func (mg *JobTrigger) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this JobTrigger.
@@ -219,9 +219,9 @@ func (mg *JobTrigger) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this JobTrigger.
-func (mg *JobTrigger) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this JobTrigger.
+func (mg *JobTrigger) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this JobTrigger.
@@ -257,9 +257,9 @@ func (mg *StoredInfoType) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this StoredInfoType.
-func (mg *StoredInfoType) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this StoredInfoType.
+func (mg *StoredInfoType) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this StoredInfoType.
@@ -295,9 +295,9 @@ func (mg *StoredInfoType) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this StoredInfoType.
-func (mg *StoredInfoType) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this StoredInfoType.
+func (mg *StoredInfoType) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this StoredInfoType.

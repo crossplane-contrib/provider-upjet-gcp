@@ -25,6 +25,20 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type LabelsInitParameters struct {
+
+	// A human-readable description for the label.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The key for this label. The key must not exceed 100 characters. The first character of the key must be an upper- or lower-case letter, the remaining characters must be letters, digits or underscores, and the key must match the regular expression [a-zA-Z][a-zA-Z0-9_]*
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The type of data that can be assigned to the label.
+	// Default value is STRING.
+	// Possible values are: STRING, BOOL, INT64.
+	ValueType *string `json:"valueType,omitempty" tf:"value_type,omitempty"`
+}
+
 type LabelsObservation struct {
 
 	// A human-readable description for the label.
@@ -46,14 +60,23 @@ type LabelsParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The key for this label. The key must not exceed 100 characters. The first character of the key must be an upper- or lower-case letter, the remaining characters must be letters, digits or underscores, and the key must match the regular expression [a-zA-Z][a-zA-Z0-9_]*
-	// +kubebuilder:validation:Required
-	Key *string `json:"key" tf:"key,omitempty"`
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// The type of data that can be assigned to the label.
 	// Default value is STRING.
 	// Possible values are: STRING, BOOL, INT64.
 	// +kubebuilder:validation:Optional
 	ValueType *string `json:"valueType,omitempty" tf:"value_type,omitempty"`
+}
+
+type MetadataInitParameters struct {
+
+	// The delay of data points caused by ingestion. Data points older than this age are guaranteed to be ingested and available to be read, excluding data loss due to errors. In [duration format](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf?&_ga=2.264881487.1507873253.1593446723-935052455.1591817775#google.protobuf.Duration).
+	IngestDelay *string `json:"ingestDelay,omitempty" tf:"ingest_delay,omitempty"`
+
+	// The sampling period of metric data points. For metrics which are written periodically, consecutive data points are stored at this time interval, excluding data loss due to errors. Metrics with a higher granularity have a smaller sampling period. In [duration format](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf?&_ga=2.264881487.1507873253.1593446723-935052455.1591817775#google.protobuf.Duration).
+	SamplePeriod *string `json:"samplePeriod,omitempty" tf:"sample_period,omitempty"`
 }
 
 type MetadataObservation struct {
@@ -74,6 +97,61 @@ type MetadataParameters struct {
 	// The sampling period of metric data points. For metrics which are written periodically, consecutive data points are stored at this time interval, excluding data loss due to errors. Metrics with a higher granularity have a smaller sampling period. In [duration format](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf?&_ga=2.264881487.1507873253.1593446723-935052455.1591817775#google.protobuf.Duration).
 	// +kubebuilder:validation:Optional
 	SamplePeriod *string `json:"samplePeriod,omitempty" tf:"sample_period,omitempty"`
+}
+
+type MetricDescriptorInitParameters struct {
+
+	// A detailed description of the metric, which can be used in documentation.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// A concise name for the metric, which can be displayed in user interfaces. Use sentence case without an ending period, for example "Request count".
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The set of labels that can be used to describe a specific instance of this metric type. In order to delete a label, the entire resource must be deleted, then created with the desired labels.
+	// Structure is documented below.
+	Labels []LabelsInitParameters `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The launch stage of the metric definition.
+	// Possible values are: LAUNCH_STAGE_UNSPECIFIED, UNIMPLEMENTED, PRELAUNCH, EARLY_ACCESS, ALPHA, BETA, GA, DEPRECATED.
+	LaunchStage *string `json:"launchStage,omitempty" tf:"launch_stage,omitempty"`
+
+	// Metadata which can be used to guide usage of the metric.
+	// Structure is documented below.
+	Metadata []MetadataInitParameters `json:"metadata,omitempty" tf:"metadata,omitempty"`
+
+	// Whether the metric records instantaneous values, changes to a value, etc. Some combinations of metricKind and valueType might not be supported.
+	// Possible values are: METRIC_KIND_UNSPECIFIED, GAUGE, DELTA, CUMULATIVE.
+	MetricKind *string `json:"metricKind,omitempty" tf:"metric_kind,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The metric type, including its DNS name prefix. The type is not URL-encoded. All service defined metrics must be prefixed with the service name, in the format of {service name}/{relative metric name}, such as cloudsql.googleapis.com/database/cpu/utilization. The relative metric name must have only upper and lower-case letters, digits, '/' and underscores '_' are allowed. Additionally, the maximum number of characters allowed for the relative_metric_name is 100. All user-defined metric types have the DNS name custom.googleapis.com, external.googleapis.com, or logging.googleapis.com/user/.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// The units in which the metric value is reported. It is only applicable if the
+	// valueType is INT64, DOUBLE, or DISTRIBUTION. The unit defines the representation of
+	// the stored metric values.
+	// Different systems may scale the values to be more easily displayed (so a value of
+	// 0.02KBy might be displayed as 20By, and a value of 3523KBy might be displayed as
+	// 3.5MBy). However, if the unit is KBy, then the value of the metric is always in
+	// thousands of bytes, no matter how it may be displayed.
+	// If you want a custom metric to record the exact number of CPU-seconds used by a job,
+	// you can create an INT64 CUMULATIVE metric whose unit is s{CPU} (or equivalently
+	// 1s{CPU} or just s). If the job uses 12,005 CPU-seconds, then the value is written as
+	// 12005.
+	// Alternatively, if you want a custom metric to record data in a more granular way, you
+	// can create a DOUBLE CUMULATIVE metric whose unit is ks{CPU}, and then write the value
+	// 12.005 (which is 12005/1000), or use Kis{CPU} and write 11.723 (which is 12005/1024).
+	// The supported units are a subset of The Unified Code for Units of Measure standard.
+	// More info can be found in the API documentation
+	// (https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.metricDescriptors).
+	Unit *string `json:"unit,omitempty" tf:"unit,omitempty"`
+
+	// Whether the measurement is an integer, a floating-point number, etc. Some combinations of metricKind and valueType might not be supported.
+	// Possible values are: BOOL, INT64, DOUBLE, STRING, DISTRIBUTION.
+	ValueType *string `json:"valueType,omitempty" tf:"value_type,omitempty"`
 }
 
 type MetricDescriptorObservation struct {
@@ -209,6 +287,18 @@ type MetricDescriptorParameters struct {
 type MetricDescriptorSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     MetricDescriptorParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider MetricDescriptorInitParameters `json:"initProvider,omitempty"`
 }
 
 // MetricDescriptorStatus defines the observed state of MetricDescriptor.
@@ -229,11 +319,11 @@ type MetricDescriptorStatus struct {
 type MetricDescriptor struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.description)",message="description is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)",message="displayName is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.metricKind)",message="metricKind is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.type)",message="type is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.valueType)",message="valueType is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.description) || has(self.initProvider.description)",message="description is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || has(self.initProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.metricKind) || has(self.initProvider.metricKind)",message="metricKind is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.type) || has(self.initProvider.type)",message="type is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.valueType) || has(self.initProvider.valueType)",message="valueType is a required parameter"
 	Spec   MetricDescriptorSpec   `json:"spec"`
 	Status MetricDescriptorStatus `json:"status,omitempty"`
 }

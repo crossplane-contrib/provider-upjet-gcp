@@ -16,6 +16,3 @@ spec:
     userLabels:
       my_key: my_value
       my_other_key: my_other_value
-
----
-

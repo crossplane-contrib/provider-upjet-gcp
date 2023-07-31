@@ -25,6 +25,9 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AuthorizationAttemptInfoInitParameters struct {
+}
+
 type AuthorizationAttemptInfoObservation struct {
 
 	// (Output)
@@ -47,6 +50,39 @@ type AuthorizationAttemptInfoObservation struct {
 }
 
 type AuthorizationAttemptInfoParameters struct {
+}
+
+type CertificateInitParameters struct {
+
+	// A human-readable description of the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Set of label tags associated with the Certificate resource.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Configuration and state of a Managed Certificate.
+	// Certificate Manager provisions and renews Managed Certificates
+	// automatically, for as long as it's authorized to do so.
+	// Structure is documented below.
+	Managed []ManagedInitParameters `json:"managed,omitempty" tf:"managed,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The scope of the certificate.
+	// DEFAULT: Certificates with default scope are served from core Google data centers.
+	// If unsure, choose this option.
+	// EDGE_CACHE: Certificates with scope EDGE_CACHE are special-purposed certificates,
+	// served from non-core Google data centers.
+	// Currently allowed only for managed certificates.
+	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
+
+	// Certificate data for a SelfManaged Certificate.
+	// SelfManaged Certificates are uploaded by the user. Updating such
+	// certificates before they expire remains the user's responsibility.
+	// Structure is documented below.
+	SelfManaged []SelfManagedInitParameters `json:"selfManaged,omitempty" tf:"self_managed,omitempty"`
 }
 
 type CertificateObservation struct {
@@ -131,6 +167,16 @@ type CertificateParameters struct {
 	SelfManaged []SelfManagedParameters `json:"selfManaged,omitempty" tf:"self_managed,omitempty"`
 }
 
+type ManagedInitParameters struct {
+
+	// Authorizations that will be used for performing domain authorization
+	DNSAuthorizations []*string `json:"dnsAuthorizations,omitempty" tf:"dns_authorizations,omitempty"`
+
+	// The domains for which a managed SSL certificate will be generated.
+	// Wildcard domains are only supported with DNS challenge resolution
+	Domains []*string `json:"domains,omitempty" tf:"domains,omitempty"`
+}
+
 type ManagedObservation struct {
 
 	// (Output)
@@ -168,6 +214,9 @@ type ManagedParameters struct {
 	Domains []*string `json:"domains,omitempty" tf:"domains,omitempty"`
 }
 
+type ProvisioningIssueInitParameters struct {
+}
+
 type ProvisioningIssueObservation struct {
 
 	// (Output)
@@ -182,6 +231,13 @@ type ProvisioningIssueObservation struct {
 }
 
 type ProvisioningIssueParameters struct {
+}
+
+type SelfManagedInitParameters struct {
+
+	// The certificate chain in PEM-encoded form.
+	// Leaf certificate comes first, followed by intermediate ones if any.
+	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
 }
 
 type SelfManagedObservation struct {
@@ -219,6 +275,18 @@ type SelfManagedParameters struct {
 type CertificateSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     CertificateParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider CertificateInitParameters `json:"initProvider,omitempty"`
 }
 
 // CertificateStatus defines the observed state of Certificate.

@@ -25,6 +25,9 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ConditionsInitParameters struct {
+}
+
 type ConditionsObservation struct {
 
 	// (Output)
@@ -45,6 +48,27 @@ type ConditionsObservation struct {
 }
 
 type ConditionsParameters struct {
+}
+
+type DomainMappingInitParameters struct {
+
+	// The location of the cloud run instance. eg us-central1
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Metadata associated with this DomainMapping.
+	// Structure is documented below.
+	Metadata []MetadataInitParameters `json:"metadata,omitempty" tf:"metadata,omitempty"`
+
+	// Name should be a verified domain
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The spec for this DomainMapping.
+	// Structure is documented below.
+	Spec []SpecInitParameters `json:"spec,omitempty" tf:"spec,omitempty"`
 }
 
 type DomainMappingObservation struct {
@@ -99,6 +123,21 @@ type DomainMappingParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Spec []SpecParameters `json:"spec,omitempty" tf:"spec,omitempty"`
+}
+
+type MetadataInitParameters struct {
+
+	// Annotations is a key value map stored with a resource that
+	// may be set by external tools to store and retrieve arbitrary metadata. More
+	// info: http://kubernetes.io/docs/user-guide/annotations
+	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
+	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
+
+	// Map of string keys and values that can be used to organize and categorize
+	// (scope and select) objects. May match selectors of replication controllers
+	// and routes.
+	// More info: http://kubernetes.io/docs/user-guide/labels
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
 
 type MetadataObservation struct {
@@ -175,6 +214,9 @@ type MetadataParameters struct {
 	NamespaceSelector *v1.Selector `json:"namespaceSelector,omitempty" tf:"-"`
 }
 
+type ResourceRecordsInitParameters struct {
+}
+
 type ResourceRecordsObservation struct {
 
 	// (Output)
@@ -193,6 +235,20 @@ type ResourceRecordsObservation struct {
 }
 
 type ResourceRecordsParameters struct {
+}
+
+type SpecInitParameters struct {
+
+	// The mode of the certificate.
+	// Default value is AUTOMATIC.
+	// Possible values are: NONE, AUTOMATIC.
+	CertificateMode *string `json:"certificateMode,omitempty" tf:"certificate_mode,omitempty"`
+
+	// If set, the mapping will override any mapping set before this spec was set.
+	// It is recommended that the user leaves this empty to receive an error
+	// warning about a potential conflict and only set it once the respective UI
+	// has given such a warning.
+	ForceOverride *bool `json:"forceOverride,omitempty" tf:"force_override,omitempty"`
 }
 
 type SpecObservation struct {
@@ -243,6 +299,9 @@ type SpecParameters struct {
 	RouteNameSelector *v1.Selector `json:"routeNameSelector,omitempty" tf:"-"`
 }
 
+type StatusInitParameters struct {
+}
+
 type StatusObservation struct {
 
 	// (Output)
@@ -274,6 +333,18 @@ type StatusParameters struct {
 type DomainMappingSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     DomainMappingParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider DomainMappingInitParameters `json:"initProvider,omitempty"`
 }
 
 // DomainMappingStatus defines the observed state of DomainMapping.
@@ -294,10 +365,10 @@ type DomainMappingStatus struct {
 type DomainMapping struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.location)",message="location is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.metadata)",message="metadata is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.spec)",message="spec is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.location) || has(self.initProvider.location)",message="location is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.metadata) || has(self.initProvider.metadata)",message="metadata is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || has(self.initProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.spec) || has(self.initProvider.spec)",message="spec is a required parameter"
 	Spec   DomainMappingSpec   `json:"spec"`
 	Status DomainMappingStatus `json:"status,omitempty"`
 }

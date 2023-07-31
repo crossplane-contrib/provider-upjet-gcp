@@ -28,6 +28,3 @@ spec:
   forProvider:
     initialNodeCount: 1
     location: us-central1-a
-
----
-

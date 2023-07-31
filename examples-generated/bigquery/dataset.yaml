@@ -34,6 +34,3 @@ metadata:
   name: bqowner
 spec:
   forProvider: {}
-
----
-

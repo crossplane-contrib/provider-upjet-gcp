@@ -25,6 +25,41 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AppConnectionInitParameters struct {
+
+	// Address of the remote application endpoint for the BeyondCorp AppConnection.
+	// Structure is documented below.
+	ApplicationEndpoint []ApplicationEndpointInitParameters `json:"applicationEndpoint,omitempty" tf:"application_endpoint,omitempty"`
+
+	// List of AppConnectors that are authorised to be associated with this AppConnection
+	Connectors []*string `json:"connectors,omitempty" tf:"connectors,omitempty"`
+
+	// An arbitrary user-provided name for the AppConnection.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Gateway used by the AppConnection.
+	// Structure is documented below.
+	Gateway []GatewayInitParameters `json:"gateway,omitempty" tf:"gateway,omitempty"`
+
+	// Resource labels to represent user provided metadata.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// ID of the AppConnection.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The region of the AppConnection.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The type of hosting used by the gateway. Refer to
+	// https://cloud.google.com/beyondcorp/docs/reference/rest/v1/projects.locations.appConnections#Type_1
+	// for a list of possible values.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
 type AppConnectionObservation struct {
 
 	// Address of the remote application endpoint for the BeyondCorp AppConnection.
@@ -107,6 +142,15 @@ type AppConnectionParameters struct {
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
+type ApplicationEndpointInitParameters struct {
+
+	// Hostname or IP address of the remote application endpoint.
+	Host *string `json:"host,omitempty" tf:"host,omitempty"`
+
+	// Port of the remote application endpoint.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
 type ApplicationEndpointObservation struct {
 
 	// Hostname or IP address of the remote application endpoint.
@@ -119,12 +163,20 @@ type ApplicationEndpointObservation struct {
 type ApplicationEndpointParameters struct {
 
 	// Hostname or IP address of the remote application endpoint.
-	// +kubebuilder:validation:Required
-	Host *string `json:"host" tf:"host,omitempty"`
+	// +kubebuilder:validation:Optional
+	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
 	// Port of the remote application endpoint.
-	// +kubebuilder:validation:Required
-	Port *float64 `json:"port" tf:"port,omitempty"`
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type GatewayInitParameters struct {
+
+	// The type of hosting used by the gateway. Refer to
+	// https://cloud.google.com/beyondcorp/docs/reference/rest/v1/projects.locations.appConnections#Type_1
+	// for a list of possible values.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type GatewayObservation struct {
@@ -173,6 +225,18 @@ type GatewayParameters struct {
 type AppConnectionSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     AppConnectionParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider AppConnectionInitParameters `json:"initProvider,omitempty"`
 }
 
 // AppConnectionStatus defines the observed state of AppConnection.
@@ -193,9 +257,9 @@ type AppConnectionStatus struct {
 type AppConnection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.applicationEndpoint)",message="applicationEndpoint is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.region)",message="region is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.applicationEndpoint) || has(self.initProvider.applicationEndpoint)",message="applicationEndpoint is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || has(self.initProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.region) || has(self.initProvider.region)",message="region is a required parameter"
 	Spec   AppConnectionSpec   `json:"spec"`
 	Status AppConnectionStatus `json:"status,omitempty"`
 }

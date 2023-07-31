@@ -13,6 +13,3 @@ spec:
     - bucket: my-bucket
       rootPath: /path
     location: us-central1
-
----
-

@@ -25,6 +25,3 @@ spec:
           - '*'
         versionedExpr: SRC_IPS_V1
       priority: "2147483647"
-
----
-

@@ -25,6 +25,17 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AccessDatasetInitParameters struct {
+
+	// The dataset this entry applies to
+	// Structure is documented below.
+	Dataset []DatasetDatasetInitParameters `json:"dataset,omitempty" tf:"dataset,omitempty"`
+
+	// Which resources in the dataset this entry applies to. Currently, only views are supported,
+	// but additional target types may be added in the future. Possible values: VIEWS
+	TargetTypes []*string `json:"targetTypes,omitempty" tf:"target_types,omitempty"`
+}
+
 type AccessDatasetObservation struct {
 
 	// The dataset this entry applies to
@@ -40,13 +51,53 @@ type AccessDatasetParameters struct {
 
 	// The dataset this entry applies to
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	Dataset []DatasetDatasetParameters `json:"dataset" tf:"dataset,omitempty"`
+	// +kubebuilder:validation:Optional
+	Dataset []DatasetDatasetParameters `json:"dataset,omitempty" tf:"dataset,omitempty"`
 
 	// Which resources in the dataset this entry applies to. Currently, only views are supported,
 	// but additional target types may be added in the future. Possible values: VIEWS
-	// +kubebuilder:validation:Required
-	TargetTypes []*string `json:"targetTypes" tf:"target_types,omitempty"`
+	// +kubebuilder:validation:Optional
+	TargetTypes []*string `json:"targetTypes,omitempty" tf:"target_types,omitempty"`
+}
+
+type AccessInitParameters struct {
+
+	// Grants all resources of particular types in a particular dataset read access to the current dataset.
+	// Structure is documented below.
+	Dataset []AccessDatasetInitParameters `json:"dataset,omitempty" tf:"dataset,omitempty"`
+
+	// A domain to grant access to. Any users signed in with the
+	// domain specified will be granted the specified access
+	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
+
+	// An email address of a Google Group to grant access to.
+	GroupByEmail *string `json:"groupByEmail,omitempty" tf:"group_by_email,omitempty"`
+
+	// Describes the rights granted to the user specified by the other
+	// member of the access object. Basic, predefined, and custom roles
+	// are supported. Predefined roles that have equivalent basic roles
+	// are swapped by the API to their basic counterparts. See
+	// official docs.
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+
+	// A routine from a different dataset to grant access to. Queries
+	// executed against that routine will have read access to tables in
+	// this dataset. The role field is not required when this field is
+	// set. If that routine is updated by any user, access to the routine
+	// needs to be granted again via an update operation.
+	// Structure is documented below.
+	Routine []RoutineInitParameters `json:"routine,omitempty" tf:"routine,omitempty"`
+
+	// A special group to grant access to. Possible values include:
+	SpecialGroup *string `json:"specialGroup,omitempty" tf:"special_group,omitempty"`
+
+	// A view from a different dataset to grant access to. Queries
+	// executed against that view will have read access to tables in
+	// this dataset. The role field is not required when this field is
+	// set. If that view is updated by any user, access to the view
+	// needs to be granted again via an update operation.
+	// Structure is documented below.
+	View []ViewInitParameters `json:"view,omitempty" tf:"view,omitempty"`
 }
 
 type AccessObservation struct {
@@ -155,6 +206,12 @@ type AccessParameters struct {
 	View []ViewParameters `json:"view,omitempty" tf:"view,omitempty"`
 }
 
+type DatasetDatasetInitParameters struct {
+
+	// The ID of the project containing this table.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+}
+
 type DatasetDatasetObservation struct {
 
 	// The ID of the dataset containing this table.
@@ -180,8 +237,65 @@ type DatasetDatasetParameters struct {
 	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
-	// +kubebuilder:validation:Required
-	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+}
+
+type DatasetInitParameters struct {
+
+	// An array of objects that define dataset access for one or more entities.
+	// Structure is documented below.
+	Access []AccessInitParameters `json:"access,omitempty" tf:"access,omitempty"`
+
+	// Defines the default collation specification of future tables created
+	// in the dataset. If a table is created in this dataset without table-level
+	// default collation, then the table inherits the dataset default collation,
+	// which is applied to the string fields that do not have explicit collation
+	// specified. A change to this field affects only tables created afterwards,
+	// and does not alter the existing tables.
+	// The following values are supported:
+	DefaultCollation *string `json:"defaultCollation,omitempty" tf:"default_collation,omitempty"`
+
+	// The default encryption key for all tables in the dataset. Once this property is set,
+	// all newly-created partitioned tables in the dataset will have encryption key set to
+	// this value, unless table creation request (or query) overrides the key.
+	// Structure is documented below.
+	DefaultEncryptionConfiguration []DefaultEncryptionConfigurationInitParameters `json:"defaultEncryptionConfiguration,omitempty" tf:"default_encryption_configuration,omitempty"`
+
+	// The default partition expiration for all partitioned tables in
+	// the dataset, in milliseconds.
+	DefaultPartitionExpirationMs *float64 `json:"defaultPartitionExpirationMs,omitempty" tf:"default_partition_expiration_ms,omitempty"`
+
+	// The default lifetime of all tables in the dataset, in milliseconds.
+	// The minimum value is 3600000 milliseconds (one hour).
+	DefaultTableExpirationMs *float64 `json:"defaultTableExpirationMs,omitempty" tf:"default_table_expiration_ms,omitempty"`
+
+	// If set to true, delete all the tables in the
+	// dataset when destroying the resource; otherwise,
+	// destroying the resource will fail if tables are present.
+	DeleteContentsOnDestroy *bool `json:"deleteContentsOnDestroy,omitempty" tf:"delete_contents_on_destroy,omitempty"`
+
+	// A user-friendly description of the dataset
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// A descriptive name for the dataset
+	FriendlyName *string `json:"friendlyName,omitempty" tf:"friendly_name,omitempty"`
+
+	// TRUE if the dataset and its table names are case-insensitive, otherwise FALSE.
+	// By default, this is FALSE, which means the dataset and its table names are
+	// case-sensitive. This field does not affect routine references.
+	IsCaseInsensitive *bool `json:"isCaseInsensitive,omitempty" tf:"is_case_insensitive,omitempty"`
+
+	// The labels associated with this dataset. You can use these to
+	// organize and group your datasets
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The geographic location where the dataset should reside.
+	// See official docs.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Defines the time travel window in hours. The value can be from 48 to 168 hours (2 to 7 days).
+	MaxTimeTravelHours *string `json:"maxTimeTravelHours,omitempty" tf:"max_time_travel_hours,omitempty"`
 }
 
 type DatasetObservation struct {
@@ -336,6 +450,9 @@ type DatasetParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
+type DefaultEncryptionConfigurationInitParameters struct {
+}
+
 type DefaultEncryptionConfigurationObservation struct {
 
 	// Describes the Cloud KMS encryption key that will be used to protect destination
@@ -361,6 +478,9 @@ type DefaultEncryptionConfigurationParameters struct {
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
 	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+}
+
+type RoutineInitParameters struct {
 }
 
 type RoutineObservation struct {
@@ -423,6 +543,20 @@ type RoutineParameters struct {
 	RoutineIDSelector *v1.Selector `json:"routineIdSelector,omitempty" tf:"-"`
 }
 
+type ViewInitParameters struct {
+
+	// The ID of the dataset containing this table.
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// The ID of the project containing this table.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// The ID of the table. The ID must contain only letters (a-z,
+	// A-Z), numbers (0-9), or underscores (_). The maximum length
+	// is 1,024 characters.
+	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
+}
+
 type ViewObservation struct {
 
 	// The ID of the dataset containing this table.
@@ -440,24 +574,36 @@ type ViewObservation struct {
 type ViewParameters struct {
 
 	// The ID of the dataset containing this table.
-	// +kubebuilder:validation:Required
-	DatasetID *string `json:"datasetId" tf:"dataset_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
 	// The ID of the project containing this table.
-	// +kubebuilder:validation:Required
-	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// The ID of the table. The ID must contain only letters (a-z,
 	// A-Z), numbers (0-9), or underscores (_). The maximum length
 	// is 1,024 characters.
-	// +kubebuilder:validation:Required
-	TableID *string `json:"tableId" tf:"table_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
 }
 
 // DatasetSpec defines the desired state of Dataset
 type DatasetSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     DatasetParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider DatasetInitParameters `json:"initProvider,omitempty"`
 }
 
 // DatasetStatus defines the observed state of Dataset.

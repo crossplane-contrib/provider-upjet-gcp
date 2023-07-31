@@ -25,6 +25,14 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type DefaultObjectACLInitParameters struct {
+
+	// List of role/entity pairs in the form ROLE:entity.
+	// See GCS Object ACL documentation for more details.
+	// Omitting the field is the same as providing an empty list.
+	RoleEntity []*string `json:"roleEntity,omitempty" tf:"role_entity,omitempty"`
+}
+
 type DefaultObjectACLObservation struct {
 
 	// The name of the bucket it applies to.
@@ -64,6 +72,18 @@ type DefaultObjectACLParameters struct {
 type DefaultObjectACLSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     DefaultObjectACLParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider DefaultObjectACLInitParameters `json:"initProvider,omitempty"`
 }
 
 // DefaultObjectACLStatus defines the observed state of DefaultObjectACL.

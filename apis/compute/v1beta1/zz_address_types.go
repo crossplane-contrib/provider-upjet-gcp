@@ -25,6 +25,40 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AddressInitParameters struct {
+
+	// The static external IP address represented by this resource. Only
+	// IPv4 is supported. An address may only be specified for INTERNAL
+	// address types. The IP address must be inside the specified subnetwork,
+	// if any. Set by the API if undefined.
+	Address *string `json:"address,omitempty" tf:"address,omitempty"`
+
+	// The type of address to reserve.
+	// Note: if you set this argument's value as INTERNAL you need to leave the network_tier argument unset in that resource block.
+	// Default value is EXTERNAL.
+	// Possible values are: INTERNAL, EXTERNAL.
+	AddressType *string `json:"addressType,omitempty" tf:"address_type,omitempty"`
+
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The networking tier used for configuring this address. If this field is not
+	// specified, it is assumed to be PREMIUM.
+	// This argument should not be used when configuring Internal addresses, because network tier cannot be set for internal traffic; it's always Premium.
+	// Possible values are: PREMIUM, STANDARD.
+	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
+
+	// The prefix length if the resource represents an IP range.
+	PrefixLength *float64 `json:"prefixLength,omitempty" tf:"prefix_length,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The purpose of this resource, which can be one of the following values.
+	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
+}
+
 type AddressObservation struct {
 
 	// The static external IP address represented by this resource. Only
@@ -169,6 +203,18 @@ type AddressParameters struct {
 type AddressSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     AddressParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider AddressInitParameters `json:"initProvider,omitempty"`
 }
 
 // AddressStatus defines the observed state of Address.

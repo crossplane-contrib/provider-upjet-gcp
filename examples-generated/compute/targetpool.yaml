@@ -29,6 +29,3 @@ spec:
     checkIntervalSec: 1
     requestPath: /
     timeoutSec: 1
-
----
-

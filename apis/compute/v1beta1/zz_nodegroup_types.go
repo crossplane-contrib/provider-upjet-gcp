@@ -25,6 +25,12 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type MaintenanceWindowInitParameters struct {
+
+	// instances.start time of the window. This must be in UTC format that resolves to one of 00:00, 04:00, 08:00, 12:00, 16:00, or 20:00. For example, both 13:00-5 and 08:00 are valid.
+	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
+}
+
 type MaintenanceWindowObservation struct {
 
 	// instances.start time of the window. This must be in UTC format that resolves to one of 00:00, 04:00, 08:00, 12:00, 16:00, or 20:00. For example, both 13:00-5 and 08:00 are valid.
@@ -34,8 +40,22 @@ type MaintenanceWindowObservation struct {
 type MaintenanceWindowParameters struct {
 
 	// instances.start time of the window. This must be in UTC format that resolves to one of 00:00, 04:00, 08:00, 12:00, 16:00, or 20:00. For example, both 13:00-5 and 08:00 are valid.
-	// +kubebuilder:validation:Required
-	StartTime *string `json:"startTime" tf:"start_time,omitempty"`
+	// +kubebuilder:validation:Optional
+	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
+}
+
+type NodeGroupAutoscalingPolicyInitParameters struct {
+
+	// Maximum size of the node group. Set to a value less than or equal
+	// to 100 and greater than or equal to min-nodes.
+	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
+
+	// Minimum size of the node group. Must be less
+	// than or equal to max-nodes. The default value is 0.
+	MinNodes *float64 `json:"minNodes,omitempty" tf:"min_nodes,omitempty"`
+
+	// The autoscaling mode. Set to one of the following:
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 }
 
 type NodeGroupAutoscalingPolicyObservation struct {
@@ -67,6 +87,38 @@ type NodeGroupAutoscalingPolicyParameters struct {
 	// The autoscaling mode. Set to one of the following:
 	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type NodeGroupInitParameters struct {
+
+	// If you use sole-tenant nodes for your workloads, you can use the node
+	// group autoscaler to automatically manage the sizes of your node groups.
+	// Structure is documented below.
+	AutoscalingPolicy []NodeGroupAutoscalingPolicyInitParameters `json:"autoscalingPolicy,omitempty" tf:"autoscaling_policy,omitempty"`
+
+	// An optional textual description of the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The initial number of nodes in the node group. One of initial_size or size must be specified.
+	InitialSize *float64 `json:"initialSize,omitempty" tf:"initial_size,omitempty"`
+
+	// Specifies how to handle instances when a node in the group undergoes maintenance. Set to one of: DEFAULT, RESTART_IN_PLACE, or MIGRATE_WITHIN_NODE_GROUP. The default value is DEFAULT.
+	MaintenancePolicy *string `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
+
+	// contains properties for the timeframe of maintenance
+	// Structure is documented below.
+	MaintenanceWindow []MaintenanceWindowInitParameters `json:"maintenanceWindow,omitempty" tf:"maintenance_window,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Share settings for the node group.
+	// Structure is documented below.
+	ShareSettings []ShareSettingsInitParameters `json:"shareSettings,omitempty" tf:"share_settings,omitempty"`
+
+	// The total number of nodes in the node group. One of initial_size or size must be specified.
+	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 }
 
 type NodeGroupObservation struct {
@@ -174,6 +226,9 @@ type NodeGroupParameters struct {
 	Zone *string `json:"zone" tf:"zone,omitempty"`
 }
 
+type ProjectMapInitParameters struct {
+}
+
 type ProjectMapObservation struct {
 
 	// The identifier for this object. Format specified above.
@@ -214,6 +269,17 @@ type ProjectMapParameters struct {
 	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 }
 
+type ShareSettingsInitParameters struct {
+
+	// A map of project id and project config. This is only valid when shareType's value is SPECIFIC_PROJECTS.
+	// Structure is documented below.
+	ProjectMap []ProjectMapInitParameters `json:"projectMap,omitempty" tf:"project_map,omitempty"`
+
+	// Node group sharing type.
+	// Possible values are: ORGANIZATION, SPECIFIC_PROJECTS, LOCAL.
+	ShareType *string `json:"shareType,omitempty" tf:"share_type,omitempty"`
+}
+
 type ShareSettingsObservation struct {
 
 	// A map of project id and project config. This is only valid when shareType's value is SPECIFIC_PROJECTS.
@@ -234,14 +300,26 @@ type ShareSettingsParameters struct {
 
 	// Node group sharing type.
 	// Possible values are: ORGANIZATION, SPECIFIC_PROJECTS, LOCAL.
-	// +kubebuilder:validation:Required
-	ShareType *string `json:"shareType" tf:"share_type,omitempty"`
+	// +kubebuilder:validation:Optional
+	ShareType *string `json:"shareType,omitempty" tf:"share_type,omitempty"`
 }
 
 // NodeGroupSpec defines the desired state of NodeGroup
 type NodeGroupSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     NodeGroupParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider NodeGroupInitParameters `json:"initProvider,omitempty"`
 }
 
 // NodeGroupStatus defines the observed state of NodeGroup.

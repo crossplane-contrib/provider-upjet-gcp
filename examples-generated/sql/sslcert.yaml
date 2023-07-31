@@ -28,6 +28,3 @@ spec:
     databaseVersion: MYSQL_5_7
     settings:
     - tier: db-f1-micro
-
----
-

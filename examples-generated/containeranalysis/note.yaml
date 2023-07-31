@@ -11,6 +11,3 @@ spec:
     attestationAuthority:
     - hint:
       - humanReadableName: Attestor Note
-
----
-

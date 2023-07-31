@@ -25,6 +25,29 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AttachedDiskInitParameters struct {
+
+	// Specifies a unique device name of your choice that is
+	// reflected into the /dev/disk/by-id/google-* tree of a Linux operating
+	// system running within the instance. This name can be used to
+	// reference the device for mounting, resizing, and so on, from within
+	// the instance.
+	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
+
+	// The mode in which to attach this disk, either READ_WRITE or
+	// READ_ONLY. If not specified, the default is to attach the disk in
+	// READ_WRITE mode.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// The project that the referenced compute instance is a part of. If instance is referenced by its
+	// self_link the project defined in the link will take precedence.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The zone that the referenced compute instance is located within. If instance is referenced by its
+	// self_link the zone defined in the link will take precedence.
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
+}
+
 type AttachedDiskObservation struct {
 
 	// Specifies a unique device name of your choice that is
@@ -122,6 +145,18 @@ type AttachedDiskParameters struct {
 type AttachedDiskSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     AttachedDiskParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider AttachedDiskInitParameters `json:"initProvider,omitempty"`
 }
 
 // AttachedDiskStatus defines the observed state of AttachedDisk.

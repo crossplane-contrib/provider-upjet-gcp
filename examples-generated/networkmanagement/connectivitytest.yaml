@@ -81,6 +81,3 @@ metadata:
   name: vpc
 spec:
   forProvider: {}
-
----
-

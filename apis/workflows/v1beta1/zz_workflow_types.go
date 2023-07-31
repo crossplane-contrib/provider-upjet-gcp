@@ -25,6 +25,36 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type WorkflowInitParameters struct {
+
+	// The KMS key used to encrypt workflow and execution data.
+	// Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey}
+	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
+
+	// Description of the workflow provided by the user. Must be at most 1000 unicode characters long.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// A set of key/value label pairs to assign to this Workflow.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Name of the Workflow.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Creates a unique name beginning with the
+	// specified prefix. If this and name are unspecified, a random value is chosen for the name.
+	NamePrefix *string `json:"namePrefix,omitempty" tf:"name_prefix,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The region of the workflow.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// Workflow code to be executed. The size limit is 32KB.
+	SourceContents *string `json:"sourceContents,omitempty" tf:"source_contents,omitempty"`
+}
+
 type WorkflowObservation struct {
 
 	// The timestamp of when the workflow was created in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
@@ -141,6 +171,18 @@ type WorkflowParameters struct {
 type WorkflowSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     WorkflowParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider WorkflowInitParameters `json:"initProvider,omitempty"`
 }
 
 // WorkflowStatus defines the observed state of Workflow.

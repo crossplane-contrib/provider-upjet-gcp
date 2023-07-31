@@ -25,6 +25,102 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ForwardingRuleInitParameters struct {
+
+	// This field can only be used:
+	AllPorts *bool `json:"allPorts,omitempty" tf:"all_ports,omitempty"`
+
+	// This field is used along with the backend_service field for
+	// internal load balancing or with the target field for internal
+	// TargetInstance.
+	// If the field is set to TRUE, clients can access ILB from all
+	// regions.
+	// Otherwise only allows access from clients in the same region as the
+	// internal load balancer.
+	AllowGlobalAccess *bool `json:"allowGlobalAccess,omitempty" tf:"allow_global_access,omitempty"`
+
+	// An optional description of this resource. Provide this property when
+	// you create the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The IP protocol to which this rule applies.
+	// For protocol forwarding, valid
+	// options are TCP, UDP, ESP,
+	// AH, SCTP, ICMP and
+	// L3_DEFAULT.
+	// The valid IP protocols are different for different load balancing products
+	// as described in Load balancing
+	// features.
+	// Possible values are: TCP, UDP, ESP, AH, SCTP, ICMP, L3_DEFAULT.
+	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
+
+	// Indicates whether or not this load balancer can be used as a collector for
+	// packet mirroring. To prevent mirroring loops, instances behind this
+	// load balancer will not have their traffic mirrored even if a
+	// PacketMirroring rule applies to them.
+	// This can only be set to true for load balancers that have their
+	// loadBalancingScheme set to INTERNAL.
+	IsMirroringCollector *bool `json:"isMirroringCollector,omitempty" tf:"is_mirroring_collector,omitempty"`
+
+	// Labels to apply to this forwarding rule.  A list of key->value pairs.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Specifies the forwarding rule type.
+	// For more information about forwarding rules, refer to
+	// Forwarding rule concepts.
+	// Default value is EXTERNAL.
+	// Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL, INTERNAL_MANAGED.
+	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
+
+	// This signifies the networking tier used for configuring
+	// this load balancer and can only take the following values:
+	// PREMIUM, STANDARD.
+	// For regional ForwardingRule, the valid values are PREMIUM and
+	// STANDARD. For GlobalForwardingRule, the valid value is
+	// PREMIUM.
+	// If this field is not specified, it is assumed to be PREMIUM.
+	// If IPAddress is specified, this value must be equal to the
+	// networkTier of the Address.
+	// Possible values are: PREMIUM, STANDARD.
+	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
+
+	// This field can only be used:
+	PortRange *string `json:"portRange,omitempty" tf:"port_range,omitempty"`
+
+	// and port_range fields are mutually exclusive.
+	// For external forwarding rules, two or more forwarding rules cannot use the
+	// same [IPAddress, IPProtocol] pair, and cannot have
+	// overlapping portRanges.
+	// For internal forwarding rules within the same VPC network, two or more
+	// forwarding rules cannot use the same [IPAddress, IPProtocol]
+	// pair, and cannot have overlapping portRanges.
+	Ports []*string `json:"ports,omitempty" tf:"ports,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Service Directory resources to register this forwarding rule with.
+	// Currently, only supports a single Service Directory resource.
+	// Structure is documented below.
+	ServiceDirectoryRegistrations []ServiceDirectoryRegistrationsInitParameters `json:"serviceDirectoryRegistrations,omitempty" tf:"service_directory_registrations,omitempty"`
+
+	// An optional prefix to the service name for this Forwarding Rule.
+	// If specified, will be the first label of the fully qualified service
+	// name.
+	// The label must be 1-63 characters long, and comply with RFC1035.
+	// Specifically, the label must be 1-63 characters long and match the
+	// regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the first
+	// character must be a lowercase letter, and all following characters
+	// must be a dash, lowercase letter, or digit, except the last
+	// character, which cannot be a dash.
+	// This field is only used for INTERNAL load balancing.
+	ServiceLabel *string `json:"serviceLabel,omitempty" tf:"service_label,omitempty"`
+
+	// If not empty, this Forwarding Rule will only forward the traffic when the source IP address matches one of the IP addresses or CIDR ranges set here. Note that a Forwarding Rule can only have up to 64 source IP ranges, and this field can only be used with a regional Forwarding Rule whose scheme is EXTERNAL. Each sourceIpRange entry should be either an IP address (for example, 1.2.3.4) or a CIDR range (for example, 1.2.3.0/24).
+	SourceIPRanges []*string `json:"sourceIpRanges,omitempty" tf:"source_ip_ranges,omitempty"`
+}
+
 type ForwardingRuleObservation struct {
 
 	// This field can only be used:
@@ -391,6 +487,15 @@ type ForwardingRuleParameters struct {
 	TargetSelector *v1.Selector `json:"targetSelector,omitempty" tf:"-"`
 }
 
+type ServiceDirectoryRegistrationsInitParameters struct {
+
+	// Service Directory namespace to register the forwarding rule under.
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// Service Directory service to register the forwarding rule under.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
 type ServiceDirectoryRegistrationsObservation struct {
 
 	// Service Directory namespace to register the forwarding rule under.
@@ -415,6 +520,18 @@ type ServiceDirectoryRegistrationsParameters struct {
 type ForwardingRuleSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ForwardingRuleParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ForwardingRuleInitParameters `json:"initProvider,omitempty"`
 }
 
 // ForwardingRuleStatus defines the observed state of ForwardingRule.

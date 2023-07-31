@@ -15,6 +15,3 @@ spec:
     - groupIndexes:
       - 2
       pattern: patient
-
----
-

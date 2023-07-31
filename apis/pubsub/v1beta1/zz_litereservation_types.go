@@ -25,6 +25,18 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type LiteReservationInitParameters struct {
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The reserved throughput capacity. Every unit of throughput capacity is
+	// equivalent to 1 MiB/s of published messages or 2 MiB/s of subscribed
+	// messages.
+	ThroughputCapacity *float64 `json:"throughputCapacity,omitempty" tf:"throughput_capacity,omitempty"`
+}
+
 type LiteReservationObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/reservations/{{name}}
@@ -65,6 +77,18 @@ type LiteReservationParameters struct {
 type LiteReservationSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     LiteReservationParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider LiteReservationInitParameters `json:"initProvider,omitempty"`
 }
 
 // LiteReservationStatus defines the observed state of LiteReservation.
@@ -85,7 +109,7 @@ type LiteReservationStatus struct {
 type LiteReservation struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.throughputCapacity)",message="throughputCapacity is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.throughputCapacity) || has(self.initProvider.throughputCapacity)",message="throughputCapacity is a required parameter"
 	Spec   LiteReservationSpec   `json:"spec"`
 	Status LiteReservationStatus `json:"status,omitempty"`
 }

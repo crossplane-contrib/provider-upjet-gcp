@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: environments.composer.gcp.upbound.io
 spec:
   group: composer.gcp.upbound.io
@@ -58,7 +57,7 @@ spec:
                 description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
                   or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicy field in a future release. Currently,
+                  in favor of the ManagementPolicies field in a future release. Currently,
                   both could be set independently and non-default values would be
                   honored if the feature flag is enabled. See the design doc for more
                   information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
@@ -86,8 +85,6 @@ spec:
                                   web server parameters were manually changed to a
                                   non-standard values.'
                                 type: string
-                            required:
-                            - machineType
                             type: object
                           type: array
                         encryptionConfig:
@@ -101,8 +98,6 @@ spec:
                                   be the fully qualified resource name, i.e. projects/project-id/locations/location/keyRings/keyring/cryptoKeys/key.
                                   Cannot be updated.
                                 type: string
-                            required:
-                            - kmsKeyName
                             type: object
                           type: array
                         environmentSize:
@@ -134,10 +129,6 @@ spec:
                                 description: Start time of the first recurrence of
                                   the maintenance window.
                                 type: string
-                            required:
-                            - endTime
-                            - recurrence
-                            - startTime
                             type: object
                           type: array
                         masterAuthorizedNetworksConfig:
@@ -163,8 +154,6 @@ spec:
                                       description: display_name is a field for users
                                         to identify CIDR blocks.
                                       type: string
-                                  required:
-                                  - cidrBlock
                                   type: object
                                 type: array
                               enabled:
@@ -172,8 +161,6 @@ spec:
                                   saves snapshots of your environment to a Cloud Storage
                                   bucket.
                                 type: boolean
-                            required:
-                            - enabled
                             type: object
                           type: array
                         nodeConfig:
@@ -632,8 +619,6 @@ spec:
                                         Valid values are from UTC-12 to UTC+12. Examples:
                                         UTC, UTC-01, UTC+03.'
                                       type: string
-                                  required:
-                                  - enabled
                                   type: object
                                 type: array
                             type: object
@@ -701,8 +686,6 @@ spec:
                                   web server parameters were manually changed to a
                                   non-standard values.'
                                 type: string
-                            required:
-                            - machineType
                             type: object
                           type: array
                         webServerNetworkAccessControl:
@@ -729,8 +712,6 @@ spec:
                                         to 1.2.3.0/24. Similarly, for IPv6, 2001:db8::1/32
                                         should be truncated to 2001:db8::/32.'
                                       type: string
-                                  required:
-                                  - value
                                   type: object
                                 type: array
                             type: object
@@ -916,21 +897,528 @@ spec:
                 required:
                 - region
                 type: object
-              managementPolicy:
-                default: FullControl
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. InitProvider
+                  holds the same fields as ForProvider, with the exception of Identifier
+                  and other resource reference fields. The fields that are in InitProvider
+                  are merged into ForProvider when the resource is created. The same
+                  fields are also added to the terraform ignore_changes hook, to avoid
+                  updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after
+                  creation, for example because of an external controller is managing
+                  them, like an autoscaler.
+                properties:
+                  config:
+                    description: Configuration parameters for this environment  Structure
+                      is documented below.
+                    items:
+                      properties:
+                        databaseConfig:
+                          description: The configuration settings for Cloud SQL instance
+                            used internally by Apache Airflow software.
+                          items:
+                            properties:
+                              machineType:
+                                description: 'Machine type on which Airflow web server
+                                  is running. It has to be one of: composer-n1-webserver-2,
+                                  composer-n1-webserver-4 or composer-n1-webserver-8.
+                                  Value custom is returned only in response, if Airflow
+                                  web server parameters were manually changed to a
+                                  non-standard values.'
+                                type: string
+                            type: object
+                          type: array
+                        encryptionConfig:
+                          description: The encryption options for the Cloud Composer
+                            environment and its dependencies.
+                          items:
+                            properties:
+                              kmsKeyName:
+                                description: Customer-managed Encryption Key available
+                                  through Google's Key Management Service. It must
+                                  be the fully qualified resource name, i.e. projects/project-id/locations/location/keyRings/keyring/cryptoKeys/key.
+                                  Cannot be updated.
+                                type: string
+                            type: object
+                          type: array
+                        environmentSize:
+                          description: The environment size controls the performance
+                            parameters of the managed Cloud Composer infrastructure
+                            that includes the Airflow database. Values for environment
+                            size are ENVIRONMENT_SIZE_SMALL, ENVIRONMENT_SIZE_MEDIUM,
+                            and ENVIRONMENT_SIZE_LARGE.
+                          type: string
+                        maintenanceWindow:
+                          description: The configuration settings for Cloud Composer
+                            maintenance windows.
+                          items:
+                            properties:
+                              endTime:
+                                description: Maintenance window end time. It is used
+                                  only to calculate the duration of the maintenance
+                                  window. The value for end-time must be in the future,
+                                  relative to 'start_time'.
+                                type: string
+                              recurrence:
+                                description: 'Maintenance window recurrence. Format
+                                  is a subset of RFC-5545 (https://tools.ietf.org/html/rfc5545)
+                                  ''RRULE''. The only allowed values for ''FREQ''
+                                  field are ''FREQ=DAILY'' and ''FREQ=WEEKLY;BYDAY=...''.
+                                  Example values: ''FREQ=WEEKLY;BYDAY=TU,WE'', ''FREQ=DAILY''.'
+                                type: string
+                              startTime:
+                                description: Start time of the first recurrence of
+                                  the maintenance window.
+                                type: string
+                            type: object
+                          type: array
+                        masterAuthorizedNetworksConfig:
+                          description: Configuration options for the master authorized
+                            networks feature. Enabled master authorized networks will
+                            disallow all external traffic to access Kubernetes master
+                            through HTTPS except traffic from the given CIDR blocks,
+                            Google Compute Engine Public IPs and Google Prod IPs.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              cidrBlocks:
+                                description: cidr_blocks define up to 50 external
+                                  networks that could access Kubernetes master through
+                                  HTTPS. Structure is documented below.
+                                items:
+                                  properties:
+                                    cidrBlock:
+                                      description: '`cidr_block< must be specified
+                                        in CIDR notation.'
+                                      type: string
+                                    displayName:
+                                      description: display_name is a field for users
+                                        to identify CIDR blocks.
+                                      type: string
+                                  type: object
+                                type: array
+                              enabled:
+                                description: When enabled, Cloud Composer periodically
+                                  saves snapshots of your environment to a Cloud Storage
+                                  bucket.
+                                type: boolean
+                            type: object
+                          type: array
+                        nodeConfig:
+                          description: The configuration used for the Kubernetes Engine
+                            cluster.  Structure is documented below.
+                          items:
+                            properties:
+                              diskSizeGb:
+                                description: The disk size in GB used for node VMs.
+                                  Minimum size is 20GB. If unspecified, defaults to
+                                  100GB. Cannot be updated.
+                                type: number
+                              enableIpMasqAgent:
+                                description: Deploys 'ip-masq-agent' daemon set in
+                                  the GKE cluster and defines nonMasqueradeCIDRs equals
+                                  to pod IP range so IP masquerading is used for all
+                                  destination addresses, except between pods traffic.
+                                  See the documentation.
+                                type: boolean
+                              ipAllocationPolicy:
+                                description: Configuration for controlling how IPs
+                                  are allocated in the GKE cluster. Structure is documented
+                                  below. Cannot be updated.
+                                items:
+                                  properties:
+                                    clusterIpv4CidrBlock:
+                                      description: The IP address range used to allocate
+                                        IP addresses to pods in the cluster. For Cloud
+                                        Composer 1 environments, this field is applicable
+                                        only when use_ip_aliases is true. Set to blank
+                                        to have GKE choose a range with the default
+                                        size. Set to /netmask (e.g. /14) to have GKE
+                                        choose a range with a specific netmask. Set
+                                        to a CIDR notation (e.g. 10.96.0.0/14) from
+                                        the RFC-1918 private networks (e.g. 10.0.0.0/8,
+                                        172.16.0.0/12, 192.168.0.0/16) to pick a specific
+                                        range to use. Specify either cluster_secondary_range_name
+                                        or cluster_ipv4_cidr_block but not both.
+                                      type: string
+                                    clusterSecondaryRangeName:
+                                      description: The name of the cluster's secondary
+                                        range used to allocate IP addresses to pods.
+                                        Specify either cluster_secondary_range_name
+                                        or cluster_ipv4_cidr_block but not both. For
+                                        Cloud Composer 1 environments, this field
+                                        is applicable only when use_ip_aliases is
+                                        true.
+                                      type: string
+                                    servicesIpv4CidrBlock:
+                                      description: The IP address range used to allocate
+                                        IP addresses in this cluster. For Cloud Composer
+                                        1 environments, this field is applicable only
+                                        when use_ip_aliases is true. Set to blank
+                                        to have GKE choose a range with the default
+                                        size. Set to /netmask (e.g. /14) to have GKE
+                                        choose a range with a specific netmask. Set
+                                        to a CIDR notation (e.g. 10.96.0.0/14) from
+                                        the RFC-1918 private networks (e.g. 10.0.0.0/8,
+                                        172.16.0.0/12, 192.168.0.0/16) to pick a specific
+                                        range to use. Specify either services_secondary_range_name
+                                        or services_ipv4_cidr_block but not both.
+                                      type: string
+                                    servicesSecondaryRangeName:
+                                      description: The name of the services' secondary
+                                        range used to allocate IP addresses to the
+                                        cluster. Specify either services_secondary_range_name
+                                        or services_ipv4_cidr_block but not both.
+                                        For Cloud Composer 1 environments, this field
+                                        is applicable only when use_ip_aliases is
+                                        true.
+                                      type: string
+                                    useIpAliases:
+                                      description: Whether or not to enable Alias
+                                        IPs in the GKE cluster. If true, a VPC-native
+                                        cluster is created. Defaults to true if the
+                                        ip_allocation_policy block is present in config.
+                                      type: boolean
+                                  type: object
+                                type: array
+                              machineType:
+                                description: 'Machine type on which Airflow web server
+                                  is running. It has to be one of: composer-n1-webserver-2,
+                                  composer-n1-webserver-4 or composer-n1-webserver-8.
+                                  Value custom is returned only in response, if Airflow
+                                  web server parameters were manually changed to a
+                                  non-standard values.'
+                                type: string
+                              oauthScopes:
+                                description: The set of Google API scopes to be made
+                                  available on all node VMs. Cannot be updated. If
+                                  empty, defaults to ["https://www.googleapis.com/auth/cloud-platform"].
+                                items:
+                                  type: string
+                                type: array
+                              tags:
+                                description: The list of instance tags applied to
+                                  all node VMs. Tags are used to identify valid sources
+                                  or targets for network firewalls. Each tag within
+                                  the list must comply with RFC1035. Cannot be updated.
+                                items:
+                                  type: string
+                                type: array
+                              zone:
+                                description: The Compute Engine zone in which to deploy
+                                  the VMs running the Apache Airflow software, specified
+                                  as the zone name or relative resource name (e.g.
+                                  "projects/{project}/zones/{zone}"). Must belong
+                                  to the enclosing environment's project and region.
+                                type: string
+                            type: object
+                          type: array
+                        nodeCount:
+                          description: The number of nodes in the Kubernetes Engine
+                            cluster of the environment.
+                          type: number
+                        privateEnvironmentConfig:
+                          description: The configuration used for the Private IP Cloud
+                            Composer environment. Structure is documented below.
+                          items:
+                            properties:
+                              cloudComposerConnectionSubnetwork:
+                                description: When specified, the environment will
+                                  use Private Service Connect instead of VPC peerings
+                                  to connect to Cloud SQL in the Tenant Project, and
+                                  the PSC endpoint in the Customer Project will use
+                                  an IP address from this subnetwork. This field is
+                                  supported for Cloud Composer environments in versions
+                                  composer-2.*.*-airflow-*.*.* and newer.
+                                type: string
+                              cloudComposerNetworkIpv4CidrBlock:
+                                type: string
+                              cloudSqlIpv4CidrBlock:
+                                description: The CIDR block from which IP range in
+                                  tenant project will be reserved for Cloud SQL. Needs
+                                  to be disjoint from web_server_ipv4_cidr_block
+                                type: string
+                              enablePrivateEndpoint:
+                                description: If true, access to the public endpoint
+                                  of the GKE cluster is denied. If this field is set
+                                  to true, the ip_allocation_policy.use_ip_aliases
+                                  field must also be set to true for Cloud Composer
+                                  1 environments.
+                                type: boolean
+                              enablePrivatelyUsedPublicIps:
+                                description: When enabled, IPs from public (non-RFC1918)
+                                  ranges can be used for ip_allocation_policy.cluster_ipv4_cidr_block
+                                  and ip_allocation_policy.service_ipv4_cidr_block.
+                                type: boolean
+                              masterIpv4CidrBlock:
+                                description: The IP range in CIDR notation to use
+                                  for the hosted master network. This range is used
+                                  for assigning internal IP addresses to the cluster
+                                  master or set of masters and to the internal load
+                                  balancer virtual IP. This range must not overlap
+                                  with any other ranges in use within the cluster's
+                                  network. If left blank, the default value of is
+                                  used. See documentation for default values per region.
+                                type: string
+                              webServerIpv4CidrBlock:
+                                description: The CIDR block from which IP range for
+                                  web server will be reserved. Needs to be disjoint
+                                  from master_ipv4_cidr_block and cloud_sql_ipv4_cidr_block.
+                                type: string
+                            type: object
+                          type: array
+                        recoveryConfig:
+                          description: The configuration settings for recovery. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              scheduledSnapshotsConfig:
+                                description: The recovery configuration settings for
+                                  the Cloud Composer environment.
+                                items:
+                                  properties:
+                                    enabled:
+                                      description: When enabled, Cloud Composer periodically
+                                        saves snapshots of your environment to a Cloud
+                                        Storage bucket.
+                                      type: boolean
+                                    snapshotCreationSchedule:
+                                      description: Snapshot schedule, in the unix-cron
+                                        format.
+                                      type: string
+                                    snapshotLocation:
+                                      description: The URI of a bucket folder where
+                                        to save the snapshot.
+                                      type: string
+                                    timeZone:
+                                      description: 'A time zone for the schedule.
+                                        This value is a time offset and does not take
+                                        into account daylight saving time changes.
+                                        Valid values are from UTC-12 to UTC+12. Examples:
+                                        UTC, UTC-01, UTC+03.'
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        softwareConfig:
+                          description: The configuration settings for software inside
+                            the environment.  Structure is documented below.
+                          items:
+                            properties:
+                              airflowConfigOverrides:
+                                additionalProperties:
+                                  type: string
+                                description: Apache Airflow configuration properties
+                                  to override. Property keys contain the section and
+                                  property names, separated by a hyphen, for example
+                                  "core-dags_are_paused_at_creation".
+                                type: object
+                              envVariables:
+                                additionalProperties:
+                                  type: string
+                                description: 'Additional environment variables to
+                                  provide to the Apache Airflow scheduler, worker,
+                                  and webserver processes. Environment variable names
+                                  must match the regular expression [a-zA-Z_][a-zA-Z0-9_]*.
+                                  They cannot specify Apache Airflow software configuration
+                                  overrides (they cannot match the regular expression
+                                  AIRFLOW__[A-Z0-9_]+__[A-Z0-9_]+), and they cannot
+                                  match any of the following reserved names:'
+                                type: object
+                              imageVersion:
+                                type: string
+                              pypiPackages:
+                                additionalProperties:
+                                  type: string
+                                description: Custom Python Package Index (PyPI) packages
+                                  to be installed in the environment. Keys refer to
+                                  the lowercase package name (e.g. "numpy"). Values
+                                  are the lowercase extras and version specifier (e.g.
+                                  "==1.12.0", "[devel,gcp_api]", "[devel]>=1.8.2,
+                                  <1.9.2"). To specify a package without pinning it
+                                  to a version specifier, use the empty string as
+                                  the value.
+                                type: object
+                              pythonVersion:
+                                description: The major version of Python used to run
+                                  the Apache Airflow scheduler, worker, and webserver
+                                  processes. Can be set to '2' or '3'. If not specified,
+                                  the default is '3'.
+                                type: string
+                              schedulerCount:
+                                description: The number of schedulers for Airflow.
+                                type: number
+                            type: object
+                          type: array
+                        webServerConfig:
+                          description: The configuration settings for the Airflow
+                            web server App Engine instance.
+                          items:
+                            properties:
+                              machineType:
+                                description: 'Machine type on which Airflow web server
+                                  is running. It has to be one of: composer-n1-webserver-2,
+                                  composer-n1-webserver-4 or composer-n1-webserver-8.
+                                  Value custom is returned only in response, if Airflow
+                                  web server parameters were manually changed to a
+                                  non-standard values.'
+                                type: string
+                            type: object
+                          type: array
+                        webServerNetworkAccessControl:
+                          description: The network-level access control policy for
+                            the Airflow web server. If unspecified, no network-level
+                            access restrictions are applied.
+                          items:
+                            properties:
+                              allowedIpRange:
+                                description: A collection of allowed IP ranges with
+                                  descriptions. Structure is documented below.
+                                items:
+                                  properties:
+                                    description:
+                                      description: A description of this ip range.
+                                      type: string
+                                    value:
+                                      description: 'IP address or range, defined using
+                                        CIDR notation, of requests that this rule
+                                        applies to. Examples: 192.168.1.1 or 192.168.0.0/16
+                                        or 2001:db8::/32 or 2001:0db8:0000:0042:0000:8a2e:0370:7334.
+                                        IP range prefixes should be properly truncated.
+                                        For example, 1.2.3.4/24 should be truncated
+                                        to 1.2.3.0/24. Similarly, for IPv6, 2001:db8::1/32
+                                        should be truncated to 2001:db8::/32.'
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        workloadsConfig:
+                          description: The Kubernetes workloads configuration for
+                            GKE cluster associated with the Cloud Composer environment.
+                          items:
+                            properties:
+                              scheduler:
+                                description: Configuration for resources used by Airflow
+                                  schedulers.
+                                items:
+                                  properties:
+                                    count:
+                                      description: The number of Airflow triggerers.
+                                      type: number
+                                    cpu:
+                                      description: The number of CPUs for a single
+                                        Airflow worker.
+                                      type: number
+                                    memoryGb:
+                                      description: The amount of memory (GB) for a
+                                        single Airflow worker.
+                                      type: number
+                                    storageGb:
+                                      description: The amount of storage (GB) for
+                                        the Airflow web server.
+                                      type: number
+                                  type: object
+                                type: array
+                              webServer:
+                                description: Configuration for resources used by Airflow
+                                  web server.
+                                items:
+                                  properties:
+                                    cpu:
+                                      description: The number of CPUs for a single
+                                        Airflow worker.
+                                      type: number
+                                    memoryGb:
+                                      description: The amount of memory (GB) for a
+                                        single Airflow worker.
+                                      type: number
+                                    storageGb:
+                                      description: The amount of storage (GB) for
+                                        the Airflow web server.
+                                      type: number
+                                  type: object
+                                type: array
+                              worker:
+                                description: Configuration for resources used by Airflow
+                                  workers.
+                                items:
+                                  properties:
+                                    cpu:
+                                      description: The number of CPUs for a single
+                                        Airflow worker.
+                                      type: number
+                                    maxCount:
+                                      description: The maximum number of Airflow workers
+                                        that the environment can run. The number of
+                                        workers in the environment does not go above
+                                        this number, even if a higher number of workers
+                                        is required to handle the load.
+                                      type: number
+                                    memoryGb:
+                                      description: The amount of memory (GB) for a
+                                        single Airflow worker.
+                                      type: number
+                                    minCount:
+                                      description: The minimum number of Airflow workers
+                                        that the environment can run. The number of
+                                        workers in the environment does not go above
+                                        this number, even if a lower number of workers
+                                        can handle the load.
+                                      type: number
+                                    storageGb:
+                                      description: The amount of storage (GB) for
+                                        the Airflow web server.
+                                      type: number
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: 'User-defined labels for this environment. The labels
+                      map can contain no more than 64 entries. Entries of the labels
+                      map are UTF8 strings that comply with the following restrictions:
+                      Label keys must be between 1 and 63 characters long and must
+                      conform to the following regular expression: [a-z]([-a-z0-9]*[a-z0-9])?.
+                      Label values must be between 0 and 63 characters long and must
+                      conform to the regular expression ([a-z]([-a-z0-9]*[a-z0-9])?)?.
+                      No more than 64 labels can be associated with a given environment.
+                      Both keys and values must be <= 128 bytes in size.'
+                    type: object
+                type: object
+              managementPolicies:
+                default:
+                - '*'
                 description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
                   It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. ManagementPolicy
-                  specifies the level of control Crossplane has over the managed external
-                  resource. This field is planned to replace the DeletionPolicy field
-                  in a future release. Currently, both could be set independently
-                  and non-default values would be honored if the feature flag is enabled.
-                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
-                enum:
-                - FullControl
-                - ObserveOnly
-                - OrphanOnDelete
-                type: string
+                  enabled, and may be changed or removed without notice. ManagementPolicies
+                  specify the array of actions Crossplane is allowed to take on the
+                  managed and external resources. This field is planned to replace
+                  the DeletionPolicy field in a future release. Currently, both could
+                  be set independently and non-default values would be honored if
+                  the feature flag is enabled. If both are custom, the DeletionPolicy
+                  field will be ignored. See the design doc for more information:
+                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                items:
+                  description: A ManagementAction represents an action that the Crossplane
+                    controllers can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
               providerConfigRef:
                 default:
                   name: default

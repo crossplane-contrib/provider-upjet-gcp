@@ -10,6 +10,3 @@ spec:
   forProvider:
     key: my_metadata
     value: my_value
-
----
-

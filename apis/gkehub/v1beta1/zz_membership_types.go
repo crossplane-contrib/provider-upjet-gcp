@@ -25,6 +25,13 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AuthorityInitParameters struct {
+
+	// A JSON Web Token (JWT) issuer URI. issuer must start with https:// and // be a valid
+	// with length <2000 characters. For example: https://container.googleapis.com/v1/projects/my-project/locations/us-west1/clusters/my-cluster (must be locations rather than zones).googleapis.com/v1/${google_container_cluster.my-cluster.id}".
+	Issuer *string `json:"issuer,omitempty" tf:"issuer,omitempty"`
+}
+
 type AuthorityObservation struct {
 
 	// A JSON Web Token (JWT) issuer URI. issuer must start with https:// and // be a valid
@@ -36,8 +43,15 @@ type AuthorityParameters struct {
 
 	// A JSON Web Token (JWT) issuer URI. issuer must start with https:// and // be a valid
 	// with length <2000 characters. For example: https://container.googleapis.com/v1/projects/my-project/locations/us-west1/clusters/my-cluster (must be locations rather than zones).googleapis.com/v1/${google_container_cluster.my-cluster.id}".
-	// +kubebuilder:validation:Required
-	Issuer *string `json:"issuer" tf:"issuer,omitempty"`
+	// +kubebuilder:validation:Optional
+	Issuer *string `json:"issuer,omitempty" tf:"issuer,omitempty"`
+}
+
+type EndpointInitParameters struct {
+
+	// If this Membership is a Kubernetes API server hosted on GKE, this is a self link to its GCP resource.
+	// Structure is documented below.
+	GkeCluster []GkeClusterInitParameters `json:"gkeCluster,omitempty" tf:"gke_cluster,omitempty"`
 }
 
 type EndpointObservation struct {
@@ -53,6 +67,9 @@ type EndpointParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	GkeCluster []GkeClusterParameters `json:"gkeCluster,omitempty" tf:"gke_cluster,omitempty"`
+}
+
+type GkeClusterInitParameters struct {
 }
 
 type GkeClusterObservation struct {
@@ -82,6 +99,26 @@ type GkeClusterParameters struct {
 	// Selector for a Cluster in container to populate resourceLink.
 	// +kubebuilder:validation:Optional
 	ResourceLinkSelector *v1.Selector `json:"resourceLinkSelector,omitempty" tf:"-"`
+}
+
+type MembershipInitParameters struct {
+
+	// Authority encodes how Google will recognize identities from this Membership.
+	// See the workload identity documentation for more details:
+	// https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity
+	// Structure is documented below.
+	Authority []AuthorityInitParameters `json:"authority,omitempty" tf:"authority,omitempty"`
+
+	// If this Membership is a Kubernetes API server hosted on GKE, this is a self link to its GCP resource.
+	// Structure is documented below.
+	Endpoint []EndpointInitParameters `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
+
+	// Labels to apply to this membership.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type MembershipObservation struct {
@@ -138,6 +175,18 @@ type MembershipParameters struct {
 type MembershipSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     MembershipParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider MembershipInitParameters `json:"initProvider,omitempty"`
 }
 
 // MembershipStatus defines the observed state of Membership.

@@ -47,6 +47,3 @@ metadata:
 spec:
   forProvider:
     displayName: Test Service Account
-
----
-

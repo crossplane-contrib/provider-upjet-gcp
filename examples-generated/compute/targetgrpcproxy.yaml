@@ -118,6 +118,3 @@ spec:
       serviceSelector:
         matchLabels:
           testing.upbound.io/example-name: home
-
----
-

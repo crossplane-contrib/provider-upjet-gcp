@@ -25,6 +25,14 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type InstanceIAMMemberConditionInitParameters struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+}
+
 type InstanceIAMMemberConditionObservation struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -38,11 +46,17 @@ type InstanceIAMMemberConditionParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Expression *string `json:"expression" tf:"expression,omitempty"`
+	// +kubebuilder:validation:Optional
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Title *string `json:"title" tf:"title,omitempty"`
+	// +kubebuilder:validation:Optional
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+}
+
+type InstanceIAMMemberInitParameters struct {
+	Condition []InstanceIAMMemberConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type InstanceIAMMemberObservation struct {
@@ -83,6 +97,18 @@ type InstanceIAMMemberParameters struct {
 type InstanceIAMMemberSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     InstanceIAMMemberParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider InstanceIAMMemberInitParameters `json:"initProvider,omitempty"`
 }
 
 // InstanceIAMMemberStatus defines the observed state of InstanceIAMMember.

@@ -54,6 +54,3 @@ spec:
       requestPath: /healthz
     timeoutSec: 5
     unhealthyThreshold: 10
-
----
-

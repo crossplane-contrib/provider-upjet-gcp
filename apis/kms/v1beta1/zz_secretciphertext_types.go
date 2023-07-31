@@ -25,6 +25,13 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type SecretCiphertextInitParameters struct {
+
+	// The plaintext to be encrypted.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	Plaintext *string `json:"plaintext,omitempty" tf:"plaintext,omitempty"`
+}
+
 type SecretCiphertextObservation struct {
 
 	// Contains the result of encrypting the provided plaintext, encoded in base64.
@@ -74,6 +81,18 @@ type SecretCiphertextParameters struct {
 type SecretCiphertextSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     SecretCiphertextParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider SecretCiphertextInitParameters `json:"initProvider,omitempty"`
 }
 
 // SecretCiphertextStatus defines the observed state of SecretCiphertext.
@@ -94,7 +113,7 @@ type SecretCiphertextStatus struct {
 type SecretCiphertext struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.plaintext)",message="plaintext is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.plaintext) || has(self.initProvider.plaintext)",message="plaintext is a required parameter"
 	Spec   SecretCiphertextSpec   `json:"spec"`
 	Status SecretCiphertextStatus `json:"status,omitempty"`
 }

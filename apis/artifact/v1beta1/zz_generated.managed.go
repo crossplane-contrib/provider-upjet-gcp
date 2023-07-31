@@ -29,9 +29,9 @@ func (mg *RegistryRepository) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this RegistryRepository.
-func (mg *RegistryRepository) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this RegistryRepository.
+func (mg *RegistryRepository) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this RegistryRepository.
@@ -67,9 +67,9 @@ func (mg *RegistryRepository) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this RegistryRepository.
-func (mg *RegistryRepository) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this RegistryRepository.
+func (mg *RegistryRepository) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this RegistryRepository.
@@ -105,9 +105,9 @@ func (mg *RegistryRepositoryIAMMember) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this RegistryRepositoryIAMMember.
-func (mg *RegistryRepositoryIAMMember) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this RegistryRepositoryIAMMember.
+func (mg *RegistryRepositoryIAMMember) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this RegistryRepositoryIAMMember.
@@ -143,9 +143,9 @@ func (mg *RegistryRepositoryIAMMember) SetDeletionPolicy(r xpv1.DeletionPolicy) 
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this RegistryRepositoryIAMMember.
-func (mg *RegistryRepositoryIAMMember) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this RegistryRepositoryIAMMember.
+func (mg *RegistryRepositoryIAMMember) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this RegistryRepositoryIAMMember.

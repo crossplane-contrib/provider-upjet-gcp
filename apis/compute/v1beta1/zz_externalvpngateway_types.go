@@ -25,6 +25,27 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ExternalVPNGatewayInitParameters struct {
+
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// A list of interfaces on this external VPN gateway.
+	// Structure is documented below.
+	Interface []InterfaceInitParameters `json:"interface,omitempty" tf:"interface,omitempty"`
+
+	// Labels for the external VPN gateway resource.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Indicates the redundancy type of this external VPN gateway
+	// Possible values are: FOUR_IPS_REDUNDANCY, SINGLE_IP_INTERNALLY_REDUNDANT, TWO_IPS_REDUNDANCY.
+	RedundancyType *string `json:"redundancyType,omitempty" tf:"redundancy_type,omitempty"`
+}
+
 type ExternalVPNGatewayObservation struct {
 
 	// An optional description of this resource.
@@ -78,6 +99,19 @@ type ExternalVPNGatewayParameters struct {
 	RedundancyType *string `json:"redundancyType,omitempty" tf:"redundancy_type,omitempty"`
 }
 
+type InterfaceInitParameters struct {
+
+	// The numeric ID for this interface. Allowed values are based on the redundancy type
+	// of this external VPN gateway
+	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// IP address of the interface in the external VPN gateway.
+	// Only IPv4 is supported. This IP address can be either from
+	// your on-premise gateway or another Cloud provider's VPN gateway,
+	// it cannot be an IP address from Google Compute Engine.
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+}
+
 type InterfaceObservation struct {
 
 	// The numeric ID for this interface. Allowed values are based on the redundancy type
@@ -110,6 +144,18 @@ type InterfaceParameters struct {
 type ExternalVPNGatewaySpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ExternalVPNGatewayParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ExternalVPNGatewayInitParameters `json:"initProvider,omitempty"`
 }
 
 // ExternalVPNGatewayStatus defines the observed state of ExternalVPNGateway.

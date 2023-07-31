@@ -25,6 +25,12 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ColumnFamilyInitParameters struct {
+
+	// The name of the column family.
+	Family *string `json:"family,omitempty" tf:"family,omitempty"`
+}
+
 type ColumnFamilyObservation struct {
 
 	// The name of the column family.
@@ -34,8 +40,24 @@ type ColumnFamilyObservation struct {
 type ColumnFamilyParameters struct {
 
 	// The name of the column family.
-	// +kubebuilder:validation:Required
-	Family *string `json:"family" tf:"family,omitempty"`
+	// +kubebuilder:validation:Optional
+	Family *string `json:"family,omitempty" tf:"family,omitempty"`
+}
+
+type TableInitParameters struct {
+
+	// A group of columns within a table which share a common configuration. This can be specified multiple times. Structure is documented below.
+	ColumnFamily []ColumnFamilyInitParameters `json:"columnFamily,omitempty" tf:"column_family,omitempty"`
+
+	// A field to make the table protected against data loss i.e. when set to PROTECTED, deleting the table, the column families in the table, and the instance containing the table would be prohibited. If not provided, deletion protection will be set to UNPROTECTED.
+	DeletionProtection *string `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// A list of predefined keys to split the table on.
+	SplitKeys []*string `json:"splitKeys,omitempty" tf:"split_keys,omitempty"`
 }
 
 type TableObservation struct {
@@ -97,6 +119,18 @@ type TableParameters struct {
 type TableSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     TableParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider TableInitParameters `json:"initProvider,omitempty"`
 }
 
 // TableStatus defines the observed state of Table.

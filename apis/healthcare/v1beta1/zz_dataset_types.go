@@ -25,6 +25,24 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type DatasetInitParameters struct {
+
+	// The location for the Dataset.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// The resource name for the Dataset.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The default timezone used by this dataset. Must be a either a valid IANA time zone name such as
+	// "America/New_York" or empty, which defaults to UTC. This is used for parsing times in resources
+	// (e.g., HL7 messages) where no explicit timezone is specified.
+	TimeZone *string `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
+}
+
 type DatasetObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/datasets/{{name}}
@@ -75,6 +93,18 @@ type DatasetParameters struct {
 type DatasetSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     DatasetParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider DatasetInitParameters `json:"initProvider,omitempty"`
 }
 
 // DatasetStatus defines the observed state of Dataset.
@@ -95,8 +125,8 @@ type DatasetStatus struct {
 type Dataset struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.location)",message="location is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.location) || has(self.initProvider.location)",message="location is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || has(self.initProvider.name)",message="name is a required parameter"
 	Spec   DatasetSpec   `json:"spec"`
 	Status DatasetStatus `json:"status,omitempty"`
 }

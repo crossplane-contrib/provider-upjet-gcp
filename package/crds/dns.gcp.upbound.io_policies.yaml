@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: policies.dns.gcp.upbound.io
 spec:
   group: dns.gcp.upbound.io
@@ -58,7 +57,7 @@ spec:
                 description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
                   or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicy field in a future release. Currently,
+                  in favor of the ManagementPolicies field in a future release. Currently,
                   both could be set independently and non-default values would be
                   honored if the feature flag is enabled. See the design doc for more
                   information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
@@ -96,12 +95,8 @@ spec:
                               ipv4Address:
                                 description: IPv4 address to forward to.
                                 type: string
-                            required:
-                            - ipv4Address
                             type: object
                           type: array
-                      required:
-                      - targetNameServers
                       type: object
                     type: array
                   description:
@@ -212,21 +207,101 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                 type: object
-              managementPolicy:
-                default: FullControl
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. InitProvider
+                  holds the same fields as ForProvider, with the exception of Identifier
+                  and other resource reference fields. The fields that are in InitProvider
+                  are merged into ForProvider when the resource is created. The same
+                  fields are also added to the terraform ignore_changes hook, to avoid
+                  updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after
+                  creation, for example because of an external controller is managing
+                  them, like an autoscaler.
+                properties:
+                  alternativeNameServerConfig:
+                    description: Sets an alternative name server for the associated
+                      networks. When specified, all DNS queries are forwarded to a
+                      name server that you choose. Names such as .internal are not
+                      available when an alternative name server is specified. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        targetNameServers:
+                          description: Sets an alternative name server for the associated
+                            networks. When specified, all DNS queries are forwarded
+                            to a name server that you choose. Names such as .internal
+                            are not available when an alternative name server is specified.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              forwardingPath:
+                                description: 'Forwarding path for this TargetNameServer.
+                                  If unset or default Cloud DNS will make forwarding
+                                  decision based on address ranges, i.e. RFC1918 addresses
+                                  go to the VPC, Non-RFC1918 addresses go to the Internet.
+                                  When set to private, Cloud DNS will always send
+                                  queries through VPC for this target Possible values
+                                  are: default, private.'
+                                type: string
+                              ipv4Address:
+                                description: IPv4 address to forward to.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  description:
+                    description: A textual description field.
+                    type: string
+                  enableInboundForwarding:
+                    description: Allows networks bound to this policy to receive DNS
+                      queries sent by VMs or applications over VPN connections. When
+                      enabled, a virtual IP address will be allocated from each of
+                      the sub-networks that are bound to this policy.
+                    type: boolean
+                  enableLogging:
+                    description: Controls whether logging is enabled for the networks
+                      bound to this policy. Defaults to no logging if not set.
+                    type: boolean
+                  networks:
+                    description: List of network names specifying networks to which
+                      this policy is applied. Structure is documented below.
+                    items:
+                      type: object
+                    type: array
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
                 description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
                   It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. ManagementPolicy
-                  specifies the level of control Crossplane has over the managed external
-                  resource. This field is planned to replace the DeletionPolicy field
-                  in a future release. Currently, both could be set independently
-                  and non-default values would be honored if the feature flag is enabled.
-                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
-                enum:
-                - FullControl
-                - ObserveOnly
-                - OrphanOnDelete
-                type: string
+                  enabled, and may be changed or removed without notice. ManagementPolicies
+                  specify the array of actions Crossplane is allowed to take on the
+                  managed and external resources. This field is planned to replace
+                  the DeletionPolicy field in a future release. Currently, both could
+                  be set independently and non-default values would be honored if
+                  the feature flag is enabled. If both are custom, the DeletionPolicy
+                  field will be ignored. See the design doc for more information:
+                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                items:
+                  description: A ManagementAction represents an action that the Crossplane
+                    controllers can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
               providerConfigRef:
                 default:
                   name: default

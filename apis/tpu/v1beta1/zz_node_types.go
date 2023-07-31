@@ -25,6 +25,9 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type NetworkEndpointsInitParameters struct {
+}
+
 type NetworkEndpointsObservation struct {
 
 	// (Output)
@@ -37,6 +40,45 @@ type NetworkEndpointsObservation struct {
 }
 
 type NetworkEndpointsParameters struct {
+}
+
+type NodeInitParameters struct {
+
+	// The type of hardware accelerators associated with this node.
+	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
+
+	// The CIDR block that the TPU node will use when selecting an IP
+	// address. This CIDR block must be a /29 block; the Compute Engine
+	// networks API forbids a smaller block, and using a larger block would
+	// be wasteful (a node can only consume one IP address).
+	// Errors will occur if the CIDR block has already been used for a
+	// currently existing TPU node, the CIDR block conflicts with any
+	// subnetworks in the user's provided network, or the provided network
+	// is peered with another network that is using that CIDR block.
+	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
+
+	// The user-supplied description of the TPU. Maximum of 512 characters.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Resource labels to represent user provided metadata.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Sets the scheduling options for this TPU instance.
+	// Structure is documented below.
+	SchedulingConfig []SchedulingConfigInitParameters `json:"schedulingConfig,omitempty" tf:"scheduling_config,omitempty"`
+
+	// The version of Tensorflow running in the Node.
+	TensorflowVersion *string `json:"tensorflowVersion,omitempty" tf:"tensorflow_version,omitempty"`
+
+	// Whether the VPC peering for the node is set up through Service Networking API.
+	// The VPC Peering should be set up before provisioning the node. If this field is set,
+	// cidr_block field should not be specified. If the network that you want to peer the
+	// TPU Node to is a Shared VPC network, the node must be created with this this field enabled.
+	UseServiceNetworking *bool `json:"useServiceNetworking,omitempty" tf:"use_service_networking,omitempty"`
 }
 
 type NodeObservation struct {
@@ -170,6 +212,12 @@ type NodeParameters struct {
 	Zone *string `json:"zone" tf:"zone,omitempty"`
 }
 
+type SchedulingConfigInitParameters struct {
+
+	// Defines whether the TPU instance is preemptible.
+	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
+}
+
 type SchedulingConfigObservation struct {
 
 	// Defines whether the TPU instance is preemptible.
@@ -179,14 +227,26 @@ type SchedulingConfigObservation struct {
 type SchedulingConfigParameters struct {
 
 	// Defines whether the TPU instance is preemptible.
-	// +kubebuilder:validation:Required
-	Preemptible *bool `json:"preemptible" tf:"preemptible,omitempty"`
+	// +kubebuilder:validation:Optional
+	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 }
 
 // NodeSpec defines the desired state of Node
 type NodeSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     NodeParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider NodeInitParameters `json:"initProvider,omitempty"`
 }
 
 // NodeStatus defines the observed state of Node.
@@ -207,8 +267,8 @@ type NodeStatus struct {
 type Node struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.acceleratorType)",message="acceleratorType is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.tensorflowVersion)",message="tensorflowVersion is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.acceleratorType) || has(self.initProvider.acceleratorType)",message="acceleratorType is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.tensorflowVersion) || has(self.initProvider.tensorflowVersion)",message="tensorflowVersion is a required parameter"
 	Spec   NodeSpec   `json:"spec"`
 	Status NodeStatus `json:"status,omitempty"`
 }

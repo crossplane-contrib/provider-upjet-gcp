@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: instances.datafusion.gcp.upbound.io
 spec:
   group: datafusion.gcp.upbound.io
@@ -58,7 +57,7 @@ spec:
                 description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
                   or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicy field in a future release. Currently,
+                  in favor of the ManagementPolicies field in a future release. Currently,
                   both could be set independently and non-default values would be
                   honored if the feature flag is enabled. See the design doc for more
                   information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
@@ -85,9 +84,6 @@ spec:
                           description: 'The type of an accelator for a CDF instance.
                             Possible values are: ENABLED, DISABLED.'
                           type: string
-                      required:
-                      - acceleratorType
-                      - state
                       type: object
                     type: array
                   cryptoKeyConfig:
@@ -290,8 +286,6 @@ spec:
                                   type: string
                               type: object
                           type: object
-                      required:
-                      - enabled
                       type: object
                     type: array
                   labels:
@@ -319,9 +313,6 @@ spec:
                             host project the network should specified in the form
                             of projects/{host-project-id}/global/networks/{network}
                           type: string
-                      required:
-                      - ipAllocation
-                      - network
                       type: object
                     type: array
                   options:
@@ -356,21 +347,156 @@ spec:
                       will be created. Only DEVELOPER instances use this field.
                     type: string
                 type: object
-              managementPolicy:
-                default: FullControl
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. InitProvider
+                  holds the same fields as ForProvider, with the exception of Identifier
+                  and other resource reference fields. The fields that are in InitProvider
+                  are merged into ForProvider when the resource is created. The same
+                  fields are also added to the terraform ignore_changes hook, to avoid
+                  updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after
+                  creation, for example because of an external controller is managing
+                  them, like an autoscaler.
+                properties:
+                  accelerators:
+                    description: List of accelerators enabled for this CDF instance.
+                      If accelerators are enabled it is possible a permadiff will
+                      be created with the Options field. Users will need to either
+                      manually update their state file to include these diffed options,
+                      or include the field in a lifecycle ignore changes block. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        acceleratorType:
+                          description: 'The type of an accelator for a CDF instance.
+                            Possible values are: CDC, HEALTHCARE, CCAI_INSIGHTS.'
+                          type: string
+                        state:
+                          description: 'The type of an accelator for a CDF instance.
+                            Possible values are: ENABLED, DISABLED.'
+                          type: string
+                      type: object
+                    type: array
+                  cryptoKeyConfig:
+                    description: The crypto key configuration. This field is used
+                      by the Customer-Managed Encryption Keys (CMEK) feature. Structure
+                      is documented below.
+                    items:
+                      type: object
+                    type: array
+                  dataprocServiceAccount:
+                    description: User-managed service account to set on Dataproc when
+                      Cloud Data Fusion creates Dataproc to run data processing pipelines.
+                    type: string
+                  description:
+                    description: An optional description of the instance.
+                    type: string
+                  displayName:
+                    description: Display name for an instance.
+                    type: string
+                  enableRbac:
+                    description: Option to enable granular role-based access control.
+                    type: boolean
+                  enableStackdriverLogging:
+                    description: Option to enable Stackdriver Logging.
+                    type: boolean
+                  enableStackdriverMonitoring:
+                    description: Option to enable Stackdriver Monitoring.
+                    type: boolean
+                  eventPublishConfig:
+                    description: Option to enable and pass metadata for event publishing.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        enabled:
+                          description: Option to enable Event Publishing.
+                          type: boolean
+                      type: object
+                    type: array
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: The resource labels for instance to use to annotate
+                      any related underlying resources, such as Compute Engine VMs.
+                    type: object
+                  networkConfig:
+                    description: Network configuration options. These are required
+                      when a private Data Fusion instance is to be created. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        ipAllocation:
+                          description: The IP range in CIDR notation to use for the
+                            managed Data Fusion instance nodes. This range must not
+                            overlap with any other ranges used in the Data Fusion
+                            instance network.
+                          type: string
+                        network:
+                          description: Name of the network in the project with which
+                            the tenant project will be peered for executing pipelines.
+                            In case of shared VPC where the network resides in another
+                            host project the network should specified in the form
+                            of projects/{host-project-id}/global/networks/{network}
+                          type: string
+                      type: object
+                    type: array
+                  options:
+                    additionalProperties:
+                      type: string
+                    description: Map of additional options used to configure the behavior
+                      of Data Fusion instance.
+                    type: object
+                  privateInstance:
+                    description: Specifies whether the Data Fusion instance should
+                      be private. If set to true, all Data Fusion nodes will have
+                      private IP addresses and will not be able to access the public
+                      internet.
+                    type: boolean
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  type:
+                    description: Represents the type of Data Fusion instance. Each
+                      type is configured with the default settings for processing
+                      and memory.
+                    type: string
+                  version:
+                    description: Current version of the Data Fusion.
+                    type: string
+                  zone:
+                    description: Name of the zone in which the Data Fusion instance
+                      will be created. Only DEVELOPER instances use this field.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
                 description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
                   It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. ManagementPolicy
-                  specifies the level of control Crossplane has over the managed external
-                  resource. This field is planned to replace the DeletionPolicy field
-                  in a future release. Currently, both could be set independently
-                  and non-default values would be honored if the feature flag is enabled.
-                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
-                enum:
-                - FullControl
-                - ObserveOnly
-                - OrphanOnDelete
-                type: string
+                  enabled, and may be changed or removed without notice. ManagementPolicies
+                  specify the array of actions Crossplane is allowed to take on the
+                  managed and external resources. This field is planned to replace
+                  the DeletionPolicy field in a future release. Currently, both could
+                  be set independently and non-default values would be honored if
+                  the feature flag is enabled. If both are custom, the DeletionPolicy
+                  field will be ignored. See the design doc for more information:
+                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                items:
+                  description: A ManagementAction represents an action that the Crossplane
+                    controllers can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
               providerConfigRef:
                 default:
                   name: default
@@ -544,7 +670,9 @@ spec:
             type: object
             x-kubernetes-validations:
             - message: type is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.type)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.type)
+                || has(self.initProvider.type)'
           status:
             description: InstanceStatus defines the observed state of Instance.
             properties:

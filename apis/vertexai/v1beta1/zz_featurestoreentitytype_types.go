@@ -25,6 +25,12 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type CategoricalThresholdConfigInitParameters struct {
+
+	// Specify a threshold value that can trigger the alert. For numerical feature, the distribution distance is calculated by Jensen–Shannon divergence. Each feature must have a non-zero threshold if they need to be monitored. Otherwise no alert will be triggered for that feature. The default value is 0.3.
+	Value *float64 `json:"value,omitempty" tf:"value,omitempty"`
+}
+
 type CategoricalThresholdConfigObservation struct {
 
 	// Specify a threshold value that can trigger the alert. For numerical feature, the distribution distance is calculated by Jensen–Shannon divergence. Each feature must have a non-zero threshold if they need to be monitored. Otherwise no alert will be triggered for that feature. The default value is 0.3.
@@ -34,8 +40,25 @@ type CategoricalThresholdConfigObservation struct {
 type CategoricalThresholdConfigParameters struct {
 
 	// Specify a threshold value that can trigger the alert. For numerical feature, the distribution distance is calculated by Jensen–Shannon divergence. Each feature must have a non-zero threshold if they need to be monitored. Otherwise no alert will be triggered for that feature. The default value is 0.3.
-	// +kubebuilder:validation:Required
-	Value *float64 `json:"value" tf:"value,omitempty"`
+	// +kubebuilder:validation:Optional
+	Value *float64 `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type FeaturestoreEntitytypeInitParameters struct {
+
+	// Optional. Description of the EntityType.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// A set of key/value label pairs to assign to this EntityType.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The default monitoring configuration for all Features under this EntityType.
+	// If this is populated with [FeaturestoreMonitoringConfig.monitoring_interval] specified, snapshot analysis monitoring is enabled. Otherwise, snapshot analysis monitoring is disabled.
+	// Structure is documented below.
+	MonitoringConfig []MonitoringConfigInitParameters `json:"monitoringConfig,omitempty" tf:"monitoring_config,omitempty"`
+
+	// The name of the EntityType. This value may be up to 60 characters, and valid characters are [a-z0-9_]. The first character cannot be a number.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type FeaturestoreEntitytypeObservation struct {
@@ -107,6 +130,15 @@ type FeaturestoreEntitytypeParameters struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
+type ImportFeaturesAnalysisInitParameters struct {
+
+	// Defines the baseline to do anomaly detection for feature values imported by each [entityTypes.importFeatureValues][] operation. The value must be one of the values below:
+	AnomalyDetectionBaseline *string `json:"anomalyDetectionBaseline,omitempty" tf:"anomaly_detection_baseline,omitempty"`
+
+	// Whether to enable / disable / inherite default hebavior for import features analysis. The value must be one of the values below:
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
+}
+
 type ImportFeaturesAnalysisObservation struct {
 
 	// Defines the baseline to do anomaly detection for feature values imported by each [entityTypes.importFeatureValues][] operation. The value must be one of the values below:
@@ -125,6 +157,25 @@ type ImportFeaturesAnalysisParameters struct {
 	// Whether to enable / disable / inherite default hebavior for import features analysis. The value must be one of the values below:
 	// +kubebuilder:validation:Optional
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+}
+
+type MonitoringConfigInitParameters struct {
+
+	// Threshold for categorical features of anomaly detection. This is shared by all types of Featurestore Monitoring for categorical features (i.e. Features with type (Feature.ValueType) BOOL or STRING).
+	// Structure is documented below.
+	CategoricalThresholdConfig []CategoricalThresholdConfigInitParameters `json:"categoricalThresholdConfig,omitempty" tf:"categorical_threshold_config,omitempty"`
+
+	// The config for ImportFeatures Analysis Based Feature Monitoring.
+	// Structure is documented below.
+	ImportFeaturesAnalysis []ImportFeaturesAnalysisInitParameters `json:"importFeaturesAnalysis,omitempty" tf:"import_features_analysis,omitempty"`
+
+	// Threshold for numerical features of anomaly detection. This is shared by all objectives of Featurestore Monitoring for numerical features (i.e. Features with type (Feature.ValueType) DOUBLE or INT64).
+	// Structure is documented below.
+	NumericalThresholdConfig []NumericalThresholdConfigInitParameters `json:"numericalThresholdConfig,omitempty" tf:"numerical_threshold_config,omitempty"`
+
+	// The config for Snapshot Analysis Based Feature Monitoring.
+	// Structure is documented below.
+	SnapshotAnalysis []SnapshotAnalysisInitParameters `json:"snapshotAnalysis,omitempty" tf:"snapshot_analysis,omitempty"`
 }
 
 type MonitoringConfigObservation struct {
@@ -169,6 +220,12 @@ type MonitoringConfigParameters struct {
 	SnapshotAnalysis []SnapshotAnalysisParameters `json:"snapshotAnalysis,omitempty" tf:"snapshot_analysis,omitempty"`
 }
 
+type NumericalThresholdConfigInitParameters struct {
+
+	// Specify a threshold value that can trigger the alert. For numerical feature, the distribution distance is calculated by Jensen–Shannon divergence. Each feature must have a non-zero threshold if they need to be monitored. Otherwise no alert will be triggered for that feature. The default value is 0.3.
+	Value *float64 `json:"value,omitempty" tf:"value,omitempty"`
+}
+
 type NumericalThresholdConfigObservation struct {
 
 	// Specify a threshold value that can trigger the alert. For numerical feature, the distribution distance is calculated by Jensen–Shannon divergence. Each feature must have a non-zero threshold if they need to be monitored. Otherwise no alert will be triggered for that feature. The default value is 0.3.
@@ -178,8 +235,21 @@ type NumericalThresholdConfigObservation struct {
 type NumericalThresholdConfigParameters struct {
 
 	// Specify a threshold value that can trigger the alert. For numerical feature, the distribution distance is calculated by Jensen–Shannon divergence. Each feature must have a non-zero threshold if they need to be monitored. Otherwise no alert will be triggered for that feature. The default value is 0.3.
-	// +kubebuilder:validation:Required
-	Value *float64 `json:"value" tf:"value,omitempty"`
+	// +kubebuilder:validation:Optional
+	Value *float64 `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type SnapshotAnalysisInitParameters struct {
+
+	// The monitoring schedule for snapshot analysis. For EntityType-level config: unset / disabled = true indicates disabled by default for Features under it; otherwise by default enable snapshot analysis monitoring with monitoringInterval for Features under it.
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// Configuration of the snapshot analysis based monitoring pipeline running interval. The value indicates number of days. The default value is 1.
+	// If both FeaturestoreMonitoringConfig.SnapshotAnalysis.monitoring_interval_days and [FeaturestoreMonitoringConfig.SnapshotAnalysis.monitoring_interval][] are set when creating/updating EntityTypes/Features, FeaturestoreMonitoringConfig.SnapshotAnalysis.monitoring_interval_days will be used.
+	MonitoringIntervalDays *float64 `json:"monitoringIntervalDays,omitempty" tf:"monitoring_interval_days,omitempty"`
+
+	// Customized export features time window for snapshot analysis. Unit is one day. The default value is 21 days. Minimum value is 1 day. Maximum value is 4000 days.
+	StalenessDays *float64 `json:"stalenessDays,omitempty" tf:"staleness_days,omitempty"`
 }
 
 type SnapshotAnalysisObservation struct {
@@ -215,6 +285,18 @@ type SnapshotAnalysisParameters struct {
 type FeaturestoreEntitytypeSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     FeaturestoreEntitytypeParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider FeaturestoreEntitytypeInitParameters `json:"initProvider,omitempty"`
 }
 
 // FeaturestoreEntitytypeStatus defines the observed state of FeaturestoreEntitytype.

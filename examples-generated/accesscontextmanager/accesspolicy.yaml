@@ -10,6 +10,3 @@ spec:
   forProvider:
     parent: organizations/123456789
     title: Org Access Policy
-
----
-

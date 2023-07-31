@@ -41,6 +41,3 @@ spec:
     description: Example Resource
     parent: organizations/12345
     shortName: my-policy
-
----
-

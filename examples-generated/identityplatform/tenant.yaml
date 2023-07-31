@@ -10,6 +10,3 @@ spec:
   forProvider:
     allowPasswordSignup: true
     displayName: tenant
-
----
-

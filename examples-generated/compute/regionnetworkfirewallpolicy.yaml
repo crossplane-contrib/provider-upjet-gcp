@@ -11,6 +11,3 @@ spec:
     description: Sample regional network firewall policy
     project: my-project-name
     region: us-west1
-
----
-

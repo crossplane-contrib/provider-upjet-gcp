@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: metricdescriptors.monitoring.gcp.upbound.io
 spec:
   group: monitoring.gcp.upbound.io
@@ -58,7 +57,7 @@ spec:
                 description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
                   or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicy field in a future release. Currently,
+                  in favor of the ManagementPolicies field in a future release. Currently,
                   both could be set independently and non-default values would be
                   honored if the feature flag is enabled. See the design doc for more
                   information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
@@ -99,8 +98,6 @@ spec:
                             label. Default value is STRING. Possible values are: STRING,
                             BOOL, INT64.'
                           type: string
-                      required:
-                      - key
                       type: object
                     type: array
                   launchStage:
@@ -177,21 +174,152 @@ spec:
                       STRING, DISTRIBUTION.'
                     type: string
                 type: object
-              managementPolicy:
-                default: FullControl
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. InitProvider
+                  holds the same fields as ForProvider, with the exception of Identifier
+                  and other resource reference fields. The fields that are in InitProvider
+                  are merged into ForProvider when the resource is created. The same
+                  fields are also added to the terraform ignore_changes hook, to avoid
+                  updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after
+                  creation, for example because of an external controller is managing
+                  them, like an autoscaler.
+                properties:
+                  description:
+                    description: A detailed description of the metric, which can be
+                      used in documentation.
+                    type: string
+                  displayName:
+                    description: A concise name for the metric, which can be displayed
+                      in user interfaces. Use sentence case without an ending period,
+                      for example "Request count".
+                    type: string
+                  labels:
+                    description: The set of labels that can be used to describe a
+                      specific instance of this metric type. In order to delete a
+                      label, the entire resource must be deleted, then created with
+                      the desired labels. Structure is documented below.
+                    items:
+                      properties:
+                        description:
+                          description: A human-readable description for the label.
+                          type: string
+                        key:
+                          description: The key for this label. The key must not exceed
+                            100 characters. The first character of the key must be
+                            an upper- or lower-case letter, the remaining characters
+                            must be letters, digits or underscores, and the key must
+                            match the regular expression [a-zA-Z][a-zA-Z0-9_]*
+                          type: string
+                        valueType:
+                          description: 'The type of data that can be assigned to the
+                            label. Default value is STRING. Possible values are: STRING,
+                            BOOL, INT64.'
+                          type: string
+                      type: object
+                    type: array
+                  launchStage:
+                    description: 'The launch stage of the metric definition. Possible
+                      values are: LAUNCH_STAGE_UNSPECIFIED, UNIMPLEMENTED, PRELAUNCH,
+                      EARLY_ACCESS, ALPHA, BETA, GA, DEPRECATED.'
+                    type: string
+                  metadata:
+                    description: Metadata which can be used to guide usage of the
+                      metric. Structure is documented below.
+                    items:
+                      properties:
+                        ingestDelay:
+                          description: The delay of data points caused by ingestion.
+                            Data points older than this age are guaranteed to be ingested
+                            and available to be read, excluding data loss due to errors.
+                            In [duration format](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf?&_ga=2.264881487.1507873253.1593446723-935052455.1591817775#google.protobuf.Duration).
+                          type: string
+                        samplePeriod:
+                          description: The sampling period of metric data points.
+                            For metrics which are written periodically, consecutive
+                            data points are stored at this time interval, excluding
+                            data loss due to errors. Metrics with a higher granularity
+                            have a smaller sampling period. In [duration format](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf?&_ga=2.264881487.1507873253.1593446723-935052455.1591817775#google.protobuf.Duration).
+                          type: string
+                      type: object
+                    type: array
+                  metricKind:
+                    description: 'Whether the metric records instantaneous values,
+                      changes to a value, etc. Some combinations of metricKind and
+                      valueType might not be supported. Possible values are: METRIC_KIND_UNSPECIFIED,
+                      GAUGE, DELTA, CUMULATIVE.'
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  type:
+                    description: The metric type, including its DNS name prefix. The
+                      type is not URL-encoded. All service defined metrics must be
+                      prefixed with the service name, in the format of {service name}/{relative
+                      metric name}, such as cloudsql.googleapis.com/database/cpu/utilization.
+                      The relative metric name must have only upper and lower-case
+                      letters, digits, '/' and underscores '_' are allowed. Additionally,
+                      the maximum number of characters allowed for the relative_metric_name
+                      is 100. All user-defined metric types have the DNS name custom.googleapis.com,
+                      external.googleapis.com, or logging.googleapis.com/user/.
+                    type: string
+                  unit:
+                    description: The units in which the metric value is reported.
+                      It is only applicable if the valueType is INT64, DOUBLE, or
+                      DISTRIBUTION. The unit defines the representation of the stored
+                      metric values. Different systems may scale the values to be
+                      more easily displayed (so a value of 0.02KBy might be displayed
+                      as 20By, and a value of 3523KBy might be displayed as 3.5MBy).
+                      However, if the unit is KBy, then the value of the metric is
+                      always in thousands of bytes, no matter how it may be displayed.
+                      If you want a custom metric to record the exact number of CPU-seconds
+                      used by a job, you can create an INT64 CUMULATIVE metric whose
+                      unit is s{CPU} (or equivalently 1s{CPU} or just s). If the job
+                      uses 12,005 CPU-seconds, then the value is written as 12005.
+                      Alternatively, if you want a custom metric to record data in
+                      a more granular way, you can create a DOUBLE CUMULATIVE metric
+                      whose unit is ks{CPU}, and then write the value 12.005 (which
+                      is 12005/1000), or use Kis{CPU} and write 11.723 (which is 12005/1024).
+                      The supported units are a subset of The Unified Code for Units
+                      of Measure standard. More info can be found in the API documentation
+                      (https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.metricDescriptors).
+                    type: string
+                  valueType:
+                    description: 'Whether the measurement is an integer, a floating-point
+                      number, etc. Some combinations of metricKind and valueType might
+                      not be supported. Possible values are: BOOL, INT64, DOUBLE,
+                      STRING, DISTRIBUTION.'
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
                 description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
                   It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. ManagementPolicy
-                  specifies the level of control Crossplane has over the managed external
-                  resource. This field is planned to replace the DeletionPolicy field
-                  in a future release. Currently, both could be set independently
-                  and non-default values would be honored if the feature flag is enabled.
-                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
-                enum:
-                - FullControl
-                - ObserveOnly
-                - OrphanOnDelete
-                type: string
+                  enabled, and may be changed or removed without notice. ManagementPolicies
+                  specify the array of actions Crossplane is allowed to take on the
+                  managed and external resources. This field is planned to replace
+                  the DeletionPolicy field in a future release. Currently, both could
+                  be set independently and non-default values would be honored if
+                  the feature flag is enabled. If both are custom, the DeletionPolicy
+                  field will be ignored. See the design doc for more information:
+                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                items:
+                  description: A ManagementAction represents an action that the Crossplane
+                    controllers can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
               providerConfigRef:
                 default:
                   name: default
@@ -365,15 +493,25 @@ spec:
             type: object
             x-kubernetes-validations:
             - message: description is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.description)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.description)
+                || has(self.initProvider.description)'
             - message: displayName is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)
+                || has(self.initProvider.displayName)'
             - message: metricKind is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.metricKind)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.metricKind)
+                || has(self.initProvider.metricKind)'
             - message: type is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.type)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.type)
+                || has(self.initProvider.type)'
             - message: valueType is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.valueType)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.valueType)
+                || has(self.initProvider.valueType)'
           status:
             description: MetricDescriptorStatus defines the observed state of MetricDescriptor.
             properties:

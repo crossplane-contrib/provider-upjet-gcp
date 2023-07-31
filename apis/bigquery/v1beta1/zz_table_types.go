@@ -25,6 +25,14 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AvroOptionsInitParameters struct {
+
+	// If is set to true, indicates whether
+	// to interpret logical types as the corresponding BigQuery data type
+	// (for example, TIMESTAMP), instead of using the raw type (for example, INTEGER).
+	UseAvroLogicalTypes *bool `json:"useAvroLogicalTypes,omitempty" tf:"use_avro_logical_types,omitempty"`
+}
+
 type AvroOptionsObservation struct {
 
 	// If is set to true, indicates whether
@@ -38,8 +46,38 @@ type AvroOptionsParameters struct {
 	// If is set to true, indicates whether
 	// to interpret logical types as the corresponding BigQuery data type
 	// (for example, TIMESTAMP), instead of using the raw type (for example, INTEGER).
-	// +kubebuilder:validation:Required
-	UseAvroLogicalTypes *bool `json:"useAvroLogicalTypes" tf:"use_avro_logical_types,omitempty"`
+	// +kubebuilder:validation:Optional
+	UseAvroLogicalTypes *bool `json:"useAvroLogicalTypes,omitempty" tf:"use_avro_logical_types,omitempty"`
+}
+
+type CsvOptionsInitParameters struct {
+
+	// Indicates if BigQuery should accept rows
+	// that are missing trailing optional columns.
+	AllowJaggedRows *bool `json:"allowJaggedRows,omitempty" tf:"allow_jagged_rows,omitempty"`
+
+	// Indicates if BigQuery should allow
+	// quoted data sections that contain newline characters in a CSV file.
+	// The default value is false.
+	AllowQuotedNewlines *bool `json:"allowQuotedNewlines,omitempty" tf:"allow_quoted_newlines,omitempty"`
+
+	// The character encoding of the data. The supported
+	// values are UTF-8 or ISO-8859-1.
+	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
+
+	// The separator for fields in a CSV file.
+	FieldDelimiter *string `json:"fieldDelimiter,omitempty" tf:"field_delimiter,omitempty"`
+
+	// The value that is used to quote data sections in a
+	// CSV file. If your data does not contain quoted sections, set the
+	// property value to an empty string. If your data contains quoted newline
+	// characters, you must also set the allow_quoted_newlines property to true.
+	Quote *string `json:"quote,omitempty" tf:"quote,omitempty"`
+
+	// The number of rows at the top of the sheet
+	// that BigQuery will skip when reading the data. At least one of range or
+	// skip_leading_rows must be set.
+	SkipLeadingRows *float64 `json:"skipLeadingRows,omitempty" tf:"skip_leading_rows,omitempty"`
 }
 
 type CsvOptionsObservation struct {
@@ -98,14 +136,24 @@ type CsvOptionsParameters struct {
 	// CSV file. If your data does not contain quoted sections, set the
 	// property value to an empty string. If your data contains quoted newline
 	// characters, you must also set the allow_quoted_newlines property to true.
-	// +kubebuilder:validation:Required
-	Quote *string `json:"quote" tf:"quote,omitempty"`
+	// +kubebuilder:validation:Optional
+	Quote *string `json:"quote,omitempty" tf:"quote,omitempty"`
 
 	// The number of rows at the top of the sheet
 	// that BigQuery will skip when reading the data. At least one of range or
 	// skip_leading_rows must be set.
 	// +kubebuilder:validation:Optional
 	SkipLeadingRows *float64 `json:"skipLeadingRows,omitempty" tf:"skip_leading_rows,omitempty"`
+}
+
+type EncryptionConfigurationInitParameters struct {
+
+	// The self link or full name of a key which should be used to
+	// encrypt this table.  Note that the default bigquery service account will need to have
+	// encrypt/decrypt permissions on this key - you may want to see the
+	// google_bigquery_default_service_account datasource and the
+	// google_kms_crypto_key_iam_binding resource.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 }
 
 type EncryptionConfigurationObservation struct {
@@ -128,8 +176,82 @@ type EncryptionConfigurationParameters struct {
 	// encrypt/decrypt permissions on this key - you may want to see the
 	// google_bigquery_default_service_account datasource and the
 	// google_kms_crypto_key_iam_binding resource.
-	// +kubebuilder:validation:Required
-	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+}
+
+type ExternalDataConfigurationInitParameters struct {
+
+	// - Let BigQuery try to autodetect the schema
+	// and format of the table.
+	Autodetect *bool `json:"autodetect,omitempty" tf:"autodetect,omitempty"`
+
+	// Additional options if source_format is set to
+	// "AVRO".  Structure is documented below.
+	AvroOptions []AvroOptionsInitParameters `json:"avroOptions,omitempty" tf:"avro_options,omitempty"`
+
+	// The compression type of the data source.
+	// Valid values are "NONE" or "GZIP".
+	Compression *string `json:"compression,omitempty" tf:"compression,omitempty"`
+
+	// The connection specifying the credentials to be used to read
+	// external storage, such as Azure Blob, Cloud Storage, or S3. The connection_id can have
+	// the form {{project}}.{{location}}.{{connection_id}}
+	// or projects/{{project}}/locations/{{location}}/connections/{{connection_id}}.
+	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
+
+	// Additional properties to set if
+	// source_format is set to "CSV". Structure is documented below.
+	CsvOptions []CsvOptionsInitParameters `json:"csvOptions,omitempty" tf:"csv_options,omitempty"`
+
+	// Additional options if
+	// source_format is set to "GOOGLE_SHEETS". Structure is
+	// documented below.
+	GoogleSheetsOptions []GoogleSheetsOptionsInitParameters `json:"googleSheetsOptions,omitempty" tf:"google_sheets_options,omitempty"`
+
+	// When set, configures hive partitioning
+	// support. Not all storage formats support hive partitioning -- requesting hive
+	// partitioning on an unsupported format will lead to an error, as will providing
+	// an invalid specification. Structure is documented below.
+	HivePartitioningOptions []HivePartitioningOptionsInitParameters `json:"hivePartitioningOptions,omitempty" tf:"hive_partitioning_options,omitempty"`
+
+	// Indicates if BigQuery should
+	// allow extra values that are not represented in the table schema.
+	// If true, the extra values are ignored. If false, records with
+	// extra columns are treated as bad records, and if there are too
+	// many bad records, an invalid error is returned in the job result.
+	// The default value is false.
+	IgnoreUnknownValues *bool `json:"ignoreUnknownValues,omitempty" tf:"ignore_unknown_values,omitempty"`
+
+	// The maximum number of bad records that
+	// BigQuery can ignore when reading data.
+	MaxBadRecords *float64 `json:"maxBadRecords,omitempty" tf:"max_bad_records,omitempty"`
+
+	// When creating an external table, the user can provide a reference file with the table schema. This is enabled for the following formats: AVRO, PARQUET, ORC.
+	ReferenceFileSchemaURI *string `json:"referenceFileSchemaUri,omitempty" tf:"reference_file_schema_uri,omitempty"`
+
+	// A JSON schema for the external table. Schema is required
+	// for CSV and JSON formats if autodetect is not on. Schema is disallowed
+	// for Google Cloud Bigtable, Cloud Datastore backups, Avro, Iceberg, ORC and Parquet formats.
+	// ~>NOTE: Because this field expects a JSON string, any changes to the
+	// string will create a diff, even if the JSON itself hasn't changed.
+	// Furthermore drift for this field cannot not be detected because BigQuery
+	// only uses this schema to compute the effective schema for the table, therefore
+	// any changes on the configured value will force the table to be recreated.
+	// This schema is effectively only applied when creating a table from an external
+	// datasource, after creation the computed schema will be stored in
+	// google_bigquery_table.schema
+	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
+
+	// The data format. Please see sourceFormat under
+	// ExternalDataConfiguration
+	// in Bigquery's public API documentation for supported formats. To use "GOOGLE_SHEETS"
+	// the scopes must include "https://www.googleapis.com/auth/drive.readonly".
+	SourceFormat *string `json:"sourceFormat,omitempty" tf:"source_format,omitempty"`
+
+	// A list of the fully-qualified URIs that point to
+	// your data in Google Cloud.
+	SourceUris []*string `json:"sourceUris,omitempty" tf:"source_uris,omitempty"`
 }
 
 type ExternalDataConfigurationObservation struct {
@@ -210,8 +332,8 @@ type ExternalDataConfigurationParameters struct {
 
 	// - Let BigQuery try to autodetect the schema
 	// and format of the table.
-	// +kubebuilder:validation:Required
-	Autodetect *bool `json:"autodetect" tf:"autodetect,omitempty"`
+	// +kubebuilder:validation:Optional
+	Autodetect *bool `json:"autodetect,omitempty" tf:"autodetect,omitempty"`
 
 	// Additional options if source_format is set to
 	// "AVRO".  Structure is documented below.
@@ -284,13 +406,25 @@ type ExternalDataConfigurationParameters struct {
 	// ExternalDataConfiguration
 	// in Bigquery's public API documentation for supported formats. To use "GOOGLE_SHEETS"
 	// the scopes must include "https://www.googleapis.com/auth/drive.readonly".
-	// +kubebuilder:validation:Required
-	SourceFormat *string `json:"sourceFormat" tf:"source_format,omitempty"`
+	// +kubebuilder:validation:Optional
+	SourceFormat *string `json:"sourceFormat,omitempty" tf:"source_format,omitempty"`
 
 	// A list of the fully-qualified URIs that point to
 	// your data in Google Cloud.
-	// +kubebuilder:validation:Required
-	SourceUris []*string `json:"sourceUris" tf:"source_uris,omitempty"`
+	// +kubebuilder:validation:Optional
+	SourceUris []*string `json:"sourceUris,omitempty" tf:"source_uris,omitempty"`
+}
+
+type GoogleSheetsOptionsInitParameters struct {
+
+	// Information required to partition based on ranges.
+	// Structure is documented below.
+	Range *string `json:"range,omitempty" tf:"range,omitempty"`
+
+	// The number of rows at the top of the sheet
+	// that BigQuery will skip when reading the data. At least one of range or
+	// skip_leading_rows must be set.
+	SkipLeadingRows *float64 `json:"skipLeadingRows,omitempty" tf:"skip_leading_rows,omitempty"`
 }
 
 type GoogleSheetsOptionsObservation struct {
@@ -317,6 +451,28 @@ type GoogleSheetsOptionsParameters struct {
 	// skip_leading_rows must be set.
 	// +kubebuilder:validation:Optional
 	SkipLeadingRows *float64 `json:"skipLeadingRows,omitempty" tf:"skip_leading_rows,omitempty"`
+}
+
+type HivePartitioningOptionsInitParameters struct {
+
+	// When set, what mode of hive partitioning to use when
+	// reading data. The following modes are supported.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// If set to true, queries over this table
+	// require a partition filter that can be used for partition elimination to be
+	// specified.
+	RequirePartitionFilter *bool `json:"requirePartitionFilter,omitempty" tf:"require_partition_filter,omitempty"`
+
+	// When hive partition detection is requested,
+	// a common for all source uris must be required. The prefix must end immediately
+	// before the partition key encoding begins. For example, consider files following
+	// this data layout. gs://bucket/path_to_table/dt=2019-06-01/country=USA/id=7/file.avro
+	// gs://bucket/path_to_table/dt=2019-05-31/country=CA/id=3/file.avro When hive
+	// partitioning is requested with either AUTO or STRINGS detection, the common prefix
+	// can be either of gs://bucket/path_to_table or gs://bucket/path_to_table/.
+	// Note that when mode is set to CUSTOM, you must encode the partition key schema within the source_uri_prefix by setting source_uri_prefix to gs://bucket/path_to_table/{key1:TYPE1}/{key2:TYPE2}/{key3:TYPE3}.
+	SourceURIPrefix *string `json:"sourceUriPrefix,omitempty" tf:"source_uri_prefix,omitempty"`
 }
 
 type HivePartitioningOptionsObservation struct {
@@ -366,6 +522,20 @@ type HivePartitioningOptionsParameters struct {
 	SourceURIPrefix *string `json:"sourceUriPrefix,omitempty" tf:"source_uri_prefix,omitempty"`
 }
 
+type MaterializedViewInitParameters struct {
+
+	// Specifies whether to use BigQuery's automatic refresh for this materialized view when the base table is updated.
+	// The default value is true.
+	EnableRefresh *bool `json:"enableRefresh,omitempty" tf:"enable_refresh,omitempty"`
+
+	// A query whose result is persisted.
+	Query *string `json:"query,omitempty" tf:"query,omitempty"`
+
+	// The maximum frequency at which this materialized view will be refreshed.
+	// The default value is 1800000
+	RefreshIntervalMs *float64 `json:"refreshIntervalMs,omitempty" tf:"refresh_interval_ms,omitempty"`
+}
+
 type MaterializedViewObservation struct {
 
 	// Specifies whether to use BigQuery's automatic refresh for this materialized view when the base table is updated.
@@ -388,13 +558,25 @@ type MaterializedViewParameters struct {
 	EnableRefresh *bool `json:"enableRefresh,omitempty" tf:"enable_refresh,omitempty"`
 
 	// A query whose result is persisted.
-	// +kubebuilder:validation:Required
-	Query *string `json:"query" tf:"query,omitempty"`
+	// +kubebuilder:validation:Optional
+	Query *string `json:"query,omitempty" tf:"query,omitempty"`
 
 	// The maximum frequency at which this materialized view will be refreshed.
 	// The default value is 1800000
 	// +kubebuilder:validation:Optional
 	RefreshIntervalMs *float64 `json:"refreshIntervalMs,omitempty" tf:"refresh_interval_ms,omitempty"`
+}
+
+type RangeInitParameters struct {
+
+	// End of the range partitioning, exclusive.
+	End *float64 `json:"end,omitempty" tf:"end,omitempty"`
+
+	// The width of each range within the partition.
+	Interval *float64 `json:"interval,omitempty" tf:"interval,omitempty"`
+
+	// Start of the range partitioning, inclusive.
+	Start *float64 `json:"start,omitempty" tf:"start,omitempty"`
 }
 
 type RangeObservation struct {
@@ -412,16 +594,27 @@ type RangeObservation struct {
 type RangeParameters struct {
 
 	// End of the range partitioning, exclusive.
-	// +kubebuilder:validation:Required
-	End *float64 `json:"end" tf:"end,omitempty"`
+	// +kubebuilder:validation:Optional
+	End *float64 `json:"end,omitempty" tf:"end,omitempty"`
 
 	// The width of each range within the partition.
-	// +kubebuilder:validation:Required
-	Interval *float64 `json:"interval" tf:"interval,omitempty"`
+	// +kubebuilder:validation:Optional
+	Interval *float64 `json:"interval,omitempty" tf:"interval,omitempty"`
 
 	// Start of the range partitioning, inclusive.
-	// +kubebuilder:validation:Required
-	Start *float64 `json:"start" tf:"start,omitempty"`
+	// +kubebuilder:validation:Optional
+	Start *float64 `json:"start,omitempty" tf:"start,omitempty"`
+}
+
+type RangePartitioningInitParameters struct {
+
+	// The field used to determine how to create a range-based
+	// partition.
+	Field *string `json:"field,omitempty" tf:"field,omitempty"`
+
+	// Information required to partition based on ranges.
+	// Structure is documented below.
+	Range []RangeInitParameters `json:"range,omitempty" tf:"range,omitempty"`
 }
 
 type RangePartitioningObservation struct {
@@ -439,13 +632,68 @@ type RangePartitioningParameters struct {
 
 	// The field used to determine how to create a range-based
 	// partition.
-	// +kubebuilder:validation:Required
-	Field *string `json:"field" tf:"field,omitempty"`
+	// +kubebuilder:validation:Optional
+	Field *string `json:"field,omitempty" tf:"field,omitempty"`
 
 	// Information required to partition based on ranges.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	Range []RangeParameters `json:"range" tf:"range,omitempty"`
+	// +kubebuilder:validation:Optional
+	Range []RangeParameters `json:"range,omitempty" tf:"range,omitempty"`
+}
+
+type TableInitParameters struct {
+
+	// Specifies column names to use for data clustering.
+	// Up to four top-level columns are allowed, and should be specified in
+	// descending priority order.
+	Clustering []*string `json:"clustering,omitempty" tf:"clustering,omitempty"`
+
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
+	// The field description.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Specifies how the table should be encrypted.
+	// If left blank, the table will be encrypted with a Google-managed key; that process
+	// is transparent to the user.  Structure is documented below.
+	EncryptionConfiguration []EncryptionConfigurationInitParameters `json:"encryptionConfiguration,omitempty" tf:"encryption_configuration,omitempty"`
+
+	// The time when this table expires, in
+	// milliseconds since the epoch. If not present, the table will persist
+	// indefinitely. Expired tables will be deleted and their storage
+	// reclaimed.
+	ExpirationTime *float64 `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
+
+	// Describes the data format,
+	// location, and other properties of a table stored outside of BigQuery.
+	// By defining these properties, the data source can then be queried as
+	// if it were a standard BigQuery table. Structure is documented below.
+	ExternalDataConfiguration []ExternalDataConfigurationInitParameters `json:"externalDataConfiguration,omitempty" tf:"external_data_configuration,omitempty"`
+
+	// A descriptive name for the table.
+	FriendlyName *string `json:"friendlyName,omitempty" tf:"friendly_name,omitempty"`
+
+	// A mapping of labels to assign to the resource.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// If specified, configures this table as a materialized view.
+	// Structure is documented below.
+	MaterializedView []MaterializedViewInitParameters `json:"materializedView,omitempty" tf:"materialized_view,omitempty"`
+
+	// If specified, configures range-based
+	// partitioning for this table. Structure is documented below.
+	RangePartitioning []RangePartitioningInitParameters `json:"rangePartitioning,omitempty" tf:"range_partitioning,omitempty"`
+
+	// A JSON schema for the table.
+	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
+
+	// If specified, configures time-based
+	// partitioning for this table. Structure is documented below.
+	TimePartitioning []TableTimePartitioningInitParameters `json:"timePartitioning,omitempty" tf:"time_partitioning,omitempty"`
+
+	// If specified, configures this table as a view.
+	// Structure is documented below.
+	View []TableViewInitParameters `json:"view,omitempty" tf:"view,omitempty"`
 }
 
 type TableObservation struct {
@@ -628,6 +876,27 @@ type TableParameters struct {
 	View []TableViewParameters `json:"view,omitempty" tf:"view,omitempty"`
 }
 
+type TableTimePartitioningInitParameters struct {
+
+	// Number of milliseconds for which to keep the
+	// storage for a partition.
+	ExpirationMs *float64 `json:"expirationMs,omitempty" tf:"expiration_ms,omitempty"`
+
+	// The field used to determine how to create a time-based
+	// partition. If time-based partitioning is enabled without this value, the
+	// table is partitioned based on the load time.
+	Field *string `json:"field,omitempty" tf:"field,omitempty"`
+
+	// If set to true, queries over this table
+	// require a partition filter that can be used for partition elimination to be
+	// specified.
+	RequirePartitionFilter *bool `json:"requirePartitionFilter,omitempty" tf:"require_partition_filter,omitempty"`
+
+	// The supported types are DAY, HOUR, MONTH, and YEAR,
+	// which will generate one partition per day, hour, month, and year, respectively.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
 type TableTimePartitioningObservation struct {
 
 	// Number of milliseconds for which to keep the
@@ -670,8 +939,18 @@ type TableTimePartitioningParameters struct {
 
 	// The supported types are DAY, HOUR, MONTH, and YEAR,
 	// which will generate one partition per day, hour, month, and year, respectively.
-	// +kubebuilder:validation:Required
-	Type *string `json:"type" tf:"type,omitempty"`
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type TableViewInitParameters struct {
+
+	// A query that BigQuery executes when the view is referenced.
+	Query *string `json:"query,omitempty" tf:"query,omitempty"`
+
+	// Specifies whether to use BigQuery's legacy SQL for this view.
+	// The default value is true. If set to false, the view will use BigQuery's standard SQL.
+	UseLegacySQL *bool `json:"useLegacySql,omitempty" tf:"use_legacy_sql,omitempty"`
 }
 
 type TableViewObservation struct {
@@ -687,8 +966,8 @@ type TableViewObservation struct {
 type TableViewParameters struct {
 
 	// A query that BigQuery executes when the view is referenced.
-	// +kubebuilder:validation:Required
-	Query *string `json:"query" tf:"query,omitempty"`
+	// +kubebuilder:validation:Optional
+	Query *string `json:"query,omitempty" tf:"query,omitempty"`
 
 	// Specifies whether to use BigQuery's legacy SQL for this view.
 	// The default value is true. If set to false, the view will use BigQuery's standard SQL.
@@ -700,6 +979,18 @@ type TableViewParameters struct {
 type TableSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     TableParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider TableInitParameters `json:"initProvider,omitempty"`
 }
 
 // TableStatus defines the observed state of Table.

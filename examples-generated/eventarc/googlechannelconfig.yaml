@@ -11,6 +11,3 @@ spec:
     cryptoKeyName: ${data.google_kms_crypto_key.key1.id}
     location: us-west1
     project: ${data.google_project.test_project.project_id}
-
----
-

@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: agents.dialogflowcx.gcp.upbound.io
 spec:
   group: dialogflowcx.gcp.upbound.io
@@ -59,7 +58,7 @@ spec:
                 description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
                   or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicy field in a future release. Currently,
+                  in favor of the ManagementPolicies field in a future release. Currently,
                   both could be set independently and non-default values would be
                   honored if the feature flag is enabled. See the design doc for more
                   information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
@@ -132,21 +131,108 @@ spec:
                       e.g., America/New_York, Europe/Paris.
                     type: string
                 type: object
-              managementPolicy:
-                default: FullControl
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. InitProvider
+                  holds the same fields as ForProvider, with the exception of Identifier
+                  and other resource reference fields. The fields that are in InitProvider
+                  are merged into ForProvider when the resource is created. The same
+                  fields are also added to the terraform ignore_changes hook, to avoid
+                  updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after
+                  creation, for example because of an external controller is managing
+                  them, like an autoscaler.
+                properties:
+                  avatarUri:
+                    description: The URI of the agent's avatar. Avatars are used throughout
+                      the Dialogflow console and in the self-hosted Web Demo integration.
+                    type: string
+                  defaultLanguageCode:
+                    description: The default language of the agent as a language tag.
+                      See Language Support for a list of the currently supported language
+                      codes. This field cannot be updated after creation.
+                    type: string
+                  description:
+                    description: The description of this agent. The maximum length
+                      is 500 characters. If exceeded, the request is rejected.
+                    type: string
+                  displayName:
+                    description: The human-readable name of the agent, unique within
+                      the location.
+                    type: string
+                  enableSpellCorrection:
+                    description: Indicates if automatic spell correction is enabled
+                      in detect intent requests.
+                    type: boolean
+                  enableStackdriverLogging:
+                    description: Determines whether this agent should log conversation
+                      queries.
+                    type: boolean
+                  location:
+                    description: 'The name of the location this agent is located in.
+                      ~> Note: The first time you are deploying an Agent in your project
+                      you must configure location settings. This is a one time step
+                      but at the moment you can only configure location settings via
+                      the Dialogflow CX console. Another options is to use global
+                      location so you don''t need to manually configure location settings.'
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  securitySettings:
+                    description: 'Name of the SecuritySettings reference for the agent.
+                      Format: projects//locations//securitySettings/.'
+                    type: string
+                  speechToTextSettings:
+                    description: Settings related to speech recognition. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        enableSpeechAdaptation:
+                          description: Whether to use speech adaptation for speech
+                            recognition.
+                          type: boolean
+                      type: object
+                    type: array
+                  supportedLanguageCodes:
+                    description: The list of all languages supported by this agent
+                      (except for the default_language_code).
+                    items:
+                      type: string
+                    type: array
+                  timeZone:
+                    description: The time zone of this agent from the time zone database,
+                      e.g., America/New_York, Europe/Paris.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
                 description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
                   It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. ManagementPolicy
-                  specifies the level of control Crossplane has over the managed external
-                  resource. This field is planned to replace the DeletionPolicy field
-                  in a future release. Currently, both could be set independently
-                  and non-default values would be honored if the feature flag is enabled.
-                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
-                enum:
-                - FullControl
-                - ObserveOnly
-                - OrphanOnDelete
-                type: string
+                  enabled, and may be changed or removed without notice. ManagementPolicies
+                  specify the array of actions Crossplane is allowed to take on the
+                  managed and external resources. This field is planned to replace
+                  the DeletionPolicy field in a future release. Currently, both could
+                  be set independently and non-default values would be honored if
+                  the feature flag is enabled. If both are custom, the DeletionPolicy
+                  field will be ignored. See the design doc for more information:
+                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                items:
+                  description: A ManagementAction represents an action that the Crossplane
+                    controllers can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
               providerConfigRef:
                 default:
                   name: default
@@ -320,13 +406,21 @@ spec:
             type: object
             x-kubernetes-validations:
             - message: defaultLanguageCode is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.defaultLanguageCode)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.defaultLanguageCode)
+                || has(self.initProvider.defaultLanguageCode)'
             - message: displayName is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)
+                || has(self.initProvider.displayName)'
             - message: location is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.location)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.location)
+                || has(self.initProvider.location)'
             - message: timeZone is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.timeZone)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.timeZone)
+                || has(self.initProvider.timeZone)'
           status:
             description: AgentStatus defines the observed state of Agent.
             properties:

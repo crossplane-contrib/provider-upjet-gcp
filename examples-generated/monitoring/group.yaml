@@ -10,6 +10,3 @@ spec:
   forProvider:
     displayName: tf-test MonitoringGroup
     filter: resource.metadata.region="europe-west2"
-
----
-

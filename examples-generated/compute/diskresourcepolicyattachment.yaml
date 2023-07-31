@@ -51,6 +51,3 @@ spec:
       - dailySchedule:
         - daysInCycle: 1
           startTime: "04:00"
-
----
-

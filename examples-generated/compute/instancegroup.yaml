@@ -13,6 +13,3 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     zone: us-central1-a
-
----
-

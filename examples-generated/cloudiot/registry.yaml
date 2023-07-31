@@ -9,6 +9,3 @@ metadata:
 spec:
   forProvider:
     name: cloudiot-registry
-
----
-

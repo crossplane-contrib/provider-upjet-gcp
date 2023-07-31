@@ -29,9 +29,9 @@ func (mg *WorkloadIdentityPool) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this WorkloadIdentityPool.
-func (mg *WorkloadIdentityPool) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this WorkloadIdentityPool.
+func (mg *WorkloadIdentityPool) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this WorkloadIdentityPool.
@@ -67,9 +67,9 @@ func (mg *WorkloadIdentityPool) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this WorkloadIdentityPool.
-func (mg *WorkloadIdentityPool) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this WorkloadIdentityPool.
+func (mg *WorkloadIdentityPool) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this WorkloadIdentityPool.
@@ -105,9 +105,9 @@ func (mg *WorkloadIdentityPoolProvider) GetDeletionPolicy() xpv1.DeletionPolicy 
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this WorkloadIdentityPoolProvider.
-func (mg *WorkloadIdentityPoolProvider) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this WorkloadIdentityPoolProvider.
+func (mg *WorkloadIdentityPoolProvider) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this WorkloadIdentityPoolProvider.
@@ -143,9 +143,9 @@ func (mg *WorkloadIdentityPoolProvider) SetDeletionPolicy(r xpv1.DeletionPolicy)
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this WorkloadIdentityPoolProvider.
-func (mg *WorkloadIdentityPoolProvider) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this WorkloadIdentityPoolProvider.
+func (mg *WorkloadIdentityPoolProvider) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this WorkloadIdentityPoolProvider.

@@ -81,6 +81,16 @@ func (tr *CryptoKey) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this CryptoKey
+func (tr *CryptoKey) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this CryptoKey using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *CryptoKey) LateInitialize(attrs []byte) (bool, error) {
@@ -153,6 +163,16 @@ func (tr *CryptoKeyIAMMember) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this CryptoKeyIAMMember
+func (tr *CryptoKeyIAMMember) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this CryptoKeyIAMMember using its observed tfState.
@@ -229,6 +249,16 @@ func (tr *CryptoKeyVersion) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this CryptoKeyVersion
+func (tr *CryptoKeyVersion) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this CryptoKeyVersion using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *CryptoKeyVersion) LateInitialize(attrs []byte) (bool, error) {
@@ -301,6 +331,16 @@ func (tr *KeyRing) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this KeyRing
+func (tr *KeyRing) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this KeyRing using its observed tfState.
@@ -377,6 +417,16 @@ func (tr *KeyRingIAMMember) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this KeyRingIAMMember
+func (tr *KeyRingIAMMember) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this KeyRingIAMMember using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *KeyRingIAMMember) LateInitialize(attrs []byte) (bool, error) {
@@ -451,6 +501,16 @@ func (tr *KeyRingImportJob) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this KeyRingImportJob
+func (tr *KeyRingImportJob) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this KeyRingImportJob using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *KeyRingImportJob) LateInitialize(attrs []byte) (bool, error) {
@@ -523,6 +583,16 @@ func (tr *SecretCiphertext) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this SecretCiphertext
+func (tr *SecretCiphertext) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this SecretCiphertext using its observed tfState.

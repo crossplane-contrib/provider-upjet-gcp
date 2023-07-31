@@ -28,6 +28,3 @@ spec:
   forProvider:
     defaultPort: "90"
     networkEndpointType: INTERNET_FQDN_PORT
-
----
-

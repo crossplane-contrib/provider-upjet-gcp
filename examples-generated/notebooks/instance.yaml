@@ -13,6 +13,3 @@ spec:
     vmImage:
     - imageFamily: tf-latest-cpu
       project: deeplearning-platform-release
-
----
-

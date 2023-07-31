@@ -87,6 +87,3 @@ spec:
   forProvider:
     description: The default dnss
     domain: subdomain2.hashicorptest.com
-
----
-

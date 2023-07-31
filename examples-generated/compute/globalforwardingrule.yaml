@@ -249,6 +249,3 @@ spec:
         testing.upbound.io/example-name: default
     sslCertificatesRefs:
     - name: default
-
----
-

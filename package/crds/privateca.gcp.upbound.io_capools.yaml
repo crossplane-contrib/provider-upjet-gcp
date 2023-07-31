@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: capools.privateca.gcp.upbound.io
 spec:
   group: privateca.gcp.upbound.io
@@ -58,7 +57,7 @@ spec:
                 description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
                   or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicy field in a future release. Currently,
+                  in favor of the ManagementPolicies field in a future release. Currently,
                   both could be set independently and non-default values would be
                   honored if the feature flag is enabled. See the design doc for more
                   information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
@@ -87,9 +86,6 @@ spec:
                                 description: When true, allows callers to create Certificates
                                   by specifying a CSR.
                                 type: boolean
-                            required:
-                            - allowConfigBasedIssuance
-                            - allowCsrBasedIssuance
                             type: object
                           type: array
                         allowedKeyTypes:
@@ -108,8 +104,6 @@ spec:
                                       description: 'The algorithm used. Possible values
                                         are: ECDSA_P256, ECDSA_P384, EDDSA_25519.'
                                       type: string
-                                  required:
-                                  - signatureAlgorithm
                                   type: object
                                 type: array
                               rsa:
@@ -170,18 +164,12 @@ spec:
                                             items:
                                               type: number
                                             type: array
-                                        required:
-                                        - objectIdPath
                                         type: object
                                       type: array
                                     value:
                                       description: The value of this X.509 extension.
                                         A base64-encoded string.
                                       type: string
-                                  required:
-                                  - critical
-                                  - objectId
-                                  - value
                                   type: object
                                 type: array
                               aiaOcspServers:
@@ -328,13 +316,8 @@ spec:
                                             items:
                                               type: number
                                             type: array
-                                        required:
-                                        - objectIdPath
                                         type: object
                                       type: array
-                                  required:
-                                  - baseKeyUsage
-                                  - extendedKeyUsage
                                   type: object
                                 type: array
                               nameConstraints:
@@ -422,8 +405,6 @@ spec:
                                       items:
                                         type: string
                                       type: array
-                                  required:
-                                  - critical
                                   type: object
                                 type: array
                               policyIds:
@@ -439,13 +420,8 @@ spec:
                                       items:
                                         type: number
                                       type: array
-                                  required:
-                                  - objectIdPath
                                   type: object
                                 type: array
-                            required:
-                            - caOptions
-                            - keyUsage
                             type: object
                           type: array
                         identityConstraints:
@@ -497,13 +473,8 @@ spec:
                                         can be used e.g. in UIs which allow to enter
                                         the expression.
                                       type: string
-                                  required:
-                                  - expression
                                   type: object
                                 type: array
-                            required:
-                            - allowSubjectAltNamesPassthrough
-                            - allowSubjectPassthrough
                             type: object
                           type: array
                         maximumLifetime:
@@ -554,9 +525,6 @@ spec:
                             we will rebuild daily. CRLs are also rebuilt shortly after
                             a certificate is revoked.
                           type: boolean
-                      required:
-                      - publishCaCert
-                      - publishCrl
                       type: object
                     type: array
                   tier:
@@ -566,21 +534,501 @@ spec:
                 required:
                 - location
                 type: object
-              managementPolicy:
-                default: FullControl
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. InitProvider
+                  holds the same fields as ForProvider, with the exception of Identifier
+                  and other resource reference fields. The fields that are in InitProvider
+                  are merged into ForProvider when the resource is created. The same
+                  fields are also added to the terraform ignore_changes hook, to avoid
+                  updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after
+                  creation, for example because of an external controller is managing
+                  them, like an autoscaler.
+                properties:
+                  issuancePolicy:
+                    description: The IssuancePolicy to control how Certificates will
+                      be issued from this CaPool. Structure is documented below.
+                    items:
+                      properties:
+                        allowedIssuanceModes:
+                          description: IssuanceModes specifies the allowed ways in
+                            which Certificates may be requested from this CaPool.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              allowConfigBasedIssuance:
+                                description: When true, allows callers to create Certificates
+                                  by specifying a CertificateConfig.
+                                type: boolean
+                              allowCsrBasedIssuance:
+                                description: When true, allows callers to create Certificates
+                                  by specifying a CSR.
+                                type: boolean
+                            type: object
+                          type: array
+                        allowedKeyTypes:
+                          description: If any AllowedKeyType is specified, then the
+                            certificate request's public key must match one of the
+                            key types listed here. Otherwise, any key may be used.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              ellipticCurve:
+                                description: Represents an allowed Elliptic Curve
+                                  key type. Structure is documented below.
+                                items:
+                                  properties:
+                                    signatureAlgorithm:
+                                      description: 'The algorithm used. Possible values
+                                        are: ECDSA_P256, ECDSA_P384, EDDSA_25519.'
+                                      type: string
+                                  type: object
+                                type: array
+                              rsa:
+                                description: Describes an RSA key that may be used
+                                  in a Certificate issued from a CaPool. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    maxModulusSize:
+                                      description: The maximum allowed RSA modulus
+                                        size, in bits. If this is not set, or if set
+                                        to zero, the service will not enforce an explicit
+                                        upper bound on RSA modulus sizes.
+                                      type: string
+                                    minModulusSize:
+                                      description: The minimum allowed RSA modulus
+                                        size, in bits. If this is not set, or if set
+                                        to zero, the service-level min RSA modulus
+                                        size will continue to apply.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        baselineValues:
+                          description: A set of X.509 values that will be applied
+                            to all certificates issued through this CaPool. If a certificate
+                            request includes conflicting values for the same properties,
+                            they will be overwritten by the values defined here. If
+                            a certificate request uses a CertificateTemplate that
+                            defines conflicting predefinedValues for the same properties,
+                            the certificate issuance request will fail. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              additionalExtensions:
+                                description: Specifies an X.509 extension, which may
+                                  be used in different parts of X.509 objects like
+                                  certificates, CSRs, and CRLs. Structure is documented
+                                  below.
+                                items:
+                                  properties:
+                                    critical:
+                                      description: Indicates whether or not the name
+                                        constraints are marked critical.
+                                      type: boolean
+                                    objectId:
+                                      description: Describes values that are relevant
+                                        in a CA certificate. Structure is documented
+                                        below.
+                                      items:
+                                        properties:
+                                          objectIdPath:
+                                            description: An ObjectId specifies an
+                                              object identifier (OID). These provide
+                                              context and describe types in ASN.1
+                                              messages.
+                                            items:
+                                              type: number
+                                            type: array
+                                        type: object
+                                      type: array
+                                    value:
+                                      description: The value of this X.509 extension.
+                                        A base64-encoded string.
+                                      type: string
+                                  type: object
+                                type: array
+                              aiaOcspServers:
+                                description: Describes Online Certificate Status Protocol
+                                  (OCSP) endpoint addresses that appear in the "Authority
+                                  Information Access" extension in the certificate.
+                                items:
+                                  type: string
+                                type: array
+                              caOptions:
+                                description: Describes values that are relevant in
+                                  a CA certificate. Structure is documented below.
+                                items:
+                                  properties:
+                                    isCa:
+                                      description: When true, the "CA" in Basic Constraints
+                                        extension will be set to true.
+                                      type: boolean
+                                    maxIssuerPathLength:
+                                      description: Refers to the "path length constraint"
+                                        in Basic Constraints extension. For a CA certificate,
+                                        this value describes the depth of subordinate
+                                        CA certificates that are allowed. If this
+                                        value is less than 0, the request will fail.
+                                      type: number
+                                    nonCa:
+                                      description: When true, the "CA" in Basic Constraints
+                                        extension will be set to false. If both is_ca
+                                        and non_ca are unset, the extension will be
+                                        omitted from the CA certificate.
+                                      type: boolean
+                                    zeroMaxIssuerPathLength:
+                                      description: When true, the "path length constraint"
+                                        in Basic Constraints extension will be set
+                                        to 0. if both max_issuer_path_length and zero_max_issuer_path_length
+                                        are unset, the max path length will be omitted
+                                        from the CA certificate.
+                                      type: boolean
+                                  type: object
+                                type: array
+                              keyUsage:
+                                description: Indicates the intended use for keys that
+                                  correspond to a certificate. Structure is documented
+                                  below.
+                                items:
+                                  properties:
+                                    baseKeyUsage:
+                                      description: Describes high-level ways in which
+                                        a key may be used. Structure is documented
+                                        below.
+                                      items:
+                                        properties:
+                                          certSign:
+                                            description: The key may be used to sign
+                                              certificates.
+                                            type: boolean
+                                          contentCommitment:
+                                            description: The key may be used for cryptographic
+                                              commitments. Note that this may also
+                                              be referred to as "non-repudiation".
+                                            type: boolean
+                                          crlSign:
+                                            description: The key may be used sign
+                                              certificate revocation lists.
+                                            type: boolean
+                                          dataEncipherment:
+                                            description: The key may be used to encipher
+                                              data.
+                                            type: boolean
+                                          decipherOnly:
+                                            description: The key may be used to decipher
+                                              only.
+                                            type: boolean
+                                          digitalSignature:
+                                            description: The key may be used for digital
+                                              signatures.
+                                            type: boolean
+                                          encipherOnly:
+                                            description: The key may be used to encipher
+                                              only.
+                                            type: boolean
+                                          keyAgreement:
+                                            description: The key may be used in a
+                                              key agreement protocol.
+                                            type: boolean
+                                          keyEncipherment:
+                                            description: The key may be used to encipher
+                                              other keys.
+                                            type: boolean
+                                        type: object
+                                      type: array
+                                    extendedKeyUsage:
+                                      description: Describes high-level ways in which
+                                        a key may be used. Structure is documented
+                                        below.
+                                      items:
+                                        properties:
+                                          clientAuth:
+                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.2.
+                                              Officially described as "TLS WWW client
+                                              authentication", though regularly used
+                                              for non-WWW TLS.
+                                            type: boolean
+                                          codeSigning:
+                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.3.
+                                              Officially described as "Signing of
+                                              downloadable executable code client
+                                              authentication".
+                                            type: boolean
+                                          emailProtection:
+                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.4.
+                                              Officially described as "Email protection".
+                                            type: boolean
+                                          ocspSigning:
+                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.9.
+                                              Officially described as "Signing OCSP
+                                              responses".
+                                            type: boolean
+                                          serverAuth:
+                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.1.
+                                              Officially described as "TLS WWW server
+                                              authentication", though regularly used
+                                              for non-WWW TLS.
+                                            type: boolean
+                                          timeStamping:
+                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.8.
+                                              Officially described as "Binding the
+                                              hash of an object to a time".
+                                            type: boolean
+                                        type: object
+                                      type: array
+                                    unknownExtendedKeyUsages:
+                                      description: An ObjectId specifies an object
+                                        identifier (OID). These provide context and
+                                        describe types in ASN.1 messages. Structure
+                                        is documented below.
+                                      items:
+                                        properties:
+                                          objectIdPath:
+                                            description: An ObjectId specifies an
+                                              object identifier (OID). These provide
+                                              context and describe types in ASN.1
+                                              messages.
+                                            items:
+                                              type: number
+                                            type: array
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              nameConstraints:
+                                description: Describes the X.509 name constraints
+                                  extension. Structure is documented below.
+                                items:
+                                  properties:
+                                    critical:
+                                      description: Indicates whether or not the name
+                                        constraints are marked critical.
+                                      type: boolean
+                                    excludedDnsNames:
+                                      description: Contains excluded DNS names. Any
+                                        DNS name that can be constructed by simply
+                                        adding zero or more labels to the left-hand
+                                        side of the name satisfies the name constraint.
+                                        For example, example.com, www.example.com,
+                                        www.sub.example.com would satisfy example.com
+                                        while example1.com does not.
+                                      items:
+                                        type: string
+                                      type: array
+                                    excludedEmailAddresses:
+                                      description: Contains the excluded email addresses.
+                                        The value can be a particular email address,
+                                        a hostname to indicate all email addresses
+                                        on that host or a domain with a leading period
+                                        (e.g. .example.com) to indicate all email
+                                        addresses in that domain.
+                                      items:
+                                        type: string
+                                      type: array
+                                    excludedIpRanges:
+                                      description: Contains the excluded IP ranges.
+                                        For IPv4 addresses, the ranges are expressed
+                                        using CIDR notation as specified in RFC 4632.
+                                        For IPv6 addresses, the ranges are expressed
+                                        in similar encoding as IPv4 addresses.
+                                      items:
+                                        type: string
+                                      type: array
+                                    excludedUris:
+                                      description: Contains the excluded URIs that
+                                        apply to the host part of the name. The value
+                                        can be a hostname or a domain with a leading
+                                        period (like .example.com)
+                                      items:
+                                        type: string
+                                      type: array
+                                    permittedDnsNames:
+                                      description: Contains permitted DNS names. Any
+                                        DNS name that can be constructed by simply
+                                        adding zero or more labels to the left-hand
+                                        side of the name satisfies the name constraint.
+                                        For example, example.com, www.example.com,
+                                        www.sub.example.com would satisfy example.com
+                                        while example1.com does not.
+                                      items:
+                                        type: string
+                                      type: array
+                                    permittedEmailAddresses:
+                                      description: Contains the permitted email addresses.
+                                        The value can be a particular email address,
+                                        a hostname to indicate all email addresses
+                                        on that host or a domain with a leading period
+                                        (e.g. .example.com) to indicate all email
+                                        addresses in that domain.
+                                      items:
+                                        type: string
+                                      type: array
+                                    permittedIpRanges:
+                                      description: Contains the permitted IP ranges.
+                                        For IPv4 addresses, the ranges are expressed
+                                        using CIDR notation as specified in RFC 4632.
+                                        For IPv6 addresses, the ranges are expressed
+                                        in similar encoding as IPv4 addresses.
+                                      items:
+                                        type: string
+                                      type: array
+                                    permittedUris:
+                                      description: Contains the permitted URIs that
+                                        apply to the host part of the name. The value
+                                        can be a hostname or a domain with a leading
+                                        period (like .example.com)
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
+                              policyIds:
+                                description: Describes the X.509 certificate policy
+                                  object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    objectIdPath:
+                                      description: An ObjectId specifies an object
+                                        identifier (OID). These provide context and
+                                        describe types in ASN.1 messages.
+                                      items:
+                                        type: number
+                                      type: array
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        identityConstraints:
+                          description: Describes constraints on identities that may
+                            appear in Certificates issued through this CaPool. If
+                            this is omitted, then this CaPool will not add restrictions
+                            on a certificate's identity. Structure is documented below.
+                          items:
+                            properties:
+                              allowSubjectAltNamesPassthrough:
+                                description: If this is set, the SubjectAltNames extension
+                                  may be copied from a certificate request into the
+                                  signed certificate. Otherwise, the requested SubjectAltNames
+                                  will be discarded.
+                                type: boolean
+                              allowSubjectPassthrough:
+                                description: If this is set, the Subject field may
+                                  be copied from a certificate request into the signed
+                                  certificate. Otherwise, the requested Subject will
+                                  be discarded.
+                                type: boolean
+                              celExpression:
+                                description: A CEL expression that may be used to
+                                  validate the resolved X.509 Subject and/or Subject
+                                  Alternative Name before a certificate is signed.
+                                  To see the full allowed syntax and some examples,
+                                  see https://cloud.google.com/certificate-authority-service/docs/cel-guide
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    description:
+                                      description: Description of the expression.
+                                        This is a longer text which describes the
+                                        expression, e.g. when hovered over it in a
+                                        UI.
+                                      type: string
+                                    expression:
+                                      description: Textual representation of an expression
+                                        in Common Expression Language syntax.
+                                      type: string
+                                    title:
+                                      description: Title for the expression, i.e.
+                                        a short string describing its purpose. This
+                                        can be used e.g. in UIs which allow to enter
+                                        the expression.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        maximumLifetime:
+                          description: The maximum lifetime allowed for issued Certificates.
+                            Note that if the issuing CertificateAuthority expires
+                            before a Certificate's requested maximumLifetime, the
+                            effective lifetime will be explicitly truncated to match
+                            it.
+                          type: string
+                      type: object
+                    type: array
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: 'Labels with user-defined metadata. An object containing
+                      a list of "key": value pairs. Example: { "name": "wrench", "mass":
+                      "1.3kg", "count": "3" }.'
+                    type: object
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  publishingOptions:
+                    description: The PublishingOptions to follow when issuing Certificates
+                      from any CertificateAuthority in this CaPool. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        publishCaCert:
+                          description: When true, publishes each CertificateAuthority's
+                            CA certificate and includes its URL in the "Authority
+                            Information Access" X.509 extension in all issued Certificates.
+                            If this is false, the CA certificate will not be published
+                            and the corresponding X.509 extension will not be written
+                            in issued certificates.
+                          type: boolean
+                        publishCrl:
+                          description: When true, publishes each CertificateAuthority's
+                            CRL and includes its URL in the "CRL Distribution Points"
+                            X.509 extension in all issued Certificates. If this is
+                            false, CRLs will not be published and the corresponding
+                            X.509 extension will not be written in issued certificates.
+                            CRLs will expire 7 days from their creation. However,
+                            we will rebuild daily. CRLs are also rebuilt shortly after
+                            a certificate is revoked.
+                          type: boolean
+                      type: object
+                    type: array
+                  tier:
+                    description: 'The Tier of this CaPool. Possible values are: ENTERPRISE,
+                      DEVOPS.'
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
                 description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
                   It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. ManagementPolicy
-                  specifies the level of control Crossplane has over the managed external
-                  resource. This field is planned to replace the DeletionPolicy field
-                  in a future release. Currently, both could be set independently
-                  and non-default values would be honored if the feature flag is enabled.
-                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
-                enum:
-                - FullControl
-                - ObserveOnly
-                - OrphanOnDelete
-                type: string
+                  enabled, and may be changed or removed without notice. ManagementPolicies
+                  specify the array of actions Crossplane is allowed to take on the
+                  managed and external resources. This field is planned to replace
+                  the DeletionPolicy field in a future release. Currently, both could
+                  be set independently and non-default values would be honored if
+                  the feature flag is enabled. If both are custom, the DeletionPolicy
+                  field will be ignored. See the design doc for more information:
+                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                items:
+                  description: A ManagementAction represents an action that the Crossplane
+                    controllers can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
               providerConfigRef:
                 default:
                   name: default
@@ -754,7 +1202,9 @@ spec:
             type: object
             x-kubernetes-validations:
             - message: tier is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.tier)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.tier)
+                || has(self.initProvider.tier)'
           status:
             description: CAPoolStatus defines the observed state of CAPool.
             properties:

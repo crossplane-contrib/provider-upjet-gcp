@@ -25,6 +25,13 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ManagedInitParameters struct {
+
+	// Domains for which a managed SSL certificate will be valid.  Currently,
+	// there can be up to 100 domains in this list.
+	Domains []*string `json:"domains,omitempty" tf:"domains,omitempty"`
+}
+
 type ManagedObservation struct {
 
 	// Domains for which a managed SSL certificate will be valid.  Currently,
@@ -36,8 +43,32 @@ type ManagedParameters struct {
 
 	// Domains for which a managed SSL certificate will be valid.  Currently,
 	// there can be up to 100 domains in this list.
-	// +kubebuilder:validation:Required
-	Domains []*string `json:"domains" tf:"domains,omitempty"`
+	// +kubebuilder:validation:Optional
+	Domains []*string `json:"domains,omitempty" tf:"domains,omitempty"`
+}
+
+type ManagedSSLCertificateInitParameters struct {
+
+	// The unique identifier for the resource.
+	CertificateID *float64 `json:"certificateId,omitempty" tf:"certificate_id,omitempty"`
+
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Properties relevant to a managed certificate.  These will be used if the
+	// certificate is managed (as indicated by a value of MANAGED in type).
+	// Structure is documented below.
+	Managed []ManagedInitParameters `json:"managed,omitempty" tf:"managed,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Enum field whose value is always MANAGED - used to signal to the API
+	// which type this is.
+	// Default value is MANAGED.
+	// Possible values are: MANAGED.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ManagedSSLCertificateObservation struct {
@@ -112,6 +143,18 @@ type ManagedSSLCertificateParameters struct {
 type ManagedSSLCertificateSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ManagedSSLCertificateParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ManagedSSLCertificateInitParameters `json:"initProvider,omitempty"`
 }
 
 // ManagedSSLCertificateStatus defines the observed state of ManagedSSLCertificate.

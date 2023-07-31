@@ -42,9 +42,10 @@ func Setup(mgr ctrl.Manager, o tjcontroller.Options) error {
 	if o.SecretStoreConfigGVK != nil {
 		cps = append(cps, connection.NewDetailsManager(mgr.GetClient(), *o.SecretStoreConfigGVK, connection.WithTLSConfig(o.ESSOptions.TLSConfig)))
 	}
+	ac := tjcontroller.NewAPICallbacks(mgr, xpresource.ManagedKind(v1beta1.BackendServiceSignedURLKey_GroupVersionKind), tjcontroller.WithEventHandler(o.EventHandler))
 	opts := []managed.ReconcilerOption{
 		managed.WithExternalConnecter(tjcontroller.NewConnector(mgr.GetClient(), o.WorkspaceStore, o.SetupFn, o.Provider.Resources["google_compute_backend_service_signed_url_key"], tjcontroller.WithLogger(o.Logger),
-			tjcontroller.WithCallbackProvider(tjcontroller.NewAPICallbacks(mgr, xpresource.ManagedKind(v1beta1.BackendServiceSignedURLKey_GroupVersionKind))),
+			tjcontroller.WithCallbackProvider(ac),
 		)),
 		managed.WithLogger(o.Logger.WithValues("controller", name)),
 		managed.WithRecorder(event.NewAPIRecorder(mgr.GetEventRecorderFor(name))),
@@ -62,6 +63,7 @@ func Setup(mgr ctrl.Manager, o tjcontroller.Options) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		Named(name).
 		WithOptions(o.ForControllerRuntime()).
-		For(&v1beta1.BackendServiceSignedURLKey{}).
+		WithEventFilter(xpresource.DesiredStateChanged()).
+		Watches(&v1beta1.BackendServiceSignedURLKey{}, o.EventHandler).
 		Complete(ratelimiter.NewReconciler(name, r, o.GlobalRateLimiter))
 }

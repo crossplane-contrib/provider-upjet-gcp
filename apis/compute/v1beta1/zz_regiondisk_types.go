@@ -25,6 +25,12 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type RegionDiskDiskEncryptionKeyInitParameters struct {
+
+	// The name of the encryption key that is stored in Google Cloud KMS.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+}
+
 type RegionDiskDiskEncryptionKeyObservation struct {
 
 	// The name of the encryption key that is stored in Google Cloud KMS.
@@ -47,6 +53,65 @@ type RegionDiskDiskEncryptionKeyParameters struct {
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
 	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+}
+
+type RegionDiskInitParameters struct {
+
+	// An optional description of this resource. Provide this property when
+	// you create the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Encrypts the disk using a customer-supplied encryption key.
+	// After you encrypt a disk with a customer-supplied key, you must
+	// provide the same key if you use the disk later (e.g. to create a disk
+	// snapshot or an image, or to attach the disk to a virtual machine).
+	// Customer-supplied encryption keys do not protect access to metadata of
+	// the disk.
+	// If you do not provide an encryption key when creating the disk, then
+	// the disk will be encrypted using an automatically generated key and
+	// you do not need to provide a key to use the disk later.
+	// Structure is documented below.
+	DiskEncryptionKey []RegionDiskDiskEncryptionKeyInitParameters `json:"diskEncryptionKey,omitempty" tf:"disk_encryption_key,omitempty"`
+
+	// Labels to apply to this disk.  A list of key->value pairs.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Physical block size of the persistent disk, in bytes. If not present
+	// in a request, a default value is used. Currently supported sizes
+	// are 4096 and 16384, other sizes may be added in the future.
+	// If an unsupported value is requested, the error message will list
+	// the supported values for the caller's project.
+	PhysicalBlockSizeBytes *float64 `json:"physicalBlockSizeBytes,omitempty" tf:"physical_block_size_bytes,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// URLs of the zones where the disk should be replicated to.
+	ReplicaZones []*string `json:"replicaZones,omitempty" tf:"replica_zones,omitempty"`
+
+	// Size of the persistent disk, specified in GB. You can specify this
+	// field when creating a persistent disk using the sourceImage or
+	// sourceSnapshot parameter, or specify it alone to create an empty
+	// persistent disk.
+	// If you specify this field along with sourceImage or sourceSnapshot,
+	// the value of sizeGb must not be less than the size of the sourceImage
+	// or the size of the snapshot.
+	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
+
+	// The source disk used to create this disk. You can provide this as a partial or full URL to the resource.
+	// For example, the following are valid values:
+	SourceDisk *string `json:"sourceDisk,omitempty" tf:"source_disk,omitempty"`
+
+	// The customer-supplied encryption key of the source snapshot. Required
+	// if the source snapshot is protected by a customer-supplied encryption
+	// key.
+	// Structure is documented below.
+	SourceSnapshotEncryptionKey []RegionDiskSourceSnapshotEncryptionKeyInitParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
+
+	// URL of the disk type resource describing which disk type to use to
+	// create the disk. Provide this when creating the disk.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type RegionDiskObservation struct {
@@ -241,6 +306,13 @@ type RegionDiskParameters struct {
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
+type RegionDiskSourceSnapshotEncryptionKeyInitParameters struct {
+
+	// Specifies a 256-bit customer-supplied encryption key, encoded in
+	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
+}
+
 type RegionDiskSourceSnapshotEncryptionKeyObservation struct {
 
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
@@ -265,6 +337,18 @@ type RegionDiskSourceSnapshotEncryptionKeyParameters struct {
 type RegionDiskSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     RegionDiskParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider RegionDiskInitParameters `json:"initProvider,omitempty"`
 }
 
 // RegionDiskStatus defines the observed state of RegionDisk.
@@ -285,7 +369,7 @@ type RegionDiskStatus struct {
 type RegionDisk struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.replicaZones)",message="replicaZones is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.replicaZones) || has(self.initProvider.replicaZones)",message="replicaZones is a required parameter"
 	Spec   RegionDiskSpec   `json:"spec"`
 	Status RegionDiskStatus `json:"status,omitempty"`
 }

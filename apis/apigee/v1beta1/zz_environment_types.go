@@ -25,6 +25,34 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type EnvironmentInitParameters struct {
+
+	// Optional. API Proxy type supported by the environment. The type can be set when creating
+	// the Environment and cannot be changed.
+	// Possible values are: API_PROXY_TYPE_UNSPECIFIED, PROGRAMMABLE, CONFIGURABLE.
+	APIProxyType *string `json:"apiProxyType,omitempty" tf:"api_proxy_type,omitempty"`
+
+	// Optional. Deployment type supported by the environment. The deployment type can be
+	// set when creating the environment and cannot be changed. When you enable archive
+	// deployment, you will be prevented from performing a subset of actions within the
+	// environment, including:
+	// Managing the deployment of API proxy or shared flow revisions;
+	// Creating, updating, or deleting resource files;
+	// Creating, updating, or deleting target servers.
+	// Possible values are: DEPLOYMENT_TYPE_UNSPECIFIED, PROXY, ARCHIVE.
+	DeploymentType *string `json:"deploymentType,omitempty" tf:"deployment_type,omitempty"`
+
+	// Description of the environment.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Display name of the environment.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// NodeConfig for setting the min/max number of nodes associated with the environment.
+	// Structure is documented below.
+	NodeConfig []NodeConfigInitParameters `json:"nodeConfig,omitempty" tf:"node_config,omitempty"`
+}
+
 type EnvironmentObservation struct {
 
 	// Optional. API Proxy type supported by the environment. The type can be set when creating
@@ -108,6 +136,19 @@ type EnvironmentParameters struct {
 	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 }
 
+type NodeConfigInitParameters struct {
+
+	// The maximum total number of gateway nodes that the is reserved for all instances that
+	// has the specified environment. If not specified, the default is determined by the
+	// recommended maximum number of nodes for that gateway.
+	MaxNodeCount *string `json:"maxNodeCount,omitempty" tf:"max_node_count,omitempty"`
+
+	// The minimum total number of gateway nodes that the is reserved for all instances that
+	// has the specified environment. If not specified, the default is determined by the
+	// recommended minimum number of nodes for that gateway.
+	MinNodeCount *string `json:"minNodeCount,omitempty" tf:"min_node_count,omitempty"`
+}
+
 type NodeConfigObservation struct {
 
 	// (Output)
@@ -145,6 +186,18 @@ type NodeConfigParameters struct {
 type EnvironmentSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     EnvironmentParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider EnvironmentInitParameters `json:"initProvider,omitempty"`
 }
 
 // EnvironmentStatus defines the observed state of Environment.

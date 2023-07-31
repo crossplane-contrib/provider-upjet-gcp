@@ -25,6 +25,12 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AwsInitParameters struct {
+
+	// The AWS account ID.
+	AccountID *string `json:"accountId,omitempty" tf:"account_id,omitempty"`
+}
+
 type AwsObservation struct {
 
 	// The AWS account ID.
@@ -34,8 +40,23 @@ type AwsObservation struct {
 type AwsParameters struct {
 
 	// The AWS account ID.
-	// +kubebuilder:validation:Required
-	AccountID *string `json:"accountId" tf:"account_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	AccountID *string `json:"accountId,omitempty" tf:"account_id,omitempty"`
+}
+
+type OidcInitParameters struct {
+
+	// Acceptable values for the aud field (audience) in the OIDC token. Token exchange
+	// requests are rejected if the token audience does not match one of the configured
+	// values. Each audience may be at most 256 characters. A maximum of 10 audiences may
+	// be configured.
+	// If this list is empty, the OIDC token audience must be equal to the full canonical
+	// resource name of the WorkloadIdentityPoolProvider, with or without the HTTPS prefix.
+	// For example:
+	AllowedAudiences []*string `json:"allowedAudiences,omitempty" tf:"allowed_audiences,omitempty"`
+
+	// The OIDC issuer URL.
+	IssuerURI *string `json:"issuerUri,omitempty" tf:"issuer_uri,omitempty"`
 }
 
 type OidcObservation struct {
@@ -66,8 +87,46 @@ type OidcParameters struct {
 	AllowedAudiences []*string `json:"allowedAudiences,omitempty" tf:"allowed_audiences,omitempty"`
 
 	// The OIDC issuer URL.
-	// +kubebuilder:validation:Required
-	IssuerURI *string `json:"issuerUri" tf:"issuer_uri,omitempty"`
+	// +kubebuilder:validation:Optional
+	IssuerURI *string `json:"issuerUri,omitempty" tf:"issuer_uri,omitempty"`
+}
+
+type WorkloadIdentityPoolProviderInitParameters struct {
+
+	// A Common Expression Language expression, in
+	// plain text, to restrict what otherwise valid authentication credentials issued by the
+	// provider should not be accepted.
+	// The expression must output a boolean representing whether to allow the federation.
+	// The following keywords may be referenced in the expressions:
+	AttributeCondition *string `json:"attributeCondition,omitempty" tf:"attribute_condition,omitempty"`
+
+	// Maps attributes from authentication credentials issued by an external identity provider
+	// to Google Cloud attributes, such as subject and segment.
+	// Each key must be a string specifying the Google Cloud IAM attribute to map to.
+	// The following keys are supported:
+	AttributeMapping map[string]*string `json:"attributeMapping,omitempty" tf:"attribute_mapping,omitempty"`
+
+	// An Amazon Web Services identity provider. Not compatible with the property oidc.
+	// Structure is documented below.
+	Aws []AwsInitParameters `json:"aws,omitempty" tf:"aws,omitempty"`
+
+	// A description for the provider. Cannot exceed 256 characters.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Whether the provider is disabled. You cannot use a disabled provider to exchange tokens.
+	// However, existing tokens still grant access.
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// A display name for the provider. Cannot exceed 32 characters.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// An OpenId Connect 1.0 identity provider. Not compatible with the property aws.
+	// Structure is documented below.
+	Oidc []OidcInitParameters `json:"oidc,omitempty" tf:"oidc,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type WorkloadIdentityPoolProviderObservation struct {
@@ -188,6 +247,18 @@ type WorkloadIdentityPoolProviderParameters struct {
 type WorkloadIdentityPoolProviderSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     WorkloadIdentityPoolProviderParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider WorkloadIdentityPoolProviderInitParameters `json:"initProvider,omitempty"`
 }
 
 // WorkloadIdentityPoolProviderStatus defines the observed state of WorkloadIdentityPoolProvider.

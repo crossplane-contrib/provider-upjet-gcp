@@ -16,6 +16,3 @@ spec:
     triggerTemplate:
     - branchName: main
       repoName: my-repo
-
----
-

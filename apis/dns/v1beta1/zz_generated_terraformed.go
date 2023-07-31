@@ -81,6 +81,16 @@ func (tr *ManagedZone) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this ManagedZone
+func (tr *ManagedZone) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this ManagedZone using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *ManagedZone) LateInitialize(attrs []byte) (bool, error) {
@@ -153,6 +163,16 @@ func (tr *ManagedZoneIAMMember) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this ManagedZoneIAMMember
+func (tr *ManagedZoneIAMMember) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this ManagedZoneIAMMember using its observed tfState.
@@ -229,6 +249,16 @@ func (tr *Policy) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this Policy
+func (tr *Policy) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this Policy using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *Policy) LateInitialize(attrs []byte) (bool, error) {
@@ -301,6 +331,16 @@ func (tr *RecordSet) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this RecordSet
+func (tr *RecordSet) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this RecordSet using its observed tfState.

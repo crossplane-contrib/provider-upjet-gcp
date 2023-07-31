@@ -25,6 +25,27 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ProjectIAMCustomRoleInitParameters struct {
+
+	// A human-readable description for the role.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The names of the permissions this role grants when bound in an IAM policy. At least one permission must be specified.
+	Permissions []*string `json:"permissions,omitempty" tf:"permissions,omitempty"`
+
+	// The project that the service account will be created in.
+	// Defaults to the provider project configuration.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The current launch stage of the role.
+	// Defaults to GA.
+	// List of possible stages is here.
+	Stage *string `json:"stage,omitempty" tf:"stage,omitempty"`
+
+	// A human-readable title for the role.
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+}
+
 type ProjectIAMCustomRoleObservation struct {
 
 	// The current deleted state of the role.
@@ -85,6 +106,18 @@ type ProjectIAMCustomRoleParameters struct {
 type ProjectIAMCustomRoleSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ProjectIAMCustomRoleParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ProjectIAMCustomRoleInitParameters `json:"initProvider,omitempty"`
 }
 
 // ProjectIAMCustomRoleStatus defines the observed state of ProjectIAMCustomRole.
@@ -105,8 +138,8 @@ type ProjectIAMCustomRoleStatus struct {
 type ProjectIAMCustomRole struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.permissions)",message="permissions is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.title)",message="title is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.permissions) || has(self.initProvider.permissions)",message="permissions is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.title) || has(self.initProvider.title)",message="title is a required parameter"
 	Spec   ProjectIAMCustomRoleSpec   `json:"spec"`
 	Status ProjectIAMCustomRoleStatus `json:"status,omitempty"`
 }

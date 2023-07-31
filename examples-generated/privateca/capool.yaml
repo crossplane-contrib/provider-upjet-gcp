@@ -15,6 +15,3 @@ spec:
     - publishCaCert: true
       publishCrl: true
     tier: ENTERPRISE
-
----
-

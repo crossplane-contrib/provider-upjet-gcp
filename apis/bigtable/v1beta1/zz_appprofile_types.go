@@ -25,6 +25,30 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AppProfileInitParameters struct {
+
+	// Long form description of the use case for this app profile.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// If true, ignore safety checks when deleting/updating the app profile.
+	IgnoreWarnings *bool `json:"ignoreWarnings,omitempty" tf:"ignore_warnings,omitempty"`
+
+	MultiClusterRoutingClusterIds []*string `json:"multiClusterRoutingClusterIds,omitempty" tf:"multi_cluster_routing_cluster_ids,omitempty"`
+
+	// If true, read/write requests are routed to the nearest cluster in the instance, and will fail over to the nearest cluster that is available
+	// in the event of transient errors or delays. Clusters in a region are considered equidistant. Choosing this option sacrifices read-your-writes
+	// consistency to improve availability.
+	MultiClusterRoutingUseAny *bool `json:"multiClusterRoutingUseAny,omitempty" tf:"multi_cluster_routing_use_any,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Use a single-cluster routing policy.
+	// Structure is documented below.
+	SingleClusterRouting []SingleClusterRoutingInitParameters `json:"singleClusterRouting,omitempty" tf:"single_cluster_routing,omitempty"`
+}
+
 type AppProfileObservation struct {
 
 	// Long form description of the use case for this app profile.
@@ -101,6 +125,16 @@ type AppProfileParameters struct {
 	SingleClusterRouting []SingleClusterRoutingParameters `json:"singleClusterRouting,omitempty" tf:"single_cluster_routing,omitempty"`
 }
 
+type SingleClusterRoutingInitParameters struct {
+
+	// If true, CheckAndMutateRow and ReadModifyWriteRow requests are allowed by this app profile.
+	// It is unsafe to send these requests to the same table/row/column in multiple clusters.
+	AllowTransactionalWrites *bool `json:"allowTransactionalWrites,omitempty" tf:"allow_transactional_writes,omitempty"`
+
+	// The cluster to which read/write requests should be routed.
+	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
+}
+
 type SingleClusterRoutingObservation struct {
 
 	// If true, CheckAndMutateRow and ReadModifyWriteRow requests are allowed by this app profile.
@@ -119,14 +153,26 @@ type SingleClusterRoutingParameters struct {
 	AllowTransactionalWrites *bool `json:"allowTransactionalWrites,omitempty" tf:"allow_transactional_writes,omitempty"`
 
 	// The cluster to which read/write requests should be routed.
-	// +kubebuilder:validation:Required
-	ClusterID *string `json:"clusterId" tf:"cluster_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
 }
 
 // AppProfileSpec defines the desired state of AppProfile
 type AppProfileSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     AppProfileParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider AppProfileInitParameters `json:"initProvider,omitempty"`
 }
 
 // AppProfileStatus defines the observed state of AppProfile.

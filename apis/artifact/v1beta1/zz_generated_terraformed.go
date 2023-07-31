@@ -81,6 +81,16 @@ func (tr *RegistryRepository) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this RegistryRepository
+func (tr *RegistryRepository) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this RegistryRepository using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *RegistryRepository) LateInitialize(attrs []byte) (bool, error) {
@@ -153,6 +163,16 @@ func (tr *RegistryRepositoryIAMMember) SetParameters(params map[string]any) erro
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this RegistryRepositoryIAMMember
+func (tr *RegistryRepositoryIAMMember) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this RegistryRepositoryIAMMember using its observed tfState.

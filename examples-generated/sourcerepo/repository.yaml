@@ -8,6 +8,3 @@ metadata:
   name: my-repo
 spec:
   forProvider: {}
-
----
-

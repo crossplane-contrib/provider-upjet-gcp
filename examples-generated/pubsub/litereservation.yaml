@@ -10,6 +10,3 @@ spec:
   forProvider:
     project: ${data.google_project.project.number}
     throughputCapacity: 2
-
----
-

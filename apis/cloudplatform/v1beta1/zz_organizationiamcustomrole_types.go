@@ -25,6 +25,29 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type OrganizationIAMCustomRoleInitParameters struct {
+
+	// A human-readable description for the role.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The numeric ID of the organization in which you want to create a custom role.
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	// The names of the permissions this role grants when bound in an IAM policy. At least one permission must be specified.
+	Permissions []*string `json:"permissions,omitempty" tf:"permissions,omitempty"`
+
+	// The role id to use for this role.
+	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// The current launch stage of the role.
+	// Defaults to GA.
+	// List of possible stages is here.
+	Stage *string `json:"stage,omitempty" tf:"stage,omitempty"`
+
+	// A human-readable title for the role.
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+}
+
 type OrganizationIAMCustomRoleObservation struct {
 
 	// The current deleted state of the role.
@@ -90,6 +113,18 @@ type OrganizationIAMCustomRoleParameters struct {
 type OrganizationIAMCustomRoleSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     OrganizationIAMCustomRoleParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider OrganizationIAMCustomRoleInitParameters `json:"initProvider,omitempty"`
 }
 
 // OrganizationIAMCustomRoleStatus defines the observed state of OrganizationIAMCustomRole.
@@ -110,10 +145,10 @@ type OrganizationIAMCustomRoleStatus struct {
 type OrganizationIAMCustomRole struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.orgId)",message="orgId is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.permissions)",message="permissions is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.roleId)",message="roleId is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.title)",message="title is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.orgId) || has(self.initProvider.orgId)",message="orgId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.permissions) || has(self.initProvider.permissions)",message="permissions is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.roleId) || has(self.initProvider.roleId)",message="roleId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.title) || has(self.initProvider.title)",message="title is a required parameter"
 	Spec   OrganizationIAMCustomRoleSpec   `json:"spec"`
 	Status OrganizationIAMCustomRoleStatus `json:"status,omitempty"`
 }

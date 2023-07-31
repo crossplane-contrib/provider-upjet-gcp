@@ -51,6 +51,3 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: example
     zone: us-central1-a
-
----
-

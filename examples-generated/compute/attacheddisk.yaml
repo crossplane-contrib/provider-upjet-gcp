@@ -38,6 +38,3 @@ spec:
         matchLabels:
           testing.upbound.io/example-name: example
     zone: us-west1-a
-
----
-

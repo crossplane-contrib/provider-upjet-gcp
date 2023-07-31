@@ -11,6 +11,3 @@ spec:
     description: example docker repository
     format: DOCKER
     location: us-central1
-
----
-

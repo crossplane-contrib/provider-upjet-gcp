@@ -11,6 +11,3 @@ spec:
     labels:
       foo: bar
     messageRetentionDuration: 86600s
-
----
-

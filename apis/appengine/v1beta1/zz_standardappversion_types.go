@@ -25,6 +25,31 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AutomaticScalingInitParameters struct {
+
+	// Number of concurrent requests an automatic scaling instance can accept before the scheduler spawns a new instance.
+	// Defaults to a runtime-specific value.
+	MaxConcurrentRequests *float64 `json:"maxConcurrentRequests,omitempty" tf:"max_concurrent_requests,omitempty"`
+
+	// Maximum number of idle instances that should be maintained for this version.
+	MaxIdleInstances *float64 `json:"maxIdleInstances,omitempty" tf:"max_idle_instances,omitempty"`
+
+	// Maximum amount of time that a request should wait in the pending queue before starting a new instance to handle it.
+	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
+	MaxPendingLatency *string `json:"maxPendingLatency,omitempty" tf:"max_pending_latency,omitempty"`
+
+	// Minimum number of idle instances that should be maintained for this version. Only applicable for the default version of a service.
+	MinIdleInstances *float64 `json:"minIdleInstances,omitempty" tf:"min_idle_instances,omitempty"`
+
+	// Minimum amount of time a request should wait in the pending queue before starting a new instance to handle it.
+	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
+	MinPendingLatency *string `json:"minPendingLatency,omitempty" tf:"min_pending_latency,omitempty"`
+
+	// Scheduler settings for standard environment.
+	// Structure is documented below.
+	StandardSchedulerSettings []StandardSchedulerSettingsInitParameters `json:"standardSchedulerSettings,omitempty" tf:"standard_scheduler_settings,omitempty"`
+}
+
 type AutomaticScalingObservation struct {
 
 	// Number of concurrent requests an automatic scaling instance can accept before the scheduler spawns a new instance.
@@ -81,6 +106,16 @@ type AutomaticScalingParameters struct {
 	StandardSchedulerSettings []StandardSchedulerSettingsParameters `json:"standardSchedulerSettings,omitempty" tf:"standard_scheduler_settings,omitempty"`
 }
 
+type BasicScalingInitParameters struct {
+
+	// Duration of time after the last request that an instance must wait before the instance is shut down.
+	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s". Defaults to 900s.
+	IdleTimeout *string `json:"idleTimeout,omitempty" tf:"idle_timeout,omitempty"`
+
+	// Maximum number of instances to create for this version. Must be in the range [1.0, 200.0].
+	MaxInstances *float64 `json:"maxInstances,omitempty" tf:"max_instances,omitempty"`
+}
+
 type BasicScalingObservation struct {
 
 	// Duration of time after the last request that an instance must wait before the instance is shut down.
@@ -99,8 +134,20 @@ type BasicScalingParameters struct {
 	IdleTimeout *string `json:"idleTimeout,omitempty" tf:"idle_timeout,omitempty"`
 
 	// Maximum number of instances to create for this version. Must be in the range [1.0, 200.0].
-	// +kubebuilder:validation:Required
-	MaxInstances *float64 `json:"maxInstances" tf:"max_instances,omitempty"`
+	// +kubebuilder:validation:Optional
+	MaxInstances *float64 `json:"maxInstances,omitempty" tf:"max_instances,omitempty"`
+}
+
+type DeploymentInitParameters struct {
+
+	// Manifest of the files stored in Google Cloud Storage that are included as part of this version.
+	// All files must be readable using the credentials supplied with this call.
+	// Structure is documented below.
+	Files []FilesInitParameters `json:"files,omitempty" tf:"files,omitempty"`
+
+	// Zip File
+	// Structure is documented below.
+	Zip []ZipInitParameters `json:"zip,omitempty" tf:"zip,omitempty"`
 }
 
 type DeploymentObservation struct {
@@ -129,6 +176,12 @@ type DeploymentParameters struct {
 	Zip []ZipParameters `json:"zip,omitempty" tf:"zip,omitempty"`
 }
 
+type EntrypointInitParameters struct {
+
+	// The format should be a shell command that can be fed to bash -c.
+	Shell *string `json:"shell,omitempty" tf:"shell,omitempty"`
+}
+
 type EntrypointObservation struct {
 
 	// The format should be a shell command that can be fed to bash -c.
@@ -138,8 +191,20 @@ type EntrypointObservation struct {
 type EntrypointParameters struct {
 
 	// The format should be a shell command that can be fed to bash -c.
-	// +kubebuilder:validation:Required
-	Shell *string `json:"shell" tf:"shell,omitempty"`
+	// +kubebuilder:validation:Optional
+	Shell *string `json:"shell,omitempty" tf:"shell,omitempty"`
+}
+
+type FilesInitParameters struct {
+
+	// Full Serverless VPC Access Connector name e.g. /projects/my-project/locations/us-central1/connectors/c1.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// SHA1 checksum of the file
+	Sha1Sum *string `json:"sha1Sum,omitempty" tf:"sha1_sum,omitempty"`
+
+	// Source URL
+	SourceURL *string `json:"sourceUrl,omitempty" tf:"source_url,omitempty"`
 }
 
 type FilesObservation struct {
@@ -157,16 +222,48 @@ type FilesObservation struct {
 type FilesParameters struct {
 
 	// Full Serverless VPC Access Connector name e.g. /projects/my-project/locations/us-central1/connectors/c1.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// SHA1 checksum of the file
 	// +kubebuilder:validation:Optional
 	Sha1Sum *string `json:"sha1Sum,omitempty" tf:"sha1_sum,omitempty"`
 
 	// Source URL
-	// +kubebuilder:validation:Required
-	SourceURL *string `json:"sourceUrl" tf:"source_url,omitempty"`
+	// +kubebuilder:validation:Optional
+	SourceURL *string `json:"sourceUrl,omitempty" tf:"source_url,omitempty"`
+}
+
+type HandlersInitParameters struct {
+
+	// Actions to take when the user is not logged in.
+	// Possible values are: AUTH_FAIL_ACTION_REDIRECT, AUTH_FAIL_ACTION_UNAUTHORIZED.
+	AuthFailAction *string `json:"authFailAction,omitempty" tf:"auth_fail_action,omitempty"`
+
+	// Methods to restrict access to a URL based on login status.
+	// Possible values are: LOGIN_OPTIONAL, LOGIN_ADMIN, LOGIN_REQUIRED.
+	Login *string `json:"login,omitempty" tf:"login,omitempty"`
+
+	// 30x code to use when performing redirects for the secure field.
+	// Possible values are: REDIRECT_HTTP_RESPONSE_CODE_301, REDIRECT_HTTP_RESPONSE_CODE_302, REDIRECT_HTTP_RESPONSE_CODE_303, REDIRECT_HTTP_RESPONSE_CODE_307.
+	RedirectHTTPResponseCode *string `json:"redirectHttpResponseCode,omitempty" tf:"redirect_http_response_code,omitempty"`
+
+	// Executes a script to handle the requests that match this URL pattern.
+	// Only the auto value is supported for Node.js in the App Engine standard environment, for example "script:" "auto".
+	// Structure is documented below.
+	Script []ScriptInitParameters `json:"script,omitempty" tf:"script,omitempty"`
+
+	// Security (HTTPS) enforcement for this URL.
+	// Possible values are: SECURE_DEFAULT, SECURE_NEVER, SECURE_OPTIONAL, SECURE_ALWAYS.
+	SecurityLevel *string `json:"securityLevel,omitempty" tf:"security_level,omitempty"`
+
+	// Files served directly to the user for a given URL, such as images, CSS stylesheets, or JavaScript source files. Static file handlers describe which files in the application directory are static files, and which URLs serve them.
+	// Structure is documented below.
+	StaticFiles []StaticFilesInitParameters `json:"staticFiles,omitempty" tf:"static_files,omitempty"`
+
+	// URL prefix. Uses regular expression syntax, which means regexp special characters must be escaped, but should not contain groupings.
+	// All URLs that begin with this prefix are handled by this handler, using the portion of the URL after the prefix as part of the file path.
+	URLRegex *string `json:"urlRegex,omitempty" tf:"url_regex,omitempty"`
 }
 
 type HandlersObservation struct {
@@ -240,6 +337,15 @@ type HandlersParameters struct {
 	URLRegex *string `json:"urlRegex,omitempty" tf:"url_regex,omitempty"`
 }
 
+type LibrariesInitParameters struct {
+
+	// Name of the library. Example "django".
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Version of the library to select, or "latest".
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
 type LibrariesObservation struct {
 
 	// Name of the library. Example "django".
@@ -260,6 +366,14 @@ type LibrariesParameters struct {
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
+type ManualScalingInitParameters struct {
+
+	// Number of instances to assign to the service at the start.
+	// Note: When managing the number of instances at runtime through the App Engine Admin API or the (now deprecated) Python 2
+	// Modules API set_num_instances() you must use lifecycle.ignore_changes = ["manual_scaling"[0].instances] to prevent drift detection.
+	Instances *float64 `json:"instances,omitempty" tf:"instances,omitempty"`
+}
+
 type ManualScalingObservation struct {
 
 	// Number of instances to assign to the service at the start.
@@ -273,8 +387,14 @@ type ManualScalingParameters struct {
 	// Number of instances to assign to the service at the start.
 	// Note: When managing the number of instances at runtime through the App Engine Admin API or the (now deprecated) Python 2
 	// Modules API set_num_instances() you must use lifecycle.ignore_changes = ["manual_scaling"[0].instances] to prevent drift detection.
-	// +kubebuilder:validation:Required
-	Instances *float64 `json:"instances" tf:"instances,omitempty"`
+	// +kubebuilder:validation:Optional
+	Instances *float64 `json:"instances,omitempty" tf:"instances,omitempty"`
+}
+
+type ScriptInitParameters struct {
+
+	// Path to the script from the application root directory.
+	ScriptPath *string `json:"scriptPath,omitempty" tf:"script_path,omitempty"`
 }
 
 type ScriptObservation struct {
@@ -286,8 +406,81 @@ type ScriptObservation struct {
 type ScriptParameters struct {
 
 	// Path to the script from the application root directory.
-	// +kubebuilder:validation:Required
-	ScriptPath *string `json:"scriptPath" tf:"script_path,omitempty"`
+	// +kubebuilder:validation:Optional
+	ScriptPath *string `json:"scriptPath,omitempty" tf:"script_path,omitempty"`
+}
+
+type StandardAppVersionInitParameters struct {
+
+	// Allows App Engine second generation runtimes to access the legacy bundled services.
+	AppEngineApis *bool `json:"appEngineApis,omitempty" tf:"app_engine_apis,omitempty"`
+
+	// Automatic scaling is based on request rate, response latencies, and other application metrics.
+	// Structure is documented below.
+	AutomaticScaling []AutomaticScalingInitParameters `json:"automaticScaling,omitempty" tf:"automatic_scaling,omitempty"`
+
+	// Basic scaling creates instances when your application receives requests. Each instance will be shut down when the application becomes idle. Basic scaling is ideal for work that is intermittent or driven by user activity.
+	// Structure is documented below.
+	BasicScaling []BasicScalingInitParameters `json:"basicScaling,omitempty" tf:"basic_scaling,omitempty"`
+
+	// If set to true, the service will be deleted if it is the last version.
+	DeleteServiceOnDestroy *bool `json:"deleteServiceOnDestroy,omitempty" tf:"delete_service_on_destroy,omitempty"`
+
+	// Code and application artifacts that make up this version.
+	// Structure is documented below.
+	Deployment []DeploymentInitParameters `json:"deployment,omitempty" tf:"deployment,omitempty"`
+
+	// The entrypoint for the application.
+	// Structure is documented below.
+	Entrypoint []EntrypointInitParameters `json:"entrypoint,omitempty" tf:"entrypoint,omitempty"`
+
+	// Environment variables available to the application.
+	EnvVariables map[string]*string `json:"envVariables,omitempty" tf:"env_variables,omitempty"`
+
+	// An ordered list of URL-matching patterns that should be applied to incoming requests.
+	// The first matching URL handles the request and other request handlers are not attempted.
+	// Structure is documented below.
+	Handlers []HandlersInitParameters `json:"handlers,omitempty" tf:"handlers,omitempty"`
+
+	// A list of the types of messages that this application is able to receive.
+	// Each value may be one of: INBOUND_SERVICE_MAIL, INBOUND_SERVICE_MAIL_BOUNCE, INBOUND_SERVICE_XMPP_ERROR, INBOUND_SERVICE_XMPP_MESSAGE, INBOUND_SERVICE_XMPP_SUBSCRIBE, INBOUND_SERVICE_XMPP_PRESENCE, INBOUND_SERVICE_CHANNEL_PRESENCE, INBOUND_SERVICE_WARMUP.
+	InboundServices []*string `json:"inboundServices,omitempty" tf:"inbound_services,omitempty"`
+
+	// Instance class that is used to run this version. Valid values are
+	// AutomaticScaling: F1, F2, F4, F4_1G
+	// BasicScaling or ManualScaling: B1, B2, B4, B4_1G, B8
+	// Defaults to F1 for AutomaticScaling and B2 for ManualScaling and BasicScaling. If no scaling is specified, AutomaticScaling is chosen.
+	InstanceClass *string `json:"instanceClass,omitempty" tf:"instance_class,omitempty"`
+
+	// Configuration for third-party Python runtime libraries that are required by the application.
+	// Structure is documented below.
+	Libraries []LibrariesInitParameters `json:"libraries,omitempty" tf:"libraries,omitempty"`
+
+	// A service with manual scaling runs continuously, allowing you to perform complex initialization and rely on the state of its memory over time.
+	// Structure is documented below.
+	ManualScaling []ManualScalingInitParameters `json:"manualScaling,omitempty" tf:"manual_scaling,omitempty"`
+
+	// If set to true, the application version will not be deleted.
+	NoopOnDestroy *bool `json:"noopOnDestroy,omitempty" tf:"noop_on_destroy,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Desired runtime. Example python27.
+	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
+
+	// The version of the API in the given runtime environment.
+	// Please see the app.yaml reference for valid values at https://cloud.google.com/appengine/docs/standard/<language>/config/appref
+	// Substitute <language> with python, java, php, ruby, go or nodejs.
+	RuntimeAPIVersion *string `json:"runtimeApiVersion,omitempty" tf:"runtime_api_version,omitempty"`
+
+	// Whether multiple requests can be dispatched to this version at once.
+	Threadsafe *bool `json:"threadsafe,omitempty" tf:"threadsafe,omitempty"`
+
+	// Enables VPC connectivity for standard apps.
+	// Structure is documented below.
+	VPCAccessConnector []VPCAccessConnectorInitParameters `json:"vpcAccessConnector,omitempty" tf:"vpc_access_connector,omitempty"`
 }
 
 type StandardAppVersionObservation struct {
@@ -484,6 +677,21 @@ type StandardAppVersionParameters struct {
 	VPCAccessConnector []VPCAccessConnectorParameters `json:"vpcAccessConnector,omitempty" tf:"vpc_access_connector,omitempty"`
 }
 
+type StandardSchedulerSettingsInitParameters struct {
+
+	// Maximum number of instances to run for this version. Set to zero to disable maxInstances configuration.
+	MaxInstances *float64 `json:"maxInstances,omitempty" tf:"max_instances,omitempty"`
+
+	// Minimum number of instances to run for this version. Set to zero to disable minInstances configuration.
+	MinInstances *float64 `json:"minInstances,omitempty" tf:"min_instances,omitempty"`
+
+	// Target CPU utilization ratio to maintain when scaling. Should be a value in the range [0.50, 0.95], zero, or a negative value.
+	TargetCPUUtilization *float64 `json:"targetCpuUtilization,omitempty" tf:"target_cpu_utilization,omitempty"`
+
+	// Target throughput utilization ratio to maintain when scaling. Should be a value in the range [0.50, 0.95], zero, or a negative value.
+	TargetThroughputUtilization *float64 `json:"targetThroughputUtilization,omitempty" tf:"target_throughput_utilization,omitempty"`
+}
+
 type StandardSchedulerSettingsObservation struct {
 
 	// Maximum number of instances to run for this version. Set to zero to disable maxInstances configuration.
@@ -516,6 +724,35 @@ type StandardSchedulerSettingsParameters struct {
 	// Target throughput utilization ratio to maintain when scaling. Should be a value in the range [0.50, 0.95], zero, or a negative value.
 	// +kubebuilder:validation:Optional
 	TargetThroughputUtilization *float64 `json:"targetThroughputUtilization,omitempty" tf:"target_throughput_utilization,omitempty"`
+}
+
+type StaticFilesInitParameters struct {
+
+	// Whether files should also be uploaded as code data. By default, files declared in static file handlers are uploaded as
+	// static data and are only served to end users; they cannot be read by the application. If enabled, uploads are charged
+	// against both your code and static data storage resource quotas.
+	ApplicationReadable *bool `json:"applicationReadable,omitempty" tf:"application_readable,omitempty"`
+
+	// Time a static file served by this handler should be cached by web proxies and browsers.
+	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example "3.5s".
+	Expiration *string `json:"expiration,omitempty" tf:"expiration,omitempty"`
+
+	// HTTP headers to use for all responses from these URLs.
+	// An object containing a list of "key:value" value pairs.".
+	HTTPHeaders map[string]*string `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
+
+	// MIME type used to serve all files served by this handler.
+	// Defaults to file-specific MIME types, which are derived from each file's filename extension.
+	MimeType *string `json:"mimeType,omitempty" tf:"mime_type,omitempty"`
+
+	// Path to the static files matched by the URL pattern, from the application root directory. The path can refer to text matched in groupings in the URL pattern.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Whether this handler should match the request if the file referenced by the handler does not exist.
+	RequireMatchingFile *bool `json:"requireMatchingFile,omitempty" tf:"require_matching_file,omitempty"`
+
+	// Regular expression that matches the file paths for all files that should be referenced by this handler.
+	UploadPathRegex *string `json:"uploadPathRegex,omitempty" tf:"upload_path_regex,omitempty"`
 }
 
 type StaticFilesObservation struct {
@@ -583,6 +820,15 @@ type StaticFilesParameters struct {
 	UploadPathRegex *string `json:"uploadPathRegex,omitempty" tf:"upload_path_regex,omitempty"`
 }
 
+type VPCAccessConnectorInitParameters struct {
+
+	// The egress setting for the connector, controlling what traffic is diverted through it.
+	EgressSetting *string `json:"egressSetting,omitempty" tf:"egress_setting,omitempty"`
+
+	// Full Serverless VPC Access Connector name e.g. /projects/my-project/locations/us-central1/connectors/c1.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
 type VPCAccessConnectorObservation struct {
 
 	// The egress setting for the connector, controlling what traffic is diverted through it.
@@ -599,8 +845,17 @@ type VPCAccessConnectorParameters struct {
 	EgressSetting *string `json:"egressSetting,omitempty" tf:"egress_setting,omitempty"`
 
 	// Full Serverless VPC Access Connector name e.g. /projects/my-project/locations/us-central1/connectors/c1.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type ZipInitParameters struct {
+
+	// files count
+	FilesCount *float64 `json:"filesCount,omitempty" tf:"files_count,omitempty"`
+
+	// Source URL
+	SourceURL *string `json:"sourceUrl,omitempty" tf:"source_url,omitempty"`
 }
 
 type ZipObservation struct {
@@ -619,14 +874,26 @@ type ZipParameters struct {
 	FilesCount *float64 `json:"filesCount,omitempty" tf:"files_count,omitempty"`
 
 	// Source URL
-	// +kubebuilder:validation:Required
-	SourceURL *string `json:"sourceUrl" tf:"source_url,omitempty"`
+	// +kubebuilder:validation:Optional
+	SourceURL *string `json:"sourceUrl,omitempty" tf:"source_url,omitempty"`
 }
 
 // StandardAppVersionSpec defines the desired state of StandardAppVersion
 type StandardAppVersionSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     StandardAppVersionParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider StandardAppVersionInitParameters `json:"initProvider,omitempty"`
 }
 
 // StandardAppVersionStatus defines the observed state of StandardAppVersion.
@@ -647,9 +914,9 @@ type StandardAppVersionStatus struct {
 type StandardAppVersion struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.deployment)",message="deployment is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.entrypoint)",message="entrypoint is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.runtime)",message="runtime is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.deployment) || has(self.initProvider.deployment)",message="deployment is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.entrypoint) || has(self.initProvider.entrypoint)",message="entrypoint is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.runtime) || has(self.initProvider.runtime)",message="runtime is a required parameter"
 	Spec   StandardAppVersionSpec   `json:"spec"`
 	Status StandardAppVersionStatus `json:"status,omitempty"`
 }

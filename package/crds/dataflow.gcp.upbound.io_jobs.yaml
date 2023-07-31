@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: jobs.dataflow.gcp.upbound.io
 spec:
   group: dataflow.gcp.upbound.io
@@ -58,7 +57,7 @@ spec:
                 description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
                   or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicy field in a future release. Currently,
+                  in favor of the ManagementPolicies field in a future release. Currently,
                   both could be set independently and non-default values would be
                   honored if the feature flag is enabled. See the design doc for more
                   information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
@@ -160,21 +159,137 @@ spec:
                       it is not provided, the provider zone is used.
                     type: string
                 type: object
-              managementPolicy:
-                default: FullControl
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. InitProvider
+                  holds the same fields as ForProvider, with the exception of Identifier
+                  and other resource reference fields. The fields that are in InitProvider
+                  are merged into ForProvider when the resource is created. The same
+                  fields are also added to the terraform ignore_changes hook, to avoid
+                  updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after
+                  creation, for example because of an external controller is managing
+                  them, like an autoscaler.
+                properties:
+                  additionalExperiments:
+                    description: List of experiments that should be used by the job.
+                      An example value is ["enable_stackdriver_agent_metrics"].
+                    items:
+                      type: string
+                    type: array
+                  enableStreamingEngine:
+                    description: Enable/disable the use of Streaming Engine for the
+                      job. Note that Streaming Engine is enabled by default for pipelines
+                      developed against the Beam SDK for Python v2.21.0 or later when
+                      using Python 3.
+                    type: boolean
+                  ipConfiguration:
+                    description: The configuration for VM IPs.  Options are "WORKER_IP_PUBLIC"
+                      or "WORKER_IP_PRIVATE".
+                    type: string
+                  kmsKeyName:
+                    description: 'The name for the Cloud KMS key for the job. Key
+                      format is: projects/PROJECT_ID/locations/LOCATION/keyRings/KEY_RING/cryptoKeys/KEY'
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: 'User labels to be specified for the job. Keys and
+                      values should follow the restrictions specified in the labeling
+                      restrictions page. NOTE: Google-provided Dataflow templates
+                      often provide default labels that begin with goog-dataflow-provided.
+                      Unless explicitly set in config, these labels will be ignored
+                      to prevent diffs on re-apply.'
+                    type: object
+                  machineType:
+                    description: The machine type to use for the job.
+                    type: string
+                  maxWorkers:
+                    description: The number of workers permitted to work on the job.  More
+                      workers may improve processing speed at additional cost.
+                    type: number
+                  name:
+                    description: A unique name for the resource, required by Dataflow.
+                    type: string
+                  network:
+                    description: The network to which VMs will be assigned. If it
+                      is not provided, "default" will be used.
+                    type: string
+                  onDelete:
+                    description: One of "drain" or "cancel".  See above note.
+                    type: string
+                  parameters:
+                    additionalProperties:
+                      type: string
+                    description: Key/Value pairs to be passed to the Dataflow job
+                      (as used in the template).
+                    type: object
+                  project:
+                    description: The project in which the resource belongs. If it
+                      is not provided, the provider project is used.
+                    type: string
+                  region:
+                    description: The region in which the created job should run.
+                    type: string
+                  serviceAccountEmail:
+                    description: The Service Account email used to create the job.
+                    type: string
+                  skipWaitOnJobTermination:
+                    description: See above note.
+                    type: boolean
+                  subnetwork:
+                    description: The subnetwork to which VMs will be assigned. Should
+                      be of the form "regions/REGION/subnetworks/SUBNETWORK". If the
+                      subnetwork is located in a Shared VPC network, you must use
+                      the complete URL. For example "googleapis.com/compute/v1/projects/PROJECT_ID/regions/REGION/subnetworks/SUBNET_NAME"
+                    type: string
+                  tempGcsLocation:
+                    description: A writeable location on GCS for the Dataflow job
+                      to dump its temporary data.
+                    type: string
+                  templateGcsPath:
+                    description: The GCS path to the Dataflow job template.
+                    type: string
+                  transformNameMapping:
+                    additionalProperties:
+                      type: string
+                    description: Only applicable when updating a pipeline. Map of
+                      transform name prefixes of the job to be replaced with the corresponding
+                      name prefixes of the new job. This field is not used outside
+                      of update.
+                    type: object
+                  zone:
+                    description: The zone in which the created job should run. If
+                      it is not provided, the provider zone is used.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
                 description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
                   It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. ManagementPolicy
-                  specifies the level of control Crossplane has over the managed external
-                  resource. This field is planned to replace the DeletionPolicy field
-                  in a future release. Currently, both could be set independently
-                  and non-default values would be honored if the feature flag is enabled.
-                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
-                enum:
-                - FullControl
-                - ObserveOnly
-                - OrphanOnDelete
-                type: string
+                  enabled, and may be changed or removed without notice. ManagementPolicies
+                  specify the array of actions Crossplane is allowed to take on the
+                  managed and external resources. This field is planned to replace
+                  the DeletionPolicy field in a future release. Currently, both could
+                  be set independently and non-default values would be honored if
+                  the feature flag is enabled. If both are custom, the DeletionPolicy
+                  field will be ignored. See the design doc for more information:
+                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                items:
+                  description: A ManagementAction represents an action that the Crossplane
+                    controllers can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
               providerConfigRef:
                 default:
                   name: default
@@ -348,11 +463,17 @@ spec:
             type: object
             x-kubernetes-validations:
             - message: name is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || has(self.initProvider.name)'
             - message: tempGcsLocation is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.tempGcsLocation)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.tempGcsLocation)
+                || has(self.initProvider.tempGcsLocation)'
             - message: templateGcsPath is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.templateGcsPath)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.templateGcsPath)
+                || has(self.initProvider.templateGcsPath)'
           status:
             description: JobStatus defines the observed state of Job.
             properties:

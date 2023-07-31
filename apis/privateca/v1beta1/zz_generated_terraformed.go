@@ -81,6 +81,16 @@ func (tr *CAPool) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this CAPool
+func (tr *CAPool) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this CAPool using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *CAPool) LateInitialize(attrs []byte) (bool, error) {
@@ -153,6 +163,16 @@ func (tr *CAPoolIAMMember) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this CAPoolIAMMember
+func (tr *CAPoolIAMMember) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this CAPoolIAMMember using its observed tfState.
@@ -229,6 +249,16 @@ func (tr *Certificate) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this Certificate
+func (tr *Certificate) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this Certificate using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *Certificate) LateInitialize(attrs []byte) (bool, error) {
@@ -301,6 +331,16 @@ func (tr *CertificateAuthority) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this CertificateAuthority
+func (tr *CertificateAuthority) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this CertificateAuthority using its observed tfState.
@@ -377,6 +417,16 @@ func (tr *CertificateTemplate) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this CertificateTemplate
+func (tr *CertificateTemplate) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this CertificateTemplate using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *CertificateTemplate) LateInitialize(attrs []byte) (bool, error) {
@@ -449,6 +499,16 @@ func (tr *CertificateTemplateIAMMember) SetParameters(params map[string]any) err
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this CertificateTemplateIAMMember
+func (tr *CertificateTemplateIAMMember) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this CertificateTemplateIAMMember using its observed tfState.

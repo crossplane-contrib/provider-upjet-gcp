@@ -14,6 +14,3 @@ spec:
     - iam.roles.create
     - iam.roles.delete
     title: My Custom Role
-
----
-

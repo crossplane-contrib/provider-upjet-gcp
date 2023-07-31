@@ -43,6 +43,3 @@ spec:
   forProvider:
     description: Sample global network firewall policy
     project: my-project-name
-
----
-

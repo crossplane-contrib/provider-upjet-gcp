@@ -30,6 +30,3 @@ spec:
     location: us-central1
     project: my-project-name
     slotCapacity: 0
-
----
-

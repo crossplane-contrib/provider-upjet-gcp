@@ -25,6 +25,31 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type GarbageCollectionPolicyInitParameters struct {
+
+	// The name of the column family.
+	ColumnFamily *string `json:"columnFamily,omitempty" tf:"column_family,omitempty"`
+
+	// The deletion policy for the GC policy.
+	// Setting ABANDON allows the resource to be abandoned rather than deleted. This is useful for GC policy as it cannot be deleted in a replicated instance.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
+	// Serialized JSON object to represent a more complex GC policy. Conflicts with mode, max_age and max_version. Conflicts with mode, max_age and max_version.
+	GcRules *string `json:"gcRules,omitempty" tf:"gc_rules,omitempty"`
+
+	// GC policy that applies to all cells older than the given age.
+	MaxAge []MaxAgeInitParameters `json:"maxAge,omitempty" tf:"max_age,omitempty"`
+
+	// GC policy that applies to all versions of a cell except for the most recent.
+	MaxVersion []MaxVersionInitParameters `json:"maxVersion,omitempty" tf:"max_version,omitempty"`
+
+	// If multiple policies are set, you should choose between UNION OR INTERSECTION.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
 type GarbageCollectionPolicyObservation struct {
 
 	// The name of the column family.
@@ -116,6 +141,15 @@ type GarbageCollectionPolicyParameters struct {
 	TableSelector *v1.Selector `json:"tableSelector,omitempty" tf:"-"`
 }
 
+type MaxAgeInitParameters struct {
+
+	// Number of days before applying GC policy.
+	Days *float64 `json:"days,omitempty" tf:"days,omitempty"`
+
+	// Duration before applying GC policy (ex. "8h"). This is required when days isn't set
+	Duration *string `json:"duration,omitempty" tf:"duration,omitempty"`
+}
+
 type MaxAgeObservation struct {
 
 	// Number of days before applying GC policy.
@@ -136,6 +170,12 @@ type MaxAgeParameters struct {
 	Duration *string `json:"duration,omitempty" tf:"duration,omitempty"`
 }
 
+type MaxVersionInitParameters struct {
+
+	// Number of version before applying the GC policy.
+	Number *float64 `json:"number,omitempty" tf:"number,omitempty"`
+}
+
 type MaxVersionObservation struct {
 
 	// Number of version before applying the GC policy.
@@ -145,14 +185,26 @@ type MaxVersionObservation struct {
 type MaxVersionParameters struct {
 
 	// Number of version before applying the GC policy.
-	// +kubebuilder:validation:Required
-	Number *float64 `json:"number" tf:"number,omitempty"`
+	// +kubebuilder:validation:Optional
+	Number *float64 `json:"number,omitempty" tf:"number,omitempty"`
 }
 
 // GarbageCollectionPolicySpec defines the desired state of GarbageCollectionPolicy
 type GarbageCollectionPolicySpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     GarbageCollectionPolicyParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider GarbageCollectionPolicyInitParameters `json:"initProvider,omitempty"`
 }
 
 // GarbageCollectionPolicyStatus defines the observed state of GarbageCollectionPolicy.
@@ -173,7 +225,7 @@ type GarbageCollectionPolicyStatus struct {
 type GarbageCollectionPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.columnFamily)",message="columnFamily is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.columnFamily) || has(self.initProvider.columnFamily)",message="columnFamily is a required parameter"
 	Spec   GarbageCollectionPolicySpec   `json:"spec"`
 	Status GarbageCollectionPolicyStatus `json:"status,omitempty"`
 }

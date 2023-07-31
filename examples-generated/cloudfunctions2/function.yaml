@@ -58,6 +58,3 @@ spec:
         testing.upbound.io/example-name: example
     name: function-source.zip
     source: function-source.zip
-
----
-

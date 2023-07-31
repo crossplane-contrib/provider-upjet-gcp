@@ -94,6 +94,3 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     region: us-central1
-
----
-

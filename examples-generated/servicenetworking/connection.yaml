@@ -67,6 +67,3 @@ spec:
     peeringSelector:
       matchLabels:
         testing.upbound.io/example-name: default
-
----
-

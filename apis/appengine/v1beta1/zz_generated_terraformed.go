@@ -81,6 +81,16 @@ func (tr *Application) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this Application
+func (tr *Application) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this Application using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *Application) LateInitialize(attrs []byte) (bool, error) {
@@ -153,6 +163,16 @@ func (tr *ApplicationURLDispatchRules) SetParameters(params map[string]any) erro
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this ApplicationURLDispatchRules
+func (tr *ApplicationURLDispatchRules) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this ApplicationURLDispatchRules using its observed tfState.
@@ -229,6 +249,16 @@ func (tr *FirewallRule) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this FirewallRule
+func (tr *FirewallRule) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this FirewallRule using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *FirewallRule) LateInitialize(attrs []byte) (bool, error) {
@@ -303,6 +333,16 @@ func (tr *ServiceNetworkSettings) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this ServiceNetworkSettings
+func (tr *ServiceNetworkSettings) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this ServiceNetworkSettings using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *ServiceNetworkSettings) LateInitialize(attrs []byte) (bool, error) {
@@ -375,6 +415,16 @@ func (tr *StandardAppVersion) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this StandardAppVersion
+func (tr *StandardAppVersion) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this StandardAppVersion using its observed tfState.

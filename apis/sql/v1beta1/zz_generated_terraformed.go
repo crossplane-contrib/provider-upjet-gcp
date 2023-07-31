@@ -81,6 +81,16 @@ func (tr *Database) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this Database
+func (tr *Database) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this Database using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *Database) LateInitialize(attrs []byte) (bool, error) {
@@ -153,6 +163,16 @@ func (tr *DatabaseInstance) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this DatabaseInstance
+func (tr *DatabaseInstance) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this DatabaseInstance using its observed tfState.
@@ -230,6 +250,16 @@ func (tr *SourceRepresentationInstance) SetParameters(params map[string]any) err
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this SourceRepresentationInstance
+func (tr *SourceRepresentationInstance) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this SourceRepresentationInstance using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *SourceRepresentationInstance) LateInitialize(attrs []byte) (bool, error) {
@@ -304,6 +334,16 @@ func (tr *SSLCert) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this SSLCert
+func (tr *SSLCert) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this SSLCert using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *SSLCert) LateInitialize(attrs []byte) (bool, error) {
@@ -376,6 +416,16 @@ func (tr *User) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this User
+func (tr *User) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this User using its observed tfState.

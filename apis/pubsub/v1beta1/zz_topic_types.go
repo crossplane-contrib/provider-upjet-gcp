@@ -25,6 +25,17 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type MessageStoragePolicyInitParameters struct {
+
+	// A list of IDs of GCP regions where messages that are published to
+	// the topic may be persisted in storage. Messages published by
+	// publishers running in non-allowed GCP regions (or running outside
+	// of GCP altogether) will be routed for storage in one of the
+	// allowed regions. An empty list means that no regions are allowed,
+	// and is not a valid configuration.
+	AllowedPersistenceRegions []*string `json:"allowedPersistenceRegions,omitempty" tf:"allowed_persistence_regions,omitempty"`
+}
+
 type MessageStoragePolicyObservation struct {
 
 	// A list of IDs of GCP regions where messages that are published to
@@ -44,8 +55,22 @@ type MessageStoragePolicyParameters struct {
 	// of GCP altogether) will be routed for storage in one of the
 	// allowed regions. An empty list means that no regions are allowed,
 	// and is not a valid configuration.
-	// +kubebuilder:validation:Required
-	AllowedPersistenceRegions []*string `json:"allowedPersistenceRegions" tf:"allowed_persistence_regions,omitempty"`
+	// +kubebuilder:validation:Optional
+	AllowedPersistenceRegions []*string `json:"allowedPersistenceRegions,omitempty" tf:"allowed_persistence_regions,omitempty"`
+}
+
+type SchemaSettingsInitParameters struct {
+
+	// The encoding of messages validated against schema.
+	// Default value is ENCODING_UNSPECIFIED.
+	// Possible values are: ENCODING_UNSPECIFIED, JSON, BINARY.
+	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
+
+	// The name of the schema that messages published should be
+	// validated against. Format is projects/{project}/schemas/{schema}.
+	// The value of this field will be deleted-schema
+	// if the schema has been deleted.
+	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 }
 
 type SchemaSettingsObservation struct {
@@ -74,8 +99,37 @@ type SchemaSettingsParameters struct {
 	// validated against. Format is projects/{project}/schemas/{schema}.
 	// The value of this field will be deleted-schema
 	// if the schema has been deleted.
-	// +kubebuilder:validation:Required
-	Schema *string `json:"schema" tf:"schema,omitempty"`
+	// +kubebuilder:validation:Optional
+	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
+}
+
+type TopicInitParameters struct {
+
+	// A set of key/value label pairs to assign to this Topic.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Indicates the minimum duration to retain a message after it is published
+	// to the topic. If this field is set, messages published to the topic in
+	// the last messageRetentionDuration are always available to subscribers.
+	// For instance, it allows any attached subscription to seek to a timestamp
+	// that is up to messageRetentionDuration in the past. If this field is not
+	// set, message retention is controlled by settings on individual subscriptions.
+	// Cannot be more than 31 days or less than 10 minutes.
+	MessageRetentionDuration *string `json:"messageRetentionDuration,omitempty" tf:"message_retention_duration,omitempty"`
+
+	// Policy constraining the set of Google Cloud Platform regions where
+	// messages published to the topic may be stored. If not present, then no
+	// constraints are in effect.
+	// Structure is documented below.
+	MessageStoragePolicy []MessageStoragePolicyInitParameters `json:"messageStoragePolicy,omitempty" tf:"message_storage_policy,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Settings for validating messages published against a schema.
+	// Structure is documented below.
+	SchemaSettings []SchemaSettingsInitParameters `json:"schemaSettings,omitempty" tf:"schema_settings,omitempty"`
 }
 
 type TopicObservation struct {
@@ -173,6 +227,18 @@ type TopicParameters struct {
 type TopicSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     TopicParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider TopicInitParameters `json:"initProvider,omitempty"`
 }
 
 // TopicStatus defines the observed state of Topic.

@@ -18,6 +18,3 @@ spec:
     port: 3306
     region: us-central1
     username: some-user
-
----
-

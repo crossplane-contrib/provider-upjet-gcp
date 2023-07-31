@@ -115,6 +115,3 @@ metadata:
 spec:
   forProvider:
     location: US
-
----
-

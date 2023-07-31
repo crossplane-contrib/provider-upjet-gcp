@@ -25,6 +25,17 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type BasicServiceInitParameters struct {
+
+	// Labels that specify the resource that emits the monitoring data
+	// which is used for SLO reporting of this Service.
+	ServiceLabels map[string]*string `json:"serviceLabels,omitempty" tf:"service_labels,omitempty"`
+
+	// The type of service that this basic service defines, e.g.
+	// APP_ENGINE service type
+	ServiceType *string `json:"serviceType,omitempty" tf:"service_type,omitempty"`
+}
+
 type BasicServiceObservation struct {
 
 	// Labels that specify the resource that emits the monitoring data
@@ -47,6 +58,30 @@ type BasicServiceParameters struct {
 	// APP_ENGINE service type
 	// +kubebuilder:validation:Optional
 	ServiceType *string `json:"serviceType,omitempty" tf:"service_type,omitempty"`
+}
+
+type ServiceInitParameters struct {
+
+	// A well-known service type, defined by its service type and service labels.
+	// Valid values of service types and services labels are described at
+	// https://cloud.google.com/stackdriver/docs/solutions/slo-monitoring/api/api-structures#basic-svc-w-basic-sli
+	// Structure is documented below.
+	BasicService []BasicServiceInitParameters `json:"basicService,omitempty" tf:"basic_service,omitempty"`
+
+	// Name used for UI elements listing this Service.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Labels which have been used to annotate the service. Label keys must start
+	// with a letter. Label keys and values may contain lowercase letters,
+	// numbers, underscores, and dashes. Label keys and values have a maximum
+	// length of 63 characters, and must be less than 128 bytes in size. Up to 64
+	// label entries may be stored. For labels which do not have a semantic value,
+	// the empty string may be supplied for the label value.
+	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
 }
 
 type ServiceObservation struct {
@@ -112,6 +147,9 @@ type ServiceParameters struct {
 	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
 }
 
+type ServiceTelemetryInitParameters struct {
+}
+
 type ServiceTelemetryObservation struct {
 
 	// The full name of the resource that defines this service.
@@ -127,6 +165,18 @@ type ServiceTelemetryParameters struct {
 type ServiceSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ServiceParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ServiceInitParameters `json:"initProvider,omitempty"`
 }
 
 // ServiceStatus defines the observed state of Service.

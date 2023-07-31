@@ -34,6 +34,3 @@ spec:
       - policyUri: ${google_dataproc_autoscaling_policy.asp.name}
     name: dataproc-policy
     region: us-central1
-
----
-

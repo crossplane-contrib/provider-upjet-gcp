@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: instancefromtemplates.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -58,7 +57,7 @@ spec:
                 description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
                   or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicy field in a future release. Currently,
+                  in favor of the ManagementPolicies field in a future release. Currently,
                   both could be set independently and non-default values would be
                   honored if the feature flag is enabled. See the design doc for more
                   information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
@@ -159,8 +158,6 @@ spec:
                       properties:
                         enableConfidentialCompute:
                           type: boolean
-                      required:
-                      - enableConfidentialCompute
                       type: object
                     type: array
                   deletionProtection:
@@ -241,8 +238,6 @@ spec:
                                   by GCE. Changing this forces a new resource to be
                                   created.
                                 type: string
-                            required:
-                            - networkTier
                             type: object
                           type: array
                         network:
@@ -427,15 +422,10 @@ spec:
                                 items:
                                   type: string
                                 type: array
-                            required:
-                            - key
-                            - values
                             type: object
                           type: array
                         type:
                           type: string
-                      required:
-                      - type
                       type: object
                     type: array
                   resourcePolicies:
@@ -462,10 +452,6 @@ spec:
                                 items:
                                   type: string
                                 type: array
-                            required:
-                            - key
-                            - operator
-                            - values
                             type: object
                           type: array
                         onHostMaintenance:
@@ -594,21 +580,306 @@ spec:
                       not set, the provider zone is used.
                     type: string
                 type: object
-              managementPolicy:
-                default: FullControl
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. InitProvider
+                  holds the same fields as ForProvider, with the exception of Identifier
+                  and other resource reference fields. The fields that are in InitProvider
+                  are merged into ForProvider when the resource is created. The same
+                  fields are also added to the terraform ignore_changes hook, to avoid
+                  updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after
+                  creation, for example because of an external controller is managing
+                  them, like an autoscaler.
+                properties:
+                  advancedMachineFeatures:
+                    items:
+                      properties:
+                        enableNestedVirtualization:
+                          type: boolean
+                        threadsPerCore:
+                          type: number
+                        visibleCoreCount:
+                          type: number
+                      type: object
+                    type: array
+                  allowStoppingForUpdate:
+                    description: Default is 6 minutes.
+                    type: boolean
+                  attachedDisk:
+                    items:
+                      properties:
+                        deviceName:
+                          description: A unique name for the resource, required by
+                            GCE. Changing this forces a new resource to be created.
+                          type: string
+                        diskEncryptionKeyRaw:
+                          type: string
+                        diskEncryptionKeySha256:
+                          type: string
+                        kmsKeySelfLink:
+                          type: string
+                        mode:
+                          type: string
+                        source:
+                          type: string
+                      type: object
+                    type: array
+                  bootDisk:
+                    items:
+                      properties:
+                        autoDelete:
+                          description: Default is 6 minutes.
+                          type: boolean
+                        deviceName:
+                          description: A unique name for the resource, required by
+                            GCE. Changing this forces a new resource to be created.
+                          type: string
+                        initializeParams:
+                          items:
+                            properties:
+                              image:
+                                type: string
+                              labels:
+                                additionalProperties:
+                                  type: string
+                                type: object
+                              size:
+                                type: number
+                              type:
+                                type: string
+                            type: object
+                          type: array
+                        kmsKeySelfLink:
+                          type: string
+                        mode:
+                          type: string
+                        source:
+                          type: string
+                      type: object
+                    type: array
+                  canIpForward:
+                    type: boolean
+                  confidentialInstanceConfig:
+                    items:
+                      properties:
+                        enableConfidentialCompute:
+                          type: boolean
+                      type: object
+                    type: array
+                  deletionProtection:
+                    type: boolean
+                  description:
+                    type: string
+                  desiredStatus:
+                    type: string
+                  enableDisplay:
+                    type: boolean
+                  guestAccelerator:
+                    items:
+                      properties:
+                        count:
+                          type: number
+                        type:
+                          type: string
+                      type: object
+                    type: array
+                  hostname:
+                    description: A unique name for the resource, required by GCE.
+                      Changing this forces a new resource to be created.
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  machineType:
+                    type: string
+                  metadata:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  metadataStartupScript:
+                    type: string
+                  minCpuPlatform:
+                    type: string
+                  name:
+                    description: A unique name for the resource, required by GCE.
+                      Changing this forces a new resource to be created.
+                    type: string
+                  networkInterface:
+                    items:
+                      properties:
+                        accessConfig:
+                          items:
+                            properties:
+                              natIp:
+                                type: string
+                              networkTier:
+                                type: string
+                              publicPtrDomainName:
+                                description: A unique name for the resource, required
+                                  by GCE. Changing this forces a new resource to be
+                                  created.
+                                type: string
+                            type: object
+                          type: array
+                        aliasIpRange:
+                          items:
+                            properties:
+                              ipCidrRange:
+                                type: string
+                              subnetworkRangeName:
+                                description: A unique name for the resource, required
+                                  by GCE. Changing this forces a new resource to be
+                                  created.
+                                type: string
+                            type: object
+                          type: array
+                        ipv6AccessConfig:
+                          items:
+                            properties:
+                              networkTier:
+                                type: string
+                              publicPtrDomainName:
+                                description: A unique name for the resource, required
+                                  by GCE. Changing this forces a new resource to be
+                                  created.
+                                type: string
+                            type: object
+                          type: array
+                        networkIp:
+                          type: string
+                        nicType:
+                          type: string
+                        queueCount:
+                          type: number
+                        stackType:
+                          type: string
+                        subnetworkProject:
+                          type: string
+                      type: object
+                    type: array
+                  project:
+                    type: string
+                  reservationAffinity:
+                    items:
+                      properties:
+                        specificReservation:
+                          items:
+                            properties:
+                              key:
+                                type: string
+                              values:
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        type:
+                          type: string
+                      type: object
+                    type: array
+                  resourcePolicies:
+                    items:
+                      type: string
+                    type: array
+                  scheduling:
+                    items:
+                      properties:
+                        automaticRestart:
+                          type: boolean
+                        instanceTerminationAction:
+                          type: string
+                        minNodeCpus:
+                          type: number
+                        nodeAffinities:
+                          items:
+                            properties:
+                              key:
+                                type: string
+                              operator:
+                                type: string
+                              values:
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        onHostMaintenance:
+                          type: string
+                        preemptible:
+                          type: boolean
+                        provisioningModel:
+                          type: string
+                      type: object
+                    type: array
+                  scratchDisk:
+                    items:
+                      properties:
+                        interface:
+                          type: string
+                        size:
+                          type: number
+                      type: object
+                    type: array
+                  serviceAccount:
+                    items:
+                      properties:
+                        email:
+                          type: string
+                        scopes:
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
+                  shieldedInstanceConfig:
+                    items:
+                      properties:
+                        enableIntegrityMonitoring:
+                          type: boolean
+                        enableSecureBoot:
+                          type: boolean
+                        enableVtpm:
+                          type: boolean
+                      type: object
+                    type: array
+                  tags:
+                    items:
+                      type: string
+                    type: array
+                  zone:
+                    description: The zone that the machine should be created in. If
+                      not set, the provider zone is used.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
                 description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
                   It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. ManagementPolicy
-                  specifies the level of control Crossplane has over the managed external
-                  resource. This field is planned to replace the DeletionPolicy field
-                  in a future release. Currently, both could be set independently
-                  and non-default values would be honored if the feature flag is enabled.
-                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
-                enum:
-                - FullControl
-                - ObserveOnly
-                - OrphanOnDelete
-                type: string
+                  enabled, and may be changed or removed without notice. ManagementPolicies
+                  specify the array of actions Crossplane is allowed to take on the
+                  managed and external resources. This field is planned to replace
+                  the DeletionPolicy field in a future release. Currently, both could
+                  be set independently and non-default values would be honored if
+                  the feature flag is enabled. If both are custom, the DeletionPolicy
+                  field will be ignored. See the design doc for more information:
+                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                items:
+                  description: A ManagementAction represents an action that the Crossplane
+                    controllers can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
               providerConfigRef:
                 default:
                   name: default
@@ -782,7 +1053,9 @@ spec:
             type: object
             x-kubernetes-validations:
             - message: name is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || has(self.initProvider.name)'
           status:
             description: InstanceFromTemplateStatus defines the observed state of
               InstanceFromTemplate.

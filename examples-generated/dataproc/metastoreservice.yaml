@@ -16,6 +16,3 @@ spec:
       hourOfDay: 2
     port: 9080
     tier: DEVELOPER
-
----
-

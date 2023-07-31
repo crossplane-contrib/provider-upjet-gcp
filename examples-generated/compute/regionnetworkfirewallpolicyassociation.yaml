@@ -45,6 +45,3 @@ spec:
     description: Sample global network firewall policy
     project: my-project-name
     region: us-west1
-
----
-

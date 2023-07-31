@@ -25,6 +25,30 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type BuildConfigInitParameters struct {
+
+	// User managed repository created in Artifact Registry optionally with a customer managed encryption key.
+	DockerRepository *string `json:"dockerRepository,omitempty" tf:"docker_repository,omitempty"`
+
+	// The name of the function (as defined in source code) that will be executed.
+	// Defaults to the resource name suffix, if not specified. For backward
+	// compatibility, if function with given name is not found, then the system
+	// will try to use function named "function". For Node.js this is name of a
+	// function exported by the module specified in source_location.
+	EntryPoint *string `json:"entryPoint,omitempty" tf:"entry_point,omitempty"`
+
+	// User-provided build-time environment variables for the function.
+	EnvironmentVariables map[string]*string `json:"environmentVariables,omitempty" tf:"environment_variables,omitempty"`
+
+	// The runtime in which to run the function. Required when deploying a new
+	// function, optional when updating an existing function.
+	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
+
+	// The location of the function source code.
+	// Structure is documented below.
+	Source []SourceInitParameters `json:"source,omitempty" tf:"source,omitempty"`
+}
+
 type BuildConfigObservation struct {
 
 	// (Output)
@@ -100,6 +124,21 @@ type BuildConfigParameters struct {
 	WorkerPoolSelector *v1.Selector `json:"workerPoolSelector,omitempty" tf:"-"`
 }
 
+type EventFiltersInitParameters struct {
+
+	// 'Required. The name of a CloudEvents attribute.
+	// Currently, only a subset of attributes are supported for filtering. Use the gcloud eventarc providers describe command to learn more about events and their attributes.
+	// Do not filter for the 'type' attribute here, as this is already achieved by the resource's event_type attribute.
+	Attribute *string `json:"attribute,omitempty" tf:"attribute,omitempty"`
+
+	// Optional. The operator used for matching the events with the value of
+	// the filter. If not specified, only events that have an exact key-value
+	// pair specified in the filter are matched.
+	// The only allowed value is match-path-pattern.
+	// See documentation on path patterns here'
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+}
+
 type EventFiltersObservation struct {
 
 	// 'Required. The name of a CloudEvents attribute.
@@ -124,8 +163,8 @@ type EventFiltersParameters struct {
 	// 'Required. The name of a CloudEvents attribute.
 	// Currently, only a subset of attributes are supported for filtering. Use the gcloud eventarc providers describe command to learn more about events and their attributes.
 	// Do not filter for the 'type' attribute here, as this is already achieved by the resource's event_type attribute.
-	// +kubebuilder:validation:Required
-	Attribute *string `json:"attribute" tf:"attribute,omitempty"`
+	// +kubebuilder:validation:Optional
+	Attribute *string `json:"attribute,omitempty" tf:"attribute,omitempty"`
 
 	// Optional. The operator used for matching the events with the value of
 	// the filter. If not specified, only events that have an exact key-value
@@ -148,6 +187,27 @@ type EventFiltersParameters struct {
 	// Selector for a Bucket in storage to populate value.
 	// +kubebuilder:validation:Optional
 	ValueSelector *v1.Selector `json:"valueSelector,omitempty" tf:"-"`
+}
+
+type EventTriggerInitParameters struct {
+
+	// Criteria used to filter events.
+	// Structure is documented below.
+	EventFilters []EventFiltersInitParameters `json:"eventFilters,omitempty" tf:"event_filters,omitempty"`
+
+	// Required. The type of event to observe.
+	EventType *string `json:"eventType,omitempty" tf:"event_type,omitempty"`
+
+	// Describes the retry policy in case of function's execution failure.
+	// Retried execution is charged as any other execution.
+	// Possible values are: RETRY_POLICY_UNSPECIFIED, RETRY_POLICY_DO_NOT_RETRY, RETRY_POLICY_RETRY.
+	RetryPolicy *string `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
+
+	// The region that the trigger will be in. The trigger will only receive
+	// events originating in this region. It can be the same
+	// region as the function, a different region or multi-region, or the global
+	// region. If not provided, defaults to the same region as the function.
+	TriggerRegion *string `json:"triggerRegion,omitempty" tf:"trigger_region,omitempty"`
 }
 
 type EventTriggerObservation struct {
@@ -236,6 +296,33 @@ type EventTriggerParameters struct {
 	TriggerRegion *string `json:"triggerRegion,omitempty" tf:"trigger_region,omitempty"`
 }
 
+type FunctionInitParameters struct {
+
+	// Describes the Build step of the function that builds a container
+	// from the given source.
+	// Structure is documented below.
+	BuildConfig []BuildConfigInitParameters `json:"buildConfig,omitempty" tf:"build_config,omitempty"`
+
+	// User-provided description of a function.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// An Eventarc trigger managed by Google Cloud Functions that fires events in
+	// response to a condition in another service.
+	// Structure is documented below.
+	EventTrigger []EventTriggerInitParameters `json:"eventTrigger,omitempty" tf:"event_trigger,omitempty"`
+
+	// A set of key/value label pairs associated with this Cloud Function.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Describes the Service being deployed.
+	// Structure is documented below.
+	ServiceConfig []ServiceConfigInitParameters `json:"serviceConfig,omitempty" tf:"service_config,omitempty"`
+}
+
 type FunctionObservation struct {
 
 	// Describes the Build step of the function that builds a container
@@ -315,6 +402,31 @@ type FunctionParameters struct {
 	ServiceConfig []ServiceConfigParameters `json:"serviceConfig,omitempty" tf:"service_config,omitempty"`
 }
 
+type RepoSourceInitParameters struct {
+
+	// Regex matching branches to build.
+	BranchName *string `json:"branchName,omitempty" tf:"branch_name,omitempty"`
+
+	// Regex matching tags to build.
+	CommitSha *string `json:"commitSha,omitempty" tf:"commit_sha,omitempty"`
+
+	// Directory, relative to the source root, in which to run the build.
+	Dir *string `json:"dir,omitempty" tf:"dir,omitempty"`
+
+	// Only trigger a build if the revision regex does
+	// NOT match the revision regex.
+	InvertRegex *bool `json:"invertRegex,omitempty" tf:"invert_regex,omitempty"`
+
+	// Project identifier (preferrably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Name of the Cloud Source Repository.
+	RepoName *string `json:"repoName,omitempty" tf:"repo_name,omitempty"`
+
+	// Regex matching tags to build.
+	TagName *string `json:"tagName,omitempty" tf:"tag_name,omitempty"`
+}
+
 type RepoSourceObservation struct {
 
 	// Regex matching branches to build.
@@ -372,6 +484,18 @@ type RepoSourceParameters struct {
 	TagName *string `json:"tagName,omitempty" tf:"tag_name,omitempty"`
 }
 
+type SecretEnvironmentVariablesInitParameters struct {
+
+	// Name of the environment variable.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// Project identifier (preferrably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Version of the secret (version number or the string 'latest'). It is preferable to use latest version with secret volumes as secret value changes are reflected immediately.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
 type SecretEnvironmentVariablesObservation struct {
 
 	// Name of the environment variable.
@@ -390,12 +514,12 @@ type SecretEnvironmentVariablesObservation struct {
 type SecretEnvironmentVariablesParameters struct {
 
 	// Name of the environment variable.
-	// +kubebuilder:validation:Required
-	Key *string `json:"key" tf:"key,omitempty"`
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// Project identifier (preferrably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
-	// +kubebuilder:validation:Required
-	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Name of the secret in secret manager (not the full resource name).
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/secretmanager/v1beta1.Secret
@@ -411,8 +535,21 @@ type SecretEnvironmentVariablesParameters struct {
 	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
 
 	// Version of the secret (version number or the string 'latest'). It is preferable to use latest version with secret volumes as secret value changes are reflected immediately.
-	// +kubebuilder:validation:Required
-	Version *string `json:"version" tf:"version,omitempty"`
+	// +kubebuilder:validation:Optional
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type SecretVolumesInitParameters struct {
+
+	// The path within the container to mount the secret volume. For example, setting the mountPath as /etc/secrets would mount the secret value files under the /etc/secrets directory. This directory will also be completely shadowed and unavailable to mount any other secrets. Recommended mount path: /etc/secrets
+	MountPath *string `json:"mountPath,omitempty" tf:"mount_path,omitempty"`
+
+	// Project identifier (preferrably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// List of secret versions to mount for this secret. If empty, the latest version of the secret will be made available in a file named after the secret under the mount point.'
+	// Structure is documented below.
+	Versions []VersionsInitParameters `json:"versions,omitempty" tf:"versions,omitempty"`
 }
 
 type SecretVolumesObservation struct {
@@ -434,12 +571,12 @@ type SecretVolumesObservation struct {
 type SecretVolumesParameters struct {
 
 	// The path within the container to mount the secret volume. For example, setting the mountPath as /etc/secrets would mount the secret value files under the /etc/secrets directory. This directory will also be completely shadowed and unavailable to mount any other secrets. Recommended mount path: /etc/secrets
-	// +kubebuilder:validation:Required
-	MountPath *string `json:"mountPath" tf:"mount_path,omitempty"`
+	// +kubebuilder:validation:Optional
+	MountPath *string `json:"mountPath,omitempty" tf:"mount_path,omitempty"`
 
 	// Project identifier (preferrably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
-	// +kubebuilder:validation:Required
-	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Name of the secret in secret manager (not the full resource name).
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/secretmanager/v1beta1.Secret
@@ -458,6 +595,62 @@ type SecretVolumesParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Versions []VersionsParameters `json:"versions,omitempty" tf:"versions,omitempty"`
+}
+
+type ServiceConfigInitParameters struct {
+
+	// Whether 100% of traffic is routed to the latest revision. Defaults to true.
+	AllTrafficOnLatestRevision *bool `json:"allTrafficOnLatestRevision,omitempty" tf:"all_traffic_on_latest_revision,omitempty"`
+
+	// The number of CPUs used in a single container instance. Default value is calculated from available memory.
+	AvailableCPU *string `json:"availableCpu,omitempty" tf:"available_cpu,omitempty"`
+
+	// The amount of memory available for a function.
+	// Defaults to 256M. Supported units are k, M, G, Mi, Gi. If no unit is
+	// supplied the value is interpreted as bytes.
+	AvailableMemory *string `json:"availableMemory,omitempty" tf:"available_memory,omitempty"`
+
+	// Environment variables that shall be available during function execution.
+	EnvironmentVariables map[string]*string `json:"environmentVariables,omitempty" tf:"environment_variables,omitempty"`
+
+	// Available ingress settings. Defaults to "ALLOW_ALL" if unspecified.
+	// Default value is ALLOW_ALL.
+	// Possible values are: ALLOW_ALL, ALLOW_INTERNAL_ONLY, ALLOW_INTERNAL_AND_GCLB.
+	IngressSettings *string `json:"ingressSettings,omitempty" tf:"ingress_settings,omitempty"`
+
+	// The limit on the maximum number of function instances that may coexist at a
+	// given time.
+	MaxInstanceCount *float64 `json:"maxInstanceCount,omitempty" tf:"max_instance_count,omitempty"`
+
+	// Sets the maximum number of concurrent requests that each instance can receive. Defaults to 1.
+	MaxInstanceRequestConcurrency *float64 `json:"maxInstanceRequestConcurrency,omitempty" tf:"max_instance_request_concurrency,omitempty"`
+
+	// The limit on the minimum number of function instances that may coexist at a
+	// given time.
+	MinInstanceCount *float64 `json:"minInstanceCount,omitempty" tf:"min_instance_count,omitempty"`
+
+	// Secret environment variables configuration.
+	// Structure is documented below.
+	SecretEnvironmentVariables []SecretEnvironmentVariablesInitParameters `json:"secretEnvironmentVariables,omitempty" tf:"secret_environment_variables,omitempty"`
+
+	// Secret volumes configuration.
+	// Structure is documented below.
+	SecretVolumes []SecretVolumesInitParameters `json:"secretVolumes,omitempty" tf:"secret_volumes,omitempty"`
+
+	// Name of the service associated with a Function.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+
+	// The function execution timeout. Execution is considered failed and
+	// can be terminated if the function is not completed at the end of the
+	// timeout period. Defaults to 60 seconds.
+	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
+
+	// The Serverless VPC Access connector that this cloud function can connect to.
+	VPCConnector *string `json:"vpcConnector,omitempty" tf:"vpc_connector,omitempty"`
+
+	// Available egress settings.
+	// Possible values are: VPC_CONNECTOR_EGRESS_SETTINGS_UNSPECIFIED, PRIVATE_RANGES_ONLY, ALL_TRAFFIC.
+	VPCConnectorEgressSettings *string `json:"vpcConnectorEgressSettings,omitempty" tf:"vpc_connector_egress_settings,omitempty"`
 }
 
 type ServiceConfigObservation struct {
@@ -611,6 +804,17 @@ type ServiceConfigParameters struct {
 	VPCConnectorEgressSettings *string `json:"vpcConnectorEgressSettings,omitempty" tf:"vpc_connector_egress_settings,omitempty"`
 }
 
+type SourceInitParameters struct {
+
+	// If provided, get the source from this location in a Cloud Source Repository.
+	// Structure is documented below.
+	RepoSource []RepoSourceInitParameters `json:"repoSource,omitempty" tf:"repo_source,omitempty"`
+
+	// If provided, get the source from this location in Google Cloud Storage.
+	// Structure is documented below.
+	StorageSource []StorageSourceInitParameters `json:"storageSource,omitempty" tf:"storage_source,omitempty"`
+}
+
 type SourceObservation struct {
 
 	// If provided, get the source from this location in a Cloud Source Repository.
@@ -633,6 +837,13 @@ type SourceParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	StorageSource []StorageSourceParameters `json:"storageSource,omitempty" tf:"storage_source,omitempty"`
+}
+
+type StorageSourceInitParameters struct {
+
+	// Google Cloud Storage generation for the object. If the generation
+	// is omitted, the latest generation will be used.
+	Generation *float64 `json:"generation,omitempty" tf:"generation,omitempty"`
 }
 
 type StorageSourceObservation struct {
@@ -683,6 +894,15 @@ type StorageSourceParameters struct {
 	ObjectSelector *v1.Selector `json:"objectSelector,omitempty" tf:"-"`
 }
 
+type VersionsInitParameters struct {
+
+	// Relative path of the file under the mount path where the secret value for this version will be fetched and made available. For example, setting the mountPath as '/etc/secrets' and path as secret_foo would mount the secret value file at /etc/secrets/secret_foo.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Version of the secret (version number or the string 'latest'). It is preferable to use latest version with secret volumes as secret value changes are reflected immediately.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
 type VersionsObservation struct {
 
 	// Relative path of the file under the mount path where the secret value for this version will be fetched and made available. For example, setting the mountPath as '/etc/secrets' and path as secret_foo would mount the secret value file at /etc/secrets/secret_foo.
@@ -695,18 +915,30 @@ type VersionsObservation struct {
 type VersionsParameters struct {
 
 	// Relative path of the file under the mount path where the secret value for this version will be fetched and made available. For example, setting the mountPath as '/etc/secrets' and path as secret_foo would mount the secret value file at /etc/secrets/secret_foo.
-	// +kubebuilder:validation:Required
-	Path *string `json:"path" tf:"path,omitempty"`
+	// +kubebuilder:validation:Optional
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
 	// Version of the secret (version number or the string 'latest'). It is preferable to use latest version with secret volumes as secret value changes are reflected immediately.
-	// +kubebuilder:validation:Required
-	Version *string `json:"version" tf:"version,omitempty"`
+	// +kubebuilder:validation:Optional
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 // FunctionSpec defines the desired state of Function
 type FunctionSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     FunctionParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider FunctionInitParameters `json:"initProvider,omitempty"`
 }
 
 // FunctionStatus defines the observed state of Function.

@@ -81,6 +81,16 @@ func (tr *DomainMapping) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this DomainMapping
+func (tr *DomainMapping) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this DomainMapping using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *DomainMapping) LateInitialize(attrs []byte) (bool, error) {
@@ -153,6 +163,16 @@ func (tr *Service) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this Service
+func (tr *Service) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this Service using its observed tfState.
@@ -229,6 +249,16 @@ func (tr *ServiceIAMMember) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this ServiceIAMMember
+func (tr *ServiceIAMMember) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this ServiceIAMMember using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *ServiceIAMMember) LateInitialize(attrs []byte) (bool, error) {
@@ -303,6 +333,16 @@ func (tr *V2Job) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this V2Job
+func (tr *V2Job) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this V2Job using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *V2Job) LateInitialize(attrs []byte) (bool, error) {
@@ -375,6 +415,16 @@ func (tr *V2Service) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this V2Service
+func (tr *V2Service) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this V2Service using its observed tfState.

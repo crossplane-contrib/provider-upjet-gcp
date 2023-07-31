@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: queues.cloudtasks.gcp.upbound.io
 spec:
   group: cloudtasks.gcp.upbound.io
@@ -58,7 +57,7 @@ spec:
                 description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
                   or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicy field in a future release. Currently,
+                  in favor of the ManagementPolicies field in a future release. Currently,
                   both could be set independently and non-default values would be
                   honored if the feature flag is enabled. See the design doc for more
                   information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
@@ -243,28 +242,146 @@ spec:
                             between 0.0 and 1.0, inclusive. 0.0 is the default and
                             means that no operations are logged.
                           type: number
-                      required:
-                      - samplingRatio
                       type: object
                     type: array
                 required:
                 - location
                 type: object
-              managementPolicy:
-                default: FullControl
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. InitProvider
+                  holds the same fields as ForProvider, with the exception of Identifier
+                  and other resource reference fields. The fields that are in InitProvider
+                  are merged into ForProvider when the resource is created. The same
+                  fields are also added to the terraform ignore_changes hook, to avoid
+                  updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after
+                  creation, for example because of an external controller is managing
+                  them, like an autoscaler.
+                properties:
+                  appEngineRoutingOverride:
+                    description: Overrides for task-level appEngineRouting. These
+                      settings apply only to App Engine tasks in this queue Structure
+                      is documented below.
+                    items:
+                      properties:
+                        instance:
+                          description: App instance. By default, the task is sent
+                            to an instance which is available when the task is attempted.
+                          type: string
+                        service:
+                          description: App service. By default, the task is sent to
+                            the service which is the default service when the task
+                            is attempted.
+                          type: string
+                        version:
+                          description: App version. By default, the task is sent to
+                            the version which is the default version when the task
+                            is attempted.
+                          type: string
+                      type: object
+                    type: array
+                  rateLimits:
+                    description: 'Rate limits for task dispatches. The queue''s actual
+                      dispatch rate is the result of:'
+                    items:
+                      properties:
+                        maxConcurrentDispatches:
+                          description: The maximum number of concurrent tasks that
+                            Cloud Tasks allows to be dispatched for this queue. After
+                            this threshold has been reached, Cloud Tasks stops dispatching
+                            tasks until the number of concurrent requests decreases.
+                          type: number
+                        maxDispatchesPerSecond:
+                          description: The maximum rate at which tasks are dispatched
+                            from this queue. If unspecified when the queue is created,
+                            Cloud Tasks will pick the default.
+                          type: number
+                      type: object
+                    type: array
+                  retryConfig:
+                    description: Settings that determine the retry behavior. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        maxAttempts:
+                          description: Number of attempts per task. Cloud Tasks will
+                            attempt the task maxAttempts times (that is, if the first
+                            attempt fails, then there will be maxAttempts - 1 retries).
+                            Must be >= -1. If unspecified when the queue is created,
+                            Cloud Tasks will pick the default. -1 indicates unlimited
+                            attempts.
+                          type: number
+                        maxBackoff:
+                          description: A task will be scheduled for retry between
+                            minBackoff and maxBackoff duration after it fails, if
+                            the queue's RetryConfig specifies that the task should
+                            be retried.
+                          type: string
+                        maxDoublings:
+                          description: The time between retries will double maxDoublings
+                            times. A task's retry interval starts at minBackoff, then
+                            doubles maxDoublings times, then increases linearly, and
+                            finally retries retries at intervals of maxBackoff up
+                            to maxAttempts times.
+                          type: number
+                        maxRetryDuration:
+                          description: If positive, maxRetryDuration specifies the
+                            time limit for retrying a failed task, measured from when
+                            the task was first attempted. Once maxRetryDuration time
+                            has passed and the task has been attempted maxAttempts
+                            times, no further attempts will be made and the task will
+                            be deleted. If zero, then the task age is unlimited.
+                          type: string
+                        minBackoff:
+                          description: A task will be scheduled for retry between
+                            minBackoff and maxBackoff duration after it fails, if
+                            the queue's RetryConfig specifies that the task should
+                            be retried.
+                          type: string
+                      type: object
+                    type: array
+                  stackdriverLoggingConfig:
+                    description: Configuration options for writing logs to Stackdriver
+                      Logging. Structure is documented below.
+                    items:
+                      properties:
+                        samplingRatio:
+                          description: Specifies the fraction of operations to write
+                            to Stackdriver Logging. This field may contain any value
+                            between 0.0 and 1.0, inclusive. 0.0 is the default and
+                            means that no operations are logged.
+                          type: number
+                      type: object
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
                 description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
                   It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. ManagementPolicy
-                  specifies the level of control Crossplane has over the managed external
-                  resource. This field is planned to replace the DeletionPolicy field
-                  in a future release. Currently, both could be set independently
-                  and non-default values would be honored if the feature flag is enabled.
-                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
-                enum:
-                - FullControl
-                - ObserveOnly
-                - OrphanOnDelete
-                type: string
+                  enabled, and may be changed or removed without notice. ManagementPolicies
+                  specify the array of actions Crossplane is allowed to take on the
+                  managed and external resources. This field is planned to replace
+                  the DeletionPolicy field in a future release. Currently, both could
+                  be set independently and non-default values would be honored if
+                  the feature flag is enabled. If both are custom, the DeletionPolicy
+                  field will be ignored. See the design doc for more information:
+                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                items:
+                  description: A ManagementAction represents an action that the Crossplane
+                    controllers can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
               providerConfigRef:
                 default:
                   name: default

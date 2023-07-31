@@ -16,6 +16,3 @@ spec:
     - iam.roles.delete
     roleId: myCustomRole
     title: My Custom Role
-
----
-
