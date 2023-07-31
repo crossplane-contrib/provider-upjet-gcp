@@ -168,6 +168,7 @@ import (
 	router "github.com/upbound/provider-gcp/internal/controller/compute/router"
 	routerinterface "github.com/upbound/provider-gcp/internal/controller/compute/routerinterface"
 	routernat "github.com/upbound/provider-gcp/internal/controller/compute/routernat"
+	routerpeer "github.com/upbound/provider-gcp/internal/controller/compute/routerpeer"
 	securitypolicy "github.com/upbound/provider-gcp/internal/controller/compute/securitypolicy"
 	serviceattachment "github.com/upbound/provider-gcp/internal/controller/compute/serviceattachment"
 	sharedvpchostproject "github.com/upbound/provider-gcp/internal/controller/compute/sharedvpchostproject"
@@ -510,6 +511,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		router.Setup,
 		routerinterface.Setup,
 		routernat.Setup,
+		routerpeer.Setup,
 		securitypolicy.Setup,
 		serviceattachment.Setup,
 		sharedvpchostproject.Setup,

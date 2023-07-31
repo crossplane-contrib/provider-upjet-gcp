@@ -111,6 +111,60 @@ spec:
 ---
 
 apiVersion: compute.gcp.upbound.io/v1beta1
+kind: RouterPeer
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/externalvpngateway
+  labels:
+    testing.upbound.io/example-name: router1_peer1
+  name: router1-peer1
+spec:
+  forProvider:
+    advertisedRoutePriority: 100
+    interfaceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: router1_interface1
+    peerAsn: 64515
+    peerIpAddressSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    regionSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    routerSelector:
+      matchLabels:
+        testing.upbound.io/example-name: router1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: RouterPeer
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/externalvpngateway
+  labels:
+    testing.upbound.io/example-name: router1_peer2
+  name: router1-peer2
+spec:
+  forProvider:
+    advertisedRoutePriority: 100
+    interfaceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: router1_interface2
+    peerAsn: 64515
+    peerIpAddressSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    regionSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    routerSelector:
+      matchLabels:
+        testing.upbound.io/example-name: router1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Subnetwork
 metadata:
   annotations:
