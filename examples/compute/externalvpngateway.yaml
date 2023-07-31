@@ -130,31 +130,6 @@ spec:
 ---
 
 apiVersion: compute.gcp.upbound.io/v1beta1
-kind: RouterPeer
-metadata:
-  annotations:
-    meta.upbound.io/example-id: compute/v1beta1/externalvpngateway
-  labels:
-    testing.upbound.io/example-name: router1_peer2
-  name: router1-peer2
-spec:
-  forProvider:
-    advertisedRoutePriority: 100
-    interfaceSelector:
-      matchLabels:
-        testing.upbound.io/example-name: external-vpn-gateway-2
-    peerAsn: 64515
-    peerIpAddress: 169.254.1.2
-    regionSelector:
-      matchLabels:
-        testing.upbound.io/example-name: external-vpn-gateway
-    routerSelector:
-      matchLabels:
-        testing.upbound.io/example-name: external-vpn-gateway
-
----
-
-apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Subnetwork
 metadata:
   annotations:
