@@ -13,6 +13,3 @@ spec:
     - template:
       - containers:
         - image: us-docker.pkg.dev/cloudrun/container/hello
-
----
-

@@ -81,6 +81,16 @@ func (tr *DeidentifyTemplate) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this DeidentifyTemplate
+func (tr *DeidentifyTemplate) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this DeidentifyTemplate using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *DeidentifyTemplate) LateInitialize(attrs []byte) (bool, error) {
@@ -153,6 +163,16 @@ func (tr *InspectTemplate) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this InspectTemplate
+func (tr *InspectTemplate) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this InspectTemplate using its observed tfState.
@@ -229,6 +249,16 @@ func (tr *JobTrigger) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this JobTrigger
+func (tr *JobTrigger) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this JobTrigger using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *JobTrigger) LateInitialize(attrs []byte) (bool, error) {
@@ -301,6 +331,16 @@ func (tr *StoredInfoType) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this StoredInfoType
+func (tr *StoredInfoType) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this StoredInfoType using its observed tfState.

@@ -10,6 +10,3 @@ spec:
   forProvider:
     location: EU
     project: my-project
-
----
-

@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: buckets.storage.gcp.upbound.io
 spec:
   group: storage.gcp.upbound.io
@@ -58,7 +57,7 @@ spec:
                 description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
                   or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicy field in a future release. Currently,
+                  in favor of the ManagementPolicies field in a future release. Currently,
                   both could be set independently and non-default values would be
                   honored if the feature flag is enabled. See the design doc for more
                   information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
@@ -78,8 +77,6 @@ spec:
                             transitions objects in your bucket to appropriate storage
                             classes based on each object's access pattern.
                           type: boolean
-                      required:
-                      - enabled
                       type: object
                     type: array
                   cors:
@@ -131,8 +128,6 @@ spec:
                           items:
                             type: string
                           type: array
-                      required:
-                      - dataLocations
                       type: object
                     type: array
                   defaultEventBasedHold:
@@ -151,8 +146,6 @@ spec:
                             the crypto key is available in the location that this
                             bucket is created in. See the docs for more details.'
                           type: string
-                      required:
-                      - defaultKmsKeyName
                       type: object
                     type: array
                   forceDestroy:
@@ -185,8 +178,6 @@ spec:
                                   Rule. Supported values include: Delete, SetStorageClass
                                   and AbortIncompleteMultipartUpload.'
                                 type: string
-                            required:
-                            - type
                             type: object
                           type: array
                         condition:
@@ -258,9 +249,6 @@ spec:
                                 type: string
                             type: object
                           type: array
-                      required:
-                      - action
-                      - condition
                       type: object
                     type: array
                   location:
@@ -279,8 +267,6 @@ spec:
                             not provided, by default GCS sets this to this bucket's
                             name.
                           type: string
-                      required:
-                      - logBucket
                       type: object
                     type: array
                   project:
@@ -315,8 +301,6 @@ spec:
                             overwritten, or archived. The value must be less than
                             2,147,483,647 seconds.
                           type: number
-                      required:
-                      - retentionPeriod
                       type: object
                     type: array
                   storageClass:
@@ -336,8 +320,6 @@ spec:
                           description: While set to true, versioning is fully enabled
                             for this bucket.
                           type: boolean
-                      required:
-                      - enabled
                       type: object
                     type: array
                   website:
@@ -356,21 +338,316 @@ spec:
                       type: object
                     type: array
                 type: object
-              managementPolicy:
-                default: FullControl
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. InitProvider
+                  holds the same fields as ForProvider, with the exception of Identifier
+                  and other resource reference fields. The fields that are in InitProvider
+                  are merged into ForProvider when the resource is created. The same
+                  fields are also added to the terraform ignore_changes hook, to avoid
+                  updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after
+                  creation, for example because of an external controller is managing
+                  them, like an autoscaler.
+                properties:
+                  autoclass:
+                    description: The bucket's Autoclass configuration.  Structure
+                      is documented below.
+                    items:
+                      properties:
+                        enabled:
+                          description: While set to true, autoclass automatically
+                            transitions objects in your bucket to appropriate storage
+                            classes based on each object's access pattern.
+                          type: boolean
+                      type: object
+                    type: array
+                  cors:
+                    description: The bucket's Cross-Origin Resource Sharing (CORS)
+                      configuration. Multiple blocks of this type are permitted. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        maxAgeSeconds:
+                          description: The value, in seconds, to return in the Access-Control-Max-Age
+                            header used in preflight responses.
+                          type: number
+                        method:
+                          description: 'The list of HTTP methods on which to include
+                            CORS response headers, (GET, OPTIONS, POST, etc) Note:
+                            "*" is permitted in the list of methods, and means "any
+                            method".'
+                          items:
+                            type: string
+                          type: array
+                        origin:
+                          description: 'The list of Origins eligible to receive CORS
+                            response headers. Note: "*" is permitted in the list of
+                            origins, and means "any Origin".'
+                          items:
+                            type: string
+                          type: array
+                        responseHeader:
+                          description: The list of HTTP headers other than the simple
+                            response headers to give permission for the user-agent
+                            to share across domains.
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
+                  customPlacementConfig:
+                    description: The bucket's custom location configuration, which
+                      specifies the individual regions that comprise a dual-region
+                      bucket. If the bucket is designated a single or multi-region,
+                      the parameters are empty. Structure is documented below.
+                    items:
+                      properties:
+                        dataLocations:
+                          description: 'The list of individual regions that comprise
+                            a dual-region bucket. See Cloud Storage bucket locations
+                            for a list of acceptable regions. Note: If any of the
+                            data_locations changes, it will recreate the bucket.'
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
+                  defaultEventBasedHold:
+                    description: Whether or not to automatically apply an eventBasedHold
+                      to new objects added to the bucket.
+                    type: boolean
+                  encryption:
+                    description: The bucket's encryption configuration. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        defaultKmsKeyName:
+                          description: ': The id of a Cloud KMS key that will be used
+                            to encrypt objects inserted into this bucket, if no encryption
+                            method is specified. You must pay attention to whether
+                            the crypto key is available in the location that this
+                            bucket is created in. See the docs for more details.'
+                          type: string
+                      type: object
+                    type: array
+                  forceDestroy:
+                    description: When deleting a bucket, this boolean option will
+                      delete all contained objects.
+                    type: boolean
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: A map of key/value label pairs to assign to the bucket.
+                    type: object
+                  lifecycleRule:
+                    description: The bucket's Lifecycle Rules configuration. Multiple
+                      blocks of this type are permitted. Structure is documented below.
+                    items:
+                      properties:
+                        action:
+                          description: The Lifecycle Rule's action configuration.
+                            A single block of this type is supported. Structure is
+                            documented below.
+                          items:
+                            properties:
+                              storageClass:
+                                description: 'The Storage Class of the new bucket.
+                                  Supported values include: STANDARD, MULTI_REGIONAL,
+                                  REGIONAL, NEARLINE, COLDLINE, ARCHIVE.'
+                                type: string
+                              type:
+                                description: 'The type of the action of this Lifecycle
+                                  Rule. Supported values include: Delete, SetStorageClass
+                                  and AbortIncompleteMultipartUpload.'
+                                type: string
+                            type: object
+                          type: array
+                        condition:
+                          description: The Lifecycle Rule's condition configuration.
+                            A single block of this type is supported. Structure is
+                            documented below.
+                          items:
+                            properties:
+                              age:
+                                description: Minimum age of an object in days to satisfy
+                                  this condition.
+                                type: number
+                              createdBefore:
+                                description: A date in the RFC 3339 format YYYY-MM-DD.
+                                  This condition is satisfied when an object is created
+                                  before midnight of the specified date in UTC.
+                                type: string
+                              customTimeBefore:
+                                description: A date in the RFC 3339 format YYYY-MM-DD.
+                                  This condition is satisfied when the customTime
+                                  metadata for the object is set to an earlier date
+                                  than the date used in this lifecycle condition.
+                                type: string
+                              daysSinceCustomTime:
+                                description: Days since the date set in the customTime
+                                  metadata for the object. This condition is satisfied
+                                  when the current date and time is at least the specified
+                                  number of days after the customTime.
+                                type: number
+                              daysSinceNoncurrentTime:
+                                description: Relevant only for versioned objects.
+                                  Number of days elapsed since the noncurrent timestamp
+                                  of an object.
+                                type: number
+                              matchesPrefix:
+                                description: One or more matching name prefixes to
+                                  satisfy this condition.
+                                items:
+                                  type: string
+                                type: array
+                              matchesStorageClass:
+                                description: 'Storage Class of objects to satisfy
+                                  this condition. Supported values include: STANDARD,
+                                  MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE,
+                                  DURABLE_REDUCED_AVAILABILITY.'
+                                items:
+                                  type: string
+                                type: array
+                              matchesSuffix:
+                                description: One or more matching name suffixes to
+                                  satisfy this condition.
+                                items:
+                                  type: string
+                                type: array
+                              noncurrentTimeBefore:
+                                description: Relevant only for versioned objects.
+                                  The date in RFC 3339 (e.g. 2017-06-13) when the
+                                  object became nonconcurrent.
+                                type: string
+                              numNewerVersions:
+                                description: Relevant only for versioned objects.
+                                  The number of newer versions of an object to satisfy
+                                  this condition.
+                                type: number
+                              withState:
+                                description: 'Match to live and/or archived objects.
+                                  Unversioned buckets have only live objects. Supported
+                                  values include: "LIVE", "ARCHIVED", "ANY".'
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  location:
+                    description: The GCS location.
+                    type: string
+                  logging:
+                    description: The bucket's Access & Storage Logs configuration.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        logBucket:
+                          description: The bucket that will receive log objects.
+                          type: string
+                        logObjectPrefix:
+                          description: The object prefix for log objects. If it's
+                            not provided, by default GCS sets this to this bucket's
+                            name.
+                          type: string
+                      type: object
+                    type: array
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  publicAccessPrevention:
+                    description: Prevents public access to a bucket. Acceptable values
+                      are "inherited" or "enforced". If "inherited", the bucket uses
+                      public access prevention. only if the bucket is subject to the
+                      public access prevention organization policy constraint. Defaults
+                      to "inherited".
+                    type: string
+                  requesterPays:
+                    description: Enables Requester Pays on a storage bucket.
+                    type: boolean
+                  retentionPolicy:
+                    description: Configuration of the bucket's data retention policy
+                      for how long objects in the bucket should be retained. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        isLocked:
+                          description: 'If set to true, the bucket will be locked
+                            and permanently restrict edits to the bucket''s retention
+                            policy.  Caution: Locking a bucket is an irreversible
+                            action.'
+                          type: boolean
+                        retentionPeriod:
+                          description: The period of time, in seconds, that objects
+                            in the bucket must be retained and cannot be deleted,
+                            overwritten, or archived. The value must be less than
+                            2,147,483,647 seconds.
+                          type: number
+                      type: object
+                    type: array
+                  storageClass:
+                    description: 'The Storage Class of the new bucket. Supported values
+                      include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE,
+                      ARCHIVE.'
+                    type: string
+                  uniformBucketLevelAccess:
+                    description: Enables Uniform bucket-level access access to a bucket.
+                    type: boolean
+                  versioning:
+                    description: The bucket's Versioning configuration.  Structure
+                      is documented below.
+                    items:
+                      properties:
+                        enabled:
+                          description: While set to true, versioning is fully enabled
+                            for this bucket.
+                          type: boolean
+                      type: object
+                    type: array
+                  website:
+                    description: Configuration if the bucket acts as a website. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        mainPageSuffix:
+                          description: Behaves as the bucket's directory index where
+                            missing objects are treated as potential directories.
+                          type: string
+                        notFoundPage:
+                          description: The custom object to return when a requested
+                            resource is not found.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
                 description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
                   It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. ManagementPolicy
-                  specifies the level of control Crossplane has over the managed external
-                  resource. This field is planned to replace the DeletionPolicy field
-                  in a future release. Currently, both could be set independently
-                  and non-default values would be honored if the feature flag is enabled.
-                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
-                enum:
-                - FullControl
-                - ObserveOnly
-                - OrphanOnDelete
-                type: string
+                  enabled, and may be changed or removed without notice. ManagementPolicies
+                  specify the array of actions Crossplane is allowed to take on the
+                  managed and external resources. This field is planned to replace
+                  the DeletionPolicy field in a future release. Currently, both could
+                  be set independently and non-default values would be honored if
+                  the feature flag is enabled. If both are custom, the DeletionPolicy
+                  field will be ignored. See the design doc for more information:
+                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                items:
+                  description: A ManagementAction represents an action that the Crossplane
+                    controllers can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
               providerConfigRef:
                 default:
                   name: default
@@ -544,7 +821,9 @@ spec:
             type: object
             x-kubernetes-validations:
             - message: location is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.location)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.location)
+                || has(self.initProvider.location)'
           status:
             description: BucketStatus defines the observed state of Bucket.
             properties:

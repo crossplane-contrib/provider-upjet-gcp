@@ -64,6 +64,3 @@ spec:
     reservedPeeringRangesRefs:
     - name: service_range
     service: servicenetworking.googleapis.com
-
----
-

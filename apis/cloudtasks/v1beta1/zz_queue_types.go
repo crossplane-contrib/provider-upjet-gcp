@@ -25,6 +25,21 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AppEngineRoutingOverrideInitParameters struct {
+
+	// App instance.
+	// By default, the task is sent to an instance which is available when the task is attempted.
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
+	// App service.
+	// By default, the task is sent to the service which is the default service when the task is attempted.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+
+	// App version.
+	// By default, the task is sent to the version which is the default version when the task is attempted.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
 type AppEngineRoutingOverrideObservation struct {
 
 	// (Output)
@@ -60,6 +75,26 @@ type AppEngineRoutingOverrideParameters struct {
 	// By default, the task is sent to the version which is the default version when the task is attempted.
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type QueueInitParameters struct {
+
+	// Overrides for task-level appEngineRouting. These settings apply only
+	// to App Engine tasks in this queue
+	// Structure is documented below.
+	AppEngineRoutingOverride []AppEngineRoutingOverrideInitParameters `json:"appEngineRoutingOverride,omitempty" tf:"app_engine_routing_override,omitempty"`
+
+	// Rate limits for task dispatches.
+	// The queue's actual dispatch rate is the result of:
+	RateLimits []RateLimitsInitParameters `json:"rateLimits,omitempty" tf:"rate_limits,omitempty"`
+
+	// Settings that determine the retry behavior.
+	// Structure is documented below.
+	RetryConfig []RetryConfigInitParameters `json:"retryConfig,omitempty" tf:"retry_config,omitempty"`
+
+	// Configuration options for writing logs to Stackdriver Logging.
+	// Structure is documented below.
+	StackdriverLoggingConfig []StackdriverLoggingConfigInitParameters `json:"stackdriverLoggingConfig,omitempty" tf:"stackdriver_logging_config,omitempty"`
 }
 
 type QueueObservation struct {
@@ -134,6 +169,19 @@ type QueueParameters struct {
 	StackdriverLoggingConfig []StackdriverLoggingConfigParameters `json:"stackdriverLoggingConfig,omitempty" tf:"stackdriver_logging_config,omitempty"`
 }
 
+type RateLimitsInitParameters struct {
+
+	// The maximum number of concurrent tasks that Cloud Tasks allows to
+	// be dispatched for this queue. After this threshold has been
+	// reached, Cloud Tasks stops dispatching tasks until the number of
+	// concurrent requests decreases.
+	MaxConcurrentDispatches *float64 `json:"maxConcurrentDispatches,omitempty" tf:"max_concurrent_dispatches,omitempty"`
+
+	// The maximum rate at which tasks are dispatched from this queue.
+	// If unspecified when the queue is created, Cloud Tasks will pick the default.
+	MaxDispatchesPerSecond *float64 `json:"maxDispatchesPerSecond,omitempty" tf:"max_dispatches_per_second,omitempty"`
+}
+
 type RateLimitsObservation struct {
 
 	// (Output)
@@ -168,6 +216,42 @@ type RateLimitsParameters struct {
 	// If unspecified when the queue is created, Cloud Tasks will pick the default.
 	// +kubebuilder:validation:Optional
 	MaxDispatchesPerSecond *float64 `json:"maxDispatchesPerSecond,omitempty" tf:"max_dispatches_per_second,omitempty"`
+}
+
+type RetryConfigInitParameters struct {
+
+	// Number of attempts per task.
+	// Cloud Tasks will attempt the task maxAttempts times (that is, if
+	// the first attempt fails, then there will be maxAttempts - 1
+	// retries). Must be >= -1.
+	// If unspecified when the queue is created, Cloud Tasks will pick
+	// the default.
+	// -1 indicates unlimited attempts.
+	MaxAttempts *float64 `json:"maxAttempts,omitempty" tf:"max_attempts,omitempty"`
+
+	// A task will be scheduled for retry between minBackoff and
+	// maxBackoff duration after it fails, if the queue's RetryConfig
+	// specifies that the task should be retried.
+	MaxBackoff *string `json:"maxBackoff,omitempty" tf:"max_backoff,omitempty"`
+
+	// The time between retries will double maxDoublings times.
+	// A task's retry interval starts at minBackoff, then doubles maxDoublings times,
+	// then increases linearly, and finally retries retries at intervals of maxBackoff
+	// up to maxAttempts times.
+	MaxDoublings *float64 `json:"maxDoublings,omitempty" tf:"max_doublings,omitempty"`
+
+	// If positive, maxRetryDuration specifies the time limit for
+	// retrying a failed task, measured from when the task was first
+	// attempted. Once maxRetryDuration time has passed and the task has
+	// been attempted maxAttempts times, no further attempts will be
+	// made and the task will be deleted.
+	// If zero, then the task age is unlimited.
+	MaxRetryDuration *string `json:"maxRetryDuration,omitempty" tf:"max_retry_duration,omitempty"`
+
+	// A task will be scheduled for retry between minBackoff and
+	// maxBackoff duration after it fails, if the queue's RetryConfig
+	// specifies that the task should be retried.
+	MinBackoff *string `json:"minBackoff,omitempty" tf:"min_backoff,omitempty"`
 }
 
 type RetryConfigObservation struct {
@@ -247,6 +331,14 @@ type RetryConfigParameters struct {
 	MinBackoff *string `json:"minBackoff,omitempty" tf:"min_backoff,omitempty"`
 }
 
+type StackdriverLoggingConfigInitParameters struct {
+
+	// Specifies the fraction of operations to write to Stackdriver Logging.
+	// This field may contain any value between 0.0 and 1.0, inclusive. 0.0 is the
+	// default and means that no operations are logged.
+	SamplingRatio *float64 `json:"samplingRatio,omitempty" tf:"sampling_ratio,omitempty"`
+}
+
 type StackdriverLoggingConfigObservation struct {
 
 	// Specifies the fraction of operations to write to Stackdriver Logging.
@@ -260,14 +352,26 @@ type StackdriverLoggingConfigParameters struct {
 	// Specifies the fraction of operations to write to Stackdriver Logging.
 	// This field may contain any value between 0.0 and 1.0, inclusive. 0.0 is the
 	// default and means that no operations are logged.
-	// +kubebuilder:validation:Required
-	SamplingRatio *float64 `json:"samplingRatio" tf:"sampling_ratio,omitempty"`
+	// +kubebuilder:validation:Optional
+	SamplingRatio *float64 `json:"samplingRatio,omitempty" tf:"sampling_ratio,omitempty"`
 }
 
 // QueueSpec defines the desired state of Queue
 type QueueSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     QueueParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider QueueInitParameters `json:"initProvider,omitempty"`
 }
 
 // QueueStatus defines the observed state of Queue.

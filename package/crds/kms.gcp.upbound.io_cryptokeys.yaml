@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: cryptokeys.kms.gcp.upbound.io
 spec:
   group: kms.gcp.upbound.io
@@ -57,7 +56,7 @@ spec:
                 description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
                   or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicy field in a future release. Currently,
+                  in favor of the ManagementPolicies field in a future release. Currently,
                   both could be set independently and non-default values would be
                   honored if the feature flag is enabled. See the design doc for more
                   information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
@@ -193,26 +192,101 @@ spec:
                             "SOFTWARE", "HSM", "EXTERNAL", "EXTERNAL_VPC". Defaults
                             to "SOFTWARE".
                           type: string
-                      required:
-                      - algorithm
                       type: object
                     type: array
                 type: object
-              managementPolicy:
-                default: FullControl
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. InitProvider
+                  holds the same fields as ForProvider, with the exception of Identifier
+                  and other resource reference fields. The fields that are in InitProvider
+                  are merged into ForProvider when the resource is created. The same
+                  fields are also added to the terraform ignore_changes hook, to avoid
+                  updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after
+                  creation, for example because of an external controller is managing
+                  them, like an autoscaler.
+                properties:
+                  destroyScheduledDuration:
+                    description: The period of time that versions of this key spend
+                      in the DESTROY_SCHEDULED state before transitioning to DESTROYED.
+                      If not specified at creation time, the default duration is 24
+                      hours.
+                    type: string
+                  importOnly:
+                    description: Whether this key may contain imported versions only.
+                    type: boolean
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Labels with user-defined metadata to apply to this
+                      resource.
+                    type: object
+                  purpose:
+                    description: 'The immutable purpose of this CryptoKey. See the
+                      purpose reference for possible inputs. Default value is ENCRYPT_DECRYPT.
+                      Possible values are: ENCRYPT_DECRYPT, ASYMMETRIC_SIGN, ASYMMETRIC_DECRYPT,
+                      MAC.'
+                    type: string
+                  rotationPeriod:
+                    description: Every time this period passes, generate a new CryptoKeyVersion
+                      and set it as the primary. The first rotation will take place
+                      after the specified period. The rotation period has the format
+                      of a decimal number with up to 9 fractional digits, followed
+                      by the letter s (seconds). It must be greater than a day (ie,
+                      86400).
+                    type: string
+                  skipInitialVersionCreation:
+                    description: If set to true, the request will create a CryptoKey
+                      without any CryptoKeyVersions. You must use the google_kms_key_ring_import_job
+                      resource to import the CryptoKeyVersion.
+                    type: boolean
+                  versionTemplate:
+                    description: A template describing settings for new crypto key
+                      versions. Structure is documented below.
+                    items:
+                      properties:
+                        algorithm:
+                          description: The algorithm to use when creating a version
+                            based on this template. See the algorithm reference for
+                            possible inputs.
+                          type: string
+                        protectionLevel:
+                          description: The protection level to use when creating a
+                            version based on this template. Possible values include
+                            "SOFTWARE", "HSM", "EXTERNAL", "EXTERNAL_VPC". Defaults
+                            to "SOFTWARE".
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
                 description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
                   It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. ManagementPolicy
-                  specifies the level of control Crossplane has over the managed external
-                  resource. This field is planned to replace the DeletionPolicy field
-                  in a future release. Currently, both could be set independently
-                  and non-default values would be honored if the feature flag is enabled.
-                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
-                enum:
-                - FullControl
-                - ObserveOnly
-                - OrphanOnDelete
-                type: string
+                  enabled, and may be changed or removed without notice. ManagementPolicies
+                  specify the array of actions Crossplane is allowed to take on the
+                  managed and external resources. This field is planned to replace
+                  the DeletionPolicy field in a future release. Currently, both could
+                  be set independently and non-default values would be honored if
+                  the feature flag is enabled. If both are custom, the DeletionPolicy
+                  field will be ignored. See the design doc for more information:
+                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                items:
+                  description: A ManagementAction represents an action that the Crossplane
+                    controllers can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
               providerConfigRef:
                 default:
                   name: default

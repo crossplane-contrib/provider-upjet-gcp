@@ -13,6 +13,3 @@ spec:
         testing.upbound.io/example-name: example
     name: butterfly01
     source: /images/nature/garden-tiger-moth.jpg
-
----
-

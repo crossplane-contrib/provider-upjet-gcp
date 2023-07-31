@@ -81,6 +81,16 @@ func (tr *Bucket) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this Bucket
+func (tr *Bucket) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this Bucket using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *Bucket) LateInitialize(attrs []byte) (bool, error) {
@@ -153,6 +163,16 @@ func (tr *BucketAccessControl) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this BucketAccessControl
+func (tr *BucketAccessControl) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this BucketAccessControl using its observed tfState.
@@ -229,6 +249,16 @@ func (tr *BucketACL) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this BucketACL
+func (tr *BucketACL) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this BucketACL using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *BucketACL) LateInitialize(attrs []byte) (bool, error) {
@@ -301,6 +331,16 @@ func (tr *BucketIAMMember) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this BucketIAMMember
+func (tr *BucketIAMMember) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this BucketIAMMember using its observed tfState.
@@ -377,6 +417,16 @@ func (tr *BucketObject) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this BucketObject
+func (tr *BucketObject) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this BucketObject using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *BucketObject) LateInitialize(attrs []byte) (bool, error) {
@@ -449,6 +499,16 @@ func (tr *DefaultObjectAccessControl) SetParameters(params map[string]any) error
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this DefaultObjectAccessControl
+func (tr *DefaultObjectAccessControl) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this DefaultObjectAccessControl using its observed tfState.
@@ -525,6 +585,16 @@ func (tr *DefaultObjectACL) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this DefaultObjectACL
+func (tr *DefaultObjectACL) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this DefaultObjectACL using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *DefaultObjectACL) LateInitialize(attrs []byte) (bool, error) {
@@ -597,6 +667,16 @@ func (tr *Notification) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this Notification
+func (tr *Notification) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this Notification using its observed tfState.
@@ -673,6 +753,16 @@ func (tr *ObjectAccessControl) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this ObjectAccessControl
+func (tr *ObjectAccessControl) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this ObjectAccessControl using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *ObjectAccessControl) LateInitialize(attrs []byte) (bool, error) {
@@ -745,6 +835,16 @@ func (tr *ObjectACL) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this ObjectACL
+func (tr *ObjectACL) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this ObjectACL using its observed tfState.

@@ -25,6 +25,15 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type LogViewInitParameters struct {
+
+	// Describes this view.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Filter that restricts which log entries in a bucket are visible in this view. Filters are restricted to be a logical AND of ==/!= of any of the following: - originating project/folder/organization/billing account. - resource type - log id For example: SOURCE("projects/myproject") AND resource.type = "gce_instance" AND LOG_ID("stdout")
+	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
+}
+
 type LogViewObservation struct {
 
 	// The bucket of the resource
@@ -89,6 +98,18 @@ type LogViewParameters struct {
 type LogViewSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     LogViewParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider LogViewInitParameters `json:"initProvider,omitempty"`
 }
 
 // LogViewStatus defines the observed state of LogView.

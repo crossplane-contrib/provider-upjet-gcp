@@ -25,6 +25,37 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type GlobalAddressInitParameters struct {
+
+	// The IP address or beginning of the address range represented by this
+	// resource. This can be supplied as an input to reserve a specific
+	// address or omitted to allow GCP to choose a valid one for you.
+	Address *string `json:"address,omitempty" tf:"address,omitempty"`
+
+	// The type of the address to reserve.
+	AddressType *string `json:"addressType,omitempty" tf:"address_type,omitempty"`
+
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The IP Version that will be used by this address. The default value is IPV4.
+	// Possible values are: IPV4, IPV6.
+	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
+
+	// The prefix length of the IP range. If not present, it means the
+	// address field is a single IP address.
+	// This field is not applicable to addresses with addressType=EXTERNAL,
+	// or addressType=INTERNAL when purpose=PRIVATE_SERVICE_CONNECT
+	PrefixLength *float64 `json:"prefixLength,omitempty" tf:"prefix_length,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The purpose of the resource. Possible values include:
+	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
+}
+
 type GlobalAddressObservation struct {
 
 	// The IP address or beginning of the address range represented by this
@@ -130,6 +161,18 @@ type GlobalAddressParameters struct {
 type GlobalAddressSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     GlobalAddressParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider GlobalAddressInitParameters `json:"initProvider,omitempty"`
 }
 
 // GlobalAddressStatus defines the observed state of GlobalAddress.

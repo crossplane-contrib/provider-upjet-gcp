@@ -29,6 +29,3 @@ spec:
           - displayName: NONE
     forceDelete: "false"
     region: us-central1
-
----
-

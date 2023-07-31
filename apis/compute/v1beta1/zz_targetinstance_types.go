@@ -25,6 +25,22 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type TargetInstanceInitParameters struct {
+
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// NAT option controlling how IPs are NAT'ed to the instance.
+	// Currently only NO_NAT (default value) is supported.
+	// Default value is NO_NAT.
+	// Possible values are: NO_NAT.
+	NATPolicy *string `json:"natPolicy,omitempty" tf:"nat_policy,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
 type TargetInstanceObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
@@ -107,6 +123,18 @@ type TargetInstanceParameters struct {
 type TargetInstanceSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     TargetInstanceParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider TargetInstanceInitParameters `json:"initProvider,omitempty"`
 }
 
 // TargetInstanceStatus defines the observed state of TargetInstance.

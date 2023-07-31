@@ -25,6 +25,12 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type PubsubConfigsInitParameters struct {
+
+	// The format of the Cloud Pub/Sub messages.
+	MessageFormat *string `json:"messageFormat,omitempty" tf:"message_format,omitempty"`
+}
+
 type PubsubConfigsObservation struct {
 
 	// The format of the Cloud Pub/Sub messages.
@@ -43,8 +49,8 @@ type PubsubConfigsObservation struct {
 type PubsubConfigsParameters struct {
 
 	// The format of the Cloud Pub/Sub messages.
-	// +kubebuilder:validation:Required
-	MessageFormat *string `json:"messageFormat" tf:"message_format,omitempty"`
+	// +kubebuilder:validation:Optional
+	MessageFormat *string `json:"messageFormat,omitempty" tf:"message_format,omitempty"`
 
 	// Email address of the service account used for publishing Cloud Pub/Sub messages.
 	// This service account needs to be in the same project as the PubsubConfig. When added,
@@ -76,6 +82,18 @@ type PubsubConfigsParameters struct {
 	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
 	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
+}
+
+type RepositoryInitParameters struct {
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// How this repository publishes a change in the repository through Cloud Pub/Sub.
+	// Keyed by the topic names.
+	// Structure is documented below.
+	PubsubConfigs []PubsubConfigsInitParameters `json:"pubsubConfigs,omitempty" tf:"pubsub_configs,omitempty"`
 }
 
 type RepositoryObservation struct {
@@ -117,6 +135,18 @@ type RepositoryParameters struct {
 type RepositorySpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     RepositoryParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider RepositoryInitParameters `json:"initProvider,omitempty"`
 }
 
 // RepositoryStatus defines the observed state of Repository.

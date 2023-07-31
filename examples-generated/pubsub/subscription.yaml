@@ -31,6 +31,3 @@ metadata:
   name: example
 spec:
   forProvider: {}
-
----
-

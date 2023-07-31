@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: storedinfotypes.datalossprevention.gcp.upbound.io
 spec:
   group: datalossprevention.gcp.upbound.io
@@ -58,7 +57,7 @@ spec:
                 description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
                   or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicy field in a future release. Currently,
+                  in favor of the ManagementPolicies field in a future release. Currently,
                   both could be set independently and non-default values would be
                   honored if the feature flag is enabled. See the design doc for more
                   information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
@@ -86,8 +85,6 @@ spec:
                                 description: 'A url representing a file or path (no
                                   wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt'
                                 type: string
-                            required:
-                            - path
                             type: object
                           type: array
                         wordList:
@@ -103,8 +100,6 @@ spec:
                                 items:
                                   type: string
                                 type: array
-                            required:
-                            - words
                             type: object
                           type: array
                       type: object
@@ -131,8 +126,6 @@ spec:
                                       description: The resource name of the info type.
                                         Set by the server.
                                       type: string
-                                  required:
-                                  - name
                                   type: object
                                 type: array
                               table:
@@ -151,15 +144,8 @@ spec:
                                     tableId:
                                       description: The name of the table.
                                       type: string
-                                  required:
-                                  - datasetId
-                                  - projectId
-                                  - tableId
                                   type: object
                                 type: array
-                            required:
-                            - field
-                            - table
                             type: object
                           type: array
                         cloudStorageFileSet:
@@ -171,8 +157,6 @@ spec:
                                 description: The url, in the format gs://<bucket>/<path>.
                                   Trailing wildcard in the path is allowed.
                                 type: string
-                            required:
-                            - url
                             type: object
                           type: array
                         outputPath:
@@ -187,12 +171,8 @@ spec:
                                 description: 'A url representing a file or path (no
                                   wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt'
                                 type: string
-                            required:
-                            - path
                             type: object
                           type: array
-                      required:
-                      - outputPath
                       type: object
                     type: array
                   parent:
@@ -216,26 +196,180 @@ spec:
                             syntax (https://github.com/google/re2/wiki/Syntax) can
                             be found under the google/re2 repository on GitHub.
                           type: string
-                      required:
-                      - pattern
                       type: object
                     type: array
                 type: object
-              managementPolicy:
-                default: FullControl
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. InitProvider
+                  holds the same fields as ForProvider, with the exception of Identifier
+                  and other resource reference fields. The fields that are in InitProvider
+                  are merged into ForProvider when the resource is created. The same
+                  fields are also added to the terraform ignore_changes hook, to avoid
+                  updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after
+                  creation, for example because of an external controller is managing
+                  them, like an autoscaler.
+                properties:
+                  description:
+                    description: A description of the info type.
+                    type: string
+                  dictionary:
+                    description: Dictionary which defines the rule. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        cloudStoragePath:
+                          description: Newline-delimited file of words in Cloud Storage.
+                            Only a single file is accepted. Structure is documented
+                            below.
+                          items:
+                            properties:
+                              path:
+                                description: 'A url representing a file or path (no
+                                  wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt'
+                                type: string
+                            type: object
+                          type: array
+                        wordList:
+                          description: List of words or phrases to search for. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              words:
+                                description: Words or phrases defining the dictionary.
+                                  The dictionary must contain at least one phrase
+                                  and every phrase must contain at least 2 characters
+                                  that are letters or digits.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  displayName:
+                    description: User set display name of the info type.
+                    type: string
+                  largeCustomDictionary:
+                    description: Dictionary which defines the rule. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        bigQueryField:
+                          description: Field in a BigQuery table where each cell represents
+                            a dictionary phrase. Structure is documented below.
+                          items:
+                            properties:
+                              field:
+                                description: Designated field in the BigQuery table.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    name:
+                                      description: The resource name of the info type.
+                                        Set by the server.
+                                      type: string
+                                  type: object
+                                type: array
+                              table:
+                                description: Field in a BigQuery table where each
+                                  cell represents a dictionary phrase. Structure is
+                                  documented below.
+                                items:
+                                  properties:
+                                    datasetId:
+                                      description: The dataset ID of the table.
+                                      type: string
+                                    projectId:
+                                      description: The Google Cloud Platform project
+                                        ID of the project containing the table.
+                                      type: string
+                                    tableId:
+                                      description: The name of the table.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        cloudStorageFileSet:
+                          description: Set of files containing newline-delimited lists
+                            of dictionary phrases. Structure is documented below.
+                          items:
+                            properties:
+                              url:
+                                description: The url, in the format gs://<bucket>/<path>.
+                                  Trailing wildcard in the path is allowed.
+                                type: string
+                            type: object
+                          type: array
+                        outputPath:
+                          description: Location to store dictionary artifacts in Google
+                            Cloud Storage. These files will only be accessible by
+                            project owners and the DLP API. If any of these artifacts
+                            are modified, the dictionary is considered invalid and
+                            can no longer be used. Structure is documented below.
+                          items:
+                            properties:
+                              path:
+                                description: 'A url representing a file or path (no
+                                  wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt'
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  parent:
+                    description: 'The parent of the info type in any of the following
+                      formats:'
+                    type: string
+                  regex:
+                    description: Regular expression which defines the rule. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        groupIndexes:
+                          description: The index of the submatch to extract as findings.
+                            When not specified, the entire match is returned. No more
+                            than 3 may be included.
+                          items:
+                            type: number
+                          type: array
+                        pattern:
+                          description: Pattern defining the regular expression. Its
+                            syntax (https://github.com/google/re2/wiki/Syntax) can
+                            be found under the google/re2 repository on GitHub.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
                 description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
                   It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. ManagementPolicy
-                  specifies the level of control Crossplane has over the managed external
-                  resource. This field is planned to replace the DeletionPolicy field
-                  in a future release. Currently, both could be set independently
-                  and non-default values would be honored if the feature flag is enabled.
-                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
-                enum:
-                - FullControl
-                - ObserveOnly
-                - OrphanOnDelete
-                type: string
+                  enabled, and may be changed or removed without notice. ManagementPolicies
+                  specify the array of actions Crossplane is allowed to take on the
+                  managed and external resources. This field is planned to replace
+                  the DeletionPolicy field in a future release. Currently, both could
+                  be set independently and non-default values would be honored if
+                  the feature flag is enabled. If both are custom, the DeletionPolicy
+                  field will be ignored. See the design doc for more information:
+                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                items:
+                  description: A ManagementAction represents an action that the Crossplane
+                    controllers can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
               providerConfigRef:
                 default:
                   name: default
@@ -409,7 +543,9 @@ spec:
             type: object
             x-kubernetes-validations:
             - message: parent is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.parent)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.parent)
+                || has(self.initProvider.parent)'
           status:
             description: StoredInfoTypeStatus defines the observed state of StoredInfoType.
             properties:

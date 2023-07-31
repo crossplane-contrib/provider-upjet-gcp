@@ -40,6 +40,3 @@ spec:
     - spec:
       - containers:
         - image: us-docker.pkg.dev/cloudrun/container/hello
-
----
-

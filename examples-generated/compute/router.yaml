@@ -33,6 +33,3 @@ metadata:
 spec:
   forProvider:
     autoCreateSubnetworks: false
-
----
-

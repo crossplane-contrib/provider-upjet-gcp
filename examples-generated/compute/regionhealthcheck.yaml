@@ -12,6 +12,3 @@ spec:
     tcpHealthCheck:
     - port: "80"
     timeoutSec: 1
-
----
-

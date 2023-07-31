@@ -25,6 +25,26 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type EntryGroupInitParameters struct {
+
+	// Entry group description, which can consist of several sentences or paragraphs that describe entry group contents.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// A short name to identify the entry group, for example, "analytics data - jan 2011".
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The id of the entry group to create. The id must begin with a letter or underscore,
+	// contain only English letters, numbers and underscores, and be at most 64 characters.
+	EntryGroupID *string `json:"entryGroupId,omitempty" tf:"entry_group_id,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// EntryGroup location region.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+}
+
 type EntryGroupObservation struct {
 
 	// Entry group description, which can consist of several sentences or paragraphs that describe entry group contents.
@@ -80,6 +100,18 @@ type EntryGroupParameters struct {
 type EntryGroupSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     EntryGroupParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider EntryGroupInitParameters `json:"initProvider,omitempty"`
 }
 
 // EntryGroupStatus defines the observed state of EntryGroup.
@@ -100,7 +132,7 @@ type EntryGroupStatus struct {
 type EntryGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.entryGroupId)",message="entryGroupId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.entryGroupId) || has(self.initProvider.entryGroupId)",message="entryGroupId is a required parameter"
 	Spec   EntryGroupSpec   `json:"spec"`
 	Status EntryGroupStatus `json:"status,omitempty"`
 }

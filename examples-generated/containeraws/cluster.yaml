@@ -57,6 +57,3 @@ spec:
       - 10.1.0.0/16
       vpcId: vpc-00000000000000000
     project: my-project-name
-
----
-

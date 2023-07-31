@@ -25,6 +25,50 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type NotificationChannelInitParameters struct {
+
+	// An optional human-readable description of this notification channel. This description may provide additional details, beyond the display name, for the channel. This may not exceed 1024 Unicode characters.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// An optional human-readable name for this notification channel. It is recommended that you specify a non-empty and unique name in order to make it easier to identify the channels in your project, though this is not enforced. The display name is limited to 512 Unicode characters.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Whether notifications are forwarded to the described channel. This makes it possible to disable delivery of notifications to a particular channel without removing the channel from all alerting policies that reference the channel. This is a more convenient approach when the change is temporary and you want to receive notifications from the same set of alerting policies on the channel at some point in the future.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// If true, the notification channel will be deleted regardless
+	// of its use in alert policies (the policies will be updated
+	// to remove the channel). If false, channels that are still
+	// referenced by an existing alerting policy will fail to be
+	// deleted in a delete operation.
+	ForceDelete *bool `json:"forceDelete,omitempty" tf:"force_delete,omitempty"`
+
+	// Configuration fields that define the channel and its behavior. The
+	// permissible and required labels are specified in the
+	// NotificationChannelDescriptor corresponding to the type field. They can also be configured via
+	// the sensitive_labels block, but cannot be configured in both places.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Different notification type behaviors are configured primarily using the the labels field on this
+	// resource. This block contains the labels which contain secrets or passwords so that they can be marked
+	// sensitive and hidden from plan output. The name of the field, eg: password, will be the key
+	// in the labels map in the api request.
+	// Credentials may not be specified in both locations and will cause an error. Changing from one location
+	// to a different credential configuration in the config will require an apply to update state.
+	// Structure is documented below.
+	SensitiveLabels []SensitiveLabelsInitParameters `json:"sensitiveLabels,omitempty" tf:"sensitive_labels,omitempty"`
+
+	// The type of the notification channel. This field matches the value of the NotificationChannelDescriptor.type field. See https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.notificationChannelDescriptors/list to get the list of valid values such as "email", "slack", etc...
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// User-supplied key/value data that does not need to conform to the corresponding NotificationChannelDescriptor's schema, unlike the labels field. This field is intended to be used for organizing and identifying the NotificationChannel objects.The field can contain up to 64 entries. Each key and value is limited to 63 Unicode characters or 128 bytes, whichever is smaller. Labels and values can contain only lowercase letters, numerals, underscores, and dashes. Keys must begin with a letter.
+	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
+}
+
 type NotificationChannelObservation struct {
 
 	// An optional human-readable description of this notification channel. This description may provide additional details, beyond the display name, for the channel. This may not exceed 1024 Unicode characters.
@@ -133,6 +177,9 @@ type NotificationChannelParameters struct {
 	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
 }
 
+type SensitiveLabelsInitParameters struct {
+}
+
 type SensitiveLabelsObservation struct {
 }
 
@@ -158,6 +205,18 @@ type SensitiveLabelsParameters struct {
 type NotificationChannelSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     NotificationChannelParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider NotificationChannelInitParameters `json:"initProvider,omitempty"`
 }
 
 // NotificationChannelStatus defines the observed state of NotificationChannel.
@@ -178,7 +237,7 @@ type NotificationChannelStatus struct {
 type NotificationChannel struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.type)",message="type is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.type) || has(self.initProvider.type)",message="type is a required parameter"
 	Spec   NotificationChannelSpec   `json:"spec"`
 	Status NotificationChannelStatus `json:"status,omitempty"`
 }

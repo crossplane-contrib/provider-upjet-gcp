@@ -12,6 +12,3 @@ spec:
     policyData: ${data.google_iam_policy.admin.policy_data}
     project: your-project
     table: your-bigtable-table
-
----
-

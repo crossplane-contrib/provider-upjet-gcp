@@ -25,6 +25,48 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type VPNTunnelInitParameters struct {
+
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// IKE protocol version to use when establishing the VPN tunnel with
+	// peer VPN gateway.
+	// Acceptable IKE versions are 1 or 2. Default version is 2.
+	IkeVersion *float64 `json:"ikeVersion,omitempty" tf:"ike_version,omitempty"`
+
+	// Local traffic selector to use when establishing the VPN tunnel with
+	// peer VPN gateway. The value should be a CIDR formatted string,
+	// for example 192.168.0.0/16. The ranges should be disjoint.
+	// Only IPv4 is supported.
+	LocalTrafficSelector []*string `json:"localTrafficSelector,omitempty" tf:"local_traffic_selector,omitempty"`
+
+	// The interface ID of the external VPN gateway to which this VPN tunnel is connected.
+	PeerExternalGatewayInterface *float64 `json:"peerExternalGatewayInterface,omitempty" tf:"peer_external_gateway_interface,omitempty"`
+
+	// URL of the peer side HA GCP VPN gateway to which this VPN tunnel is connected.
+	// If provided, the VPN tunnel will automatically use the same vpn_gateway_interface
+	// ID in the peer GCP VPN gateway.
+	// This field must reference a google_compute_ha_vpn_gateway resource.
+	PeerGCPGateway *string `json:"peerGcpGateway,omitempty" tf:"peer_gcp_gateway,omitempty"`
+
+	// IP address of the peer VPN gateway. Only IPv4 is supported.
+	PeerIP *string `json:"peerIp,omitempty" tf:"peer_ip,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Remote traffic selector to use when establishing the VPN tunnel with
+	// peer VPN gateway. The value should be a CIDR formatted string,
+	// for example 192.168.0.0/16. The ranges should be disjoint.
+	// Only IPv4 is supported.
+	RemoteTrafficSelector []*string `json:"remoteTrafficSelector,omitempty" tf:"remote_traffic_selector,omitempty"`
+
+	// The interface ID of the VPN gateway with which this VPN tunnel is associated.
+	VPNGatewayInterface *float64 `json:"vpnGatewayInterface,omitempty" tf:"vpn_gateway_interface,omitempty"`
+}
+
 type VPNTunnelObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
@@ -224,6 +266,18 @@ type VPNTunnelParameters struct {
 type VPNTunnelSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     VPNTunnelParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider VPNTunnelInitParameters `json:"initProvider,omitempty"`
 }
 
 // VPNTunnelStatus defines the observed state of VPNTunnel.
@@ -244,7 +298,7 @@ type VPNTunnelStatus struct {
 type VPNTunnel struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.sharedSecretSecretRef)",message="sharedSecretSecretRef is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.sharedSecretSecretRef)",message="sharedSecretSecretRef is a required parameter"
 	Spec   VPNTunnelSpec   `json:"spec"`
 	Status VPNTunnelStatus `json:"status,omitempty"`
 }

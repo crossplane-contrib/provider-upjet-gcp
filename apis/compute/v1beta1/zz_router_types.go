@@ -25,6 +25,16 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AdvertisedIPRangesInitParameters struct {
+
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The IP range to advertise. The value must be a
+	// CIDR-formatted string.
+	Range *string `json:"range,omitempty" tf:"range,omitempty"`
+}
+
 type AdvertisedIPRangesObservation struct {
 
 	// An optional description of this resource.
@@ -43,8 +53,49 @@ type AdvertisedIPRangesParameters struct {
 
 	// The IP range to advertise. The value must be a
 	// CIDR-formatted string.
-	// +kubebuilder:validation:Required
-	Range *string `json:"range" tf:"range,omitempty"`
+	// +kubebuilder:validation:Optional
+	Range *string `json:"range,omitempty" tf:"range,omitempty"`
+}
+
+type BGPInitParameters struct {
+
+	// User-specified flag to indicate which mode to use for advertisement.
+	// Default value is DEFAULT.
+	// Possible values are: DEFAULT, CUSTOM.
+	AdvertiseMode *string `json:"advertiseMode,omitempty" tf:"advertise_mode,omitempty"`
+
+	// User-specified list of prefix groups to advertise in custom mode.
+	// This field can only be populated if advertiseMode is CUSTOM and
+	// is advertised to all peers of the router. These groups will be
+	// advertised in addition to any specified prefixes. Leave this field
+	// blank to advertise no custom groups.
+	// This enum field has the one valid value: ALL_SUBNETS
+	AdvertisedGroups []*string `json:"advertisedGroups,omitempty" tf:"advertised_groups,omitempty"`
+
+	// User-specified list of individual IP ranges to advertise in
+	// custom mode. This field can only be populated if advertiseMode
+	// is CUSTOM and is advertised to all peers of the router. These IP
+	// ranges will be advertised in addition to any specified groups.
+	// Leave this field blank to advertise no custom IP ranges.
+	// Structure is documented below.
+	AdvertisedIPRanges []AdvertisedIPRangesInitParameters `json:"advertisedIpRanges,omitempty" tf:"advertised_ip_ranges,omitempty"`
+
+	// Local BGP Autonomous System Number (ASN). Must be an RFC6996
+	// private ASN, either 16-bit or 32-bit. The value will be fixed for
+	// this router resource. All VPN tunnels that link to this router
+	// will have the same local ASN.
+	Asn *float64 `json:"asn,omitempty" tf:"asn,omitempty"`
+
+	// The interval in seconds between BGP keepalive messages that are sent
+	// to the peer. Hold time is three times the interval at which keepalive
+	// messages are sent, and the hold time is the maximum number of seconds
+	// allowed to elapse between successive keepalive messages that BGP
+	// receives from a peer.
+	// BGP will use the smaller of either the local hold time value or the
+	// peer's hold time value as the hold time for the BGP connection
+	// between the two peers. If set, this value must be between 20 and 60.
+	// The default is 20.
+	KeepaliveInterval *float64 `json:"keepaliveInterval,omitempty" tf:"keepalive_interval,omitempty"`
 }
 
 type BGPObservation struct {
@@ -118,8 +169,8 @@ type BGPParameters struct {
 	// private ASN, either 16-bit or 32-bit. The value will be fixed for
 	// this router resource. All VPN tunnels that link to this router
 	// will have the same local ASN.
-	// +kubebuilder:validation:Required
-	Asn *float64 `json:"asn" tf:"asn,omitempty"`
+	// +kubebuilder:validation:Optional
+	Asn *float64 `json:"asn,omitempty" tf:"asn,omitempty"`
 
 	// The interval in seconds between BGP keepalive messages that are sent
 	// to the peer. Hold time is three times the interval at which keepalive
@@ -132,6 +183,24 @@ type BGPParameters struct {
 	// The default is 20.
 	// +kubebuilder:validation:Optional
 	KeepaliveInterval *float64 `json:"keepaliveInterval,omitempty" tf:"keepalive_interval,omitempty"`
+}
+
+type RouterInitParameters struct {
+
+	// BGP information specific to this router.
+	// Structure is documented below.
+	BGP []BGPInitParameters `json:"bgp,omitempty" tf:"bgp,omitempty"`
+
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Indicates if a router is dedicated for use with encrypted VLAN
+	// attachments (interconnectAttachments).
+	EncryptedInterconnectRouter *bool `json:"encryptedInterconnectRouter,omitempty" tf:"encrypted_interconnect_router,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type RouterObservation struct {
@@ -211,6 +280,18 @@ type RouterParameters struct {
 type RouterSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     RouterParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider RouterInitParameters `json:"initProvider,omitempty"`
 }
 
 // RouterStatus defines the observed state of Router.

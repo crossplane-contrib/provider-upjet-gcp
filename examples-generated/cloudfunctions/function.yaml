@@ -51,6 +51,3 @@ spec:
         testing.upbound.io/example-name: example
     name: index.zip
     source: ./path/to/zip/file/which/contains/code
-
----
-

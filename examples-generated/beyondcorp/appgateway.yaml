@@ -11,6 +11,3 @@ spec:
     hostType: GCP_REGIONAL_MIG
     region: us-central1
     type: TCP_PROXY
-
----
-

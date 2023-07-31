@@ -25,6 +25,34 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AppEngineHTTPTargetInitParameters struct {
+
+	// App Engine Routing setting for the job.
+	// Structure is documented below.
+	AppEngineRouting []AppEngineRoutingInitParameters `json:"appEngineRouting,omitempty" tf:"app_engine_routing,omitempty"`
+
+	// HTTP request body.
+	// A request body is allowed only if the HTTP method is POST or PUT.
+	// It will result in invalid argument error to set a body on a job with an incompatible HttpMethod.
+	// A base64-encoded string.
+	Body *string `json:"body,omitempty" tf:"body,omitempty"`
+
+	// Which HTTP method to use for the request.
+	HTTPMethod *string `json:"httpMethod,omitempty" tf:"http_method,omitempty"`
+
+	// HTTP request headers.
+	// This map contains the header field names and values.
+	// Headers can be set when the job is created.
+	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
+
+	// The relative URI.
+	// The relative URL must begin with "/" and must be a valid HTTP relative URL.
+	// It can contain a path, query string arguments, and # fragments.
+	// If the relative URL is empty, then the root path "/" will be used.
+	// No spaces are allowed, and the maximum length allowed is 2083 characters
+	RelativeURI *string `json:"relativeUri,omitempty" tf:"relative_uri,omitempty"`
+}
+
 type AppEngineHTTPTargetObservation struct {
 
 	// App Engine Routing setting for the job.
@@ -82,8 +110,23 @@ type AppEngineHTTPTargetParameters struct {
 	// It can contain a path, query string arguments, and # fragments.
 	// If the relative URL is empty, then the root path "/" will be used.
 	// No spaces are allowed, and the maximum length allowed is 2083 characters
-	// +kubebuilder:validation:Required
-	RelativeURI *string `json:"relativeUri" tf:"relative_uri,omitempty"`
+	// +kubebuilder:validation:Optional
+	RelativeURI *string `json:"relativeUri,omitempty" tf:"relative_uri,omitempty"`
+}
+
+type AppEngineRoutingInitParameters struct {
+
+	// App instance.
+	// By default, the job is sent to an instance which is available when the job is attempted.
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
+	// App service.
+	// By default, the job is sent to the service which is the default service when the job is attempted.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+
+	// App version.
+	// By default, the job is sent to the version which is the default version when the job is attempted.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type AppEngineRoutingObservation struct {
@@ -117,6 +160,35 @@ type AppEngineRoutingParameters struct {
 	// By default, the job is sent to the version which is the default version when the job is attempted.
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type HTTPTargetInitParameters struct {
+
+	// HTTP request body.
+	// A request body is allowed only if the HTTP method is POST, PUT, or PATCH.
+	// It is an error to set body on a job with an incompatible HttpMethod.
+	// A base64-encoded string.
+	Body *string `json:"body,omitempty" tf:"body,omitempty"`
+
+	// Which HTTP method to use for the request.
+	HTTPMethod *string `json:"httpMethod,omitempty" tf:"http_method,omitempty"`
+
+	// This map contains the header field names and values.
+	// Repeated headers are not supported, but a header value can contain commas.
+	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
+
+	// Contains information needed for generating an OAuth token.
+	// This type of authorization should be used when sending requests to a GCP endpoint.
+	// Structure is documented below.
+	OAuthToken []OAuthTokenInitParameters `json:"oauthToken,omitempty" tf:"oauth_token,omitempty"`
+
+	// Contains information needed for generating an OpenID Connect token.
+	// This type of authorization should be used when sending requests to third party endpoints or Cloud Run.
+	// Structure is documented below.
+	OidcToken []OidcTokenInitParameters `json:"oidcToken,omitempty" tf:"oidc_token,omitempty"`
+
+	// The full URI path that the request will be sent to.
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
 }
 
 type HTTPTargetObservation struct {
@@ -179,8 +251,59 @@ type HTTPTargetParameters struct {
 	OidcToken []OidcTokenParameters `json:"oidcToken,omitempty" tf:"oidc_token,omitempty"`
 
 	// The full URI path that the request will be sent to.
-	// +kubebuilder:validation:Required
-	URI *string `json:"uri" tf:"uri,omitempty"`
+	// +kubebuilder:validation:Optional
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type JobInitParameters struct {
+
+	// App Engine HTTP target.
+	// If the job providers a App Engine HTTP target the cron will
+	// send a request to the service instance
+	// Structure is documented below.
+	AppEngineHTTPTarget []AppEngineHTTPTargetInitParameters `json:"appEngineHttpTarget,omitempty" tf:"app_engine_http_target,omitempty"`
+
+	// The deadline for job attempts. If the request handler does not respond by this deadline then the request is
+	// cancelled and the attempt is marked as a DEADLINE_EXCEEDED failure. The failed attempt can be viewed in
+	// execution logs. Cloud Scheduler will retry the job according to the RetryConfig.
+	// The allowed duration for this deadline is:
+	AttemptDeadline *string `json:"attemptDeadline,omitempty" tf:"attempt_deadline,omitempty"`
+
+	// A human-readable description for the job.
+	// This string must not contain more than 500 characters.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// HTTP target.
+	// If the job providers a http_target the cron will
+	// send a request to the targeted url
+	// Structure is documented below.
+	HTTPTarget []HTTPTargetInitParameters `json:"httpTarget,omitempty" tf:"http_target,omitempty"`
+
+	// Sets the job to a paused state. Jobs default to being enabled when this property is not set.
+	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Pub/Sub target
+	// If the job providers a Pub/Sub target the cron will publish
+	// a message to the provided topic
+	// Structure is documented below.
+	PubsubTarget []PubsubTargetInitParameters `json:"pubsubTarget,omitempty" tf:"pubsub_target,omitempty"`
+
+	// By default, if a job does not complete successfully,
+	// meaning that an acknowledgement is not received from the handler,
+	// then it will be retried with exponential backoff according to the settings
+	// Structure is documented below.
+	RetryConfig []RetryConfigInitParameters `json:"retryConfig,omitempty" tf:"retry_config,omitempty"`
+
+	// Describes the schedule on which the job will be executed.
+	Schedule *string `json:"schedule,omitempty" tf:"schedule,omitempty"`
+
+	// Specifies the time zone to be used in interpreting schedule.
+	// The value of this field must be a time zone name from the tz database.
+	TimeZone *string `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
 }
 
 type JobObservation struct {
@@ -308,6 +431,17 @@ type JobParameters struct {
 	TimeZone *string `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
 }
 
+type OAuthTokenInitParameters struct {
+
+	// OAuth scope to be used for generating OAuth access token. If not specified,
+	// "https://www.googleapis.com/auth/cloud-platform" will be used.
+	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
+
+	// Service account email to be used for generating OAuth token.
+	// The service account must be within the same project as the job.
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+}
+
 type OAuthTokenObservation struct {
 
 	// OAuth scope to be used for generating OAuth access token. If not specified,
@@ -328,8 +462,19 @@ type OAuthTokenParameters struct {
 
 	// Service account email to be used for generating OAuth token.
 	// The service account must be within the same project as the job.
-	// +kubebuilder:validation:Required
-	ServiceAccountEmail *string `json:"serviceAccountEmail" tf:"service_account_email,omitempty"`
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+}
+
+type OidcTokenInitParameters struct {
+
+	// Audience to be used when generating OIDC token. If not specified,
+	// the URI specified in target will be used.
+	Audience *string `json:"audience,omitempty" tf:"audience,omitempty"`
+
+	// Service account email to be used for generating OAuth token.
+	// The service account must be within the same project as the job.
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 }
 
 type OidcTokenObservation struct {
@@ -352,8 +497,20 @@ type OidcTokenParameters struct {
 
 	// Service account email to be used for generating OAuth token.
 	// The service account must be within the same project as the job.
-	// +kubebuilder:validation:Required
-	ServiceAccountEmail *string `json:"serviceAccountEmail" tf:"service_account_email,omitempty"`
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+}
+
+type PubsubTargetInitParameters struct {
+
+	// Attributes for PubsubMessage.
+	// Pubsub message must contain either non-empty data, or at least one attribute.
+	Attributes map[string]*string `json:"attributes,omitempty" tf:"attributes,omitempty"`
+
+	// The message payload for PubsubMessage.
+	// Pubsub message must contain either non-empty data, or at least one attribute.
+	// A base64-encoded string.
+	Data *string `json:"data,omitempty" tf:"data,omitempty"`
 }
 
 type PubsubTargetObservation struct {
@@ -402,6 +559,33 @@ type PubsubTargetParameters struct {
 	// Selector for a Topic in pubsub to populate topicName.
 	// +kubebuilder:validation:Optional
 	TopicNameSelector *v1.Selector `json:"topicNameSelector,omitempty" tf:"-"`
+}
+
+type RetryConfigInitParameters struct {
+
+	// The maximum amount of time to wait before retrying a job after it fails.
+	// A duration in seconds with up to nine fractional digits, terminated by 's'.
+	MaxBackoffDuration *string `json:"maxBackoffDuration,omitempty" tf:"max_backoff_duration,omitempty"`
+
+	// The time between retries will double maxDoublings times.
+	// A job's retry interval starts at minBackoffDuration,
+	// then doubles maxDoublings times, then increases linearly,
+	// and finally retries retries at intervals of maxBackoffDuration up to retryCount times.
+	MaxDoublings *float64 `json:"maxDoublings,omitempty" tf:"max_doublings,omitempty"`
+
+	// The time limit for retrying a failed job, measured from time when an execution was first attempted.
+	// If specified with retryCount, the job will be retried until both limits are reached.
+	// A duration in seconds with up to nine fractional digits, terminated by 's'.
+	MaxRetryDuration *string `json:"maxRetryDuration,omitempty" tf:"max_retry_duration,omitempty"`
+
+	// The minimum amount of time to wait before retrying a job after it fails.
+	// A duration in seconds with up to nine fractional digits, terminated by 's'.
+	MinBackoffDuration *string `json:"minBackoffDuration,omitempty" tf:"min_backoff_duration,omitempty"`
+
+	// The number of attempts that the system will make to run a
+	// job using the exponential backoff procedure described by maxDoublings.
+	// Values greater than 5 and negative values are not allowed.
+	RetryCount *float64 `json:"retryCount,omitempty" tf:"retry_count,omitempty"`
 }
 
 type RetryConfigObservation struct {
@@ -467,6 +651,18 @@ type RetryConfigParameters struct {
 type JobSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     JobParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider JobInitParameters `json:"initProvider,omitempty"`
 }
 
 // JobStatus defines the observed state of Job.

@@ -10,6 +10,3 @@ spec:
   forProvider:
     region: us-central1
     type: BASIC
-
----
-

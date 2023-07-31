@@ -14,6 +14,3 @@ spec:
       foo: bar
     tempGcsLocation: gs://my-bucket/tmp_dir
     templateGcsPath: gs://my-bucket/templates/template_file
-
----
-

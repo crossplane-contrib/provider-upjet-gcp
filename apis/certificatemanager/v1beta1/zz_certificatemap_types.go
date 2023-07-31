@@ -25,6 +25,19 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type CertificateMapInitParameters struct {
+
+	// A human-readable description of the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Set of labels associated with a Certificate Map resource.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
 type CertificateMapObservation struct {
 
 	// Creation timestamp of a Certificate Map. Timestamp is in RFC3339 UTC "Zulu" format,
@@ -71,6 +84,9 @@ type CertificateMapParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
+type GclbTargetsInitParameters struct {
+}
+
 type GclbTargetsObservation struct {
 
 	// An IP configuration where this Certificate Map is serving
@@ -91,6 +107,9 @@ type GclbTargetsObservation struct {
 type GclbTargetsParameters struct {
 }
 
+type IPConfigsInitParameters struct {
+}
+
 type IPConfigsObservation struct {
 
 	// An external IP address
@@ -107,6 +126,18 @@ type IPConfigsParameters struct {
 type CertificateMapSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     CertificateMapParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider CertificateMapInitParameters `json:"initProvider,omitempty"`
 }
 
 // CertificateMapStatus defines the observed state of CertificateMap.

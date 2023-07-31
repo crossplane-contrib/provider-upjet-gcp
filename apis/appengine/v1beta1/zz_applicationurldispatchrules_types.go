@@ -25,6 +25,17 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ApplicationURLDispatchRulesInitParameters struct {
+
+	// Rules to match an HTTP request and dispatch that request to a service.
+	// Structure is documented below.
+	DispatchRules []DispatchRulesInitParameters `json:"dispatchRules,omitempty" tf:"dispatch_rules,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
 type ApplicationURLDispatchRulesObservation struct {
 
 	// Rules to match an HTTP request and dispatch that request to a service.
@@ -52,6 +63,17 @@ type ApplicationURLDispatchRulesParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
+type DispatchRulesInitParameters struct {
+
+	// Domain name to match against. The wildcard "" is supported if specified before a period: ".".
+	// Defaults to matching all domains: "*".
+	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
+
+	// Pathname within the host. Must start with a "/". A single "*" can be included at the end of the path.
+	// The sum of the lengths of the domain and path may not exceed 100 characters.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+}
+
 type DispatchRulesObservation struct {
 
 	// Domain name to match against. The wildcard "" is supported if specified before a period: ".".
@@ -76,8 +98,8 @@ type DispatchRulesParameters struct {
 
 	// Pathname within the host. Must start with a "/". A single "*" can be included at the end of the path.
 	// The sum of the lengths of the domain and path may not exceed 100 characters.
-	// +kubebuilder:validation:Required
-	Path *string `json:"path" tf:"path,omitempty"`
+	// +kubebuilder:validation:Optional
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
 	// Pathname within the host. Must start with a "/". A single "*" can be included at the end of the path.
 	// The sum of the lengths of the domain and path may not exceed 100 characters.
@@ -99,6 +121,18 @@ type DispatchRulesParameters struct {
 type ApplicationURLDispatchRulesSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ApplicationURLDispatchRulesParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ApplicationURLDispatchRulesInitParameters `json:"initProvider,omitempty"`
 }
 
 // ApplicationURLDispatchRulesStatus defines the observed state of ApplicationURLDispatchRules.
@@ -119,7 +153,7 @@ type ApplicationURLDispatchRulesStatus struct {
 type ApplicationURLDispatchRules struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.dispatchRules)",message="dispatchRules is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dispatchRules) || has(self.initProvider.dispatchRules)",message="dispatchRules is a required parameter"
 	Spec   ApplicationURLDispatchRulesSpec   `json:"spec"`
 	Status ApplicationURLDispatchRulesStatus `json:"status,omitempty"`
 }

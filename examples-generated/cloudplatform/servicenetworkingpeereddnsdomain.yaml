@@ -12,6 +12,3 @@ spec:
     network: default
     project: 10000000
     service: peering-service
-
----
-

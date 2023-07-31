@@ -311,6 +311,3 @@ spec:
     purpose: INTERNAL_HTTPS_LOAD_BALANCER
     region: europe-west1
     role: ACTIVE
-
----
-

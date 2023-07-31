@@ -25,6 +25,3 @@ metadata:
 spec:
   forProvider:
     name: cloudiot-device-registry
-
----
-

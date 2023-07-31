@@ -25,6 +25,9 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AssetStatusInitParameters struct {
+}
+
 type AssetStatusObservation struct {
 	ActiveAssets *float64 `json:"activeAssets,omitempty" tf:"active_assets,omitempty"`
 
@@ -35,6 +38,24 @@ type AssetStatusObservation struct {
 }
 
 type AssetStatusParameters struct {
+}
+
+type LakeInitParameters struct {
+
+	// Optional. Description of the lake.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Optional. User friendly display name.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Optional. User-defined labels for the lake.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Optional. Settings to manage lake and Dataproc Metastore service instance association.
+	Metastore []MetastoreInitParameters `json:"metastore,omitempty" tf:"metastore,omitempty"`
+
+	// The project for the resource
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type LakeObservation struct {
@@ -109,6 +130,12 @@ type LakeParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
+type MetastoreInitParameters struct {
+
+	// Optional. A relative reference to the Dataproc Metastore (https://cloud.google.com/dataproc-metastore/docs) service associated with the lake: projects/{project_id}/locations/{location_id}/services/{service_id}
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
 type MetastoreObservation struct {
 
 	// Optional. A relative reference to the Dataproc Metastore (https://cloud.google.com/dataproc-metastore/docs) service associated with the lake: projects/{project_id}/locations/{location_id}/services/{service_id}
@@ -120,6 +147,9 @@ type MetastoreParameters struct {
 	// Optional. A relative reference to the Dataproc Metastore (https://cloud.google.com/dataproc-metastore/docs) service associated with the lake: projects/{project_id}/locations/{location_id}/services/{service_id}
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type MetastoreStatusInitParameters struct {
 }
 
 type MetastoreStatusObservation struct {
@@ -141,6 +171,18 @@ type MetastoreStatusParameters struct {
 type LakeSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     LakeParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider LakeInitParameters `json:"initProvider,omitempty"`
 }
 
 // LakeStatus defines the observed state of Lake.

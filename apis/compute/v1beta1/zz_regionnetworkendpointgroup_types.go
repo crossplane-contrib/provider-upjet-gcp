@@ -25,6 +25,28 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AppEngineInitParameters struct {
+
+	// Optional serving service.
+	// The service name must be 1-63 characters long, and comply with RFC1035.
+	// Example value: "default", "my-service".
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+
+	// A template to parse service and version fields from a request URL.
+	// URL mask allows for routing to multiple App Engine services without
+	// having to create multiple Network Endpoint Groups and backend services.
+	// For example, the request URLs "foo1-dot-appname.appspot.com/v1" and
+	// "foo1-dot-appname.appspot.com/v2" can be backed by the same Serverless NEG with
+	// URL mask "-dot-appname.appspot.com/". The URL mask will parse
+	// them to { service = "foo1", version = "v1" } and { service = "foo1", version = "v2" } respectively.
+	URLMask *string `json:"urlMask,omitempty" tf:"url_mask,omitempty"`
+
+	// Optional serving version.
+	// The version must be 1-63 characters long, and comply with RFC1035.
+	// Example value: "v1", "v2".
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
 type AppEngineObservation struct {
 
 	// Optional serving service.
@@ -72,6 +94,17 @@ type AppEngineParameters struct {
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
+type CloudFunctionInitParameters struct {
+
+	// A template to parse function field from a request URL. URL mask allows
+	// for routing to multiple Cloud Functions without having to create
+	// multiple Network Endpoint Groups and backend services.
+	// For example, request URLs "mydomain.com/function1" and "mydomain.com/function2"
+	// can be backed by the same Serverless NEG with URL mask "/". The URL mask
+	// will parse them to { function = "function1" } and { function = "function2" } respectively.
+	URLMask *string `json:"urlMask,omitempty" tf:"url_mask,omitempty"`
+}
+
 type CloudFunctionObservation struct {
 
 	// A user-defined name of the Cloud Function.
@@ -112,6 +145,24 @@ type CloudFunctionParameters struct {
 	// can be backed by the same Serverless NEG with URL mask "/". The URL mask
 	// will parse them to { function = "function1" } and { function = "function2" } respectively.
 	// +kubebuilder:validation:Optional
+	URLMask *string `json:"urlMask,omitempty" tf:"url_mask,omitempty"`
+}
+
+type CloudRunInitParameters struct {
+
+	// Cloud Run tag represents the "named-revision" to provide
+	// additional fine-grained traffic routing information.
+	// The tag must be 1-63 characters long, and comply with RFC1035.
+	// Example value: "revision-0010".
+	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+
+	// A template to parse service and tag fields from a request URL.
+	// URL mask allows for routing to multiple Run services without having
+	// to create multiple network endpoint groups and backend services.
+	// For example, request URLs "foo1.domain.com/bar1" and "foo1.domain.com/bar2"
+	// an be backed by the same Serverless Network Endpoint Group (NEG) with
+	// URL mask ".domain.com/". The URL mask will parse them to { service="bar1", tag="foo1" }
+	// and { service="bar2", tag="foo2" } respectively.
 	URLMask *string `json:"urlMask,omitempty" tf:"url_mask,omitempty"`
 }
 
@@ -171,6 +222,37 @@ type CloudRunParameters struct {
 	// and { service="bar2", tag="foo2" } respectively.
 	// +kubebuilder:validation:Optional
 	URLMask *string `json:"urlMask,omitempty" tf:"url_mask,omitempty"`
+}
+
+type RegionNetworkEndpointGroupInitParameters struct {
+
+	// Only valid when networkEndpointType is "SERVERLESS".
+	// Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
+	// Structure is documented below.
+	AppEngine []AppEngineInitParameters `json:"appEngine,omitempty" tf:"app_engine,omitempty"`
+
+	// Only valid when networkEndpointType is "SERVERLESS".
+	// Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
+	// Structure is documented below.
+	CloudFunction []CloudFunctionInitParameters `json:"cloudFunction,omitempty" tf:"cloud_function,omitempty"`
+
+	// Only valid when networkEndpointType is "SERVERLESS".
+	// Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
+	// Structure is documented below.
+	CloudRun []CloudRunInitParameters `json:"cloudRun,omitempty" tf:"cloud_run,omitempty"`
+
+	// An optional description of this resource. Provide this property when
+	// you create the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Type of network endpoints in this network endpoint group. Defaults to SERVERLESS
+	// Default value is SERVERLESS.
+	// Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT.
+	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type RegionNetworkEndpointGroupObservation struct {
@@ -317,6 +399,18 @@ type RegionNetworkEndpointGroupParameters struct {
 type RegionNetworkEndpointGroupSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     RegionNetworkEndpointGroupParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider RegionNetworkEndpointGroupInitParameters `json:"initProvider,omitempty"`
 }
 
 // RegionNetworkEndpointGroupStatus defines the observed state of RegionNetworkEndpointGroup.

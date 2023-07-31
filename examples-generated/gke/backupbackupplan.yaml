@@ -36,6 +36,3 @@ spec:
     location: us-central1
     workloadIdentityConfig:
     - workloadPool: my-project-name.svc.id.goog
-
----
-

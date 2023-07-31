@@ -43,6 +43,3 @@ spec:
               numLocalSsds: 2
             machineType: n1-standard-2
             numInstances: 3
-
----
-

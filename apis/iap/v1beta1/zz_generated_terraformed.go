@@ -81,6 +81,16 @@ func (tr *AppEngineServiceIAMMember) SetParameters(params map[string]any) error 
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this AppEngineServiceIAMMember
+func (tr *AppEngineServiceIAMMember) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this AppEngineServiceIAMMember using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *AppEngineServiceIAMMember) LateInitialize(attrs []byte) (bool, error) {
@@ -153,6 +163,16 @@ func (tr *AppEngineVersionIAMMember) SetParameters(params map[string]any) error 
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this AppEngineVersionIAMMember
+func (tr *AppEngineVersionIAMMember) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this AppEngineVersionIAMMember using its observed tfState.
@@ -229,6 +249,16 @@ func (tr *TunnelIAMMember) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this TunnelIAMMember
+func (tr *TunnelIAMMember) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this TunnelIAMMember using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *TunnelIAMMember) LateInitialize(attrs []byte) (bool, error) {
@@ -301,6 +331,16 @@ func (tr *WebBackendServiceIAMMember) SetParameters(params map[string]any) error
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this WebBackendServiceIAMMember
+func (tr *WebBackendServiceIAMMember) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this WebBackendServiceIAMMember using its observed tfState.
@@ -377,6 +417,16 @@ func (tr *WebIAMMember) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this WebIAMMember
+func (tr *WebIAMMember) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this WebIAMMember using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *WebIAMMember) LateInitialize(attrs []byte) (bool, error) {
@@ -451,6 +501,16 @@ func (tr *WebTypeAppEngineIAMMember) SetParameters(params map[string]any) error 
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this WebTypeAppEngineIAMMember
+func (tr *WebTypeAppEngineIAMMember) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this WebTypeAppEngineIAMMember using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *WebTypeAppEngineIAMMember) LateInitialize(attrs []byte) (bool, error) {
@@ -523,6 +583,16 @@ func (tr *WebTypeComputeIAMMember) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this WebTypeComputeIAMMember
+func (tr *WebTypeComputeIAMMember) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this WebTypeComputeIAMMember using its observed tfState.

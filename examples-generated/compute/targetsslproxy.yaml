@@ -67,6 +67,3 @@ spec:
       key: attribute.private.key
       name: example-secret
       namespace: upbound-system
-
----
-

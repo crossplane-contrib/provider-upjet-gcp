@@ -25,6 +25,23 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type SchemaInitParameters struct {
+
+	// The definition of the schema.
+	// This should contain a string representing the full definition of the schema
+	// that is a valid schema definition of the type specified in type.
+	Definition *string `json:"definition,omitempty" tf:"definition,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The type of the schema definition
+	// Default value is TYPE_UNSPECIFIED.
+	// Possible values are: TYPE_UNSPECIFIED, PROTOCOL_BUFFER, AVRO.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
 type SchemaObservation struct {
 
 	// The definition of the schema.
@@ -69,6 +86,18 @@ type SchemaParameters struct {
 type SchemaSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     SchemaParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider SchemaInitParameters `json:"initProvider,omitempty"`
 }
 
 // SchemaStatus defines the observed state of Schema.

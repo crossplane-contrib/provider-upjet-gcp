@@ -26,6 +26,3 @@ metadata:
   name: pool
 spec:
   forProvider: {}
-
----
-

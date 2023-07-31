@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: functions.cloudfunctions.gcp.upbound.io
 spec:
   group: cloudfunctions.gcp.upbound.io
@@ -58,7 +57,7 @@ spec:
                 description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
                   or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicy field in a future release. Currently,
+                  in favor of the ManagementPolicies field in a future release. Currently,
                   both could be set independently and non-default values would be
                   honored if the feature flag is enabled. See the design doc for more
                   information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
@@ -127,8 +126,6 @@ spec:
                                 description: Whether the function should be retried
                                   on failure. Defaults to false.
                                 type: boolean
-                            required:
-                            - retry
                             type: object
                           type: array
                         resource:
@@ -136,9 +133,6 @@ spec:
                             from which to observe events. For example, "myBucket"
                             or "projects/my-project/topics/my-topic"
                           type: string
-                      required:
-                      - eventType
-                      - resource
                       type: object
                     type: array
                   httpsTriggerSecurityLevel:
@@ -217,10 +211,6 @@ spec:
                             for secret environment variables as any updates to the
                             secret value is not reflected until new clones start.
                           type: string
-                      required:
-                      - key
-                      - secret
-                      - version
                       type: object
                     type: array
                   secretVolumes:
@@ -269,14 +259,8 @@ spec:
                                   "latest" version with secret volumes as secret value
                                   changes are reflected immediately.
                                 type: string
-                            required:
-                            - path
-                            - version
                             type: object
                           type: array
-                      required:
-                      - mountPath
-                      - secret
                       type: object
                     type: array
                   serviceAccountEmail:
@@ -450,8 +434,6 @@ spec:
                             where the function is defined. There are supported Cloud
                             Source Repository URLs in the following formats:'
                           type: string
-                      required:
-                      - url
                       type: object
                     type: array
                   timeout:
@@ -479,21 +461,278 @@ spec:
                 required:
                 - region
                 type: object
-              managementPolicy:
-                default: FullControl
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. InitProvider
+                  holds the same fields as ForProvider, with the exception of Identifier
+                  and other resource reference fields. The fields that are in InitProvider
+                  are merged into ForProvider when the resource is created. The same
+                  fields are also added to the terraform ignore_changes hook, to avoid
+                  updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after
+                  creation, for example because of an external controller is managing
+                  them, like an autoscaler.
+                properties:
+                  availableMemoryMb:
+                    description: Memory (in MB), available to the function. Default
+                      value is 256. Possible values include 128, 256, 512, 1024, etc.
+                    type: number
+                  buildEnvironmentVariables:
+                    additionalProperties:
+                      type: string
+                    description: A set of key/value environment variable pairs available
+                      during build time.
+                    type: object
+                  buildWorkerPool:
+                    type: string
+                  description:
+                    description: Description of the function.
+                    type: string
+                  dockerRegistry:
+                    description: Docker Registry to use for storing the function's
+                      Docker images. Allowed values are CONTAINER_REGISTRY (default)
+                      and ARTIFACT_REGISTRY.
+                    type: string
+                  dockerRepository:
+                    description: User managed repository created in Artifact Registry
+                      optionally with a customer managed encryption key. If specified,
+                      deployments will use Artifact Registry. This is the repository
+                      to which the function docker image will be pushed after it is
+                      built by Cloud Build. If unspecified, Container Registry will
+                      be used by default, unless specified otherwise by other means.
+                    type: string
+                  entryPoint:
+                    description: Name of the function that will be executed when the
+                      Google Cloud Function is triggered.
+                    type: string
+                  environmentVariables:
+                    additionalProperties:
+                      type: string
+                    description: A set of key/value environment variable pairs to
+                      assign to the function.
+                    type: object
+                  eventTrigger:
+                    description: A source that fires events in response to a condition
+                      in another service. Structure is documented below. Cannot be
+                      used with trigger_http.
+                    items:
+                      properties:
+                        eventType:
+                          description: 'The type of event to observe. For example:
+                            "google.storage.object.finalize". See the documentation
+                            on calling Cloud Functions for a full reference of accepted
+                            triggers.'
+                          type: string
+                        failurePolicy:
+                          description: Specifies policy for failed executions. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              retry:
+                                description: Whether the function should be retried
+                                  on failure. Defaults to false.
+                                type: boolean
+                            type: object
+                          type: array
+                        resource:
+                          description: Required. The name or partial URI of the resource
+                            from which to observe events. For example, "myBucket"
+                            or "projects/my-project/topics/my-topic"
+                          type: string
+                      type: object
+                    type: array
+                  httpsTriggerSecurityLevel:
+                    description: 'The security level for the function. The following
+                      options are available:'
+                    type: string
+                  httpsTriggerUrl:
+                    description: URL which triggers function execution. Returned only
+                      if trigger_http is used.
+                    type: string
+                  ingressSettings:
+                    description: String value that controls what traffic can reach
+                      the function. Allowed values are ALLOW_ALL, ALLOW_INTERNAL_AND_GCLB
+                      and ALLOW_INTERNAL_ONLY. Check ingress documentation to see
+                      the impact of each settings value. Changes to this field will
+                      recreate the cloud function.
+                    type: string
+                  kmsKeyName:
+                    description: Resource name of a KMS crypto key (managed by the
+                      user) used to encrypt/decrypt function resources. It must match
+                      the pattern projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}.
+                      If specified, you must also provide an artifact registry repository
+                      using the docker_repository field that was created with the
+                      same KMS crypto key. Before deploying, please complete all pre-requisites
+                      described in https://cloud.google.com/functions/docs/securing/cmek#granting_service_accounts_access_to_the_key
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: A set of key/value label pairs to assign to the function.
+                      Label keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
+                    type: object
+                  maxInstances:
+                    description: The limit on the maximum number of function instances
+                      that may coexist at a given time.
+                    type: number
+                  minInstances:
+                    description: The limit on the minimum number of function instances
+                      that may coexist at a given time.
+                    type: number
+                  project:
+                    description: Project of the function. If it is not provided, the
+                      provider project is used.
+                    type: string
+                  runtime:
+                    description: The runtime in which the function is going to run.
+                      Eg. "nodejs16", "python39", "dotnet3", "go116", "java11", "ruby30",
+                      "php74", etc. Check the official doc for the up-to-date list.
+                    type: string
+                  secretEnvironmentVariables:
+                    description: Secret environment variables configuration. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        key:
+                          description: Name of the environment variable.
+                          type: string
+                        projectId:
+                          description: Project identifier (due to a known limitation,
+                            only project number is supported by this field) of the
+                            project that contains the secret. If not set, it will
+                            be populated with the function's project, assuming that
+                            the secret exists in the same project as of the function.
+                          type: string
+                        secret:
+                          description: ID of the secret in secret manager (not the
+                            full resource name).
+                          type: string
+                        version:
+                          description: Version of the secret (version number or the
+                            string "latest"). It is recommended to use a numeric version
+                            for secret environment variables as any updates to the
+                            secret value is not reflected until new clones start.
+                          type: string
+                      type: object
+                    type: array
+                  secretVolumes:
+                    description: Secret volumes configuration. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        mountPath:
+                          description: 'The path within the container to mount the
+                            secret volume. For example, setting the mount_path as
+                            "/etc/secrets" would mount the secret value files under
+                            the "/etc/secrets" directory. This directory will also
+                            be completely shadowed and unavailable to mount any other
+                            secrets. Recommended mount paths: "/etc/secrets" Restricted
+                            mount paths: "/cloudsql", "/dev/log", "/pod", "/proc",
+                            "/var/log".'
+                          type: string
+                        projectId:
+                          description: Project identifier (due to a known limitation,
+                            only project number is supported by this field) of the
+                            project that contains the secret. If not set, it will
+                            be populated with the function's project, assuming that
+                            the secret exists in the same project as of the function.
+                          type: string
+                        secret:
+                          description: ID of the secret in secret manager (not the
+                            full resource name).
+                          type: string
+                        versions:
+                          description: List of secret versions to mount for this secret.
+                            If empty, the "latest" version of the secret will be made
+                            available in a file named after the secret under the mount
+                            point. Structure is documented below.
+                          items:
+                            properties:
+                              path:
+                                description: Relative path of the file under the mount
+                                  path where the secret value for this version will
+                                  be fetched and made available. For example, setting
+                                  the mount_path as "/etc/secrets" and path as "/secret_foo"
+                                  would mount the secret value file at "/etc/secrets/secret_foo".
+                                type: string
+                              version:
+                                description: Version of the secret (version number
+                                  or the string "latest"). It is preferable to use
+                                  "latest" version with secret volumes as secret value
+                                  changes are reflected immediately.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  serviceAccountEmail:
+                    description: If provided, the self-provided service account to
+                      run the function with.
+                    type: string
+                  sourceRepository:
+                    description: Represents parameters related to source repository
+                      where a function is hosted. Cannot be set alongside source_archive_bucket
+                      or source_archive_object. Structure is documented below. It
+                      must match the pattern projects/{project}/locations/{location}/repositories/{repository}.*
+                    items:
+                      properties:
+                        url:
+                          description: 'The URL pointing to the hosted repository
+                            where the function is defined. There are supported Cloud
+                            Source Repository URLs in the following formats:'
+                          type: string
+                      type: object
+                    type: array
+                  timeout:
+                    description: Timeout (in seconds) for the function. Default value
+                      is 60 seconds. Cannot be more than 540 seconds.
+                    type: number
+                  triggerHttp:
+                    description: 'Boolean variable. Any HTTP request (of a supported
+                      type) to the endpoint will trigger function execution. Supported
+                      HTTP request types are: POST, PUT, GET, DELETE, and OPTIONS.
+                      Endpoint is returned as https_trigger_url. Cannot be used with
+                      event_trigger.'
+                    type: boolean
+                  vpcConnector:
+                    description: The VPC Network Connector that this cloud function
+                      can connect to. It should be set up as fully-qualified URI.
+                      The format of this field is projects/*/locations/*/connectors/*.
+                    type: string
+                  vpcConnectorEgressSettings:
+                    description: The egress settings for the connector, controlling
+                      what traffic is diverted through it. Allowed values are ALL_TRAFFIC
+                      and PRIVATE_RANGES_ONLY. Defaults to PRIVATE_RANGES_ONLY. If
+                      unset, this field preserves the previously set value.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
                 description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
                   It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. ManagementPolicy
-                  specifies the level of control Crossplane has over the managed external
-                  resource. This field is planned to replace the DeletionPolicy field
-                  in a future release. Currently, both could be set independently
-                  and non-default values would be honored if the feature flag is enabled.
-                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
-                enum:
-                - FullControl
-                - ObserveOnly
-                - OrphanOnDelete
-                type: string
+                  enabled, and may be changed or removed without notice. ManagementPolicies
+                  specify the array of actions Crossplane is allowed to take on the
+                  managed and external resources. This field is planned to replace
+                  the DeletionPolicy field in a future release. Currently, both could
+                  be set independently and non-default values would be honored if
+                  the feature flag is enabled. If both are custom, the DeletionPolicy
+                  field will be ignored. See the design doc for more information:
+                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                items:
+                  description: A ManagementAction represents an action that the Crossplane
+                    controllers can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
               providerConfigRef:
                 default:
                   name: default
@@ -667,7 +906,9 @@ spec:
             type: object
             x-kubernetes-validations:
             - message: runtime is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.runtime)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.runtime)
+                || has(self.initProvider.runtime)'
           status:
             description: FunctionStatus defines the observed state of Function.
             properties:

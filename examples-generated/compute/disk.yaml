@@ -14,6 +14,3 @@ spec:
     physicalBlockSizeBytes: 4096
     type: pd-ssd
     zone: us-central1-a
-
----
-

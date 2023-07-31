@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: routines.bigquery.gcp.upbound.io
 spec:
   group: bigquery.gcp.upbound.io
@@ -58,7 +57,7 @@ spec:
                 description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
                   or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicy field in a future release. Currently,
+                  in favor of the ManagementPolicies field in a future release. Currently,
                   both could be set independently and non-default values would be
                   honored if the feature flag is enabled. See the design doc for more
                   information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
@@ -229,21 +228,130 @@ spec:
                       PROCEDURE, TABLE_VALUED_FUNCTION.'
                     type: string
                 type: object
-              managementPolicy:
-                default: FullControl
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. InitProvider
+                  holds the same fields as ForProvider, with the exception of Identifier
+                  and other resource reference fields. The fields that are in InitProvider
+                  are merged into ForProvider when the resource is created. The same
+                  fields are also added to the terraform ignore_changes hook, to avoid
+                  updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after
+                  creation, for example because of an external controller is managing
+                  them, like an autoscaler.
+                properties:
+                  arguments:
+                    description: Input/output argument of a function or a stored procedure.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        argumentKind:
+                          description: 'Defaults to FIXED_TYPE. Default value is FIXED_TYPE.
+                            Possible values are: FIXED_TYPE, ANY_TYPE.'
+                          type: string
+                        dataType:
+                          description: 'A JSON schema for the data type. Required
+                            unless argumentKind = ANY_TYPE. ~>NOTE: Because this field
+                            expects a JSON string, any changes to the string will
+                            create a diff, even if the JSON itself hasn''t changed.
+                            If the API returns a different value for the same schema,
+                            e.g. it switched the order of values or replaced STRUCT
+                            field type with RECORD field type, we currently cannot
+                            suppress the recurring diff this causes. As a workaround,
+                            we recommend using the schema as returned by the API.'
+                          type: string
+                        mode:
+                          description: 'Specifies whether the argument is input or
+                            output. Can be set for procedures only. Possible values
+                            are: IN, OUT, INOUT.'
+                          type: string
+                        name:
+                          description: The name of this argument. Can be absent for
+                            function return argument.
+                          type: string
+                      type: object
+                    type: array
+                  definitionBody:
+                    description: The body of the routine. For functions, this is the
+                      expression in the AS clause. If language=SQL, it is the substring
+                      inside (but excluding) the parentheses.
+                    type: string
+                  description:
+                    description: The description of the routine if defined.
+                    type: string
+                  determinismLevel:
+                    description: 'The determinism level of the JavaScript UDF if defined.
+                      Possible values are: DETERMINISM_LEVEL_UNSPECIFIED, DETERMINISTIC,
+                      NOT_DETERMINISTIC.'
+                    type: string
+                  importedLibraries:
+                    description: Optional. If language = "JAVASCRIPT", this field
+                      stores the path of the imported JAVASCRIPT libraries.
+                    items:
+                      type: string
+                    type: array
+                  language:
+                    description: 'The language of the routine. Possible values are:
+                      SQL, JAVASCRIPT.'
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  returnTableType:
+                    description: Optional. Can be set only if routineType = "TABLE_VALUED_FUNCTION".
+                      If absent, the return table type is inferred from definitionBody
+                      at query time in each query that references this routine. If
+                      present, then the columns in the evaluated table result will
+                      be cast to match the column types specificed in return table
+                      type, at query time.
+                    type: string
+                  returnType:
+                    description: 'A JSON schema for the return type. Optional if language
+                      = "SQL"; required otherwise. If absent, the return type is inferred
+                      from definitionBody at query time in each query that references
+                      this routine. If present, then the evaluated result will be
+                      cast to the specified returned type at query time. ~>NOTE: Because
+                      this field expects a JSON string, any changes to the string
+                      will create a diff, even if the JSON itself hasn''t changed.
+                      If the API returns a different value for the same schema, e.g.
+                      it switche d the order of values or replaced STRUCT field type
+                      with RECORD field type, we currently cannot suppress the recurring
+                      diff this causes. As a workaround, we recommend using the schema
+                      as returned by the API.'
+                    type: string
+                  routineType:
+                    description: 'The type of routine. Possible values are: SCALAR_FUNCTION,
+                      PROCEDURE, TABLE_VALUED_FUNCTION.'
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
                 description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
                   It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. ManagementPolicy
-                  specifies the level of control Crossplane has over the managed external
-                  resource. This field is planned to replace the DeletionPolicy field
-                  in a future release. Currently, both could be set independently
-                  and non-default values would be honored if the feature flag is enabled.
-                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
-                enum:
-                - FullControl
-                - ObserveOnly
-                - OrphanOnDelete
-                type: string
+                  enabled, and may be changed or removed without notice. ManagementPolicies
+                  specify the array of actions Crossplane is allowed to take on the
+                  managed and external resources. This field is planned to replace
+                  the DeletionPolicy field in a future release. Currently, both could
+                  be set independently and non-default values would be honored if
+                  the feature flag is enabled. If both are custom, the DeletionPolicy
+                  field will be ignored. See the design doc for more information:
+                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                items:
+                  description: A ManagementAction represents an action that the Crossplane
+                    controllers can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
               providerConfigRef:
                 default:
                   name: default
@@ -417,7 +525,9 @@ spec:
             type: object
             x-kubernetes-validations:
             - message: definitionBody is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.definitionBody)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.definitionBody)
+                || has(self.initProvider.definitionBody)'
           status:
             description: RoutineStatus defines the observed state of Routine.
             properties:

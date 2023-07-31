@@ -15,6 +15,3 @@ spec:
     ignoreIdleSlots: true
     location: us-west2
     slotCapacity: 0
-
----
-

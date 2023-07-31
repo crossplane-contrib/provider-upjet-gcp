@@ -25,6 +25,12 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AnonymousInitParameters struct {
+
+	// Whether phone number auth is enabled for the project or not.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
 type AnonymousObservation struct {
 
 	// Whether phone number auth is enabled for the project or not.
@@ -34,8 +40,19 @@ type AnonymousObservation struct {
 type AnonymousParameters struct {
 
 	// Whether phone number auth is enabled for the project or not.
-	// +kubebuilder:validation:Required
-	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type EmailInitParameters struct {
+
+	// Whether phone number auth is enabled for the project or not.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// Whether a password is required for email auth or not. If true, both an email and
+	// password must be provided to sign in. If false, a user may sign in via either
+	// email/password or email link.
+	PasswordRequired *bool `json:"passwordRequired,omitempty" tf:"password_required,omitempty"`
 }
 
 type EmailObservation struct {
@@ -60,6 +77,9 @@ type EmailParameters struct {
 	// email/password or email link.
 	// +kubebuilder:validation:Optional
 	PasswordRequired *bool `json:"passwordRequired,omitempty" tf:"password_required,omitempty"`
+}
+
+type HashConfigInitParameters struct {
 }
 
 type HashConfigObservation struct {
@@ -88,6 +108,15 @@ type HashConfigObservation struct {
 type HashConfigParameters struct {
 }
 
+type PhoneNumberInitParameters struct {
+
+	// Whether phone number auth is enabled for the project or not.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// A map of <test phone number, fake code> that can be used for phone auth testing.
+	TestPhoneNumbers map[string]*string `json:"testPhoneNumbers,omitempty" tf:"test_phone_numbers,omitempty"`
+}
+
 type PhoneNumberObservation struct {
 
 	// Whether phone number auth is enabled for the project or not.
@@ -106,6 +135,17 @@ type PhoneNumberParameters struct {
 	// A map of <test phone number, fake code> that can be used for phone auth testing.
 	// +kubebuilder:validation:Optional
 	TestPhoneNumbers map[string]*string `json:"testPhoneNumbers,omitempty" tf:"test_phone_numbers,omitempty"`
+}
+
+type ProjectDefaultConfigInitParameters struct {
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Configuration related to local sign in methods.
+	// Structure is documented below.
+	SignIn []SignInInitParameters `json:"signIn,omitempty" tf:"sign_in,omitempty"`
 }
 
 type ProjectDefaultConfigObservation struct {
@@ -136,6 +176,24 @@ type ProjectDefaultConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SignIn []SignInParameters `json:"signIn,omitempty" tf:"sign_in,omitempty"`
+}
+
+type SignInInitParameters struct {
+
+	// Whether to allow more than one account to have the same email.
+	AllowDuplicateEmails *bool `json:"allowDuplicateEmails,omitempty" tf:"allow_duplicate_emails,omitempty"`
+
+	// Configuration options related to authenticating an anonymous user.
+	// Structure is documented below.
+	Anonymous []AnonymousInitParameters `json:"anonymous,omitempty" tf:"anonymous,omitempty"`
+
+	// Configuration options related to authenticating a user by their email address.
+	// Structure is documented below.
+	Email []EmailInitParameters `json:"email,omitempty" tf:"email,omitempty"`
+
+	// Configuration options related to authenticated a user by their phone number.
+	// Structure is documented below.
+	PhoneNumber []PhoneNumberInitParameters `json:"phoneNumber,omitempty" tf:"phone_number,omitempty"`
 }
 
 type SignInObservation struct {
@@ -187,6 +245,18 @@ type SignInParameters struct {
 type ProjectDefaultConfigSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ProjectDefaultConfigParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ProjectDefaultConfigInitParameters `json:"initProvider,omitempty"`
 }
 
 // ProjectDefaultConfigStatus defines the observed state of ProjectDefaultConfig.

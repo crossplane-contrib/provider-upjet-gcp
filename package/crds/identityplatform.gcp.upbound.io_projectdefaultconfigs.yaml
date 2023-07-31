@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: projectdefaultconfigs.identityplatform.gcp.upbound.io
 spec:
   group: identityplatform.gcp.upbound.io
@@ -58,7 +57,7 @@ spec:
                 description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
                   or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicy field in a future release. Currently,
+                  in favor of the ManagementPolicies field in a future release. Currently,
                   both could be set independently and non-default values would be
                   honored if the feature flag is enabled. See the design doc for more
                   information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
@@ -90,8 +89,6 @@ spec:
                                 description: Whether phone number auth is enabled
                                   for the project or not.
                                 type: boolean
-                            required:
-                            - enabled
                             type: object
                           type: array
                         email:
@@ -133,21 +130,108 @@ spec:
                       type: object
                     type: array
                 type: object
-              managementPolicy:
-                default: FullControl
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. InitProvider
+                  holds the same fields as ForProvider, with the exception of Identifier
+                  and other resource reference fields. The fields that are in InitProvider
+                  are merged into ForProvider when the resource is created. The same
+                  fields are also added to the terraform ignore_changes hook, to avoid
+                  updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after
+                  creation, for example because of an external controller is managing
+                  them, like an autoscaler.
+                properties:
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  signIn:
+                    description: Configuration related to local sign in methods. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        allowDuplicateEmails:
+                          description: Whether to allow more than one account to have
+                            the same email.
+                          type: boolean
+                        anonymous:
+                          description: Configuration options related to authenticating
+                            an anonymous user. Structure is documented below.
+                          items:
+                            properties:
+                              enabled:
+                                description: Whether phone number auth is enabled
+                                  for the project or not.
+                                type: boolean
+                            type: object
+                          type: array
+                        email:
+                          description: Configuration options related to authenticating
+                            a user by their email address. Structure is documented
+                            below.
+                          items:
+                            properties:
+                              enabled:
+                                description: Whether phone number auth is enabled
+                                  for the project or not.
+                                type: boolean
+                              passwordRequired:
+                                description: Whether a password is required for email
+                                  auth or not. If true, both an email and password
+                                  must be provided to sign in. If false, a user may
+                                  sign in via either email/password or email link.
+                                type: boolean
+                            type: object
+                          type: array
+                        phoneNumber:
+                          description: Configuration options related to authenticated
+                            a user by their phone number. Structure is documented
+                            below.
+                          items:
+                            properties:
+                              enabled:
+                                description: Whether phone number auth is enabled
+                                  for the project or not.
+                                type: boolean
+                              testPhoneNumbers:
+                                additionalProperties:
+                                  type: string
+                                description: A map of <test phone number, fake code>
+                                  that can be used for phone auth testing.
+                                type: object
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
                 description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
                   It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. ManagementPolicy
-                  specifies the level of control Crossplane has over the managed external
-                  resource. This field is planned to replace the DeletionPolicy field
-                  in a future release. Currently, both could be set independently
-                  and non-default values would be honored if the feature flag is enabled.
-                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
-                enum:
-                - FullControl
-                - ObserveOnly
-                - OrphanOnDelete
-                type: string
+                  enabled, and may be changed or removed without notice. ManagementPolicies
+                  specify the array of actions Crossplane is allowed to take on the
+                  managed and external resources. This field is planned to replace
+                  the DeletionPolicy field in a future release. Currently, both could
+                  be set independently and non-default values would be honored if
+                  the feature flag is enabled. If both are custom, the DeletionPolicy
+                  field will be ignored. See the design doc for more information:
+                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                items:
+                  description: A ManagementAction represents an action that the Crossplane
+                    controllers can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
               providerConfigRef:
                 default:
                   name: default

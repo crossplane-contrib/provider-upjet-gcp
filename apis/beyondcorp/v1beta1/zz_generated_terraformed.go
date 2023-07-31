@@ -81,6 +81,16 @@ func (tr *AppConnection) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this AppConnection
+func (tr *AppConnection) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this AppConnection using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *AppConnection) LateInitialize(attrs []byte) (bool, error) {
@@ -155,6 +165,16 @@ func (tr *AppConnector) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this AppConnector
+func (tr *AppConnector) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this AppConnector using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *AppConnector) LateInitialize(attrs []byte) (bool, error) {
@@ -227,6 +247,16 @@ func (tr *AppGateway) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this AppGateway
+func (tr *AppGateway) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this AppGateway using its observed tfState.

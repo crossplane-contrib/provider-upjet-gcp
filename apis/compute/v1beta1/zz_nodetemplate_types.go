@@ -25,6 +25,41 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type NodeTemplateInitParameters struct {
+
+	// CPU overcommit.
+	// Default value is NONE.
+	// Possible values are: ENABLED, NONE.
+	CPUOvercommitType *string `json:"cpuOvercommitType,omitempty" tf:"cpu_overcommit_type,omitempty"`
+
+	// An optional textual description of the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Labels to use for node affinity, which will be used in
+	// instance scheduling.
+	NodeAffinityLabels map[string]*string `json:"nodeAffinityLabels,omitempty" tf:"node_affinity_labels,omitempty"`
+
+	// Node type to use for nodes group that are created from this template.
+	// Only one of nodeTypeFlexibility and nodeType can be specified.
+	NodeType *string `json:"nodeType,omitempty" tf:"node_type,omitempty"`
+
+	// Flexible properties for the desired node type. Node groups that
+	// use this node template will create nodes of a type that matches
+	// these properties. Only one of nodeTypeFlexibility and nodeType can
+	// be specified.
+	// Structure is documented below.
+	NodeTypeFlexibility []NodeTypeFlexibilityInitParameters `json:"nodeTypeFlexibility,omitempty" tf:"node_type_flexibility,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The server binding policy for nodes using this template. Determines
+	// where the nodes should restart following a maintenance event.
+	// Structure is documented below.
+	ServerBinding []ServerBindingInitParameters `json:"serverBinding,omitempty" tf:"server_binding,omitempty"`
+}
+
 type NodeTemplateObservation struct {
 
 	// CPU overcommit.
@@ -120,6 +155,15 @@ type NodeTemplateParameters struct {
 	ServerBinding []ServerBindingParameters `json:"serverBinding,omitempty" tf:"server_binding,omitempty"`
 }
 
+type NodeTypeFlexibilityInitParameters struct {
+
+	// Number of virtual CPUs to use.
+	Cpus *string `json:"cpus,omitempty" tf:"cpus,omitempty"`
+
+	// Physical memory available to the node, defined in MB.
+	Memory *string `json:"memory,omitempty" tf:"memory,omitempty"`
+}
+
 type NodeTypeFlexibilityObservation struct {
 
 	// Number of virtual CPUs to use.
@@ -142,6 +186,23 @@ type NodeTypeFlexibilityParameters struct {
 	// Physical memory available to the node, defined in MB.
 	// +kubebuilder:validation:Optional
 	Memory *string `json:"memory,omitempty" tf:"memory,omitempty"`
+}
+
+type ServerBindingInitParameters struct {
+
+	// Type of server binding policy. If RESTART_NODE_ON_ANY_SERVER,
+	// nodes using this template will restart on any physical server
+	// following a maintenance event.
+	// If RESTART_NODE_ON_MINIMAL_SERVER, nodes using this template
+	// will restart on the same physical server following a maintenance
+	// event, instead of being live migrated to or restarted on a new
+	// physical server. This option may be useful if you are using
+	// software licenses tied to the underlying server characteristics
+	// such as physical sockets or cores, to avoid the need for
+	// additional licenses when maintenance occurs. However, VMs on such
+	// nodes will experience outages while maintenance is applied.
+	// Possible values are: RESTART_NODE_ON_ANY_SERVER, RESTART_NODE_ON_MINIMAL_SERVERS.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ServerBindingObservation struct {
@@ -175,14 +236,26 @@ type ServerBindingParameters struct {
 	// additional licenses when maintenance occurs. However, VMs on such
 	// nodes will experience outages while maintenance is applied.
 	// Possible values are: RESTART_NODE_ON_ANY_SERVER, RESTART_NODE_ON_MINIMAL_SERVERS.
-	// +kubebuilder:validation:Required
-	Type *string `json:"type" tf:"type,omitempty"`
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 // NodeTemplateSpec defines the desired state of NodeTemplate
 type NodeTemplateSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     NodeTemplateParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider NodeTemplateInitParameters `json:"initProvider,omitempty"`
 }
 
 // NodeTemplateStatus defines the observed state of NodeTemplate.

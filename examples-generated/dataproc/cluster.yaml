@@ -10,6 +10,3 @@ spec:
   forProvider:
     name: simplecluster
     region: us-central1
-
----
-

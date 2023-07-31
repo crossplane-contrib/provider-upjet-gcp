@@ -55,6 +55,3 @@ spec:
     description: Description
     displayName: Displayname
     parent: projects/my-project-name
-
----
-

@@ -75,6 +75,3 @@ spec:
     location: us-west1
     project: my-project-name
     uniformBucketLevelAccess: true
-
----
-

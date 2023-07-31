@@ -34,6 +34,3 @@ spec:
     project: ${data.google_project.project.number}
     retentionConfig:
     - perPartitionBytes: 32212254720
-
----
-

@@ -19,6 +19,3 @@ spec:
           - diskSizeGb: "100"
             diskType: PD_STANDARD
         machineType: n1-standard-4
-
----
-

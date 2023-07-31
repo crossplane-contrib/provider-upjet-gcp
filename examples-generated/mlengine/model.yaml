@@ -12,6 +12,3 @@ spec:
     name: default
     regions:
     - us-central1
-
----
-

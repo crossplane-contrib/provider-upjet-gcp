@@ -49,6 +49,3 @@ spec:
     labels:
       env: default
     location: EU
-
----
-

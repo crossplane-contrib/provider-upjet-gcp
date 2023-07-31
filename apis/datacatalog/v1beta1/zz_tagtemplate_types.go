@@ -25,6 +25,12 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AllowedValuesInitParameters struct {
+
+	// The display name for this field.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+}
+
 type AllowedValuesObservation struct {
 
 	// The display name for this field.
@@ -34,8 +40,19 @@ type AllowedValuesObservation struct {
 type AllowedValuesParameters struct {
 
 	// The display name for this field.
-	// +kubebuilder:validation:Required
-	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+}
+
+type EnumTypeInitParameters struct {
+
+	// The set of allowed values for this enum. The display names of the
+	// values must be case-insensitively unique within this set. Currently,
+	// enum values can only be added to the list of allowed values. Deletion
+	// and renaming of enum values are not supported.
+	// Can have up to 500 allowed values.
+	// Structure is documented below.
+	AllowedValues []AllowedValuesInitParameters `json:"allowedValues,omitempty" tf:"allowed_values,omitempty"`
 }
 
 type EnumTypeObservation struct {
@@ -57,8 +74,32 @@ type EnumTypeParameters struct {
 	// and renaming of enum values are not supported.
 	// Can have up to 500 allowed values.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	AllowedValues []AllowedValuesParameters `json:"allowedValues" tf:"allowed_values,omitempty"`
+	// +kubebuilder:validation:Optional
+	AllowedValues []AllowedValuesParameters `json:"allowedValues,omitempty" tf:"allowed_values,omitempty"`
+}
+
+type TagTemplateFieldsInitParameters struct {
+
+	// A description for this field.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The display name for this field.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The identifier for this object. Format specified above.
+	FieldID *string `json:"fieldId,omitempty" tf:"field_id,omitempty"`
+
+	// Whether this is a required field. Defaults to false.
+	IsRequired *bool `json:"isRequired,omitempty" tf:"is_required,omitempty"`
+
+	// The order of this field with respect to other fields in this tag template.
+	// A higher value indicates a more important field. The value can be negative.
+	// Multiple fields can have the same order, and field orders within a tag do not have to be sequential.
+	Order *float64 `json:"order,omitempty" tf:"order,omitempty"`
+
+	// The type of value this tag field can contain.
+	// Structure is documented below.
+	Type []TypeInitParameters `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type TagTemplateFieldsObservation struct {
@@ -100,8 +141,8 @@ type TagTemplateFieldsParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The identifier for this object. Format specified above.
-	// +kubebuilder:validation:Required
-	FieldID *string `json:"fieldId" tf:"field_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	FieldID *string `json:"fieldId,omitempty" tf:"field_id,omitempty"`
 
 	// Whether this is a required field. Defaults to false.
 	// +kubebuilder:validation:Optional
@@ -115,8 +156,25 @@ type TagTemplateFieldsParameters struct {
 
 	// The type of value this tag field can contain.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	Type []TypeParameters `json:"type" tf:"type,omitempty"`
+	// +kubebuilder:validation:Optional
+	Type []TypeParameters `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type TagTemplateInitParameters struct {
+
+	// The display name for this field.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Set of tag template field IDs and the settings for the field. This set is an exhaustive list of the allowed fields. This set must contain at least one field and at most 500 fields. The change of field_id will be resulting in re-creating of field. The change of primitive_type will be resulting in re-creating of field, however if the field is a required, you cannot update it.
+	// Structure is documented below.
+	Fields []TagTemplateFieldsInitParameters `json:"fields,omitempty" tf:"fields,omitempty"`
+
+	// This confirms the deletion of any possible tags using this template. Must be set to true in order to delete the tag template.
+	ForceDelete *bool `json:"forceDelete,omitempty" tf:"force_delete,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type TagTemplateObservation struct {
@@ -170,6 +228,19 @@ type TagTemplateParameters struct {
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
 
+type TypeInitParameters struct {
+
+	// Represents an enum type.
+	// Exactly one of primitive_type or enum_type must be set
+	// Structure is documented below.
+	EnumType []EnumTypeInitParameters `json:"enumType,omitempty" tf:"enum_type,omitempty"`
+
+	// Represents primitive types - string, bool etc.
+	// Exactly one of primitive_type or enum_type must be set
+	// Possible values are: DOUBLE, STRING, BOOL, TIMESTAMP.
+	PrimitiveType *string `json:"primitiveType,omitempty" tf:"primitive_type,omitempty"`
+}
+
 type TypeObservation struct {
 
 	// Represents an enum type.
@@ -202,6 +273,18 @@ type TypeParameters struct {
 type TagTemplateSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     TagTemplateParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider TagTemplateInitParameters `json:"initProvider,omitempty"`
 }
 
 // TagTemplateStatus defines the observed state of TagTemplate.
@@ -222,7 +305,7 @@ type TagTemplateStatus struct {
 type TagTemplate struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.fields)",message="fields is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.fields) || has(self.initProvider.fields)",message="fields is a required parameter"
 	Spec   TagTemplateSpec   `json:"spec"`
 	Status TagTemplateStatus `json:"status,omitempty"`
 }

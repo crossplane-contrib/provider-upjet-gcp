@@ -41,6 +41,3 @@ spec:
     - disruptionBudget:
       - fixed: 1
       minWaitDuration: 3.5s
-
----
-

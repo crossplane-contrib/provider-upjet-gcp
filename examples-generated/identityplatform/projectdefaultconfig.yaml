@@ -19,6 +19,3 @@ spec:
       - enabled: true
         testPhoneNumbers:
           "+11231231234": "000000"
-
----
-

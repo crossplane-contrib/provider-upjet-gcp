@@ -81,6 +81,16 @@ func (tr *AutoscalingPolicy) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this AutoscalingPolicy
+func (tr *AutoscalingPolicy) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this AutoscalingPolicy using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *AutoscalingPolicy) LateInitialize(attrs []byte) (bool, error) {
@@ -153,6 +163,16 @@ func (tr *Cluster) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this Cluster
+func (tr *Cluster) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this Cluster using its observed tfState.
@@ -229,6 +249,16 @@ func (tr *Job) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this Job
+func (tr *Job) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this Job using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *Job) LateInitialize(attrs []byte) (bool, error) {
@@ -303,6 +333,16 @@ func (tr *MetastoreService) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this MetastoreService
+func (tr *MetastoreService) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this MetastoreService using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *MetastoreService) LateInitialize(attrs []byte) (bool, error) {
@@ -375,6 +415,16 @@ func (tr *WorkflowTemplate) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this WorkflowTemplate
+func (tr *WorkflowTemplate) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this WorkflowTemplate using its observed tfState.

@@ -25,6 +25,21 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ReservationAssignmentInitParameters struct {
+
+	// The resource which will use the reservation. E.g. projects/myproject, folders/123, organizations/456.
+	Assignee *string `json:"assignee,omitempty" tf:"assignee,omitempty"`
+
+	// Types of job, which could be specified when using the reservation. Possible values: JOB_TYPE_UNSPECIFIED, PIPELINE, QUERY
+	JobType *string `json:"jobType,omitempty" tf:"job_type,omitempty"`
+
+	// The location for the resource
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// The project for the resource
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
 type ReservationAssignmentObservation struct {
 
 	// The resource which will use the reservation. E.g. projects/myproject, folders/123, organizations/456.
@@ -89,6 +104,18 @@ type ReservationAssignmentParameters struct {
 type ReservationAssignmentSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ReservationAssignmentParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ReservationAssignmentInitParameters `json:"initProvider,omitempty"`
 }
 
 // ReservationAssignmentStatus defines the observed state of ReservationAssignment.
@@ -109,8 +136,8 @@ type ReservationAssignmentStatus struct {
 type ReservationAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.assignee)",message="assignee is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.jobType)",message="jobType is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.assignee) || has(self.initProvider.assignee)",message="assignee is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.jobType) || has(self.initProvider.jobType)",message="jobType is a required parameter"
 	Spec   ReservationAssignmentSpec   `json:"spec"`
 	Status ReservationAssignmentStatus `json:"status,omitempty"`
 }

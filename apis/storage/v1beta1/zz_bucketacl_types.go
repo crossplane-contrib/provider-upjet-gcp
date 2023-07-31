@@ -25,6 +25,18 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type BucketACLInitParameters struct {
+
+	// Configure this ACL to be the default ACL.
+	DefaultACL *string `json:"defaultAcl,omitempty" tf:"default_acl,omitempty"`
+
+	// The canned GCS ACL to apply. Must be set if role_entity is not.
+	PredefinedACL *string `json:"predefinedAcl,omitempty" tf:"predefined_acl,omitempty"`
+
+	// List of role/entity pairs in the form ROLE:entity. See GCS Bucket ACL documentation  for more details. Must be set if predefined_acl is not.
+	RoleEntity []*string `json:"roleEntity,omitempty" tf:"role_entity,omitempty"`
+}
+
 type BucketACLObservation struct {
 
 	// The name of the bucket it applies to.
@@ -74,6 +86,18 @@ type BucketACLParameters struct {
 type BucketACLSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     BucketACLParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider BucketACLInitParameters `json:"initProvider,omitempty"`
 }
 
 // BucketACLStatus defines the observed state of BucketACL.

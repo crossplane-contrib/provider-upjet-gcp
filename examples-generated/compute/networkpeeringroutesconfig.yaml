@@ -84,6 +84,3 @@ spec:
     peerNetworkSelector:
       matchLabels:
         testing.upbound.io/example-name: network_primary
-
----
-

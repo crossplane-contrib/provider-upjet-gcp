@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: projectsinks.logging.gcp.upbound.io
 spec:
   group: logging.gcp.upbound.io
@@ -58,7 +57,7 @@ spec:
                 description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
                   or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicy field in a future release. Currently,
+                  in favor of the ManagementPolicies field in a future release. Currently,
                   both could be set independently and non-default values would be
                   honored if the feature flag is enabled. See the design doc for more
                   information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
@@ -81,8 +80,6 @@ spec:
                             query syntax has to be used instead. In both cases, tables
                             are sharded based on UTC timezone.
                           type: boolean
-                      required:
-                      - usePartitionedTables
                       type: object
                     type: array
                   description:
@@ -127,9 +124,6 @@ spec:
                             only letters, digits, underscores, hyphens, and periods.
                             First character has to be alphanumeric.
                           type: string
-                      required:
-                      - filter
-                      - name
                       type: object
                     type: array
                   filter:
@@ -150,21 +144,122 @@ spec:
                       bigquery_options, you must set unique_writer_identity to true.
                     type: boolean
                 type: object
-              managementPolicy:
-                default: FullControl
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. InitProvider
+                  holds the same fields as ForProvider, with the exception of Identifier
+                  and other resource reference fields. The fields that are in InitProvider
+                  are merged into ForProvider when the resource is created. The same
+                  fields are also added to the terraform ignore_changes hook, to avoid
+                  updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after
+                  creation, for example because of an external controller is managing
+                  them, like an autoscaler.
+                properties:
+                  bigqueryOptions:
+                    description: Options that affect sinks exporting data to BigQuery.
+                      Structure documented below.
+                    items:
+                      properties:
+                        usePartitionedTables:
+                          description: Whether to use BigQuery's partition tables.
+                            By default, Logging creates dated tables based on the
+                            log entries' timestamps, e.g. syslog_20170523. With partitioned
+                            tables the date suffix is no longer present and special
+                            query syntax has to be used instead. In both cases, tables
+                            are sharded based on UTC timezone.
+                          type: boolean
+                      type: object
+                    type: array
+                  description:
+                    description: A description of this sink. The maximum length of
+                      the description is 8000 characters.
+                    type: string
+                  destination:
+                    description: 'The destination of the sink (or, in other words,
+                      where logs are written to). Can be a Cloud Storage bucket, a
+                      PubSub topic, a BigQuery dataset or a Cloud Logging bucket .
+                      Examples:'
+                    type: string
+                  disabled:
+                    description: If set to True, then this sink is disabled and it
+                      does not export any log entries.
+                    type: boolean
+                  exclusions:
+                    description: Log entries that match any of the exclusion filters
+                      will not be exported. If a log entry is matched by both filter
+                      and one of exclusions.filter, it will not be exported.  Can
+                      be repeated multiple times for multiple exclusions. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        description:
+                          description: A description of this exclusion.
+                          type: string
+                        disabled:
+                          description: If set to True, then this exclusion is disabled
+                            and it does not exclude any log entries.
+                          type: boolean
+                        filter:
+                          description: An advanced logs filter that matches the log
+                            entries to be excluded. By using the sample function,
+                            you can exclude less than 100% of the matching log entries.
+                            See Advanced Log Filters for information on how to write
+                            a filter.
+                          type: string
+                        name:
+                          description: A client-assigned identifier, such as load-balancer-exclusion.
+                            Identifiers are limited to 100 characters and can include
+                            only letters, digits, underscores, hyphens, and periods.
+                            First character has to be alphanumeric.
+                          type: string
+                      type: object
+                    type: array
+                  filter:
+                    description: The filter to apply when exporting logs. Only log
+                      entries that match the filter are exported. See Advanced Log
+                      Filters for information on how to write a filter.
+                    type: string
+                  project:
+                    description: The ID of the project to create the sink in. If omitted,
+                      the project associated with the provider is used.
+                    type: string
+                  uniqueWriterIdentity:
+                    description: Whether or not to create a unique identity associated
+                      with this sink. If false (the default), then the writer_identity
+                      used is serviceAccount:cloud-logs@system.gserviceaccount.com.
+                      If true, then a unique service account is created and used for
+                      this sink. If you wish to publish logs across projects or utilize
+                      bigquery_options, you must set unique_writer_identity to true.
+                    type: boolean
+                type: object
+              managementPolicies:
+                default:
+                - '*'
                 description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
                   It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. ManagementPolicy
-                  specifies the level of control Crossplane has over the managed external
-                  resource. This field is planned to replace the DeletionPolicy field
-                  in a future release. Currently, both could be set independently
-                  and non-default values would be honored if the feature flag is enabled.
-                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
-                enum:
-                - FullControl
-                - ObserveOnly
-                - OrphanOnDelete
-                type: string
+                  enabled, and may be changed or removed without notice. ManagementPolicies
+                  specify the array of actions Crossplane is allowed to take on the
+                  managed and external resources. This field is planned to replace
+                  the DeletionPolicy field in a future release. Currently, both could
+                  be set independently and non-default values would be honored if
+                  the feature flag is enabled. If both are custom, the DeletionPolicy
+                  field will be ignored. See the design doc for more information:
+                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                items:
+                  description: A ManagementAction represents an action that the Crossplane
+                    controllers can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
               providerConfigRef:
                 default:
                   name: default
@@ -338,7 +433,9 @@ spec:
             type: object
             x-kubernetes-validations:
             - message: destination is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.destination)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.destination)
+                || has(self.initProvider.destination)'
           status:
             description: ProjectSinkStatus defines the observed state of ProjectSink.
             properties:

@@ -42,6 +42,3 @@ spec:
   forProvider:
     name: dproc-cluster-unique-name
     region: us-central1
-
----
-

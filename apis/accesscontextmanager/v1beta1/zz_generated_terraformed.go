@@ -81,6 +81,16 @@ func (tr *AccessLevel) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this AccessLevel
+func (tr *AccessLevel) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this AccessLevel using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *AccessLevel) LateInitialize(attrs []byte) (bool, error) {
@@ -153,6 +163,16 @@ func (tr *AccessLevelCondition) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this AccessLevelCondition
+func (tr *AccessLevelCondition) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this AccessLevelCondition using its observed tfState.
@@ -229,6 +249,16 @@ func (tr *AccessPolicy) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this AccessPolicy
+func (tr *AccessPolicy) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this AccessPolicy using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *AccessPolicy) LateInitialize(attrs []byte) (bool, error) {
@@ -301,6 +331,16 @@ func (tr *AccessPolicyIAMMember) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this AccessPolicyIAMMember
+func (tr *AccessPolicyIAMMember) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this AccessPolicyIAMMember using its observed tfState.
@@ -377,6 +417,16 @@ func (tr *ServicePerimeter) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this ServicePerimeter
+func (tr *ServicePerimeter) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this ServicePerimeter using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *ServicePerimeter) LateInitialize(attrs []byte) (bool, error) {
@@ -449,6 +499,16 @@ func (tr *ServicePerimeterResource) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this ServicePerimeterResource
+func (tr *ServicePerimeterResource) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this ServicePerimeterResource using its observed tfState.

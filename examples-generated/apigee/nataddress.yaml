@@ -137,6 +137,3 @@ spec:
     reservedPeeringRangesRefs:
     - name: apigee_range
     service: servicenetworking.googleapis.com
-
----
-

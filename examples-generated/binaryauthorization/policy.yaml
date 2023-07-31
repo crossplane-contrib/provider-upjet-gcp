@@ -52,6 +52,3 @@ spec:
     attestationAuthority:
     - hint:
       - humanReadableName: My attestor
-
----
-

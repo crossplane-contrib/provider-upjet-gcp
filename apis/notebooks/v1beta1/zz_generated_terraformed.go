@@ -81,6 +81,16 @@ func (tr *Environment) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this Environment
+func (tr *Environment) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this Environment using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *Environment) LateInitialize(attrs []byte) (bool, error) {
@@ -153,6 +163,16 @@ func (tr *Instance) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this Instance
+func (tr *Instance) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this Instance using its observed tfState.
@@ -229,6 +249,16 @@ func (tr *InstanceIAMMember) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this InstanceIAMMember
+func (tr *InstanceIAMMember) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this InstanceIAMMember using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *InstanceIAMMember) LateInitialize(attrs []byte) (bool, error) {
@@ -303,6 +333,16 @@ func (tr *Runtime) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this Runtime
+func (tr *Runtime) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this Runtime using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *Runtime) LateInitialize(attrs []byte) (bool, error) {
@@ -375,6 +415,16 @@ func (tr *RuntimeIAMMember) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this RuntimeIAMMember
+func (tr *RuntimeIAMMember) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this RuntimeIAMMember using its observed tfState.

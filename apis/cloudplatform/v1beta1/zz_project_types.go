@@ -25,6 +25,42 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ProjectInitParameters struct {
+
+	// Controls whether the 'default' network exists on the project. Defaults
+	// to true, where it is created. Therefore, for quota purposes, you will still need to have 1
+	// network slot available to create the project successfully, even if you set auto_create_network to
+	// false.googleapis.com on the project to interact
+	// with the GCE API and currently leaves it enabled.
+	AutoCreateNetwork *bool `json:"autoCreateNetwork,omitempty" tf:"auto_create_network,omitempty"`
+
+	// The alphanumeric ID of the billing account this project
+	// belongs to.user) on the billing account.
+	// See Google Cloud Billing API Access Control
+	// for more details.
+	BillingAccount *string `json:"billingAccount,omitempty" tf:"billing_account,omitempty"`
+
+	// A set of key/value label pairs to assign to the project.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The display name of the project.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The numeric ID of the organization this project belongs to.
+	// Changing this forces a new project to be created.  Only one of
+	// org_id or folder_id may be specified. If the org_id is
+	// specified then the project is created at the top level. Changing
+	// this forces the project to be migrated to the newly specified
+	// organization.
+	// The numeric ID of the organization this project belongs to.
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	// The project ID. Changing this forces a new project to be created.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	SkipDelete *bool `json:"skipDelete,omitempty" tf:"skip_delete,omitempty"`
+}
+
 type ProjectObservation struct {
 
 	// Controls whether the 'default' network exists on the project. Defaults
@@ -139,6 +175,18 @@ type ProjectParameters struct {
 type ProjectSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ProjectParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ProjectInitParameters `json:"initProvider,omitempty"`
 }
 
 // ProjectStatus defines the observed state of Project.
@@ -159,8 +207,8 @@ type ProjectStatus struct {
 type Project struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.projectId)",message="projectId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || has(self.initProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.projectId) || has(self.initProvider.projectId)",message="projectId is a required parameter"
 	Spec   ProjectSpec   `json:"spec"`
 	Status ProjectStatus `json:"status,omitempty"`
 }

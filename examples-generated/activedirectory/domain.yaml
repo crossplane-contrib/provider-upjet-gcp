@@ -12,6 +12,3 @@ spec:
     locations:
     - us-central1
     reservedIpRange: 192.168.255.0/24
-
----
-

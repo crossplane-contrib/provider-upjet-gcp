@@ -25,6 +25,9 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type IdPConfigIdPCertificatesInitParameters struct {
+}
+
 type IdPConfigIdPCertificatesObservation struct {
 }
 
@@ -36,6 +39,9 @@ type IdPConfigIdPCertificatesParameters struct {
 	X509CertificateSecretRef *v1.SecretKeySelector `json:"x509CertificateSecretRef,omitempty" tf:"-"`
 }
 
+type SpConfigSpCertificatesInitParameters struct {
+}
+
 type SpConfigSpCertificatesObservation struct {
 
 	// (Output)
@@ -44,6 +50,22 @@ type SpConfigSpCertificatesObservation struct {
 }
 
 type SpConfigSpCertificatesParameters struct {
+}
+
+type TenantInboundSAMLConfigIdPConfigInitParameters struct {
+
+	// The IDP's certificate data to verify the signature in the SAMLResponse issued by the IDP.
+	// Structure is documented below.
+	IdPCertificates []IdPConfigIdPCertificatesInitParameters `json:"idpCertificates,omitempty" tf:"idp_certificates,omitempty"`
+
+	// Unique identifier for all SAML entities
+	IdPEntityID *string `json:"idpEntityId,omitempty" tf:"idp_entity_id,omitempty"`
+
+	// Indicates if outbounding SAMLRequest should be signed.
+	SignRequest *bool `json:"signRequest,omitempty" tf:"sign_request,omitempty"`
+
+	// URL to send Authentication request to.
+	SsoURL *string `json:"ssoUrl,omitempty" tf:"sso_url,omitempty"`
 }
 
 type TenantInboundSAMLConfigIdPConfigObservation struct {
@@ -66,20 +88,47 @@ type TenantInboundSAMLConfigIdPConfigParameters struct {
 
 	// The IDP's certificate data to verify the signature in the SAMLResponse issued by the IDP.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	IdPCertificates []IdPConfigIdPCertificatesParameters `json:"idpCertificates" tf:"idp_certificates,omitempty"`
+	// +kubebuilder:validation:Optional
+	IdPCertificates []IdPConfigIdPCertificatesParameters `json:"idpCertificates,omitempty" tf:"idp_certificates,omitempty"`
 
 	// Unique identifier for all SAML entities
-	// +kubebuilder:validation:Required
-	IdPEntityID *string `json:"idpEntityId" tf:"idp_entity_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	IdPEntityID *string `json:"idpEntityId,omitempty" tf:"idp_entity_id,omitempty"`
 
 	// Indicates if outbounding SAMLRequest should be signed.
 	// +kubebuilder:validation:Optional
 	SignRequest *bool `json:"signRequest,omitempty" tf:"sign_request,omitempty"`
 
 	// URL to send Authentication request to.
-	// +kubebuilder:validation:Required
-	SsoURL *string `json:"ssoUrl" tf:"sso_url,omitempty"`
+	// +kubebuilder:validation:Optional
+	SsoURL *string `json:"ssoUrl,omitempty" tf:"sso_url,omitempty"`
+}
+
+type TenantInboundSAMLConfigInitParameters struct {
+
+	// Human friendly display name.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// If this config allows users to sign in with the provider.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// SAML IdP configuration when the project acts as the relying party
+	// Structure is documented below.
+	IdPConfig []TenantInboundSAMLConfigIdPConfigInitParameters `json:"idpConfig,omitempty" tf:"idp_config,omitempty"`
+
+	// The name of the InboundSamlConfig resource. Must start with 'saml.' and can only have alphanumeric characters,
+	// hyphens, underscores or periods. The part after 'saml.' must also start with a lowercase letter, end with an
+	// alphanumeric character, and have at least 2 characters.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// SAML SP (Service Provider) configuration when the project acts as the relying party to receive
+	// and accept an authentication assertion issued by a SAML identity provider.
+	// Structure is documented below.
+	SpConfig []TenantInboundSAMLConfigSpConfigInitParameters `json:"spConfig,omitempty" tf:"sp_config,omitempty"`
 }
 
 type TenantInboundSAMLConfigObservation struct {
@@ -162,6 +211,15 @@ type TenantInboundSAMLConfigParameters struct {
 	TenantSelector *v1.Selector `json:"tenantSelector,omitempty" tf:"-"`
 }
 
+type TenantInboundSAMLConfigSpConfigInitParameters struct {
+
+	// Callback URI where responses from IDP are handled. Must start with https://.
+	CallbackURI *string `json:"callbackUri,omitempty" tf:"callback_uri,omitempty"`
+
+	// Unique identifier for all SAML entities.
+	SpEntityID *string `json:"spEntityId,omitempty" tf:"sp_entity_id,omitempty"`
+}
+
 type TenantInboundSAMLConfigSpConfigObservation struct {
 
 	// Callback URI where responses from IDP are handled. Must start with https://.
@@ -179,18 +237,30 @@ type TenantInboundSAMLConfigSpConfigObservation struct {
 type TenantInboundSAMLConfigSpConfigParameters struct {
 
 	// Callback URI where responses from IDP are handled. Must start with https://.
-	// +kubebuilder:validation:Required
-	CallbackURI *string `json:"callbackUri" tf:"callback_uri,omitempty"`
+	// +kubebuilder:validation:Optional
+	CallbackURI *string `json:"callbackUri,omitempty" tf:"callback_uri,omitempty"`
 
 	// Unique identifier for all SAML entities.
-	// +kubebuilder:validation:Required
-	SpEntityID *string `json:"spEntityId" tf:"sp_entity_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	SpEntityID *string `json:"spEntityId,omitempty" tf:"sp_entity_id,omitempty"`
 }
 
 // TenantInboundSAMLConfigSpec defines the desired state of TenantInboundSAMLConfig
 type TenantInboundSAMLConfigSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     TenantInboundSAMLConfigParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider TenantInboundSAMLConfigInitParameters `json:"initProvider,omitempty"`
 }
 
 // TenantInboundSAMLConfigStatus defines the observed state of TenantInboundSAMLConfig.
@@ -211,10 +281,10 @@ type TenantInboundSAMLConfigStatus struct {
 type TenantInboundSAMLConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)",message="displayName is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.idpConfig)",message="idpConfig is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.spConfig)",message="spConfig is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || has(self.initProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.idpConfig) || has(self.initProvider.idpConfig)",message="idpConfig is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || has(self.initProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.spConfig) || has(self.initProvider.spConfig)",message="spConfig is a required parameter"
 	Spec   TenantInboundSAMLConfigSpec   `json:"spec"`
 	Status TenantInboundSAMLConfigStatus `json:"status,omitempty"`
 }

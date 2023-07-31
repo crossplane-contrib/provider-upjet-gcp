@@ -25,6 +25,32 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type TargetSSLProxyInitParameters struct {
+
+	// A reference to the CertificateMap resource uri that identifies a certificate map
+	// associated with the given target proxy. This field can only be set for global target proxies.
+	// Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificateMaps/{resourceName}.
+	CertificateMap *string `json:"certificateMap,omitempty" tf:"certificate_map,omitempty"`
+
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Specifies the type of proxy header to append before sending data to
+	// the backend.
+	// Default value is NONE.
+	// Possible values are: NONE, PROXY_V1.
+	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
+
+	// A reference to the SslPolicy resource that will be associated with
+	// the TargetSslProxy resource. If not set, the TargetSslProxy
+	// resource will not have any SSL policy configured.
+	SSLPolicy *string `json:"sslPolicy,omitempty" tf:"ssl_policy,omitempty"`
+}
+
 type TargetSSLProxyObservation struct {
 
 	// A reference to the BackendService resource.
@@ -135,6 +161,18 @@ type TargetSSLProxyParameters struct {
 type TargetSSLProxySpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     TargetSSLProxyParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider TargetSSLProxyInitParameters `json:"initProvider,omitempty"`
 }
 
 // TargetSSLProxyStatus defines the observed state of TargetSSLProxy.

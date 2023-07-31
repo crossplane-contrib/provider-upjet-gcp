@@ -30,6 +30,3 @@ spec:
       unit: "1"
       valueType: DISTRIBUTION
     valueExtractor: EXTRACT(jsonPayload.request)
-
----
-

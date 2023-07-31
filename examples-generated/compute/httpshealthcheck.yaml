@@ -11,6 +11,3 @@ spec:
     checkIntervalSec: 1
     requestPath: /health_check
     timeoutSec: 1
-
----
-

@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: intents.dialogflowcx.gcp.upbound.io
 spec:
   group: dialogflowcx.gcp.upbound.io
@@ -58,7 +57,7 @@ spec:
                 description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
                   or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicy field in a future release. Currently,
+                  in favor of the ManagementPolicies field in a future release. Currently,
                   both could be set independently and non-default values would be
                   honored if the feature flag is enabled. See the design doc for more
                   information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
@@ -135,9 +134,6 @@ spec:
                             either parameter level redaction or entity type level
                             redaction is enabled.'
                           type: boolean
-                      required:
-                      - entityType
-                      - id
                       type: object
                     type: array
                   parent:
@@ -257,34 +253,171 @@ spec:
                               text:
                                 description: The text for this part.
                                 type: string
-                            required:
-                            - text
                             type: object
                           type: array
                         repeatCount:
                           description: Indicates how many times this example was added
                             to the intent.
                           type: number
-                      required:
-                      - parts
                       type: object
                     type: array
                 type: object
-              managementPolicy:
-                default: FullControl
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. InitProvider
+                  holds the same fields as ForProvider, with the exception of Identifier
+                  and other resource reference fields. The fields that are in InitProvider
+                  are merged into ForProvider when the resource is created. The same
+                  fields are also added to the terraform ignore_changes hook, to avoid
+                  updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after
+                  creation, for example because of an external controller is managing
+                  them, like an autoscaler.
+                properties:
+                  description:
+                    description: 'Human readable description for better understanding
+                      an intent like its scope, content, result etc. Maximum character
+                      limit: 140 characters.'
+                    type: string
+                  displayName:
+                    description: The human-readable name of the intent, unique within
+                      the agent.
+                    type: string
+                  isFallback:
+                    description: Indicates whether this is a fallback intent. Currently
+                      only default fallback intent is allowed in the agent, which
+                      is added upon agent creation. Adding training phrases to fallback
+                      intent is useful in the case of requests that are mistakenly
+                      matched, since training phrases assigned to fallback intents
+                      act as negative examples that triggers no-match event.
+                    type: boolean
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: 'The key/value metadata to label an intent. Labels
+                      can contain lowercase letters, digits and the symbols ''-''
+                      and ''_''. International characters are allowed, including letters
+                      from unicase alphabets. Keys must start with a letter. Keys
+                      and values can be no longer than 63 characters and no more than
+                      128 bytes. Prefix "sys-" is reserved for Dialogflow defined
+                      labels. Currently allowed Dialogflow defined labels include:
+                      * sys-head * sys-contextual The above labels do not require
+                      value. "sys-head" means the intent is a head intent. "sys.contextual"
+                      means the intent is a contextual intent. An object containing
+                      a list of "key": value pairs. Example: { "name": "wrench", "mass":
+                      "1.3kg", "count": "3" }.'
+                    type: object
+                  languageCode:
+                    description: 'The language of the following fields in intent:
+                      Intent.training_phrases.parts.text If not specified, the agent''s
+                      default language is used. Many languages are supported. Note:
+                      languages must be enabled in the agent before they can be used.'
+                    type: string
+                  parameters:
+                    description: The collection of parameters associated with the
+                      intent. Structure is documented below.
+                    items:
+                      properties:
+                        entityType:
+                          description: 'The entity type of the parameter. Format:
+                            projects/-/locations/-/agents/-/entityTypes/ for system
+                            entity types (for example, projects/-/locations/-/agents/-/entityTypes/sys.date),
+                            or projects//locations//agents//entityTypes/ for developer
+                            entity types.'
+                          type: string
+                        id:
+                          description: The unique identifier of the parameter. This
+                            field is used by training phrases to annotate their parts.
+                          type: string
+                        isList:
+                          description: Indicates whether the parameter represents
+                            a list of values.
+                          type: boolean
+                        redact:
+                          description: 'Indicates whether the parameter content should
+                            be redacted in log. If redaction is enabled, the parameter
+                            content will be replaced by parameter name during logging.
+                            Note: the parameter content is subject to redaction if
+                            either parameter level redaction or entity type level
+                            redaction is enabled.'
+                          type: boolean
+                      type: object
+                    type: array
+                  priority:
+                    description: The priority of this intent. Higher numbers represent
+                      higher priorities. If the supplied value is unspecified or 0,
+                      the service translates the value to 500,000, which corresponds
+                      to the Normal priority in the console. If the supplied value
+                      is negative, the intent is ignored in runtime detect intent
+                      requests.
+                    type: number
+                  trainingPhrases:
+                    description: The collection of training phrases the agent is trained
+                      on to identify the intent. Structure is documented below.
+                    items:
+                      properties:
+                        parts:
+                          description: 'The ordered list of training phrase parts.
+                            The parts are concatenated in order to form the training
+                            phrase. Note: The API does not automatically annotate
+                            training phrases like the Dialogflow Console does. Note:
+                            Do not forget to include whitespace at part boundaries,
+                            so the training phrase is well formatted when the parts
+                            are concatenated. If the training phrase does not need
+                            to be annotated with parameters, you just need a single
+                            part with only the Part.text field set. If you want to
+                            annotate the training phrase, you must create multiple
+                            parts, where the fields of each part are populated in
+                            one of two ways: Part.text is set to a part of the phrase
+                            that has no parameters. Part.text is set to a part of
+                            the phrase that you want to annotate, and the parameterId
+                            field is set. Structure is documented below.'
+                          items:
+                            properties:
+                              parameterId:
+                                description: The parameter used to annotate this part
+                                  of the training phrase. This field is required for
+                                  annotated parts of the training phrase.
+                                type: string
+                              text:
+                                description: The text for this part.
+                                type: string
+                            type: object
+                          type: array
+                        repeatCount:
+                          description: Indicates how many times this example was added
+                            to the intent.
+                          type: number
+                      type: object
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
                 description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
                   It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. ManagementPolicy
-                  specifies the level of control Crossplane has over the managed external
-                  resource. This field is planned to replace the DeletionPolicy field
-                  in a future release. Currently, both could be set independently
-                  and non-default values would be honored if the feature flag is enabled.
-                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
-                enum:
-                - FullControl
-                - ObserveOnly
-                - OrphanOnDelete
-                type: string
+                  enabled, and may be changed or removed without notice. ManagementPolicies
+                  specify the array of actions Crossplane is allowed to take on the
+                  managed and external resources. This field is planned to replace
+                  the DeletionPolicy field in a future release. Currently, both could
+                  be set independently and non-default values would be honored if
+                  the feature flag is enabled. If both are custom, the DeletionPolicy
+                  field will be ignored. See the design doc for more information:
+                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                items:
+                  description: A ManagementAction represents an action that the Crossplane
+                    controllers can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
               providerConfigRef:
                 default:
                   name: default
@@ -458,7 +591,9 @@ spec:
             type: object
             x-kubernetes-validations:
             - message: displayName is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)
+                || has(self.initProvider.displayName)'
           status:
             description: IntentStatus defines the observed state of Intent.
             properties:

@@ -25,6 +25,12 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AccessRoleInitParameters struct {
+
+	// The user’s AWS IAM Role that trusts the Google-owned AWS IAM user Connection.
+	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
+}
+
 type AccessRoleObservation struct {
 
 	// The user’s AWS IAM Role that trusts the Google-owned AWS IAM user Connection.
@@ -38,8 +44,15 @@ type AccessRoleObservation struct {
 type AccessRoleParameters struct {
 
 	// The user’s AWS IAM Role that trusts the Google-owned AWS IAM user Connection.
-	// +kubebuilder:validation:Required
-	IAMRoleID *string `json:"iamRoleId" tf:"iam_role_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
+}
+
+type AwsInitParameters struct {
+
+	// Authentication using Google owned service account to assume into customer's AWS IAM Role.
+	// Structure is documented below.
+	AccessRole []AccessRoleInitParameters `json:"accessRole,omitempty" tf:"access_role,omitempty"`
 }
 
 type AwsObservation struct {
@@ -53,8 +66,17 @@ type AwsParameters struct {
 
 	// Authentication using Google owned service account to assume into customer's AWS IAM Role.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	AccessRole []AccessRoleParameters `json:"accessRole" tf:"access_role,omitempty"`
+	// +kubebuilder:validation:Optional
+	AccessRole []AccessRoleParameters `json:"accessRole,omitempty" tf:"access_role,omitempty"`
+}
+
+type AzureInitParameters struct {
+
+	// The id of customer's directory that host the data.
+	CustomerTenantID *string `json:"customerTenantId,omitempty" tf:"customer_tenant_id,omitempty"`
+
+	// The Azure Application (client) ID where the federated credentials will be hosted.
+	FederatedApplicationClientID *string `json:"federatedApplicationClientId,omitempty" tf:"federated_application_client_id,omitempty"`
 }
 
 type AzureObservation struct {
@@ -89,12 +111,15 @@ type AzureObservation struct {
 type AzureParameters struct {
 
 	// The id of customer's directory that host the data.
-	// +kubebuilder:validation:Required
-	CustomerTenantID *string `json:"customerTenantId" tf:"customer_tenant_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	CustomerTenantID *string `json:"customerTenantId,omitempty" tf:"customer_tenant_id,omitempty"`
 
 	// The Azure Application (client) ID where the federated credentials will be hosted.
 	// +kubebuilder:validation:Optional
 	FederatedApplicationClientID *string `json:"federatedApplicationClientId,omitempty" tf:"federated_application_client_id,omitempty"`
+}
+
+type CloudResourceInitParameters struct {
 }
 
 type CloudResourceObservation struct {
@@ -105,6 +130,17 @@ type CloudResourceObservation struct {
 }
 
 type CloudResourceParameters struct {
+}
+
+type CloudSQLInitParameters struct {
+
+	// Cloud SQL properties.
+	// Structure is documented below.
+	Credential []CredentialInitParameters `json:"credential,omitempty" tf:"credential,omitempty"`
+
+	// Type of the Cloud SQL database.
+	// Possible values are: DATABASE_TYPE_UNSPECIFIED, POSTGRES, MYSQL.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type CloudSQLObservation struct {
@@ -132,8 +168,8 @@ type CloudSQLParameters struct {
 
 	// Cloud SQL properties.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	Credential []CredentialParameters `json:"credential" tf:"credential,omitempty"`
+	// +kubebuilder:validation:Optional
+	Credential []CredentialParameters `json:"credential,omitempty" tf:"credential,omitempty"`
 
 	// Database name.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta1.Database
@@ -164,8 +200,20 @@ type CloudSQLParameters struct {
 
 	// Type of the Cloud SQL database.
 	// Possible values are: DATABASE_TYPE_UNSPECIFIED, POSTGRES, MYSQL.
-	// +kubebuilder:validation:Required
-	Type *string `json:"type" tf:"type,omitempty"`
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type CloudSpannerInitParameters struct {
+
+	// Cloud Spanner database in the form `project/instance/database'
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+
+	// If parallelism should be used when reading from Cloud Spanner
+	UseParallelism *bool `json:"useParallelism,omitempty" tf:"use_parallelism,omitempty"`
+
+	// If the serverless analytics service should be used to read data from Cloud Spanner. useParallelism must be set when using serverless analytics
+	UseServerlessAnalytics *bool `json:"useServerlessAnalytics,omitempty" tf:"use_serverless_analytics,omitempty"`
 }
 
 type CloudSpannerObservation struct {
@@ -183,8 +231,8 @@ type CloudSpannerObservation struct {
 type CloudSpannerParameters struct {
 
 	// Cloud Spanner database in the form `project/instance/database'
-	// +kubebuilder:validation:Required
-	Database *string `json:"database" tf:"database,omitempty"`
+	// +kubebuilder:validation:Optional
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
 	// If parallelism should be used when reading from Cloud Spanner
 	// +kubebuilder:validation:Optional
@@ -193,6 +241,51 @@ type CloudSpannerParameters struct {
 	// If the serverless analytics service should be used to read data from Cloud Spanner. useParallelism must be set when using serverless analytics
 	// +kubebuilder:validation:Optional
 	UseServerlessAnalytics *bool `json:"useServerlessAnalytics,omitempty" tf:"use_serverless_analytics,omitempty"`
+}
+
+type ConnectionInitParameters struct {
+
+	// Connection properties specific to Amazon Web Services.
+	// Structure is documented below.
+	Aws []AwsInitParameters `json:"aws,omitempty" tf:"aws,omitempty"`
+
+	// Container for connection properties specific to Azure.
+	// Structure is documented below.
+	Azure []AzureInitParameters `json:"azure,omitempty" tf:"azure,omitempty"`
+
+	// Container for connection properties for delegation of access to GCP resources.
+	// Structure is documented below.
+	CloudResource []CloudResourceInitParameters `json:"cloudResource,omitempty" tf:"cloud_resource,omitempty"`
+
+	// Connection properties specific to the Cloud SQL.
+	// Structure is documented below.
+	CloudSQL []CloudSQLInitParameters `json:"cloudSql,omitempty" tf:"cloud_sql,omitempty"`
+
+	// Connection properties specific to Cloud Spanner
+	// Structure is documented below.
+	CloudSpanner []CloudSpannerInitParameters `json:"cloudSpanner,omitempty" tf:"cloud_spanner,omitempty"`
+
+	// Optional connection id that should be assigned to the created connection.
+	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
+
+	// A descriptive description for the connection
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// A descriptive name for the connection
+	FriendlyName *string `json:"friendlyName,omitempty" tf:"friendly_name,omitempty"`
+
+	// The geographic location where the connection should reside.
+	// Cloud SQL instance must be in the same location as the connection
+	// with following exceptions: Cloud SQL us-central1 maps to BigQuery US, Cloud SQL europe-west1 maps to BigQuery EU.
+	// Examples: US, EU, asia-northeast1, us-central1, europe-west1.
+	// Spanner Connections same as spanner region
+	// AWS allowed regions are aws-us-east-1
+	// Azure allowed regions are azure-eastus2
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type ConnectionObservation struct {
@@ -305,6 +398,9 @@ type ConnectionParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
+type CredentialInitParameters struct {
+}
+
 type CredentialObservation struct {
 
 	// Username for database.
@@ -336,6 +432,18 @@ type CredentialParameters struct {
 type ConnectionSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ConnectionParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ConnectionInitParameters `json:"initProvider,omitempty"`
 }
 
 // ConnectionStatus defines the observed state of Connection.

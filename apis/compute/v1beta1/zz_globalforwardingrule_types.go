@@ -25,6 +25,26 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type FilterLabelsInitParameters struct {
+
+	// Name of the resource; provided by the client when the resource is created.
+	// The name must be 1-63 characters long, and comply with
+	// RFC1035.
+	// Specifically, the name must be 1-63 characters long and match the regular
+	// expression [a-z]([-a-z0-9]*[a-z0-9])? which means the first
+	// character must be a lowercase letter, and all following characters must
+	// be a dash, lowercase letter, or digit, except the last character, which
+	// cannot be a dash.
+	// For Private Service Connect forwarding rules that forward traffic to Google
+	// APIs, the forwarding rule name must be a 1-20 characters string with
+	// lowercase letters and numbers and must start with a letter.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The value that the label must match. The value has a maximum
+	// length of 1024 characters.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
 type FilterLabelsObservation struct {
 
 	// Name of the resource; provided by the client when the resource is created.
@@ -58,13 +78,68 @@ type FilterLabelsParameters struct {
 	// For Private Service Connect forwarding rules that forward traffic to Google
 	// APIs, the forwarding rule name must be a 1-20 characters string with
 	// lowercase letters and numbers and must start with a letter.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The value that the label must match. The value has a maximum
 	// length of 1024 characters.
-	// +kubebuilder:validation:Required
-	Value *string `json:"value" tf:"value,omitempty"`
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type GlobalForwardingRuleInitParameters struct {
+
+	// An optional description of this resource. Provide this property when
+	// you create the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The IP protocol to which this rule applies.
+	// For protocol forwarding, valid
+	// options are TCP, UDP, ESP,
+	// AH, SCTP, ICMP and
+	// L3_DEFAULT.
+	// The valid IP protocols are different for different load balancing products
+	// as described in Load balancing
+	// features.
+	// Possible values are: TCP, UDP, ESP, AH, SCTP, ICMP.
+	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
+
+	// The IP Version that will be used by this global forwarding rule.
+	// Possible values are: IPV4, IPV6.
+	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
+
+	// Labels to apply to this forwarding rule.  A list of key->value pairs.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Specifies the forwarding rule type.
+	// For more information about forwarding rules, refer to
+	// Forwarding rule concepts.
+	// Default value is EXTERNAL.
+	// Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL_SELF_MANAGED.
+	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
+
+	// Opaque filter criteria used by Loadbalancer to restrict routing
+	// configuration to a limited set xDS compliant clients. In their xDS
+	// requests to Loadbalancer, xDS clients present node metadata. If a
+	// match takes place, the relevant routing configuration is made available
+	// to those proxies.
+	// For each metadataFilter in this list, if its filterMatchCriteria is set
+	// to MATCH_ANY, at least one of the filterLabels must match the
+	// corresponding label provided in the metadata. If its filterMatchCriteria
+	// is set to MATCH_ALL, then all of its filterLabels must match with
+	// corresponding labels in the provided metadata.
+	// metadataFilters specified here can be overridden by those specified in
+	// the UrlMap that this ForwardingRule references.
+	// metadataFilters only applies to Loadbalancers that have their
+	// loadBalancingScheme set to INTERNAL_SELF_MANAGED.
+	// Structure is documented below.
+	MetadataFilters []MetadataFiltersInitParameters `json:"metadataFilters,omitempty" tf:"metadata_filters,omitempty"`
+
+	// This field can only be used:
+	PortRange *string `json:"portRange,omitempty" tf:"port_range,omitempty"`
+
+	// If not empty, this Forwarding Rule will only forward the traffic when the source IP address matches one of the IP addresses or CIDR ranges set here. Note that a Forwarding Rule can only have up to 64 source IP ranges, and this field can only be used with a regional Forwarding Rule whose scheme is EXTERNAL. Each sourceIpRange entry should be either an IP address (for example, 1.2.3.4) or a CIDR range (for example, 1.2.3.0/24).
+	SourceIPRanges []*string `json:"sourceIpRanges,omitempty" tf:"source_ip_ranges,omitempty"`
 }
 
 type GlobalForwardingRuleObservation struct {
@@ -304,6 +379,24 @@ type GlobalForwardingRuleParameters struct {
 	TargetSelector *v1.Selector `json:"targetSelector,omitempty" tf:"-"`
 }
 
+type MetadataFiltersInitParameters struct {
+
+	// The list of label value pairs that must match labels in the
+	// provided metadata based on filterMatchCriteria
+	// This list must not be empty and can have at the most 64 entries.
+	// Structure is documented below.
+	FilterLabels []FilterLabelsInitParameters `json:"filterLabels,omitempty" tf:"filter_labels,omitempty"`
+
+	// Specifies how individual filterLabel matches within the list of
+	// filterLabels contribute towards the overall metadataFilter match.
+	// MATCH_ANY - At least one of the filterLabels must have a matching
+	// label in the provided metadata.
+	// MATCH_ALL - All filterLabels must have matching labels in the
+	// provided metadata.
+	// Possible values are: MATCH_ANY, MATCH_ALL.
+	FilterMatchCriteria *string `json:"filterMatchCriteria,omitempty" tf:"filter_match_criteria,omitempty"`
+}
+
 type MetadataFiltersObservation struct {
 
 	// The list of label value pairs that must match labels in the
@@ -328,8 +421,8 @@ type MetadataFiltersParameters struct {
 	// provided metadata based on filterMatchCriteria
 	// This list must not be empty and can have at the most 64 entries.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	FilterLabels []FilterLabelsParameters `json:"filterLabels" tf:"filter_labels,omitempty"`
+	// +kubebuilder:validation:Optional
+	FilterLabels []FilterLabelsParameters `json:"filterLabels,omitempty" tf:"filter_labels,omitempty"`
 
 	// Specifies how individual filterLabel matches within the list of
 	// filterLabels contribute towards the overall metadataFilter match.
@@ -338,14 +431,26 @@ type MetadataFiltersParameters struct {
 	// MATCH_ALL - All filterLabels must have matching labels in the
 	// provided metadata.
 	// Possible values are: MATCH_ANY, MATCH_ALL.
-	// +kubebuilder:validation:Required
-	FilterMatchCriteria *string `json:"filterMatchCriteria" tf:"filter_match_criteria,omitempty"`
+	// +kubebuilder:validation:Optional
+	FilterMatchCriteria *string `json:"filterMatchCriteria,omitempty" tf:"filter_match_criteria,omitempty"`
 }
 
 // GlobalForwardingRuleSpec defines the desired state of GlobalForwardingRule
 type GlobalForwardingRuleSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     GlobalForwardingRuleParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider GlobalForwardingRuleInitParameters `json:"initProvider,omitempty"`
 }
 
 // GlobalForwardingRuleStatus defines the observed state of GlobalForwardingRule.

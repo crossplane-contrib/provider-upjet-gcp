@@ -39,6 +39,3 @@ metadata:
 spec:
   forProvider:
     displayName: tenant
-
----
-

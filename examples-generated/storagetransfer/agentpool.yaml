@@ -11,6 +11,3 @@ spec:
     bandwidthLimit:
     - limitMbps: "120"
     displayName: Source A to destination Z
-
----
-

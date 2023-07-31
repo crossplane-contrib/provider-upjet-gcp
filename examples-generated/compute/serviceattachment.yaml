@@ -170,6 +170,3 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: psc_ilb_network
     region: us-west2
-
----
-

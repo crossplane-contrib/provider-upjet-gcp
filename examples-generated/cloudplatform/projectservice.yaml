@@ -16,6 +16,3 @@ spec:
     timeouts:
     - create: 30m
       update: 40m
-
----
-

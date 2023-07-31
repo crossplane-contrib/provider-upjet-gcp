@@ -25,6 +25,15 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AlternativeNameServerConfigInitParameters struct {
+
+	// Sets an alternative name server for the associated networks. When specified,
+	// all DNS queries are forwarded to a name server that you choose. Names such as .internal
+	// are not available when an alternative name server is specified.
+	// Structure is documented below.
+	TargetNameServers []AlternativeNameServerConfigTargetNameServersInitParameters `json:"targetNameServers,omitempty" tf:"target_name_servers,omitempty"`
+}
+
 type AlternativeNameServerConfigObservation struct {
 
 	// Sets an alternative name server for the associated networks. When specified,
@@ -40,8 +49,20 @@ type AlternativeNameServerConfigParameters struct {
 	// all DNS queries are forwarded to a name server that you choose. Names such as .internal
 	// are not available when an alternative name server is specified.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	TargetNameServers []AlternativeNameServerConfigTargetNameServersParameters `json:"targetNameServers" tf:"target_name_servers,omitempty"`
+	// +kubebuilder:validation:Optional
+	TargetNameServers []AlternativeNameServerConfigTargetNameServersParameters `json:"targetNameServers,omitempty" tf:"target_name_servers,omitempty"`
+}
+
+type AlternativeNameServerConfigTargetNameServersInitParameters struct {
+
+	// Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
+	// decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
+	// to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
+	// Possible values are: default, private.
+	ForwardingPath *string `json:"forwardingPath,omitempty" tf:"forwarding_path,omitempty"`
+
+	// IPv4 address to forward to.
+	IPv4Address *string `json:"ipv4Address,omitempty" tf:"ipv4_address,omitempty"`
 }
 
 type AlternativeNameServerConfigTargetNameServersObservation struct {
@@ -66,8 +87,41 @@ type AlternativeNameServerConfigTargetNameServersParameters struct {
 	ForwardingPath *string `json:"forwardingPath,omitempty" tf:"forwarding_path,omitempty"`
 
 	// IPv4 address to forward to.
-	// +kubebuilder:validation:Required
-	IPv4Address *string `json:"ipv4Address" tf:"ipv4_address,omitempty"`
+	// +kubebuilder:validation:Optional
+	IPv4Address *string `json:"ipv4Address,omitempty" tf:"ipv4_address,omitempty"`
+}
+
+type PolicyInitParameters struct {
+
+	// Sets an alternative name server for the associated networks.
+	// When specified, all DNS queries are forwarded to a name server that you choose.
+	// Names such as .internal are not available when an alternative name server is specified.
+	// Structure is documented below.
+	AlternativeNameServerConfig []AlternativeNameServerConfigInitParameters `json:"alternativeNameServerConfig,omitempty" tf:"alternative_name_server_config,omitempty"`
+
+	// A textual description field.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Allows networks bound to this policy to receive DNS queries sent
+	// by VMs or applications over VPN connections. When enabled, a
+	// virtual IP address will be allocated from each of the sub-networks
+	// that are bound to this policy.
+	EnableInboundForwarding *bool `json:"enableInboundForwarding,omitempty" tf:"enable_inbound_forwarding,omitempty"`
+
+	// Controls whether logging is enabled for the networks bound to this policy.
+	// Defaults to no logging if not set.
+	EnableLogging *bool `json:"enableLogging,omitempty" tf:"enable_logging,omitempty"`
+
+	// List of network names specifying networks to which this policy is applied.
+	// Structure is documented below.
+	Networks []PolicyNetworksInitParameters `json:"networks,omitempty" tf:"networks,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
+type PolicyNetworksInitParameters struct {
 }
 
 type PolicyNetworksObservation struct {
@@ -172,6 +226,18 @@ type PolicyParameters struct {
 type PolicySpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     PolicyParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider PolicyInitParameters `json:"initProvider,omitempty"`
 }
 
 // PolicyStatus defines the observed state of Policy.

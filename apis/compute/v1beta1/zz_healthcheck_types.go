@@ -25,6 +25,26 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type GRPCHealthCheckInitParameters struct {
+
+	// The gRPC service name for the health check.
+	// The value of grpcServiceName has the following meanings by convention:
+	GRPCServiceName *string `json:"grpcServiceName,omitempty" tf:"grpc_service_name,omitempty"`
+
+	// The port number for the health check request.
+	// Must be specified if portName and portSpecification are not set
+	// or if port_specification is USE_FIXED_PORT. Valid values are 1 through 65535.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// Port name as defined in InstanceGroup#NamedPort#name. If both port and
+	// port_name are defined, port takes precedence.
+	PortName *string `json:"portName,omitempty" tf:"port_name,omitempty"`
+
+	// Specifies how port is selected for health checking, can be one of the
+	// following values:
+	PortSpecification *string `json:"portSpecification,omitempty" tf:"port_specification,omitempty"`
+}
+
 type GRPCHealthCheckObservation struct {
 
 	// The gRPC service name for the health check.
@@ -67,6 +87,41 @@ type GRPCHealthCheckParameters struct {
 	// following values:
 	// +kubebuilder:validation:Optional
 	PortSpecification *string `json:"portSpecification,omitempty" tf:"port_specification,omitempty"`
+}
+
+type HTTPHealthCheckInitParameters struct {
+
+	// The value of the host header in the HTTP health check request.
+	// If left empty (default value), the public IP on behalf of which this health
+	// check is performed will be used.
+	Host *string `json:"host,omitempty" tf:"host,omitempty"`
+
+	// The TCP port number for the HTTP health check request.
+	// The default value is 80.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// Port name as defined in InstanceGroup#NamedPort#name. If both port and
+	// port_name are defined, port takes precedence.
+	PortName *string `json:"portName,omitempty" tf:"port_name,omitempty"`
+
+	// Specifies how port is selected for health checking, can be one of the
+	// following values:
+	PortSpecification *string `json:"portSpecification,omitempty" tf:"port_specification,omitempty"`
+
+	// Specifies the type of proxy header to append before sending data to the
+	// backend.
+	// Default value is NONE.
+	// Possible values are: NONE, PROXY_V1.
+	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
+
+	// The request path of the HTTP health check request.
+	// The default value is /.
+	RequestPath *string `json:"requestPath,omitempty" tf:"request_path,omitempty"`
+
+	// The bytes to match against the beginning of the response data. If left empty
+	// (the default value), any response will indicate health. The response data
+	// can only be ASCII.
+	Response *string `json:"response,omitempty" tf:"response,omitempty"`
 }
 
 type HTTPHealthCheckObservation struct {
@@ -146,6 +201,41 @@ type HTTPHealthCheckParameters struct {
 	Response *string `json:"response,omitempty" tf:"response,omitempty"`
 }
 
+type HTTPSHealthCheckInitParameters struct {
+
+	// The value of the host header in the HTTPS health check request.
+	// If left empty (default value), the public IP on behalf of which this health
+	// check is performed will be used.
+	Host *string `json:"host,omitempty" tf:"host,omitempty"`
+
+	// The TCP port number for the HTTPS health check request.
+	// The default value is 443.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// Port name as defined in InstanceGroup#NamedPort#name. If both port and
+	// port_name are defined, port takes precedence.
+	PortName *string `json:"portName,omitempty" tf:"port_name,omitempty"`
+
+	// Specifies how port is selected for health checking, can be one of the
+	// following values:
+	PortSpecification *string `json:"portSpecification,omitempty" tf:"port_specification,omitempty"`
+
+	// Specifies the type of proxy header to append before sending data to the
+	// backend.
+	// Default value is NONE.
+	// Possible values are: NONE, PROXY_V1.
+	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
+
+	// The request path of the HTTPS health check request.
+	// The default value is /.
+	RequestPath *string `json:"requestPath,omitempty" tf:"request_path,omitempty"`
+
+	// The bytes to match against the beginning of the response data. If left empty
+	// (the default value), any response will indicate health. The response data
+	// can only be ASCII.
+	Response *string `json:"response,omitempty" tf:"response,omitempty"`
+}
+
 type HTTPSHealthCheckObservation struct {
 
 	// The value of the host header in the HTTPS health check request.
@@ -221,6 +311,69 @@ type HTTPSHealthCheckParameters struct {
 	// can only be ASCII.
 	// +kubebuilder:validation:Optional
 	Response *string `json:"response,omitempty" tf:"response,omitempty"`
+}
+
+type HealthCheckInitParameters struct {
+
+	// How often (in seconds) to send a health check. The default value is 5
+	// seconds.
+	CheckIntervalSec *float64 `json:"checkIntervalSec,omitempty" tf:"check_interval_sec,omitempty"`
+
+	// An optional description of this resource. Provide this property when
+	// you create the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// A nested object resource
+	// Structure is documented below.
+	GRPCHealthCheck []GRPCHealthCheckInitParameters `json:"grpcHealthCheck,omitempty" tf:"grpc_health_check,omitempty"`
+
+	// A nested object resource
+	// Structure is documented below.
+	HTTPHealthCheck []HTTPHealthCheckInitParameters `json:"httpHealthCheck,omitempty" tf:"http_health_check,omitempty"`
+
+	// A nested object resource
+	// Structure is documented below.
+	HTTPSHealthCheck []HTTPSHealthCheckInitParameters `json:"httpsHealthCheck,omitempty" tf:"https_health_check,omitempty"`
+
+	// A so-far unhealthy instance will be marked healthy after this many
+	// consecutive successes. The default value is 2.
+	HealthyThreshold *float64 `json:"healthyThreshold,omitempty" tf:"healthy_threshold,omitempty"`
+
+	// A nested object resource
+	// Structure is documented below.
+	Http2HealthCheck []Http2HealthCheckInitParameters `json:"http2HealthCheck,omitempty" tf:"http2_health_check,omitempty"`
+
+	// Configure logging on this health check.
+	// Structure is documented below.
+	LogConfig []HealthCheckLogConfigInitParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// A nested object resource
+	// Structure is documented below.
+	SSLHealthCheck []SSLHealthCheckInitParameters `json:"sslHealthCheck,omitempty" tf:"ssl_health_check,omitempty"`
+
+	// A nested object resource
+	// Structure is documented below.
+	TCPHealthCheck []TCPHealthCheckInitParameters `json:"tcpHealthCheck,omitempty" tf:"tcp_health_check,omitempty"`
+
+	// How long (in seconds) to wait before claiming failure.
+	// The default value is 5 seconds.  It is invalid for timeoutSec to have
+	// greater value than checkIntervalSec.
+	TimeoutSec *float64 `json:"timeoutSec,omitempty" tf:"timeout_sec,omitempty"`
+
+	// A so-far healthy instance will be marked unhealthy after this many
+	// consecutive failures. The default value is 2.
+	UnhealthyThreshold *float64 `json:"unhealthyThreshold,omitempty" tf:"unhealthy_threshold,omitempty"`
+}
+
+type HealthCheckLogConfigInitParameters struct {
+
+	// Indicates whether or not to export logs. This is false by default,
+	// which means no health check logging will be done.
+	Enable *bool `json:"enable,omitempty" tf:"enable,omitempty"`
 }
 
 type HealthCheckLogConfigObservation struct {
@@ -375,6 +528,41 @@ type HealthCheckParameters struct {
 	UnhealthyThreshold *float64 `json:"unhealthyThreshold,omitempty" tf:"unhealthy_threshold,omitempty"`
 }
 
+type Http2HealthCheckInitParameters struct {
+
+	// The value of the host header in the HTTP2 health check request.
+	// If left empty (default value), the public IP on behalf of which this health
+	// check is performed will be used.
+	Host *string `json:"host,omitempty" tf:"host,omitempty"`
+
+	// The TCP port number for the HTTP2 health check request.
+	// The default value is 443.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// Port name as defined in InstanceGroup#NamedPort#name. If both port and
+	// port_name are defined, port takes precedence.
+	PortName *string `json:"portName,omitempty" tf:"port_name,omitempty"`
+
+	// Specifies how port is selected for health checking, can be one of the
+	// following values:
+	PortSpecification *string `json:"portSpecification,omitempty" tf:"port_specification,omitempty"`
+
+	// Specifies the type of proxy header to append before sending data to the
+	// backend.
+	// Default value is NONE.
+	// Possible values are: NONE, PROXY_V1.
+	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
+
+	// The request path of the HTTP2 health check request.
+	// The default value is /.
+	RequestPath *string `json:"requestPath,omitempty" tf:"request_path,omitempty"`
+
+	// The bytes to match against the beginning of the response data. If left empty
+	// (the default value), any response will indicate health. The response data
+	// can only be ASCII.
+	Response *string `json:"response,omitempty" tf:"response,omitempty"`
+}
+
 type Http2HealthCheckObservation struct {
 
 	// The value of the host header in the HTTP2 health check request.
@@ -452,6 +640,38 @@ type Http2HealthCheckParameters struct {
 	Response *string `json:"response,omitempty" tf:"response,omitempty"`
 }
 
+type SSLHealthCheckInitParameters struct {
+
+	// The TCP port number for the SSL health check request.
+	// The default value is 443.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// Port name as defined in InstanceGroup#NamedPort#name. If both port and
+	// port_name are defined, port takes precedence.
+	PortName *string `json:"portName,omitempty" tf:"port_name,omitempty"`
+
+	// Specifies how port is selected for health checking, can be one of the
+	// following values:
+	PortSpecification *string `json:"portSpecification,omitempty" tf:"port_specification,omitempty"`
+
+	// Specifies the type of proxy header to append before sending data to the
+	// backend.
+	// Default value is NONE.
+	// Possible values are: NONE, PROXY_V1.
+	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
+
+	// The application data to send once the SSL connection has been
+	// established (default value is empty). If both request and response are
+	// empty, the connection establishment alone will indicate health. The request
+	// data can only be ASCII.
+	Request *string `json:"request,omitempty" tf:"request,omitempty"`
+
+	// The bytes to match against the beginning of the response data. If left empty
+	// (the default value), any response will indicate health. The response data
+	// can only be ASCII.
+	Response *string `json:"response,omitempty" tf:"response,omitempty"`
+}
+
 type SSLHealthCheckObservation struct {
 
 	// The TCP port number for the SSL health check request.
@@ -519,6 +739,38 @@ type SSLHealthCheckParameters struct {
 	// (the default value), any response will indicate health. The response data
 	// can only be ASCII.
 	// +kubebuilder:validation:Optional
+	Response *string `json:"response,omitempty" tf:"response,omitempty"`
+}
+
+type TCPHealthCheckInitParameters struct {
+
+	// The TCP port number for the TCP health check request.
+	// The default value is 443.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// Port name as defined in InstanceGroup#NamedPort#name. If both port and
+	// port_name are defined, port takes precedence.
+	PortName *string `json:"portName,omitempty" tf:"port_name,omitempty"`
+
+	// Specifies how port is selected for health checking, can be one of the
+	// following values:
+	PortSpecification *string `json:"portSpecification,omitempty" tf:"port_specification,omitempty"`
+
+	// Specifies the type of proxy header to append before sending data to the
+	// backend.
+	// Default value is NONE.
+	// Possible values are: NONE, PROXY_V1.
+	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
+
+	// The application data to send once the TCP connection has been
+	// established (default value is empty). If both request and response are
+	// empty, the connection establishment alone will indicate health. The request
+	// data can only be ASCII.
+	Request *string `json:"request,omitempty" tf:"request,omitempty"`
+
+	// The bytes to match against the beginning of the response data. If left empty
+	// (the default value), any response will indicate health. The response data
+	// can only be ASCII.
 	Response *string `json:"response,omitempty" tf:"response,omitempty"`
 }
 
@@ -596,6 +848,18 @@ type TCPHealthCheckParameters struct {
 type HealthCheckSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     HealthCheckParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider HealthCheckInitParameters `json:"initProvider,omitempty"`
 }
 
 // HealthCheckStatus defines the observed state of HealthCheck.

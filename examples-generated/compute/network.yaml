@@ -8,6 +8,3 @@ metadata:
   name: vpc-network
 spec:
   forProvider: {}
-
----
-

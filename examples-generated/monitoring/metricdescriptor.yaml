@@ -22,6 +22,3 @@ spec:
     type: custom.googleapis.com/stores/daily_sales
     unit: '{USD}'
     valueType: DOUBLE
-
----
-

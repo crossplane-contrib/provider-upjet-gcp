@@ -25,6 +25,15 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type CapacityInitParameters struct {
+
+	// Subscribe throughput capacity per partition in MiB/s. Must be >= 4 and <= 16.
+	PublishMibPerSec *float64 `json:"publishMibPerSec,omitempty" tf:"publish_mib_per_sec,omitempty"`
+
+	// Publish throughput capacity per partition in MiB/s. Must be >= 4 and <= 16.
+	SubscribeMibPerSec *float64 `json:"subscribeMibPerSec,omitempty" tf:"subscribe_mib_per_sec,omitempty"`
+}
+
 type CapacityObservation struct {
 
 	// Subscribe throughput capacity per partition in MiB/s. Must be >= 4 and <= 16.
@@ -37,12 +46,34 @@ type CapacityObservation struct {
 type CapacityParameters struct {
 
 	// Subscribe throughput capacity per partition in MiB/s. Must be >= 4 and <= 16.
-	// +kubebuilder:validation:Required
-	PublishMibPerSec *float64 `json:"publishMibPerSec" tf:"publish_mib_per_sec,omitempty"`
+	// +kubebuilder:validation:Optional
+	PublishMibPerSec *float64 `json:"publishMibPerSec,omitempty" tf:"publish_mib_per_sec,omitempty"`
 
 	// Publish throughput capacity per partition in MiB/s. Must be >= 4 and <= 16.
-	// +kubebuilder:validation:Required
-	SubscribeMibPerSec *float64 `json:"subscribeMibPerSec" tf:"subscribe_mib_per_sec,omitempty"`
+	// +kubebuilder:validation:Optional
+	SubscribeMibPerSec *float64 `json:"subscribeMibPerSec,omitempty" tf:"subscribe_mib_per_sec,omitempty"`
+}
+
+type LiteTopicInitParameters struct {
+
+	// The settings for this topic's partitions.
+	// Structure is documented below.
+	PartitionConfig []PartitionConfigInitParameters `json:"partitionConfig,omitempty" tf:"partition_config,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The region of the pubsub lite topic.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The settings for this topic's Reservation usage.
+	// Structure is documented below.
+	ReservationConfig []ReservationConfigInitParameters `json:"reservationConfig,omitempty" tf:"reservation_config,omitempty"`
+
+	// The settings for a topic's message retention.
+	// Structure is documented below.
+	RetentionConfig []RetentionConfigInitParameters `json:"retentionConfig,omitempty" tf:"retention_config,omitempty"`
 }
 
 type LiteTopicObservation struct {
@@ -104,6 +135,16 @@ type LiteTopicParameters struct {
 	Zone *string `json:"zone" tf:"zone,omitempty"`
 }
 
+type PartitionConfigInitParameters struct {
+
+	// The capacity configuration.
+	// Structure is documented below.
+	Capacity []CapacityInitParameters `json:"capacity,omitempty" tf:"capacity,omitempty"`
+
+	// The number of partitions in the topic. Must be at least 1.
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+}
+
 type PartitionConfigObservation struct {
 
 	// The capacity configuration.
@@ -122,8 +163,11 @@ type PartitionConfigParameters struct {
 	Capacity []CapacityParameters `json:"capacity,omitempty" tf:"capacity,omitempty"`
 
 	// The number of partitions in the topic. Must be at least 1.
-	// +kubebuilder:validation:Required
-	Count *float64 `json:"count" tf:"count,omitempty"`
+	// +kubebuilder:validation:Optional
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+}
+
+type ReservationConfigInitParameters struct {
 }
 
 type ReservationConfigObservation struct {
@@ -148,6 +192,20 @@ type ReservationConfigParameters struct {
 	ThroughputReservationSelector *v1.Selector `json:"throughputReservationSelector,omitempty" tf:"-"`
 }
 
+type RetentionConfigInitParameters struct {
+
+	// The provisioned storage, in bytes, per partition. If the number of bytes stored
+	// in any of the topic's partitions grows beyond this value, older messages will be
+	// dropped to make room for newer ones, regardless of the value of period.
+	PerPartitionBytes *string `json:"perPartitionBytes,omitempty" tf:"per_partition_bytes,omitempty"`
+
+	// How long a published message is retained. If unset, messages will be retained as
+	// long as the bytes retained for each partition is below perPartitionBytes. A
+	// duration in seconds with up to nine fractional digits, terminated by 's'.
+	// Example: "3.5s".
+	Period *string `json:"period,omitempty" tf:"period,omitempty"`
+}
+
 type RetentionConfigObservation struct {
 
 	// The provisioned storage, in bytes, per partition. If the number of bytes stored
@@ -167,8 +225,8 @@ type RetentionConfigParameters struct {
 	// The provisioned storage, in bytes, per partition. If the number of bytes stored
 	// in any of the topic's partitions grows beyond this value, older messages will be
 	// dropped to make room for newer ones, regardless of the value of period.
-	// +kubebuilder:validation:Required
-	PerPartitionBytes *string `json:"perPartitionBytes" tf:"per_partition_bytes,omitempty"`
+	// +kubebuilder:validation:Optional
+	PerPartitionBytes *string `json:"perPartitionBytes,omitempty" tf:"per_partition_bytes,omitempty"`
 
 	// How long a published message is retained. If unset, messages will be retained as
 	// long as the bytes retained for each partition is below perPartitionBytes. A
@@ -182,6 +240,18 @@ type RetentionConfigParameters struct {
 type LiteTopicSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     LiteTopicParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider LiteTopicInitParameters `json:"initProvider,omitempty"`
 }
 
 // LiteTopicStatus defines the observed state of LiteTopic.
@@ -202,8 +272,8 @@ type LiteTopicStatus struct {
 type LiteTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.partitionConfig)",message="partitionConfig is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.retentionConfig)",message="retentionConfig is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.partitionConfig) || has(self.initProvider.partitionConfig)",message="partitionConfig is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.retentionConfig) || has(self.initProvider.retentionConfig)",message="retentionConfig is a required parameter"
 	Spec   LiteTopicSpec   `json:"spec"`
 	Status LiteTopicStatus `json:"status,omitempty"`
 }

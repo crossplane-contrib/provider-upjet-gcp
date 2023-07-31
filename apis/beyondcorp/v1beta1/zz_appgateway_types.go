@@ -25,6 +25,9 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AllocatedConnectionsInitParameters struct {
+}
+
 type AllocatedConnectionsObservation struct {
 
 	// The ingress port of an allocated connection.
@@ -35,6 +38,29 @@ type AllocatedConnectionsObservation struct {
 }
 
 type AllocatedConnectionsParameters struct {
+}
+
+type AppGatewayInitParameters struct {
+
+	// An arbitrary user-provided name for the AppGateway.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The type of hosting used by the AppGateway.
+	// Default value is HOST_TYPE_UNSPECIFIED.
+	// Possible values are: HOST_TYPE_UNSPECIFIED, GCP_REGIONAL_MIG.
+	HostType *string `json:"hostType,omitempty" tf:"host_type,omitempty"`
+
+	// Resource labels to represent user provided metadata.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The type of network connectivity used by the AppGateway.
+	// Default value is TYPE_UNSPECIFIED.
+	// Possible values are: TYPE_UNSPECIFIED, TCP_PROXY.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type AppGatewayObservation struct {
@@ -112,6 +138,18 @@ type AppGatewayParameters struct {
 type AppGatewaySpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     AppGatewayParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider AppGatewayInitParameters `json:"initProvider,omitempty"`
 }
 
 // AppGatewayStatus defines the observed state of AppGateway.

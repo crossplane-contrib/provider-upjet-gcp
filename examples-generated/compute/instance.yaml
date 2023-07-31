@@ -51,6 +51,3 @@ metadata:
 spec:
   forProvider:
     displayName: Service Account
-
----
-

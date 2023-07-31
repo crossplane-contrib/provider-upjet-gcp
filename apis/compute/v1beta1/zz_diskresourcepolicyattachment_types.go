@@ -25,6 +25,16 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type DiskResourcePolicyAttachmentInitParameters struct {
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// A reference to the zone where the disk resides.
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
+}
+
 type DiskResourcePolicyAttachmentObservation struct {
 
 	// The name of the disk in which the resource policies are attached to.
@@ -88,6 +98,18 @@ type DiskResourcePolicyAttachmentParameters struct {
 type DiskResourcePolicyAttachmentSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     DiskResourcePolicyAttachmentParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider DiskResourcePolicyAttachmentInitParameters `json:"initProvider,omitempty"`
 }
 
 // DiskResourcePolicyAttachmentStatus defines the observed state of DiskResourcePolicyAttachment.

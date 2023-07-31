@@ -12,6 +12,3 @@ spec:
     location: us-west1
     project: ${data.google_project.test_project.project_id}
     thirdPartyProvider: projects/${data.google_project.test_project.project_id}/locations/us-west1/providers/datadog
-
----
-

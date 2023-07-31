@@ -25,6 +25,26 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type NetworkEndpointInitParameters struct {
+
+	// IPv4 address of network endpoint. The IP address must belong
+	// to a VM in GCE (either the primary IP or as part of an aliased IP
+	// range).
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// Port number of network endpoint.
+	// Note port is required unless the Network Endpoint Group is created
+	// with the type of GCE_VM_IP
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Zone where the containing network endpoint group is located.
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
+}
+
 type NetworkEndpointObservation struct {
 
 	// an identifier for the resource with format {{project}}/{{zone}}/{{network_endpoint_group}}/{{instance}}/{{ip_address}}/{{port}}
@@ -112,6 +132,18 @@ type NetworkEndpointParameters struct {
 type NetworkEndpointSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     NetworkEndpointParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider NetworkEndpointInitParameters `json:"initProvider,omitempty"`
 }
 
 // NetworkEndpointStatus defines the observed state of NetworkEndpoint.
@@ -132,7 +164,7 @@ type NetworkEndpointStatus struct {
 type NetworkEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.ipAddress)",message="ipAddress is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ipAddress) || has(self.initProvider.ipAddress)",message="ipAddress is a required parameter"
 	Spec   NetworkEndpointSpec   `json:"spec"`
 	Status NetworkEndpointStatus `json:"status,omitempty"`
 }

@@ -26,6 +26,3 @@ spec:
     triggers:
     - schedule:
       - recurrencePeriodDuration: 86400s
-
----
-

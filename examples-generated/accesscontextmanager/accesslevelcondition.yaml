@@ -81,6 +81,3 @@ metadata:
   name: created-later
 spec:
   forProvider: {}
-
----
-

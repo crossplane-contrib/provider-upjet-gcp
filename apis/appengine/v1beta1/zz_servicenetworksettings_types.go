@@ -25,6 +25,14 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type NetworkSettingsInitParameters struct {
+
+	// The ingress settings for version or service.
+	// Default value is INGRESS_TRAFFIC_ALLOWED_UNSPECIFIED.
+	// Possible values are: INGRESS_TRAFFIC_ALLOWED_UNSPECIFIED, INGRESS_TRAFFIC_ALLOWED_ALL, INGRESS_TRAFFIC_ALLOWED_INTERNAL_ONLY, INGRESS_TRAFFIC_ALLOWED_INTERNAL_AND_LB.
+	IngressTrafficAllowed *string `json:"ingressTrafficAllowed,omitempty" tf:"ingress_traffic_allowed,omitempty"`
+}
+
 type NetworkSettingsObservation struct {
 
 	// The ingress settings for version or service.
@@ -40,6 +48,17 @@ type NetworkSettingsParameters struct {
 	// Possible values are: INGRESS_TRAFFIC_ALLOWED_UNSPECIFIED, INGRESS_TRAFFIC_ALLOWED_ALL, INGRESS_TRAFFIC_ALLOWED_INTERNAL_ONLY, INGRESS_TRAFFIC_ALLOWED_INTERNAL_AND_LB.
 	// +kubebuilder:validation:Optional
 	IngressTrafficAllowed *string `json:"ingressTrafficAllowed,omitempty" tf:"ingress_traffic_allowed,omitempty"`
+}
+
+type ServiceNetworkSettingsInitParameters struct {
+
+	// Ingress settings for this service. Will apply to all versions.
+	// Structure is documented below.
+	NetworkSettings []NetworkSettingsInitParameters `json:"networkSettings,omitempty" tf:"network_settings,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type ServiceNetworkSettingsObservation struct {
@@ -90,6 +109,18 @@ type ServiceNetworkSettingsParameters struct {
 type ServiceNetworkSettingsSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ServiceNetworkSettingsParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ServiceNetworkSettingsInitParameters `json:"initProvider,omitempty"`
 }
 
 // ServiceNetworkSettingsStatus defines the observed state of ServiceNetworkSettings.
@@ -110,7 +141,7 @@ type ServiceNetworkSettingsStatus struct {
 type ServiceNetworkSettings struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.networkSettings)",message="networkSettings is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.networkSettings) || has(self.initProvider.networkSettings)",message="networkSettings is a required parameter"
 	Spec   ServiceNetworkSettingsSpec   `json:"spec"`
 	Status ServiceNetworkSettingsStatus `json:"status,omitempty"`
 }

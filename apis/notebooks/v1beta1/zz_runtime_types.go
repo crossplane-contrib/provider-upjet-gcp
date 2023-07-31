@@ -25,6 +25,17 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AccessConfigInitParameters struct {
+
+	// The type of access mode this instance. For valid values, see
+	// https://cloud.google.com/vertex-ai/docs/workbench/reference/ rest/v1/projects.locations.runtimes#RuntimeAccessType.
+	AccessType *string `json:"accessType,omitempty" tf:"access_type,omitempty"`
+
+	// The owner of this runtime after creation. Format: alias@example.com.
+	// Currently supports one owner only.
+	RuntimeOwner *string `json:"runtimeOwner,omitempty" tf:"runtime_owner,omitempty"`
+}
+
 type AccessConfigObservation struct {
 
 	// The type of access mode this instance. For valid values, see
@@ -53,6 +64,16 @@ type AccessConfigParameters struct {
 	RuntimeOwner *string `json:"runtimeOwner,omitempty" tf:"runtime_owner,omitempty"`
 }
 
+type ContainerImagesInitParameters struct {
+
+	// The path to the container image repository.
+	// For example: gcr.io/{project_id}/{imageName}
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
+
+	// The tag of the container image. If not specified, this defaults to the latest tag.
+	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+}
+
 type ContainerImagesObservation struct {
 
 	// The path to the container image repository.
@@ -67,12 +88,45 @@ type ContainerImagesParameters struct {
 
 	// The path to the container image repository.
 	// For example: gcr.io/{project_id}/{imageName}
-	// +kubebuilder:validation:Required
-	Repository *string `json:"repository" tf:"repository,omitempty"`
+	// +kubebuilder:validation:Optional
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
 
 	// The tag of the container image. If not specified, this defaults to the latest tag.
 	// +kubebuilder:validation:Optional
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+}
+
+type DataDiskInitParameters struct {
+
+	// Input only. Specifies the parameters for a new disk that will
+	// be created alongside the new instance. Use initialization
+	// parameters to create boot disks or local SSDs attached to the
+	// new instance. This property is mutually exclusive with the
+	// source property; you can only define one or the other, but not
+	// both.
+	// Structure is documented below.
+	InitializeParams []InitializeParamsInitParameters `json:"initializeParams,omitempty" tf:"initialize_params,omitempty"`
+
+	// "Specifies the disk interface to use for attaching this disk,
+	// which is either SCSI or NVME. The default is SCSI. Persistent
+	// disks must always use SCSI and the request will fail if you attempt
+	// to attach a persistent disk in any other format than SCSI. Local SSDs
+	// can use either NVME or SCSI. For performance characteristics of SCSI
+	// over NVMe, see Local SSD performance. Valid values: * NVME * SCSI".
+	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
+
+	// The mode in which to attach this disk, either READ_WRITE
+	// or READ_ONLY. If not specified, the default is to attach
+	// the disk in READ_WRITE mode.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// Specifies a valid partial or full URL to an existing
+	// Persistent Disk resource.
+	Source *string `json:"source,omitempty" tf:"source,omitempty"`
+
+	// Specifies the type of the disk, either SCRATCH or PERSISTENT.
+	// If not specified, the default is PERSISTENT.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type DataDiskObservation struct {
@@ -192,6 +246,15 @@ type DataDiskParameters struct {
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
+type EncryptionConfigInitParameters struct {
+
+	// The Cloud KMS resource identifier of the customer-managed
+	// encryption key used to protect a resource, such as a disks.
+	// It has the following format:
+	// projects/{PROJECT_ID}/locations/{REGION}/keyRings/ {KEY_RING_NAME}/cryptoKeys/{KEY_NAME}
+	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
+}
+
 type EncryptionConfigObservation struct {
 
 	// The Cloud KMS resource identifier of the customer-managed
@@ -209,6 +272,37 @@ type EncryptionConfigParameters struct {
 	// projects/{PROJECT_ID}/locations/{REGION}/keyRings/ {KEY_RING_NAME}/cryptoKeys/{KEY_NAME}
 	// +kubebuilder:validation:Optional
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
+}
+
+type InitializeParamsInitParameters struct {
+
+	// Provide this property when creating the disk.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Specifies the disk name. If not specified, the default is
+	// to use the name of the instance. If the disk with the
+	// instance name exists already in the given zone/region, a
+	// new name will be automatically generated.
+	DiskName *string `json:"diskName,omitempty" tf:"disk_name,omitempty"`
+
+	// Specifies the size of the disk in base-2 GB. If not
+	// specified, the disk will be the same size as the image
+	// (usually 10GB). If specified, the size must be equal to
+	// or larger than 10GB. Default 100 GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The type of the boot disk attached to this runtime,
+	// defaults to standard persistent disk. For valid values,
+	// see https://cloud.google.com/vertex-ai/docs/workbench/ reference/rest/v1/projects.locations.runtimes#disktype
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// The labels to associate with this runtime. Label keys must
+	// contain 1 to 63 characters, and must conform to [RFC 1035]
+	// (https://www.ietf.org/rfc/rfc1035.txt). Label values may be
+	// empty, but, if present, must contain 1 to 63 characters, and must
+	// conform to RFC 1035. No
+	// more than 32 labels can be associated with a cluster.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
 
 type InitializeParamsObservation struct {
@@ -278,6 +372,16 @@ type InitializeParamsParameters struct {
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
 
+type KernelsInitParameters struct {
+
+	// The path to the container image repository.
+	// For example: gcr.io/{project_id}/{imageName}
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
+
+	// The tag of the container image. If not specified, this defaults to the latest tag.
+	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+}
+
 type KernelsObservation struct {
 
 	// The path to the container image repository.
@@ -292,12 +396,15 @@ type KernelsParameters struct {
 
 	// The path to the container image repository.
 	// For example: gcr.io/{project_id}/{imageName}
-	// +kubebuilder:validation:Required
-	Repository *string `json:"repository" tf:"repository,omitempty"`
+	// +kubebuilder:validation:Optional
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
 
 	// The tag of the container image. If not specified, this defaults to the latest tag.
 	// +kubebuilder:validation:Optional
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+}
+
+type MetricsInitParameters struct {
 }
 
 type MetricsObservation struct {
@@ -309,6 +416,25 @@ type MetricsObservation struct {
 }
 
 type MetricsParameters struct {
+}
+
+type RuntimeInitParameters struct {
+
+	// The config settings for accessing runtime.
+	// Structure is documented below.
+	AccessConfig []AccessConfigInitParameters `json:"accessConfig,omitempty" tf:"access_config,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The config settings for software inside the runtime.
+	// Structure is documented below.
+	SoftwareConfig []SoftwareConfigInitParameters `json:"softwareConfig,omitempty" tf:"software_config,omitempty"`
+
+	// Use a Compute Engine VM image to start the managed notebook instance.
+	// Structure is documented below.
+	VirtualMachine []VirtualMachineInitParameters `json:"virtualMachine,omitempty" tf:"virtual_machine,omitempty"`
 }
 
 type RuntimeObservation struct {
@@ -373,6 +499,44 @@ type RuntimeParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	VirtualMachine []VirtualMachineParameters `json:"virtualMachine,omitempty" tf:"virtual_machine,omitempty"`
+}
+
+type SoftwareConfigInitParameters struct {
+
+	// Specify a custom Cloud Storage path where the GPU driver is stored.
+	// If not specified, we'll automatically choose from official GPU drivers.
+	CustomGpuDriverPath *string `json:"customGpuDriverPath,omitempty" tf:"custom_gpu_driver_path,omitempty"`
+
+	// Verifies core internal services are running. Default: True.
+	EnableHealthMonitoring *bool `json:"enableHealthMonitoring,omitempty" tf:"enable_health_monitoring,omitempty"`
+
+	// Runtime will automatically shutdown after idle_shutdown_time.
+	// Default: True
+	IdleShutdown *bool `json:"idleShutdown,omitempty" tf:"idle_shutdown,omitempty"`
+
+	// Time in minutes to wait before shuting down runtime.
+	// Default: 180 minutes
+	IdleShutdownTimeout *float64 `json:"idleShutdownTimeout,omitempty" tf:"idle_shutdown_timeout,omitempty"`
+
+	// Install Nvidia Driver automatically.
+	InstallGpuDriver *bool `json:"installGpuDriver,omitempty" tf:"install_gpu_driver,omitempty"`
+
+	// Use a list of container images to use as Kernels in the notebook instance.
+	// Structure is documented below.
+	Kernels []KernelsInitParameters `json:"kernels,omitempty" tf:"kernels,omitempty"`
+
+	// Cron expression in UTC timezone for schedule instance auto upgrade.
+	// Please follow the cron format.
+	NotebookUpgradeSchedule *string `json:"notebookUpgradeSchedule,omitempty" tf:"notebook_upgrade_schedule,omitempty"`
+
+	// Path to a Bash script that automatically runs after a notebook instance
+	// fully boots up. The path must be a URL or
+	// Cloud Storage path (gs://path-to-file/file-name).
+	PostStartupScript *string `json:"postStartupScript,omitempty" tf:"post_startup_script,omitempty"`
+
+	// Behavior for the post startup script.
+	// Possible values are: POST_STARTUP_SCRIPT_BEHAVIOR_UNSPECIFIED, RUN_EVERY_START, DOWNLOAD_AND_RUN_EVERY_START.
+	PostStartupScriptBehavior *string `json:"postStartupScriptBehavior,omitempty" tf:"post_startup_script_behavior,omitempty"`
 }
 
 type SoftwareConfigObservation struct {
@@ -464,6 +628,16 @@ type SoftwareConfigParameters struct {
 	PostStartupScriptBehavior *string `json:"postStartupScriptBehavior,omitempty" tf:"post_startup_script_behavior,omitempty"`
 }
 
+type VirtualMachineConfigAcceleratorConfigInitParameters struct {
+
+	// Count of cores of this accelerator.
+	CoreCount *float64 `json:"coreCount,omitempty" tf:"core_count,omitempty"`
+
+	// Specifies the type of the disk, either SCRATCH or PERSISTENT.
+	// If not specified, the default is PERSISTENT.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
 type VirtualMachineConfigAcceleratorConfigObservation struct {
 
 	// Count of cores of this accelerator.
@@ -484,6 +658,79 @@ type VirtualMachineConfigAcceleratorConfigParameters struct {
 	// If not specified, the default is PERSISTENT.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type VirtualMachineConfigInitParameters struct {
+
+	// The Compute Engine accelerator configuration for this runtime.
+	// Structure is documented below.
+	AcceleratorConfig []VirtualMachineConfigAcceleratorConfigInitParameters `json:"acceleratorConfig,omitempty" tf:"accelerator_config,omitempty"`
+
+	// Use a list of container images to start the notebook instance.
+	// Structure is documented below.
+	ContainerImages []ContainerImagesInitParameters `json:"containerImages,omitempty" tf:"container_images,omitempty"`
+
+	// Data disk option configuration settings.
+	// Structure is documented below.
+	DataDisk []DataDiskInitParameters `json:"dataDisk,omitempty" tf:"data_disk,omitempty"`
+
+	// Encryption settings for virtual machine data disk.
+	// Structure is documented below.
+	EncryptionConfig []EncryptionConfigInitParameters `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
+
+	// If true, runtime will only have internal IP addresses. By default,
+	// runtimes are not restricted to internal IP addresses, and will
+	// have ephemeral external IP addresses assigned to each vm. This
+	// internal_ip_only restriction can only be enabled for subnetwork
+	// enabled networks, and all dependencies must be configured to be
+	// accessible without external IP addresses.
+	InternalIPOnly *bool `json:"internalIpOnly,omitempty" tf:"internal_ip_only,omitempty"`
+
+	// The labels to associate with this runtime. Label keys must
+	// contain 1 to 63 characters, and must conform to [RFC 1035]
+	// (https://www.ietf.org/rfc/rfc1035.txt). Label values may be
+	// empty, but, if present, must contain 1 to 63 characters, and must
+	// conform to RFC 1035. No
+	// more than 32 labels can be associated with a cluster.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The Compute Engine machine type used for runtimes.
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+
+	// The Compute Engine metadata entries to add to virtual machine.
+	// (see [Project and instance metadata](https://cloud.google.com
+	// /compute/docs/storing-retrieving-metadata#project_and_instance
+	// _metadata)).
+	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+
+	// The Compute Engine network to be used for machine communications.
+	// Cannot be specified with subnetwork. If neither network nor
+	// subnet is specified, the "default" network of the project is
+	// used, if it exists. A full URL or partial URI. Examples:
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// The type of vNIC to be used on this interface. This may be gVNIC
+	// or VirtioNet.
+	// Possible values are: UNSPECIFIED_NIC_TYPE, VIRTIO_NET, GVNIC.
+	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
+
+	// Reserved IP Range name is used for VPC Peering. The
+	// subnetwork allocation will use the range name if it's assigned.
+	ReservedIPRange *string `json:"reservedIpRange,omitempty" tf:"reserved_ip_range,omitempty"`
+
+	// Shielded VM Instance configuration settings.
+	// Structure is documented below.
+	ShieldedInstanceConfig []VirtualMachineConfigShieldedInstanceConfigInitParameters `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
+
+	// The Compute Engine subnetwork to be used for machine
+	// communications. Cannot be specified with network. A full URL or
+	// partial URI are valid. Examples:
+	Subnet *string `json:"subnet,omitempty" tf:"subnet,omitempty"`
+
+	// The Compute Engine tags to add to runtime (see [Tagging instances]
+	// (https://cloud.google.com/compute/docs/
+	// label-or-tag-resources#tags)).
+	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
 type VirtualMachineConfigObservation struct {
@@ -583,8 +830,8 @@ type VirtualMachineConfigParameters struct {
 
 	// Data disk option configuration settings.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	DataDisk []DataDiskParameters `json:"dataDisk" tf:"data_disk,omitempty"`
+	// +kubebuilder:validation:Optional
+	DataDisk []DataDiskParameters `json:"dataDisk,omitempty" tf:"data_disk,omitempty"`
 
 	// Encryption settings for virtual machine data disk.
 	// Structure is documented below.
@@ -610,8 +857,8 @@ type VirtualMachineConfigParameters struct {
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The Compute Engine machine type used for runtimes.
-	// +kubebuilder:validation:Required
-	MachineType *string `json:"machineType" tf:"machine_type,omitempty"`
+	// +kubebuilder:validation:Optional
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
 	// The Compute Engine metadata entries to add to virtual machine.
 	// (see [Project and instance metadata](https://cloud.google.com
@@ -654,6 +901,28 @@ type VirtualMachineConfigParameters struct {
 	// label-or-tag-resources#tags)).
 	// +kubebuilder:validation:Optional
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
+}
+
+type VirtualMachineConfigShieldedInstanceConfigInitParameters struct {
+
+	// Defines whether the instance has integrity monitoring enabled.
+	// Enables monitoring and attestation of the boot integrity of
+	// the instance. The attestation is performed against the
+	// integrity policy baseline. This baseline is initially derived
+	// from the implicitly trusted boot image when the instance is
+	// created. Enabled by default.
+	EnableIntegrityMonitoring *bool `json:"enableIntegrityMonitoring,omitempty" tf:"enable_integrity_monitoring,omitempty"`
+
+	// Defines whether the instance has Secure Boot enabled.Secure
+	// Boot helps ensure that the system only runs authentic software
+	// by verifying the digital signature of all boot components, and
+	// halting the boot process if signature verification fails.
+	// Disabled by default.
+	EnableSecureBoot *bool `json:"enableSecureBoot,omitempty" tf:"enable_secure_boot,omitempty"`
+
+	// Defines whether the instance has the vTPM enabled. Enabled by
+	// default.
+	EnableVtpm *bool `json:"enableVtpm,omitempty" tf:"enable_vtpm,omitempty"`
 }
 
 type VirtualMachineConfigShieldedInstanceConfigObservation struct {
@@ -703,6 +972,13 @@ type VirtualMachineConfigShieldedInstanceConfigParameters struct {
 	EnableVtpm *bool `json:"enableVtpm,omitempty" tf:"enable_vtpm,omitempty"`
 }
 
+type VirtualMachineInitParameters struct {
+
+	// Virtual Machine configuration settings.
+	// Structure is documented below.
+	VirtualMachineConfig []VirtualMachineConfigInitParameters `json:"virtualMachineConfig,omitempty" tf:"virtual_machine_config,omitempty"`
+}
+
 type VirtualMachineObservation struct {
 
 	// (Output)
@@ -730,6 +1006,18 @@ type VirtualMachineParameters struct {
 type RuntimeSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     RuntimeParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider RuntimeInitParameters `json:"initProvider,omitempty"`
 }
 
 // RuntimeStatus defines the observed state of Runtime.

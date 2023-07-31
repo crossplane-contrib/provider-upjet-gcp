@@ -25,6 +25,19 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type EnvironmentInitParameters struct {
+
+	// The human-readable description of the environment. The maximum length is 500 characters. If exceeded, the request is rejected.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The human-readable name of the environment (unique in an agent). Limit of 64 characters.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// A list of configurations for flow versions. You should include version configs for all flows that are reachable from [Start Flow][Agent.start_flow] in the agent. Otherwise, an error will be returned.
+	// Structure is documented below.
+	VersionConfigs []VersionConfigsInitParameters `json:"versionConfigs,omitempty" tf:"version_configs,omitempty"`
+}
+
 type EnvironmentObservation struct {
 
 	// The human-readable description of the environment. The maximum length is 500 characters. If exceeded, the request is rejected.
@@ -82,6 +95,9 @@ type EnvironmentParameters struct {
 	VersionConfigs []VersionConfigsParameters `json:"versionConfigs,omitempty" tf:"version_configs,omitempty"`
 }
 
+type VersionConfigsInitParameters struct {
+}
+
 type VersionConfigsObservation struct {
 
 	// Format: projects/{{project}}/locations/{{location}}/agents/{{agent}}/flows/{{flow}}/versions/{{version}}.
@@ -109,6 +125,18 @@ type VersionConfigsParameters struct {
 type EnvironmentSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     EnvironmentParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider EnvironmentInitParameters `json:"initProvider,omitempty"`
 }
 
 // EnvironmentStatus defines the observed state of Environment.
@@ -129,8 +157,8 @@ type EnvironmentStatus struct {
 type Environment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)",message="displayName is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.versionConfigs)",message="versionConfigs is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || has(self.initProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.versionConfigs) || has(self.initProvider.versionConfigs)",message="versionConfigs is a required parameter"
 	Spec   EnvironmentSpec   `json:"spec"`
 	Status EnvironmentStatus `json:"status,omitempty"`
 }

@@ -25,6 +25,12 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ProjectUsageExportBucketInitParameters struct {
+
+	// :  A prefix for the reports, for instance, the project name.
+	Prefix *string `json:"prefix,omitempty" tf:"prefix,omitempty"`
+}
+
 type ProjectUsageExportBucketObservation struct {
 
 	// :  The bucket to store reports in.
@@ -76,6 +82,18 @@ type ProjectUsageExportBucketParameters struct {
 type ProjectUsageExportBucketSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ProjectUsageExportBucketParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ProjectUsageExportBucketInitParameters `json:"initProvider,omitempty"`
 }
 
 // ProjectUsageExportBucketStatus defines the observed state of ProjectUsageExportBucket.

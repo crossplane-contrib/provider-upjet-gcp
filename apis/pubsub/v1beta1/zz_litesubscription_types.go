@@ -25,6 +25,13 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type DeliveryConfigInitParameters struct {
+
+	// When this subscription should send messages to subscribers relative to messages persistence in storage.
+	// Possible values are: DELIVER_IMMEDIATELY, DELIVER_AFTER_STORED, DELIVERY_REQUIREMENT_UNSPECIFIED.
+	DeliveryRequirement *string `json:"deliveryRequirement,omitempty" tf:"delivery_requirement,omitempty"`
+}
+
 type DeliveryConfigObservation struct {
 
 	// When this subscription should send messages to subscribers relative to messages persistence in storage.
@@ -36,8 +43,22 @@ type DeliveryConfigParameters struct {
 
 	// When this subscription should send messages to subscribers relative to messages persistence in storage.
 	// Possible values are: DELIVER_IMMEDIATELY, DELIVER_AFTER_STORED, DELIVERY_REQUIREMENT_UNSPECIFIED.
-	// +kubebuilder:validation:Required
-	DeliveryRequirement *string `json:"deliveryRequirement" tf:"delivery_requirement,omitempty"`
+	// +kubebuilder:validation:Optional
+	DeliveryRequirement *string `json:"deliveryRequirement,omitempty" tf:"delivery_requirement,omitempty"`
+}
+
+type LiteSubscriptionInitParameters struct {
+
+	// The settings for this subscription's message delivery.
+	// Structure is documented below.
+	DeliveryConfig []DeliveryConfigInitParameters `json:"deliveryConfig,omitempty" tf:"delivery_config,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The region of the pubsub lite topic.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
 
 type LiteSubscriptionObservation struct {
@@ -101,6 +122,18 @@ type LiteSubscriptionParameters struct {
 type LiteSubscriptionSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     LiteSubscriptionParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider LiteSubscriptionInitParameters `json:"initProvider,omitempty"`
 }
 
 // LiteSubscriptionStatus defines the observed state of LiteSubscription.

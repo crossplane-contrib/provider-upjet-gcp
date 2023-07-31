@@ -81,6 +81,16 @@ func (tr *OsPolicyAssignment) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this OsPolicyAssignment
+func (tr *OsPolicyAssignment) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this OsPolicyAssignment using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *OsPolicyAssignment) LateInitialize(attrs []byte) (bool, error) {
@@ -153,6 +163,16 @@ func (tr *PatchDeployment) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this PatchDeployment
+func (tr *PatchDeployment) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this PatchDeployment using its observed tfState.

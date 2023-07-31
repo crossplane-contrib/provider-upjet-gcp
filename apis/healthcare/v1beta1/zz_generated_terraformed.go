@@ -81,6 +81,16 @@ func (tr *ConsentStore) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this ConsentStore
+func (tr *ConsentStore) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this ConsentStore using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *ConsentStore) LateInitialize(attrs []byte) (bool, error) {
@@ -155,6 +165,16 @@ func (tr *Dataset) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this Dataset
+func (tr *Dataset) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this Dataset using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *Dataset) LateInitialize(attrs []byte) (bool, error) {
@@ -227,6 +247,16 @@ func (tr *DatasetIAMMember) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this DatasetIAMMember
+func (tr *DatasetIAMMember) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this DatasetIAMMember using its observed tfState.

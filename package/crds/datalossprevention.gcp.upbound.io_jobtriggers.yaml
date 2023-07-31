@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: jobtriggers.datalossprevention.gcp.upbound.io
 spec:
   group: datalossprevention.gcp.upbound.io
@@ -58,7 +57,7 @@ spec:
                 description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
                   or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicy field in a future release. Currently,
+                  in favor of the ManagementPolicies field in a future release. Currently,
                   both could be set independently and non-default values would be
                   honored if the feature flag is enabled. See the design doc for more
                   information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
@@ -362,16 +361,10 @@ spec:
                                                           type: string
                                                       type: object
                                                   type: object
-                                              required:
-                                              - projectId
                                               type: object
                                             type: array
-                                        required:
-                                        - table
                                         type: object
                                       type: array
-                                  required:
-                                  - cloudStorageOutput
                                   type: object
                                 type: array
                               jobNotificationEmails:
@@ -391,8 +384,6 @@ spec:
                                       description: Cloud Pub/Sub topic to send notifications
                                         to.
                                       type: string
-                                  required:
-                                  - topic
                                   type: object
                                 type: array
                               publishFindingsToCloudDataCatalog:
@@ -465,17 +456,10 @@ spec:
                                                     underscores (_). The maximum length
                                                     is 1,024 characters.
                                                   type: string
-                                              required:
-                                              - datasetId
-                                              - projectId
                                               type: object
                                             type: array
-                                        required:
-                                        - table
                                         type: object
                                       type: array
-                                  required:
-                                  - outputConfig
                                   type: object
                                 type: array
                             type: object
@@ -507,8 +491,6 @@ spec:
                                                     a file or path (no wildcards)
                                                     in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt'
                                                   type: string
-                                              required:
-                                              - path
                                               type: object
                                             type: array
                                           wordList:
@@ -527,8 +509,6 @@ spec:
                                                   items:
                                                     type: string
                                                   type: array
-                                              required:
-                                              - words
                                               type: object
                                             type: array
                                         type: object
@@ -572,8 +552,6 @@ spec:
                                               type to use. By default, the version
                                               is set to stable
                                             type: string
-                                        required:
-                                        - name
                                         type: object
                                       type: array
                                     likelihood:
@@ -603,8 +581,6 @@ spec:
                                               can be found under the google/re2 repository
                                               on GitHub.
                                             type: string
-                                        required:
-                                        - pattern
                                         type: object
                                       type: array
                                     storedType:
@@ -631,8 +607,6 @@ spec:
                                               the timestamp property does not exist
                                               or its value is empty or invalid.'
                                             type: string
-                                        required:
-                                        - name
                                         type: object
                                       type: array
                                     surrogateType:
@@ -642,8 +616,6 @@ spec:
                                       items:
                                         type: object
                                       type: array
-                                  required:
-                                  - infoType
                                   type: object
                                 type: array
                               excludeInfoTypes:
@@ -681,8 +653,6 @@ spec:
                                         to use. By default, the version is set to
                                         stable
                                       type: string
-                                  required:
-                                  - name
                                   type: object
                                 type: array
                               limits:
@@ -733,8 +703,6 @@ spec:
                                                     type to use. By default, the version
                                                     is set to stable
                                                   type: string
-                                              required:
-                                              - name
                                               type: object
                                             type: array
                                           maxFindings:
@@ -798,8 +766,6 @@ spec:
                                               type to use. By default, the version
                                               is set to stable
                                             type: string
-                                        required:
-                                        - name
                                         type: object
                                       type: array
                                     rules:
@@ -836,8 +802,6 @@ spec:
                                                                 in Cloud Storage.
                                                                 Example: gs://[BUCKET_NAME]/dictionary.txt'
                                                               type: string
-                                                          required:
-                                                          - path
                                                           type: object
                                                         type: array
                                                       wordList:
@@ -860,8 +824,6 @@ spec:
                                                               items:
                                                                 type: string
                                                               type: array
-                                                          required:
-                                                          - words
                                                           type: object
                                                         type: array
                                                     type: object
@@ -994,12 +956,8 @@ spec:
                                                                 the version is set
                                                                 to stable
                                                               type: string
-                                                          required:
-                                                          - name
                                                           type: object
                                                         type: array
-                                                    required:
-                                                    - infoTypes
                                                     type: object
                                                   type: array
                                                 matchingType:
@@ -1031,12 +989,8 @@ spec:
                                                           can be found under the google/re2
                                                           repository on GitHub.
                                                         type: string
-                                                    required:
-                                                    - pattern
                                                     type: object
                                                   type: array
-                                              required:
-                                              - matchingType
                                               type: object
                                             type: array
                                           hotwordRule:
@@ -1144,8 +1098,6 @@ spec:
                                             type: array
                                         type: object
                                       type: array
-                                  required:
-                                  - rules
                                   type: object
                                 type: array
                             type: object
@@ -1192,8 +1144,6 @@ spec:
                                               the timestamp property does not exist
                                               or its value is empty or invalid.'
                                             type: string
-                                        required:
-                                        - name
                                         type: object
                                       type: array
                                     rowsLimit:
@@ -1240,14 +1190,8 @@ spec:
                                               numbers (0-9), or underscores (_). The
                                               maximum length is 1,024 characters.
                                             type: string
-                                        required:
-                                        - datasetId
-                                        - projectId
-                                        - tableId
                                         type: object
                                       type: array
-                                  required:
-                                  - tableReference
                                   type: object
                                 type: array
                               cloudStorageOptions:
@@ -1309,8 +1253,6 @@ spec:
                                                   items:
                                                     type: string
                                                   type: array
-                                              required:
-                                              - bucketName
                                               type: object
                                             type: array
                                           url:
@@ -1356,8 +1298,6 @@ spec:
                                         not specified, scanning would start from the
                                         top. Possible values are: TOP, RANDOM_START.'
                                       type: string
-                                  required:
-                                  - fileSet
                                   type: object
                                 type: array
                               datastoreOptions:
@@ -1388,8 +1328,6 @@ spec:
                                               the timestamp property does not exist
                                               or its value is empty or invalid.'
                                             type: string
-                                        required:
-                                        - name
                                         type: object
                                       type: array
                                     partitionId:
@@ -1408,13 +1346,8 @@ spec:
                                             description: The ID of the project containing
                                               this table.
                                             type: string
-                                        required:
-                                        - projectId
                                         type: object
                                       type: array
-                                  required:
-                                  - kind
-                                  - partitionId
                                   type: object
                                 type: array
                               hybridOptions:
@@ -1490,8 +1423,6 @@ spec:
                                                     not exist or its value is empty
                                                     or invalid.'
                                                   type: string
-                                              required:
-                                              - name
                                               type: object
                                             type: array
                                         type: object
@@ -1543,20 +1474,12 @@ spec:
                                               the timestamp property does not exist
                                               or its value is empty or invalid.'
                                             type: string
-                                        required:
-                                        - name
                                         type: object
                                       type: array
-                                  required:
-                                  - timestampField
                                   type: object
                                 type: array
                             type: object
                           type: array
-                      required:
-                      - actions
-                      - inspectTemplateName
-                      - storageConfig
                       type: object
                     type: array
                   parent:
@@ -1599,21 +1522,1289 @@ spec:
                       type: object
                     type: array
                 type: object
-              managementPolicy:
-                default: FullControl
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. InitProvider
+                  holds the same fields as ForProvider, with the exception of Identifier
+                  and other resource reference fields. The fields that are in InitProvider
+                  are merged into ForProvider when the resource is created. The same
+                  fields are also added to the terraform ignore_changes hook, to avoid
+                  updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after
+                  creation, for example because of an external controller is managing
+                  them, like an autoscaler.
+                properties:
+                  description:
+                    description: A description of the job trigger.
+                    type: string
+                  displayName:
+                    description: User set display name of the job trigger.
+                    type: string
+                  inspectJob:
+                    description: Controls what and how to inspect for findings. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        actions:
+                          description: A task to execute on the completion of a job.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              deidentify:
+                                description: Create a de-identified copy of the requested
+                                  table or files. Structure is documented below.
+                                items:
+                                  properties:
+                                    cloudStorageOutput:
+                                      description: 'User settable Cloud Storage bucket
+                                        and folders to store de-identified files.
+                                        This field must be set for cloud storage deidentification.
+                                        The output Cloud Storage bucket must be different
+                                        from the input bucket. De-identified files
+                                        will overwrite files in the output path. Form
+                                        of: gs://bucket/folder/ or gs://bucket'
+                                      type: string
+                                    fileTypesToTransform:
+                                      description: 'List of user-specified file type
+                                        groups to transform. If specified, only the
+                                        files with these filetypes will be transformed.
+                                        If empty, all supported files will be transformed.
+                                        Supported types may be automatically added
+                                        over time. If a file type is set in this field
+                                        that isn''t supported by the Deidentify action
+                                        then the job will fail and will not be successfully
+                                        created/started. Each value may be one of:
+                                        IMAGE, TEXT_FILE, CSV, TSV.'
+                                      items:
+                                        type: string
+                                      type: array
+                                    transformationConfig:
+                                      description: User specified deidentify templates
+                                        and configs for structured, unstructured,
+                                        and image files. Structure is documented below.
+                                      items:
+                                        properties:
+                                          deidentifyTemplate:
+                                            description: If this template is specified,
+                                              it will serve as the default de-identify
+                                              template.
+                                            type: string
+                                          imageRedactTemplate:
+                                            description: If this template is specified,
+                                              it will serve as the de-identify template
+                                              for images.
+                                            type: string
+                                          structuredDeidentifyTemplate:
+                                            description: If this template is specified,
+                                              it will serve as the de-identify template
+                                              for structured content such as delimited
+                                              files and tables.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    transformationDetailsStorageConfig:
+                                      description: Config for storing transformation
+                                        details. Structure is documented below.
+                                      items:
+                                        properties:
+                                          table:
+                                            description: The BigQuery table in which
+                                              to store the output. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                projectId:
+                                                  description: The ID of the project
+                                                    containing this table.
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              jobNotificationEmails:
+                                description: Sends an email when the job completes.
+                                  The email goes to IAM project owners and technical
+                                  Essential Contacts.
+                                items:
+                                  type: object
+                                type: array
+                              pubSub:
+                                description: Publish a message into a given Pub/Sub
+                                  topic when the job completes. Structure is documented
+                                  below.
+                                items:
+                                  properties:
+                                    topic:
+                                      description: Cloud Pub/Sub topic to send notifications
+                                        to.
+                                      type: string
+                                  type: object
+                                type: array
+                              publishFindingsToCloudDataCatalog:
+                                description: Publish findings of a DlpJob to Data
+                                  Catalog.
+                                items:
+                                  type: object
+                                type: array
+                              publishSummaryToCscc:
+                                description: Publish the result summary of a DlpJob
+                                  to the Cloud Security Command Center.
+                                items:
+                                  type: object
+                                type: array
+                              publishToStackdriver:
+                                description: Enable Stackdriver metric dlp.googleapis.com/findingCount.
+                                items:
+                                  type: object
+                                type: array
+                              saveFindings:
+                                description: 'If set, the detailed findings will be
+                                  persisted to the specified OutputStorageConfig.
+                                  Only a single instance of this action can be specified.
+                                  Compatible with: Inspect, Risk Structure is documented
+                                  below.'
+                                items:
+                                  properties:
+                                    outputConfig:
+                                      description: Information on where to store output
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          outputSchema:
+                                            description: 'Schema used for writing
+                                              the findings for Inspect jobs. This
+                                              field is only used for Inspect and must
+                                              be unspecified for Risk jobs. Columns
+                                              are derived from the Finding object.
+                                              If appending to an existing table, any
+                                              columns from the predefined schema that
+                                              are missing will be added. No columns
+                                              in the existing table will be deleted.
+                                              If unspecified, then all available columns
+                                              will be used for a new table or an (existing)
+                                              table with no schema, and no changes
+                                              will be made to an existing table that
+                                              has a schema. Only for use with external
+                                              storage. Possible values are: BASIC_COLUMNS,
+                                              GCS_COLUMNS, DATASTORE_COLUMNS, BIG_QUERY_COLUMNS,
+                                              ALL_COLUMNS.'
+                                            type: string
+                                          table:
+                                            description: The BigQuery table in which
+                                              to store the output. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                datasetId:
+                                                  description: The ID of the dataset
+                                                    containing this table.
+                                                  type: string
+                                                projectId:
+                                                  description: The ID of the project
+                                                    containing this table.
+                                                  type: string
+                                                tableId:
+                                                  description: The ID of the table.
+                                                    The ID must contain only letters
+                                                    (a-z, A-Z), numbers (0-9), or
+                                                    underscores (_). The maximum length
+                                                    is 1,024 characters.
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        inspectConfig:
+                          description: The core content of the template. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              customInfoTypes:
+                                description: Custom info types to be used. See https://cloud.google.com/dlp/docs/creating-custom-infotypes
+                                  to learn more. Structure is documented below.
+                                items:
+                                  properties:
+                                    dictionary:
+                                      description: Dictionary which defines the rule.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          cloudStoragePath:
+                                            description: Newline-delimited file of
+                                              words in Cloud Storage. Only a single
+                                              file is accepted. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                path:
+                                                  description: 'A url representing
+                                                    a file or path (no wildcards)
+                                                    in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt'
+                                                  type: string
+                                              type: object
+                                            type: array
+                                          wordList:
+                                            description: List of words or phrases
+                                              to search for. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                words:
+                                                  description: Words or phrases defining
+                                                    the dictionary. The dictionary
+                                                    must contain at least one phrase
+                                                    and every phrase must contain
+                                                    at least 2 characters that are
+                                                    letters or digits.
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    exclusionType:
+                                      description: 'If set to EXCLUSION_TYPE_EXCLUDE
+                                        this infoType will not cause a finding to
+                                        be returned. It still can be used for rules
+                                        matching. Possible values are: EXCLUSION_TYPE_EXCLUDE.'
+                                      type: string
+                                    infoType:
+                                      description: Type of information the findings
+                                        limit applies to. Only one limit per infoType
+                                        should be provided. If InfoTypeLimit does
+                                        not have an infoType, the DLP API applies
+                                        the limit against all infoTypes that are found
+                                        but not specified in another InfoTypeLimit.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          name:
+                                            description: 'Specification of the field
+                                              containing the timestamp of scanned
+                                              items. Used for data sources like Datastore
+                                              and BigQuery. For BigQuery: Required
+                                              to filter out rows based on the given
+                                              start and end times. If not specified
+                                              and the table was modified between the
+                                              given start and end times, the entire
+                                              table will be scanned. The valid data
+                                              types of the timestamp field are: INTEGER,
+                                              DATE, TIMESTAMP, or DATETIME BigQuery
+                                              column. For Datastore. Valid data types
+                                              of the timestamp field are: TIMESTAMP.
+                                              Datastore entity will be scanned if
+                                              the timestamp property does not exist
+                                              or its value is empty or invalid.'
+                                            type: string
+                                          version:
+                                            description: Version of the information
+                                              type to use. By default, the version
+                                              is set to stable
+                                            type: string
+                                        type: object
+                                      type: array
+                                    likelihood:
+                                      description: 'Likelihood to return for this
+                                        CustomInfoType. This base value can be altered
+                                        by a detection rule if the finding meets the
+                                        criteria specified by the rule. Default value
+                                        is VERY_LIKELY. Possible values are: VERY_UNLIKELY,
+                                        UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.'
+                                      type: string
+                                    regex:
+                                      description: Regular expression which defines
+                                        the rule. Structure is documented below.
+                                      items:
+                                        properties:
+                                          groupIndexes:
+                                            description: The index of the submatch
+                                              to extract as findings. When not specified,
+                                              the entire match is returned. No more
+                                              than 3 may be included.
+                                            items:
+                                              type: number
+                                            type: array
+                                          pattern:
+                                            description: Pattern defining the regular
+                                              expression. Its syntax (https://github.com/google/re2/wiki/Syntax)
+                                              can be found under the google/re2 repository
+                                              on GitHub.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    storedType:
+                                      description: A reference to a StoredInfoType
+                                        to use with scanning. Structure is documented
+                                        below.
+                                      items:
+                                        properties:
+                                          name:
+                                            description: 'Specification of the field
+                                              containing the timestamp of scanned
+                                              items. Used for data sources like Datastore
+                                              and BigQuery. For BigQuery: Required
+                                              to filter out rows based on the given
+                                              start and end times. If not specified
+                                              and the table was modified between the
+                                              given start and end times, the entire
+                                              table will be scanned. The valid data
+                                              types of the timestamp field are: INTEGER,
+                                              DATE, TIMESTAMP, or DATETIME BigQuery
+                                              column. For Datastore. Valid data types
+                                              of the timestamp field are: TIMESTAMP.
+                                              Datastore entity will be scanned if
+                                              the timestamp property does not exist
+                                              or its value is empty or invalid.'
+                                            type: string
+                                        type: object
+                                      type: array
+                                    surrogateType:
+                                      description: Message for detecting output from
+                                        deidentification transformations that support
+                                        reversing.
+                                      items:
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              excludeInfoTypes:
+                                description: When true, excludes type information
+                                  of the findings.
+                                type: boolean
+                              includeQuote:
+                                description: When true, a contextual quote from the
+                                  data that triggered a finding is included in the
+                                  response.
+                                type: boolean
+                              infoTypes:
+                                description: List of infoTypes this rule set is applied
+                                  to. Structure is documented below.
+                                items:
+                                  properties:
+                                    name:
+                                      description: 'Specification of the field containing
+                                        the timestamp of scanned items. Used for data
+                                        sources like Datastore and BigQuery. For BigQuery:
+                                        Required to filter out rows based on the given
+                                        start and end times. If not specified and
+                                        the table was modified between the given start
+                                        and end times, the entire table will be scanned.
+                                        The valid data types of the timestamp field
+                                        are: INTEGER, DATE, TIMESTAMP, or DATETIME
+                                        BigQuery column. For Datastore. Valid data
+                                        types of the timestamp field are: TIMESTAMP.
+                                        Datastore entity will be scanned if the timestamp
+                                        property does not exist or its value is empty
+                                        or invalid.'
+                                      type: string
+                                    version:
+                                      description: Version of the information type
+                                        to use. By default, the version is set to
+                                        stable
+                                      type: string
+                                  type: object
+                                type: array
+                              limits:
+                                description: Configuration to control the number of
+                                  findings returned. Structure is documented below.
+                                items:
+                                  properties:
+                                    maxFindingsPerInfoType:
+                                      description: Configuration of findings limit
+                                        given for specified infoTypes. Structure is
+                                        documented below.
+                                      items:
+                                        properties:
+                                          infoType:
+                                            description: Type of information the findings
+                                              limit applies to. Only one limit per
+                                              infoType should be provided. If InfoTypeLimit
+                                              does not have an infoType, the DLP API
+                                              applies the limit against all infoTypes
+                                              that are found but not specified in
+                                              another InfoTypeLimit. Structure is
+                                              documented below.
+                                            items:
+                                              properties:
+                                                name:
+                                                  description: 'Specification of the
+                                                    field containing the timestamp
+                                                    of scanned items. Used for data
+                                                    sources like Datastore and BigQuery.
+                                                    For BigQuery: Required to filter
+                                                    out rows based on the given start
+                                                    and end times. If not specified
+                                                    and the table was modified between
+                                                    the given start and end times,
+                                                    the entire table will be scanned.
+                                                    The valid data types of the timestamp
+                                                    field are: INTEGER, DATE, TIMESTAMP,
+                                                    or DATETIME BigQuery column. For
+                                                    Datastore. Valid data types of
+                                                    the timestamp field are: TIMESTAMP.
+                                                    Datastore entity will be scanned
+                                                    if the timestamp property does
+                                                    not exist or its value is empty
+                                                    or invalid.'
+                                                  type: string
+                                                version:
+                                                  description: Version of the information
+                                                    type to use. By default, the version
+                                                    is set to stable
+                                                  type: string
+                                              type: object
+                                            type: array
+                                          maxFindings:
+                                            description: Max findings limit for the
+                                              given infoType.
+                                            type: number
+                                        type: object
+                                      type: array
+                                    maxFindingsPerItem:
+                                      description: Max number of findings that will
+                                        be returned for each item scanned. The maximum
+                                        returned is 2000.
+                                      type: number
+                                    maxFindingsPerRequest:
+                                      description: Max number of findings that will
+                                        be returned per request/job. The maximum returned
+                                        is 2000.
+                                      type: number
+                                  type: object
+                                type: array
+                              minLikelihood:
+                                description: 'Only returns findings equal or above
+                                  this threshold. See https://cloud.google.com/dlp/docs/likelihood
+                                  for more info Default value is POSSIBLE. Possible
+                                  values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY,
+                                  VERY_LIKELY.'
+                                type: string
+                              ruleSet:
+                                description: Set of rules to apply to the findings
+                                  for this InspectConfig. Exclusion rules, contained
+                                  in the set are executed in the end, other rules
+                                  are executed in the order they are specified for
+                                  each info type. Structure is documented below.
+                                items:
+                                  properties:
+                                    infoTypes:
+                                      description: List of infoTypes this rule set
+                                        is applied to. Structure is documented below.
+                                      items:
+                                        properties:
+                                          name:
+                                            description: 'Specification of the field
+                                              containing the timestamp of scanned
+                                              items. Used for data sources like Datastore
+                                              and BigQuery. For BigQuery: Required
+                                              to filter out rows based on the given
+                                              start and end times. If not specified
+                                              and the table was modified between the
+                                              given start and end times, the entire
+                                              table will be scanned. The valid data
+                                              types of the timestamp field are: INTEGER,
+                                              DATE, TIMESTAMP, or DATETIME BigQuery
+                                              column. For Datastore. Valid data types
+                                              of the timestamp field are: TIMESTAMP.
+                                              Datastore entity will be scanned if
+                                              the timestamp property does not exist
+                                              or its value is empty or invalid.'
+                                            type: string
+                                          version:
+                                            description: Version of the information
+                                              type to use. By default, the version
+                                              is set to stable
+                                            type: string
+                                        type: object
+                                      type: array
+                                    rules:
+                                      description: Set of rules to be applied to infoTypes.
+                                        The rules are applied in order. Structure
+                                        is documented below.
+                                      items:
+                                        properties:
+                                          exclusionRule:
+                                            description: The rule that specifies conditions
+                                              when findings of infoTypes specified
+                                              in InspectionRuleSet are removed from
+                                              results. Structure is documented below.
+                                            items:
+                                              properties:
+                                                dictionary:
+                                                  description: Dictionary which defines
+                                                    the rule. Structure is documented
+                                                    below.
+                                                  items:
+                                                    properties:
+                                                      cloudStoragePath:
+                                                        description: Newline-delimited
+                                                          file of words in Cloud Storage.
+                                                          Only a single file is accepted.
+                                                          Structure is documented
+                                                          below.
+                                                        items:
+                                                          properties:
+                                                            path:
+                                                              description: 'A url
+                                                                representing a file
+                                                                or path (no wildcards)
+                                                                in Cloud Storage.
+                                                                Example: gs://[BUCKET_NAME]/dictionary.txt'
+                                                              type: string
+                                                          type: object
+                                                        type: array
+                                                      wordList:
+                                                        description: List of words
+                                                          or phrases to search for.
+                                                          Structure is documented
+                                                          below.
+                                                        items:
+                                                          properties:
+                                                            words:
+                                                              description: Words or
+                                                                phrases defining the
+                                                                dictionary. The dictionary
+                                                                must contain at least
+                                                                one phrase and every
+                                                                phrase must contain
+                                                                at least 2 characters
+                                                                that are letters or
+                                                                digits.
+                                                              items:
+                                                                type: string
+                                                              type: array
+                                                          type: object
+                                                        type: array
+                                                    type: object
+                                                  type: array
+                                                excludeByHotword:
+                                                  description: Drop if the hotword
+                                                    rule is contained in the proximate
+                                                    context. Structure is documented
+                                                    below.
+                                                  items:
+                                                    properties:
+                                                      hotwordRegex:
+                                                        description: Regular expression
+                                                          pattern defining what qualifies
+                                                          as a hotword. Structure
+                                                          is documented below.
+                                                        items:
+                                                          properties:
+                                                            groupIndexes:
+                                                              description: The index
+                                                                of the submatch to
+                                                                extract as findings.
+                                                                When not specified,
+                                                                the entire match is
+                                                                returned. No more
+                                                                than 3 may be included.
+                                                              items:
+                                                                type: number
+                                                              type: array
+                                                            pattern:
+                                                              description: Pattern
+                                                                defining the regular
+                                                                expression. Its syntax
+                                                                (https://github.com/google/re2/wiki/Syntax)
+                                                                can be found under
+                                                                the google/re2 repository
+                                                                on GitHub.
+                                                              type: string
+                                                          type: object
+                                                        type: array
+                                                      proximity:
+                                                        description: Proximity of
+                                                          the finding within which
+                                                          the entire hotword must
+                                                          reside. The total length
+                                                          of the window cannot exceed
+                                                          1000 characters. Note that
+                                                          the finding itself will
+                                                          be included in the window,
+                                                          so that hotwords may be
+                                                          used to match substrings
+                                                          of the finding itself. For
+                                                          example, the certainty of
+                                                          a phone number regex (\d{3})
+                                                          \d{3}-\d{4} could be adjusted
+                                                          upwards if the area code
+                                                          is known to be the local
+                                                          area code of a company office
+                                                          using the hotword regex
+                                                          (xxx), where xxx is the
+                                                          area code in question. Structure
+                                                          is documented below.
+                                                        items:
+                                                          properties:
+                                                            windowAfter:
+                                                              description: Number
+                                                                of characters after
+                                                                the finding to consider.
+                                                                Either this or window_before
+                                                                must be specified
+                                                              type: number
+                                                            windowBefore:
+                                                              description: Number
+                                                                of characters before
+                                                                the finding to consider.
+                                                                Either this or window_after
+                                                                must be specified
+                                                              type: number
+                                                          type: object
+                                                        type: array
+                                                    type: object
+                                                  type: array
+                                                excludeInfoTypes:
+                                                  description: When true, excludes
+                                                    type information of the findings.
+                                                  items:
+                                                    properties:
+                                                      infoTypes:
+                                                        description: List of infoTypes
+                                                          this rule set is applied
+                                                          to. Structure is documented
+                                                          below.
+                                                        items:
+                                                          properties:
+                                                            name:
+                                                              description: 'Specification
+                                                                of the field containing
+                                                                the timestamp of scanned
+                                                                items. Used for data
+                                                                sources like Datastore
+                                                                and BigQuery. For
+                                                                BigQuery: Required
+                                                                to filter out rows
+                                                                based on the given
+                                                                start and end times.
+                                                                If not specified and
+                                                                the table was modified
+                                                                between the given
+                                                                start and end times,
+                                                                the entire table will
+                                                                be scanned. The valid
+                                                                data types of the
+                                                                timestamp field are:
+                                                                INTEGER, DATE, TIMESTAMP,
+                                                                or DATETIME BigQuery
+                                                                column. For Datastore.
+                                                                Valid data types of
+                                                                the timestamp field
+                                                                are: TIMESTAMP. Datastore
+                                                                entity will be scanned
+                                                                if the timestamp property
+                                                                does not exist or
+                                                                its value is empty
+                                                                or invalid.'
+                                                              type: string
+                                                            version:
+                                                              description: Version
+                                                                of the information
+                                                                type to use. By default,
+                                                                the version is set
+                                                                to stable
+                                                              type: string
+                                                          type: object
+                                                        type: array
+                                                    type: object
+                                                  type: array
+                                                matchingType:
+                                                  description: 'How the rule is applied.
+                                                    See the documentation for more
+                                                    information: https://cloud.google.com/dlp/docs/reference/rest/v2/InspectConfig#MatchingType
+                                                    Possible values are: MATCHING_TYPE_FULL_MATCH,
+                                                    MATCHING_TYPE_PARTIAL_MATCH, MATCHING_TYPE_INVERSE_MATCH.'
+                                                  type: string
+                                                regex:
+                                                  description: Regular expression
+                                                    which defines the rule. Structure
+                                                    is documented below.
+                                                  items:
+                                                    properties:
+                                                      groupIndexes:
+                                                        description: The index of
+                                                          the submatch to extract
+                                                          as findings. When not specified,
+                                                          the entire match is returned.
+                                                          No more than 3 may be included.
+                                                        items:
+                                                          type: number
+                                                        type: array
+                                                      pattern:
+                                                        description: Pattern defining
+                                                          the regular expression.
+                                                          Its syntax (https://github.com/google/re2/wiki/Syntax)
+                                                          can be found under the google/re2
+                                                          repository on GitHub.
+                                                        type: string
+                                                    type: object
+                                                  type: array
+                                              type: object
+                                            type: array
+                                          hotwordRule:
+                                            description: Hotword-based detection rule.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                hotwordRegex:
+                                                  description: Regular expression
+                                                    pattern defining what qualifies
+                                                    as a hotword. Structure is documented
+                                                    below.
+                                                  items:
+                                                    properties:
+                                                      groupIndexes:
+                                                        description: The index of
+                                                          the submatch to extract
+                                                          as findings. When not specified,
+                                                          the entire match is returned.
+                                                          No more than 3 may be included.
+                                                        items:
+                                                          type: number
+                                                        type: array
+                                                      pattern:
+                                                        description: Pattern defining
+                                                          the regular expression.
+                                                          Its syntax (https://github.com/google/re2/wiki/Syntax)
+                                                          can be found under the google/re2
+                                                          repository on GitHub.
+                                                        type: string
+                                                    type: object
+                                                  type: array
+                                                likelihoodAdjustment:
+                                                  description: Likelihood adjustment
+                                                    to apply to all matching findings.
+                                                    Structure is documented below.
+                                                  items:
+                                                    properties:
+                                                      fixedLikelihood:
+                                                        description: 'Set the likelihood
+                                                          of a finding to a fixed
+                                                          value. Either this or relative_likelihood
+                                                          can be set. Possible values
+                                                          are: VERY_UNLIKELY, UNLIKELY,
+                                                          POSSIBLE, LIKELY, VERY_LIKELY.'
+                                                        type: string
+                                                      relativeLikelihood:
+                                                        description: Increase or decrease
+                                                          the likelihood by the specified
+                                                          number of levels. For example,
+                                                          if a finding would be POSSIBLE
+                                                          without the detection rule
+                                                          and relativeLikelihood is
+                                                          1, then it is upgraded to
+                                                          LIKELY, while a value of
+                                                          -1 would downgrade it to
+                                                          UNLIKELY. Likelihood may
+                                                          never drop below VERY_UNLIKELY
+                                                          or exceed VERY_LIKELY, so
+                                                          applying an adjustment of
+                                                          1 followed by an adjustment
+                                                          of -1 when base likelihood
+                                                          is VERY_LIKELY will result
+                                                          in a final likelihood of
+                                                          LIKELY. Either this or fixed_likelihood
+                                                          can be set.
+                                                        type: number
+                                                    type: object
+                                                  type: array
+                                                proximity:
+                                                  description: Proximity of the finding
+                                                    within which the entire hotword
+                                                    must reside. The total length
+                                                    of the window cannot exceed 1000
+                                                    characters. Note that the finding
+                                                    itself will be included in the
+                                                    window, so that hotwords may be
+                                                    used to match substrings of the
+                                                    finding itself. For example, the
+                                                    certainty of a phone number regex
+                                                    (\d{3}) \d{3}-\d{4} could be adjusted
+                                                    upwards if the area code is known
+                                                    to be the local area code of a
+                                                    company office using the hotword
+                                                    regex (xxx), where xxx is the
+                                                    area code in question. Structure
+                                                    is documented below.
+                                                  items:
+                                                    properties:
+                                                      windowAfter:
+                                                        description: Number of characters
+                                                          after the finding to consider.
+                                                          Either this or window_before
+                                                          must be specified
+                                                        type: number
+                                                      windowBefore:
+                                                        description: Number of characters
+                                                          before the finding to consider.
+                                                          Either this or window_after
+                                                          must be specified
+                                                        type: number
+                                                    type: object
+                                                  type: array
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        inspectTemplateName:
+                          description: The name of the template to run when this job
+                            is triggered.
+                          type: string
+                        storageConfig:
+                          description: Information on where to inspect Structure is
+                            documented below.
+                          items:
+                            properties:
+                              bigQueryOptions:
+                                description: Options defining BigQuery table and row
+                                  identifiers. Structure is documented below.
+                                items:
+                                  properties:
+                                    identifyingFields:
+                                      description: The columns that are the primary
+                                        keys for table objects included in ContentItem.
+                                        A copy of this cell's value will stored alongside
+                                        alongside each finding so that the finding
+                                        can be traced to the specific row it came
+                                        from. No more than 3 may be provided. Structure
+                                        is documented below.
+                                      items:
+                                        properties:
+                                          name:
+                                            description: 'Specification of the field
+                                              containing the timestamp of scanned
+                                              items. Used for data sources like Datastore
+                                              and BigQuery. For BigQuery: Required
+                                              to filter out rows based on the given
+                                              start and end times. If not specified
+                                              and the table was modified between the
+                                              given start and end times, the entire
+                                              table will be scanned. The valid data
+                                              types of the timestamp field are: INTEGER,
+                                              DATE, TIMESTAMP, or DATETIME BigQuery
+                                              column. For Datastore. Valid data types
+                                              of the timestamp field are: TIMESTAMP.
+                                              Datastore entity will be scanned if
+                                              the timestamp property does not exist
+                                              or its value is empty or invalid.'
+                                            type: string
+                                        type: object
+                                      type: array
+                                    rowsLimit:
+                                      description: Max number of rows to scan. If
+                                        the table has more rows than this value, the
+                                        rest of the rows are omitted. If not set,
+                                        or if set to 0, all rows will be scanned.
+                                        Only one of rowsLimit and rowsLimitPercent
+                                        can be specified. Cannot be used in conjunction
+                                        with TimespanConfig.
+                                      type: number
+                                    rowsLimitPercent:
+                                      description: Max percentage of rows to scan.
+                                        The rest are omitted. The number of rows scanned
+                                        is rounded down. Must be between 0 and 100,
+                                        inclusively. Both 0 and 100 means no limit.
+                                        Defaults to 0. Only one of rowsLimit and rowsLimitPercent
+                                        can be specified. Cannot be used in conjunction
+                                        with TimespanConfig.
+                                      type: number
+                                    sampleMethod:
+                                      description: 'How to sample bytes if not all
+                                        bytes are scanned. Meaningful only when used
+                                        in conjunction with bytesLimitPerFile. If
+                                        not specified, scanning would start from the
+                                        top. Possible values are: TOP, RANDOM_START.'
+                                      type: string
+                                    tableReference:
+                                      description: Set of files to scan. Structure
+                                        is documented below.
+                                      items:
+                                        properties:
+                                          datasetId:
+                                            description: The ID of the dataset containing
+                                              this table.
+                                            type: string
+                                          projectId:
+                                            description: The ID of the project containing
+                                              this table.
+                                            type: string
+                                          tableId:
+                                            description: The ID of the table. The
+                                              ID must contain only letters (a-z, A-Z),
+                                              numbers (0-9), or underscores (_). The
+                                              maximum length is 1,024 characters.
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              cloudStorageOptions:
+                                description: Options defining a file or a set of files
+                                  within a Google Cloud Storage bucket. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    bytesLimitPerFile:
+                                      description: Max number of bytes to scan from
+                                        a file. If a scanned file's size is bigger
+                                        than this value then the rest of the bytes
+                                        are omitted.
+                                      type: number
+                                    bytesLimitPerFilePercent:
+                                      description: Max percentage of bytes to scan
+                                        from a file. The rest are omitted. The number
+                                        of bytes scanned is rounded down. Must be
+                                        between 0 and 100, inclusively. Both 0 and
+                                        100 means no limit.
+                                      type: number
+                                    fileSet:
+                                      description: Set of files to scan. Structure
+                                        is documented below.
+                                      items:
+                                        properties:
+                                          regexFileSet:
+                                            description: The regex-filtered set of
+                                              files to scan. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                bucketName:
+                                                  description: The name of a Cloud
+                                                    Storage bucket.
+                                                  type: string
+                                                excludeRegex:
+                                                  description: A list of regular expressions
+                                                    matching file paths to exclude.
+                                                    All files in the bucket that match
+                                                    at least one of these regular
+                                                    expressions will be excluded from
+                                                    the scan.
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                                includeRegex:
+                                                  description: A list of regular expressions
+                                                    matching file paths to include.
+                                                    All files in the bucket that match
+                                                    at least one of these regular
+                                                    expressions will be included in
+                                                    the set of files, except for those
+                                                    that also match an item in excludeRegex.
+                                                    Leaving this field empty will
+                                                    match all files by default (this
+                                                    is equivalent to including .*
+                                                    in the list)
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                              type: object
+                                            type: array
+                                          url:
+                                            description: The Cloud Storage url of
+                                              the file(s) to scan, in the format gs://<bucket>/<path>.
+                                              Trailing wildcard in the path is allowed.
+                                              If the url ends in a trailing slash,
+                                              the bucket or directory represented
+                                              by the url will be scanned non-recursively
+                                              (content in sub-directories will not
+                                              be scanned). This means that gs://mybucket/
+                                              is equivalent to gs://mybucket/*, and
+                                              gs://mybucket/directory/ is equivalent
+                                              to gs://mybucket/directory/*.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    fileTypes:
+                                      description: 'List of file type groups to include
+                                        in the scan. If empty, all files are scanned
+                                        and available data format processors are applied.
+                                        In addition, the binary content of the selected
+                                        files is always scanned as well. Images are
+                                        scanned only as binary if the specified region
+                                        does not support image inspection and no fileTypes
+                                        were specified. Each value may be one of:
+                                        BINARY_FILE, TEXT_FILE, IMAGE, WORD, PDF,
+                                        AVRO, CSV, TSV.'
+                                      items:
+                                        type: string
+                                      type: array
+                                    filesLimitPercent:
+                                      description: Limits the number of files to scan
+                                        to this percentage of the input FileSet. Number
+                                        of files scanned is rounded down. Must be
+                                        between 0 and 100, inclusively. Both 0 and
+                                        100 means no limit.
+                                      type: number
+                                    sampleMethod:
+                                      description: 'How to sample bytes if not all
+                                        bytes are scanned. Meaningful only when used
+                                        in conjunction with bytesLimitPerFile. If
+                                        not specified, scanning would start from the
+                                        top. Possible values are: TOP, RANDOM_START.'
+                                      type: string
+                                  type: object
+                                type: array
+                              datastoreOptions:
+                                description: Options defining a data set within Google
+                                  Cloud Datastore. Structure is documented below.
+                                items:
+                                  properties:
+                                    kind:
+                                      description: A representation of a Datastore
+                                        kind. Structure is documented below.
+                                      items:
+                                        properties:
+                                          name:
+                                            description: 'Specification of the field
+                                              containing the timestamp of scanned
+                                              items. Used for data sources like Datastore
+                                              and BigQuery. For BigQuery: Required
+                                              to filter out rows based on the given
+                                              start and end times. If not specified
+                                              and the table was modified between the
+                                              given start and end times, the entire
+                                              table will be scanned. The valid data
+                                              types of the timestamp field are: INTEGER,
+                                              DATE, TIMESTAMP, or DATETIME BigQuery
+                                              column. For Datastore. Valid data types
+                                              of the timestamp field are: TIMESTAMP.
+                                              Datastore entity will be scanned if
+                                              the timestamp property does not exist
+                                              or its value is empty or invalid.'
+                                            type: string
+                                        type: object
+                                      type: array
+                                    partitionId:
+                                      description: Datastore partition ID. A partition
+                                        ID identifies a grouping of entities. The
+                                        grouping is always by project and namespace,
+                                        however the namespace ID may be empty. Structure
+                                        is documented below.
+                                      items:
+                                        properties:
+                                          namespaceId:
+                                            description: If not empty, the ID of the
+                                              namespace to which the entities belong.
+                                            type: string
+                                          projectId:
+                                            description: The ID of the project containing
+                                              this table.
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              hybridOptions:
+                                description: Configuration to control jobs where the
+                                  content being inspected is outside of Google Cloud
+                                  Platform. Structure is documented below.
+                                items:
+                                  properties:
+                                    description:
+                                      description: A description of the job trigger.
+                                      type: string
+                                    labels:
+                                      additionalProperties:
+                                        type: string
+                                      description: 'To organize findings, these labels
+                                        will be added to each finding. Label keys
+                                        must be between 1 and 63 characters long and
+                                        must conform to the following regular expression:
+                                        [a-z]([-a-z0-9]*[a-z0-9])?. Label values must
+                                        be between 0 and 63 characters long and must
+                                        conform to the regular expression ([a-z]([-a-z0-9]*[a-z0-9])?)?.
+                                        No more than 10 labels can be associated with
+                                        a given finding. Examples:'
+                                      type: object
+                                    requiredFindingLabelKeys:
+                                      description: 'These are labels that each inspection
+                                        request must include within their ''finding_labels''
+                                        map. Request may contain others, but any missing
+                                        one of these will be rejected. Label keys
+                                        must be between 1 and 63 characters long and
+                                        must conform to the following regular expression:
+                                        [a-z]([-a-z0-9]*[a-z0-9])?. No more than 10
+                                        keys can be required.'
+                                      items:
+                                        type: string
+                                      type: array
+                                    tableOptions:
+                                      description: If the container is a table, additional
+                                        information to make findings meaningful such
+                                        as the columns that are primary keys. Structure
+                                        is documented below.
+                                      items:
+                                        properties:
+                                          identifyingFields:
+                                            description: The columns that are the
+                                              primary keys for table objects included
+                                              in ContentItem. A copy of this cell's
+                                              value will stored alongside alongside
+                                              each finding so that the finding can
+                                              be traced to the specific row it came
+                                              from. No more than 3 may be provided.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                name:
+                                                  description: 'Specification of the
+                                                    field containing the timestamp
+                                                    of scanned items. Used for data
+                                                    sources like Datastore and BigQuery.
+                                                    For BigQuery: Required to filter
+                                                    out rows based on the given start
+                                                    and end times. If not specified
+                                                    and the table was modified between
+                                                    the given start and end times,
+                                                    the entire table will be scanned.
+                                                    The valid data types of the timestamp
+                                                    field are: INTEGER, DATE, TIMESTAMP,
+                                                    or DATETIME BigQuery column. For
+                                                    Datastore. Valid data types of
+                                                    the timestamp field are: TIMESTAMP.
+                                                    Datastore entity will be scanned
+                                                    if the timestamp property does
+                                                    not exist or its value is empty
+                                                    or invalid.'
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              timespanConfig:
+                                description: Information on where to inspect Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    enableAutoPopulationOfTimespanConfig:
+                                      description: When the job is started by a JobTrigger
+                                        we will automatically figure out a valid startTime
+                                        to avoid scanning files that have not been
+                                        modified since the last time the JobTrigger
+                                        executed. This will be based on the time of
+                                        the execution of the last run of the JobTrigger.
+                                      type: boolean
+                                    endTime:
+                                      description: Exclude files or rows newer than
+                                        this value. If set to zero, no upper time
+                                        limit is applied.
+                                      type: string
+                                    startTime:
+                                      description: Exclude files or rows older than
+                                        this value.
+                                      type: string
+                                    timestampField:
+                                      description: Information on where to inspect
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          name:
+                                            description: 'Specification of the field
+                                              containing the timestamp of scanned
+                                              items. Used for data sources like Datastore
+                                              and BigQuery. For BigQuery: Required
+                                              to filter out rows based on the given
+                                              start and end times. If not specified
+                                              and the table was modified between the
+                                              given start and end times, the entire
+                                              table will be scanned. The valid data
+                                              types of the timestamp field are: INTEGER,
+                                              DATE, TIMESTAMP, or DATETIME BigQuery
+                                              column. For Datastore. Valid data types
+                                              of the timestamp field are: TIMESTAMP.
+                                              Datastore entity will be scanned if
+                                              the timestamp property does not exist
+                                              or its value is empty or invalid.'
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  parent:
+                    description: The parent of the trigger, either in the format projects/{{project}}
+                      or projects/{{project}}/locations/{{location}}
+                    type: string
+                  status:
+                    description: 'Whether the trigger is currently active. Default
+                      value is HEALTHY. Possible values are: PAUSED, HEALTHY, CANCELLED.'
+                    type: string
+                  triggers:
+                    description: What event needs to occur for a new job to be started.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        manual:
+                          description: For use with hybrid jobs. Jobs must be manually
+                            created and finished.
+                          items:
+                            type: object
+                          type: array
+                        schedule:
+                          description: Schedule for triggered jobs Structure is documented
+                            below.
+                          items:
+                            properties:
+                              recurrencePeriodDuration:
+                                description: 'With this option a job is started a
+                                  regular periodic basis. For example: every day (86400
+                                  seconds). A scheduled start time will be skipped
+                                  if the previous execution has not ended when its
+                                  scheduled time occurs. This value must be set to
+                                  a time duration greater than or equal to 1 day and
+                                  can be no longer than 60 days. A duration in seconds
+                                  with up to nine fractional digits, terminated by
+                                  ''s''. Example: "3.5s".'
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
                 description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
                   It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. ManagementPolicy
-                  specifies the level of control Crossplane has over the managed external
-                  resource. This field is planned to replace the DeletionPolicy field
-                  in a future release. Currently, both could be set independently
-                  and non-default values would be honored if the feature flag is enabled.
-                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
-                enum:
-                - FullControl
-                - ObserveOnly
-                - OrphanOnDelete
-                type: string
+                  enabled, and may be changed or removed without notice. ManagementPolicies
+                  specify the array of actions Crossplane is allowed to take on the
+                  managed and external resources. This field is planned to replace
+                  the DeletionPolicy field in a future release. Currently, both could
+                  be set independently and non-default values would be honored if
+                  the feature flag is enabled. If both are custom, the DeletionPolicy
+                  field will be ignored. See the design doc for more information:
+                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                items:
+                  description: A ManagementAction represents an action that the Crossplane
+                    controllers can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
               providerConfigRef:
                 default:
                   name: default
@@ -1787,9 +2978,13 @@ spec:
             type: object
             x-kubernetes-validations:
             - message: parent is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.parent)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.parent)
+                || has(self.initProvider.parent)'
             - message: triggers is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.triggers)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.triggers)
+                || has(self.initProvider.triggers)'
           status:
             description: JobTriggerStatus defines the observed state of JobTrigger.
             properties:

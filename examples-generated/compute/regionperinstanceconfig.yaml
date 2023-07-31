@@ -101,6 +101,3 @@ spec:
         matchLabels:
           testing.upbound.io/example-name: igm-basic
       name: prod
-
----
-

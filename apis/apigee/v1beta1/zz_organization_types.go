@@ -25,6 +25,41 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type OrganizationInitParameters struct {
+
+	// Primary GCP region for analytics data storage. For valid values, see Create an Apigee organization.
+	AnalyticsRegion *string `json:"analyticsRegion,omitempty" tf:"analytics_region,omitempty"`
+
+	// Billing type of the Apigee organization. See Apigee pricing.
+	BillingType *string `json:"billingType,omitempty" tf:"billing_type,omitempty"`
+
+	// Description of the Apigee organization.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The display name of the Apigee organization.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The project ID associated with the Apigee organization.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Properties defined in the Apigee organization profile.
+	// Structure is documented below.
+	Properties []PropertiesInitParameters `json:"properties,omitempty" tf:"properties,omitempty"`
+
+	// Optional. This setting is applicable only for organizations that are soft-deleted (i.e., BillingType
+	// is not EVALUATION). It controls how long Organization data will be retained after the initial delete
+	// operation completes. During this period, the Organization may be restored to its last known state.
+	// After this period, the Organization will no longer be able to be restored.
+	// Default value is DELETION_RETENTION_UNSPECIFIED.
+	// Possible values are: DELETION_RETENTION_UNSPECIFIED, MINIMUM.
+	Retention *string `json:"retention,omitempty" tf:"retention,omitempty"`
+
+	// Runtime type of the Apigee organization based on the Apigee subscription purchased.
+	// Default value is CLOUD.
+	// Possible values are: CLOUD, HYBRID.
+	RuntimeType *string `json:"runtimeType,omitempty" tf:"runtime_type,omitempty"`
+}
+
 type OrganizationObservation struct {
 
 	// Primary GCP region for analytics data storage. For valid values, see Create an Apigee organization.
@@ -161,6 +196,13 @@ type OrganizationParameters struct {
 	RuntimeType *string `json:"runtimeType,omitempty" tf:"runtime_type,omitempty"`
 }
 
+type PropertiesInitParameters struct {
+
+	// List of all properties in the object.
+	// Structure is documented below.
+	Property []PropertyInitParameters `json:"property,omitempty" tf:"property,omitempty"`
+}
+
 type PropertiesObservation struct {
 
 	// List of all properties in the object.
@@ -174,6 +216,15 @@ type PropertiesParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Property []PropertyParameters `json:"property,omitempty" tf:"property,omitempty"`
+}
+
+type PropertyInitParameters struct {
+
+	// Name of the property.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Value of the property.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type PropertyObservation struct {
@@ -200,6 +251,18 @@ type PropertyParameters struct {
 type OrganizationSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     OrganizationParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider OrganizationInitParameters `json:"initProvider,omitempty"`
 }
 
 // OrganizationStatus defines the observed state of Organization.
@@ -220,7 +283,7 @@ type OrganizationStatus struct {
 type Organization struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.projectId)",message="projectId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.projectId) || has(self.initProvider.projectId)",message="projectId is a required parameter"
 	Spec   OrganizationSpec   `json:"spec"`
 	Status OrganizationStatus `json:"status,omitempty"`
 }

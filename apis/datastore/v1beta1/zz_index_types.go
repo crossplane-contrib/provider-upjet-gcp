@@ -25,6 +25,25 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type IndexInitParameters struct {
+
+	// Policy for including ancestors in the index.
+	// Default value is NONE.
+	// Possible values are: NONE, ALL_ANCESTORS.
+	Ancestor *string `json:"ancestor,omitempty" tf:"ancestor,omitempty"`
+
+	// The entity kind which the index applies to.
+	Kind *string `json:"kind,omitempty" tf:"kind,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// An ordered list of properties to index on.
+	// Structure is documented below.
+	Properties []PropertiesInitParameters `json:"properties,omitempty" tf:"properties,omitempty"`
+}
+
 type IndexObservation struct {
 
 	// Policy for including ancestors in the index.
@@ -73,6 +92,16 @@ type IndexParameters struct {
 	Properties []PropertiesParameters `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
+type PropertiesInitParameters struct {
+
+	// The direction the index should optimize for sorting.
+	// Possible values are: ASCENDING, DESCENDING.
+	Direction *string `json:"direction,omitempty" tf:"direction,omitempty"`
+
+	// The property name to index.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
 type PropertiesObservation struct {
 
 	// The direction the index should optimize for sorting.
@@ -87,18 +116,30 @@ type PropertiesParameters struct {
 
 	// The direction the index should optimize for sorting.
 	// Possible values are: ASCENDING, DESCENDING.
-	// +kubebuilder:validation:Required
-	Direction *string `json:"direction" tf:"direction,omitempty"`
+	// +kubebuilder:validation:Optional
+	Direction *string `json:"direction,omitempty" tf:"direction,omitempty"`
 
 	// The property name to index.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 // IndexSpec defines the desired state of Index
 type IndexSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     IndexParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider IndexInitParameters `json:"initProvider,omitempty"`
 }
 
 // IndexStatus defines the observed state of Index.
@@ -119,7 +160,7 @@ type IndexStatus struct {
 type Index struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.kind)",message="kind is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.kind) || has(self.initProvider.kind)",message="kind is a required parameter"
 	Spec   IndexSpec   `json:"spec"`
 	Status IndexStatus `json:"status,omitempty"`
 }

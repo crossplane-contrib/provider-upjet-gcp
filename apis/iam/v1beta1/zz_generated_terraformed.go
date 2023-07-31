@@ -81,6 +81,16 @@ func (tr *WorkloadIdentityPool) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this WorkloadIdentityPool
+func (tr *WorkloadIdentityPool) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this WorkloadIdentityPool using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *WorkloadIdentityPool) LateInitialize(attrs []byte) (bool, error) {
@@ -153,6 +163,16 @@ func (tr *WorkloadIdentityPoolProvider) SetParameters(params map[string]any) err
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this WorkloadIdentityPoolProvider
+func (tr *WorkloadIdentityPoolProvider) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this WorkloadIdentityPoolProvider using its observed tfState.

@@ -11,6 +11,3 @@ spec:
     instance: your-bigtable-instance
     policyData: ${data.google_iam_policy.admin.policy_data}
     project: your-project
-
----
-

@@ -25,6 +25,12 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type FeaturestoreEncryptionSpecInitParameters struct {
+
+	// The Cloud KMS resource identifier of the customer managed encryption key used to protect a resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key. The key needs to be in the same region as where the compute resource is created.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+}
+
 type FeaturestoreEncryptionSpecObservation struct {
 
 	// The Cloud KMS resource identifier of the customer managed encryption key used to protect a resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key. The key needs to be in the same region as where the compute resource is created.
@@ -34,8 +40,35 @@ type FeaturestoreEncryptionSpecObservation struct {
 type FeaturestoreEncryptionSpecParameters struct {
 
 	// The Cloud KMS resource identifier of the customer managed encryption key used to protect a resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key. The key needs to be in the same region as where the compute resource is created.
-	// +kubebuilder:validation:Required
-	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+}
+
+type FeaturestoreInitParameters struct {
+
+	// If set, both of the online and offline data storage will be secured by this key.
+	// Structure is documented below.
+	EncryptionSpec []FeaturestoreEncryptionSpecInitParameters `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
+
+	// If set to true, any EntityTypes and Features for this Featurestore will also be deleted
+	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
+
+	// A set of key/value label pairs to assign to this Featurestore.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The name of the Featurestore. This value may be up to 60 characters, and valid characters are [a-z0-9_]. The first character cannot be a number.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Config for online serving resources.
+	// Structure is documented below.
+	OnlineServingConfig []OnlineServingConfigInitParameters `json:"onlineServingConfig,omitempty" tf:"online_serving_config,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The region of the dataset. eg us-central1
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
 
 type FeaturestoreObservation struct {
@@ -111,6 +144,16 @@ type FeaturestoreParameters struct {
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
 
+type OnlineServingConfigInitParameters struct {
+
+	// The number of nodes for each cluster. The number of nodes will not scale automatically but can be scaled manually by providing different values when updating.
+	FixedNodeCount *float64 `json:"fixedNodeCount,omitempty" tf:"fixed_node_count,omitempty"`
+
+	// Online serving scaling configuration. Only one of fixedNodeCount and scaling can be set. Setting one will reset the other.
+	// Structure is documented below.
+	Scaling []ScalingInitParameters `json:"scaling,omitempty" tf:"scaling,omitempty"`
+}
+
 type OnlineServingConfigObservation struct {
 
 	// The number of nodes for each cluster. The number of nodes will not scale automatically but can be scaled manually by providing different values when updating.
@@ -133,6 +176,15 @@ type OnlineServingConfigParameters struct {
 	Scaling []ScalingParameters `json:"scaling,omitempty" tf:"scaling,omitempty"`
 }
 
+type ScalingInitParameters struct {
+
+	// The maximum number of nodes to scale up to. Must be greater than minNodeCount, and less than or equal to 10 times of 'minNodeCount'.
+	MaxNodeCount *float64 `json:"maxNodeCount,omitempty" tf:"max_node_count,omitempty"`
+
+	// The minimum number of nodes to scale down to. Must be greater than or equal to 1.
+	MinNodeCount *float64 `json:"minNodeCount,omitempty" tf:"min_node_count,omitempty"`
+}
+
 type ScalingObservation struct {
 
 	// The maximum number of nodes to scale up to. Must be greater than minNodeCount, and less than or equal to 10 times of 'minNodeCount'.
@@ -145,18 +197,30 @@ type ScalingObservation struct {
 type ScalingParameters struct {
 
 	// The maximum number of nodes to scale up to. Must be greater than minNodeCount, and less than or equal to 10 times of 'minNodeCount'.
-	// +kubebuilder:validation:Required
-	MaxNodeCount *float64 `json:"maxNodeCount" tf:"max_node_count,omitempty"`
+	// +kubebuilder:validation:Optional
+	MaxNodeCount *float64 `json:"maxNodeCount,omitempty" tf:"max_node_count,omitempty"`
 
 	// The minimum number of nodes to scale down to. Must be greater than or equal to 1.
-	// +kubebuilder:validation:Required
-	MinNodeCount *float64 `json:"minNodeCount" tf:"min_node_count,omitempty"`
+	// +kubebuilder:validation:Optional
+	MinNodeCount *float64 `json:"minNodeCount,omitempty" tf:"min_node_count,omitempty"`
 }
 
 // FeaturestoreSpec defines the desired state of Featurestore
 type FeaturestoreSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     FeaturestoreParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider FeaturestoreInitParameters `json:"initProvider,omitempty"`
 }
 
 // FeaturestoreStatus defines the observed state of Featurestore.

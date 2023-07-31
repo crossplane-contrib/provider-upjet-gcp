@@ -10,6 +10,3 @@ spec:
   forProvider:
     description: Exclude GCE instance debug logs
     filter: resource.type = gce_instance AND severity <= DEBUG
-
----
-

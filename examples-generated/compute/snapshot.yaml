@@ -33,6 +33,3 @@ spec:
     size: 10
     type: pd-ssd
     zone: us-central1-a
-
----
-

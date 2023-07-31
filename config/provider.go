@@ -49,6 +49,7 @@ import (
 	"github.com/upbound/provider-gcp/config/iap"
 	"github.com/upbound/provider-gcp/config/identityplatform"
 	"github.com/upbound/provider-gcp/config/kms"
+	"github.com/upbound/provider-gcp/config/monitoring"
 	"github.com/upbound/provider-gcp/config/notebooks"
 	"github.com/upbound/provider-gcp/config/oslogin"
 	"github.com/upbound/provider-gcp/config/privateca"
@@ -198,6 +199,7 @@ func GetProvider() *tjconfig.Provider {
 		vpcaccess.Configure,
 		healthcare.Configure,
 		gkehub.Configure,
+		monitoring.Configure,
 	} {
 		configure(pc)
 	}

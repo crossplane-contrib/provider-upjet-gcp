@@ -45,6 +45,3 @@ spec:
     tcpHealthCheck:
     - port: "443"
     timeoutSec: 1
-
----
-
