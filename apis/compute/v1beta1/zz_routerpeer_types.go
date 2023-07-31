@@ -25,6 +25,36 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type BfdInitParameters struct {
+
+	// The minimum interval, in milliseconds, between BFD control packets
+	// received from the peer router. The actual value is negotiated
+	// between the two routers and is equal to the greater of this value
+	// and the transmit interval of the other router. If set, this value
+	// must be between 1000 and 30000.
+	MinReceiveInterval *float64 `json:"minReceiveInterval,omitempty" tf:"min_receive_interval,omitempty"`
+
+	// The minimum interval, in milliseconds, between BFD control packets
+	// transmitted to the peer router. The actual value is negotiated
+	// between the two routers and is equal to the greater of this value
+	// and the corresponding receive interval of the other router. If set,
+	// this value must be between 1000 and 30000.
+	MinTransmitInterval *float64 `json:"minTransmitInterval,omitempty" tf:"min_transmit_interval,omitempty"`
+
+	// The number of consecutive BFD packets that must be missed before
+	// BFD declares that a peer is unavailable. If set, the value must
+	// be a value between 5 and 16.
+	Multiplier *float64 `json:"multiplier,omitempty" tf:"multiplier,omitempty"`
+
+	// The BFD session initialization mode for this BGP peer.
+	// If set to ACTIVE, the Cloud Router will initiate the BFD session
+	// for this BGP peer. If set to PASSIVE, the Cloud Router will wait
+	// for the peer router to initiate the BFD session for this BGP peer.
+	// If set to DISABLED, BFD is disabled for this BGP peer.
+	// Possible values are: ACTIVE, DISABLED, PASSIVE.
+	SessionInitializationMode *string `json:"sessionInitializationMode,omitempty" tf:"session_initialization_mode,omitempty"`
+}
+
 type BfdObservation struct {
 
 	// The minimum interval, in milliseconds, between BFD control packets
@@ -85,8 +115,18 @@ type BfdParameters struct {
 	// for the peer router to initiate the BFD session for this BGP peer.
 	// If set to DISABLED, BFD is disabled for this BGP peer.
 	// Possible values are: ACTIVE, DISABLED, PASSIVE.
-	// +kubebuilder:validation:Required
-	SessionInitializationMode *string `json:"sessionInitializationMode" tf:"session_initialization_mode,omitempty"`
+	// +kubebuilder:validation:Optional
+	SessionInitializationMode *string `json:"sessionInitializationMode,omitempty" tf:"session_initialization_mode,omitempty"`
+}
+
+type RouterPeerAdvertisedIPRangesInitParameters struct {
+
+	// User-specified description for the IP range.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The IP range to advertise. The value must be a
+	// CIDR-formatted string.
+	Range *string `json:"range,omitempty" tf:"range,omitempty"`
 }
 
 type RouterPeerAdvertisedIPRangesObservation struct {
@@ -107,8 +147,71 @@ type RouterPeerAdvertisedIPRangesParameters struct {
 
 	// The IP range to advertise. The value must be a
 	// CIDR-formatted string.
-	// +kubebuilder:validation:Required
-	Range *string `json:"range" tf:"range,omitempty"`
+	// +kubebuilder:validation:Optional
+	Range *string `json:"range,omitempty" tf:"range,omitempty"`
+}
+
+type RouterPeerInitParameters struct {
+
+	// User-specified flag to indicate which mode to use for advertisement.
+	// Valid values of this enum field are: DEFAULT, CUSTOM
+	// Default value is DEFAULT.
+	// Possible values are: DEFAULT, CUSTOM.
+	AdvertiseMode *string `json:"advertiseMode,omitempty" tf:"advertise_mode,omitempty"`
+
+	// User-specified list of prefix groups to advertise in custom
+	// mode, which can take one of the following options:
+	AdvertisedGroups []*string `json:"advertisedGroups,omitempty" tf:"advertised_groups,omitempty"`
+
+	// User-specified list of individual IP ranges to advertise in
+	// custom mode. This field can only be populated if advertiseMode
+	// is CUSTOM and is advertised to all peers of the router. These IP
+	// ranges will be advertised in addition to any specified groups.
+	// Leave this field blank to advertise no custom IP ranges.
+	// Structure is documented below.
+	AdvertisedIPRanges []RouterPeerAdvertisedIPRangesInitParameters `json:"advertisedIpRanges,omitempty" tf:"advertised_ip_ranges,omitempty"`
+
+	// The priority of routes advertised to this BGP peer.
+	// Where there is more than one matching route of maximum
+	// length, the routes with the lowest priority value win.
+	AdvertisedRoutePriority *float64 `json:"advertisedRoutePriority,omitempty" tf:"advertised_route_priority,omitempty"`
+
+	// BFD configuration for the BGP peering.
+	// Structure is documented below.
+	Bfd []BfdInitParameters `json:"bfd,omitempty" tf:"bfd,omitempty"`
+
+	// The status of the BGP peer connection. If set to false, any active session
+	// with the peer is terminated and all associated routing information is removed.
+	// If set to true, the peer connection can be established with routing information.
+	// The default is true.
+	Enable *bool `json:"enable,omitempty" tf:"enable,omitempty"`
+
+	// Enable IPv6 traffic over BGP Peer. If not specified, it is disabled by default.
+	EnableIPv6 *bool `json:"enableIpv6,omitempty" tf:"enable_ipv6,omitempty"`
+
+	// IP address of the interface inside Google Cloud Platform.
+	// Only IPv4 is supported.
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// IPv6 address of the interface inside Google Cloud Platform.
+	// The address must be in the range 2600:2d00:0:2::/64 or 2600:2d00:0:3::/64.
+	// If you do not specify the next hop addresses, Google Cloud automatically
+	// assigns unused addresses from the 2600:2d00:0:2::/64 or 2600:2d00:0:3::/64 range for you.
+	IPv6NexthopAddress *string `json:"ipv6NexthopAddress,omitempty" tf:"ipv6_nexthop_address,omitempty"`
+
+	// Peer BGP Autonomous System Number (ASN).
+	// Each BGP interface may use a different value.
+	PeerAsn *float64 `json:"peerAsn,omitempty" tf:"peer_asn,omitempty"`
+
+	// IPv6 address of the BGP interface outside Google Cloud Platform.
+	// The address must be in the range 2600:2d00:0:2::/64 or 2600:2d00:0:3::/64.
+	// If you do not specify the next hop addresses, Google Cloud automatically
+	// assigns unused addresses from the 2600:2d00:0:2::/64 or 2600:2d00:0:3::/64 range for you.
+	PeerIPv6NexthopAddress *string `json:"peerIpv6NexthopAddress,omitempty" tf:"peer_ipv6_nexthop_address,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type RouterPeerObservation struct {
@@ -353,6 +456,18 @@ type RouterPeerParameters struct {
 type RouterPeerSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     RouterPeerParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider RouterPeerInitParameters `json:"initProvider,omitempty"`
 }
 
 // RouterPeerStatus defines the observed state of RouterPeer.
@@ -373,7 +488,7 @@ type RouterPeerStatus struct {
 type RouterPeer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.peerAsn)",message="peerAsn is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.peerAsn) || has(self.initProvider.peerAsn)",message="peerAsn is a required parameter"
 	Spec   RouterPeerSpec   `json:"spec"`
 	Status RouterPeerStatus `json:"status,omitempty"`
 }

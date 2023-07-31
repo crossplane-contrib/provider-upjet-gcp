@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: routerpeers.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -58,7 +57,7 @@ spec:
                 description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
                   or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicy field in a future release. Currently,
+                  in favor of the ManagementPolicies field in a future release. Currently,
                   both could be set independently and non-default values would be
                   honored if the feature flag is enabled. See the design doc for more
                   information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
@@ -96,8 +95,6 @@ spec:
                           description: The IP range to advertise. The value must be
                             a CIDR-formatted string.
                           type: string
-                      required:
-                      - range
                       type: object
                     type: array
                   advertisedRoutePriority:
@@ -140,8 +137,6 @@ spec:
                             BFD is disabled for this BGP peer. Possible values are:
                             ACTIVE, DISABLED, PASSIVE.'
                           type: string
-                      required:
-                      - sessionInitializationMode
                       type: object
                     type: array
                   enable:
@@ -572,21 +567,155 @@ spec:
                         type: object
                     type: object
                 type: object
-              managementPolicy:
-                default: FullControl
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. InitProvider
+                  holds the same fields as ForProvider, with the exception of Identifier
+                  and other resource reference fields. The fields that are in InitProvider
+                  are merged into ForProvider when the resource is created. The same
+                  fields are also added to the terraform ignore_changes hook, to avoid
+                  updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after
+                  creation, for example because of an external controller is managing
+                  them, like an autoscaler.
+                properties:
+                  advertiseMode:
+                    description: 'User-specified flag to indicate which mode to use
+                      for advertisement. Valid values of this enum field are: DEFAULT,
+                      CUSTOM Default value is DEFAULT. Possible values are: DEFAULT,
+                      CUSTOM.'
+                    type: string
+                  advertisedGroups:
+                    description: 'User-specified list of prefix groups to advertise
+                      in custom mode, which can take one of the following options:'
+                    items:
+                      type: string
+                    type: array
+                  advertisedIpRanges:
+                    description: User-specified list of individual IP ranges to advertise
+                      in custom mode. This field can only be populated if advertiseMode
+                      is CUSTOM and is advertised to all peers of the router. These
+                      IP ranges will be advertised in addition to any specified groups.
+                      Leave this field blank to advertise no custom IP ranges. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        description:
+                          description: User-specified description for the IP range.
+                          type: string
+                        range:
+                          description: The IP range to advertise. The value must be
+                            a CIDR-formatted string.
+                          type: string
+                      type: object
+                    type: array
+                  advertisedRoutePriority:
+                    description: The priority of routes advertised to this BGP peer.
+                      Where there is more than one matching route of maximum length,
+                      the routes with the lowest priority value win.
+                    type: number
+                  bfd:
+                    description: BFD configuration for the BGP peering. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        minReceiveInterval:
+                          description: The minimum interval, in milliseconds, between
+                            BFD control packets received from the peer router. The
+                            actual value is negotiated between the two routers and
+                            is equal to the greater of this value and the transmit
+                            interval of the other router. If set, this value must
+                            be between 1000 and 30000.
+                          type: number
+                        minTransmitInterval:
+                          description: The minimum interval, in milliseconds, between
+                            BFD control packets transmitted to the peer router. The
+                            actual value is negotiated between the two routers and
+                            is equal to the greater of this value and the corresponding
+                            receive interval of the other router. If set, this value
+                            must be between 1000 and 30000.
+                          type: number
+                        multiplier:
+                          description: The number of consecutive BFD packets that
+                            must be missed before BFD declares that a peer is unavailable.
+                            If set, the value must be a value between 5 and 16.
+                          type: number
+                        sessionInitializationMode:
+                          description: 'The BFD session initialization mode for this
+                            BGP peer. If set to ACTIVE, the Cloud Router will initiate
+                            the BFD session for this BGP peer. If set to PASSIVE,
+                            the Cloud Router will wait for the peer router to initiate
+                            the BFD session for this BGP peer. If set to DISABLED,
+                            BFD is disabled for this BGP peer. Possible values are:
+                            ACTIVE, DISABLED, PASSIVE.'
+                          type: string
+                      type: object
+                    type: array
+                  enable:
+                    description: The status of the BGP peer connection. If set to
+                      false, any active session with the peer is terminated and all
+                      associated routing information is removed. If set to true, the
+                      peer connection can be established with routing information.
+                      The default is true.
+                    type: boolean
+                  enableIpv6:
+                    description: Enable IPv6 traffic over BGP Peer. If not specified,
+                      it is disabled by default.
+                    type: boolean
+                  ipAddress:
+                    description: IP address of the interface inside Google Cloud Platform.
+                      Only IPv4 is supported.
+                    type: string
+                  ipv6NexthopAddress:
+                    description: IPv6 address of the interface inside Google Cloud
+                      Platform. The address must be in the range 2600:2d00:0:2::/64
+                      or 2600:2d00:0:3::/64. If you do not specify the next hop addresses,
+                      Google Cloud automatically assigns unused addresses from the
+                      2600:2d00:0:2::/64 or 2600:2d00:0:3::/64 range for you.
+                    type: string
+                  peerAsn:
+                    description: Peer BGP Autonomous System Number (ASN). Each BGP
+                      interface may use a different value.
+                    type: number
+                  peerIpv6NexthopAddress:
+                    description: IPv6 address of the BGP interface outside Google
+                      Cloud Platform. The address must be in the range 2600:2d00:0:2::/64
+                      or 2600:2d00:0:3::/64. If you do not specify the next hop addresses,
+                      Google Cloud automatically assigns unused addresses from the
+                      2600:2d00:0:2::/64 or 2600:2d00:0:3::/64 range for you.
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
                 description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
                   It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. ManagementPolicy
-                  specifies the level of control Crossplane has over the managed external
-                  resource. This field is planned to replace the DeletionPolicy field
-                  in a future release. Currently, both could be set independently
-                  and non-default values would be honored if the feature flag is enabled.
-                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
-                enum:
-                - FullControl
-                - ObserveOnly
-                - OrphanOnDelete
-                type: string
+                  enabled, and may be changed or removed without notice. ManagementPolicies
+                  specify the array of actions Crossplane is allowed to take on the
+                  managed and external resources. This field is planned to replace
+                  the DeletionPolicy field in a future release. Currently, both could
+                  be set independently and non-default values would be honored if
+                  the feature flag is enabled. If both are custom, the DeletionPolicy
+                  field will be ignored. See the design doc for more information:
+                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                items:
+                  description: A ManagementAction represents an action that the Crossplane
+                    controllers can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
               providerConfigRef:
                 default:
                   name: default
@@ -760,7 +889,9 @@ spec:
             type: object
             x-kubernetes-validations:
             - message: peerAsn is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.peerAsn)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.peerAsn)
+                || has(self.initProvider.peerAsn)'
           status:
             description: RouterPeerStatus defines the observed state of RouterPeer.
             properties:
