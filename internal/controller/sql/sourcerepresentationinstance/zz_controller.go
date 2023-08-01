@@ -45,7 +45,7 @@ func Setup(mgr ctrl.Manager, o tjcontroller.Options) error {
 	}
 	ac := tjcontroller.NewAPICallbacks(mgr, xpresource.ManagedKind(v1beta1.SourceRepresentationInstance_GroupVersionKind), tjcontroller.WithEventHandler(o.EventHandler))
 	opts := []managed.ReconcilerOption{
-		managed.WithExternalConnecter(tjcontroller.NewConnector(mgr.GetClient(), o.WorkspaceStore, o.SetupFn, o.Provider.Resources["google_sql_source_representation_instance"], tjcontroller.WithLogger(o.Logger),
+		managed.WithExternalConnecter(tjcontroller.NewConnector(mgr.GetClient(), o.WorkspaceStore, o.SetupFn, o.Provider.Resources["google_sql_source_representation_instance"], tjcontroller.WithLogger(o.Logger), tjcontroller.WithConnectorEventHandler(o.EventHandler),
 			tjcontroller.WithCallbackProvider(ac),
 		)),
 		managed.WithLogger(o.Logger.WithValues("controller", name)),
