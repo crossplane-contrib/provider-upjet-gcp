@@ -22,6 +22,7 @@ import (
 	"fmt"
 
 	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	"github.com/crossplane/crossplane-runtime/pkg/fieldpath"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/pkg/errors"
 	"github.com/upbound/upjet/pkg/terraform"
@@ -53,6 +54,8 @@ const (
 	errExtractTokenCredentials       = "cannot extract Access Token credentials"
 	errConstructFederatedCredentials = "cannot construct federated identity credentials"
 	errMissingFederatedConfiguration = "missing identity federation configuration"
+	errPaveFmt                       = "cannot pave the managed resource %s/%s"
+	errPavedGetValueFmt              = "cannot get 'spec.forProvider.project' from the managed resource %s/%s"
 )
 
 // federatedCredentials is the expected client credential configuration
@@ -119,6 +122,20 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string, sche
 		// set provider configuration
 		ps.Configuration = map[string]interface{}{
 			keyProject: pc.Spec.ProjectID,
+		}
+		// TODO: this will have a performance impact. We need to quantify this.
+		p, err := fieldpath.PaveObject(mg, fieldpath.WithMaxFieldPathIndex(1))
+		if err != nil {
+			return ps, errors.Wrapf(err, errPaveFmt, mg.GetObjectKind().GroupVersionKind().Kind, mg.GetName())
+		}
+		// TODO: if the managed resource declares its project
+		//  in a different parameter, the following will not work.
+		resourceProject, err := p.GetString("spec.forProvider.project")
+		if err != nil && !fieldpath.IsNotFound(err) {
+			return ps, errors.Wrapf(err, errPavedGetValueFmt, mg.GetObjectKind().GroupVersionKind().Kind, mg.GetName())
+		}
+		if err == nil && resourceProject != "" {
+			ps.Configuration[keyProject] = resourceProject
 		}
 
 		switch pc.Spec.Credentials.Source { //nolint:exhaustive
