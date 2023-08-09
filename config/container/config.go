@@ -127,5 +127,11 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			Type:      "Cluster",
 			Extractor: common.ExtractResourceIDFuncPath,
 		}
+		r.LateInitializer = config.LateInitializer{
+			IgnoredFields: []string{
+				"initial_node_count",
+				"node_count",
+			},
+		}
 	})
 }
