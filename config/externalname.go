@@ -902,7 +902,7 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_logging_project_exclusion": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/exclusions/{{ .external_name }}"),
 	// Project-level logging sinks can be imported using their URI
 	// projects/my-project/sinks/my-sink
-	"google_logging_project_sink": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/sinks/{{ .external_name }}"),
+	"google_logging_project_sink": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/sinks/{{ .external_name }}"),
 
 	// vertexai
 	//
