@@ -308,7 +308,45 @@ go.cachedir:
 go.mod.cachedir:
 	@go env GOMODCACHE
 
-.PHONY: cobertura reviewable submodules fallthrough go.mod.cachedir go.cachedir run crds.clean $(TERRAFORM_PROVIDER_SCHEMA)
+CONCURRENCY ?= 30
+DEP_CONSTRAINT := >= 0.0.0
+ifeq (-,$(findstring -,$(VERSION)))
+    DEP_CONSTRAINT = >= 0.0.0-0
+endif
+load-pkg: $(UP) build.all
+	@$(INFO) Batch processing smaller provider packages for: $(SUBPACKAGES)
+	@for p in $(PLATFORMS); do \
+		mkdir -p "$(XPKG_OUTPUT_DIR)/$$p"; \
+	done
+	@$(UP) xpkg batch --smaller-providers $$(echo -n $(SUBPACKAGES) | tr ' ' ',') \
+		--family-base-image $(BUILD_REGISTRY)/$(PROJECT_NAME) \
+		--platform $(BATCH_PLATFORMS) \
+		--provider-name $(PROJECT_NAME) \
+		--family-package-url-format $(XPKG_REG_ORGS)/%s:$(VERSION) \
+		--package-repo-override monolith=$(PROJECT_NAME) --package-repo-override config=provider-family-$(PROVIDER_NAME) \
+		--provider-bin-root $(OUTPUT_DIR)/bin \
+		--output-dir $(XPKG_OUTPUT_DIR) \
+		--store-packages $$(echo -n $(SUBPACKAGES) | tr ' ' ',') \
+		--build-only=true \
+		--examples-root $(ROOT_DIR)/examples \
+		--examples-group-override monolith=* --examples-group-override config=providerconfig \
+		--auth-ext $(ROOT_DIR)/package/auth.yaml \
+		--crd-root $(ROOT_DIR)/package/crds \
+		--crd-group-override monolith=* --crd-group-override config=$(PROVIDER_NAME) \
+		--package-metadata-template $(ROOT_DIR)/package/crossplane.yaml.tmpl \
+		--template-var XpkgRegOrg=$(XPKG_REG_ORGS) --template-var DepConstraint="$(DEP_CONSTRAINT)" --template-var ProviderName=$(PROVIDER_NAME) \
+		--concurrency $(CONCURRENCY) \
+		--push-retry 10 || $(FAIL)
+
+	@for p in $(PLATFORMS); do \
+		for s in $(SUBPACKAGES); do \
+			docker tag $$(docker load -qi $(XPKG_OUTPUT_DIR)/$$p/$(PROJECT_NAME)-$$s-$(VERSION).xpkg | awk -F: '{print $$3}') $(PROJECT_NAME)-$$s-$${p#"linux_"}:$(VERSION); \
+		done \
+	done
+
+	@$(OK) Done processing smaller provider packages for: $(SUBPACKAGES)
+
+.PHONY: cobertura reviewable submodules fallthrough go.mod.cachedir go.cachedir run crds.clean $(TERRAFORM_PROVIDER_SCHEMA) load-pkg
 
 build.init: kustomize-crds
 
