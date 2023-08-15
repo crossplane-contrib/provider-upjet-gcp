@@ -55,7 +55,7 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 				conn[xpv1.ResourceCredentialsSecretPasswordKey] = []byte(a)
 			}
 			// map
-			if certSlice, ok := attr["server_ca_cert"].([]interface{}); ok {
+			if certSlice, ok := attr["server_ca_cert"].([]interface{}); ok && len(certSlice) > 0 {
 				if certattrs, ok := certSlice[0].(map[string]interface{}); ok {
 					if a, ok := certattrs["cert"].(string); ok {
 						conn[CloudSQLSecretServerCACertificateCertKey] = []byte(a)
