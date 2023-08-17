@@ -308,13 +308,12 @@ go.cachedir:
 go.mod.cachedir:
 	@go env GOMODCACHE
 
-CONCURRENCY ?= 30
-DEP_CONSTRAINT := >= 0.0.0
+DEP_CONSTRAINT ?= >= 0.0.0
 ifeq (-,$(findstring -,$(VERSION)))
     DEP_CONSTRAINT = >= 0.0.0-0
 endif
 load-pkg: $(UP) build.all
-	@$(INFO) Batch processing smaller provider packages for: $(SUBPACKAGES)
+	@$(INFO) Loading the family providers into the Docker daemon: $(SUBPACKAGES)
 	@for p in $(PLATFORMS); do \
 		mkdir -p "$(XPKG_OUTPUT_DIR)/$$p"; \
 	done
@@ -335,16 +334,16 @@ load-pkg: $(UP) build.all
 		--crd-group-override monolith=* --crd-group-override config=$(PROVIDER_NAME) \
 		--package-metadata-template $(ROOT_DIR)/package/crossplane.yaml.tmpl \
 		--template-var XpkgRegOrg=$(XPKG_REG_ORGS) --template-var DepConstraint="$(DEP_CONSTRAINT)" --template-var ProviderName=$(PROVIDER_NAME) \
-		--concurrency $(CONCURRENCY) \
 		--push-retry 10 || $(FAIL)
 
 	@for p in $(PLATFORMS); do \
 		for s in $(SUBPACKAGES); do \
-			docker tag $$(docker load -qi $(XPKG_OUTPUT_DIR)/$$p/$(PROJECT_NAME)-$$s-$(VERSION).xpkg | awk -F: '{print $$3}') $(PROJECT_NAME)-$$s-$${p#"linux_"}:$(VERSION); \
+			docker tag $$(docker load -qi $(XPKG_OUTPUT_DIR)/$$p/$(PROJECT_NAME)-$$s-$(VERSION).xpkg | awk -F: '{print $$3}') $(XPKG_REG_ORGS)/$(PROJECT_NAME)-$$s-$${p#"linux_"}:$(VERSION); \
+			echo Loaded the provider package "$(PROJECT_NAME)-$$s-$${p#"linux_"}:$(VERSION)" into the Docker daemon; \
 		done \
 	done
 
-	@$(OK) Done processing smaller provider packages for: $(SUBPACKAGES)
+	@$(OK) Loaded the family providers into the Docker daemon: $(SUBPACKAGES)
 
 .PHONY: cobertura reviewable submodules fallthrough go.mod.cachedir go.cachedir run crds.clean $(TERRAFORM_PROVIDER_SCHEMA) load-pkg
 
