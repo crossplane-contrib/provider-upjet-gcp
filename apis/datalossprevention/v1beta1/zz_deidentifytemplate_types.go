@@ -122,7 +122,7 @@ type BucketsParameters struct {
 	// The replacement_value block must only contain one argument.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	ReplacementValue []ReplacementValueParameters `json:"replacementValue,omitempty" tf:"replacement_value,omitempty"`
+	ReplacementValue []ReplacementValueParameters `json:"replacementValue" tf:"replacement_value,omitempty"`
 }
 
 type CharacterMaskConfigCharactersToIgnoreInitParameters struct {
@@ -332,12 +332,12 @@ type ConditionsConditionsParameters struct {
 	// Field within the record this condition is evaluated against.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Field []FieldParameters `json:"field,omitempty" tf:"field,omitempty"`
+	Field []FieldParameters `json:"field" tf:"field,omitempty"`
 
 	// Operator used to compare the field or infoType to the value.
 	// Possible values are: EQUAL_TO, NOT_EQUAL_TO, GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUALS, LESS_THAN_OR_EQUALS, EXISTS.
 	// +kubebuilder:validation:Optional
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+	Operator *string `json:"operator" tf:"operator,omitempty"`
 
 	// Value to compare against.
 	// The value block must only contain one argument. For example when a condition is evaluated against a string-type field, only string_value should be set.
@@ -657,12 +657,12 @@ type CryptoDeterministicConfigCryptoKeyKMSWrappedParameters struct {
 
 	// The resource name of the KMS CryptoKey to use for unwrapping.
 	// +kubebuilder:validation:Optional
-	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
+	CryptoKeyName *string `json:"cryptoKeyName" tf:"crypto_key_name,omitempty"`
 
 	// The wrapped data crypto key.
 	// A base64-encoded string.
 	// +kubebuilder:validation:Optional
-	WrappedKey *string `json:"wrappedKey,omitempty" tf:"wrapped_key,omitempty"`
+	WrappedKey *string `json:"wrappedKey" tf:"wrapped_key,omitempty"`
 }
 
 type CryptoDeterministicConfigCryptoKeyObservation struct {
@@ -720,7 +720,7 @@ type CryptoDeterministicConfigCryptoKeyTransientParameters struct {
 
 	// Name of the key. This is an arbitrary string used to differentiate different keys. A unique key is generated per name: two separate TransientCryptoKey protos share the same generated key if their names are the same. When the data crypto key is generated, this name is not used in any way (repeating the api call will result in a different key being generated).
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type CryptoDeterministicConfigCryptoKeyUnwrappedInitParameters struct {
@@ -742,7 +742,7 @@ type CryptoDeterministicConfigCryptoKeyUnwrappedParameters struct {
 	// A 128/192/256 bit key.
 	// A base64-encoded string.
 	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+	Key *string `json:"key" tf:"key,omitempty"`
 }
 
 type CryptoDeterministicConfigInitParameters struct {
@@ -876,12 +876,12 @@ type CryptoHashConfigCryptoKeyKMSWrappedParameters struct {
 
 	// The resource name of the KMS CryptoKey to use for unwrapping.
 	// +kubebuilder:validation:Optional
-	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
+	CryptoKeyName *string `json:"cryptoKeyName" tf:"crypto_key_name,omitempty"`
 
 	// The wrapped data crypto key.
 	// A base64-encoded string.
 	// +kubebuilder:validation:Optional
-	WrappedKey *string `json:"wrappedKey,omitempty" tf:"wrapped_key,omitempty"`
+	WrappedKey *string `json:"wrappedKey" tf:"wrapped_key,omitempty"`
 }
 
 type CryptoHashConfigCryptoKeyObservation struct {
@@ -939,7 +939,7 @@ type CryptoHashConfigCryptoKeyTransientParameters struct {
 
 	// Name of the key. This is an arbitrary string used to differentiate different keys. A unique key is generated per name: two separate TransientCryptoKey protos share the same generated key if their names are the same. When the data crypto key is generated, this name is not used in any way (repeating the api call will result in a different key being generated).
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type CryptoHashConfigCryptoKeyUnwrappedInitParameters struct {
@@ -961,7 +961,7 @@ type CryptoHashConfigCryptoKeyUnwrappedParameters struct {
 	// A 128/192/256 bit key.
 	// A base64-encoded string.
 	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+	Key *string `json:"key" tf:"key,omitempty"`
 }
 
 type CryptoHashConfigInitParameters struct {
@@ -1028,12 +1028,12 @@ type CryptoKeyKMSWrappedParameters struct {
 
 	// The resource name of the KMS CryptoKey to use for unwrapping.
 	// +kubebuilder:validation:Optional
-	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
+	CryptoKeyName *string `json:"cryptoKeyName" tf:"crypto_key_name,omitempty"`
 
 	// The wrapped data crypto key.
 	// A base64-encoded string.
 	// +kubebuilder:validation:Optional
-	WrappedKey *string `json:"wrappedKey,omitempty" tf:"wrapped_key,omitempty"`
+	WrappedKey *string `json:"wrappedKey" tf:"wrapped_key,omitempty"`
 }
 
 type CryptoKeyObservation struct {
@@ -1091,7 +1091,7 @@ type CryptoKeyTransientParameters struct {
 
 	// Name of the key. This is an arbitrary string used to differentiate different keys. A unique key is generated per name: two separate TransientCryptoKey protos share the same generated key if their names are the same. When the data crypto key is generated, this name is not used in any way (repeating the api call will result in a different key being generated).
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type CryptoKeyUnwrappedInitParameters struct {
@@ -1113,7 +1113,7 @@ type CryptoKeyUnwrappedParameters struct {
 	// A 128/192/256 bit key.
 	// A base64-encoded string.
 	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+	Key *string `json:"key" tf:"key,omitempty"`
 }
 
 type CryptoReplaceFfxFpeConfigContextInitParameters struct {
@@ -1177,12 +1177,12 @@ type CryptoReplaceFfxFpeConfigCryptoKeyKMSWrappedParameters struct {
 
 	// The resource name of the KMS CryptoKey to use for unwrapping.
 	// +kubebuilder:validation:Optional
-	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
+	CryptoKeyName *string `json:"cryptoKeyName" tf:"crypto_key_name,omitempty"`
 
 	// The wrapped data crypto key.
 	// A base64-encoded string.
 	// +kubebuilder:validation:Optional
-	WrappedKey *string `json:"wrappedKey,omitempty" tf:"wrapped_key,omitempty"`
+	WrappedKey *string `json:"wrappedKey" tf:"wrapped_key,omitempty"`
 }
 
 type CryptoReplaceFfxFpeConfigCryptoKeyObservation struct {
@@ -1240,7 +1240,7 @@ type CryptoReplaceFfxFpeConfigCryptoKeyTransientParameters struct {
 
 	// Name of the key. This is an arbitrary string used to differentiate different keys. A unique key is generated per name: two separate TransientCryptoKey protos share the same generated key if their names are the same. When the data crypto key is generated, this name is not used in any way (repeating the api call will result in a different key being generated).
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type CryptoReplaceFfxFpeConfigCryptoKeyUnwrappedInitParameters struct {
@@ -1262,7 +1262,7 @@ type CryptoReplaceFfxFpeConfigCryptoKeyUnwrappedParameters struct {
 	// A 128/192/256 bit key.
 	// A base64-encoded string.
 	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+	Key *string `json:"key" tf:"key,omitempty"`
 }
 
 type CryptoReplaceFfxFpeConfigInitParameters struct {
@@ -1451,12 +1451,12 @@ type DateShiftConfigCryptoKeyKMSWrappedParameters struct {
 
 	// The resource name of the KMS CryptoKey to use for unwrapping.
 	// +kubebuilder:validation:Optional
-	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
+	CryptoKeyName *string `json:"cryptoKeyName" tf:"crypto_key_name,omitempty"`
 
 	// The wrapped data crypto key.
 	// A base64-encoded string.
 	// +kubebuilder:validation:Optional
-	WrappedKey *string `json:"wrappedKey,omitempty" tf:"wrapped_key,omitempty"`
+	WrappedKey *string `json:"wrappedKey" tf:"wrapped_key,omitempty"`
 }
 
 type DateShiftConfigCryptoKeyObservation struct {
@@ -1514,7 +1514,7 @@ type DateShiftConfigCryptoKeyTransientParameters struct {
 
 	// Name of the key. This is an arbitrary string used to differentiate different keys. A unique key is generated per name: two separate TransientCryptoKey protos share the same generated key if their names are the same. When the data crypto key is generated, this name is not used in any way (repeating the api call will result in a different key being generated).
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type DateShiftConfigCryptoKeyUnwrappedInitParameters struct {
@@ -1536,7 +1536,7 @@ type DateShiftConfigCryptoKeyUnwrappedParameters struct {
 	// A 128/192/256 bit key.
 	// A base64-encoded string.
 	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+	Key *string `json:"key" tf:"key,omitempty"`
 }
 
 type DateShiftConfigInitParameters struct {
@@ -1592,12 +1592,12 @@ type DateShiftConfigParameters struct {
 
 	// For example, -5 means shift date to at most 5 days back in the past.
 	// +kubebuilder:validation:Optional
-	LowerBoundDays *float64 `json:"lowerBoundDays,omitempty" tf:"lower_bound_days,omitempty"`
+	LowerBoundDays *float64 `json:"lowerBoundDays" tf:"lower_bound_days,omitempty"`
 
 	// Range of shift in days. Actual shift will be selected at random within this range (inclusive ends). Negative means shift to earlier in time. Must not be more than 365250 days (1000 years) each direction.
 	// For example, 3 means shift date to at most 3 days into the future.
 	// +kubebuilder:validation:Optional
-	UpperBoundDays *float64 `json:"upperBoundDays,omitempty" tf:"upper_bound_days,omitempty"`
+	UpperBoundDays *float64 `json:"upperBoundDays" tf:"upper_bound_days,omitempty"`
 }
 
 type DateValueInitParameters struct {
@@ -1793,12 +1793,12 @@ type ExpressionsConditionsConditionsParameters struct {
 	// Field within the record this condition is evaluated against.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Field []ConditionsFieldParameters `json:"field,omitempty" tf:"field,omitempty"`
+	Field []ConditionsFieldParameters `json:"field" tf:"field,omitempty"`
 
 	// Operator used to compare the field or infoType to the value.
 	// Possible values are: EQUAL_TO, NOT_EQUAL_TO, GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUALS, LESS_THAN_OR_EQUALS, EXISTS.
 	// +kubebuilder:validation:Optional
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+	Operator *string `json:"operator" tf:"operator,omitempty"`
 
 	// Value to compare against.
 	// The value block must only contain one argument. For example when a condition is evaluated against a string-type field, only string_value should be set.
@@ -1932,13 +1932,13 @@ type FieldTransformationsParameters struct {
 	// FieldId name matching ignores the index. For example, instead of "contact.nums[0].type", use "contact.nums.type".
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Fields []FieldsParameters `json:"fields,omitempty" tf:"fields,omitempty"`
+	Fields []FieldsParameters `json:"fields" tf:"fields,omitempty"`
 
 	// Primitive transformation to apply to the infoType.
 	// The primitive_transformation block must only contain one argument, corresponding to the type of transformation.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	PrimitiveTransformation []FieldTransformationsPrimitiveTransformationParameters `json:"primitiveTransformation,omitempty" tf:"primitive_transformation,omitempty"`
+	PrimitiveTransformation []FieldTransformationsPrimitiveTransformationParameters `json:"primitiveTransformation" tf:"primitive_transformation,omitempty"`
 }
 
 type FieldTransformationsPrimitiveTransformationInitParameters struct {
@@ -2191,21 +2191,21 @@ type FixedSizeBucketingConfigParameters struct {
 	// So if lower_bound = 10, upper_bound = 89, and bucketSize = 10, then the following buckets would be used: -10, 10-20, 20-30, 30-40, 40-50, 50-60, 60-70, 70-80, 80-89, 89+.
 	// Precision up to 2 decimals works.
 	// +kubebuilder:validation:Optional
-	BucketSize *float64 `json:"bucketSize,omitempty" tf:"bucket_size,omitempty"`
+	BucketSize *float64 `json:"bucketSize" tf:"bucket_size,omitempty"`
 
 	// Lower bound value of buckets.
 	// All values less than lower_bound are grouped together into a single bucket; for example if lower_bound = 10, then all values less than 10 are replaced with the value "-10".
 	// The lower_bound block must only contain one argument. See the fixed_size_bucketing_config block description for more information about choosing a data type.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	LowerBound []LowerBoundParameters `json:"lowerBound,omitempty" tf:"lower_bound,omitempty"`
+	LowerBound []LowerBoundParameters `json:"lowerBound" tf:"lower_bound,omitempty"`
 
 	// Upper bound value of buckets.
 	// All values greater than upper_bound are grouped together into a single bucket; for example if upper_bound = 89, then all values greater than 89 are replaced with the value "89+".
 	// The upper_bound block must only contain one argument. See the fixed_size_bucketing_config block description for more information about choosing a data type.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	UpperBound []UpperBoundParameters `json:"upperBound,omitempty" tf:"upper_bound,omitempty"`
+	UpperBound []UpperBoundParameters `json:"upperBound" tf:"upper_bound,omitempty"`
 }
 
 type ImageTransformationsInitParameters struct {
@@ -2227,7 +2227,7 @@ type ImageTransformationsParameters struct {
 	// For determination of how redaction of images should occur.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Transforms []TransformsParameters `json:"transforms,omitempty" tf:"transforms,omitempty"`
+	Transforms []TransformsParameters `json:"transforms" tf:"transforms,omitempty"`
 }
 
 type InfoTypeTransformationsInitParameters struct {
@@ -2249,7 +2249,7 @@ type InfoTypeTransformationsParameters struct {
 	// Transformation for each infoType. Cannot specify more than one for a given infoType.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Transformations []TransformationsParameters `json:"transformations,omitempty" tf:"transformations,omitempty"`
+	Transformations []TransformationsParameters `json:"transformations" tf:"transformations,omitempty"`
 }
 
 type InfoTypesInitParameters struct {
@@ -2274,7 +2274,7 @@ type InfoTypesParameters struct {
 
 	// Name of the key. This is an arbitrary string used to differentiate different keys. A unique key is generated per name: two separate TransientCryptoKey protos share the same generated key if their names are the same. When the data crypto key is generated, this name is not used in any way (repeating the api call will result in a different key being generated).
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// Optional version name for this InfoType.
 	// +kubebuilder:validation:Optional
@@ -2305,12 +2305,12 @@ type KMSWrappedParameters struct {
 
 	// The resource name of the KMS CryptoKey to use for unwrapping.
 	// +kubebuilder:validation:Optional
-	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
+	CryptoKeyName *string `json:"cryptoKeyName" tf:"crypto_key_name,omitempty"`
 
 	// The wrapped data crypto key.
 	// A base64-encoded string.
 	// +kubebuilder:validation:Optional
-	WrappedKey *string `json:"wrappedKey,omitempty" tf:"wrapped_key,omitempty"`
+	WrappedKey *string `json:"wrappedKey" tf:"wrapped_key,omitempty"`
 }
 
 type LowerBoundDateValueInitParameters struct {
@@ -3486,7 +3486,7 @@ type PrimitiveTransformationReplaceConfigParameters struct {
 	// The new_value block must only contain one argument. For example when replacing the contents of a string-type field, only string_value should be set.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	NewValue []ReplaceConfigNewValueParameters `json:"newValue,omitempty" tf:"new_value,omitempty"`
+	NewValue []ReplaceConfigNewValueParameters `json:"newValue" tf:"new_value,omitempty"`
 }
 
 type PrimitiveTransformationReplaceDictionaryConfigInitParameters struct {
@@ -3758,7 +3758,7 @@ type ReplaceConfigParameters struct {
 	// The new_value block must only contain one argument. For example when replacing the contents of a string-type field, only string_value should be set.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	NewValue []NewValueParameters `json:"newValue,omitempty" tf:"new_value,omitempty"`
+	NewValue []NewValueParameters `json:"newValue" tf:"new_value,omitempty"`
 }
 
 type ReplaceDictionaryConfigInitParameters struct {
@@ -3780,7 +3780,7 @@ type ReplaceDictionaryConfigParameters struct {
 	// A list of words to select from for random replacement. The limits page contains details about the size limits of dictionaries.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	WordList []WordListParameters `json:"wordList,omitempty" tf:"word_list,omitempty"`
+	WordList []WordListParameters `json:"wordList" tf:"word_list,omitempty"`
 }
 
 type ReplaceDictionaryConfigWordListInitParameters struct {
@@ -3799,7 +3799,7 @@ type ReplaceDictionaryConfigWordListParameters struct {
 
 	// Words or phrases defining the dictionary. The dictionary must contain at least one phrase and every phrase must contain at least 2 characters that are letters or digits.
 	// +kubebuilder:validation:Optional
-	Words []*string `json:"words,omitempty" tf:"words,omitempty"`
+	Words []*string `json:"words" tf:"words,omitempty"`
 }
 
 type ReplacementValueDateValueInitParameters struct {
@@ -4013,7 +4013,7 @@ type SelectedInfoTypesParameters struct {
 	// all findings that correspond to infoTypes that were requested in InspectConfig.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	InfoTypes []InfoTypesParameters `json:"infoTypes,omitempty" tf:"info_types,omitempty"`
+	InfoTypes []InfoTypesParameters `json:"infoTypes" tf:"info_types,omitempty"`
 }
 
 type SurrogateInfoTypeInitParameters struct {
@@ -4138,7 +4138,7 @@ type TransformationsInfoTypesParameters struct {
 
 	// Name of the key. This is an arbitrary string used to differentiate different keys. A unique key is generated per name: two separate TransientCryptoKey protos share the same generated key if their names are the same. When the data crypto key is generated, this name is not used in any way (repeating the api call will result in a different key being generated).
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// Optional version name for this InfoType.
 	// +kubebuilder:validation:Optional
@@ -4183,7 +4183,7 @@ type TransformationsParameters struct {
 	// The primitive_transformation block must only contain one argument, corresponding to the type of transformation.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	PrimitiveTransformation []PrimitiveTransformationParameters `json:"primitiveTransformation,omitempty" tf:"primitive_transformation,omitempty"`
+	PrimitiveTransformation []PrimitiveTransformationParameters `json:"primitiveTransformation" tf:"primitive_transformation,omitempty"`
 }
 
 type TransformsInitParameters struct {
@@ -4257,7 +4257,7 @@ type TransientParameters struct {
 
 	// Name of the key. This is an arbitrary string used to differentiate different keys. A unique key is generated per name: two separate TransientCryptoKey protos share the same generated key if their names are the same. When the data crypto key is generated, this name is not used in any way (repeating the api call will result in a different key being generated).
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type UnwrappedInitParameters struct {
@@ -4279,7 +4279,7 @@ type UnwrappedParameters struct {
 	// A 128/192/256 bit key.
 	// A base64-encoded string.
 	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+	Key *string `json:"key" tf:"key,omitempty"`
 }
 
 type UpperBoundDateValueInitParameters struct {
@@ -4676,7 +4676,7 @@ type WordListParameters struct {
 
 	// Words or phrases defining the dictionary. The dictionary must contain at least one phrase and every phrase must contain at least 2 characters that are letters or digits.
 	// +kubebuilder:validation:Optional
-	Words []*string `json:"words,omitempty" tf:"words,omitempty"`
+	Words []*string `json:"words" tf:"words,omitempty"`
 }
 
 // DeidentifyTemplateSpec defines the desired state of DeidentifyTemplate

@@ -172,7 +172,7 @@ type Layer4ConfigsParameters struct {
 
 	// The IP protocol to which this rule applies. The protocol type is required when creating a firewall rule. This value can either be one of the following well known protocol strings (tcp, udp, icmp, esp, ah, ipip, sctp), or the IP protocol number.
 	// +kubebuilder:validation:Optional
-	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
+	IPProtocol *string `json:"ipProtocol" tf:"ip_protocol,omitempty"`
 
 	// An optional list of ports to which this rule applies. This field is only applicable for UDP or TCP protocol. Each entry must be either an integer or a range. If not specified, this rule applies to connections through any port.
 	// +kubebuilder:validation:Optional
@@ -253,7 +253,7 @@ type MatchParameters struct {
 
 	// Pairs of IP protocols and ports that the rule should match. Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Layer4Configs []Layer4ConfigsParameters `json:"layer4Configs,omitempty" tf:"layer4_configs,omitempty"`
+	Layer4Configs []Layer4ConfigsParameters `json:"layer4Configs" tf:"layer4_configs,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	SrcAddressGroups []*string `json:"srcAddressGroups,omitempty" tf:"src_address_groups,omitempty"`

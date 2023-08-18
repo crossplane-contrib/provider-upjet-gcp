@@ -65,7 +65,7 @@ type AttestationAuthorityParameters struct {
 	// Attestations to verify.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Hint []HintParameters `json:"hint,omitempty" tf:"hint,omitempty"`
+	Hint []HintParameters `json:"hint" tf:"hint,omitempty"`
 }
 
 type HintInitParameters struct {
@@ -87,7 +87,7 @@ type HintParameters struct {
 	// The human readable name of this Attestation Authority, for
 	// example "qa".
 	// +kubebuilder:validation:Optional
-	HumanReadableName *string `json:"humanReadableName,omitempty" tf:"human_readable_name,omitempty"`
+	HumanReadableName *string `json:"humanReadableName" tf:"human_readable_name,omitempty"`
 }
 
 type NoteInitParameters struct {
@@ -240,7 +240,7 @@ type RelatedURLParameters struct {
 
 	// Specific URL associated with the resource.
 	// +kubebuilder:validation:Optional
-	URL *string `json:"url,omitempty" tf:"url,omitempty"`
+	URL *string `json:"url" tf:"url,omitempty"`
 }
 
 // NoteSpec defines the desired state of Note

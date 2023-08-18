@@ -177,12 +177,12 @@ type RouterNATLogConfigParameters struct {
 
 	// Indicates whether or not to export logs.
 	// +kubebuilder:validation:Optional
-	Enable *bool `json:"enable,omitempty" tf:"enable,omitempty"`
+	Enable *bool `json:"enable" tf:"enable,omitempty"`
 
 	// Specifies the desired filtering of logs on this NAT.
 	// Possible values are: ERRORS_ONLY, TRANSLATIONS_ONLY, ALL.
 	// +kubebuilder:validation:Optional
-	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
+	Filter *string `json:"filter" tf:"filter,omitempty"`
 }
 
 type RouterNATObservation struct {
@@ -461,12 +461,12 @@ type RulesParameters struct {
 	// The following example is a valid match expression for private NAT:
 	// "nexthop.hub == 'https://networkconnectivity.googleapis.com/v1alpha1/projects/my-project/global/hub/hub-1'"
 	// +kubebuilder:validation:Optional
-	Match *string `json:"match,omitempty" tf:"match,omitempty"`
+	Match *string `json:"match" tf:"match,omitempty"`
 
 	// An integer uniquely identifying a rule in the list.
 	// The rule number must be a positive value between 0 and 65000, and must be unique among rules within a NAT.
 	// +kubebuilder:validation:Optional
-	RuleNumber *float64 `json:"ruleNumber,omitempty" tf:"rule_number,omitempty"`
+	RuleNumber *float64 `json:"ruleNumber" tf:"rule_number,omitempty"`
 }
 
 type SubnetworkInitParameters struct {
@@ -529,7 +529,7 @@ type SubnetworkParameters struct {
 	// ALL_IP_RANGES, LIST_OF_SECONDARY_IP_RANGES,
 	// PRIMARY_IP_RANGE.
 	// +kubebuilder:validation:Optional
-	SourceIPRangesToNAT []*string `json:"sourceIpRangesToNat,omitempty" tf:"source_ip_ranges_to_nat,omitempty"`
+	SourceIPRangesToNAT []*string `json:"sourceIpRangesToNat" tf:"source_ip_ranges_to_nat,omitempty"`
 }
 
 // RouterNATSpec defines the desired state of RouterNAT

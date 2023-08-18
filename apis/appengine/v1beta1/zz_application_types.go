@@ -176,7 +176,7 @@ type FeatureSettingsParameters struct {
 	// Set to false to use the legacy health check instead of the readiness
 	// and liveness checks.
 	// +kubebuilder:validation:Optional
-	SplitHealthChecks *bool `json:"splitHealthChecks,omitempty" tf:"split_health_checks,omitempty"`
+	SplitHealthChecks *bool `json:"splitHealthChecks" tf:"split_health_checks,omitempty"`
 }
 
 type IapInitParameters struct {
@@ -208,7 +208,7 @@ type IapParameters struct {
 
 	// OAuth2 client ID to use for the authentication flow.
 	// +kubebuilder:validation:Optional
-	Oauth2ClientID *string `json:"oauth2ClientId,omitempty" tf:"oauth2_client_id,omitempty"`
+	Oauth2ClientID *string `json:"oauth2ClientId" tf:"oauth2_client_id,omitempty"`
 
 	// OAuth2 client secret to use for the authentication flow.
 	// The SHA-256 hash of the value is returned in the oauth2ClientSecretSha256 field.

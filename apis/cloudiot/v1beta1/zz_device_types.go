@@ -79,7 +79,7 @@ type CredentialsParameters struct {
 	// A public key used to verify the signature of JSON Web Tokens (JWTs).
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	PublicKey []PublicKeyParameters `json:"publicKey,omitempty" tf:"public_key,omitempty"`
+	PublicKey []PublicKeyParameters `json:"publicKey" tf:"public_key,omitempty"`
 }
 
 type DeviceInitParameters struct {
@@ -293,11 +293,11 @@ type PublicKeyParameters struct {
 	// The format of the key.
 	// Possible values are: RSA_PEM, RSA_X509_PEM, ES256_PEM, ES256_X509_PEM.
 	// +kubebuilder:validation:Optional
-	Format *string `json:"format,omitempty" tf:"format,omitempty"`
+	Format *string `json:"format" tf:"format,omitempty"`
 
 	// The key data.
 	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+	Key *string `json:"key" tf:"key,omitempty"`
 }
 
 type StateInitParameters struct {

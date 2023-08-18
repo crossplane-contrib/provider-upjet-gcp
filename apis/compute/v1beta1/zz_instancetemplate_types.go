@@ -44,7 +44,7 @@ type DiskDiskEncryptionKeyParameters struct {
 	// The self link of the encryption key that is
 	// stored in Google Cloud KMS.
 	// +kubebuilder:validation:Optional
-	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+	KMSKeySelfLink *string `json:"kmsKeySelfLink" tf:"kms_key_self_link,omitempty"`
 }
 
 type DiskSourceImageEncryptionKeyInitParameters struct {
@@ -76,7 +76,7 @@ type DiskSourceImageEncryptionKeyParameters struct {
 	// The self link of the encryption key that is
 	// stored in Google Cloud KMS.
 	// +kubebuilder:validation:Optional
-	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+	KMSKeySelfLink *string `json:"kmsKeySelfLink" tf:"kms_key_self_link,omitempty"`
 
 	// The service account being used for the
 	// encryption request for the given KMS key. If absent, the Compute Engine
@@ -114,7 +114,7 @@ type DiskSourceSnapshotEncryptionKeyParameters struct {
 	// The self link of the encryption key that is
 	// stored in Google Cloud KMS.
 	// +kubebuilder:validation:Optional
-	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+	KMSKeySelfLink *string `json:"kmsKeySelfLink" tf:"kms_key_self_link,omitempty"`
 
 	// The service account being used for the
 	// encryption request for the given KMS key. If absent, the Compute Engine
@@ -178,7 +178,7 @@ type InstanceTemplateConfidentialInstanceConfigParameters struct {
 
 	// Defines whether the instance should have confidential compute enabled. on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
 	// +kubebuilder:validation:Optional
-	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
+	EnableConfidentialCompute *bool `json:"enableConfidentialCompute" tf:"enable_confidential_compute,omitempty"`
 }
 
 type InstanceTemplateDiskInitParameters struct {
@@ -467,11 +467,11 @@ type InstanceTemplateGuestAcceleratorParameters struct {
 
 	// The number of the guest accelerator cards exposed to this instance.
 	// +kubebuilder:validation:Optional
-	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+	Count *float64 `json:"count" tf:"count,omitempty"`
 
 	// The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80.
 	// +kubebuilder:validation:Optional
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type InstanceTemplateInitParameters struct {
@@ -644,7 +644,7 @@ type InstanceTemplateNetworkInterfaceAliasIPRangeParameters struct {
 	// netmask (e.g. /24) may be supplied, with a CIDR format resulting in an API
 	// error.
 	// +kubebuilder:validation:Optional
-	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range,omitempty"`
+	IPCidrRange *string `json:"ipCidrRange" tf:"ip_cidr_range,omitempty"`
 
 	// The subnetwork secondary range name specifying
 	// the secondary range from which to allocate the IP CIDR range for this alias IP
@@ -678,7 +678,7 @@ type InstanceTemplateNetworkInterfaceIPv6AccessConfigParameters struct {
 	// The service-level to be provided for IPv6 traffic when the
 	// subnet has an external subnet. Only PREMIUM and STANDARD tier is valid for IPv6.
 	// +kubebuilder:validation:Optional
-	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
+	NetworkTier *string `json:"networkTier" tf:"network_tier,omitempty"`
 }
 
 type InstanceTemplateNetworkInterfaceInitParameters struct {
@@ -1095,7 +1095,7 @@ type InstanceTemplateReservationAffinityParameters struct {
 
 	// The type of reservation from which this instance can consume resources.
 	// +kubebuilder:validation:Optional
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type InstanceTemplateReservationAffinitySpecificReservationInitParameters struct {
@@ -1120,11 +1120,11 @@ type InstanceTemplateReservationAffinitySpecificReservationParameters struct {
 
 	// Corresponds to the label key of a reservation resource. To target a SPECIFIC_RESERVATION by name, specify compute.googleapis.com/reservation-name as the key and specify the name of your reservation as the only value.
 	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+	Key *string `json:"key" tf:"key,omitempty"`
 
 	// Corresponds to the label values of a reservation resource.
 	// +kubebuilder:validation:Optional
-	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
+	Values []*string `json:"values" tf:"values,omitempty"`
 }
 
 type InstanceTemplateSchedulingInitParameters struct {
@@ -1192,16 +1192,16 @@ type InstanceTemplateSchedulingNodeAffinitiesParameters struct {
 
 	// Corresponds to the label key of a reservation resource. To target a SPECIFIC_RESERVATION by name, specify compute.googleapis.com/reservation-name as the key and specify the name of your reservation as the only value.
 	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+	Key *string `json:"key" tf:"key,omitempty"`
 
 	// The operator. Can be IN for node-affinities
 	// or NOT_IN for anti-affinities.
 	// +kubebuilder:validation:Optional
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+	Operator *string `json:"operator" tf:"operator,omitempty"`
 
 	// Corresponds to the label values of a reservation resource.
 	// +kubebuilder:validation:Optional
-	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
+	Values []*string `json:"values" tf:"values,omitempty"`
 }
 
 type InstanceTemplateSchedulingObservation struct {
@@ -1322,7 +1322,7 @@ type InstanceTemplateServiceAccountParameters struct {
 	// short names are supported. To allow full access to all Cloud APIs, use the
 	// cloud-platform scope. See a complete list of scopes here.
 	// +kubebuilder:validation:Optional
-	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
+	Scopes []*string `json:"scopes" tf:"scopes,omitempty"`
 }
 
 type InstanceTemplateShieldedInstanceConfigInitParameters struct {

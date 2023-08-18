@@ -254,7 +254,7 @@ type AutoscalingPolicyParameters struct {
 	// maximum number of replicas should not be lower than minimal number
 	// of replicas.
 	// +kubebuilder:validation:Optional
-	MaxReplicas *float64 `json:"maxReplicas,omitempty" tf:"max_replicas,omitempty"`
+	MaxReplicas *float64 `json:"maxReplicas" tf:"max_replicas,omitempty"`
 
 	// Configuration parameters of autoscaling based on a custom metric.
 	// Structure is documented below.
@@ -266,7 +266,7 @@ type AutoscalingPolicyParameters struct {
 	// choose a default value depending on maximum number of instances
 	// allowed.
 	// +kubebuilder:validation:Optional
-	MinReplicas *float64 `json:"minReplicas,omitempty" tf:"min_replicas,omitempty"`
+	MinReplicas *float64 `json:"minReplicas" tf:"min_replicas,omitempty"`
 
 	// Defines operating mode for this policy.
 	// Default value is ON.
@@ -312,7 +312,7 @@ type CPUUtilizationParameters struct {
 
 	// URL of the managed instance group that this autoscaler will scale.
 	// +kubebuilder:validation:Optional
-	Target *float64 `json:"target,omitempty" tf:"target,omitempty"`
+	Target *float64 `json:"target" tf:"target,omitempty"`
 }
 
 type LoadBalancingUtilizationInitParameters struct {
@@ -331,7 +331,7 @@ type LoadBalancingUtilizationParameters struct {
 
 	// URL of the managed instance group that this autoscaler will scale.
 	// +kubebuilder:validation:Optional
-	Target *float64 `json:"target,omitempty" tf:"target,omitempty"`
+	Target *float64 `json:"target" tf:"target,omitempty"`
 }
 
 type MaxScaledInReplicasInitParameters struct {
@@ -401,7 +401,7 @@ type MetricParameters struct {
 
 	// The identifier for this object. Format specified above.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// URL of the managed instance group that this autoscaler will scale.
 	// +kubebuilder:validation:Optional
@@ -509,19 +509,19 @@ type ScalingSchedulesParameters struct {
 
 	// The duration of time intervals (in seconds) for which this scaling schedule will be running. The minimum allowed value is 300.
 	// +kubebuilder:validation:Optional
-	DurationSec *float64 `json:"durationSec,omitempty" tf:"duration_sec,omitempty"`
+	DurationSec *float64 `json:"durationSec" tf:"duration_sec,omitempty"`
 
 	// Minimum number of VM instances that autoscaler will recommend in time intervals starting according to schedule.
 	// +kubebuilder:validation:Optional
-	MinRequiredReplicas *float64 `json:"minRequiredReplicas,omitempty" tf:"min_required_replicas,omitempty"`
+	MinRequiredReplicas *float64 `json:"minRequiredReplicas" tf:"min_required_replicas,omitempty"`
 
 	// The identifier for this object. Format specified above.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// The start timestamps of time intervals when this scaling schedule should provide a scaling signal. This field uses the extended cron format (with an optional year field).
 	// +kubebuilder:validation:Optional
-	Schedule *string `json:"schedule,omitempty" tf:"schedule,omitempty"`
+	Schedule *string `json:"schedule" tf:"schedule,omitempty"`
 
 	// The time zone to be used when interpreting the schedule. The value of this field must be a time zone name from the tz database: http://en.wikipedia.org/wiki/Tz_database.
 	// +kubebuilder:validation:Optional

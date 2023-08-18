@@ -61,7 +61,7 @@ type GenericWebServiceParameters struct {
 
 	// Whether to use speech adaptation for speech recognition.
 	// +kubebuilder:validation:Optional
-	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+	URI *string `json:"uri" tf:"uri,omitempty"`
 }
 
 type ServiceDirectoryGenericWebServiceInitParameters struct {
@@ -100,7 +100,7 @@ type ServiceDirectoryGenericWebServiceParameters struct {
 
 	// Whether to use speech adaptation for speech recognition.
 	// +kubebuilder:validation:Optional
-	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+	URI *string `json:"uri" tf:"uri,omitempty"`
 }
 
 type ServiceDirectoryInitParameters struct {
@@ -128,11 +128,11 @@ type ServiceDirectoryParameters struct {
 	// The name of Service Directory service.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	GenericWebService []ServiceDirectoryGenericWebServiceParameters `json:"genericWebService,omitempty" tf:"generic_web_service,omitempty"`
+	GenericWebService []ServiceDirectoryGenericWebServiceParameters `json:"genericWebService" tf:"generic_web_service,omitempty"`
 
 	// The name of Service Directory service.
 	// +kubebuilder:validation:Optional
-	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+	Service *string `json:"service" tf:"service,omitempty"`
 }
 
 type WebhookInitParameters struct {

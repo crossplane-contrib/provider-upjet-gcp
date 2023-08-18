@@ -213,7 +213,7 @@ type HTTPCookieTTLParameters struct {
 	// Span of time at a resolution of a second.
 	// Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
-	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
 
 type OutlierDetectionBaseEjectionTimeInitParameters struct {
@@ -254,7 +254,7 @@ type OutlierDetectionBaseEjectionTimeParameters struct {
 	// Span of time at a resolution of a second.
 	// Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
-	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
 
 type OutlierDetectionIntervalInitParameters struct {
@@ -295,7 +295,7 @@ type OutlierDetectionIntervalParameters struct {
 	// Span of time at a resolution of a second.
 	// Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
-	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
 
 type RegionBackendServiceBackendInitParameters struct {
@@ -1035,7 +1035,7 @@ type RegionBackendServiceIapParameters struct {
 
 	// OAuth2 Client ID for IAP
 	// +kubebuilder:validation:Optional
-	Oauth2ClientID *string `json:"oauth2ClientId,omitempty" tf:"oauth2_client_id,omitempty"`
+	Oauth2ClientID *string `json:"oauth2ClientId" tf:"oauth2_client_id,omitempty"`
 
 	// OAuth2 Client Secret for IAP
 	// Note: This property is sensitive and will not be displayed in the plan.

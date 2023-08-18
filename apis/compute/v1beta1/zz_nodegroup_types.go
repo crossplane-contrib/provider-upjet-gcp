@@ -41,7 +41,7 @@ type MaintenanceWindowParameters struct {
 
 	// instances.start time of the window. This must be in UTC format that resolves to one of 00:00, 04:00, 08:00, 12:00, 16:00, or 20:00. For example, both 13:00-5 and 08:00 are valid.
 	// +kubebuilder:validation:Optional
-	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
+	StartTime *string `json:"startTime" tf:"start_time,omitempty"`
 }
 
 type NodeGroupAutoscalingPolicyInitParameters struct {
@@ -301,7 +301,7 @@ type ShareSettingsParameters struct {
 	// Node group sharing type.
 	// Possible values are: ORGANIZATION, SPECIFIC_PROJECTS, LOCAL.
 	// +kubebuilder:validation:Optional
-	ShareType *string `json:"shareType,omitempty" tf:"share_type,omitempty"`
+	ShareType *string `json:"shareType" tf:"share_type,omitempty"`
 }
 
 // NodeGroupSpec defines the desired state of NodeGroup

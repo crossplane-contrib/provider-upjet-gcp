@@ -49,12 +49,12 @@ type DailyScheduleParameters struct {
 
 	// The number of days between snapshots.
 	// +kubebuilder:validation:Optional
-	DaysInCycle *float64 `json:"daysInCycle,omitempty" tf:"days_in_cycle,omitempty"`
+	DaysInCycle *float64 `json:"daysInCycle" tf:"days_in_cycle,omitempty"`
 
 	// Time within the window to start the operations.
 	// It must be in format "HH:MM", where HH : [00-23] and MM : [00-00] GMT.
 	// +kubebuilder:validation:Optional
-	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
+	StartTime *string `json:"startTime" tf:"start_time,omitempty"`
 }
 
 type DayOfWeeksInitParameters struct {
@@ -84,12 +84,12 @@ type DayOfWeeksParameters struct {
 	// The day of the week to create the snapshot. e.g. MONDAY
 	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	// +kubebuilder:validation:Optional
-	Day *string `json:"day,omitempty" tf:"day,omitempty"`
+	Day *string `json:"day" tf:"day,omitempty"`
 
 	// Time within the window to start the operations.
 	// It must be in format "HH:MM", where HH : [00-23] and MM : [00-00] GMT.
 	// +kubebuilder:validation:Optional
-	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
+	StartTime *string `json:"startTime" tf:"start_time,omitempty"`
 }
 
 type GroupPlacementPolicyInitParameters struct {
@@ -176,12 +176,12 @@ type HourlyScheduleParameters struct {
 
 	// The number of hours between snapshots.
 	// +kubebuilder:validation:Optional
-	HoursInCycle *float64 `json:"hoursInCycle,omitempty" tf:"hours_in_cycle,omitempty"`
+	HoursInCycle *float64 `json:"hoursInCycle" tf:"hours_in_cycle,omitempty"`
 
 	// Time within the window to start the operations.
 	// It must be in format "HH:MM", where HH : [00-23] and MM : [00-00] GMT.
 	// +kubebuilder:validation:Optional
-	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
+	StartTime *string `json:"startTime" tf:"start_time,omitempty"`
 }
 
 type InstanceSchedulePolicyInitParameters struct {
@@ -239,7 +239,7 @@ type InstanceSchedulePolicyParameters struct {
 	// Specifies the time zone to be used in interpreting the schedule. The value of this field must be a time zone name
 	// from the tz database: http://en.wikipedia.org/wiki/Tz_database.
 	// +kubebuilder:validation:Optional
-	TimeZone *string `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
+	TimeZone *string `json:"timeZone" tf:"time_zone,omitempty"`
 
 	// Specifies the schedule for starting instances.
 	// Structure is documented below.
@@ -364,7 +364,7 @@ type RetentionPolicyParameters struct {
 
 	// Maximum age of the snapshot that is allowed to be kept.
 	// +kubebuilder:validation:Optional
-	MaxRetentionDays *float64 `json:"maxRetentionDays,omitempty" tf:"max_retention_days,omitempty"`
+	MaxRetentionDays *float64 `json:"maxRetentionDays" tf:"max_retention_days,omitempty"`
 
 	// Specifies the behavior to apply to scheduled snapshots when
 	// the source disk is deleted.
@@ -520,7 +520,7 @@ type SnapshotSchedulePolicyParameters struct {
 	// Contains one of an hourlySchedule, dailySchedule, or weeklySchedule.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Schedule []ScheduleParameters `json:"schedule,omitempty" tf:"schedule,omitempty"`
+	Schedule []ScheduleParameters `json:"schedule" tf:"schedule,omitempty"`
 
 	// Properties with which the snapshots are created, such as labels.
 	// Structure is documented below.
@@ -544,7 +544,7 @@ type VMStartScheduleParameters struct {
 
 	// Specifies the frequency for the operation, using the unix-cron format.
 	// +kubebuilder:validation:Optional
-	Schedule *string `json:"schedule,omitempty" tf:"schedule,omitempty"`
+	Schedule *string `json:"schedule" tf:"schedule,omitempty"`
 }
 
 type VMStopScheduleInitParameters struct {
@@ -563,7 +563,7 @@ type VMStopScheduleParameters struct {
 
 	// Specifies the frequency for the operation, using the unix-cron format.
 	// +kubebuilder:validation:Optional
-	Schedule *string `json:"schedule,omitempty" tf:"schedule,omitempty"`
+	Schedule *string `json:"schedule" tf:"schedule,omitempty"`
 }
 
 type WeeklyScheduleInitParameters struct {
@@ -585,7 +585,7 @@ type WeeklyScheduleParameters struct {
 	// May contain up to seven (one for each day of the week) snapshot times.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	DayOfWeeks []DayOfWeeksParameters `json:"dayOfWeeks,omitempty" tf:"day_of_weeks,omitempty"`
+	DayOfWeeks []DayOfWeeksParameters `json:"dayOfWeeks" tf:"day_of_weeks,omitempty"`
 }
 
 // ResourcePolicySpec defines the desired state of ResourcePolicy

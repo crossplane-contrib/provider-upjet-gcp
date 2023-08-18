@@ -199,7 +199,7 @@ type BigQueryOptionsParameters struct {
 	// Set of files to scan.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	TableReference []TableReferenceParameters `json:"tableReference,omitempty" tf:"table_reference,omitempty"`
+	TableReference []TableReferenceParameters `json:"tableReference" tf:"table_reference,omitempty"`
 }
 
 type CloudStorageOptionsInitParameters struct {
@@ -277,7 +277,7 @@ type CloudStorageOptionsParameters struct {
 	// Set of files to scan.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	FileSet []FileSetParameters `json:"fileSet,omitempty" tf:"file_set,omitempty"`
+	FileSet []FileSetParameters `json:"fileSet" tf:"file_set,omitempty"`
 
 	// List of file type groups to include in the scan. If empty, all files are scanned and available data
 	// format processors are applied. In addition, the binary content of the selected files is always scanned as well.
@@ -314,7 +314,7 @@ type CustomInfoTypesDictionaryCloudStoragePathParameters struct {
 
 	// A url representing a file or path (no wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt
 	// +kubebuilder:validation:Optional
-	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+	Path *string `json:"path" tf:"path,omitempty"`
 }
 
 type CustomInfoTypesDictionaryInitParameters struct {
@@ -371,7 +371,7 @@ type CustomInfoTypesDictionaryWordListParameters struct {
 	// Words or phrases defining the dictionary. The dictionary must contain at least one
 	// phrase and every phrase must contain at least 2 characters that are letters or digits.
 	// +kubebuilder:validation:Optional
-	Words []*string `json:"words,omitempty" tf:"words,omitempty"`
+	Words []*string `json:"words" tf:"words,omitempty"`
 }
 
 type CustomInfoTypesInfoTypeInitParameters struct {
@@ -411,7 +411,7 @@ type CustomInfoTypesInfoTypeParameters struct {
 	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
 	// timestamp property does not exist or its value is empty or invalid.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// Version of the information type to use. By default, the version is set to stable
 	// +kubebuilder:validation:Optional
@@ -447,7 +447,7 @@ type CustomInfoTypesRegexParameters struct {
 	// Pattern defining the regular expression.
 	// Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
 	// +kubebuilder:validation:Optional
-	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+	Pattern *string `json:"pattern" tf:"pattern,omitempty"`
 }
 
 type CustomInfoTypesStoredTypeInitParameters struct {
@@ -485,7 +485,7 @@ type CustomInfoTypesStoredTypeParameters struct {
 	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
 	// timestamp property does not exist or its value is empty or invalid.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type CustomInfoTypesSurrogateTypeInitParameters struct {
@@ -526,13 +526,13 @@ type DatastoreOptionsParameters struct {
 	// A representation of a Datastore kind.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Kind []KindParameters `json:"kind,omitempty" tf:"kind,omitempty"`
+	Kind []KindParameters `json:"kind" tf:"kind,omitempty"`
 
 	// Datastore partition ID. A partition ID identifies a grouping of entities. The grouping
 	// is always by project and namespace, however the namespace ID may be empty.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	PartitionID []PartitionIDParameters `json:"partitionId,omitempty" tf:"partition_id,omitempty"`
+	PartitionID []PartitionIDParameters `json:"partitionId" tf:"partition_id,omitempty"`
 }
 
 type DeidentifyInitParameters struct {
@@ -591,7 +591,7 @@ type DeidentifyParameters struct {
 	// De-identified files will overwrite files in the output path.
 	// Form of: gs://bucket/folder/ or gs://bucket
 	// +kubebuilder:validation:Optional
-	CloudStorageOutput *string `json:"cloudStorageOutput,omitempty" tf:"cloud_storage_output,omitempty"`
+	CloudStorageOutput *string `json:"cloudStorageOutput" tf:"cloud_storage_output,omitempty"`
 
 	// List of user-specified file type groups to transform. If specified, only the files with these filetypes will be transformed.
 	// If empty, all supported files will be transformed. Supported types may be automatically added over time.
@@ -688,7 +688,7 @@ type ExclusionRuleDictionaryCloudStoragePathParameters struct {
 
 	// A url representing a file or path (no wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt
 	// +kubebuilder:validation:Optional
-	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+	Path *string `json:"path" tf:"path,omitempty"`
 }
 
 type ExclusionRuleExcludeByHotwordInitParameters struct {
@@ -775,7 +775,7 @@ type ExclusionRuleExcludeInfoTypesInfoTypesParameters struct {
 	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
 	// timestamp property does not exist or its value is empty or invalid.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// Version of the information type to use. By default, the version is set to stable
 	// +kubebuilder:validation:Optional
@@ -801,7 +801,7 @@ type ExclusionRuleExcludeInfoTypesParameters struct {
 	// List of infoTypes this rule set is applied to.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	InfoTypes []ExclusionRuleExcludeInfoTypesInfoTypesParameters `json:"infoTypes,omitempty" tf:"info_types,omitempty"`
+	InfoTypes []ExclusionRuleExcludeInfoTypesInfoTypesParameters `json:"infoTypes" tf:"info_types,omitempty"`
 }
 
 type FileSetInitParameters struct {
@@ -999,7 +999,7 @@ type IdentifyingFieldsParameters struct {
 	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
 	// timestamp property does not exist or its value is empty or invalid.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type InspectConfigCustomInfoTypesInitParameters struct {
@@ -1087,7 +1087,7 @@ type InspectConfigCustomInfoTypesParameters struct {
 	// specified in another InfoTypeLimit.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	InfoType []CustomInfoTypesInfoTypeParameters `json:"infoType,omitempty" tf:"info_type,omitempty"`
+	InfoType []CustomInfoTypesInfoTypeParameters `json:"infoType" tf:"info_type,omitempty"`
 
 	// Likelihood to return for this CustomInfoType. This base value can be altered by a detection rule if the finding meets the criteria
 	// specified by the rule.
@@ -1190,7 +1190,7 @@ type InspectConfigRuleSetInfoTypesParameters struct {
 	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
 	// timestamp property does not exist or its value is empty or invalid.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// Version of the information type to use. By default, the version is set to stable
 	// +kubebuilder:validation:Optional
@@ -1229,7 +1229,7 @@ type InspectConfigRuleSetParameters struct {
 	// Set of rules to be applied to infoTypes. The rules are applied in order.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Rules []RuleSetRulesParameters `json:"rules,omitempty" tf:"rules,omitempty"`
+	Rules []RuleSetRulesParameters `json:"rules" tf:"rules,omitempty"`
 }
 
 type InspectJobInitParameters struct {
@@ -1287,7 +1287,7 @@ type InspectJobInspectConfigInfoTypesParameters struct {
 	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
 	// timestamp property does not exist or its value is empty or invalid.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// Version of the information type to use. By default, the version is set to stable
 	// +kubebuilder:validation:Optional
@@ -1417,7 +1417,7 @@ type InspectJobParameters struct {
 	// A task to execute on the completion of a job.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Actions []ActionsParameters `json:"actions,omitempty" tf:"actions,omitempty"`
+	Actions []ActionsParameters `json:"actions" tf:"actions,omitempty"`
 
 	// The core content of the template.
 	// Structure is documented below.
@@ -1426,12 +1426,12 @@ type InspectJobParameters struct {
 
 	// The name of the template to run when this job is triggered.
 	// +kubebuilder:validation:Optional
-	InspectTemplateName *string `json:"inspectTemplateName,omitempty" tf:"inspect_template_name,omitempty"`
+	InspectTemplateName *string `json:"inspectTemplateName" tf:"inspect_template_name,omitempty"`
 
 	// Information on where to inspect
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	StorageConfig []StorageConfigParameters `json:"storageConfig,omitempty" tf:"storage_config,omitempty"`
+	StorageConfig []StorageConfigParameters `json:"storageConfig" tf:"storage_config,omitempty"`
 }
 
 type JobNotificationEmailsInitParameters struct {
@@ -1573,7 +1573,7 @@ type KindParameters struct {
 	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
 	// timestamp property does not exist or its value is empty or invalid.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type LimitsMaxFindingsPerInfoTypeInfoTypeInitParameters struct {
@@ -1613,7 +1613,7 @@ type LimitsMaxFindingsPerInfoTypeInfoTypeParameters struct {
 	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
 	// timestamp property does not exist or its value is empty or invalid.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// Version of the information type to use. By default, the version is set to stable
 	// +kubebuilder:validation:Optional
@@ -1717,7 +1717,7 @@ type OutputConfigParameters struct {
 	// The BigQuery table in which to store the output.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Table []OutputConfigTableParameters `json:"table,omitempty" tf:"table,omitempty"`
+	Table []OutputConfigTableParameters `json:"table" tf:"table,omitempty"`
 }
 
 type OutputConfigTableInitParameters struct {
@@ -1752,11 +1752,11 @@ type OutputConfigTableParameters struct {
 
 	// The ID of the dataset containing this table.
 	// +kubebuilder:validation:Optional
-	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+	DatasetID *string `json:"datasetId" tf:"dataset_id,omitempty"`
 
 	// The ID of the project containing this table.
 	// +kubebuilder:validation:Optional
-	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 
 	// The ID of the table. The ID must contain only letters (a-z,
 	// A-Z), numbers (0-9), or underscores (_). The maximum length
@@ -1791,7 +1791,7 @@ type PartitionIDParameters struct {
 
 	// The ID of the project containing this table.
 	// +kubebuilder:validation:Optional
-	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 }
 
 type PubSubInitParameters struct {
@@ -1810,7 +1810,7 @@ type PubSubParameters struct {
 
 	// Cloud Pub/Sub topic to send notifications to.
 	// +kubebuilder:validation:Optional
-	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
+	Topic *string `json:"topic" tf:"topic,omitempty"`
 }
 
 type PublishFindingsToCloudDataCatalogInitParameters struct {
@@ -1876,7 +1876,7 @@ type RegexFileSetParameters struct {
 
 	// The name of a Cloud Storage bucket.
 	// +kubebuilder:validation:Optional
-	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
+	BucketName *string `json:"bucketName" tf:"bucket_name,omitempty"`
 
 	// A list of regular expressions matching file paths to exclude. All files in the bucket that match at
 	// least one of these regular expressions will be excluded from the scan.
@@ -1980,7 +1980,7 @@ type RulesExclusionRuleDictionaryWordListParameters struct {
 	// Words or phrases defining the dictionary. The dictionary must contain at least one
 	// phrase and every phrase must contain at least 2 characters that are letters or digits.
 	// +kubebuilder:validation:Optional
-	Words []*string `json:"words,omitempty" tf:"words,omitempty"`
+	Words []*string `json:"words" tf:"words,omitempty"`
 }
 
 type RulesExclusionRuleInitParameters struct {
@@ -2046,7 +2046,7 @@ type RulesExclusionRuleParameters struct {
 	// How the rule is applied. See the documentation for more information: https://cloud.google.com/dlp/docs/reference/rest/v2/InspectConfig#MatchingType
 	// Possible values are: MATCHING_TYPE_FULL_MATCH, MATCHING_TYPE_PARTIAL_MATCH, MATCHING_TYPE_INVERSE_MATCH.
 	// +kubebuilder:validation:Optional
-	MatchingType *string `json:"matchingType,omitempty" tf:"matching_type,omitempty"`
+	MatchingType *string `json:"matchingType" tf:"matching_type,omitempty"`
 
 	// Regular expression which defines the rule.
 	// Structure is documented below.
@@ -2083,7 +2083,7 @@ type RulesExclusionRuleRegexParameters struct {
 	// Pattern defining the regular expression.
 	// Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
 	// +kubebuilder:validation:Optional
-	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+	Pattern *string `json:"pattern" tf:"pattern,omitempty"`
 }
 
 type RulesHotwordRuleHotwordRegexInitParameters struct {
@@ -2226,7 +2226,7 @@ type SaveFindingsParameters struct {
 	// Information on where to store output
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	OutputConfig []OutputConfigParameters `json:"outputConfig,omitempty" tf:"output_config,omitempty"`
+	OutputConfig []OutputConfigParameters `json:"outputConfig" tf:"output_config,omitempty"`
 }
 
 type ScheduleInitParameters struct {
@@ -2382,7 +2382,7 @@ type TableOptionsIdentifyingFieldsParameters struct {
 	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
 	// timestamp property does not exist or its value is empty or invalid.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type TableOptionsInitParameters struct {
@@ -2430,7 +2430,7 @@ type TableParameters struct {
 
 	// The ID of the project containing this table.
 	// +kubebuilder:validation:Optional
-	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 
 	// The ID of the table. The ID must contain only letters (a-z,
 	// A-Z), numbers (0-9), or underscores (_). The maximum length
@@ -2480,17 +2480,17 @@ type TableReferenceParameters struct {
 
 	// The ID of the dataset containing this table.
 	// +kubebuilder:validation:Optional
-	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+	DatasetID *string `json:"datasetId" tf:"dataset_id,omitempty"`
 
 	// The ID of the project containing this table.
 	// +kubebuilder:validation:Optional
-	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 
 	// The ID of the table. The ID must contain only letters (a-z,
 	// A-Z), numbers (0-9), or underscores (_). The maximum length
 	// is 1,024 characters.
 	// +kubebuilder:validation:Optional
-	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
+	TableID *string `json:"tableId" tf:"table_id,omitempty"`
 }
 
 type TimespanConfigInitParameters struct {
@@ -2548,7 +2548,7 @@ type TimespanConfigParameters struct {
 	// Information on where to inspect
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	TimestampField []TimestampFieldParameters `json:"timestampField,omitempty" tf:"timestamp_field,omitempty"`
+	TimestampField []TimestampFieldParameters `json:"timestampField" tf:"timestamp_field,omitempty"`
 }
 
 type TimestampFieldInitParameters struct {
@@ -2582,7 +2582,7 @@ type TimestampFieldParameters struct {
 	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
 	// timestamp property does not exist or its value is empty or invalid.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type TransformationConfigInitParameters struct {
@@ -2643,7 +2643,7 @@ type TransformationDetailsStorageConfigParameters struct {
 	// The BigQuery table in which to store the output.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Table []TableParameters `json:"table,omitempty" tf:"table,omitempty"`
+	Table []TableParameters `json:"table" tf:"table,omitempty"`
 }
 
 type TriggersInitParameters struct {

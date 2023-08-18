@@ -164,7 +164,7 @@ type EventFiltersParameters struct {
 	// Currently, only a subset of attributes are supported for filtering. Use the gcloud eventarc providers describe command to learn more about events and their attributes.
 	// Do not filter for the 'type' attribute here, as this is already achieved by the resource's event_type attribute.
 	// +kubebuilder:validation:Optional
-	Attribute *string `json:"attribute,omitempty" tf:"attribute,omitempty"`
+	Attribute *string `json:"attribute" tf:"attribute,omitempty"`
 
 	// Optional. The operator used for matching the events with the value of
 	// the filter. If not specified, only events that have an exact key-value
@@ -515,11 +515,11 @@ type SecretEnvironmentVariablesParameters struct {
 
 	// Name of the environment variable.
 	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+	Key *string `json:"key" tf:"key,omitempty"`
 
 	// Project identifier (preferrably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
 	// +kubebuilder:validation:Optional
-	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 
 	// Name of the secret in secret manager (not the full resource name).
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/secretmanager/v1beta1.Secret
@@ -536,7 +536,7 @@ type SecretEnvironmentVariablesParameters struct {
 
 	// Version of the secret (version number or the string 'latest'). It is preferable to use latest version with secret volumes as secret value changes are reflected immediately.
 	// +kubebuilder:validation:Optional
-	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+	Version *string `json:"version" tf:"version,omitempty"`
 }
 
 type SecretVolumesInitParameters struct {
@@ -572,11 +572,11 @@ type SecretVolumesParameters struct {
 
 	// The path within the container to mount the secret volume. For example, setting the mountPath as /etc/secrets would mount the secret value files under the /etc/secrets directory. This directory will also be completely shadowed and unavailable to mount any other secrets. Recommended mount path: /etc/secrets
 	// +kubebuilder:validation:Optional
-	MountPath *string `json:"mountPath,omitempty" tf:"mount_path,omitempty"`
+	MountPath *string `json:"mountPath" tf:"mount_path,omitempty"`
 
 	// Project identifier (preferrably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
 	// +kubebuilder:validation:Optional
-	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 
 	// Name of the secret in secret manager (not the full resource name).
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/secretmanager/v1beta1.Secret
@@ -916,11 +916,11 @@ type VersionsParameters struct {
 
 	// Relative path of the file under the mount path where the secret value for this version will be fetched and made available. For example, setting the mountPath as '/etc/secrets' and path as secret_foo would mount the secret value file at /etc/secrets/secret_foo.
 	// +kubebuilder:validation:Optional
-	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+	Path *string `json:"path" tf:"path,omitempty"`
 
 	// Version of the secret (version number or the string 'latest'). It is preferable to use latest version with secret volumes as secret value changes are reflected immediately.
 	// +kubebuilder:validation:Optional
-	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+	Version *string `json:"version" tf:"version,omitempty"`
 }
 
 // FunctionSpec defines the desired state of Function

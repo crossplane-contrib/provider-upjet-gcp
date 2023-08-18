@@ -50,7 +50,7 @@ type AlternativeNameServerConfigParameters struct {
 	// are not available when an alternative name server is specified.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	TargetNameServers []AlternativeNameServerConfigTargetNameServersParameters `json:"targetNameServers,omitempty" tf:"target_name_servers,omitempty"`
+	TargetNameServers []AlternativeNameServerConfigTargetNameServersParameters `json:"targetNameServers" tf:"target_name_servers,omitempty"`
 }
 
 type AlternativeNameServerConfigTargetNameServersInitParameters struct {
@@ -88,7 +88,7 @@ type AlternativeNameServerConfigTargetNameServersParameters struct {
 
 	// IPv4 address to forward to.
 	// +kubebuilder:validation:Optional
-	IPv4Address *string `json:"ipv4Address,omitempty" tf:"ipv4_address,omitempty"`
+	IPv4Address *string `json:"ipv4Address" tf:"ipv4_address,omitempty"`
 }
 
 type PolicyInitParameters struct {

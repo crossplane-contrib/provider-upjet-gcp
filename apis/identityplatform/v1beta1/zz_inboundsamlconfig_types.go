@@ -76,11 +76,11 @@ type IdPConfigParameters struct {
 	// The IdP's certificate data to verify the signature in the SAMLResponse issued by the IDP.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	IdPCertificates []IdPCertificatesParameters `json:"idpCertificates,omitempty" tf:"idp_certificates,omitempty"`
+	IdPCertificates []IdPCertificatesParameters `json:"idpCertificates" tf:"idp_certificates,omitempty"`
 
 	// Unique identifier for all SAML entities
 	// +kubebuilder:validation:Optional
-	IdPEntityID *string `json:"idpEntityId,omitempty" tf:"idp_entity_id,omitempty"`
+	IdPEntityID *string `json:"idpEntityId" tf:"idp_entity_id,omitempty"`
 
 	// Indicates if outbounding SAMLRequest should be signed.
 	// +kubebuilder:validation:Optional
@@ -88,7 +88,7 @@ type IdPConfigParameters struct {
 
 	// URL to send Authentication request to.
 	// +kubebuilder:validation:Optional
-	SsoURL *string `json:"ssoUrl,omitempty" tf:"sso_url,omitempty"`
+	SsoURL *string `json:"ssoUrl" tf:"sso_url,omitempty"`
 }
 
 type InboundSAMLConfigInitParameters struct {

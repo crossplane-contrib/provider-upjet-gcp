@@ -44,7 +44,7 @@ type ActiveDirectoryConfigParameters struct {
 	// The domain name for the active directory (e.g., mydomain.com).
 	// Can only be used with SQL Server.
 	// +kubebuilder:validation:Optional
-	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
+	Domain *string `json:"domain" tf:"domain,omitempty"`
 }
 
 type AdvancedMachineFeaturesInitParameters struct {
@@ -111,7 +111,7 @@ type AuthorizedNetworksParameters struct {
 	// access this instance. Must be set even if other two attributes are not for
 	// the whitelist to become active.
 	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+	Value *string `json:"value" tf:"value,omitempty"`
 }
 
 type BackupConfigurationInitParameters struct {
@@ -224,7 +224,7 @@ type BackupRetentionSettingsParameters struct {
 	// Depending on the value of retention_unit, this is used to determine if a backup needs to be deleted. If retention_unit
 	// is 'COUNT', we will retain this many backups.
 	// +kubebuilder:validation:Optional
-	RetainedBackups *float64 `json:"retainedBackups,omitempty" tf:"retained_backups,omitempty"`
+	RetainedBackups *float64 `json:"retainedBackups" tf:"retained_backups,omitempty"`
 
 	// The unit that 'retained_backups' represents. Defaults to COUNT.
 	// +kubebuilder:validation:Optional
@@ -277,7 +277,7 @@ type CloneParameters struct {
 
 	// Name of the source instance which will be cloned.
 	// +kubebuilder:validation:Optional
-	SourceInstanceName *string `json:"sourceInstanceName,omitempty" tf:"source_instance_name,omitempty"`
+	SourceInstanceName *string `json:"sourceInstanceName" tf:"source_instance_name,omitempty"`
 }
 
 type DatabaseFlagsInitParameters struct {
@@ -306,13 +306,13 @@ type DatabaseFlagsParameters struct {
 
 	// A name for this whitelist entry.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// A CIDR notation IPv4 or IPv6 address that is allowed to
 	// access this instance. Must be set even if other two attributes are not for
 	// the whitelist to become active.
 	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+	Value *string `json:"value" tf:"value,omitempty"`
 }
 
 type DatabaseInstanceInitParameters struct {
@@ -565,15 +565,15 @@ type DenyMaintenancePeriodParameters struct {
 
 	// "deny maintenance period" end date. If the year of the end date is empty, the year of the start date also must be empty. In this case, it means the no maintenance interval recurs every year. The date is in format yyyy-mm-dd i.e., 2020-11-01, or mm-dd, i.e., 11-01
 	// +kubebuilder:validation:Optional
-	EndDate *string `json:"endDate,omitempty" tf:"end_date,omitempty"`
+	EndDate *string `json:"endDate" tf:"end_date,omitempty"`
 
 	// "deny maintenance period" start date. If the year of the start date is empty, the year of the end date also must be empty. In this case, it means the deny maintenance period recurs every year. The date is in format yyyy-mm-dd i.e., 2020-11-01, or mm-dd, i.e., 11-01
 	// +kubebuilder:validation:Optional
-	StartDate *string `json:"startDate,omitempty" tf:"start_date,omitempty"`
+	StartDate *string `json:"startDate" tf:"start_date,omitempty"`
 
 	// Time in UTC when the "deny maintenance period" starts on startDate and ends on endDate. The time is in format: HH:mm:SS, i.e., 00:00:00
 	// +kubebuilder:validation:Optional
-	Time *string `json:"time,omitempty" tf:"time,omitempty"`
+	Time *string `json:"time" tf:"time,omitempty"`
 }
 
 type IPAddressInitParameters struct {
@@ -882,7 +882,7 @@ type PasswordValidationPolicyParameters struct {
 
 	// Enables or disable the password validation policy.
 	// +kubebuilder:validation:Optional
-	EnablePasswordPolicy *bool `json:"enablePasswordPolicy,omitempty" tf:"enable_password_policy,omitempty"`
+	EnablePasswordPolicy *bool `json:"enablePasswordPolicy" tf:"enable_password_policy,omitempty"`
 
 	// Specifies the minimum number of characters that the password must have.
 	// +kubebuilder:validation:Optional
@@ -1067,7 +1067,7 @@ type RestoreBackupContextParameters struct {
 
 	// The ID of the backup run to restore from.
 	// +kubebuilder:validation:Optional
-	BackupRunID *float64 `json:"backupRunId,omitempty" tf:"backup_run_id,omitempty"`
+	BackupRunID *float64 `json:"backupRunId" tf:"backup_run_id,omitempty"`
 
 	// The ID of the instance that the backup was taken from. If left empty,
 	// this instance's ID will be used.
@@ -1376,7 +1376,7 @@ type SettingsParameters struct {
 	// for more details and supported versions. Postgres supports only shared-core machine types,
 	// and custom machine types such as db-custom-2-13312. See the Custom Machine Type Documentation to learn about specifying custom machine types.
 	// +kubebuilder:validation:Optional
-	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
+	Tier *string `json:"tier" tf:"tier,omitempty"`
 
 	// The time_zone to be used by the database engine (supported only for SQL Server), in SQL Server timezone format.
 	// +kubebuilder:validation:Optional

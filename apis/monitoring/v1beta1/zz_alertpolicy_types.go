@@ -685,7 +685,7 @@ type ConditionAbsentParameters struct {
 	// that unhealthy states are detected and
 	// alerted on quickly.
 	// +kubebuilder:validation:Optional
-	Duration *string `json:"duration,omitempty" tf:"duration,omitempty"`
+	Duration *string `json:"duration" tf:"duration,omitempty"`
 
 	// A filter that identifies which time series
 	// should be compared with the threshold.The
@@ -782,7 +782,7 @@ type ConditionMatchedLogParameters struct {
 	// field may not exceed 2048 Unicode characters
 	// in length.
 	// +kubebuilder:validation:Optional
-	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
+	Filter *string `json:"filter" tf:"filter,omitempty"`
 
 	// A map from a label key to an extractor expression, which is used to
 	// extract the value for this label key. Each entry in this map is
@@ -893,7 +893,7 @@ type ConditionMonitoringQueryLanguageParameters struct {
 	// that unhealthy states are detected and
 	// alerted on quickly.
 	// +kubebuilder:validation:Optional
-	Duration *string `json:"duration,omitempty" tf:"duration,omitempty"`
+	Duration *string `json:"duration" tf:"duration,omitempty"`
 
 	// A condition control that determines how
 	// metric-threshold conditions are evaluated when
@@ -904,7 +904,7 @@ type ConditionMonitoringQueryLanguageParameters struct {
 
 	// Monitoring Query Language query that outputs a boolean stream.
 	// +kubebuilder:validation:Optional
-	Query *string `json:"query,omitempty" tf:"query,omitempty"`
+	Query *string `json:"query" tf:"query,omitempty"`
 
 	// The number/percent of time series for which
 	// the comparison must hold in order for the
@@ -1505,7 +1505,7 @@ type ConditionThresholdParameters struct {
 	// COMPARISON_GT are supported currently.
 	// Possible values are: COMPARISON_GT, COMPARISON_GE, COMPARISON_LT, COMPARISON_LE, COMPARISON_EQ, COMPARISON_NE.
 	// +kubebuilder:validation:Optional
-	Comparison *string `json:"comparison,omitempty" tf:"comparison,omitempty"`
+	Comparison *string `json:"comparison" tf:"comparison,omitempty"`
 
 	// Specifies the alignment of data points in
 	// individual time series selected by
@@ -1561,7 +1561,7 @@ type ConditionThresholdParameters struct {
 	// that unhealthy states are detected and
 	// alerted on quickly.
 	// +kubebuilder:validation:Optional
-	Duration *string `json:"duration,omitempty" tf:"duration,omitempty"`
+	Duration *string `json:"duration" tf:"duration,omitempty"`
 
 	// A condition control that determines how
 	// metric-threshold conditions are evaluated when
@@ -1752,7 +1752,7 @@ type ConditionsParameters struct {
 	// display name for multiple conditions in the same
 	// policy.
 	// +kubebuilder:validation:Optional
-	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
 }
 
 type CreationRecordInitParameters struct {
@@ -2106,7 +2106,7 @@ type ForecastOptionsParameters struct {
 	// forecasts made for the Configured duration,
 	// then the timeseries is considered to be failing.
 	// +kubebuilder:validation:Optional
-	ForecastHorizon *string `json:"forecastHorizon,omitempty" tf:"forecast_horizon,omitempty"`
+	ForecastHorizon *string `json:"forecastHorizon" tf:"forecast_horizon,omitempty"`
 }
 
 type NotificationChannelStrategyInitParameters struct {

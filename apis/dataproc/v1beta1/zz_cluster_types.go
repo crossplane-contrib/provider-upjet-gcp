@@ -47,11 +47,11 @@ type AcceleratorsParameters struct {
 
 	// The number of the accelerator cards of this type exposed to this instance. Often restricted to one of 1, 2, 4, or 8.
 	// +kubebuilder:validation:Optional
-	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
+	AcceleratorCount *float64 `json:"acceleratorCount" tf:"accelerator_count,omitempty"`
 
 	// The short name of the accelerator type to expose to this instance. For example, nvidia-tesla-k80.
 	// +kubebuilder:validation:Optional
-	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
+	AcceleratorType *string `json:"acceleratorType" tf:"accelerator_type,omitempty"`
 }
 
 type AutoscalingConfigInitParameters struct {
@@ -70,7 +70,7 @@ type AutoscalingConfigParameters struct {
 
 	// The autoscaling policy used by the cluster.
 	// +kubebuilder:validation:Optional
-	PolicyURI *string `json:"policyUri,omitempty" tf:"policy_uri,omitempty"`
+	PolicyURI *string `json:"policyUri" tf:"policy_uri,omitempty"`
 }
 
 type AutoscalingInitParameters struct {
@@ -702,7 +702,7 @@ type DataprocMetricConfigParameters struct {
 
 	// Metrics sources to enable.
 	// +kubebuilder:validation:Optional
-	Metrics []MetricsParameters `json:"metrics,omitempty" tf:"metrics,omitempty"`
+	Metrics []MetricsParameters `json:"metrics" tf:"metrics,omitempty"`
 }
 
 type DiskConfigInitParameters struct {
@@ -781,7 +781,7 @@ type EncryptionConfigParameters struct {
 	// The Cloud KMS key name to use for PD disk encryption for
 	// all instances in the cluster.
 	// +kubebuilder:validation:Optional
-	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
 }
 
 type EndpointConfigInitParameters struct {
@@ -807,7 +807,7 @@ type EndpointConfigParameters struct {
 	// The flag to enable http access to specific ports
 	// on the cluster from external sources (aka Component Gateway). Defaults to false.
 	// +kubebuilder:validation:Optional
-	EnableHTTPPortAccess *bool `json:"enableHttpPortAccess,omitempty" tf:"enable_http_port_access,omitempty"`
+	EnableHTTPPortAccess *bool `json:"enableHttpPortAccess" tf:"enable_http_port_access,omitempty"`
 }
 
 type GceClusterConfigInitParameters struct {
@@ -1062,7 +1062,7 @@ type InitializationActionParameters struct {
 	// The script to be executed during initialization of the cluster.
 	// The script must be a GCS file with a gs:// prefix.
 	// +kubebuilder:validation:Optional
-	Script *string `json:"script,omitempty" tf:"script,omitempty"`
+	Script *string `json:"script" tf:"script,omitempty"`
 
 	// The maximum duration (in seconds) which script is
 	// allowed to take to execute its action. GCP will default to a predetermined
@@ -1228,7 +1228,7 @@ type KerberosConfigParameters struct {
 
 	// The URI of the KMS key used to encrypt various sensitive files.
 	// +kubebuilder:validation:Optional
-	KMSKeyURI *string `json:"kmsKeyUri,omitempty" tf:"kms_key_uri,omitempty"`
+	KMSKeyURI *string `json:"kmsKeyUri" tf:"kms_key_uri,omitempty"`
 
 	// The Cloud Storage URI of a KMS encrypted file containing
 	// the master key of the KDC database.
@@ -1260,7 +1260,7 @@ type KerberosConfigParameters struct {
 	// The Cloud Storage URI of a KMS encrypted file
 	// containing the root principal password.
 	// +kubebuilder:validation:Optional
-	RootPrincipalPasswordURI *string `json:"rootPrincipalPasswordUri,omitempty" tf:"root_principal_password_uri,omitempty"`
+	RootPrincipalPasswordURI *string `json:"rootPrincipalPasswordUri" tf:"root_principal_password_uri,omitempty"`
 
 	// The lifetime of the ticket granting ticket, in hours.
 	// +kubebuilder:validation:Optional
@@ -1312,7 +1312,7 @@ type KubernetesClusterConfigParameters struct {
 
 	// The configuration for running the Dataproc cluster on GKE.
 	// +kubebuilder:validation:Optional
-	GkeClusterConfig []GkeClusterConfigParameters `json:"gkeClusterConfig,omitempty" tf:"gke_cluster_config,omitempty"`
+	GkeClusterConfig []GkeClusterConfigParameters `json:"gkeClusterConfig" tf:"gke_cluster_config,omitempty"`
 
 	// A namespace within the Kubernetes cluster to deploy into.
 	// If this namespace does not exist, it is created.
@@ -1323,7 +1323,7 @@ type KubernetesClusterConfigParameters struct {
 
 	// The software configuration for this Dataproc cluster running on Kubernetes.
 	// +kubebuilder:validation:Optional
-	KubernetesSoftwareConfig []KubernetesSoftwareConfigParameters `json:"kubernetesSoftwareConfig,omitempty" tf:"kubernetes_software_config,omitempty"`
+	KubernetesSoftwareConfig []KubernetesSoftwareConfigParameters `json:"kubernetesSoftwareConfig" tf:"kubernetes_software_config,omitempty"`
 }
 
 type KubernetesSoftwareConfigInitParameters struct {
@@ -1353,7 +1353,7 @@ type KubernetesSoftwareConfigParameters struct {
 	// The components that should be installed in this Dataproc cluster. The key must be a string from the
 	// KubernetesComponent enumeration. The value is the version of the software to be installed. At least one entry must be specified.
 	// +kubebuilder:validation:Optional
-	ComponentVersion map[string]*string `json:"componentVersion,omitempty" tf:"component_version,omitempty"`
+	ComponentVersion map[string]*string `json:"componentVersion" tf:"component_version,omitempty"`
 
 	// The properties to set on daemon config files. Property keys are specified in prefix:property format,
 	// for example spark:spark.kubernetes.container.image.
@@ -1513,7 +1513,7 @@ type MetastoreConfigParameters struct {
 
 	// Resource name of an existing Dataproc Metastore service.
 	// +kubebuilder:validation:Optional
-	DataprocMetastoreService *string `json:"dataprocMetastoreService,omitempty" tf:"dataproc_metastore_service,omitempty"`
+	DataprocMetastoreService *string `json:"dataprocMetastoreService" tf:"dataproc_metastore_service,omitempty"`
 }
 
 type MetricsInitParameters struct {
@@ -1542,7 +1542,7 @@ type MetricsParameters struct {
 
 	// A source for the collection of Dataproc OSS metrics (see available OSS metrics).
 	// +kubebuilder:validation:Optional
-	MetricSource *string `json:"metricSource,omitempty" tf:"metric_source,omitempty"`
+	MetricSource *string `json:"metricSource" tf:"metric_source,omitempty"`
 }
 
 type NodeGroupAffinityInitParameters struct {
@@ -1561,7 +1561,7 @@ type NodeGroupAffinityParameters struct {
 
 	// The URI of a sole-tenant node group resource that the cluster will be created on.
 	// +kubebuilder:validation:Optional
-	NodeGroupURI *string `json:"nodeGroupUri,omitempty" tf:"node_group_uri,omitempty"`
+	NodeGroupURI *string `json:"nodeGroupUri" tf:"node_group_uri,omitempty"`
 }
 
 type NodePoolConfigInitParameters struct {
@@ -1606,7 +1606,7 @@ type NodePoolConfigParameters struct {
 	// The list of Compute Engine zones where node pool nodes associated
 	// with a Dataproc on GKE virtual cluster will be located.
 	// +kubebuilder:validation:Optional
-	Locations []*string `json:"locations,omitempty" tf:"locations,omitempty"`
+	Locations []*string `json:"locations" tf:"locations,omitempty"`
 }
 
 type NodePoolTargetInitParameters struct {
@@ -1645,7 +1645,7 @@ type NodePoolTargetParameters struct {
 
 	// The target GKE node pool.
 	// +kubebuilder:validation:Optional
-	NodePool *string `json:"nodePool,omitempty" tf:"node_pool,omitempty"`
+	NodePool *string `json:"nodePool" tf:"node_pool,omitempty"`
 
 	// (Input only) The configuration for the GKE node pool.
 	// If specified, Dataproc attempts to create a node pool with the specified shape.
@@ -1657,7 +1657,7 @@ type NodePoolTargetParameters struct {
 	// The roles associated with the GKE node pool.
 	// One of "DEFAULT", "CONTROLLER", "SPARK_DRIVER" or "SPARK_EXECUTOR".
 	// +kubebuilder:validation:Optional
-	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
+	Roles []*string `json:"roles" tf:"roles,omitempty"`
 }
 
 type PreemptibleWorkerConfigDiskConfigInitParameters struct {
@@ -1821,7 +1821,7 @@ type SecurityConfigParameters struct {
 
 	// Kerberos Configuration
 	// +kubebuilder:validation:Optional
-	KerberosConfig []KerberosConfigParameters `json:"kerberosConfig,omitempty" tf:"kerberos_config,omitempty"`
+	KerberosConfig []KerberosConfigParameters `json:"kerberosConfig" tf:"kerberos_config,omitempty"`
 }
 
 type ShieldedInstanceConfigInitParameters struct {
@@ -2031,11 +2031,11 @@ type WorkerConfigAcceleratorsParameters struct {
 
 	// The number of the accelerator cards of this type exposed to this instance. Often restricted to one of 1, 2, 4, or 8.
 	// +kubebuilder:validation:Optional
-	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
+	AcceleratorCount *float64 `json:"acceleratorCount" tf:"accelerator_count,omitempty"`
 
 	// The short name of the accelerator type to expose to this instance. For example, nvidia-tesla-k80.
 	// +kubebuilder:validation:Optional
-	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
+	AcceleratorType *string `json:"acceleratorType" tf:"accelerator_type,omitempty"`
 }
 
 type WorkerConfigDiskConfigInitParameters struct {

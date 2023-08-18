@@ -41,7 +41,7 @@ type CustomerManagedEncryptionParameters struct {
 
 	// Describes the Cloud KMS encryption key that will be used to protect destination secret.
 	// +kubebuilder:validation:Optional
-	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
 }
 
 type ReplicasInitParameters struct {
@@ -73,7 +73,7 @@ type ReplicasParameters struct {
 
 	// The canonical IDs of the location to replicate data. For example: "us-east1".
 	// +kubebuilder:validation:Optional
-	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+	Location *string `json:"location" tf:"location,omitempty"`
 }
 
 type ReplicationInitParameters struct {
@@ -293,7 +293,7 @@ type TopicsParameters struct {
 	// The resource name of the Pub/Sub topic that will be published to, in the following format: projects//topics/.
 	// For publication to succeed, the Secret Manager Service Agent service account must have pubsub.publisher permissions on the topic.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type UserManagedInitParameters struct {
@@ -315,7 +315,7 @@ type UserManagedParameters struct {
 	// The list of Replicas for this Secret. Cannot be empty.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Replicas []ReplicasParameters `json:"replicas,omitempty" tf:"replicas,omitempty"`
+	Replicas []ReplicasParameters `json:"replicas" tf:"replicas,omitempty"`
 }
 
 // SecretSpec defines the desired state of Secret

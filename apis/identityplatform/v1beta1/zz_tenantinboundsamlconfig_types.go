@@ -89,11 +89,11 @@ type TenantInboundSAMLConfigIdPConfigParameters struct {
 	// The IDP's certificate data to verify the signature in the SAMLResponse issued by the IDP.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	IdPCertificates []IdPConfigIdPCertificatesParameters `json:"idpCertificates,omitempty" tf:"idp_certificates,omitempty"`
+	IdPCertificates []IdPConfigIdPCertificatesParameters `json:"idpCertificates" tf:"idp_certificates,omitempty"`
 
 	// Unique identifier for all SAML entities
 	// +kubebuilder:validation:Optional
-	IdPEntityID *string `json:"idpEntityId,omitempty" tf:"idp_entity_id,omitempty"`
+	IdPEntityID *string `json:"idpEntityId" tf:"idp_entity_id,omitempty"`
 
 	// Indicates if outbounding SAMLRequest should be signed.
 	// +kubebuilder:validation:Optional
@@ -101,7 +101,7 @@ type TenantInboundSAMLConfigIdPConfigParameters struct {
 
 	// URL to send Authentication request to.
 	// +kubebuilder:validation:Optional
-	SsoURL *string `json:"ssoUrl,omitempty" tf:"sso_url,omitempty"`
+	SsoURL *string `json:"ssoUrl" tf:"sso_url,omitempty"`
 }
 
 type TenantInboundSAMLConfigInitParameters struct {
@@ -238,11 +238,11 @@ type TenantInboundSAMLConfigSpConfigParameters struct {
 
 	// Callback URI where responses from IDP are handled. Must start with https://.
 	// +kubebuilder:validation:Optional
-	CallbackURI *string `json:"callbackUri,omitempty" tf:"callback_uri,omitempty"`
+	CallbackURI *string `json:"callbackUri" tf:"callback_uri,omitempty"`
 
 	// Unique identifier for all SAML entities.
 	// +kubebuilder:validation:Optional
-	SpEntityID *string `json:"spEntityId,omitempty" tf:"sp_entity_id,omitempty"`
+	SpEntityID *string `json:"spEntityId" tf:"sp_entity_id,omitempty"`
 }
 
 // TenantInboundSAMLConfigSpec defines the desired state of TenantInboundSAMLConfig

@@ -44,7 +44,7 @@ type AuthorityParameters struct {
 	// A JSON Web Token (JWT) issuer URI. issuer must start with https:// and // be a valid
 	// with length <2000 characters. For example: https://container.googleapis.com/v1/projects/my-project/locations/us-west1/clusters/my-cluster (must be locations rather than zones).googleapis.com/v1/${google_container_cluster.my-cluster.id}".
 	// +kubebuilder:validation:Optional
-	Issuer *string `json:"issuer,omitempty" tf:"issuer,omitempty"`
+	Issuer *string `json:"issuer" tf:"issuer,omitempty"`
 }
 
 type EndpointInitParameters struct {

@@ -50,7 +50,7 @@ type BigqueryOptionsParameters struct {
 	// tables the date suffix is no longer present and special query syntax
 	// has to be used instead. In both cases, tables are sharded based on UTC timezone.
 	// +kubebuilder:validation:Optional
-	UsePartitionedTables *bool `json:"usePartitionedTables,omitempty" tf:"use_partitioned_tables,omitempty"`
+	UsePartitionedTables *bool `json:"usePartitionedTables" tf:"use_partitioned_tables,omitempty"`
 }
 
 type ExclusionsInitParameters struct {
@@ -98,11 +98,11 @@ type ExclusionsParameters struct {
 	// An advanced logs filter that matches the log entries to be excluded. By using the sample function, you can exclude less than 100% of the matching log entries. See Advanced Log Filters for information on how to
 	// write a filter.
 	// +kubebuilder:validation:Optional
-	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
+	Filter *string `json:"filter" tf:"filter,omitempty"`
 
 	// A client-assigned identifier, such as load-balancer-exclusion. Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. First character has to be alphanumeric.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type ProjectSinkInitParameters struct {

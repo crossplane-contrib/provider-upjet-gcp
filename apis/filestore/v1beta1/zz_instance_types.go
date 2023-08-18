@@ -64,7 +64,7 @@ type FileSharesParameters struct {
 	// File share capacity in GiB. This must be at least 1024 GiB
 	// for the standard tier, or 2560 GiB for the premium tier.
 	// +kubebuilder:validation:Optional
-	CapacityGb *float64 `json:"capacityGb,omitempty" tf:"capacity_gb,omitempty"`
+	CapacityGb *float64 `json:"capacityGb" tf:"capacity_gb,omitempty"`
 
 	// Nfs Export Options. There is a limit of 10 export options per file share.
 	// Structure is documented below.
@@ -73,7 +73,7 @@ type FileSharesParameters struct {
 
 	// The name of the fileshare (16 characters or less)
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type InstanceInitParameters struct {
@@ -366,12 +366,12 @@ type NetworksParameters struct {
 	// IP addresses assigned.
 	// Each value may be one of: ADDRESS_MODE_UNSPECIFIED, MODE_IPV4, MODE_IPV6.
 	// +kubebuilder:validation:Optional
-	Modes []*string `json:"modes,omitempty" tf:"modes,omitempty"`
+	Modes []*string `json:"modes" tf:"modes,omitempty"`
 
 	// The name of the GCE VPC network to which the
 	// instance is connected.
 	// +kubebuilder:validation:Optional
-	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+	Network *string `json:"network" tf:"network,omitempty"`
 
 	// A /29 CIDR block that identifies the range of IP
 	// addresses reserved for this instance.

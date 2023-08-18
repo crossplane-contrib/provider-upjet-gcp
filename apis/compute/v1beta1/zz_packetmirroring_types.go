@@ -339,7 +339,7 @@ type SubnetworksParameters struct {
 
 	// The URL of the subnetwork where this rule should be active.
 	// +kubebuilder:validation:Optional
-	URL *string `json:"url,omitempty" tf:"url,omitempty"`
+	URL *string `json:"url" tf:"url,omitempty"`
 }
 
 // PacketMirroringSpec defines the desired state of PacketMirroring

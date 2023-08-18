@@ -56,7 +56,7 @@ type AutoscalingMetricsCollectionParameters struct {
 
 	// The frequency at which EC2 Auto Scaling sends aggregated data to AWS CloudWatch. The only valid value is "1Minute".
 	// +kubebuilder:validation:Optional
-	Granularity *string `json:"granularity,omitempty" tf:"granularity,omitempty"`
+	Granularity *string `json:"granularity" tf:"granularity,omitempty"`
 
 	// The metrics to enable. For a list of valid metrics, see https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_EnableMetricsCollection.html. If you specify granularity and don't specify any metrics, all metrics are enabled.
 	// +kubebuilder:validation:Optional
@@ -76,11 +76,11 @@ type AutoscalingParameters struct {
 
 	// Maximum number of nodes in the NodePool. Must be >= min_node_count.
 	// +kubebuilder:validation:Optional
-	MaxNodeCount *float64 `json:"maxNodeCount,omitempty" tf:"max_node_count,omitempty"`
+	MaxNodeCount *float64 `json:"maxNodeCount" tf:"max_node_count,omitempty"`
 
 	// Minimum number of nodes in the NodePool. Must be >= 1 and <= max_node_count.
 	// +kubebuilder:validation:Optional
-	MinNodeCount *float64 `json:"minNodeCount,omitempty" tf:"min_node_count,omitempty"`
+	MinNodeCount *float64 `json:"minNodeCount" tf:"min_node_count,omitempty"`
 }
 
 type ConfigConfigEncryptionInitParameters struct {
@@ -99,7 +99,7 @@ type ConfigConfigEncryptionParameters struct {
 
 	// Optional. The Amazon Resource Name (ARN) of the Customer Managed Key (CMK) used to encrypt AWS EBS volumes. If not specified, the default Amazon managed key associated to the AWS region where this cluster runs will be used.
 	// +kubebuilder:validation:Optional
-	KMSKeyArn *string `json:"kmsKeyArn,omitempty" tf:"kms_key_arn,omitempty"`
+	KMSKeyArn *string `json:"kmsKeyArn" tf:"kms_key_arn,omitempty"`
 }
 
 type ConfigInitParameters struct {
@@ -182,11 +182,11 @@ type ConfigParameters struct {
 
 	// The ARN of the AWS KMS key used to encrypt node pool configuration.
 	// +kubebuilder:validation:Optional
-	ConfigEncryption []ConfigConfigEncryptionParameters `json:"configEncryption,omitempty" tf:"config_encryption,omitempty"`
+	ConfigEncryption []ConfigConfigEncryptionParameters `json:"configEncryption" tf:"config_encryption,omitempty"`
 
 	// The name of the AWS IAM role assigned to nodes in the pool.
 	// +kubebuilder:validation:Optional
-	IAMInstanceProfile *string `json:"iamInstanceProfile,omitempty" tf:"iam_instance_profile,omitempty"`
+	IAMInstanceProfile *string `json:"iamInstanceProfile" tf:"iam_instance_profile,omitempty"`
 
 	// Optional. The AWS instance type. When unspecified, it defaults to m5.large.
 	// +kubebuilder:validation:Optional
@@ -243,11 +243,11 @@ type ConfigProxyConfigParameters struct {
 
 	// The ARN of the AWS Secret Manager secret that contains the HTTP(S) proxy configuration.
 	// +kubebuilder:validation:Optional
-	SecretArn *string `json:"secretArn,omitempty" tf:"secret_arn,omitempty"`
+	SecretArn *string `json:"secretArn" tf:"secret_arn,omitempty"`
 
 	// The version string of the AWS Secret Manager secret that contains the HTTP(S) proxy configuration.
 	// +kubebuilder:validation:Optional
-	SecretVersion *string `json:"secretVersion,omitempty" tf:"secret_version,omitempty"`
+	SecretVersion *string `json:"secretVersion" tf:"secret_version,omitempty"`
 }
 
 type ConfigRootVolumeInitParameters struct {
@@ -315,7 +315,7 @@ type ConfigSSHConfigParameters struct {
 
 	// The name of the EC2 key pair used to login into cluster machines.
 	// +kubebuilder:validation:Optional
-	EC2KeyPair *string `json:"ec2KeyPair,omitempty" tf:"ec2_key_pair,omitempty"`
+	EC2KeyPair *string `json:"ec2KeyPair" tf:"ec2_key_pair,omitempty"`
 }
 
 type MaxPodsConstraintInitParameters struct {
@@ -334,7 +334,7 @@ type MaxPodsConstraintParameters struct {
 
 	// The maximum number of pods to schedule on a single node.
 	// +kubebuilder:validation:Optional
-	MaxPodsPerNode *float64 `json:"maxPodsPerNode,omitempty" tf:"max_pods_per_node,omitempty"`
+	MaxPodsPerNode *float64 `json:"maxPodsPerNode" tf:"max_pods_per_node,omitempty"`
 }
 
 type NodePoolInitParameters struct {
@@ -488,15 +488,15 @@ type TaintsParameters struct {
 
 	// The taint effect. Possible values: EFFECT_UNSPECIFIED, NO_SCHEDULE, PREFER_NO_SCHEDULE, NO_EXECUTE
 	// +kubebuilder:validation:Optional
-	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
+	Effect *string `json:"effect" tf:"effect,omitempty"`
 
 	// Key for the taint.
 	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+	Key *string `json:"key" tf:"key,omitempty"`
 
 	// Value for the taint.
 	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+	Value *string `json:"value" tf:"value,omitempty"`
 }
 
 // NodePoolSpec defines the desired state of NodePool

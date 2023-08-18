@@ -181,7 +181,7 @@ type VersionTemplateParameters struct {
 	// The algorithm to use when creating a version based on this template.
 	// See the algorithm reference for possible inputs.
 	// +kubebuilder:validation:Optional
-	Algorithm *string `json:"algorithm,omitempty" tf:"algorithm,omitempty"`
+	Algorithm *string `json:"algorithm" tf:"algorithm,omitempty"`
 
 	// The protection level to use when creating a version based on this template. Possible values include "SOFTWARE", "HSM", "EXTERNAL", "EXTERNAL_VPC". Defaults to "SOFTWARE".
 	// +kubebuilder:validation:Optional

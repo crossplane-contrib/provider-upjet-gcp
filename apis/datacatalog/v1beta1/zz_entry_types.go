@@ -288,7 +288,7 @@ type GcsFilesetSpecParameters struct {
 	// See Cloud Storage documentation
 	// for more information. Note that bucket wildcards are currently not supported. Examples of valid filePatterns:
 	// +kubebuilder:validation:Optional
-	FilePatterns []*string `json:"filePatterns,omitempty" tf:"file_patterns,omitempty"`
+	FilePatterns []*string `json:"filePatterns" tf:"file_patterns,omitempty"`
 }
 
 type SampleGcsFileSpecsInitParameters struct {

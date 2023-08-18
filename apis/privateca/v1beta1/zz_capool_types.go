@@ -55,16 +55,16 @@ type AdditionalExtensionsParameters struct {
 
 	// Indicates whether or not the name constraints are marked critical.
 	// +kubebuilder:validation:Optional
-	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
+	Critical *bool `json:"critical" tf:"critical,omitempty"`
 
 	// Describes values that are relevant in a CA certificate.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	ObjectID []ObjectIDParameters `json:"objectId,omitempty" tf:"object_id,omitempty"`
+	ObjectID []ObjectIDParameters `json:"objectId" tf:"object_id,omitempty"`
 
 	// The value of this X.509 extension. A base64-encoded string.
 	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+	Value *string `json:"value" tf:"value,omitempty"`
 }
 
 type AllowedIssuanceModesInitParameters struct {
@@ -89,11 +89,11 @@ type AllowedIssuanceModesParameters struct {
 
 	// When true, allows callers to create Certificates by specifying a CertificateConfig.
 	// +kubebuilder:validation:Optional
-	AllowConfigBasedIssuance *bool `json:"allowConfigBasedIssuance,omitempty" tf:"allow_config_based_issuance,omitempty"`
+	AllowConfigBasedIssuance *bool `json:"allowConfigBasedIssuance" tf:"allow_config_based_issuance,omitempty"`
 
 	// When true, allows callers to create Certificates by specifying a CSR.
 	// +kubebuilder:validation:Optional
-	AllowCsrBasedIssuance *bool `json:"allowCsrBasedIssuance,omitempty" tf:"allow_csr_based_issuance,omitempty"`
+	AllowCsrBasedIssuance *bool `json:"allowCsrBasedIssuance" tf:"allow_csr_based_issuance,omitempty"`
 }
 
 type AllowedKeyTypesInitParameters struct {
@@ -299,12 +299,12 @@ type BaselineValuesParameters struct {
 	// Describes values that are relevant in a CA certificate.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	CAOptions []CAOptionsParameters `json:"caOptions,omitempty" tf:"ca_options,omitempty"`
+	CAOptions []CAOptionsParameters `json:"caOptions" tf:"ca_options,omitempty"`
 
 	// Indicates the intended use for keys that correspond to a certificate.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	KeyUsage []KeyUsageParameters `json:"keyUsage,omitempty" tf:"key_usage,omitempty"`
+	KeyUsage []KeyUsageParameters `json:"keyUsage" tf:"key_usage,omitempty"`
 
 	// Describes the X.509 name constraints extension.
 	// Structure is documented below.
@@ -503,7 +503,7 @@ type CelExpressionParameters struct {
 
 	// Textual representation of an expression in Common Expression Language syntax.
 	// +kubebuilder:validation:Optional
-	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+	Expression *string `json:"expression" tf:"expression,omitempty"`
 
 	// Location of the CaPool. A full list of valid locations can be found by
 	// running gcloud privateca locations list.
@@ -534,7 +534,7 @@ type EllipticCurveParameters struct {
 	// The algorithm used.
 	// Possible values are: ECDSA_P256, ECDSA_P384, EDDSA_25519.
 	// +kubebuilder:validation:Optional
-	SignatureAlgorithm *string `json:"signatureAlgorithm,omitempty" tf:"signature_algorithm,omitempty"`
+	SignatureAlgorithm *string `json:"signatureAlgorithm" tf:"signature_algorithm,omitempty"`
 }
 
 type ExtendedKeyUsageInitParameters struct {
@@ -645,12 +645,12 @@ type IdentityConstraintsParameters struct {
 	// If this is set, the SubjectAltNames extension may be copied from a certificate request into the signed certificate.
 	// Otherwise, the requested SubjectAltNames will be discarded.
 	// +kubebuilder:validation:Optional
-	AllowSubjectAltNamesPassthrough *bool `json:"allowSubjectAltNamesPassthrough,omitempty" tf:"allow_subject_alt_names_passthrough,omitempty"`
+	AllowSubjectAltNamesPassthrough *bool `json:"allowSubjectAltNamesPassthrough" tf:"allow_subject_alt_names_passthrough,omitempty"`
 
 	// If this is set, the Subject field may be copied from a certificate request into the signed certificate.
 	// Otherwise, the requested Subject will be discarded.
 	// +kubebuilder:validation:Optional
-	AllowSubjectPassthrough *bool `json:"allowSubjectPassthrough,omitempty" tf:"allow_subject_passthrough,omitempty"`
+	AllowSubjectPassthrough *bool `json:"allowSubjectPassthrough" tf:"allow_subject_passthrough,omitempty"`
 
 	// A CEL expression that may be used to validate the resolved X.509 Subject and/or Subject Alternative Name before a
 	// certificate is signed. To see the full allowed syntax and some examples,
@@ -784,12 +784,12 @@ type KeyUsageParameters struct {
 	// Describes high-level ways in which a key may be used.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	BaseKeyUsage []BaseKeyUsageParameters `json:"baseKeyUsage,omitempty" tf:"base_key_usage,omitempty"`
+	BaseKeyUsage []BaseKeyUsageParameters `json:"baseKeyUsage" tf:"base_key_usage,omitempty"`
 
 	// Describes high-level ways in which a key may be used.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	ExtendedKeyUsage []ExtendedKeyUsageParameters `json:"extendedKeyUsage,omitempty" tf:"extended_key_usage,omitempty"`
+	ExtendedKeyUsage []ExtendedKeyUsageParameters `json:"extendedKeyUsage" tf:"extended_key_usage,omitempty"`
 
 	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	// Structure is documented below.
@@ -909,7 +909,7 @@ type NameConstraintsParameters struct {
 
 	// Indicates whether or not the name constraints are marked critical.
 	// +kubebuilder:validation:Optional
-	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
+	Critical *bool `json:"critical" tf:"critical,omitempty"`
 
 	// Contains excluded DNS names. Any DNS name that can be
 	// constructed by simply adding zero or more labels to
@@ -984,7 +984,7 @@ type ObjectIDParameters struct {
 
 	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	// +kubebuilder:validation:Optional
-	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
+	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }
 
 type PolicyIdsInitParameters struct {
@@ -1003,7 +1003,7 @@ type PolicyIdsParameters struct {
 
 	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	// +kubebuilder:validation:Optional
-	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
+	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }
 
 type PublishingOptionsInitParameters struct {
@@ -1040,14 +1040,14 @@ type PublishingOptionsParameters struct {
 	// X.509 extension in all issued Certificates. If this is false, the CA certificate will not be published and the corresponding
 	// X.509 extension will not be written in issued certificates.
 	// +kubebuilder:validation:Optional
-	PublishCACert *bool `json:"publishCaCert,omitempty" tf:"publish_ca_cert,omitempty"`
+	PublishCACert *bool `json:"publishCaCert" tf:"publish_ca_cert,omitempty"`
 
 	// When true, publishes each CertificateAuthority's CRL and includes its URL in the "CRL Distribution Points" X.509 extension
 	// in all issued Certificates. If this is false, CRLs will not be published and the corresponding X.509 extension will not
 	// be written in issued certificates. CRLs will expire 7 days from their creation. However, we will rebuild daily. CRLs are
 	// also rebuilt shortly after a certificate is revoked.
 	// +kubebuilder:validation:Optional
-	PublishCrl *bool `json:"publishCrl,omitempty" tf:"publish_crl,omitempty"`
+	PublishCrl *bool `json:"publishCrl" tf:"publish_crl,omitempty"`
 }
 
 type RsaInitParameters struct {
@@ -1101,7 +1101,7 @@ type UnknownExtendedKeyUsagesParameters struct {
 
 	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	// +kubebuilder:validation:Optional
-	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
+	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }
 
 // CAPoolSpec defines the desired state of CAPool

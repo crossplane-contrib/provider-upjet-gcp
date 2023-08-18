@@ -162,7 +162,7 @@ type BasicParameters struct {
 	// A set of requirements for the AccessLevel to be granted.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Conditions []ConditionsParameters `json:"conditions,omitempty" tf:"conditions,omitempty"`
+	Conditions []ConditionsParameters `json:"conditions" tf:"conditions,omitempty"`
 }
 
 type ConditionsInitParameters struct {
@@ -337,7 +337,7 @@ type CustomParameters struct {
 	// custom access levels - https://cloud.google.com/access-context-manager/docs/custom-access-level-spec.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Expr []ExprParameters `json:"expr,omitempty" tf:"expr,omitempty"`
+	Expr []ExprParameters `json:"expr" tf:"expr,omitempty"`
 }
 
 type DevicePolicyInitParameters struct {
@@ -468,7 +468,7 @@ type ExprParameters struct {
 
 	// Textual representation of an expression in Common Expression Language syntax.
 	// +kubebuilder:validation:Optional
-	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+	Expression *string `json:"expression" tf:"expression,omitempty"`
 
 	// String indicating the location of the expression for error reporting, e.g. a file name and a position in the file
 	// +kubebuilder:validation:Optional
@@ -520,7 +520,7 @@ type OsConstraintsParameters struct {
 	// The operating system type of the device.
 	// Possible values are: OS_UNSPECIFIED, DESKTOP_MAC, DESKTOP_WINDOWS, DESKTOP_LINUX, DESKTOP_CHROME_OS, ANDROID, IOS.
 	// +kubebuilder:validation:Optional
-	OsType *string `json:"osType,omitempty" tf:"os_type,omitempty"`
+	OsType *string `json:"osType" tf:"os_type,omitempty"`
 
 	// If you specify DESKTOP_CHROME_OS for osType, you can optionally include requireVerifiedChromeOs to require Chrome Verified Access.
 	// +kubebuilder:validation:Optional

@@ -68,11 +68,11 @@ type ConsumerAcceptListsParameters struct {
 	// The number of consumer forwarding rules the consumer project can
 	// create.
 	// +kubebuilder:validation:Optional
-	ConnectionLimit *float64 `json:"connectionLimit,omitempty" tf:"connection_limit,omitempty"`
+	ConnectionLimit *float64 `json:"connectionLimit" tf:"connection_limit,omitempty"`
 
 	// A project that is allowed to connect to this service attachment.
 	// +kubebuilder:validation:Optional
-	ProjectIDOrNum *string `json:"projectIdOrNum,omitempty" tf:"project_id_or_num,omitempty"`
+	ProjectIDOrNum *string `json:"projectIdOrNum" tf:"project_id_or_num,omitempty"`
 }
 
 type ServiceAttachmentInitParameters struct {

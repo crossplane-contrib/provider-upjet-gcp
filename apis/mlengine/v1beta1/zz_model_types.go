@@ -41,7 +41,7 @@ type DefaultVersionParameters struct {
 
 	// The name specified for the version when it was created.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type ModelInitParameters struct {

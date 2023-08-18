@@ -144,7 +144,7 @@ type AliasIPRangeParameters struct {
 	// system or used by other network interfaces. This range may be a single IP address
 	// (e.g. 10.2.3.4), a netmask (e.g. /24) or a CIDR format string (e.g. 10.1.2.0/24).
 	// +kubebuilder:validation:Optional
-	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range,omitempty"`
+	IPCidrRange *string `json:"ipCidrRange" tf:"ip_cidr_range,omitempty"`
 
 	// The subnetwork secondary range name specifying
 	// the secondary range from which to allocate the IP CIDR range for this alias IP
@@ -278,7 +278,7 @@ type ConfidentialInstanceConfigParameters struct {
 
 	// Defines whether the instance should have confidential compute enabled. on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
 	// +kubebuilder:validation:Optional
-	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
+	EnableConfidentialCompute *bool `json:"enableConfidentialCompute" tf:"enable_confidential_compute,omitempty"`
 }
 
 type GuestAcceleratorInitParameters struct {
@@ -345,7 +345,7 @@ type IPv6AccessConfigParameters struct {
 	// The service-level to be provided for IPv6 traffic when the
 	// subnet has an external subnet. Only PREMIUM or STANDARD tier is valid for IPv6.
 	// +kubebuilder:validation:Optional
-	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
+	NetworkTier *string `json:"networkTier" tf:"network_tier,omitempty"`
 
 	// The domain name to be used when creating DNSv6
 	// records for the external IPv6 ranges..
@@ -503,7 +503,7 @@ type InstanceAttachedDiskParameters struct {
 
 	// The name or self_link of the disk to attach to this instance.
 	// +kubebuilder:validation:Optional
-	Source *string `json:"source,omitempty" tf:"source,omitempty"`
+	Source *string `json:"source" tf:"source,omitempty"`
 }
 
 type InstanceInitParameters struct {
@@ -1127,16 +1127,16 @@ type NodeAffinitiesParameters struct {
 
 	// Corresponds to the label key of a reservation resource. To target a SPECIFIC_RESERVATION by name, specify compute.googleapis.com/reservation-name as the key and specify the name of your reservation as the only value.
 	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+	Key *string `json:"key" tf:"key,omitempty"`
 
 	// The operator. Can be IN for node-affinities
 	// or NOT_IN for anti-affinities.
 	// +kubebuilder:validation:Optional
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+	Operator *string `json:"operator" tf:"operator,omitempty"`
 
 	// Corresponds to the label values of a reservation resource.
 	// +kubebuilder:validation:Optional
-	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
+	Values []*string `json:"values" tf:"values,omitempty"`
 }
 
 type ReservationAffinityInitParameters struct {
@@ -1168,7 +1168,7 @@ type ReservationAffinityParameters struct {
 
 	// The type of reservation from which this instance can consume resources.
 	// +kubebuilder:validation:Optional
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type SchedulingInitParameters struct {
@@ -1313,7 +1313,7 @@ type ScratchDiskParameters struct {
 
 	// The disk interface to use for attaching this disk; either SCSI or NVME.
 	// +kubebuilder:validation:Optional
-	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
+	Interface *string `json:"interface" tf:"interface,omitempty"`
 
 	// The size of the image in gigabytes. If not specified, it
 	// will inherit the size of its base image.
@@ -1365,7 +1365,7 @@ type ServiceAccountParameters struct {
 	// cloud-platform scope. See a complete list of scopes here.
 	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
 	// +kubebuilder:validation:Optional
-	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
+	Scopes []*string `json:"scopes" tf:"scopes,omitempty"`
 }
 
 type ShieldedInstanceConfigInitParameters struct {
@@ -1438,11 +1438,11 @@ type SpecificReservationParameters struct {
 
 	// Corresponds to the label key of a reservation resource. To target a SPECIFIC_RESERVATION by name, specify compute.googleapis.com/reservation-name as the key and specify the name of your reservation as the only value.
 	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+	Key *string `json:"key" tf:"key,omitempty"`
 
 	// Corresponds to the label values of a reservation resource.
 	// +kubebuilder:validation:Optional
-	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
+	Values []*string `json:"values" tf:"values,omitempty"`
 }
 
 // InstanceSpec defines the desired state of Instance

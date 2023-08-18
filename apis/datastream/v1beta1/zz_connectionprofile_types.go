@@ -205,7 +205,7 @@ type ForwardSSHConnectivityParameters struct {
 
 	// Hostname for the SSH tunnel.
 	// +kubebuilder:validation:Optional
-	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+	Hostname *string `json:"hostname" tf:"hostname,omitempty"`
 
 	// SSH password.
 	// Note: This property is sensitive and will not be displayed in the plan.
@@ -223,7 +223,7 @@ type ForwardSSHConnectivityParameters struct {
 
 	// Username for the SSH tunnel.
 	// +kubebuilder:validation:Optional
-	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+	Username *string `json:"username" tf:"username,omitempty"`
 }
 
 type GcsProfileInitParameters struct {
@@ -248,7 +248,7 @@ type GcsProfileParameters struct {
 
 	// The Cloud Storage bucket name.
 	// +kubebuilder:validation:Optional
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
 
 	// The root path inside the Cloud Storage bucket.
 	// +kubebuilder:validation:Optional
@@ -291,7 +291,7 @@ type MySQLProfileParameters struct {
 
 	// Hostname for the MySQL connection.
 	// +kubebuilder:validation:Optional
-	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+	Hostname *string `json:"hostname" tf:"hostname,omitempty"`
 
 	// Password for the MySQL connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
@@ -309,7 +309,7 @@ type MySQLProfileParameters struct {
 
 	// Username for the MySQL connection.
 	// +kubebuilder:validation:Optional
-	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+	Username *string `json:"username" tf:"username,omitempty"`
 }
 
 type OracleProfileInitParameters struct {
@@ -356,11 +356,11 @@ type OracleProfileParameters struct {
 
 	// Database for the Oracle connection.
 	// +kubebuilder:validation:Optional
-	DatabaseService *string `json:"databaseService,omitempty" tf:"database_service,omitempty"`
+	DatabaseService *string `json:"databaseService" tf:"database_service,omitempty"`
 
 	// Hostname for the Oracle connection.
 	// +kubebuilder:validation:Optional
-	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+	Hostname *string `json:"hostname" tf:"hostname,omitempty"`
 
 	// Password for the Oracle connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
@@ -373,7 +373,7 @@ type OracleProfileParameters struct {
 
 	// Username for the Oracle connection.
 	// +kubebuilder:validation:Optional
-	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+	Username *string `json:"username" tf:"username,omitempty"`
 }
 
 type PostgresqlProfileInitParameters struct {

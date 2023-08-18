@@ -44,7 +44,7 @@ type ManagedParameters struct {
 	// Domains for which a managed SSL certificate will be valid.  Currently,
 	// there can be up to 100 domains in this list.
 	// +kubebuilder:validation:Optional
-	Domains []*string `json:"domains,omitempty" tf:"domains,omitempty"`
+	Domains []*string `json:"domains" tf:"domains,omitempty"`
 }
 
 type ManagedSSLCertificateInitParameters struct {

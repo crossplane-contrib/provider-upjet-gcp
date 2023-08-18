@@ -41,7 +41,7 @@ type AdminUsersParameters struct {
 
 	// The name of the user, e.g. my-gcp-id@gmail.com.
 	// +kubebuilder:validation:Optional
-	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+	Username *string `json:"username" tf:"username,omitempty"`
 }
 
 type AuthorizationInitParameters struct {
@@ -60,7 +60,7 @@ type AuthorizationParameters struct {
 
 	// Users to perform operations as a cluster admin. A managed ClusterRoleBinding will be created to grant the cluster-admin ClusterRole to the users. Up to ten admin users can be provided. For more info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
 	// +kubebuilder:validation:Optional
-	AdminUsers []AdminUsersParameters `json:"adminUsers,omitempty" tf:"admin_users,omitempty"`
+	AdminUsers []AdminUsersParameters `json:"adminUsers" tf:"admin_users,omitempty"`
 }
 
 type AwsServicesAuthenticationInitParameters struct {
@@ -85,7 +85,7 @@ type AwsServicesAuthenticationParameters struct {
 
 	// The Amazon Resource Name (ARN) of the role that the Anthos Multi-Cloud API will assume when managing AWS resources on your account.
 	// +kubebuilder:validation:Optional
-	RoleArn *string `json:"roleArn,omitempty" tf:"role_arn,omitempty"`
+	RoleArn *string `json:"roleArn" tf:"role_arn,omitempty"`
 
 	// Optional. An identifier for the assumed role session. When unspecified, it defaults to multicloud-service-agent.
 	// +kubebuilder:validation:Optional
@@ -231,7 +231,7 @@ type ConfigEncryptionParameters struct {
 
 	// Optional. The Amazon Resource Name (ARN) of the Customer Managed Key (CMK) used to encrypt AWS EBS volumes. If not specified, the default Amazon managed key associated to the AWS region where this cluster runs will be used.
 	// +kubebuilder:validation:Optional
-	KMSKeyArn *string `json:"kmsKeyArn,omitempty" tf:"kms_key_arn,omitempty"`
+	KMSKeyArn *string `json:"kmsKeyArn" tf:"kms_key_arn,omitempty"`
 }
 
 type ControlPlaneInitParameters struct {
@@ -322,19 +322,19 @@ type ControlPlaneParameters struct {
 
 	// Authentication configuration for management of AWS resources.
 	// +kubebuilder:validation:Optional
-	AwsServicesAuthentication []AwsServicesAuthenticationParameters `json:"awsServicesAuthentication,omitempty" tf:"aws_services_authentication,omitempty"`
+	AwsServicesAuthentication []AwsServicesAuthenticationParameters `json:"awsServicesAuthentication" tf:"aws_services_authentication,omitempty"`
 
 	// The ARN of the AWS KMS key used to encrypt cluster configuration.
 	// +kubebuilder:validation:Optional
-	ConfigEncryption []ConfigEncryptionParameters `json:"configEncryption,omitempty" tf:"config_encryption,omitempty"`
+	ConfigEncryption []ConfigEncryptionParameters `json:"configEncryption" tf:"config_encryption,omitempty"`
 
 	// The ARN of the AWS KMS key used to encrypt cluster secrets.
 	// +kubebuilder:validation:Optional
-	DatabaseEncryption []DatabaseEncryptionParameters `json:"databaseEncryption,omitempty" tf:"database_encryption,omitempty"`
+	DatabaseEncryption []DatabaseEncryptionParameters `json:"databaseEncryption" tf:"database_encryption,omitempty"`
 
 	// The name of the AWS IAM instance pofile to assign to each control plane replica.
 	// +kubebuilder:validation:Optional
-	IAMInstanceProfile *string `json:"iamInstanceProfile,omitempty" tf:"iam_instance_profile,omitempty"`
+	IAMInstanceProfile *string `json:"iamInstanceProfile" tf:"iam_instance_profile,omitempty"`
 
 	// Optional. The AWS instance type. When unspecified, it defaults to m5.large.
 	// +kubebuilder:validation:Optional
@@ -362,7 +362,7 @@ type ControlPlaneParameters struct {
 
 	// The list of subnets where control plane replicas will run. A replica will be provisioned on each subnet and up to three values can be provided. Each subnet must be in a different AWS Availability Zone (AZ).
 	// +kubebuilder:validation:Optional
-	SubnetIds []*string `json:"subnetIds,omitempty" tf:"subnet_ids,omitempty"`
+	SubnetIds []*string `json:"subnetIds" tf:"subnet_ids,omitempty"`
 
 	// Optional. A set of AWS resource tags to propagate to all underlying managed AWS resources. Specify at most 50 pairs containing alphanumerics, spaces, and symbols (.+-=_:@/). Keys can be up to 127 Unicode characters. Values can be up to 255 Unicode characters.
 	// +kubebuilder:validation:Optional
@@ -370,7 +370,7 @@ type ControlPlaneParameters struct {
 
 	// The Kubernetes version to run on control plane replicas (e.g. 1.19.10-gke.1000). You can list all supported versions on a given Google Cloud region by calling .
 	// +kubebuilder:validation:Optional
-	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+	Version *string `json:"version" tf:"version,omitempty"`
 }
 
 type DatabaseEncryptionInitParameters struct {
@@ -389,7 +389,7 @@ type DatabaseEncryptionParameters struct {
 
 	// Optional. The Amazon Resource Name (ARN) of the Customer Managed Key (CMK) used to encrypt AWS EBS volumes. If not specified, the default Amazon managed key associated to the AWS region where this cluster runs will be used.
 	// +kubebuilder:validation:Optional
-	KMSKeyArn *string `json:"kmsKeyArn,omitempty" tf:"kms_key_arn,omitempty"`
+	KMSKeyArn *string `json:"kmsKeyArn" tf:"kms_key_arn,omitempty"`
 }
 
 type FleetInitParameters struct {
@@ -491,15 +491,15 @@ type NetworkingParameters struct {
 
 	// All pods in the cluster are assigned an RFC1918 IPv4 address from these ranges. Only a single range is supported. This field cannot be changed after creation.
 	// +kubebuilder:validation:Optional
-	PodAddressCidrBlocks []*string `json:"podAddressCidrBlocks,omitempty" tf:"pod_address_cidr_blocks,omitempty"`
+	PodAddressCidrBlocks []*string `json:"podAddressCidrBlocks" tf:"pod_address_cidr_blocks,omitempty"`
 
 	// All services in the cluster are assigned an RFC1918 IPv4 address from these ranges. Only a single range is supported. This field cannot be changed after creation.
 	// +kubebuilder:validation:Optional
-	ServiceAddressCidrBlocks []*string `json:"serviceAddressCidrBlocks,omitempty" tf:"service_address_cidr_blocks,omitempty"`
+	ServiceAddressCidrBlocks []*string `json:"serviceAddressCidrBlocks" tf:"service_address_cidr_blocks,omitempty"`
 
 	// The VPC associated with the cluster. All component clusters (i.e. control plane and node pools) run on a single VPC. This field cannot be changed after creation.
 	// +kubebuilder:validation:Optional
-	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
+	VPCID *string `json:"vpcId" tf:"vpc_id,omitempty"`
 }
 
 type ProxyConfigInitParameters struct {
@@ -524,11 +524,11 @@ type ProxyConfigParameters struct {
 
 	// The ARN of the AWS Secret Manager secret that contains the HTTP(S) proxy configuration.
 	// +kubebuilder:validation:Optional
-	SecretArn *string `json:"secretArn,omitempty" tf:"secret_arn,omitempty"`
+	SecretArn *string `json:"secretArn" tf:"secret_arn,omitempty"`
 
 	// The version string of the AWS Secret Manager secret that contains the HTTP(S) proxy configuration.
 	// +kubebuilder:validation:Optional
-	SecretVersion *string `json:"secretVersion,omitempty" tf:"secret_version,omitempty"`
+	SecretVersion *string `json:"secretVersion" tf:"secret_version,omitempty"`
 }
 
 type RootVolumeInitParameters struct {
@@ -596,7 +596,7 @@ type SSHConfigParameters struct {
 
 	// The name of the EC2 key pair used to login into cluster machines.
 	// +kubebuilder:validation:Optional
-	EC2KeyPair *string `json:"ec2KeyPair,omitempty" tf:"ec2_key_pair,omitempty"`
+	EC2KeyPair *string `json:"ec2KeyPair" tf:"ec2_key_pair,omitempty"`
 }
 
 type WorkloadIdentityConfigInitParameters struct {

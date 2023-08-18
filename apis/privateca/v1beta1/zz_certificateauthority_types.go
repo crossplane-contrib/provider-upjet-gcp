@@ -71,12 +71,12 @@ type CertificateAuthorityConfigParameters struct {
 	// Specifies some of the values in a certificate that are related to the subject.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	SubjectConfig []ConfigSubjectConfigParameters `json:"subjectConfig,omitempty" tf:"subject_config,omitempty"`
+	SubjectConfig []ConfigSubjectConfigParameters `json:"subjectConfig" tf:"subject_config,omitempty"`
 
 	// Describes how some of the technical X.509 fields in a certificate should be populated.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	X509Config []ConfigX509ConfigParameters `json:"x509Config,omitempty" tf:"x509_config,omitempty"`
+	X509Config []ConfigX509ConfigParameters `json:"x509Config" tf:"x509_config,omitempty"`
 }
 
 type CertificateAuthorityInitParameters struct {
@@ -366,7 +366,7 @@ type ConfigSubjectConfigParameters struct {
 	// Contains distinguished name fields such as the location and organization.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Subject []ConfigSubjectConfigSubjectParameters `json:"subject,omitempty" tf:"subject,omitempty"`
+	Subject []ConfigSubjectConfigSubjectParameters `json:"subject" tf:"subject,omitempty"`
 
 	// The subject alternative name fields.
 	// Structure is documented below.
@@ -481,7 +481,7 @@ type ConfigSubjectConfigSubjectParameters struct {
 
 	// The common name of the distinguished name.
 	// +kubebuilder:validation:Optional
-	CommonName *string `json:"commonName,omitempty" tf:"common_name,omitempty"`
+	CommonName *string `json:"commonName" tf:"common_name,omitempty"`
 
 	// The country code of the subject.
 	// +kubebuilder:validation:Optional
@@ -493,7 +493,7 @@ type ConfigSubjectConfigSubjectParameters struct {
 
 	// The organization of the subject.
 	// +kubebuilder:validation:Optional
-	Organization *string `json:"organization,omitempty" tf:"organization,omitempty"`
+	Organization *string `json:"organization" tf:"organization,omitempty"`
 
 	// The organizational unit of the subject.
 	// +kubebuilder:validation:Optional
@@ -541,7 +541,7 @@ type ConfigX509ConfigAdditionalExtensionsObjectIDParameters struct {
 
 	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	// +kubebuilder:validation:Optional
-	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
+	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }
 
 type ConfigX509ConfigAdditionalExtensionsObservation struct {
@@ -561,16 +561,16 @@ type ConfigX509ConfigAdditionalExtensionsParameters struct {
 
 	// Indicates whether or not the name constraints are marked critical.
 	// +kubebuilder:validation:Optional
-	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
+	Critical *bool `json:"critical" tf:"critical,omitempty"`
 
 	// Describes values that are relevant in a CA certificate.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	ObjectID []ConfigX509ConfigAdditionalExtensionsObjectIDParameters `json:"objectId,omitempty" tf:"object_id,omitempty"`
+	ObjectID []ConfigX509ConfigAdditionalExtensionsObjectIDParameters `json:"objectId" tf:"object_id,omitempty"`
 
 	// The value of this X.509 extension. A base64-encoded string.
 	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+	Value *string `json:"value" tf:"value,omitempty"`
 }
 
 type ConfigX509ConfigCAOptionsInitParameters struct {
@@ -617,7 +617,7 @@ type ConfigX509ConfigCAOptionsParameters struct {
 
 	// When true, the "CA" in Basic Constraints extension will be set to true.
 	// +kubebuilder:validation:Optional
-	IsCA *bool `json:"isCa,omitempty" tf:"is_ca,omitempty"`
+	IsCA *bool `json:"isCa" tf:"is_ca,omitempty"`
 
 	// Refers to the "path length constraint" in Basic Constraints extension. For a CA certificate, this value describes the depth of
 	// subordinate CA certificates that are allowed. If this value is less than 0, the request will fail. Setting the value to 0
@@ -867,12 +867,12 @@ type ConfigX509ConfigKeyUsageParameters struct {
 	// Describes high-level ways in which a key may be used.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	BaseKeyUsage []ConfigX509ConfigKeyUsageBaseKeyUsageParameters `json:"baseKeyUsage,omitempty" tf:"base_key_usage,omitempty"`
+	BaseKeyUsage []ConfigX509ConfigKeyUsageBaseKeyUsageParameters `json:"baseKeyUsage" tf:"base_key_usage,omitempty"`
 
 	// Describes high-level ways in which a key may be used.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	ExtendedKeyUsage []ConfigX509ConfigKeyUsageExtendedKeyUsageParameters `json:"extendedKeyUsage,omitempty" tf:"extended_key_usage,omitempty"`
+	ExtendedKeyUsage []ConfigX509ConfigKeyUsageExtendedKeyUsageParameters `json:"extendedKeyUsage" tf:"extended_key_usage,omitempty"`
 
 	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	// Structure is documented below.
@@ -896,7 +896,7 @@ type ConfigX509ConfigKeyUsageUnknownExtendedKeyUsagesParameters struct {
 
 	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	// +kubebuilder:validation:Optional
-	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
+	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }
 
 type ConfigX509ConfigNameConstraintsInitParameters struct {
@@ -1011,7 +1011,7 @@ type ConfigX509ConfigNameConstraintsParameters struct {
 
 	// Indicates whether or not the name constraints are marked critical.
 	// +kubebuilder:validation:Optional
-	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
+	Critical *bool `json:"critical" tf:"critical,omitempty"`
 
 	// Contains excluded DNS names. Any DNS name that can be
 	// constructed by simply adding zero or more labels to
@@ -1112,12 +1112,12 @@ type ConfigX509ConfigParameters struct {
 	// Describes values that are relevant in a CA certificate.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	CAOptions []ConfigX509ConfigCAOptionsParameters `json:"caOptions,omitempty" tf:"ca_options,omitempty"`
+	CAOptions []ConfigX509ConfigCAOptionsParameters `json:"caOptions" tf:"ca_options,omitempty"`
 
 	// Indicates the intended use for keys that correspond to a certificate.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	KeyUsage []ConfigX509ConfigKeyUsageParameters `json:"keyUsage,omitempty" tf:"key_usage,omitempty"`
+	KeyUsage []ConfigX509ConfigKeyUsageParameters `json:"keyUsage" tf:"key_usage,omitempty"`
 
 	// Describes the X.509 name constraints extension.
 	// Structure is documented below.
@@ -1146,7 +1146,7 @@ type ConfigX509ConfigPolicyIdsParameters struct {
 
 	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	// +kubebuilder:validation:Optional
-	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
+	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }
 
 type KeySpecInitParameters struct {

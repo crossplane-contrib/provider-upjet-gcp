@@ -50,7 +50,7 @@ type ContainerImageParameters struct {
 	// The path to the container image repository.
 	// For example: gcr.io/{project_id}/{imageName}
 	// +kubebuilder:validation:Optional
-	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
+	Repository *string `json:"repository" tf:"repository,omitempty"`
 
 	// The tag of the container image. If not specified, this defaults to the latest tag.
 	// +kubebuilder:validation:Optional
@@ -190,7 +190,7 @@ type VMImageParameters struct {
 	// The name of the Google Cloud project that this VM image belongs to.
 	// Format: projects/{project_id}
 	// +kubebuilder:validation:Optional
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+	Project *string `json:"project" tf:"project,omitempty"`
 }
 
 // EnvironmentSpec defines the desired state of Environment

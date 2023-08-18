@@ -53,15 +53,15 @@ type GcsObjectParameters struct {
 
 	// Bucket of the Cloud Storage object.
 	// +kubebuilder:validation:Optional
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
 
 	// Generation number of the Cloud Storage object. This is used to ensure that the ExecStep specified by this PatchJob does not change.
 	// +kubebuilder:validation:Optional
-	GenerationNumber *string `json:"generationNumber,omitempty" tf:"generation_number,omitempty"`
+	GenerationNumber *string `json:"generationNumber" tf:"generation_number,omitempty"`
 
 	// Name of the Cloud Storage object.
 	// +kubebuilder:validation:Optional
-	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+	Object *string `json:"object" tf:"object,omitempty"`
 }
 
 type GroupLabelsInitParameters struct {
@@ -80,7 +80,7 @@ type GroupLabelsParameters struct {
 
 	// Compute Engine instance labels that must be present for a VM instance to be targeted by this filter
 	// +kubebuilder:validation:Optional
-	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+	Labels map[string]*string `json:"labels" tf:"labels,omitempty"`
 }
 
 type LinuxExecStepConfigGcsObjectInitParameters struct {
@@ -111,15 +111,15 @@ type LinuxExecStepConfigGcsObjectParameters struct {
 
 	// Bucket of the Cloud Storage object.
 	// +kubebuilder:validation:Optional
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
 
 	// Generation number of the Cloud Storage object. This is used to ensure that the ExecStep specified by this PatchJob does not change.
 	// +kubebuilder:validation:Optional
-	GenerationNumber *string `json:"generationNumber,omitempty" tf:"generation_number,omitempty"`
+	GenerationNumber *string `json:"generationNumber" tf:"generation_number,omitempty"`
 
 	// Name of the Cloud Storage object.
 	// +kubebuilder:validation:Optional
-	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+	Object *string `json:"object" tf:"object,omitempty"`
 }
 
 type LinuxExecStepConfigInitParameters struct {
@@ -237,7 +237,7 @@ type OneTimeScheduleParameters struct {
 	// The desired patch job execution time. A timestamp in RFC3339 UTC "Zulu" format,
 	// accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
 	// +kubebuilder:validation:Optional
-	ExecuteTime *string `json:"executeTime,omitempty" tf:"execute_time,omitempty"`
+	ExecuteTime *string `json:"executeTime" tf:"execute_time,omitempty"`
 }
 
 type PatchConfigAptInitParameters struct {
@@ -304,7 +304,7 @@ type PatchConfigGooParameters struct {
 
 	// goo update settings. Use this setting to override the default goo patch rules.
 	// +kubebuilder:validation:Optional
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
 type PatchConfigInitParameters struct {
@@ -796,12 +796,12 @@ type PatchDeploymentRolloutParameters struct {
 	// For example, if the disruption budget has a fixed value of 10, and 8 VMs fail to patch in the current zone, the patch job continues to patch 2 VMs at a time until the zone is completed. When that zone is completed successfully, patching begins with 10 VMs at a time in the next zone. If 10 VMs in the next zone fail to patch, the patch job stops.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	DisruptionBudget []RolloutDisruptionBudgetParameters `json:"disruptionBudget,omitempty" tf:"disruption_budget,omitempty"`
+	DisruptionBudget []RolloutDisruptionBudgetParameters `json:"disruptionBudget" tf:"disruption_budget,omitempty"`
 
 	// Mode of the patch rollout.
 	// Possible values are: ZONE_BY_ZONE, CONCURRENT_ZONES.
 	// +kubebuilder:validation:Optional
-	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+	Mode *string `json:"mode" tf:"mode,omitempty"`
 }
 
 type PostStepInitParameters struct {
@@ -960,15 +960,15 @@ type PreStepWindowsExecStepConfigGcsObjectParameters struct {
 
 	// Bucket of the Cloud Storage object.
 	// +kubebuilder:validation:Optional
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
 
 	// Generation number of the Cloud Storage object. This is used to ensure that the ExecStep specified by this PatchJob does not change.
 	// +kubebuilder:validation:Optional
-	GenerationNumber *string `json:"generationNumber,omitempty" tf:"generation_number,omitempty"`
+	GenerationNumber *string `json:"generationNumber" tf:"generation_number,omitempty"`
 
 	// Name of the Cloud Storage object.
 	// +kubebuilder:validation:Optional
-	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+	Object *string `json:"object" tf:"object,omitempty"`
 }
 
 type PreStepWindowsExecStepConfigInitParameters struct {
@@ -1115,13 +1115,13 @@ type RecurringScheduleParameters struct {
 	// Time of the day to run a recurring deployment.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	TimeOfDay []TimeOfDayParameters `json:"timeOfDay,omitempty" tf:"time_of_day,omitempty"`
+	TimeOfDay []TimeOfDayParameters `json:"timeOfDay" tf:"time_of_day,omitempty"`
 
 	// Defines the time zone that timeOfDay is relative to. The rules for daylight saving time are
 	// determined by the chosen time zone.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	TimeZone []TimeZoneParameters `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
+	TimeZone []TimeZoneParameters `json:"timeZone" tf:"time_zone,omitempty"`
 
 	// Schedule with weekly executions.
 	// Structure is documented below.
@@ -1232,7 +1232,7 @@ type TimeZoneParameters struct {
 
 	// IANA Time Zone Database time zone, e.g. "America/New_York".
 	// +kubebuilder:validation:Optional
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+	ID *string `json:"id" tf:"id,omitempty"`
 
 	// IANA Time Zone Database version number, e.g. "2019a".
 	// +kubebuilder:validation:Optional
@@ -1264,11 +1264,11 @@ type WeekDayOfMonthParameters struct {
 	// IANA Time Zone Database time zone, e.g. "America/New_York".
 	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	// +kubebuilder:validation:Optional
-	DayOfWeek *string `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+	DayOfWeek *string `json:"dayOfWeek" tf:"day_of_week,omitempty"`
 
 	// Week number in a month. 1-4 indicates the 1st to 4th week of the month. -1 indicates the last week of the month.
 	// +kubebuilder:validation:Optional
-	WeekOrdinal *float64 `json:"weekOrdinal,omitempty" tf:"week_ordinal,omitempty"`
+	WeekOrdinal *float64 `json:"weekOrdinal" tf:"week_ordinal,omitempty"`
 }
 
 type WeeklyInitParameters struct {
@@ -1290,7 +1290,7 @@ type WeeklyParameters struct {
 	// IANA Time Zone Database time zone, e.g. "America/New_York".
 	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	// +kubebuilder:validation:Optional
-	DayOfWeek *string `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+	DayOfWeek *string `json:"dayOfWeek" tf:"day_of_week,omitempty"`
 }
 
 type WindowsExecStepConfigGcsObjectInitParameters struct {
@@ -1321,15 +1321,15 @@ type WindowsExecStepConfigGcsObjectParameters struct {
 
 	// Bucket of the Cloud Storage object.
 	// +kubebuilder:validation:Optional
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
 
 	// Generation number of the Cloud Storage object. This is used to ensure that the ExecStep specified by this PatchJob does not change.
 	// +kubebuilder:validation:Optional
-	GenerationNumber *string `json:"generationNumber,omitempty" tf:"generation_number,omitempty"`
+	GenerationNumber *string `json:"generationNumber" tf:"generation_number,omitempty"`
 
 	// Name of the Cloud Storage object.
 	// +kubebuilder:validation:Optional
-	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+	Object *string `json:"object" tf:"object,omitempty"`
 }
 
 type WindowsExecStepConfigInitParameters struct {

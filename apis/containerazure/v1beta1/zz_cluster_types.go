@@ -41,7 +41,7 @@ type AdminUsersParameters struct {
 
 	// The name of the user, e.g. my-gcp-id@gmail.com.
 	// +kubebuilder:validation:Optional
-	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+	Username *string `json:"username" tf:"username,omitempty"`
 }
 
 type AuthorizationInitParameters struct {
@@ -60,7 +60,7 @@ type AuthorizationParameters struct {
 
 	// Users that can perform operations as a cluster admin. A new ClusterRoleBinding will be created to grant the cluster-admin ClusterRole to the users. Up to ten admin users can be provided. For more info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
 	// +kubebuilder:validation:Optional
-	AdminUsers []AdminUsersParameters `json:"adminUsers,omitempty" tf:"admin_users,omitempty"`
+	AdminUsers []AdminUsersParameters `json:"adminUsers" tf:"admin_users,omitempty"`
 }
 
 type AzureServicesAuthenticationInitParameters struct {
@@ -85,11 +85,11 @@ type AzureServicesAuthenticationParameters struct {
 
 	// The Azure Active Directory Application ID for Authentication configuration.
 	// +kubebuilder:validation:Optional
-	ApplicationID *string `json:"applicationId,omitempty" tf:"application_id,omitempty"`
+	ApplicationID *string `json:"applicationId" tf:"application_id,omitempty"`
 
 	// The Azure Active Directory Tenant ID for Authentication configuration.
 	// +kubebuilder:validation:Optional
-	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
+	TenantID *string `json:"tenantId" tf:"tenant_id,omitempty"`
 }
 
 type ClusterInitParameters struct {
@@ -335,11 +335,11 @@ type ControlPlaneParameters struct {
 
 	// SSH configuration for how to access the underlying control plane machines.
 	// +kubebuilder:validation:Optional
-	SSHConfig []SSHConfigParameters `json:"sshConfig,omitempty" tf:"ssh_config,omitempty"`
+	SSHConfig []SSHConfigParameters `json:"sshConfig" tf:"ssh_config,omitempty"`
 
 	// The ARM ID of the subnet where the control plane VMs are deployed. Example: /subscriptions//resourceGroups//providers/Microsoft.Network/virtualNetworks//subnets/default.
 	// +kubebuilder:validation:Optional
-	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
+	SubnetID *string `json:"subnetId" tf:"subnet_id,omitempty"`
 
 	// Optional. A set of tags to apply to all underlying control plane Azure resources.
 	// +kubebuilder:validation:Optional
@@ -351,7 +351,7 @@ type ControlPlaneParameters struct {
 
 	// The Kubernetes version to run on control plane replicas (e.g. 1.19.10-gke.1000). You can list all supported versions on a given Google Cloud region by calling GetAzureServerConfig.
 	// +kubebuilder:validation:Optional
-	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+	Version *string `json:"version" tf:"version,omitempty"`
 }
 
 type DatabaseEncryptionInitParameters struct {
@@ -370,7 +370,7 @@ type DatabaseEncryptionParameters struct {
 
 	// The ARM ID of the Azure Key Vault key to encrypt / decrypt data. For example: /subscriptions/<subscription-id>/resourceGroups/<resource-group-id>/providers/Microsoft.KeyVault/vaults/<key-vault-id>/keys/<key-name> Encryption will always take the latest version of the key and hence specific version is not supported.
 	// +kubebuilder:validation:Optional
-	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
+	KeyID *string `json:"keyId" tf:"key_id,omitempty"`
 }
 
 type FleetInitParameters struct {
@@ -442,15 +442,15 @@ type NetworkingParameters struct {
 
 	// The IP address range of the pods in this cluster, in CIDR notation (e.g. 10.96.0.0/14). All pods in the cluster get assigned a unique RFC1918 IPv4 address from these ranges. Only a single range is supported. This field cannot be changed after creation.
 	// +kubebuilder:validation:Optional
-	PodAddressCidrBlocks []*string `json:"podAddressCidrBlocks,omitempty" tf:"pod_address_cidr_blocks,omitempty"`
+	PodAddressCidrBlocks []*string `json:"podAddressCidrBlocks" tf:"pod_address_cidr_blocks,omitempty"`
 
 	// The IP address range for services in this cluster, in CIDR notation (e.g. 10.96.0.0/14). All services in the cluster get assigned a unique RFC1918 IPv4 address from these ranges. Only a single range is supported. This field cannot be changed after creating a cluster.
 	// +kubebuilder:validation:Optional
-	ServiceAddressCidrBlocks []*string `json:"serviceAddressCidrBlocks,omitempty" tf:"service_address_cidr_blocks,omitempty"`
+	ServiceAddressCidrBlocks []*string `json:"serviceAddressCidrBlocks" tf:"service_address_cidr_blocks,omitempty"`
 
 	// The Azure Resource Manager (ARM) ID of the VNet associated with your cluster. All components in the cluster (i.e. control plane and node pools) run on a single VNet. Example: /subscriptions/*/resourceGroups/*/providers/Microsoft.Network/virtualNetworks/* This field cannot be changed after creation.
 	// +kubebuilder:validation:Optional
-	VirtualNetworkID *string `json:"virtualNetworkId,omitempty" tf:"virtual_network_id,omitempty"`
+	VirtualNetworkID *string `json:"virtualNetworkId" tf:"virtual_network_id,omitempty"`
 }
 
 type ProxyConfigInitParameters struct {
@@ -475,11 +475,11 @@ type ProxyConfigParameters struct {
 
 	// The ARM ID of the resource group where the cluster resources are deployed. For example: /subscriptions/*/resourceGroups/*
 	// +kubebuilder:validation:Optional
-	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
+	ResourceGroupID *string `json:"resourceGroupId" tf:"resource_group_id,omitempty"`
 
 	// The URL the of the proxy setting secret with its version. Secret ids are formatted as https:<key-vault-name>.vault.azure.net/secrets/<secret-name>/<secret-version>.
 	// +kubebuilder:validation:Optional
-	SecretID *string `json:"secretId,omitempty" tf:"secret_id,omitempty"`
+	SecretID *string `json:"secretId" tf:"secret_id,omitempty"`
 }
 
 type ReplicaPlacementsInitParameters struct {
@@ -504,11 +504,11 @@ type ReplicaPlacementsParameters struct {
 
 	// For a given replica, the Azure availability zone where to provision the control plane VM and the ETCD disk.
 	// +kubebuilder:validation:Optional
-	AzureAvailabilityZone *string `json:"azureAvailabilityZone,omitempty" tf:"azure_availability_zone,omitempty"`
+	AzureAvailabilityZone *string `json:"azureAvailabilityZone" tf:"azure_availability_zone,omitempty"`
 
 	// For a given replica, the ARM ID of the subnet where the control plane VM is deployed. Make sure it's a subnet under the virtual network in the cluster configuration.
 	// +kubebuilder:validation:Optional
-	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
+	SubnetID *string `json:"subnetId" tf:"subnet_id,omitempty"`
 }
 
 type RootVolumeInitParameters struct {
@@ -546,7 +546,7 @@ type SSHConfigParameters struct {
 
 	// The SSH public key data for VMs managed by Anthos. This accepts the authorized_keys file format used in OpenSSH according to the sshd(8) manual page.
 	// +kubebuilder:validation:Optional
-	AuthorizedKey *string `json:"authorizedKey,omitempty" tf:"authorized_key,omitempty"`
+	AuthorizedKey *string `json:"authorizedKey" tf:"authorized_key,omitempty"`
 }
 
 type WorkloadIdentityConfigInitParameters struct {

@@ -92,7 +92,7 @@ type BandwidthLimitParameters struct {
 
 	// Bandwidth rate in megabytes per second, distributed across all the agents in the pool.
 	// +kubebuilder:validation:Optional
-	LimitMbps *string `json:"limitMbps,omitempty" tf:"limit_mbps,omitempty"`
+	LimitMbps *string `json:"limitMbps" tf:"limit_mbps,omitempty"`
 }
 
 // AgentPoolSpec defines the desired state of AgentPool

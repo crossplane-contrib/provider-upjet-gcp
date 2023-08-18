@@ -51,7 +51,7 @@ type ActionParameters struct {
 
 	// The type of the action of this Lifecycle Rule. Supported values include: Delete, SetStorageClass and AbortIncompleteMultipartUpload.
 	// +kubebuilder:validation:Optional
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type AutoclassInitParameters struct {
@@ -70,7 +70,7 @@ type AutoclassParameters struct {
 
 	// While set to true, autoclass automatically transitions objects in your bucket to appropriate storage classes based on each object's access pattern.
 	// +kubebuilder:validation:Optional
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
 type BucketInitParameters struct {
@@ -460,7 +460,7 @@ type CustomPlacementConfigParameters struct {
 
 	// The list of individual regions that comprise a dual-region bucket. See Cloud Storage bucket locations for a list of acceptable regions. Note: If any of the data_locations changes, it will recreate the bucket.
 	// +kubebuilder:validation:Optional
-	DataLocations []*string `json:"dataLocations,omitempty" tf:"data_locations,omitempty"`
+	DataLocations []*string `json:"dataLocations" tf:"data_locations,omitempty"`
 }
 
 type EncryptionInitParameters struct {
@@ -485,7 +485,7 @@ type EncryptionParameters struct {
 	// You must pay attention to whether the crypto key is available in the location that this bucket is created in.
 	// See the docs for more details.
 	// +kubebuilder:validation:Optional
-	DefaultKMSKeyName *string `json:"defaultKmsKeyName,omitempty" tf:"default_kms_key_name,omitempty"`
+	DefaultKMSKeyName *string `json:"defaultKmsKeyName" tf:"default_kms_key_name,omitempty"`
 }
 
 type LifecycleRuleInitParameters struct {
@@ -510,11 +510,11 @@ type LifecycleRuleParameters struct {
 
 	// The Lifecycle Rule's action configuration. A single block of this type is supported. Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Action []ActionParameters `json:"action,omitempty" tf:"action,omitempty"`
+	Action []ActionParameters `json:"action" tf:"action,omitempty"`
 
 	// The Lifecycle Rule's condition configuration. A single block of this type is supported. Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Condition []ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition []ConditionParameters `json:"condition" tf:"condition,omitempty"`
 }
 
 type LoggingInitParameters struct {
@@ -541,7 +541,7 @@ type LoggingParameters struct {
 
 	// The bucket that will receive log objects.
 	// +kubebuilder:validation:Optional
-	LogBucket *string `json:"logBucket,omitempty" tf:"log_bucket,omitempty"`
+	LogBucket *string `json:"logBucket" tf:"log_bucket,omitempty"`
 
 	// The object prefix for log objects. If it's not provided,
 	// by default GCS sets this to this bucket's name.
@@ -575,7 +575,7 @@ type RetentionPolicyParameters struct {
 
 	// The period of time, in seconds, that objects in the bucket must be retained and cannot be deleted, overwritten, or archived. The value must be less than 2,147,483,647 seconds.
 	// +kubebuilder:validation:Optional
-	RetentionPeriod *float64 `json:"retentionPeriod,omitempty" tf:"retention_period,omitempty"`
+	RetentionPeriod *float64 `json:"retentionPeriod" tf:"retention_period,omitempty"`
 }
 
 type VersioningInitParameters struct {
@@ -594,7 +594,7 @@ type VersioningParameters struct {
 
 	// While set to true, versioning is fully enabled for this bucket.
 	// +kubebuilder:validation:Optional
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
 type WebsiteInitParameters struct {

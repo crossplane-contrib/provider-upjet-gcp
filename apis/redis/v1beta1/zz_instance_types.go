@@ -677,12 +677,12 @@ type WeeklyMaintenanceWindowParameters struct {
 
 	// Required. The day of week that maintenance updates occur.
 	// +kubebuilder:validation:Optional
-	Day *string `json:"day,omitempty" tf:"day,omitempty"`
+	Day *string `json:"day" tf:"day,omitempty"`
 
 	// Required. Start time of the window in UTC time.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	StartTime []StartTimeParameters `json:"startTime,omitempty" tf:"start_time,omitempty"`
+	StartTime []StartTimeParameters `json:"startTime" tf:"start_time,omitempty"`
 }
 
 // InstanceSpec defines the desired state of Instance

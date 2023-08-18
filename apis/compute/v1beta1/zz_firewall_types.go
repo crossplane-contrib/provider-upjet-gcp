@@ -75,7 +75,7 @@ type AllowParameters struct {
 	// one of the following well known protocol strings (tcp, udp,
 	// icmp, esp, ah, sctp, ipip, all), or the IP protocol number.
 	// +kubebuilder:validation:Optional
-	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
+	Protocol *string `json:"protocol" tf:"protocol,omitempty"`
 }
 
 type DenyInitParameters struct {
@@ -128,7 +128,7 @@ type DenyParameters struct {
 	// one of the following well known protocol strings (tcp, udp,
 	// icmp, esp, ah, sctp, ipip, all), or the IP protocol number.
 	// +kubebuilder:validation:Optional
-	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
+	Protocol *string `json:"protocol" tf:"protocol,omitempty"`
 }
 
 type FirewallInitParameters struct {
@@ -257,7 +257,7 @@ type FirewallLogConfigParameters struct {
 	// This field denotes whether to include or exclude metadata for firewall logs.
 	// Possible values are: EXCLUDE_ALL_METADATA, INCLUDE_ALL_METADATA.
 	// +kubebuilder:validation:Optional
-	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+	Metadata *string `json:"metadata" tf:"metadata,omitempty"`
 }
 
 type FirewallObservation struct {

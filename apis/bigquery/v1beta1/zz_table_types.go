@@ -47,7 +47,7 @@ type AvroOptionsParameters struct {
 	// to interpret logical types as the corresponding BigQuery data type
 	// (for example, TIMESTAMP), instead of using the raw type (for example, INTEGER).
 	// +kubebuilder:validation:Optional
-	UseAvroLogicalTypes *bool `json:"useAvroLogicalTypes,omitempty" tf:"use_avro_logical_types,omitempty"`
+	UseAvroLogicalTypes *bool `json:"useAvroLogicalTypes" tf:"use_avro_logical_types,omitempty"`
 }
 
 type CsvOptionsInitParameters struct {
@@ -137,7 +137,7 @@ type CsvOptionsParameters struct {
 	// property value to an empty string. If your data contains quoted newline
 	// characters, you must also set the allow_quoted_newlines property to true.
 	// +kubebuilder:validation:Optional
-	Quote *string `json:"quote,omitempty" tf:"quote,omitempty"`
+	Quote *string `json:"quote" tf:"quote,omitempty"`
 
 	// The number of rows at the top of the sheet
 	// that BigQuery will skip when reading the data. At least one of range or
@@ -177,7 +177,7 @@ type EncryptionConfigurationParameters struct {
 	// google_bigquery_default_service_account datasource and the
 	// google_kms_crypto_key_iam_binding resource.
 	// +kubebuilder:validation:Optional
-	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
 }
 
 type ExternalDataConfigurationInitParameters struct {
@@ -333,7 +333,7 @@ type ExternalDataConfigurationParameters struct {
 	// - Let BigQuery try to autodetect the schema
 	// and format of the table.
 	// +kubebuilder:validation:Optional
-	Autodetect *bool `json:"autodetect,omitempty" tf:"autodetect,omitempty"`
+	Autodetect *bool `json:"autodetect" tf:"autodetect,omitempty"`
 
 	// Additional options if source_format is set to
 	// "AVRO".  Structure is documented below.
@@ -407,12 +407,12 @@ type ExternalDataConfigurationParameters struct {
 	// in Bigquery's public API documentation for supported formats. To use "GOOGLE_SHEETS"
 	// the scopes must include "https://www.googleapis.com/auth/drive.readonly".
 	// +kubebuilder:validation:Optional
-	SourceFormat *string `json:"sourceFormat,omitempty" tf:"source_format,omitempty"`
+	SourceFormat *string `json:"sourceFormat" tf:"source_format,omitempty"`
 
 	// A list of the fully-qualified URIs that point to
 	// your data in Google Cloud.
 	// +kubebuilder:validation:Optional
-	SourceUris []*string `json:"sourceUris,omitempty" tf:"source_uris,omitempty"`
+	SourceUris []*string `json:"sourceUris" tf:"source_uris,omitempty"`
 }
 
 type GoogleSheetsOptionsInitParameters struct {
@@ -559,7 +559,7 @@ type MaterializedViewParameters struct {
 
 	// A query whose result is persisted.
 	// +kubebuilder:validation:Optional
-	Query *string `json:"query,omitempty" tf:"query,omitempty"`
+	Query *string `json:"query" tf:"query,omitempty"`
 
 	// The maximum frequency at which this materialized view will be refreshed.
 	// The default value is 1800000
@@ -595,15 +595,15 @@ type RangeParameters struct {
 
 	// End of the range partitioning, exclusive.
 	// +kubebuilder:validation:Optional
-	End *float64 `json:"end,omitempty" tf:"end,omitempty"`
+	End *float64 `json:"end" tf:"end,omitempty"`
 
 	// The width of each range within the partition.
 	// +kubebuilder:validation:Optional
-	Interval *float64 `json:"interval,omitempty" tf:"interval,omitempty"`
+	Interval *float64 `json:"interval" tf:"interval,omitempty"`
 
 	// Start of the range partitioning, inclusive.
 	// +kubebuilder:validation:Optional
-	Start *float64 `json:"start,omitempty" tf:"start,omitempty"`
+	Start *float64 `json:"start" tf:"start,omitempty"`
 }
 
 type RangePartitioningInitParameters struct {
@@ -633,12 +633,12 @@ type RangePartitioningParameters struct {
 	// The field used to determine how to create a range-based
 	// partition.
 	// +kubebuilder:validation:Optional
-	Field *string `json:"field,omitempty" tf:"field,omitempty"`
+	Field *string `json:"field" tf:"field,omitempty"`
 
 	// Information required to partition based on ranges.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Range []RangeParameters `json:"range,omitempty" tf:"range,omitempty"`
+	Range []RangeParameters `json:"range" tf:"range,omitempty"`
 }
 
 type TableInitParameters struct {
@@ -940,7 +940,7 @@ type TableTimePartitioningParameters struct {
 	// The supported types are DAY, HOUR, MONTH, and YEAR,
 	// which will generate one partition per day, hour, month, and year, respectively.
 	// +kubebuilder:validation:Optional
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type TableViewInitParameters struct {
@@ -967,7 +967,7 @@ type TableViewParameters struct {
 
 	// A query that BigQuery executes when the view is referenced.
 	// +kubebuilder:validation:Optional
-	Query *string `json:"query,omitempty" tf:"query,omitempty"`
+	Query *string `json:"query" tf:"query,omitempty"`
 
 	// Specifies whether to use BigQuery's legacy SQL for this view.
 	// The default value is true. If set to false, the view will use BigQuery's standard SQL.

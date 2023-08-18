@@ -135,7 +135,7 @@ type BasicScalingParameters struct {
 
 	// Maximum number of instances to create for this version. Must be in the range [1.0, 200.0].
 	// +kubebuilder:validation:Optional
-	MaxInstances *float64 `json:"maxInstances,omitempty" tf:"max_instances,omitempty"`
+	MaxInstances *float64 `json:"maxInstances" tf:"max_instances,omitempty"`
 }
 
 type DeploymentInitParameters struct {
@@ -192,7 +192,7 @@ type EntrypointParameters struct {
 
 	// The format should be a shell command that can be fed to bash -c.
 	// +kubebuilder:validation:Optional
-	Shell *string `json:"shell,omitempty" tf:"shell,omitempty"`
+	Shell *string `json:"shell" tf:"shell,omitempty"`
 }
 
 type FilesInitParameters struct {
@@ -223,7 +223,7 @@ type FilesParameters struct {
 
 	// Full Serverless VPC Access Connector name e.g. /projects/my-project/locations/us-central1/connectors/c1.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// SHA1 checksum of the file
 	// +kubebuilder:validation:Optional
@@ -231,7 +231,7 @@ type FilesParameters struct {
 
 	// Source URL
 	// +kubebuilder:validation:Optional
-	SourceURL *string `json:"sourceUrl,omitempty" tf:"source_url,omitempty"`
+	SourceURL *string `json:"sourceUrl" tf:"source_url,omitempty"`
 }
 
 type HandlersInitParameters struct {
@@ -388,7 +388,7 @@ type ManualScalingParameters struct {
 	// Note: When managing the number of instances at runtime through the App Engine Admin API or the (now deprecated) Python 2
 	// Modules API set_num_instances() you must use lifecycle.ignore_changes = ["manual_scaling"[0].instances] to prevent drift detection.
 	// +kubebuilder:validation:Optional
-	Instances *float64 `json:"instances,omitempty" tf:"instances,omitempty"`
+	Instances *float64 `json:"instances" tf:"instances,omitempty"`
 }
 
 type ScriptInitParameters struct {
@@ -407,7 +407,7 @@ type ScriptParameters struct {
 
 	// Path to the script from the application root directory.
 	// +kubebuilder:validation:Optional
-	ScriptPath *string `json:"scriptPath,omitempty" tf:"script_path,omitempty"`
+	ScriptPath *string `json:"scriptPath" tf:"script_path,omitempty"`
 }
 
 type StandardAppVersionInitParameters struct {
@@ -846,7 +846,7 @@ type VPCAccessConnectorParameters struct {
 
 	// Full Serverless VPC Access Connector name e.g. /projects/my-project/locations/us-central1/connectors/c1.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type ZipInitParameters struct {
@@ -875,7 +875,7 @@ type ZipParameters struct {
 
 	// Source URL
 	// +kubebuilder:validation:Optional
-	SourceURL *string `json:"sourceUrl,omitempty" tf:"source_url,omitempty"`
+	SourceURL *string `json:"sourceUrl" tf:"source_url,omitempty"`
 }
 
 // StandardAppVersionSpec defines the desired state of StandardAppVersion

@@ -103,7 +103,7 @@ type ContainersEnvParameters struct {
 
 	// Volume's name.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// The header field value
 	// +kubebuilder:validation:Optional
@@ -367,11 +367,11 @@ type ContainersVolumeMountsParameters struct {
 
 	// Path within the container at which the volume should be mounted. Must not contain ':'. For Cloud SQL volumes, it can be left empty, or must otherwise be /cloudsql. All instances defined in the Volume will be available as /cloudsql/[instance]. For more information on Cloud SQL volumes, visit https://cloud.google.com/sql/docs/mysql/connect-run
 	// +kubebuilder:validation:Optional
-	MountPath *string `json:"mountPath,omitempty" tf:"mount_path,omitempty"`
+	MountPath *string `json:"mountPath" tf:"mount_path,omitempty"`
 
 	// Volume's name.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type LatestCreatedExecutionInitParameters struct {
@@ -419,7 +419,7 @@ type LivenessProbeHTTPGetHTTPHeadersParameters struct {
 
 	// Volume's name.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// The header field value
 	// +kubebuilder:validation:Optional
@@ -505,15 +505,15 @@ type SecretItemsParameters struct {
 
 	// Integer octal mode bits to use on this file, must be a value between 01 and 0777 (octal). If 0 or not set, the Volume's default mode will be used.
 	// +kubebuilder:validation:Optional
-	Mode *float64 `json:"mode,omitempty" tf:"mode,omitempty"`
+	Mode *float64 `json:"mode" tf:"mode,omitempty"`
 
 	// The relative path of the secret in the container.
 	// +kubebuilder:validation:Optional
-	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+	Path *string `json:"path" tf:"path,omitempty"`
 
 	// The Cloud Secret Manager secret version. Can be 'latest' for the latest value or an integer for a specific version.
 	// +kubebuilder:validation:Optional
-	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+	Version *string `json:"version" tf:"version,omitempty"`
 }
 
 type StartupProbeHTTPGetHTTPHeadersInitParameters struct {
@@ -538,7 +538,7 @@ type StartupProbeHTTPGetHTTPHeadersParameters struct {
 
 	// Volume's name.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// The header field value
 	// +kubebuilder:validation:Optional
@@ -671,7 +671,7 @@ type TemplateContainersParameters struct {
 
 	// URL of the Container image in Google Container Registry or Google Artifact Registry. More info: https://kubernetes.io/docs/concepts/containers/images
 	// +kubebuilder:validation:Optional
-	Image *string `json:"image,omitempty" tf:"image,omitempty"`
+	Image *string `json:"image" tf:"image,omitempty"`
 
 	// Periodic probe of container liveness. Container will be restarted if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
 	// This field is not supported in Cloud Run Job currently.
@@ -851,7 +851,7 @@ type TemplateVolumesParameters struct {
 
 	// Volume's name.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
 	// Structure is documented below.
@@ -1132,7 +1132,7 @@ type V2JobTemplateParameters struct {
 	// Describes the task(s) that will be created when executing an execution
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Template []TemplateTemplateParameters `json:"template,omitempty" tf:"template,omitempty"`
+	Template []TemplateTemplateParameters `json:"template" tf:"template,omitempty"`
 }
 
 type VPCAccessInitParameters struct {
@@ -1223,7 +1223,7 @@ type ValueSourceSecretKeyRefParameters struct {
 
 	// The Cloud Secret Manager secret version. Can be 'latest' for the latest value or an integer for a specific version.
 	// +kubebuilder:validation:Optional
-	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+	Version *string `json:"version" tf:"version,omitempty"`
 }
 
 type VolumesSecretInitParameters struct {

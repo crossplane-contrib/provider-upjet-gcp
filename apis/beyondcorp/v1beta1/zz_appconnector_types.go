@@ -112,7 +112,7 @@ type PrincipalInfoParameters struct {
 	// ServiceAccount represents a GCP service account.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	ServiceAccount []ServiceAccountParameters `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+	ServiceAccount []ServiceAccountParameters `json:"serviceAccount" tf:"service_account,omitempty"`
 }
 
 type ServiceAccountInitParameters struct {

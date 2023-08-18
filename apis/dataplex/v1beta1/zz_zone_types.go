@@ -168,7 +168,7 @@ type ZoneDiscoverySpecParameters struct {
 
 	// Required. Whether discovery is enabled.
 	// +kubebuilder:validation:Optional
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 
 	// Optional. The list of patterns to apply for selecting data to exclude during discovery. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names.
 	// +kubebuilder:validation:Optional
@@ -323,7 +323,7 @@ type ZoneResourceSpecParameters struct {
 
 	// Required. Immutable. The location type of the resources that are allowed to be attached to the assets within this zone. Possible values: LOCATION_TYPE_UNSPECIFIED, SINGLE_REGION, MULTI_REGION
 	// +kubebuilder:validation:Optional
-	LocationType *string `json:"locationType,omitempty" tf:"location_type,omitempty"`
+	LocationType *string `json:"locationType" tf:"location_type,omitempty"`
 }
 
 // ZoneSpec defines the desired state of Zone

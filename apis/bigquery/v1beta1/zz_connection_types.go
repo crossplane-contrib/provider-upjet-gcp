@@ -45,7 +45,7 @@ type AccessRoleParameters struct {
 
 	// The user’s AWS IAM Role that trusts the Google-owned AWS IAM user Connection.
 	// +kubebuilder:validation:Optional
-	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
+	IAMRoleID *string `json:"iamRoleId" tf:"iam_role_id,omitempty"`
 }
 
 type AwsInitParameters struct {
@@ -67,7 +67,7 @@ type AwsParameters struct {
 	// Authentication using Google owned service account to assume into customer's AWS IAM Role.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	AccessRole []AccessRoleParameters `json:"accessRole,omitempty" tf:"access_role,omitempty"`
+	AccessRole []AccessRoleParameters `json:"accessRole" tf:"access_role,omitempty"`
 }
 
 type AzureInitParameters struct {
@@ -112,7 +112,7 @@ type AzureParameters struct {
 
 	// The id of customer's directory that host the data.
 	// +kubebuilder:validation:Optional
-	CustomerTenantID *string `json:"customerTenantId,omitempty" tf:"customer_tenant_id,omitempty"`
+	CustomerTenantID *string `json:"customerTenantId" tf:"customer_tenant_id,omitempty"`
 
 	// The Azure Application (client) ID where the federated credentials will be hosted.
 	// +kubebuilder:validation:Optional
@@ -169,7 +169,7 @@ type CloudSQLParameters struct {
 	// Cloud SQL properties.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Credential []CredentialParameters `json:"credential,omitempty" tf:"credential,omitempty"`
+	Credential []CredentialParameters `json:"credential" tf:"credential,omitempty"`
 
 	// Database name.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta1.Database
@@ -201,7 +201,7 @@ type CloudSQLParameters struct {
 	// Type of the Cloud SQL database.
 	// Possible values are: DATABASE_TYPE_UNSPECIFIED, POSTGRES, MYSQL.
 	// +kubebuilder:validation:Optional
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type CloudSpannerInitParameters struct {
@@ -232,7 +232,7 @@ type CloudSpannerParameters struct {
 
 	// Cloud Spanner database in the form `project/instance/database'
 	// +kubebuilder:validation:Optional
-	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+	Database *string `json:"database" tf:"database,omitempty"`
 
 	// If parallelism should be used when reading from Cloud Spanner
 	// +kubebuilder:validation:Optional

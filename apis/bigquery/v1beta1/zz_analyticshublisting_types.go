@@ -234,7 +234,7 @@ type DataProviderParameters struct {
 
 	// Name of the data provider.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// Email or URL of the data provider.
 	// +kubebuilder:validation:Optional
@@ -263,7 +263,7 @@ type PublisherParameters struct {
 
 	// Name of the listing publisher.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// Email or URL of the listing publisher.
 	// +kubebuilder:validation:Optional

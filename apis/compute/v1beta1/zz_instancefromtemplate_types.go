@@ -221,7 +221,7 @@ type InstanceFromTemplateConfidentialInstanceConfigObservation struct {
 type InstanceFromTemplateConfidentialInstanceConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
-	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
+	EnableConfidentialCompute *bool `json:"enableConfidentialCompute" tf:"enable_confidential_compute,omitempty"`
 }
 
 type InstanceFromTemplateGuestAcceleratorInitParameters struct {
@@ -621,7 +621,7 @@ type InstanceFromTemplateReservationAffinityParameters struct {
 	SpecificReservation []ReservationAffinitySpecificReservationParameters `json:"specificReservation,omitempty" tf:"specific_reservation,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type InstanceFromTemplateSchedulingInitParameters struct {
@@ -834,7 +834,7 @@ type NetworkInterfaceIPv6AccessConfigObservation struct {
 type NetworkInterfaceIPv6AccessConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
-	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
+	NetworkTier *string `json:"networkTier" tf:"network_tier,omitempty"`
 
 	// A unique name for the resource, required by GCE.
 	// Changing this forces a new resource to be created.
@@ -857,10 +857,10 @@ type ReservationAffinitySpecificReservationObservation struct {
 type ReservationAffinitySpecificReservationParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+	Key *string `json:"key" tf:"key,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
+	Values []*string `json:"values" tf:"values,omitempty"`
 }
 
 type SchedulingNodeAffinitiesInitParameters struct {
@@ -882,13 +882,13 @@ type SchedulingNodeAffinitiesObservation struct {
 type SchedulingNodeAffinitiesParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+	Key *string `json:"key" tf:"key,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+	Operator *string `json:"operator" tf:"operator,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
+	Values []*string `json:"values" tf:"values,omitempty"`
 }
 
 // InstanceFromTemplateSpec defines the desired state of InstanceFromTemplate

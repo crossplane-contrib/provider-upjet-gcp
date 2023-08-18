@@ -116,7 +116,7 @@ type BfdParameters struct {
 	// If set to DISABLED, BFD is disabled for this BGP peer.
 	// Possible values are: ACTIVE, DISABLED, PASSIVE.
 	// +kubebuilder:validation:Optional
-	SessionInitializationMode *string `json:"sessionInitializationMode,omitempty" tf:"session_initialization_mode,omitempty"`
+	SessionInitializationMode *string `json:"sessionInitializationMode" tf:"session_initialization_mode,omitempty"`
 }
 
 type RouterPeerAdvertisedIPRangesInitParameters struct {
@@ -148,7 +148,7 @@ type RouterPeerAdvertisedIPRangesParameters struct {
 	// The IP range to advertise. The value must be a
 	// CIDR-formatted string.
 	// +kubebuilder:validation:Optional
-	Range *string `json:"range,omitempty" tf:"range,omitempty"`
+	Range *string `json:"range" tf:"range,omitempty"`
 }
 
 type RouterPeerInitParameters struct {

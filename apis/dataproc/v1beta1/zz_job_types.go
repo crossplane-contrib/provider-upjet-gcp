@@ -349,7 +349,7 @@ type LoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
 	// +kubebuilder:validation:Optional
-	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
+	DriverLogLevels map[string]*string `json:"driverLogLevels" tf:"driver_log_levels,omitempty"`
 }
 
 type PigConfigInitParameters struct {
@@ -393,7 +393,7 @@ type PigConfigLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
 	// +kubebuilder:validation:Optional
-	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
+	DriverLogLevels map[string]*string `json:"driverLogLevels" tf:"driver_log_levels,omitempty"`
 }
 
 type PigConfigObservation struct {
@@ -525,7 +525,7 @@ type PrestoConfigLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
 	// +kubebuilder:validation:Optional
-	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
+	DriverLogLevels map[string]*string `json:"driverLogLevels" tf:"driver_log_levels,omitempty"`
 }
 
 type PrestoConfigObservation struct {
@@ -627,7 +627,7 @@ type PysparkConfigLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
 	// +kubebuilder:validation:Optional
-	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
+	DriverLogLevels map[string]*string `json:"driverLogLevels" tf:"driver_log_levels,omitempty"`
 }
 
 type PysparkConfigObservation struct {
@@ -679,7 +679,7 @@ type PysparkConfigParameters struct {
 
 	// The HCFS URI of the main Python file to use as the driver. Must be a .py file.
 	// +kubebuilder:validation:Optional
-	MainPythonFileURI *string `json:"mainPythonFileUri,omitempty" tf:"main_python_file_uri,omitempty"`
+	MainPythonFileURI *string `json:"mainPythonFileUri" tf:"main_python_file_uri,omitempty"`
 
 	// A mapping of property names to values, used to configure PySpark. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/spark/conf/spark-defaults.conf and classes in user code.
 	// +kubebuilder:validation:Optional
@@ -726,11 +726,11 @@ type SchedulingParameters struct {
 
 	// Maximum number of times per hour a driver may be restarted as a result of driver exiting with non-zero code before job is reported failed.
 	// +kubebuilder:validation:Optional
-	MaxFailuresPerHour *float64 `json:"maxFailuresPerHour,omitempty" tf:"max_failures_per_hour,omitempty"`
+	MaxFailuresPerHour *float64 `json:"maxFailuresPerHour" tf:"max_failures_per_hour,omitempty"`
 
 	// Maximum number of times in total a driver may be restarted as a result of driver exiting with non-zero code before job is reported failed.
 	// +kubebuilder:validation:Optional
-	MaxFailuresTotal *float64 `json:"maxFailuresTotal,omitempty" tf:"max_failures_total,omitempty"`
+	MaxFailuresTotal *float64 `json:"maxFailuresTotal" tf:"max_failures_total,omitempty"`
 }
 
 type SparkConfigInitParameters struct {
@@ -777,7 +777,7 @@ type SparkConfigLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
 	// +kubebuilder:validation:Optional
-	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
+	DriverLogLevels map[string]*string `json:"driverLogLevels" tf:"driver_log_levels,omitempty"`
 }
 
 type SparkConfigObservation struct {
@@ -882,7 +882,7 @@ type SparksqlConfigLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
 	// +kubebuilder:validation:Optional
-	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
+	DriverLogLevels map[string]*string `json:"driverLogLevels" tf:"driver_log_levels,omitempty"`
 }
 
 type SparksqlConfigObservation struct {

@@ -283,7 +283,7 @@ type NodePoolNetworkConfigPodCidrOverprovisionConfigObservation struct {
 type NodePoolNetworkConfigPodCidrOverprovisionConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+	Disabled *bool `json:"disabled" tf:"disabled,omitempty"`
 }
 
 type NodePoolNodeConfigAdvancedMachineFeaturesInitParameters struct {
@@ -297,7 +297,7 @@ type NodePoolNodeConfigAdvancedMachineFeaturesObservation struct {
 type NodePoolNodeConfigAdvancedMachineFeaturesParameters struct {
 
 	// +kubebuilder:validation:Optional
-	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
+	ThreadsPerCore *float64 `json:"threadsPerCore" tf:"threads_per_core,omitempty"`
 }
 
 type NodePoolNodeConfigEphemeralStorageLocalSsdConfigInitParameters struct {
@@ -311,7 +311,7 @@ type NodePoolNodeConfigEphemeralStorageLocalSsdConfigObservation struct {
 type NodePoolNodeConfigEphemeralStorageLocalSsdConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
-	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
+	LocalSsdCount *float64 `json:"localSsdCount" tf:"local_ssd_count,omitempty"`
 }
 
 type NodePoolNodeConfigGcfsConfigInitParameters struct {
@@ -325,7 +325,7 @@ type NodePoolNodeConfigGcfsConfigObservation struct {
 type NodePoolNodeConfigGcfsConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
 type NodePoolNodeConfigGuestAcceleratorInitParameters struct {
@@ -383,7 +383,7 @@ type NodePoolNodeConfigGvnicObservation struct {
 type NodePoolNodeConfigGvnicParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
 type NodePoolNodeConfigInitParameters_2 struct {
@@ -475,7 +475,7 @@ type NodePoolNodeConfigKubeletConfigParameters struct {
 	CPUCfsQuotaPeriod *string `json:"cpuCfsQuotaPeriod,omitempty" tf:"cpu_cfs_quota_period,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	CPUManagerPolicy *string `json:"cpuManagerPolicy,omitempty" tf:"cpu_manager_policy,omitempty"`
+	CPUManagerPolicy *string `json:"cpuManagerPolicy" tf:"cpu_manager_policy,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
@@ -492,7 +492,7 @@ type NodePoolNodeConfigLinuxNodeConfigObservation struct {
 type NodePoolNodeConfigLinuxNodeConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Sysctls map[string]*string `json:"sysctls,omitempty" tf:"sysctls,omitempty"`
+	Sysctls map[string]*string `json:"sysctls" tf:"sysctls,omitempty"`
 }
 
 type NodePoolNodeConfigLocalNvmeSsdBlockConfigInitParameters struct {
@@ -506,7 +506,7 @@ type NodePoolNodeConfigLocalNvmeSsdBlockConfigObservation struct {
 type NodePoolNodeConfigLocalNvmeSsdBlockConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
-	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
+	LocalSsdCount *float64 `json:"localSsdCount" tf:"local_ssd_count,omitempty"`
 }
 
 type NodePoolNodeConfigObservation_2 struct {
@@ -692,7 +692,7 @@ type NodePoolNodeConfigReservationAffinityObservation struct {
 type NodePoolNodeConfigReservationAffinityParameters struct {
 
 	// +kubebuilder:validation:Optional
-	ConsumeReservationType *string `json:"consumeReservationType,omitempty" tf:"consume_reservation_type,omitempty"`
+	ConsumeReservationType *string `json:"consumeReservationType" tf:"consume_reservation_type,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
@@ -761,7 +761,7 @@ type NodePoolNodeConfigWorkloadMetadataConfigObservation struct {
 type NodePoolNodeConfigWorkloadMetadataConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+	Mode *string `json:"mode" tf:"mode,omitempty"`
 }
 
 type NodePoolObservation_2 struct {
@@ -955,7 +955,7 @@ type NodePoolPlacementPolicyParameters struct {
 	// Specifying COMPACT placement policy type places node pool's nodes in a closer
 	// physical proximity in order to reduce network latency between nodes.
 	// +kubebuilder:validation:Optional
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type NodePoolUpgradeSettingsBlueGreenSettingsInitParameters struct {
@@ -987,7 +987,7 @@ type NodePoolUpgradeSettingsBlueGreenSettingsParameters struct {
 
 	// Specifies the standard policy settings for blue-green upgrades.
 	// +kubebuilder:validation:Optional
-	StandardRolloutPolicy []UpgradeSettingsBlueGreenSettingsStandardRolloutPolicyParameters `json:"standardRolloutPolicy,omitempty" tf:"standard_rollout_policy,omitempty"`
+	StandardRolloutPolicy []UpgradeSettingsBlueGreenSettingsStandardRolloutPolicyParameters `json:"standardRolloutPolicy" tf:"standard_rollout_policy,omitempty"`
 }
 
 type NodePoolUpgradeSettingsInitParameters_2 struct {

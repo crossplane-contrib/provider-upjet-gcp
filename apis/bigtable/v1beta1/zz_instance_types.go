@@ -59,15 +59,15 @@ type AutoscalingConfigParameters struct {
 
 	// The target CPU utilization for autoscaling, in percentage. Must be between 10 and 80.
 	// +kubebuilder:validation:Optional
-	CPUTarget *float64 `json:"cpuTarget,omitempty" tf:"cpu_target,omitempty"`
+	CPUTarget *float64 `json:"cpuTarget" tf:"cpu_target,omitempty"`
 
 	// The maximum number of nodes for autoscaling.
 	// +kubebuilder:validation:Optional
-	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
+	MaxNodes *float64 `json:"maxNodes" tf:"max_nodes,omitempty"`
 
 	// The minimum number of nodes for autoscaling.
 	// +kubebuilder:validation:Optional
-	MinNodes *float64 `json:"minNodes,omitempty" tf:"min_nodes,omitempty"`
+	MinNodes *float64 `json:"minNodes" tf:"min_nodes,omitempty"`
 
 	// The target storage utilization for autoscaling, in GB, for each node in a cluster. This number is limited between 2560 (2.5TiB) and 5120 (5TiB) for a SSD cluster and between 8192 (8TiB) and 16384 (16 TiB) for an HDD cluster. If not set, whatever is already set for the cluster will not change, or if the cluster is just being created, it will use the default value of 2560 for SSD clusters and 8192 for HDD clusters.
 	// +kubebuilder:validation:Optional
@@ -132,7 +132,7 @@ type ClusterParameters struct {
 
 	// The ID of the Cloud Bigtable cluster. Must be 6-30 characters and must only contain hyphens, lowercase letters and numbers.
 	// +kubebuilder:validation:Optional
-	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
+	ClusterID *string `json:"clusterId" tf:"cluster_id,omitempty"`
 
 	// Describes the Cloud KMS encryption key that will be used to protect the destination Bigtable cluster. The requirements for this key are: 1) The Cloud Bigtable service account associated with the project that contains this cluster must be granted the cloudkms.cryptoKeyEncrypterDecrypter role on the CMEK key. 2) Only regional keys can be used and the region of the CMEK key must match the region of the cluster.
 	// +kubebuilder:validation:Optional

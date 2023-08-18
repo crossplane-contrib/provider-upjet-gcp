@@ -44,7 +44,7 @@ type DeliveryConfigParameters struct {
 	// When this subscription should send messages to subscribers relative to messages persistence in storage.
 	// Possible values are: DELIVER_IMMEDIATELY, DELIVER_AFTER_STORED, DELIVERY_REQUIREMENT_UNSPECIFIED.
 	// +kubebuilder:validation:Optional
-	DeliveryRequirement *string `json:"deliveryRequirement,omitempty" tf:"delivery_requirement,omitempty"`
+	DeliveryRequirement *string `json:"deliveryRequirement" tf:"delivery_requirement,omitempty"`
 }
 
 type LiteSubscriptionInitParameters struct {

@@ -41,7 +41,7 @@ type CloudLoggingConfigParameters struct {
 
 	// If set, enable query logging for this ManagedZone. False by default, making logging opt-in.
 	// +kubebuilder:validation:Optional
-	EnableLogging *bool `json:"enableLogging,omitempty" tf:"enable_logging,omitempty"`
+	EnableLogging *bool `json:"enableLogging" tf:"enable_logging,omitempty"`
 }
 
 type DNSSECConfigInitParameters struct {
@@ -209,7 +209,7 @@ type ForwardingConfigParameters struct {
 	// one target is given.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	TargetNameServers []TargetNameServersParameters `json:"targetNameServers,omitempty" tf:"target_name_servers,omitempty"`
+	TargetNameServers []TargetNameServersParameters `json:"targetNameServers" tf:"target_name_servers,omitempty"`
 }
 
 type GkeClustersInitParameters struct {
@@ -463,7 +463,7 @@ type PeeringConfigParameters struct {
 	// The network with which to peer.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	TargetNetwork []TargetNetworkParameters `json:"targetNetwork,omitempty" tf:"target_network,omitempty"`
+	TargetNetwork []TargetNetworkParameters `json:"targetNetwork" tf:"target_network,omitempty"`
 }
 
 type PrivateVisibilityConfigInitParameters struct {
@@ -504,7 +504,7 @@ type PrivateVisibilityConfigParameters struct {
 	// blocks in an update and then apply another update adding all of them back simultaneously.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Networks []NetworksParameters `json:"networks,omitempty" tf:"networks,omitempty"`
+	Networks []NetworksParameters `json:"networks" tf:"networks,omitempty"`
 }
 
 type TargetNameServersInitParameters struct {
@@ -542,7 +542,7 @@ type TargetNameServersParameters struct {
 
 	// IPv4 address of a target name server.
 	// +kubebuilder:validation:Optional
-	IPv4Address *string `json:"ipv4Address,omitempty" tf:"ipv4_address,omitempty"`
+	IPv4Address *string `json:"ipv4Address" tf:"ipv4_address,omitempty"`
 }
 
 type TargetNetworkInitParameters struct {

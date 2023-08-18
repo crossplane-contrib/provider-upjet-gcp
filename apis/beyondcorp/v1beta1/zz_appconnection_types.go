@@ -164,11 +164,11 @@ type ApplicationEndpointParameters struct {
 
 	// Hostname or IP address of the remote application endpoint.
 	// +kubebuilder:validation:Optional
-	Host *string `json:"host,omitempty" tf:"host,omitempty"`
+	Host *string `json:"host" tf:"host,omitempty"`
 
 	// Port of the remote application endpoint.
 	// +kubebuilder:validation:Optional
-	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+	Port *float64 `json:"port" tf:"port,omitempty"`
 }
 
 type GatewayInitParameters struct {

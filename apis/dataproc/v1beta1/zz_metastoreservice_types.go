@@ -106,15 +106,15 @@ type HiveMetastoreConfigKerberosConfigParameters struct {
 	// A Kerberos keytab file that can be used to authenticate a service principal with a Kerberos Key Distribution Center (KDC).
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Keytab []KeytabParameters `json:"keytab,omitempty" tf:"keytab,omitempty"`
+	Keytab []KeytabParameters `json:"keytab" tf:"keytab,omitempty"`
 
 	// A Cloud Storage URI that specifies the path to a krb5.conf file. It is of the form gs://{bucket_name}/path/to/krb5.conf, although the file does not need to be named krb5.conf explicitly.
 	// +kubebuilder:validation:Optional
-	Krb5ConfigGcsURI *string `json:"krb5ConfigGcsUri,omitempty" tf:"krb5_config_gcs_uri,omitempty"`
+	Krb5ConfigGcsURI *string `json:"krb5ConfigGcsUri" tf:"krb5_config_gcs_uri,omitempty"`
 
 	// A Kerberos principal that exists in the both the keytab the KDC to authenticate as. A typical principal is of the form "primary/instance@REALM", but there is no exact format.
 	// +kubebuilder:validation:Optional
-	Principal *string `json:"principal,omitempty" tf:"principal,omitempty"`
+	Principal *string `json:"principal" tf:"principal,omitempty"`
 }
 
 type HiveMetastoreConfigObservation struct {
@@ -145,7 +145,7 @@ type HiveMetastoreConfigParameters struct {
 
 	// The Hive metastore schema version.
 	// +kubebuilder:validation:Optional
-	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+	Version *string `json:"version" tf:"version,omitempty"`
 }
 
 type KeytabInitParameters struct {
@@ -167,7 +167,7 @@ type KeytabParameters struct {
 	// The relative resource name of a Secret Manager secret version, in the following form:
 	// "projects/{projectNumber}/secrets/{secret_id}/versions/{version_id}".
 	// +kubebuilder:validation:Optional
-	CloudSecret *string `json:"cloudSecret,omitempty" tf:"cloud_secret,omitempty"`
+	CloudSecret *string `json:"cloudSecret" tf:"cloud_secret,omitempty"`
 }
 
 type MaintenanceWindowInitParameters struct {
@@ -195,11 +195,11 @@ type MaintenanceWindowParameters struct {
 	// The day of week, when the window starts.
 	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	// +kubebuilder:validation:Optional
-	DayOfWeek *string `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+	DayOfWeek *string `json:"dayOfWeek" tf:"day_of_week,omitempty"`
 
 	// The hour of day (0-23) when the window starts.
 	// +kubebuilder:validation:Optional
-	HourOfDay *float64 `json:"hourOfDay,omitempty" tf:"hour_of_day,omitempty"`
+	HourOfDay *float64 `json:"hourOfDay" tf:"hour_of_day,omitempty"`
 }
 
 type MetastoreServiceEncryptionConfigInitParameters struct {
@@ -453,7 +453,7 @@ type NetworkConfigParameters struct {
 	// The consumer-side network configuration for the Dataproc Metastore instance.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Consumers []ConsumersParameters `json:"consumers,omitempty" tf:"consumers,omitempty"`
+	Consumers []ConsumersParameters `json:"consumers" tf:"consumers,omitempty"`
 }
 
 type TelemetryConfigInitParameters struct {

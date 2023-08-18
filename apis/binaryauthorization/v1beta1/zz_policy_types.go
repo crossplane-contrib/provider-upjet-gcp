@@ -50,7 +50,7 @@ type AdmissionWhitelistPatternsParameters struct {
 	// wildcard, but this is allowed only in text after the registry/
 	// part.
 	// +kubebuilder:validation:Optional
-	NamePattern *string `json:"namePattern,omitempty" tf:"name_pattern,omitempty"`
+	NamePattern *string `json:"namePattern" tf:"name_pattern,omitempty"`
 }
 
 type ClusterAdmissionRulesInitParameters struct {
@@ -105,17 +105,17 @@ type ClusterAdmissionRulesParameters struct {
 
 	// The identifier for this object. Format specified above.
 	// +kubebuilder:validation:Optional
-	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
+	Cluster *string `json:"cluster" tf:"cluster,omitempty"`
 
 	// The action when a pod creation is denied by the admission rule.
 	// Possible values are: ENFORCED_BLOCK_AND_AUDIT_LOG, DRYRUN_AUDIT_LOG_ONLY.
 	// +kubebuilder:validation:Optional
-	EnforcementMode *string `json:"enforcementMode,omitempty" tf:"enforcement_mode,omitempty"`
+	EnforcementMode *string `json:"enforcementMode" tf:"enforcement_mode,omitempty"`
 
 	// How this admission rule will be evaluated.
 	// Possible values are: ALWAYS_ALLOW, REQUIRE_ATTESTATION, ALWAYS_DENY.
 	// +kubebuilder:validation:Optional
-	EvaluationMode *string `json:"evaluationMode,omitempty" tf:"evaluation_mode,omitempty"`
+	EvaluationMode *string `json:"evaluationMode" tf:"evaluation_mode,omitempty"`
 
 	// The resource names of the attestors that must attest to a
 	// container image. If the attestor is in a different project from the
@@ -176,12 +176,12 @@ type DefaultAdmissionRuleParameters struct {
 	// The action when a pod creation is denied by the admission rule.
 	// Possible values are: ENFORCED_BLOCK_AND_AUDIT_LOG, DRYRUN_AUDIT_LOG_ONLY.
 	// +kubebuilder:validation:Optional
-	EnforcementMode *string `json:"enforcementMode,omitempty" tf:"enforcement_mode,omitempty"`
+	EnforcementMode *string `json:"enforcementMode" tf:"enforcement_mode,omitempty"`
 
 	// How this admission rule will be evaluated.
 	// Possible values are: ALWAYS_ALLOW, REQUIRE_ATTESTATION, ALWAYS_DENY.
 	// +kubebuilder:validation:Optional
-	EvaluationMode *string `json:"evaluationMode,omitempty" tf:"evaluation_mode,omitempty"`
+	EvaluationMode *string `json:"evaluationMode" tf:"evaluation_mode,omitempty"`
 
 	// The resource names of the attestors that must attest to a
 	// container image. If the attestor is in a different project from the

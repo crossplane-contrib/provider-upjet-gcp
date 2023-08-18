@@ -61,7 +61,7 @@ type EventTriggerParameters struct {
 	// See the documentation on calling Cloud Functions for a
 	// full reference of accepted triggers.
 	// +kubebuilder:validation:Optional
-	EventType *string `json:"eventType,omitempty" tf:"event_type,omitempty"`
+	EventType *string `json:"eventType" tf:"event_type,omitempty"`
 
 	// Specifies policy for failed executions. Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -70,7 +70,7 @@ type EventTriggerParameters struct {
 	// Required. The name or partial URI of the resource from
 	// which to observe events. For example, "myBucket" or "projects/my-project/topics/my-topic"
 	// +kubebuilder:validation:Optional
-	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
+	Resource *string `json:"resource" tf:"resource,omitempty"`
 }
 
 type FailurePolicyInitParameters struct {
@@ -89,7 +89,7 @@ type FailurePolicyParameters struct {
 
 	// Whether the function should be retried on failure. Defaults to false.
 	// +kubebuilder:validation:Optional
-	Retry *bool `json:"retry,omitempty" tf:"retry,omitempty"`
+	Retry *bool `json:"retry" tf:"retry,omitempty"`
 }
 
 type FunctionInitParameters struct {
@@ -446,7 +446,7 @@ type SecretEnvironmentVariablesParameters struct {
 
 	// Name of the environment variable.
 	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+	Key *string `json:"key" tf:"key,omitempty"`
 
 	// Project identifier (due to a known limitation, only project number is supported by this field) of the project that contains the secret. If not set, it will be populated with the function's project, assuming that the secret exists in the same project as of the function.
 	// +kubebuilder:validation:Optional
@@ -454,11 +454,11 @@ type SecretEnvironmentVariablesParameters struct {
 
 	// ID of the secret in secret manager (not the full resource name).
 	// +kubebuilder:validation:Optional
-	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
+	Secret *string `json:"secret" tf:"secret,omitempty"`
 
 	// Version of the secret (version number or the string "latest"). It is recommended to use a numeric version for secret environment variables as any updates to the secret value is not reflected until new clones start.
 	// +kubebuilder:validation:Optional
-	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+	Version *string `json:"version" tf:"version,omitempty"`
 }
 
 type SecretVolumesInitParameters struct {
@@ -495,7 +495,7 @@ type SecretVolumesParameters struct {
 
 	// The path within the container to mount the secret volume. For example, setting the mount_path as "/etc/secrets" would mount the secret value files under the "/etc/secrets" directory. This directory will also be completely shadowed and unavailable to mount any other secrets. Recommended mount paths: "/etc/secrets" Restricted mount paths: "/cloudsql", "/dev/log", "/pod", "/proc", "/var/log".
 	// +kubebuilder:validation:Optional
-	MountPath *string `json:"mountPath,omitempty" tf:"mount_path,omitempty"`
+	MountPath *string `json:"mountPath" tf:"mount_path,omitempty"`
 
 	// Project identifier (due to a known limitation, only project number is supported by this field) of the project that contains the secret. If not set, it will be populated with the function's project, assuming that the secret exists in the same project as of the function.
 	// +kubebuilder:validation:Optional
@@ -503,7 +503,7 @@ type SecretVolumesParameters struct {
 
 	// ID of the secret in secret manager (not the full resource name).
 	// +kubebuilder:validation:Optional
-	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
+	Secret *string `json:"secret" tf:"secret,omitempty"`
 
 	// List of secret versions to mount for this secret. If empty, the "latest" version of the secret will be made available in a file named after the secret under the mount point. Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -529,7 +529,7 @@ type SourceRepositoryParameters struct {
 
 	// The URL pointing to the hosted repository where the function is defined. There are supported Cloud Source Repository URLs in the following formats:
 	// +kubebuilder:validation:Optional
-	URL *string `json:"url,omitempty" tf:"url,omitempty"`
+	URL *string `json:"url" tf:"url,omitempty"`
 }
 
 type VersionsInitParameters struct {
@@ -554,11 +554,11 @@ type VersionsParameters struct {
 
 	// Relative path of the file under the mount path where the secret value for this version will be fetched and made available. For example, setting the mount_path as "/etc/secrets" and path as "/secret_foo" would mount the secret value file at "/etc/secrets/secret_foo".
 	// +kubebuilder:validation:Optional
-	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+	Path *string `json:"path" tf:"path,omitempty"`
 
 	// Version of the secret (version number or the string "latest"). It is preferable to use "latest" version with secret volumes as secret value changes are reflected immediately.
 	// +kubebuilder:validation:Optional
-	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+	Version *string `json:"version" tf:"version,omitempty"`
 }
 
 // FunctionSpec defines the desired state of Function
