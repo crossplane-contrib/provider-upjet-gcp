@@ -196,7 +196,7 @@ type ContainersParameters struct {
 	// Docker image name. This is most often a reference to a container located
 	// in the container registry, such as gcr.io/cloudrun/hello
 	// +kubebuilder:validation:Optional
-	Image *string `json:"image,omitempty" tf:"image,omitempty"`
+	Image *string `json:"image" tf:"image,omitempty"`
 
 	// Periodic probe of container liveness. Container will be restarted if the probe fails.
 	// Structure is documented below.
@@ -380,7 +380,7 @@ type HTTPGetHTTPHeadersParameters struct {
 
 	// Volume's name.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// The header field value.
 	// +kubebuilder:validation:Optional
@@ -463,7 +463,7 @@ type HTTPHeadersParameters struct {
 
 	// Volume's name.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// The header field value.
 	// +kubebuilder:validation:Optional
@@ -513,7 +513,7 @@ type ItemsParameters struct {
 	// A Cloud Secret Manager secret version. Must be 'latest' for the latest
 	// version or an integer for a specific version.
 	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+	Key *string `json:"key" tf:"key,omitempty"`
 
 	// Mode bits to use on this file, must be a value between 0000 and 0777. If
 	// not specified, the volume defaultMode will be used. This might be in
@@ -527,7 +527,7 @@ type ItemsParameters struct {
 	// May not contain the path element '..'.
 	// May not start with the string '..'.
 	// +kubebuilder:validation:Optional
-	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+	Path *string `json:"path" tf:"path,omitempty"`
 }
 
 type LivenessProbeInitParameters struct {
@@ -639,7 +639,7 @@ type LocalObjectReferenceParameters struct {
 
 	// Volume's name.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type PortsInitParameters struct {
@@ -767,7 +767,7 @@ type SecretKeyRefParameters struct {
 	// A Cloud Secret Manager secret version. Must be 'latest' for the latest
 	// version or an integer for a specific version.
 	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+	Key *string `json:"key" tf:"key,omitempty"`
 
 	// Volume's name.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/secretmanager/v1beta1.Secret
@@ -877,7 +877,7 @@ type SecretRefLocalObjectReferenceParameters struct {
 
 	// Volume's name.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type SecretRefObservation struct {
@@ -1707,7 +1707,7 @@ type TrafficParameters struct {
 
 	// Percent specifies percent of the traffic to this Revision or Configuration.
 	// +kubebuilder:validation:Optional
-	Percent *float64 `json:"percent,omitempty" tf:"percent,omitempty"`
+	Percent *float64 `json:"percent" tf:"percent,omitempty"`
 
 	// RevisionName of a specific revision to which to send this portion of traffic.
 	// +kubebuilder:validation:Optional
@@ -1737,7 +1737,7 @@ type ValueFromParameters struct {
 	// Selects a key (version) of a secret in Secret Manager.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	SecretKeyRef []SecretKeyRefParameters `json:"secretKeyRef,omitempty" tf:"secret_key_ref,omitempty"`
+	SecretKeyRef []SecretKeyRefParameters `json:"secretKeyRef" tf:"secret_key_ref,omitempty"`
 }
 
 type VolumeMountsInitParameters struct {
@@ -1765,11 +1765,11 @@ type VolumeMountsParameters struct {
 	// Path within the container at which the volume should be mounted.  Must
 	// not contain ':'.
 	// +kubebuilder:validation:Optional
-	MountPath *string `json:"mountPath,omitempty" tf:"mount_path,omitempty"`
+	MountPath *string `json:"mountPath" tf:"mount_path,omitempty"`
 
 	// Volume's name.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type VolumesInitParameters struct {
@@ -1800,14 +1800,14 @@ type VolumesParameters struct {
 
 	// Volume's name.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// The secret's value will be presented as the content of a file whose
 	// name is defined in the item path. If no items are defined, the name of
 	// the file is the secret_name.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Secret []SecretParameters `json:"secret,omitempty" tf:"secret,omitempty"`
+	Secret []SecretParameters `json:"secret" tf:"secret,omitempty"`
 }
 
 // ServiceSpec defines the desired state of Service

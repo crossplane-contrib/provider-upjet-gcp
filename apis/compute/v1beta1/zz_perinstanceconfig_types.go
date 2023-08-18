@@ -206,7 +206,7 @@ type PreservedStateDiskParameters struct {
 
 	// A unique device name that is reflected into the /dev/ tree of a Linux operating system running within the instance.
 	// +kubebuilder:validation:Optional
-	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
+	DeviceName *string `json:"deviceName" tf:"device_name,omitempty"`
 
 	// The mode of the disk.
 	// Default value is READ_WRITE.

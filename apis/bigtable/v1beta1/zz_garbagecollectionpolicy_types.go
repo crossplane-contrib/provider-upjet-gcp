@@ -186,7 +186,7 @@ type MaxVersionParameters struct {
 
 	// Number of version before applying the GC policy.
 	// +kubebuilder:validation:Optional
-	Number *float64 `json:"number,omitempty" tf:"number,omitempty"`
+	Number *float64 `json:"number" tf:"number,omitempty"`
 }
 
 // GarbageCollectionPolicySpec defines the desired state of GarbageCollectionPolicy

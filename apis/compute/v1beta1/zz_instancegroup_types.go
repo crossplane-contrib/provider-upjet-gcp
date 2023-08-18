@@ -147,11 +147,11 @@ type NamedPortParameters struct {
 
 	// The name which the port will be mapped to.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// The port number to map the name to.
 	// +kubebuilder:validation:Optional
-	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+	Port *float64 `json:"port" tf:"port,omitempty"`
 }
 
 // InstanceGroupSpec defines the desired state of InstanceGroup

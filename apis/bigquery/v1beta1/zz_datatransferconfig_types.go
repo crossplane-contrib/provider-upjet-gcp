@@ -289,7 +289,7 @@ type EmailPreferencesParameters struct {
 
 	// If true, email notifications will be sent on transfer run failures.
 	// +kubebuilder:validation:Optional
-	EnableFailureEmail *bool `json:"enableFailureEmail,omitempty" tf:"enable_failure_email,omitempty"`
+	EnableFailureEmail *bool `json:"enableFailureEmail" tf:"enable_failure_email,omitempty"`
 }
 
 type ScheduleOptionsInitParameters struct {

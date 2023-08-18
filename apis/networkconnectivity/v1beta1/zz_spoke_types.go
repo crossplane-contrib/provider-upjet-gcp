@@ -83,11 +83,11 @@ type LinkedInterconnectAttachmentsParameters struct {
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
 	// +kubebuilder:validation:Optional
-	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer,omitempty" tf:"site_to_site_data_transfer,omitempty"`
+	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer" tf:"site_to_site_data_transfer,omitempty"`
 
 	// The URIs of linked interconnect attachment resources
 	// +kubebuilder:validation:Optional
-	Uris []*string `json:"uris,omitempty" tf:"uris,omitempty"`
+	Uris []*string `json:"uris" tf:"uris,omitempty"`
 }
 
 type LinkedRouterApplianceInstancesInitParameters struct {
@@ -112,11 +112,11 @@ type LinkedRouterApplianceInstancesParameters struct {
 
 	// The list of router appliance instances
 	// +kubebuilder:validation:Optional
-	Instances []InstancesParameters `json:"instances,omitempty" tf:"instances,omitempty"`
+	Instances []InstancesParameters `json:"instances" tf:"instances,omitempty"`
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
 	// +kubebuilder:validation:Optional
-	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer,omitempty" tf:"site_to_site_data_transfer,omitempty"`
+	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer" tf:"site_to_site_data_transfer,omitempty"`
 }
 
 type LinkedVPNTunnelsInitParameters struct {
@@ -141,11 +141,11 @@ type LinkedVPNTunnelsParameters struct {
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
 	// +kubebuilder:validation:Optional
-	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer,omitempty" tf:"site_to_site_data_transfer,omitempty"`
+	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer" tf:"site_to_site_data_transfer,omitempty"`
 
 	// The URIs of linked VPN tunnel resources.
 	// +kubebuilder:validation:Optional
-	Uris []*string `json:"uris,omitempty" tf:"uris,omitempty"`
+	Uris []*string `json:"uris" tf:"uris,omitempty"`
 }
 
 type SpokeInitParameters struct {

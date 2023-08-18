@@ -41,7 +41,7 @@ type AllowedValuesParameters struct {
 
 	// The display name for this field.
 	// +kubebuilder:validation:Optional
-	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
 }
 
 type EnumTypeInitParameters struct {
@@ -75,7 +75,7 @@ type EnumTypeParameters struct {
 	// Can have up to 500 allowed values.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	AllowedValues []AllowedValuesParameters `json:"allowedValues,omitempty" tf:"allowed_values,omitempty"`
+	AllowedValues []AllowedValuesParameters `json:"allowedValues" tf:"allowed_values,omitempty"`
 }
 
 type TagTemplateFieldsInitParameters struct {
@@ -142,7 +142,7 @@ type TagTemplateFieldsParameters struct {
 
 	// The identifier for this object. Format specified above.
 	// +kubebuilder:validation:Optional
-	FieldID *string `json:"fieldId,omitempty" tf:"field_id,omitempty"`
+	FieldID *string `json:"fieldId" tf:"field_id,omitempty"`
 
 	// Whether this is a required field. Defaults to false.
 	// +kubebuilder:validation:Optional
@@ -157,7 +157,7 @@ type TagTemplateFieldsParameters struct {
 	// The type of value this tag field can contain.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Type []TypeParameters `json:"type,omitempty" tf:"type,omitempty"`
+	Type []TypeParameters `json:"type" tf:"type,omitempty"`
 }
 
 type TagTemplateInitParameters struct {

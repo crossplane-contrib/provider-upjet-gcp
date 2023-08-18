@@ -56,14 +56,14 @@ type GuestAcceleratorsParameters struct {
 	// The number of the guest accelerator cards exposed to
 	// this instance.
 	// +kubebuilder:validation:Optional
-	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
+	AcceleratorCount *float64 `json:"acceleratorCount" tf:"accelerator_count,omitempty"`
 
 	// The full or partial URL of the accelerator type to
 	// attach to this instance. For example:
 	// projects/my-project/zones/us-central1-c/acceleratorTypes/nvidia-tesla-p100
 	// If you are creating an instance template, specify only the accelerator name.
 	// +kubebuilder:validation:Optional
-	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
+	AcceleratorType *string `json:"acceleratorType" tf:"accelerator_type,omitempty"`
 }
 
 type InstancePropertiesInitParameters struct {
@@ -123,7 +123,7 @@ type InstancePropertiesParameters struct {
 
 	// The name of the machine type to reserve.
 	// +kubebuilder:validation:Optional
-	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+	MachineType *string `json:"machineType" tf:"machine_type,omitempty"`
 
 	// The minimum CPU platform for the reservation. For example,
 	// "Intel Skylake". See
@@ -159,7 +159,7 @@ type LocalSsdsParameters struct {
 
 	// The size of the disk in base-2 GB.
 	// +kubebuilder:validation:Optional
-	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+	DiskSizeGb *float64 `json:"diskSizeGb" tf:"disk_size_gb,omitempty"`
 
 	// The disk interface to use for attaching this disk.
 	// Default value is SCSI.
@@ -328,12 +328,12 @@ type ReservationSpecificReservationParameters struct {
 
 	// The number of resources that are allocated.
 	// +kubebuilder:validation:Optional
-	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+	Count *float64 `json:"count" tf:"count,omitempty"`
 
 	// The instance properties for the reservation.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	InstanceProperties []InstancePropertiesParameters `json:"instanceProperties,omitempty" tf:"instance_properties,omitempty"`
+	InstanceProperties []InstancePropertiesParameters `json:"instanceProperties" tf:"instance_properties,omitempty"`
 }
 
 type ShareSettingsProjectMapInitParameters struct {
@@ -358,7 +358,7 @@ type ShareSettingsProjectMapParameters struct {
 
 	// The identifier for this object. Format specified above.
 	// +kubebuilder:validation:Optional
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+	ID *string `json:"id" tf:"id,omitempty"`
 
 	// The project id/number, should be same as the key of this project config in the project map.
 	// +kubebuilder:validation:Optional

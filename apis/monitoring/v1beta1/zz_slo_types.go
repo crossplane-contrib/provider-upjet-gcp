@@ -230,7 +230,7 @@ type BasicSliPerformanceLatencyParameters struct {
 	// Good service is defined to be the count of requests made to
 	// this service that return in no more than threshold.
 	// +kubebuilder:validation:Optional
-	Threshold *string `json:"threshold,omitempty" tf:"threshold,omitempty"`
+	Threshold *string `json:"threshold" tf:"threshold,omitempty"`
 }
 
 type BasicSliPerformanceObservation struct {
@@ -351,7 +351,7 @@ type DistributionCutParameters struct {
 	// Must have ValueType = DISTRIBUTION and
 	// MetricKind = DELTA or MetricKind = CUMULATIVE.
 	// +kubebuilder:validation:Optional
-	DistributionFilter *string `json:"distributionFilter,omitempty" tf:"distribution_filter,omitempty"`
+	DistributionFilter *string `json:"distributionFilter" tf:"distribution_filter,omitempty"`
 
 	// Range of numerical values. The computed good_service
 	// will be the count of values x in the Distribution such
@@ -361,7 +361,7 @@ type DistributionCutParameters struct {
 	// range.min <= X <= range.max for a good window.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Range []RangeParameters `json:"range,omitempty" tf:"range,omitempty"`
+	Range []RangeParameters `json:"range" tf:"range,omitempty"`
 }
 
 type DistributionCutRangeInitParameters struct {
@@ -562,7 +562,7 @@ type LatencyParameters struct {
 	// Good service is defined to be the count of requests made to
 	// this service that return in no more than threshold.
 	// +kubebuilder:validation:Optional
-	Threshold *string `json:"threshold,omitempty" tf:"threshold,omitempty"`
+	Threshold *string `json:"threshold" tf:"threshold,omitempty"`
 }
 
 type MetricMeanInRangeInitParameters struct {
@@ -617,7 +617,7 @@ type MetricMeanInRangeParameters struct {
 	// range.min <= X <= range.max for a good window.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Range []MetricMeanInRangeRangeParameters `json:"range,omitempty" tf:"range,omitempty"`
+	Range []MetricMeanInRangeRangeParameters `json:"range" tf:"range,omitempty"`
 
 	// A monitoring filter
 	// specifying the TimeSeries to use for evaluating window
@@ -627,7 +627,7 @@ type MetricMeanInRangeParameters struct {
 	// Summed value X should satisfy
 	// range.min <= X <= range.max for a good window.
 	// +kubebuilder:validation:Optional
-	TimeSeries *string `json:"timeSeries,omitempty" tf:"time_series,omitempty"`
+	TimeSeries *string `json:"timeSeries" tf:"time_series,omitempty"`
 }
 
 type MetricMeanInRangeRangeInitParameters struct {
@@ -717,7 +717,7 @@ type MetricSumInRangeParameters struct {
 	// range.min <= X <= range.max for a good window.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Range []MetricSumInRangeRangeParameters `json:"range,omitempty" tf:"range,omitempty"`
+	Range []MetricSumInRangeRangeParameters `json:"range" tf:"range,omitempty"`
 
 	// A monitoring filter
 	// specifying the TimeSeries to use for evaluating window
@@ -727,7 +727,7 @@ type MetricSumInRangeParameters struct {
 	// Summed value X should satisfy
 	// range.min <= X <= range.max for a good window.
 	// +kubebuilder:validation:Optional
-	TimeSeries *string `json:"timeSeries,omitempty" tf:"time_series,omitempty"`
+	TimeSeries *string `json:"timeSeries" tf:"time_series,omitempty"`
 }
 
 type MetricSumInRangeRangeInitParameters struct {
@@ -808,7 +808,7 @@ type PerformanceDistributionCutParameters struct {
 	// Must have ValueType = DISTRIBUTION and
 	// MetricKind = DELTA or MetricKind = CUMULATIVE.
 	// +kubebuilder:validation:Optional
-	DistributionFilter *string `json:"distributionFilter,omitempty" tf:"distribution_filter,omitempty"`
+	DistributionFilter *string `json:"distributionFilter" tf:"distribution_filter,omitempty"`
 
 	// Range of numerical values. The computed good_service
 	// will be the count of values x in the Distribution such
@@ -818,7 +818,7 @@ type PerformanceDistributionCutParameters struct {
 	// range.min <= X <= range.max for a good window.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Range []DistributionCutRangeParameters `json:"range,omitempty" tf:"range,omitempty"`
+	Range []DistributionCutRangeParameters `json:"range" tf:"range,omitempty"`
 }
 
 type PerformanceGoodTotalRatioInitParameters struct {

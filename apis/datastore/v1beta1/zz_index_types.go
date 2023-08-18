@@ -117,11 +117,11 @@ type PropertiesParameters struct {
 	// The direction the index should optimize for sorting.
 	// Possible values are: ASCENDING, DESCENDING.
 	// +kubebuilder:validation:Optional
-	Direction *string `json:"direction,omitempty" tf:"direction,omitempty"`
+	Direction *string `json:"direction" tf:"direction,omitempty"`
 
 	// The property name to index.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 // IndexSpec defines the desired state of Index

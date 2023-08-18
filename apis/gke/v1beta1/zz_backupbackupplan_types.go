@@ -342,11 +342,11 @@ type NamespacedNamesParameters struct {
 
 	// The name of a Kubernetes Resource.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// The namespace of a Kubernetes Resource.
 	// +kubebuilder:validation:Optional
-	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+	Namespace *string `json:"namespace" tf:"namespace,omitempty"`
 }
 
 type RetentionPolicyInitParameters struct {
@@ -455,7 +455,7 @@ type SelectedApplicationsParameters struct {
 	// A list of namespaced Kubernetes resources.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	NamespacedNames []NamespacedNamesParameters `json:"namespacedNames,omitempty" tf:"namespaced_names,omitempty"`
+	NamespacedNames []NamespacedNamesParameters `json:"namespacedNames" tf:"namespaced_names,omitempty"`
 }
 
 type SelectedNamespacesInitParameters struct {
@@ -474,7 +474,7 @@ type SelectedNamespacesParameters struct {
 
 	// A list of Kubernetes Namespaces.
 	// +kubebuilder:validation:Optional
-	Namespaces []*string `json:"namespaces,omitempty" tf:"namespaces,omitempty"`
+	Namespaces []*string `json:"namespaces" tf:"namespaces,omitempty"`
 }
 
 // BackupBackupPlanSpec defines the desired state of BackupBackupPlan

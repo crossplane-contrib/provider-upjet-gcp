@@ -68,7 +68,7 @@ type BigqueryConfigParameters struct {
 
 	// The name of the table to which to write data, of the form {projectId}:{datasetId}.{tableId}
 	// +kubebuilder:validation:Optional
-	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+	Table *string `json:"table" tf:"table,omitempty"`
 
 	// When true, use the topic's schema as the columns to write to in BigQuery, if it exists.
 	// +kubebuilder:validation:Optional
@@ -181,7 +181,7 @@ type ExpirationPolicyParameters struct {
 	// A duration in seconds with up to nine fractional digits, terminated by 's'.
 	// Example - "3.5s".
 	// +kubebuilder:validation:Optional
-	TTL *string `json:"ttl,omitempty" tf:"ttl,omitempty"`
+	TTL *string `json:"ttl" tf:"ttl,omitempty"`
 }
 
 type OidcTokenInitParameters struct {
@@ -234,7 +234,7 @@ type OidcTokenParameters struct {
 	// subscriptions.modifyPushConfig RPCs) must have the
 	// iam.serviceAccounts.actAs permission for the service account.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+	ServiceAccountEmail *string `json:"serviceAccountEmail" tf:"service_account_email,omitempty"`
 }
 
 type PushConfigInitParameters struct {
@@ -330,7 +330,7 @@ type PushConfigParameters struct {
 	// For example, a Webhook endpoint might use
 	// "https://example.com/push".
 	// +kubebuilder:validation:Optional
-	PushEndpoint *string `json:"pushEndpoint,omitempty" tf:"push_endpoint,omitempty"`
+	PushEndpoint *string `json:"pushEndpoint" tf:"push_endpoint,omitempty"`
 }
 
 type RetryPolicyInitParameters struct {

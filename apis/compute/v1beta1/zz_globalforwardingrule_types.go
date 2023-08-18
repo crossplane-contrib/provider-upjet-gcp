@@ -79,12 +79,12 @@ type FilterLabelsParameters struct {
 	// APIs, the forwarding rule name must be a 1-20 characters string with
 	// lowercase letters and numbers and must start with a letter.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// The value that the label must match. The value has a maximum
 	// length of 1024 characters.
 	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+	Value *string `json:"value" tf:"value,omitempty"`
 }
 
 type GlobalForwardingRuleInitParameters struct {
@@ -422,7 +422,7 @@ type MetadataFiltersParameters struct {
 	// This list must not be empty and can have at the most 64 entries.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	FilterLabels []FilterLabelsParameters `json:"filterLabels,omitempty" tf:"filter_labels,omitempty"`
+	FilterLabels []FilterLabelsParameters `json:"filterLabels" tf:"filter_labels,omitempty"`
 
 	// Specifies how individual filterLabel matches within the list of
 	// filterLabels contribute towards the overall metadataFilter match.
@@ -432,7 +432,7 @@ type MetadataFiltersParameters struct {
 	// provided metadata.
 	// Possible values are: MATCH_ANY, MATCH_ALL.
 	// +kubebuilder:validation:Optional
-	FilterMatchCriteria *string `json:"filterMatchCriteria,omitempty" tf:"filter_match_criteria,omitempty"`
+	FilterMatchCriteria *string `json:"filterMatchCriteria" tf:"filter_match_criteria,omitempty"`
 }
 
 // GlobalForwardingRuleSpec defines the desired state of GlobalForwardingRule

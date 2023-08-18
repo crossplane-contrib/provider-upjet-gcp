@@ -263,7 +263,7 @@ type MaintenancePolicyParameters struct {
 	// is expected to be one.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	WeeklyMaintenanceWindow []WeeklyMaintenanceWindowParameters `json:"weeklyMaintenanceWindow,omitempty" tf:"weekly_maintenance_window,omitempty"`
+	WeeklyMaintenanceWindow []WeeklyMaintenanceWindowParameters `json:"weeklyMaintenanceWindow" tf:"weekly_maintenance_window,omitempty"`
 }
 
 type MaintenanceScheduleInitParameters struct {
@@ -368,11 +368,11 @@ type NodeConfigParameters struct {
 
 	// Number of CPUs per node.
 	// +kubebuilder:validation:Optional
-	CPUCount *float64 `json:"cpuCount,omitempty" tf:"cpu_count,omitempty"`
+	CPUCount *float64 `json:"cpuCount" tf:"cpu_count,omitempty"`
 
 	// Memory size in Mebibytes for each memcache node.
 	// +kubebuilder:validation:Optional
-	MemorySizeMb *float64 `json:"memorySizeMb,omitempty" tf:"memory_size_mb,omitempty"`
+	MemorySizeMb *float64 `json:"memorySizeMb" tf:"memory_size_mb,omitempty"`
 }
 
 type StartTimeInitParameters struct {
@@ -464,18 +464,18 @@ type WeeklyMaintenanceWindowParameters struct {
 
 	// Required. The day of week that maintenance updates occur.
 	// +kubebuilder:validation:Optional
-	Day *string `json:"day,omitempty" tf:"day,omitempty"`
+	Day *string `json:"day" tf:"day,omitempty"`
 
 	// Required. The length of the maintenance window, ranging from 3 hours to 8 hours.
 	// A duration in seconds with up to nine fractional digits,
 	// terminated by 's'. Example: "3.5s".
 	// +kubebuilder:validation:Optional
-	Duration *string `json:"duration,omitempty" tf:"duration,omitempty"`
+	Duration *string `json:"duration" tf:"duration,omitempty"`
 
 	// Required. Start time of the window in UTC time.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	StartTime []StartTimeParameters `json:"startTime,omitempty" tf:"start_time,omitempty"`
+	StartTime []StartTimeParameters `json:"startTime" tf:"start_time,omitempty"`
 }
 
 // InstanceSpec defines the desired state of Instance

@@ -41,7 +41,7 @@ type FeaturestoreEncryptionSpecParameters struct {
 
 	// The Cloud KMS resource identifier of the customer managed encryption key used to protect a resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key. The key needs to be in the same region as where the compute resource is created.
 	// +kubebuilder:validation:Optional
-	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
 }
 
 type FeaturestoreInitParameters struct {
@@ -198,11 +198,11 @@ type ScalingParameters struct {
 
 	// The maximum number of nodes to scale up to. Must be greater than minNodeCount, and less than or equal to 10 times of 'minNodeCount'.
 	// +kubebuilder:validation:Optional
-	MaxNodeCount *float64 `json:"maxNodeCount,omitempty" tf:"max_node_count,omitempty"`
+	MaxNodeCount *float64 `json:"maxNodeCount" tf:"max_node_count,omitempty"`
 
 	// The minimum number of nodes to scale down to. Must be greater than or equal to 1.
 	// +kubebuilder:validation:Optional
-	MinNodeCount *float64 `json:"minNodeCount,omitempty" tf:"min_node_count,omitempty"`
+	MinNodeCount *float64 `json:"minNodeCount" tf:"min_node_count,omitempty"`
 }
 
 // FeaturestoreSpec defines the desired state of Featurestore

@@ -41,7 +41,7 @@ type BigQueryFieldFieldParameters struct {
 
 	// The resource name of the info type. Set by the server.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type BigQueryFieldInitParameters struct {
@@ -71,12 +71,12 @@ type BigQueryFieldParameters struct {
 	// Designated field in the BigQuery table.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Field []BigQueryFieldFieldParameters `json:"field,omitempty" tf:"field,omitempty"`
+	Field []BigQueryFieldFieldParameters `json:"field" tf:"field,omitempty"`
 
 	// Field in a BigQuery table where each cell represents a dictionary phrase.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Table []BigQueryFieldTableParameters `json:"table,omitempty" tf:"table,omitempty"`
+	Table []BigQueryFieldTableParameters `json:"table" tf:"table,omitempty"`
 }
 
 type BigQueryFieldTableInitParameters struct {
@@ -107,15 +107,15 @@ type BigQueryFieldTableParameters struct {
 
 	// The dataset ID of the table.
 	// +kubebuilder:validation:Optional
-	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+	DatasetID *string `json:"datasetId" tf:"dataset_id,omitempty"`
 
 	// The Google Cloud Platform project ID of the project containing the table.
 	// +kubebuilder:validation:Optional
-	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 
 	// The name of the table.
 	// +kubebuilder:validation:Optional
-	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
+	TableID *string `json:"tableId" tf:"table_id,omitempty"`
 }
 
 type CloudStorageFileSetInitParameters struct {
@@ -134,7 +134,7 @@ type CloudStorageFileSetParameters struct {
 
 	// The url, in the format gs://<bucket>/<path>. Trailing wildcard in the path is allowed.
 	// +kubebuilder:validation:Optional
-	URL *string `json:"url,omitempty" tf:"url,omitempty"`
+	URL *string `json:"url" tf:"url,omitempty"`
 }
 
 type LargeCustomDictionaryInitParameters struct {
@@ -185,7 +185,7 @@ type LargeCustomDictionaryParameters struct {
 	// If any of these artifacts are modified, the dictionary is considered invalid and can no longer be used.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	OutputPath []OutputPathParameters `json:"outputPath,omitempty" tf:"output_path,omitempty"`
+	OutputPath []OutputPathParameters `json:"outputPath" tf:"output_path,omitempty"`
 }
 
 type OutputPathInitParameters struct {
@@ -204,7 +204,7 @@ type OutputPathParameters struct {
 
 	// A url representing a file or path (no wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt
 	// +kubebuilder:validation:Optional
-	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+	Path *string `json:"path" tf:"path,omitempty"`
 }
 
 type StoredInfoTypeDictionaryCloudStoragePathInitParameters struct {
@@ -223,7 +223,7 @@ type StoredInfoTypeDictionaryCloudStoragePathParameters struct {
 
 	// A url representing a file or path (no wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt
 	// +kubebuilder:validation:Optional
-	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+	Path *string `json:"path" tf:"path,omitempty"`
 }
 
 type StoredInfoTypeDictionaryInitParameters struct {
@@ -280,7 +280,7 @@ type StoredInfoTypeDictionaryWordListParameters struct {
 	// Words or phrases defining the dictionary. The dictionary must contain at least one
 	// phrase and every phrase must contain at least 2 characters that are letters or digits.
 	// +kubebuilder:validation:Optional
-	Words []*string `json:"words,omitempty" tf:"words,omitempty"`
+	Words []*string `json:"words" tf:"words,omitempty"`
 }
 
 type StoredInfoTypeInitParameters struct {
@@ -396,7 +396,7 @@ type StoredInfoTypeRegexParameters struct {
 	// Pattern defining the regular expression.
 	// Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
 	// +kubebuilder:validation:Optional
-	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+	Pattern *string `json:"pattern" tf:"pattern,omitempty"`
 }
 
 // StoredInfoTypeSpec defines the desired state of StoredInfoType

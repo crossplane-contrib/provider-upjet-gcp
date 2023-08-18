@@ -52,12 +52,12 @@ type AccessDatasetParameters struct {
 	// The dataset this entry applies to
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Dataset []DatasetDatasetParameters `json:"dataset,omitempty" tf:"dataset,omitempty"`
+	Dataset []DatasetDatasetParameters `json:"dataset" tf:"dataset,omitempty"`
 
 	// Which resources in the dataset this entry applies to. Currently, only views are supported,
 	// but additional target types may be added in the future. Possible values: VIEWS
 	// +kubebuilder:validation:Optional
-	TargetTypes []*string `json:"targetTypes,omitempty" tf:"target_types,omitempty"`
+	TargetTypes []*string `json:"targetTypes" tf:"target_types,omitempty"`
 }
 
 type AccessInitParameters struct {
@@ -238,7 +238,7 @@ type DatasetDatasetParameters struct {
 
 	// The ID of the project containing this table.
 	// +kubebuilder:validation:Optional
-	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 }
 
 type DatasetInitParameters struct {
@@ -575,17 +575,17 @@ type ViewParameters struct {
 
 	// The ID of the dataset containing this table.
 	// +kubebuilder:validation:Optional
-	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+	DatasetID *string `json:"datasetId" tf:"dataset_id,omitempty"`
 
 	// The ID of the project containing this table.
 	// +kubebuilder:validation:Optional
-	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 
 	// The ID of the table. The ID must contain only letters (a-z,
 	// A-Z), numbers (0-9), or underscores (_). The maximum length
 	// is 1,024 characters.
 	// +kubebuilder:validation:Optional
-	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
+	TableID *string `json:"tableId" tf:"table_id,omitempty"`
 }
 
 // DatasetSpec defines the desired state of Dataset

@@ -41,7 +41,7 @@ type ColumnFamilyParameters struct {
 
 	// The name of the column family.
 	// +kubebuilder:validation:Optional
-	Family *string `json:"family,omitempty" tf:"family,omitempty"`
+	Family *string `json:"family" tf:"family,omitempty"`
 }
 
 type TableInitParameters struct {

@@ -49,12 +49,12 @@ type AcceleratorConfigParameters struct {
 
 	// Count of cores of this accelerator.
 	// +kubebuilder:validation:Optional
-	CoreCount *float64 `json:"coreCount,omitempty" tf:"core_count,omitempty"`
+	CoreCount *float64 `json:"coreCount" tf:"core_count,omitempty"`
 
 	// Type of this accelerator.
 	// Possible values are: ACCELERATOR_TYPE_UNSPECIFIED, NVIDIA_TESLA_K80, NVIDIA_TESLA_P100, NVIDIA_TESLA_V100, NVIDIA_TESLA_P4, NVIDIA_TESLA_T4, NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS, NVIDIA_TESLA_A100, TPU_V2, TPU_V3.
 	// +kubebuilder:validation:Optional
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type InstanceContainerImageInitParameters struct {
@@ -82,7 +82,7 @@ type InstanceContainerImageParameters struct {
 	// The path to the container image repository.
 	// For example: gcr.io/{project_id}/{imageName}
 	// +kubebuilder:validation:Optional
-	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
+	Repository *string `json:"repository" tf:"repository,omitempty"`
 
 	// The tag of the container image. If not specified, this defaults to the latest tag.
 	// +kubebuilder:validation:Optional
@@ -551,7 +551,7 @@ type InstanceVMImageParameters struct {
 	// The name of the Google Cloud project that this VM image belongs to.
 	// Format: projects/{project_id}
 	// +kubebuilder:validation:Optional
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+	Project *string `json:"project" tf:"project,omitempty"`
 }
 
 type ReservationAffinityInitParameters struct {
@@ -585,7 +585,7 @@ type ReservationAffinityParameters struct {
 	// The type of Compute Reservation.
 	// Possible values are: NO_RESERVATION, ANY_RESERVATION, SPECIFIC_RESERVATION.
 	// +kubebuilder:validation:Optional
-	ConsumeReservationType *string `json:"consumeReservationType,omitempty" tf:"consume_reservation_type,omitempty"`
+	ConsumeReservationType *string `json:"consumeReservationType" tf:"consume_reservation_type,omitempty"`
 
 	// Corresponds to the label key of reservation resource.
 	// +kubebuilder:validation:Optional

@@ -115,7 +115,7 @@ type CopyParameters struct {
 	// Source tables to copy.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	SourceTables []SourceTablesParameters `json:"sourceTables,omitempty" tf:"source_tables,omitempty"`
+	SourceTables []SourceTablesParameters `json:"sourceTables" tf:"source_tables,omitempty"`
 
 	// Specifies the action that occurs if the destination table already exists. The following values are supported:
 	// WRITE_TRUNCATE: If the table already exists, BigQuery overwrites the table data and uses the schema from the query result.
@@ -368,7 +368,7 @@ type ExtractParameters struct {
 
 	// A list of fully-qualified Google Cloud Storage URIs where the extracted table should be written.
 	// +kubebuilder:validation:Optional
-	DestinationUris []*string `json:"destinationUris,omitempty" tf:"destination_uris,omitempty"`
+	DestinationUris []*string `json:"destinationUris" tf:"destination_uris,omitempty"`
 
 	// When extracting data in CSV format, this defines the delimiter to use between fields in the exported data.
 	// Default is ','
@@ -545,7 +545,7 @@ type LoadDestinationEncryptionConfigurationParameters struct {
 	// Describes the Cloud KMS encryption key that will be used to protect destination BigQuery table.
 	// The BigQuery Service Account associated with your project requires access to this encryption key.
 	// +kubebuilder:validation:Optional
-	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
 }
 
 type LoadDestinationTableInitParameters struct {
@@ -890,7 +890,7 @@ type LoadParameters struct {
 	// The destination table to load the data into.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	DestinationTable []LoadDestinationTableParameters `json:"destinationTable,omitempty" tf:"destination_table,omitempty"`
+	DestinationTable []LoadDestinationTableParameters `json:"destinationTable" tf:"destination_table,omitempty"`
 
 	// The character encoding of the data. The supported values are UTF-8 or ISO-8859-1.
 	// The default value is UTF-8. BigQuery decodes the data after the raw, binary data
@@ -985,7 +985,7 @@ type LoadParameters struct {
 	// specified and it has be a fully specified and valid HTTPS URL for a Google Cloud Bigtable table.
 	// For Google Cloud Datastore backups: Exactly one URI can be specified. Also, the '*' wildcard character is not allowed.
 	// +kubebuilder:validation:Optional
-	SourceUris []*string `json:"sourceUris,omitempty" tf:"source_uris,omitempty"`
+	SourceUris []*string `json:"sourceUris" tf:"source_uris,omitempty"`
 
 	// Time-based partitioning specification for the destination table.
 	// Structure is documented below.
@@ -1056,7 +1056,7 @@ type QueryDestinationEncryptionConfigurationParameters struct {
 	// Describes the Cloud KMS encryption key that will be used to protect destination BigQuery table.
 	// The BigQuery Service Account associated with your project requires access to this encryption key.
 	// +kubebuilder:validation:Optional
-	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
 }
 
 type QueryDestinationTableInitParameters struct {
@@ -1358,7 +1358,7 @@ type QueryParameters struct {
 	// NOTE: queries containing DML language
 	// (DELETE, UPDATE, MERGE, INSERT) must specify create_disposition = "" and write_disposition = "".
 	// +kubebuilder:validation:Optional
-	Query *string `json:"query,omitempty" tf:"query,omitempty"`
+	Query *string `json:"query" tf:"query,omitempty"`
 
 	// Allows the schema of the destination table to be updated as a side effect of the query job.
 	// Schema update options are supported in two cases: when writeDisposition is WRITE_APPEND;
@@ -1476,15 +1476,15 @@ type SourceModelParameters struct {
 
 	// The ID of the dataset containing this table.
 	// +kubebuilder:validation:Optional
-	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+	DatasetID *string `json:"datasetId" tf:"dataset_id,omitempty"`
 
 	// The ID of the model.
 	// +kubebuilder:validation:Optional
-	ModelID *string `json:"modelId,omitempty" tf:"model_id,omitempty"`
+	ModelID *string `json:"modelId" tf:"model_id,omitempty"`
 
 	// The ID of the project containing this table.
 	// +kubebuilder:validation:Optional
-	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 }
 
 type SourceTableInitParameters struct {
@@ -1580,7 +1580,7 @@ type SourceTablesParameters struct {
 	// The table. Can be specified {{table_id}} if project_id and dataset_id are also set,
 	// or of the form projects/{{project}}/datasets/{{dataset_id}}/tables/{{table_id}} if not.
 	// +kubebuilder:validation:Optional
-	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
+	TableID *string `json:"tableId" tf:"table_id,omitempty"`
 }
 
 type StatusInitParameters struct {
@@ -1653,7 +1653,7 @@ type TimePartitioningParameters struct {
 	// The only type supported is DAY, which will generate one partition per day. Providing an empty string used to cause an error,
 	// but in OnePlatform the field will be treated as unset.
 	// +kubebuilder:validation:Optional
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type UserDefinedFunctionResourcesInitParameters struct {

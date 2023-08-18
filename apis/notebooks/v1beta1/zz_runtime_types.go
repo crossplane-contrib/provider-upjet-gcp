@@ -89,7 +89,7 @@ type ContainerImagesParameters struct {
 	// The path to the container image repository.
 	// For example: gcr.io/{project_id}/{imageName}
 	// +kubebuilder:validation:Optional
-	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
+	Repository *string `json:"repository" tf:"repository,omitempty"`
 
 	// The tag of the container image. If not specified, this defaults to the latest tag.
 	// +kubebuilder:validation:Optional
@@ -397,7 +397,7 @@ type KernelsParameters struct {
 	// The path to the container image repository.
 	// For example: gcr.io/{project_id}/{imageName}
 	// +kubebuilder:validation:Optional
-	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
+	Repository *string `json:"repository" tf:"repository,omitempty"`
 
 	// The tag of the container image. If not specified, this defaults to the latest tag.
 	// +kubebuilder:validation:Optional
@@ -831,7 +831,7 @@ type VirtualMachineConfigParameters struct {
 	// Data disk option configuration settings.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	DataDisk []DataDiskParameters `json:"dataDisk,omitempty" tf:"data_disk,omitempty"`
+	DataDisk []DataDiskParameters `json:"dataDisk" tf:"data_disk,omitempty"`
 
 	// Encryption settings for virtual machine data disk.
 	// Structure is documented below.
@@ -858,7 +858,7 @@ type VirtualMachineConfigParameters struct {
 
 	// The Compute Engine machine type used for runtimes.
 	// +kubebuilder:validation:Optional
-	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+	MachineType *string `json:"machineType" tf:"machine_type,omitempty"`
 
 	// The Compute Engine metadata entries to add to virtual machine.
 	// (see [Project and instance metadata](https://cloud.google.com

@@ -100,10 +100,10 @@ type ConditionParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+	Expression *string `json:"expression" tf:"expression,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+	Title *string `json:"title" tf:"title,omitempty"`
 }
 
 // AppEngineServiceIAMMemberSpec defines the desired state of AppEngineServiceIAMMember

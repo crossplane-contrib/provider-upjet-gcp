@@ -50,7 +50,7 @@ type PubsubConfigsParameters struct {
 
 	// The format of the Cloud Pub/Sub messages.
 	// +kubebuilder:validation:Optional
-	MessageFormat *string `json:"messageFormat,omitempty" tf:"message_format,omitempty"`
+	MessageFormat *string `json:"messageFormat" tf:"message_format,omitempty"`
 
 	// Email address of the service account used for publishing Cloud Pub/Sub messages.
 	// This service account needs to be in the same project as the PubsubConfig. When added,

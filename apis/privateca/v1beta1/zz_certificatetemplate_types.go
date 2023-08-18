@@ -53,11 +53,11 @@ type CertificateTemplateIdentityConstraintsParameters struct {
 
 	// Required. If this is true, the SubjectAltNames extension may be copied from a certificate request into the signed certificate. Otherwise, the requested SubjectAltNames will be discarded.
 	// +kubebuilder:validation:Optional
-	AllowSubjectAltNamesPassthrough *bool `json:"allowSubjectAltNamesPassthrough,omitempty" tf:"allow_subject_alt_names_passthrough,omitempty"`
+	AllowSubjectAltNamesPassthrough *bool `json:"allowSubjectAltNamesPassthrough" tf:"allow_subject_alt_names_passthrough,omitempty"`
 
 	// Required. If this is true, the Subject field may be copied from a certificate request into the signed certificate. Otherwise, the requested Subject will be discarded.
 	// +kubebuilder:validation:Optional
-	AllowSubjectPassthrough *bool `json:"allowSubjectPassthrough,omitempty" tf:"allow_subject_passthrough,omitempty"`
+	AllowSubjectPassthrough *bool `json:"allowSubjectPassthrough" tf:"allow_subject_passthrough,omitempty"`
 
 	// Optional. A CEL expression that may be used to validate the resolved X.509 Subject and/or Subject Alternative Name before a certificate is signed. To see the full allowed syntax and some examples, see https://cloud.google.com/certificate-authority-service/docs/using-cel
 	// +kubebuilder:validation:Optional
@@ -211,7 +211,7 @@ type PassthroughExtensionsAdditionalExtensionsParameters struct {
 
 	// Required. The parts of an OID path. The most significant parts of the path come first.
 	// +kubebuilder:validation:Optional
-	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
+	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }
 
 type PassthroughExtensionsInitParameters struct {
@@ -271,7 +271,7 @@ type PredefinedValuesAdditionalExtensionsObjectIDParameters struct {
 
 	// Required. The parts of an OID path. The most significant parts of the path come first.
 	// +kubebuilder:validation:Optional
-	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
+	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }
 
 type PredefinedValuesAdditionalExtensionsObservation struct {
@@ -294,11 +294,11 @@ type PredefinedValuesAdditionalExtensionsParameters struct {
 
 	// Required. The OID for this X.509 extension.
 	// +kubebuilder:validation:Optional
-	ObjectID []PredefinedValuesAdditionalExtensionsObjectIDParameters `json:"objectId,omitempty" tf:"object_id,omitempty"`
+	ObjectID []PredefinedValuesAdditionalExtensionsObjectIDParameters `json:"objectId" tf:"object_id,omitempty"`
 
 	// Required. The value of this X.509 extension.
 	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+	Value *string `json:"value" tf:"value,omitempty"`
 }
 
 type PredefinedValuesCAOptionsInitParameters struct {
@@ -571,7 +571,7 @@ type PredefinedValuesKeyUsageUnknownExtendedKeyUsagesParameters struct {
 
 	// Required. The parts of an OID path. The most significant parts of the path come first.
 	// +kubebuilder:validation:Optional
-	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
+	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }
 
 type PredefinedValuesObservation struct {
@@ -631,7 +631,7 @@ type PredefinedValuesPolicyIdsParameters struct {
 
 	// Required. The parts of an OID path. The most significant parts of the path come first.
 	// +kubebuilder:validation:Optional
-	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
+	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }
 
 // CertificateTemplateSpec defines the desired state of CertificateTemplate

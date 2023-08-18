@@ -54,7 +54,7 @@ type AdvertisedIPRangesParameters struct {
 	// The IP range to advertise. The value must be a
 	// CIDR-formatted string.
 	// +kubebuilder:validation:Optional
-	Range *string `json:"range,omitempty" tf:"range,omitempty"`
+	Range *string `json:"range" tf:"range,omitempty"`
 }
 
 type BGPInitParameters struct {
@@ -170,7 +170,7 @@ type BGPParameters struct {
 	// this router resource. All VPN tunnels that link to this router
 	// will have the same local ASN.
 	// +kubebuilder:validation:Optional
-	Asn *float64 `json:"asn,omitempty" tf:"asn,omitempty"`
+	Asn *float64 `json:"asn" tf:"asn,omitempty"`
 
 	// The interval in seconds between BGP keepalive messages that are sent
 	// to the peer. Hold time is three times the interval at which keepalive

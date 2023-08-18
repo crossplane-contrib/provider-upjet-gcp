@@ -237,7 +237,7 @@ type ServerBindingParameters struct {
 	// nodes will experience outages while maintenance is applied.
 	// Possible values are: RESTART_NODE_ON_ANY_SERVER, RESTART_NODE_ON_MINIMAL_SERVERS.
 	// +kubebuilder:validation:Optional
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 // NodeTemplateSpec defines the desired state of NodeTemplate

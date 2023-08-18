@@ -941,7 +941,7 @@ type BaseEjectionTimeParameters struct {
 	// Span of time at a resolution of a second.
 	// Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
-	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
 
 type CdnPolicyBypassCacheOnRequestHeadersInitParameters struct {
@@ -960,7 +960,7 @@ type CdnPolicyBypassCacheOnRequestHeadersParameters struct {
 
 	// The header field name to match on when bypassing cache. Values are case-insensitive.
 	// +kubebuilder:validation:Optional
-	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
 }
 
 type CdnPolicyCacheKeyPolicyInitParameters struct {
@@ -1318,7 +1318,7 @@ type CustomPolicyParameters struct {
 	// not a valid configuration and will be rejected.
 	// The possible values are:
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type HTTPCookieInitParameters struct {
@@ -1400,7 +1400,7 @@ type IapParameters struct {
 
 	// OAuth2 Client ID for IAP
 	// +kubebuilder:validation:Optional
-	Oauth2ClientID *string `json:"oauth2ClientId,omitempty" tf:"oauth2_client_id,omitempty"`
+	Oauth2ClientID *string `json:"oauth2ClientId" tf:"oauth2_client_id,omitempty"`
 
 	// OAuth2 Client Secret for IAP
 	// Note: This property is sensitive and will not be displayed in the plan.
@@ -1446,7 +1446,7 @@ type IntervalParameters struct {
 	// Span of time at a resolution of a second.
 	// Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
-	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
 
 type LocalityLBPoliciesInitParameters struct {
@@ -1765,7 +1765,7 @@ type PolicyParameters struct {
 	// not a valid configuration and will be rejected.
 	// The possible values are:
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type SecuritySettingsInitParameters struct {
@@ -1800,13 +1800,13 @@ type SecuritySettingsParameters struct {
 	// connections to backends of a service. This resource itself does not affect
 	// configuration unless it is attached to a backend service resource.
 	// +kubebuilder:validation:Optional
-	ClientTLSPolicy *string `json:"clientTlsPolicy,omitempty" tf:"client_tls_policy,omitempty"`
+	ClientTLSPolicy *string `json:"clientTlsPolicy" tf:"client_tls_policy,omitempty"`
 
 	// A list of alternate names to verify the subject identity in the certificate.
 	// If specified, the client will verify that the server certificate's subject
 	// alt name matches one of the specified values.
 	// +kubebuilder:validation:Optional
-	SubjectAltNames []*string `json:"subjectAltNames,omitempty" tf:"subject_alt_names,omitempty"`
+	SubjectAltNames []*string `json:"subjectAltNames" tf:"subject_alt_names,omitempty"`
 }
 
 type TTLInitParameters struct {
@@ -1847,7 +1847,7 @@ type TTLParameters struct {
 	// Span of time at a resolution of a second.
 	// Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
-	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
 
 // BackendServiceSpec defines the desired state of BackendService

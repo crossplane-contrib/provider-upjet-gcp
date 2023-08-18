@@ -78,7 +78,7 @@ type AuthInfoParameters struct {
 
 	// The username to authenticate.
 	// +kubebuilder:validation:Optional
-	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+	Username *string `json:"username" tf:"username,omitempty"`
 }
 
 type ContentMatchersInitParameters struct {
@@ -115,7 +115,7 @@ type ContentMatchersParameters struct {
 
 	// String or regex content to match (max 1024 bytes)
 	// +kubebuilder:validation:Optional
-	Content *string `json:"content,omitempty" tf:"content,omitempty"`
+	Content *string `json:"content" tf:"content,omitempty"`
 
 	// Information needed to perform a JSONPath content match. Used for ContentMatcherOption::MATCHES_JSON_PATH and ContentMatcherOption::NOT_MATCHES_JSON_PATH.
 	// Structure is documented below.
@@ -295,7 +295,7 @@ type JSONPathMatcherParameters struct {
 
 	// JSONPath within the response output pointing to the expected ContentMatcher::content to match against.
 	// +kubebuilder:validation:Optional
-	JSONPath *string `json:"jsonPath,omitempty" tf:"json_path,omitempty"`
+	JSONPath *string `json:"jsonPath" tf:"json_path,omitempty"`
 }
 
 type MonitoredResourceInitParameters struct {
@@ -320,11 +320,11 @@ type MonitoredResourceParameters struct {
 
 	// Values for all of the labels listed in the associated monitored resource descriptor. For example, Compute Engine VM instances use the labels "project_id", "instance_id", and "zone".
 	// +kubebuilder:validation:Optional
-	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+	Labels map[string]*string `json:"labels" tf:"labels,omitempty"`
 
 	// The monitored resource type. This field must match the type field of a MonitoredResourceDescriptor (https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.monitoredResourceDescriptors#MonitoredResourceDescriptor) object. For example, the type of a Compute Engine VM instance is gce_instance. For a list of types, see Monitoring resource types (https://cloud.google.com/monitoring/api/resources) and Logging resource types (https://cloud.google.com/logging/docs/api/v2/resource-list).
 	// +kubebuilder:validation:Optional
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type ResourceGroupInitParameters struct {
@@ -382,7 +382,7 @@ type TCPCheckParameters struct {
 
 	// The port to the page to run the check against. Will be combined with host (specified within the MonitoredResource) to construct the full URL.
 	// +kubebuilder:validation:Optional
-	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+	Port *float64 `json:"port" tf:"port,omitempty"`
 }
 
 type UptimeCheckConfigInitParameters struct {

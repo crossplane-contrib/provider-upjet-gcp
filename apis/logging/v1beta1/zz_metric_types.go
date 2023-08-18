@@ -95,7 +95,7 @@ type ExplicitBucketsParameters struct {
 
 	// The values must be monotonically increasing.
 	// +kubebuilder:validation:Optional
-	Bounds []*float64 `json:"bounds,omitempty" tf:"bounds,omitempty"`
+	Bounds []*float64 `json:"bounds" tf:"bounds,omitempty"`
 }
 
 type ExponentialBucketsInitParameters struct {
@@ -175,7 +175,7 @@ type LabelsParameters struct {
 
 	// The label key.
 	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+	Key *string `json:"key" tf:"key,omitempty"`
 
 	// Whether the measurement is an integer, a floating-point number, etc.
 	// Some combinations of metricKind and valueType might not be supported.
@@ -309,7 +309,7 @@ type MetricDescriptorParameters struct {
 	// For counter metrics, set this to DELTA.
 	// Possible values are: DELTA, GAUGE, CUMULATIVE.
 	// +kubebuilder:validation:Optional
-	MetricKind *string `json:"metricKind,omitempty" tf:"metric_kind,omitempty"`
+	MetricKind *string `json:"metricKind" tf:"metric_kind,omitempty"`
 
 	// The unit in which the metric value is reported. It is only applicable if the valueType is
 	// INT64, DOUBLE, or DISTRIBUTION. The supported units are a subset of
@@ -322,7 +322,7 @@ type MetricDescriptorParameters struct {
 	// For counter metrics, set this to INT64.
 	// Possible values are: BOOL, INT64, DOUBLE, STRING, DISTRIBUTION, MONEY.
 	// +kubebuilder:validation:Optional
-	ValueType *string `json:"valueType,omitempty" tf:"value_type,omitempty"`
+	ValueType *string `json:"valueType" tf:"value_type,omitempty"`
 }
 
 type MetricInitParameters struct {

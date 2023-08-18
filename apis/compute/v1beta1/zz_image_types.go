@@ -44,7 +44,7 @@ type GuestOsFeaturesParameters struct {
 	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
 	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.
 	// +kubebuilder:validation:Optional
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type ImageEncryptionKeyInitParameters struct {
@@ -358,7 +358,7 @@ type RawDiskParameters struct {
 	// You must provide either this property or the sourceDisk property
 	// but not both.
 	// +kubebuilder:validation:Optional
-	Source *string `json:"source,omitempty" tf:"source,omitempty"`
+	Source *string `json:"source" tf:"source,omitempty"`
 }
 
 // ImageSpec defines the desired state of Image

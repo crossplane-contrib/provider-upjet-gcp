@@ -47,11 +47,11 @@ type AutoscalingParameters struct {
 
 	// Maximum number of nodes in the node pool. Must be >= min_node_count.
 	// +kubebuilder:validation:Optional
-	MaxNodeCount *float64 `json:"maxNodeCount,omitempty" tf:"max_node_count,omitempty"`
+	MaxNodeCount *float64 `json:"maxNodeCount" tf:"max_node_count,omitempty"`
 
 	// Minimum number of nodes in the node pool. Must be >= 1 and <= max_node_count.
 	// +kubebuilder:validation:Optional
-	MinNodeCount *float64 `json:"minNodeCount,omitempty" tf:"min_node_count,omitempty"`
+	MinNodeCount *float64 `json:"minNodeCount" tf:"min_node_count,omitempty"`
 }
 
 type ConfigInitParameters struct {
@@ -102,7 +102,7 @@ type ConfigParameters struct {
 
 	// SSH configuration for how to access the node pool machines.
 	// +kubebuilder:validation:Optional
-	SSHConfig []ConfigSSHConfigParameters `json:"sshConfig,omitempty" tf:"ssh_config,omitempty"`
+	SSHConfig []ConfigSSHConfigParameters `json:"sshConfig" tf:"ssh_config,omitempty"`
 
 	// Optional. A set of tags to apply to all underlying Azure resources for this node pool. This currently only includes Virtual Machine Scale Sets. Specify at most 50 pairs containing alphanumerics, spaces, and symbols (.+-=_:@/). Keys can be up to 127 Unicode characters. Values can be up to 255 Unicode characters.
 	// +kubebuilder:validation:Optional
@@ -135,11 +135,11 @@ type ConfigProxyConfigParameters struct {
 
 	// The ARM ID the of the resource group containing proxy keyvault. Resource group ids are formatted as /subscriptions/<subscription-id>/resourceGroups/<resource-group-name>
 	// +kubebuilder:validation:Optional
-	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
+	ResourceGroupID *string `json:"resourceGroupId" tf:"resource_group_id,omitempty"`
 
 	// The URL the of the proxy setting secret with its version. Secret ids are formatted as https:<key-vault-name>.vault.azure.net/secrets/<secret-name>/<secret-version>.
 	// +kubebuilder:validation:Optional
-	SecretID *string `json:"secretId,omitempty" tf:"secret_id,omitempty"`
+	SecretID *string `json:"secretId" tf:"secret_id,omitempty"`
 }
 
 type ConfigRootVolumeInitParameters struct {
@@ -177,7 +177,7 @@ type ConfigSSHConfigParameters struct {
 
 	// The SSH public key data for VMs managed by Anthos. This accepts the authorized_keys file format used in OpenSSH according to the sshd(8) manual page.
 	// +kubebuilder:validation:Optional
-	AuthorizedKey *string `json:"authorizedKey,omitempty" tf:"authorized_key,omitempty"`
+	AuthorizedKey *string `json:"authorizedKey" tf:"authorized_key,omitempty"`
 }
 
 type MaxPodsConstraintInitParameters struct {
@@ -196,7 +196,7 @@ type MaxPodsConstraintParameters struct {
 
 	// The maximum number of pods to schedule on a single node.
 	// +kubebuilder:validation:Optional
-	MaxPodsPerNode *float64 `json:"maxPodsPerNode,omitempty" tf:"max_pods_per_node,omitempty"`
+	MaxPodsPerNode *float64 `json:"maxPodsPerNode" tf:"max_pods_per_node,omitempty"`
 }
 
 type NodePoolInitParameters struct {

@@ -93,7 +93,7 @@ type FieldsParameters struct {
 
 	// The identifier for this object. Format specified above.
 	// +kubebuilder:validation:Optional
-	FieldName *string `json:"fieldName,omitempty" tf:"field_name,omitempty"`
+	FieldName *string `json:"fieldName" tf:"field_name,omitempty"`
 
 	// Holds the value for a tag field with string type.
 	// +kubebuilder:validation:Optional

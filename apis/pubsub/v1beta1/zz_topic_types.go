@@ -56,7 +56,7 @@ type MessageStoragePolicyParameters struct {
 	// allowed regions. An empty list means that no regions are allowed,
 	// and is not a valid configuration.
 	// +kubebuilder:validation:Optional
-	AllowedPersistenceRegions []*string `json:"allowedPersistenceRegions,omitempty" tf:"allowed_persistence_regions,omitempty"`
+	AllowedPersistenceRegions []*string `json:"allowedPersistenceRegions" tf:"allowed_persistence_regions,omitempty"`
 }
 
 type SchemaSettingsInitParameters struct {
@@ -100,7 +100,7 @@ type SchemaSettingsParameters struct {
 	// The value of this field will be deleted-schema
 	// if the schema has been deleted.
 	// +kubebuilder:validation:Optional
-	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
+	Schema *string `json:"schema" tf:"schema,omitempty"`
 }
 
 type TopicInitParameters struct {

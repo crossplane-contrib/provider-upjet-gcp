@@ -43,7 +43,7 @@ type AuditLogConfigParameters struct {
 	ExemptedMembers []*string `json:"exemptedMembers,omitempty" tf:"exempted_members,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	LogType *string `json:"logType,omitempty" tf:"log_type,omitempty"`
+	LogType *string `json:"logType" tf:"log_type,omitempty"`
 }
 
 type OrganizationIAMAuditConfigInitParameters struct {

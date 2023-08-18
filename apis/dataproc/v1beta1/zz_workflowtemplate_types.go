@@ -47,7 +47,7 @@ type ClusterSelectorParameters struct {
 
 	// Required. The cluster labels. Cluster must have all labels to match.
 	// +kubebuilder:validation:Optional
-	ClusterLabels map[string]*string `json:"clusterLabels,omitempty" tf:"cluster_labels,omitempty"`
+	ClusterLabels map[string]*string `json:"clusterLabels" tf:"cluster_labels,omitempty"`
 
 	// Optional. The zone where the Compute Engine cluster will be located. On a create request, it is required in the "global" region. If omitted in a non-global Dataproc region, the service will pick a zone in the corresponding Compute Engine region. On a get request, zone will always be present. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/ * us-central1-f
 	// +kubebuilder:validation:Optional
@@ -688,7 +688,7 @@ type GceClusterConfigNodeGroupAffinityParameters struct {
 
 	// Required. The URI of a sole-tenant /zones/us-central1-a/nodeGroups/node-group-1*node-group-1`
 	// +kubebuilder:validation:Optional
-	NodeGroup *string `json:"nodeGroup,omitempty" tf:"node_group,omitempty"`
+	NodeGroup *string `json:"nodeGroup" tf:"node_group,omitempty"`
 }
 
 type GceClusterConfigReservationAffinityInitParameters struct {
@@ -1101,7 +1101,7 @@ type JobsParameters struct {
 
 	// Required. The step id. The id must be unique among all jobs within the template. The step id is used as prefix for job id, as job goog-dataproc-workflow-step-id label, and in field from other steps. The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). Cannot begin or end with underscore or hyphen. Must consist of between 3 and 50 characters.
 	// +kubebuilder:validation:Optional
-	StepID *string `json:"stepId,omitempty" tf:"step_id,omitempty"`
+	StepID *string `json:"stepId" tf:"step_id,omitempty"`
 }
 
 type JobsSchedulingInitParameters struct {
@@ -1300,11 +1300,11 @@ type ManagedClusterParameters struct {
 
 	// Required. The cluster name prefix. A unique cluster name will be formed by appending a random suffix. The name must contain only lower-case letters (a-z), numbers (0-9), and hyphens (-). Must begin with a letter. Cannot begin or end with hyphen. Must consist of between 2 and 35 characters.
 	// +kubebuilder:validation:Optional
-	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+	ClusterName *string `json:"clusterName" tf:"cluster_name,omitempty"`
 
 	// Required. The cluster configuration.
 	// +kubebuilder:validation:Optional
-	Config []ManagedClusterConfigParameters `json:"config,omitempty" tf:"config,omitempty"`
+	Config []ManagedClusterConfigParameters `json:"config" tf:"config,omitempty"`
 
 	// Optional. The labels to associate with this cluster. Label keys must be between 1 and 63 characters long, and must conform to the following PCRE regular expression: {0,63} No more than 32 labels can be associated with a given cluster.
 	// +kubebuilder:validation:Optional
@@ -1432,11 +1432,11 @@ type ParametersParameters struct {
 
 	// Required. Paths to all fields that the parameter replaces. A field is allowed to appear in at most one parameter's list of field paths. A field path is similar in syntax to a .sparkJob.args
 	// +kubebuilder:validation:Optional
-	Fields []*string `json:"fields,omitempty" tf:"fields,omitempty"`
+	Fields []*string `json:"fields" tf:"fields,omitempty"`
 
 	// Required. Parameter name. The parameter name is used as the key, and paired with the parameter value, which are passed to the template when the template is instantiated. The name must contain only capital letters (A-Z), numbers (0-9), and underscores (_), and must not start with a number. The maximum length is 40 characters.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// Optional. Validation rules to be applied to this parameter's value.
 	// +kubebuilder:validation:Optional
@@ -1557,7 +1557,7 @@ type PigJobQueryListParameters struct {
 
 	// Required. The queries to execute. You do not need to end a query expression with a semicolon. Multiple queries can be specified in one string by separating each with a semicolon. Here is an example of a Dataproc API snippet that uses a QueryList to specify a HiveJob: "hiveJob": { "queryList": { "queries": } }
 	// +kubebuilder:validation:Optional
-	Queries []*string `json:"queries,omitempty" tf:"queries,omitempty"`
+	Queries []*string `json:"queries" tf:"queries,omitempty"`
 }
 
 type PrestoJobInitParameters struct {
@@ -1674,7 +1674,7 @@ type PrestoJobQueryListParameters struct {
 
 	// Required. The queries to execute. You do not need to end a query expression with a semicolon. Multiple queries can be specified in one string by separating each with a semicolon. Here is an example of a Dataproc API snippet that uses a QueryList to specify a HiveJob: "hiveJob": { "queryList": { "queries": } }
 	// +kubebuilder:validation:Optional
-	Queries []*string `json:"queries,omitempty" tf:"queries,omitempty"`
+	Queries []*string `json:"queries" tf:"queries,omitempty"`
 }
 
 type PysparkJobInitParameters struct {
@@ -1774,7 +1774,7 @@ type PysparkJobParameters struct {
 
 	// Required. The HCFS URI of the main Python file to use as the driver. Must be a .py file.
 	// +kubebuilder:validation:Optional
-	MainPythonFileURI *string `json:"mainPythonFileUri,omitempty" tf:"main_python_file_uri,omitempty"`
+	MainPythonFileURI *string `json:"mainPythonFileUri" tf:"main_python_file_uri,omitempty"`
 
 	// Optional. A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
 	// +kubebuilder:validation:Optional
@@ -1801,7 +1801,7 @@ type QueryListParameters struct {
 
 	// Required. The queries to execute. You do not need to end a query expression with a semicolon. Multiple queries can be specified in one string by separating each with a semicolon. Here is an example of a Dataproc API snippet that uses a QueryList to specify a HiveJob: "hiveJob": { "queryList": { "queries": } }
 	// +kubebuilder:validation:Optional
-	Queries []*string `json:"queries,omitempty" tf:"queries,omitempty"`
+	Queries []*string `json:"queries" tf:"queries,omitempty"`
 }
 
 type RegexInitParameters struct {
@@ -1820,7 +1820,7 @@ type RegexParameters struct {
 
 	// Required. RE2 regular expressions used to validate the parameter's value. The value must match the regex in its entirety (substring matches are not sufficient).
 	// +kubebuilder:validation:Optional
-	Regexes []*string `json:"regexes,omitempty" tf:"regexes,omitempty"`
+	Regexes []*string `json:"regexes" tf:"regexes,omitempty"`
 }
 
 type SecondaryWorkerConfigAcceleratorsInitParameters struct {
@@ -2254,7 +2254,7 @@ type SparkRJobParameters struct {
 
 	// Required. The HCFS URI of the main R file to use as the driver. Must be a .R file.
 	// +kubebuilder:validation:Optional
-	MainRFileURI *string `json:"mainRFileUri,omitempty" tf:"main_r_file_uri,omitempty"`
+	MainRFileURI *string `json:"mainRFileUri" tf:"main_r_file_uri,omitempty"`
 
 	// Optional. A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
 	// +kubebuilder:validation:Optional
@@ -2365,7 +2365,7 @@ type SparkSQLJobQueryListParameters struct {
 
 	// Required. The queries to execute. You do not need to end a query expression with a semicolon. Multiple queries can be specified in one string by separating each with a semicolon. Here is an example of a Dataproc API snippet that uses a QueryList to specify a HiveJob: "hiveJob": { "queryList": { "queries": } }
 	// +kubebuilder:validation:Optional
-	Queries []*string `json:"queries,omitempty" tf:"queries,omitempty"`
+	Queries []*string `json:"queries" tf:"queries,omitempty"`
 }
 
 type ValidationInitParameters struct {
@@ -2413,7 +2413,7 @@ type ValuesParameters struct {
 
 	// Required. List of allowed values for the parameter.
 	// +kubebuilder:validation:Optional
-	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
+	Values []*string `json:"values" tf:"values,omitempty"`
 }
 
 type WorkerConfigManagedGroupConfigInitParameters struct {

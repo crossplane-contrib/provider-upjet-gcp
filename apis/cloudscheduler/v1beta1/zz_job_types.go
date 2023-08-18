@@ -111,7 +111,7 @@ type AppEngineHTTPTargetParameters struct {
 	// If the relative URL is empty, then the root path "/" will be used.
 	// No spaces are allowed, and the maximum length allowed is 2083 characters
 	// +kubebuilder:validation:Optional
-	RelativeURI *string `json:"relativeUri,omitempty" tf:"relative_uri,omitempty"`
+	RelativeURI *string `json:"relativeUri" tf:"relative_uri,omitempty"`
 }
 
 type AppEngineRoutingInitParameters struct {
@@ -252,7 +252,7 @@ type HTTPTargetParameters struct {
 
 	// The full URI path that the request will be sent to.
 	// +kubebuilder:validation:Optional
-	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+	URI *string `json:"uri" tf:"uri,omitempty"`
 }
 
 type JobInitParameters struct {
@@ -463,7 +463,7 @@ type OAuthTokenParameters struct {
 	// Service account email to be used for generating OAuth token.
 	// The service account must be within the same project as the job.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+	ServiceAccountEmail *string `json:"serviceAccountEmail" tf:"service_account_email,omitempty"`
 }
 
 type OidcTokenInitParameters struct {
@@ -498,7 +498,7 @@ type OidcTokenParameters struct {
 	// Service account email to be used for generating OAuth token.
 	// The service account must be within the same project as the job.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+	ServiceAccountEmail *string `json:"serviceAccountEmail" tf:"service_account_email,omitempty"`
 }
 
 type PubsubTargetInitParameters struct {

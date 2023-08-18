@@ -317,7 +317,7 @@ type DevicePolicyOsConstraintsParameters struct {
 	// The operating system type of the device.
 	// Possible values are: OS_UNSPECIFIED, DESKTOP_MAC, DESKTOP_WINDOWS, DESKTOP_LINUX, DESKTOP_CHROME_OS, ANDROID, IOS.
 	// +kubebuilder:validation:Optional
-	OsType *string `json:"osType,omitempty" tf:"os_type,omitempty"`
+	OsType *string `json:"osType" tf:"os_type,omitempty"`
 }
 
 // AccessLevelConditionSpec defines the desired state of AccessLevelCondition

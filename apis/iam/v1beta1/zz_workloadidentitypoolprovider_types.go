@@ -41,7 +41,7 @@ type AwsParameters struct {
 
 	// The AWS account ID.
 	// +kubebuilder:validation:Optional
-	AccountID *string `json:"accountId,omitempty" tf:"account_id,omitempty"`
+	AccountID *string `json:"accountId" tf:"account_id,omitempty"`
 }
 
 type OidcInitParameters struct {
@@ -88,7 +88,7 @@ type OidcParameters struct {
 
 	// The OIDC issuer URL.
 	// +kubebuilder:validation:Optional
-	IssuerURI *string `json:"issuerUri,omitempty" tf:"issuer_uri,omitempty"`
+	IssuerURI *string `json:"issuerUri" tf:"issuer_uri,omitempty"`
 }
 
 type WorkloadIdentityPoolProviderInitParameters struct {

@@ -47,11 +47,11 @@ type CapacityParameters struct {
 
 	// Subscribe throughput capacity per partition in MiB/s. Must be >= 4 and <= 16.
 	// +kubebuilder:validation:Optional
-	PublishMibPerSec *float64 `json:"publishMibPerSec,omitempty" tf:"publish_mib_per_sec,omitempty"`
+	PublishMibPerSec *float64 `json:"publishMibPerSec" tf:"publish_mib_per_sec,omitempty"`
 
 	// Publish throughput capacity per partition in MiB/s. Must be >= 4 and <= 16.
 	// +kubebuilder:validation:Optional
-	SubscribeMibPerSec *float64 `json:"subscribeMibPerSec,omitempty" tf:"subscribe_mib_per_sec,omitempty"`
+	SubscribeMibPerSec *float64 `json:"subscribeMibPerSec" tf:"subscribe_mib_per_sec,omitempty"`
 }
 
 type LiteTopicInitParameters struct {
@@ -164,7 +164,7 @@ type PartitionConfigParameters struct {
 
 	// The number of partitions in the topic. Must be at least 1.
 	// +kubebuilder:validation:Optional
-	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+	Count *float64 `json:"count" tf:"count,omitempty"`
 }
 
 type ReservationConfigInitParameters struct {
@@ -226,7 +226,7 @@ type RetentionConfigParameters struct {
 	// in any of the topic's partitions grows beyond this value, older messages will be
 	// dropped to make room for newer ones, regardless of the value of period.
 	// +kubebuilder:validation:Optional
-	PerPartitionBytes *string `json:"perPartitionBytes,omitempty" tf:"per_partition_bytes,omitempty"`
+	PerPartitionBytes *string `json:"perPartitionBytes" tf:"per_partition_bytes,omitempty"`
 
 	// How long a published message is retained. If unset, messages will be retained as
 	// long as the bytes retained for each partition is below perPartitionBytes. A

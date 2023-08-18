@@ -60,7 +60,7 @@ type AllowedIPRangeParameters struct {
 	// IP range prefixes should be properly truncated. For example,
 	// 1.2.3.4/24 should be truncated to 1.2.3.0/24. Similarly, for IPv6, 2001:db8::1/32 should be truncated to 2001:db8::/32.
 	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+	Value *string `json:"value" tf:"value,omitempty"`
 }
 
 type CidrBlocksInitParameters struct {
@@ -85,7 +85,7 @@ type CidrBlocksParameters struct {
 
 	// `cidr_block< must be specified in CIDR notation.
 	// +kubebuilder:validation:Optional
-	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
+	CidrBlock *string `json:"cidrBlock" tf:"cidr_block,omitempty"`
 
 	// display_name is a field for users to identify CIDR blocks.
 	// +kubebuilder:validation:Optional
@@ -303,7 +303,7 @@ type DatabaseConfigParameters struct {
 	// Value custom is returned only in response, if Airflow web server parameters were
 	// manually changed to a non-standard values.
 	// +kubebuilder:validation:Optional
-	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+	MachineType *string `json:"machineType" tf:"machine_type,omitempty"`
 }
 
 type EncryptionConfigInitParameters struct {
@@ -328,7 +328,7 @@ type EncryptionConfigParameters struct {
 	// be the fully qualified resource name,
 	// i.e. projects/project-id/locations/location/keyRings/keyring/cryptoKeys/key. Cannot be updated.
 	// +kubebuilder:validation:Optional
-	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
 }
 
 type EnvironmentInitParameters struct {
@@ -557,17 +557,17 @@ type MaintenanceWindowParameters struct {
 	// Maintenance window end time. It is used only to calculate the duration of the maintenance window.
 	// The value for end-time must be in the future, relative to 'start_time'.
 	// +kubebuilder:validation:Optional
-	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
+	EndTime *string `json:"endTime" tf:"end_time,omitempty"`
 
 	// Maintenance window recurrence. Format is a subset of RFC-5545 (https://tools.ietf.org/html/rfc5545) 'RRULE'.
 	// The only allowed values for 'FREQ' field are 'FREQ=DAILY' and 'FREQ=WEEKLY;BYDAY=...'.
 	// Example values: 'FREQ=WEEKLY;BYDAY=TU,WE', 'FREQ=DAILY'.
 	// +kubebuilder:validation:Optional
-	Recurrence *string `json:"recurrence,omitempty" tf:"recurrence,omitempty"`
+	Recurrence *string `json:"recurrence" tf:"recurrence,omitempty"`
 
 	// Start time of the first recurrence of the maintenance window.
 	// +kubebuilder:validation:Optional
-	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
+	StartTime *string `json:"startTime" tf:"start_time,omitempty"`
 }
 
 type MasterAuthorizedNetworksConfigInitParameters struct {
@@ -596,7 +596,7 @@ type MasterAuthorizedNetworksConfigParameters struct {
 
 	// When enabled, Cloud Composer periodically saves snapshots of your environment to a Cloud Storage bucket.
 	// +kubebuilder:validation:Optional
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
 type NodeConfigInitParameters struct {
@@ -957,7 +957,7 @@ type ScheduledSnapshotsConfigParameters struct {
 
 	// When enabled, Cloud Composer periodically saves snapshots of your environment to a Cloud Storage bucket.
 	// +kubebuilder:validation:Optional
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 
 	// Snapshot schedule, in the unix-cron format.
 	// +kubebuilder:validation:Optional
@@ -1136,7 +1136,7 @@ type WebServerConfigParameters struct {
 	// Value custom is returned only in response, if Airflow web server parameters were
 	// manually changed to a non-standard values.
 	// +kubebuilder:validation:Optional
-	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+	MachineType *string `json:"machineType" tf:"machine_type,omitempty"`
 }
 
 type WebServerInitParameters struct {

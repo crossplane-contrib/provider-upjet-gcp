@@ -353,7 +353,7 @@ type StackdriverLoggingConfigParameters struct {
 	// This field may contain any value between 0.0 and 1.0, inclusive. 0.0 is the
 	// default and means that no operations are logged.
 	// +kubebuilder:validation:Optional
-	SamplingRatio *float64 `json:"samplingRatio,omitempty" tf:"sampling_ratio,omitempty"`
+	SamplingRatio *float64 `json:"samplingRatio" tf:"sampling_ratio,omitempty"`
 }
 
 // QueueSpec defines the desired state of Queue

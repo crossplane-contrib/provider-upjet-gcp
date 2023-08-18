@@ -38,7 +38,6 @@ import (
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 
 	tjcontroller "github.com/upbound/upjet/pkg/controller"
-	"github.com/upbound/upjet/pkg/controller/handler"
 	"github.com/upbound/upjet/pkg/terraform"
 
 	"github.com/upbound/provider-gcp/apis"
@@ -88,7 +87,6 @@ func main() {
 	cfg, err := ctrl.GetConfig()
 	kingpin.FatalIfError(err, "Cannot get API server rest config")
 
-	eventHandler := handler.NewEventHandler()
 	mgr, err := ctrl.NewManager(ratelimiter.LimitRESTConfig(cfg, *maxReconcileRate), ctrl.Options{
 		LeaderElection:             *leaderElection,
 		LeaderElectionID:           "crossplane-leader-election-provider-gcp-gkehub",
@@ -120,9 +118,8 @@ func main() {
 			MaxConcurrentReconciles: *maxReconcileRate,
 			Features:                &feature.Flags{},
 		},
-		Provider:     config.GetProvider(),
-		SetupFn:      clients.TerraformSetupBuilder(*terraformVersion, *nativeProviderSource, *providerVersion, scheduler),
-		EventHandler: eventHandler,
+		Provider: config.GetProvider(),
+		SetupFn:  clients.TerraformSetupBuilder(*terraformVersion, *nativeProviderSource, *providerVersion, scheduler),
 	}
 
 	if *enableManagementPolicies {

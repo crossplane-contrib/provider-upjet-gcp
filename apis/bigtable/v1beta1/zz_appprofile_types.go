@@ -154,7 +154,7 @@ type SingleClusterRoutingParameters struct {
 
 	// The cluster to which read/write requests should be routed.
 	// +kubebuilder:validation:Optional
-	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
+	ClusterID *string `json:"clusterId" tf:"cluster_id,omitempty"`
 }
 
 // AppProfileSpec defines the desired state of AppProfile

@@ -41,7 +41,7 @@ type AnonymousParameters struct {
 
 	// Whether phone number auth is enabled for the project or not.
 	// +kubebuilder:validation:Optional
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
 type EmailInitParameters struct {

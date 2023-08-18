@@ -52,12 +52,12 @@ type AcceleratorsParameters struct {
 	// The type of an accelator for a CDF instance.
 	// Possible values are: CDC, HEALTHCARE, CCAI_INSIGHTS.
 	// +kubebuilder:validation:Optional
-	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
+	AcceleratorType *string `json:"acceleratorType" tf:"accelerator_type,omitempty"`
 
 	// The type of an accelator for a CDF instance.
 	// Possible values are: ENABLED, DISABLED.
 	// +kubebuilder:validation:Optional
-	State *string `json:"state,omitempty" tf:"state,omitempty"`
+	State *string `json:"state" tf:"state,omitempty"`
 }
 
 type CryptoKeyConfigInitParameters struct {
@@ -105,7 +105,7 @@ type EventPublishConfigParameters struct {
 
 	// Option to enable Event Publishing.
 	// +kubebuilder:validation:Optional
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 
 	// The resource name of the Pub/Sub topic. Format: projects/{projectId}/topics/{topic_id}
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta1.Topic
@@ -400,13 +400,13 @@ type NetworkConfigParameters struct {
 	// The IP range in CIDR notation to use for the managed Data Fusion instance
 	// nodes. This range must not overlap with any other ranges used in the Data Fusion instance network.
 	// +kubebuilder:validation:Optional
-	IPAllocation *string `json:"ipAllocation,omitempty" tf:"ip_allocation,omitempty"`
+	IPAllocation *string `json:"ipAllocation" tf:"ip_allocation,omitempty"`
 
 	// Name of the network in the project with which the tenant project
 	// will be peered for executing pipelines. In case of shared VPC where the network resides in another host
 	// project the network should specified in the form of projects/{host-project-id}/global/networks/{network}
 	// +kubebuilder:validation:Optional
-	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+	Network *string `json:"network" tf:"network,omitempty"`
 }
 
 // InstanceSpec defines the desired state of Instance

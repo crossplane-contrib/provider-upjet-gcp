@@ -206,11 +206,11 @@ type ParametersParameters struct {
 	// The entity type of the parameter.
 	// Format: projects/-/locations/-/agents/-/entityTypes/ for system entity types (for example, projects/-/locations/-/agents/-/entityTypes/sys.date), or projects//locations//agents//entityTypes/ for developer entity types.
 	// +kubebuilder:validation:Optional
-	EntityType *string `json:"entityType,omitempty" tf:"entity_type,omitempty"`
+	EntityType *string `json:"entityType" tf:"entity_type,omitempty"`
 
 	// The unique identifier of the parameter. This field is used by training phrases to annotate their parts.
 	// +kubebuilder:validation:Optional
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+	ID *string `json:"id" tf:"id,omitempty"`
 
 	// Indicates whether the parameter represents a list of values.
 	// +kubebuilder:validation:Optional
@@ -248,7 +248,7 @@ type PartsParameters struct {
 
 	// The text for this part.
 	// +kubebuilder:validation:Optional
-	Text *string `json:"text,omitempty" tf:"text,omitempty"`
+	Text *string `json:"text" tf:"text,omitempty"`
 }
 
 type TrainingPhrasesInitParameters struct {
@@ -298,7 +298,7 @@ type TrainingPhrasesParameters struct {
 	// Part.text is set to a part of the phrase that you want to annotate, and the parameterId field is set.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Parts []PartsParameters `json:"parts,omitempty" tf:"parts,omitempty"`
+	Parts []PartsParameters `json:"parts" tf:"parts,omitempty"`
 
 	// Indicates how many times this example was added to the intent.
 	// +kubebuilder:validation:Optional

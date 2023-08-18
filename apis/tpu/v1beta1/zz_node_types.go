@@ -228,7 +228,7 @@ type SchedulingConfigParameters struct {
 
 	// Defines whether the TPU instance is preemptible.
 	// +kubebuilder:validation:Optional
-	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
+	Preemptible *bool `json:"preemptible" tf:"preemptible,omitempty"`
 }
 
 // NodeSpec defines the desired state of Node

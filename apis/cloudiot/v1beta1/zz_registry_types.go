@@ -89,7 +89,7 @@ type RegistryCredentialsParameters struct {
 
 	// A public key certificate format and data.
 	// +kubebuilder:validation:Optional
-	PublicKeyCertificate map[string]string `json:"publicKeyCertificate,omitempty" tf:"public_key_certificate,omitempty"`
+	PublicKeyCertificate map[string]string `json:"publicKeyCertificate" tf:"public_key_certificate,omitempty"`
 }
 
 type RegistryInitParameters struct {

@@ -156,7 +156,7 @@ type GkeParameters struct {
 
 	// Required. The name of the cluster the GKE service is running in. The cluster must be running in the same project as the trigger being created.
 	// +kubebuilder:validation:Optional
-	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
+	Cluster *string `json:"cluster" tf:"cluster,omitempty"`
 
 	// The location for the resource
 	// +kubebuilder:validation:Required
@@ -164,7 +164,7 @@ type GkeParameters struct {
 
 	// Required. The namespace the GKE service is running in.
 	// +kubebuilder:validation:Optional
-	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+	Namespace *string `json:"namespace" tf:"namespace,omitempty"`
 
 	// Optional. The relative path on the GKE service the events should be sent to. The value must conform to the definition of a URI path segment (section 3.3 of RFC2396). Examples: "/route", "route", "route/subroute".
 	// +kubebuilder:validation:Optional
@@ -172,7 +172,7 @@ type GkeParameters struct {
 
 	// Required. Name of the GKE service.
 	// +kubebuilder:validation:Optional
-	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+	Service *string `json:"service" tf:"service,omitempty"`
 }
 
 type MatchingCriteriaInitParameters struct {
@@ -203,7 +203,7 @@ type MatchingCriteriaParameters struct {
 
 	// Required. The name of a CloudEvents attribute. Currently, only a subset of attributes are supported for filtering. All triggers MUST provide a filter for the 'type' attribute.
 	// +kubebuilder:validation:Optional
-	Attribute *string `json:"attribute,omitempty" tf:"attribute,omitempty"`
+	Attribute *string `json:"attribute" tf:"attribute,omitempty"`
 
 	// Optional. The operator used for matching the events with the value of the filter. If not specified, only events that have an exact key-value pair specified in the filter are matched. The only allowed value is match-path-pattern.
 	// +kubebuilder:validation:Optional
@@ -211,7 +211,7 @@ type MatchingCriteriaParameters struct {
 
 	// Required. The value for the attribute. See https://cloud.google.com/eventarc/docs/creating-triggers#trigger-gcloud for available values.
 	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+	Value *string `json:"value" tf:"value,omitempty"`
 }
 
 type PubsubInitParameters struct {

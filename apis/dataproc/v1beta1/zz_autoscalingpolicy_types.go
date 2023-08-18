@@ -136,7 +136,7 @@ type BasicAlgorithmParameters struct {
 	// YARN autoscaling configuration.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	YarnConfig []YarnConfigParameters `json:"yarnConfig,omitempty" tf:"yarn_config,omitempty"`
+	YarnConfig []YarnConfigParameters `json:"yarnConfig" tf:"yarn_config,omitempty"`
 }
 
 type SecondaryWorkerConfigInitParameters struct {
@@ -267,7 +267,7 @@ type WorkerConfigParameters struct {
 
 	// Maximum number of instances for this group.
 	// +kubebuilder:validation:Optional
-	MaxInstances *float64 `json:"maxInstances,omitempty" tf:"max_instances,omitempty"`
+	MaxInstances *float64 `json:"maxInstances" tf:"max_instances,omitempty"`
 
 	// Minimum number of instances for this group. Bounds: [2, maxInstances]. Defaults to 2.
 	// +kubebuilder:validation:Optional
@@ -374,7 +374,7 @@ type YarnConfigParameters struct {
 	// (and potentially interrupting jobs). Only applicable to downscaling operations.
 	// Bounds: [0s, 1d].
 	// +kubebuilder:validation:Optional
-	GracefulDecommissionTimeout *string `json:"gracefulDecommissionTimeout,omitempty" tf:"graceful_decommission_timeout,omitempty"`
+	GracefulDecommissionTimeout *string `json:"gracefulDecommissionTimeout" tf:"graceful_decommission_timeout,omitempty"`
 
 	// Fraction of average pending memory in the last cooldown period for which to
 	// remove workers. A scale-down factor of 1 will result in scaling down so that there
@@ -383,7 +383,7 @@ type YarnConfigParameters struct {
 	// autoscaling a single job.
 	// Bounds: [0.0, 1.0].
 	// +kubebuilder:validation:Optional
-	ScaleDownFactor *float64 `json:"scaleDownFactor,omitempty" tf:"scale_down_factor,omitempty"`
+	ScaleDownFactor *float64 `json:"scaleDownFactor" tf:"scale_down_factor,omitempty"`
 
 	// Minimum scale-down threshold as a fraction of total cluster size before scaling occurs.
 	// For example, in a 20-worker cluster, a threshold of 0.1 means the autoscaler must
@@ -400,7 +400,7 @@ type YarnConfigParameters struct {
 	// (less aggressive scaling).
 	// Bounds: [0.0, 1.0].
 	// +kubebuilder:validation:Optional
-	ScaleUpFactor *float64 `json:"scaleUpFactor,omitempty" tf:"scale_up_factor,omitempty"`
+	ScaleUpFactor *float64 `json:"scaleUpFactor" tf:"scale_up_factor,omitempty"`
 
 	// Minimum scale-up threshold as a fraction of total cluster size before scaling
 	// occurs. For example, in a 20-worker cluster, a threshold of 0.1 means the autoscaler
