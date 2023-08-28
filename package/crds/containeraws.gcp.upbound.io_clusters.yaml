@@ -184,6 +184,11 @@ spec:
                                   GiBs. When unspecified, a default value is provided.
                                   See the specific reference in the parent resource.
                                 type: number
+                              throughput:
+                                description: Optional. The throughput to provision
+                                  for the volume, in MiB/s. Only valid if the volume
+                                  type is GP3.
+                                type: number
                               volumeType:
                                 description: 'Optional. Type of the EBS volume. When
                                   unspecified, it defaults to GP2 volume. Possible
@@ -228,6 +233,11 @@ spec:
                                 description: Optional. The size of the volume, in
                                   GiBs. When unspecified, a default value is provided.
                                   See the specific reference in the parent resource.
+                                type: number
+                              throughput:
+                                description: Optional. The throughput to provision
+                                  for the volume, in MiB/s. Only valid if the volume
+                                  type is GP3.
                                 type: number
                               volumeType:
                                 description: 'Optional. Type of the EBS volume. When
@@ -300,6 +310,14 @@ spec:
                     description: Cluster-wide networking configuration.
                     items:
                       properties:
+                        perNodePoolSgRulesDisabled:
+                          description: Disable the per node pool subnet security group
+                            rules on the control plane security group. When set to
+                            true, you must also provide one or more security groups
+                            that ensure node pools are able to send requests to the
+                            control plane on TCP/443 and TCP/8132. Failure to do so
+                            may result in unavailable node pools.
+                          type: boolean
                         podAddressCidrBlocks:
                           description: All pods in the cluster are assigned an RFC1918
                             IPv4 address from these ranges. Only a single range is
@@ -458,6 +476,11 @@ spec:
                                   GiBs. When unspecified, a default value is provided.
                                   See the specific reference in the parent resource.
                                 type: number
+                              throughput:
+                                description: Optional. The throughput to provision
+                                  for the volume, in MiB/s. Only valid if the volume
+                                  type is GP3.
+                                type: number
                               volumeType:
                                 description: 'Optional. Type of the EBS volume. When
                                   unspecified, it defaults to GP2 volume. Possible
@@ -502,6 +525,11 @@ spec:
                                 description: Optional. The size of the volume, in
                                   GiBs. When unspecified, a default value is provided.
                                   See the specific reference in the parent resource.
+                                type: number
+                              throughput:
+                                description: Optional. The throughput to provision
+                                  for the volume, in MiB/s. Only valid if the volume
+                                  type is GP3.
                                 type: number
                               volumeType:
                                 description: 'Optional. Type of the EBS volume. When
@@ -571,6 +599,14 @@ spec:
                     description: Cluster-wide networking configuration.
                     items:
                       properties:
+                        perNodePoolSgRulesDisabled:
+                          description: Disable the per node pool subnet security group
+                            rules on the control plane security group. When set to
+                            true, you must also provide one or more security groups
+                            that ensure node pools are able to send requests to the
+                            control plane on TCP/443 and TCP/8132. Failure to do so
+                            may result in unavailable node pools.
+                          type: boolean
                         podAddressCidrBlocks:
                           description: All pods in the cluster are assigned an RFC1918
                             IPv4 address from these ranges. Only a single range is
@@ -937,6 +973,11 @@ spec:
                                   GiBs. When unspecified, a default value is provided.
                                   See the specific reference in the parent resource.
                                 type: number
+                              throughput:
+                                description: Optional. The throughput to provision
+                                  for the volume, in MiB/s. Only valid if the volume
+                                  type is GP3.
+                                type: number
                               volumeType:
                                 description: 'Optional. Type of the EBS volume. When
                                   unspecified, it defaults to GP2 volume. Possible
@@ -981,6 +1022,11 @@ spec:
                                 description: Optional. The size of the volume, in
                                   GiBs. When unspecified, a default value is provided.
                                   See the specific reference in the parent resource.
+                                type: number
+                              throughput:
+                                description: Optional. The throughput to provision
+                                  for the volume, in MiB/s. Only valid if the volume
+                                  type is GP3.
                                 type: number
                               volumeType:
                                 description: 'Optional. Type of the EBS volume. When
@@ -1073,6 +1119,14 @@ spec:
                     description: Cluster-wide networking configuration.
                     items:
                       properties:
+                        perNodePoolSgRulesDisabled:
+                          description: Disable the per node pool subnet security group
+                            rules on the control plane security group. When set to
+                            true, you must also provide one or more security groups
+                            that ensure node pools are able to send requests to the
+                            control plane on TCP/443 and TCP/8132. Failure to do so
+                            may result in unavailable node pools.
+                          type: boolean
                         podAddressCidrBlocks:
                           description: All pods in the cluster are assigned an RFC1918
                             IPv4 address from these ranges. Only a single range is

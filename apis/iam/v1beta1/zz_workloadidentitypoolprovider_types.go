@@ -57,6 +57,14 @@ type OidcInitParameters struct {
 
 	// The OIDC issuer URL.
 	IssuerURI *string `json:"issuerUri,omitempty" tf:"issuer_uri,omitempty"`
+
+	// OIDC JWKs in JSON String format. For details on definition of a
+	// JWK, see https:tools.ietf.org/html/rfc7517. If not set, then we
+	// use the jwks_uri from the discovery document fetched from the
+	// .well-known path for the issuer_uri. Currently, RSA and EC asymmetric
+	// keys are supported. The JWK must use following format and include only
+	// the following fields:
+	JwksJSON *string `json:"jwksJson,omitempty" tf:"jwks_json,omitempty"`
 }
 
 type OidcObservation struct {
@@ -72,6 +80,14 @@ type OidcObservation struct {
 
 	// The OIDC issuer URL.
 	IssuerURI *string `json:"issuerUri,omitempty" tf:"issuer_uri,omitempty"`
+
+	// OIDC JWKs in JSON String format. For details on definition of a
+	// JWK, see https:tools.ietf.org/html/rfc7517. If not set, then we
+	// use the jwks_uri from the discovery document fetched from the
+	// .well-known path for the issuer_uri. Currently, RSA and EC asymmetric
+	// keys are supported. The JWK must use following format and include only
+	// the following fields:
+	JwksJSON *string `json:"jwksJson,omitempty" tf:"jwks_json,omitempty"`
 }
 
 type OidcParameters struct {
@@ -89,6 +105,15 @@ type OidcParameters struct {
 	// The OIDC issuer URL.
 	// +kubebuilder:validation:Optional
 	IssuerURI *string `json:"issuerUri" tf:"issuer_uri,omitempty"`
+
+	// OIDC JWKs in JSON String format. For details on definition of a
+	// JWK, see https:tools.ietf.org/html/rfc7517. If not set, then we
+	// use the jwks_uri from the discovery document fetched from the
+	// .well-known path for the issuer_uri. Currently, RSA and EC asymmetric
+	// keys are supported. The JWK must use following format and include only
+	// the following fields:
+	// +kubebuilder:validation:Optional
+	JwksJSON *string `json:"jwksJson,omitempty" tf:"jwks_json,omitempty"`
 }
 
 type WorkloadIdentityPoolProviderInitParameters struct {

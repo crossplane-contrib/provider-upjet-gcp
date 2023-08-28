@@ -280,6 +280,35 @@ func (mg *BackendServiceSignedURLKey) ResolveReferences(ctx context.Context, c c
 	return nil
 }
 
+// ResolveReferences of this Disk.
+func (mg *Disk) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.AsyncPrimaryDisk); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AsyncPrimaryDisk[i3].Disk),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.ForProvider.AsyncPrimaryDisk[i3].DiskRef,
+			Selector:     mg.Spec.ForProvider.AsyncPrimaryDisk[i3].DiskSelector,
+			To: reference.To{
+				List:    &DiskList{},
+				Managed: &Disk{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.AsyncPrimaryDisk[i3].Disk")
+		}
+		mg.Spec.ForProvider.AsyncPrimaryDisk[i3].Disk = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.AsyncPrimaryDisk[i3].DiskRef = rsp.ResolvedReference
+
+	}
+
+	return nil
+}
+
 // ResolveReferences of this DiskIAMMember.
 func (mg *DiskIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
@@ -425,7 +454,7 @@ func (mg *FirewallPolicyRule) ResolveReferences(ctx context.Context, c client.Re
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.FirewallPolicy),
-		Extract:      resource.ExtractResourceID(),
+		Extract:      resource.ExtractParamPath("name", true),
 		Reference:    mg.Spec.ForProvider.FirewallPolicyRef,
 		Selector:     mg.Spec.ForProvider.FirewallPolicySelector,
 		To: reference.To{
@@ -1585,6 +1614,24 @@ func (mg *RegionDisk) ResolveReferences(ctx context.Context, c client.Reader) er
 	var rsp reference.ResolutionResponse
 	var err error
 
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.AsyncPrimaryDisk); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AsyncPrimaryDisk[i3].Disk),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.ForProvider.AsyncPrimaryDisk[i3].DiskRef,
+			Selector:     mg.Spec.ForProvider.AsyncPrimaryDisk[i3].DiskSelector,
+			To: reference.To{
+				List:    &RegionDiskList{},
+				Managed: &RegionDisk{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.AsyncPrimaryDisk[i3].Disk")
+		}
+		mg.Spec.ForProvider.AsyncPrimaryDisk[i3].Disk = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.AsyncPrimaryDisk[i3].DiskRef = rsp.ResolvedReference
+
+	}
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Snapshot),
 		Extract:      resource.ExtractResourceID(),

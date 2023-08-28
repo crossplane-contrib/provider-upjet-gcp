@@ -230,6 +230,16 @@ func (in *BackupBackupPlanObservation) DeepCopyInto(out *BackupBackupPlanObserva
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.State != nil {
+		in, out := &in.State, &out.State
+		*out = new(string)
+		**out = **in
+	}
+	if in.StateReason != nil {
+		in, out := &in.StateReason, &out.StateReason
+		*out = new(string)
+		**out = **in
+	}
 	if in.UID != nil {
 		in, out := &in.UID, &out.UID
 		*out = new(string)

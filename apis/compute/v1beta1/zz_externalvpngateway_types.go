@@ -58,6 +58,10 @@ type ExternalVPNGatewayObservation struct {
 	// Structure is documented below.
 	Interface []InterfaceObservation `json:"interface,omitempty" tf:"interface,omitempty"`
 
+	// The fingerprint used for optimistic locking of this resource.  Used
+	// internally during updates.
+	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
+
 	// Labels for the external VPN gateway resource.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 

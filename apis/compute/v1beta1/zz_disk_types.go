@@ -25,6 +25,32 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AsyncPrimaryDiskInitParameters struct {
+}
+
+type AsyncPrimaryDiskObservation struct {
+
+	// Primary disk for asynchronous disk replication.
+	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
+}
+
+type AsyncPrimaryDiskParameters struct {
+
+	// Primary disk for asynchronous disk replication.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Disk
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
+
+	// Reference to a Disk in compute to populate disk.
+	// +kubebuilder:validation:Optional
+	DiskRef *v1.Reference `json:"diskRef,omitempty" tf:"-"`
+
+	// Selector for a Disk in compute to populate disk.
+	// +kubebuilder:validation:Optional
+	DiskSelector *v1.Selector `json:"diskSelector,omitempty" tf:"-"`
+}
+
 type DiskEncryptionKeyInitParameters struct {
 
 	// The self link of the encryption key used to encrypt the disk. Also called KmsKeyName
@@ -89,6 +115,10 @@ type DiskEncryptionKeyParameters struct {
 
 type DiskInitParameters struct {
 
+	// A nested object resource
+	// Structure is documented below.
+	AsyncPrimaryDisk []AsyncPrimaryDiskInitParameters `json:"asyncPrimaryDisk,omitempty" tf:"async_primary_disk,omitempty"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -105,6 +135,11 @@ type DiskInitParameters struct {
 	// Structure is documented below.
 	DiskEncryptionKey []DiskEncryptionKeyInitParameters `json:"diskEncryptionKey,omitempty" tf:"disk_encryption_key,omitempty"`
 
+	// A list of features to enable on the guest operating system.
+	// Applicable only for bootable disks.
+	// Structure is documented below.
+	GuestOsFeatures []GuestOsFeaturesInitParameters `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
+
 	// The image from which to initialize this disk. This can be
 	// one of: the image's self_link, projects/{project}/global/images/{image},
 	// projects/{project}/global/images/family/{family}, global/images/{image},
@@ -119,6 +154,9 @@ type DiskInitParameters struct {
 	// Labels to apply to this disk.  A list of key->value pairs.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// Any applicable license URI.
+	Licenses []*string `json:"licenses,omitempty" tf:"licenses,omitempty"`
+
 	// Physical block size of the persistent disk, in bytes. If not present
 	// in a request, a default value is used. Currently supported sizes
 	// are 4096 and 16384, other sizes may be added in the future.
@@ -131,7 +169,14 @@ type DiskInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Indicates how many IOPS must be provisioned for the disk.
+	// Note: Updating currently is only supported by hyperdisk skus without the need to delete and recreate the disk, hyperdisk
+	// allows for an update of IOPS every 4 hours. To update your hyperdisk more frequently, you'll need to manually delete and recreate it
 	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much Throughput must be provisioned for the disk.
+	// Note: Updating currently is only supported by hyperdisk skus without the need to delete and recreate the disk, hyperdisk
+	// allows for an update of Throughput every 4 hours. To update your hyperdisk more frequently, you'll need to manually delete and recreate it
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
 
 	// Size of the persistent disk, specified in GB. You can specify this
 	// field when creating a persistent disk using the image or
@@ -172,6 +217,10 @@ type DiskInitParameters struct {
 
 type DiskObservation struct {
 
+	// A nested object resource
+	// Structure is documented below.
+	AsyncPrimaryDisk []AsyncPrimaryDiskObservation `json:"asyncPrimaryDisk,omitempty" tf:"async_primary_disk,omitempty"`
+
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
@@ -190,6 +239,11 @@ type DiskObservation struct {
 	// you do not need to provide a key to use the disk later.
 	// Structure is documented below.
 	DiskEncryptionKey []DiskEncryptionKeyObservation `json:"diskEncryptionKey,omitempty" tf:"disk_encryption_key,omitempty"`
+
+	// A list of features to enable on the guest operating system.
+	// Applicable only for bootable disks.
+	// Structure is documented below.
+	GuestOsFeatures []GuestOsFeaturesObservation `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/zones/{{zone}}/disks/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -218,6 +272,9 @@ type DiskObservation struct {
 	// Last detach timestamp in RFC3339 text format.
 	LastDetachTimestamp *string `json:"lastDetachTimestamp,omitempty" tf:"last_detach_timestamp,omitempty"`
 
+	// Any applicable license URI.
+	Licenses []*string `json:"licenses,omitempty" tf:"licenses,omitempty"`
+
 	// Physical block size of the persistent disk, in bytes. If not present
 	// in a request, a default value is used. Currently supported sizes
 	// are 4096 and 16384, other sizes may be added in the future.
@@ -230,7 +287,14 @@ type DiskObservation struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Indicates how many IOPS must be provisioned for the disk.
+	// Note: Updating currently is only supported by hyperdisk skus without the need to delete and recreate the disk, hyperdisk
+	// allows for an update of IOPS every 4 hours. To update your hyperdisk more frequently, you'll need to manually delete and recreate it
 	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much Throughput must be provisioned for the disk.
+	// Note: Updating currently is only supported by hyperdisk skus without the need to delete and recreate the disk, hyperdisk
+	// allows for an update of Throughput every 4 hours. To update your hyperdisk more frequently, you'll need to manually delete and recreate it
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
@@ -301,6 +365,11 @@ type DiskObservation struct {
 
 type DiskParameters struct {
 
+	// A nested object resource
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AsyncPrimaryDisk []AsyncPrimaryDiskParameters `json:"asyncPrimaryDisk,omitempty" tf:"async_primary_disk,omitempty"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	// +kubebuilder:validation:Optional
@@ -319,6 +388,12 @@ type DiskParameters struct {
 	// +kubebuilder:validation:Optional
 	DiskEncryptionKey []DiskEncryptionKeyParameters `json:"diskEncryptionKey,omitempty" tf:"disk_encryption_key,omitempty"`
 
+	// A list of features to enable on the guest operating system.
+	// Applicable only for bootable disks.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GuestOsFeatures []GuestOsFeaturesParameters `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
+
 	// The image from which to initialize this disk. This can be
 	// one of: the image's self_link, projects/{project}/global/images/{image},
 	// projects/{project}/global/images/family/{family}, global/images/{image},
@@ -335,6 +410,10 @@ type DiskParameters struct {
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// Any applicable license URI.
+	// +kubebuilder:validation:Optional
+	Licenses []*string `json:"licenses,omitempty" tf:"licenses,omitempty"`
+
 	// Physical block size of the persistent disk, in bytes. If not present
 	// in a request, a default value is used. Currently supported sizes
 	// are 4096 and 16384, other sizes may be added in the future.
@@ -349,8 +428,16 @@ type DiskParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Indicates how many IOPS must be provisioned for the disk.
+	// Note: Updating currently is only supported by hyperdisk skus without the need to delete and recreate the disk, hyperdisk
+	// allows for an update of IOPS every 4 hours. To update your hyperdisk more frequently, you'll need to manually delete and recreate it
 	// +kubebuilder:validation:Optional
 	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much Throughput must be provisioned for the disk.
+	// Note: Updating currently is only supported by hyperdisk skus without the need to delete and recreate the disk, hyperdisk
+	// allows for an update of Throughput every 4 hours. To update your hyperdisk more frequently, you'll need to manually delete and recreate it
+	// +kubebuilder:validation:Optional
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
 
 	// Size of the persistent disk, specified in GB. You can specify this
 	// field when creating a persistent disk using the image or
@@ -397,6 +484,28 @@ type DiskParameters struct {
 	// A reference to the zone where the disk resides.
 	// +kubebuilder:validation:Required
 	Zone *string `json:"zone" tf:"zone,omitempty"`
+}
+
+type GuestOsFeaturesInitParameters struct {
+
+	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
+	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type GuestOsFeaturesObservation struct {
+
+	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
+	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type GuestOsFeaturesParameters struct {
+
+	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
+	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type SourceImageEncryptionKeyInitParameters struct {

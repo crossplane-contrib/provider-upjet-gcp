@@ -238,6 +238,11 @@ func (in *ConfigInitParameters) DeepCopyInto(out *ConfigInitParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.ResilienceMode != nil {
+		in, out := &in.ResilienceMode, &out.ResilienceMode
+		*out = new(string)
+		**out = **in
+	}
 	if in.SoftwareConfig != nil {
 		in, out := &in.SoftwareConfig, &out.SoftwareConfig
 		*out = make([]SoftwareConfigInitParameters, len(*in))
@@ -355,6 +360,11 @@ func (in *ConfigObservation) DeepCopyInto(out *ConfigObservation) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.ResilienceMode != nil {
+		in, out := &in.ResilienceMode, &out.ResilienceMode
+		*out = new(string)
+		**out = **in
+	}
 	if in.SoftwareConfig != nil {
 		in, out := &in.SoftwareConfig, &out.SoftwareConfig
 		*out = make([]SoftwareConfigObservation, len(*in))
@@ -456,6 +466,11 @@ func (in *ConfigParameters) DeepCopyInto(out *ConfigParameters) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.ResilienceMode != nil {
+		in, out := &in.ResilienceMode, &out.ResilienceMode
+		*out = new(string)
+		**out = **in
 	}
 	if in.SoftwareConfig != nil {
 		in, out := &in.SoftwareConfig, &out.SoftwareConfig

@@ -1394,6 +1394,11 @@ func (in *OrganizationInitParameters) DeepCopyInto(out *OrganizationInitParamete
 		*out = new(string)
 		**out = **in
 	}
+	if in.DisableVPCPeering != nil {
+		in, out := &in.DisableVPCPeering, &out.DisableVPCPeering
+		*out = new(bool)
+		**out = **in
+	}
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
 		*out = new(string)
@@ -1473,6 +1478,11 @@ func (in *OrganizationObservation) DeepCopyInto(out *OrganizationObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ApigeeProjectID != nil {
+		in, out := &in.ApigeeProjectID, &out.ApigeeProjectID
+		*out = new(string)
+		**out = **in
+	}
 	if in.AuthorizedNetwork != nil {
 		in, out := &in.AuthorizedNetwork, &out.AuthorizedNetwork
 		*out = new(string)
@@ -1491,6 +1501,11 @@ func (in *OrganizationObservation) DeepCopyInto(out *OrganizationObservation) {
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
+		**out = **in
+	}
+	if in.DisableVPCPeering != nil {
+		in, out := &in.DisableVPCPeering, &out.DisableVPCPeering
+		*out = new(bool)
 		**out = **in
 	}
 	if in.DisplayName != nil {
@@ -1583,6 +1598,11 @@ func (in *OrganizationParameters) DeepCopyInto(out *OrganizationParameters) {
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
+		**out = **in
+	}
+	if in.DisableVPCPeering != nil {
+		in, out := &in.DisableVPCPeering, &out.DisableVPCPeering
+		*out = new(bool)
 		**out = **in
 	}
 	if in.DisplayName != nil {

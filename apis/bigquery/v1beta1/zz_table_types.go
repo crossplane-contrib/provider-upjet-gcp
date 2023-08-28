@@ -61,8 +61,7 @@ type CsvOptionsInitParameters struct {
 	// The default value is false.
 	AllowQuotedNewlines *bool `json:"allowQuotedNewlines,omitempty" tf:"allow_quoted_newlines,omitempty"`
 
-	// The character encoding of the data. The supported
-	// values are UTF-8 or ISO-8859-1.
+	// The character encoding of the data. The supported values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE, and UTF-32LE. The default value is UTF-8.
 	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
 
 	// The separator for fields in a CSV file.
@@ -91,8 +90,7 @@ type CsvOptionsObservation struct {
 	// The default value is false.
 	AllowQuotedNewlines *bool `json:"allowQuotedNewlines,omitempty" tf:"allow_quoted_newlines,omitempty"`
 
-	// The character encoding of the data. The supported
-	// values are UTF-8 or ISO-8859-1.
+	// The character encoding of the data. The supported values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE, and UTF-32LE. The default value is UTF-8.
 	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
 
 	// The separator for fields in a CSV file.
@@ -123,8 +121,7 @@ type CsvOptionsParameters struct {
 	// +kubebuilder:validation:Optional
 	AllowQuotedNewlines *bool `json:"allowQuotedNewlines,omitempty" tf:"allow_quoted_newlines,omitempty"`
 
-	// The character encoding of the data. The supported
-	// values are UTF-8 or ISO-8859-1.
+	// The character encoding of the data. The supported values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE, and UTF-32LE. The default value is UTF-8.
 	// +kubebuilder:validation:Optional
 	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
 
@@ -223,9 +220,23 @@ type ExternalDataConfigurationInitParameters struct {
 	// The default value is false.
 	IgnoreUnknownValues *bool `json:"ignoreUnknownValues,omitempty" tf:"ignore_unknown_values,omitempty"`
 
+	// Additional properties to set if
+	// source_format is set to "JSON". Structure is documented below.
+	JSONOptions []JSONOptionsInitParameters `json:"jsonOptions,omitempty" tf:"json_options,omitempty"`
+
 	// The maximum number of bad records that
 	// BigQuery can ignore when reading data.
 	MaxBadRecords *float64 `json:"maxBadRecords,omitempty" tf:"max_bad_records,omitempty"`
+
+	// Metadata Cache Mode for the table. Set this to enable caching of metadata from external data source. Valid values are AUTOMATIC and MANUAL.
+	MetadataCacheMode *string `json:"metadataCacheMode,omitempty" tf:"metadata_cache_mode,omitempty"`
+
+	// Object Metadata is used to create Object Tables. Object Tables contain a listing of objects (with their metadata) found at the sourceUris. If object_metadata is set, source_format should be omitted.
+	ObjectMetadata *string `json:"objectMetadata,omitempty" tf:"object_metadata,omitempty"`
+
+	// Additional properties to set if
+	// source_format is set to "PARQUET". Structure is documented below.
+	ParquetOptions []ExternalDataConfigurationParquetOptionsInitParameters `json:"parquetOptions,omitempty" tf:"parquet_options,omitempty"`
 
 	// When creating an external table, the user can provide a reference file with the table schema. This is enabled for the following formats: AVRO, PARQUET, ORC.
 	ReferenceFileSchemaURI *string `json:"referenceFileSchemaUri,omitempty" tf:"reference_file_schema_uri,omitempty"`
@@ -297,9 +308,23 @@ type ExternalDataConfigurationObservation struct {
 	// The default value is false.
 	IgnoreUnknownValues *bool `json:"ignoreUnknownValues,omitempty" tf:"ignore_unknown_values,omitempty"`
 
+	// Additional properties to set if
+	// source_format is set to "JSON". Structure is documented below.
+	JSONOptions []JSONOptionsObservation `json:"jsonOptions,omitempty" tf:"json_options,omitempty"`
+
 	// The maximum number of bad records that
 	// BigQuery can ignore when reading data.
 	MaxBadRecords *float64 `json:"maxBadRecords,omitempty" tf:"max_bad_records,omitempty"`
+
+	// Metadata Cache Mode for the table. Set this to enable caching of metadata from external data source. Valid values are AUTOMATIC and MANUAL.
+	MetadataCacheMode *string `json:"metadataCacheMode,omitempty" tf:"metadata_cache_mode,omitempty"`
+
+	// Object Metadata is used to create Object Tables. Object Tables contain a listing of objects (with their metadata) found at the sourceUris. If object_metadata is set, source_format should be omitted.
+	ObjectMetadata *string `json:"objectMetadata,omitempty" tf:"object_metadata,omitempty"`
+
+	// Additional properties to set if
+	// source_format is set to "PARQUET". Structure is documented below.
+	ParquetOptions []ExternalDataConfigurationParquetOptionsObservation `json:"parquetOptions,omitempty" tf:"parquet_options,omitempty"`
 
 	// When creating an external table, the user can provide a reference file with the table schema. This is enabled for the following formats: AVRO, PARQUET, ORC.
 	ReferenceFileSchemaURI *string `json:"referenceFileSchemaUri,omitempty" tf:"reference_file_schema_uri,omitempty"`
@@ -379,10 +404,28 @@ type ExternalDataConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	IgnoreUnknownValues *bool `json:"ignoreUnknownValues,omitempty" tf:"ignore_unknown_values,omitempty"`
 
+	// Additional properties to set if
+	// source_format is set to "JSON". Structure is documented below.
+	// +kubebuilder:validation:Optional
+	JSONOptions []JSONOptionsParameters `json:"jsonOptions,omitempty" tf:"json_options,omitempty"`
+
 	// The maximum number of bad records that
 	// BigQuery can ignore when reading data.
 	// +kubebuilder:validation:Optional
 	MaxBadRecords *float64 `json:"maxBadRecords,omitempty" tf:"max_bad_records,omitempty"`
+
+	// Metadata Cache Mode for the table. Set this to enable caching of metadata from external data source. Valid values are AUTOMATIC and MANUAL.
+	// +kubebuilder:validation:Optional
+	MetadataCacheMode *string `json:"metadataCacheMode,omitempty" tf:"metadata_cache_mode,omitempty"`
+
+	// Object Metadata is used to create Object Tables. Object Tables contain a listing of objects (with their metadata) found at the sourceUris. If object_metadata is set, source_format should be omitted.
+	// +kubebuilder:validation:Optional
+	ObjectMetadata *string `json:"objectMetadata,omitempty" tf:"object_metadata,omitempty"`
+
+	// Additional properties to set if
+	// source_format is set to "PARQUET". Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ParquetOptions []ExternalDataConfigurationParquetOptionsParameters `json:"parquetOptions,omitempty" tf:"parquet_options,omitempty"`
 
 	// When creating an external table, the user can provide a reference file with the table schema. This is enabled for the following formats: AVRO, PARQUET, ORC.
 	// +kubebuilder:validation:Optional
@@ -407,12 +450,41 @@ type ExternalDataConfigurationParameters struct {
 	// in Bigquery's public API documentation for supported formats. To use "GOOGLE_SHEETS"
 	// the scopes must include "https://www.googleapis.com/auth/drive.readonly".
 	// +kubebuilder:validation:Optional
-	SourceFormat *string `json:"sourceFormat" tf:"source_format,omitempty"`
+	SourceFormat *string `json:"sourceFormat,omitempty" tf:"source_format,omitempty"`
 
 	// A list of the fully-qualified URIs that point to
 	// your data in Google Cloud.
 	// +kubebuilder:validation:Optional
 	SourceUris []*string `json:"sourceUris" tf:"source_uris,omitempty"`
+}
+
+type ExternalDataConfigurationParquetOptionsInitParameters struct {
+
+	// Indicates whether to use schema inference specifically for Parquet LIST logical type.
+	EnableListInference *bool `json:"enableListInference,omitempty" tf:"enable_list_inference,omitempty"`
+
+	// Indicates whether to infer Parquet ENUM logical type as STRING instead of BYTES by default.
+	EnumAsString *bool `json:"enumAsString,omitempty" tf:"enum_as_string,omitempty"`
+}
+
+type ExternalDataConfigurationParquetOptionsObservation struct {
+
+	// Indicates whether to use schema inference specifically for Parquet LIST logical type.
+	EnableListInference *bool `json:"enableListInference,omitempty" tf:"enable_list_inference,omitempty"`
+
+	// Indicates whether to infer Parquet ENUM logical type as STRING instead of BYTES by default.
+	EnumAsString *bool `json:"enumAsString,omitempty" tf:"enum_as_string,omitempty"`
+}
+
+type ExternalDataConfigurationParquetOptionsParameters struct {
+
+	// Indicates whether to use schema inference specifically for Parquet LIST logical type.
+	// +kubebuilder:validation:Optional
+	EnableListInference *bool `json:"enableListInference,omitempty" tf:"enable_list_inference,omitempty"`
+
+	// Indicates whether to infer Parquet ENUM logical type as STRING instead of BYTES by default.
+	// +kubebuilder:validation:Optional
+	EnumAsString *bool `json:"enumAsString,omitempty" tf:"enum_as_string,omitempty"`
 }
 
 type GoogleSheetsOptionsInitParameters struct {
@@ -520,6 +592,25 @@ type HivePartitioningOptionsParameters struct {
 	// Note that when mode is set to CUSTOM, you must encode the partition key schema within the source_uri_prefix by setting source_uri_prefix to gs://bucket/path_to_table/{key1:TYPE1}/{key2:TYPE2}/{key3:TYPE3}.
 	// +kubebuilder:validation:Optional
 	SourceURIPrefix *string `json:"sourceUriPrefix,omitempty" tf:"source_uri_prefix,omitempty"`
+}
+
+type JSONOptionsInitParameters struct {
+
+	// The character encoding of the data. The supported values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE, and UTF-32LE. The default value is UTF-8.
+	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
+}
+
+type JSONOptionsObservation struct {
+
+	// The character encoding of the data. The supported values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE, and UTF-32LE. The default value is UTF-8.
+	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
+}
+
+type JSONOptionsParameters struct {
+
+	// The character encoding of the data. The supported values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE, and UTF-32LE. The default value is UTF-8.
+	// +kubebuilder:validation:Optional
+	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
 }
 
 type MaterializedViewInitParameters struct {

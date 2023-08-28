@@ -4,12 +4,12 @@ metadata:
   annotations:
     meta.upbound.io/example-id: compute/v1beta1/firewallpolicyrule
   labels:
-    testing.upbound.io/example-name: default
-  name: default
+    testing.upbound.io/example-name: primary
+  name: primary
 spec:
   forProvider:
     action: allow
-    description: Example Resource
+    description: Resource created for Terraform acceptance testing
     direction: EGRESS
     disabled: false
     enableLogging: true
@@ -17,14 +17,26 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     match:
-    - destIpRanges:
+    - destAddressGroups:
+      - ${google_network_security_address_group.basic_global_networksecurity_address_group.id}
+      destFqdns: []
+      destIpRanges:
       - 11.100.0.1/32
+      destRegionCodes:
+      - US
+      destThreatIntelligences:
+      - iplist-known-malicious-ips
       layer4Configs:
       - ipProtocol: tcp
         ports:
-        - 80
         - 8080
+      - ipProtocol: udp
+        ports:
+        - 22
+      srcAddressGroups: []
     priority: 9000
+    targetServiceAccounts:
+    - my@service-account.com
 
 ---
 
@@ -38,6 +50,23 @@ metadata:
   name: default
 spec:
   forProvider:
-    description: Example Resource
-    parent: organizations/12345
-    shortName: my-policy
+    description: Resource created for Terraform acceptance testing
+    parent: ${google_folder.folder.id}
+    shortName: policy
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Folder
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/firewallpolicyrule
+  labels:
+    testing.upbound.io/example-name: folder
+  name: folder
+spec:
+  forProvider:
+    displayName: policy
+    parentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

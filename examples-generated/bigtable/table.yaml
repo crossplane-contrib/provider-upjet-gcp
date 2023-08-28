@@ -8,6 +8,7 @@ metadata:
   name: table
 spec:
   forProvider:
+    changeStreamRetention: 24h0m0s
     columnFamily:
     - family: family-first
     - family: family-second

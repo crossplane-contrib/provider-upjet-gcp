@@ -387,6 +387,10 @@ type GitFileSourceInitParameters struct {
 	// Possible values are: UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, BITBUCKET_SERVER.
 	RepoType *string `json:"repoType,omitempty" tf:"repo_type,omitempty"`
 
+	// The fully qualified resource name of the Repo API repository. The fully qualified resource name of the Repo API repository.
+	// If unspecified, the repo from which the trigger invocation originated is assumed to be the repo from which to read the specified path.
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
+
 	// The branch, tag, arbitrary ref, or SHA version of the repo to use when resolving the
 	// filename . This field respects the same syntax/resolution as described here: https://git-scm.com/docs/gitrevisions
 	// If unspecified, the revision from which the trigger invocation originated is assumed to be the revision from which to read the specified path.
@@ -410,6 +414,10 @@ type GitFileSourceObservation struct {
 	// Values can be UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, BITBUCKET_SERVER
 	// Possible values are: UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, BITBUCKET_SERVER.
 	RepoType *string `json:"repoType,omitempty" tf:"repo_type,omitempty"`
+
+	// The fully qualified resource name of the Repo API repository. The fully qualified resource name of the Repo API repository.
+	// If unspecified, the repo from which the trigger invocation originated is assumed to be the repo from which to read the specified path.
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
 
 	// The branch, tag, arbitrary ref, or SHA version of the repo to use when resolving the
 	// filename . This field respects the same syntax/resolution as described here: https://git-scm.com/docs/gitrevisions
@@ -437,6 +445,11 @@ type GitFileSourceParameters struct {
 	// Possible values are: UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, BITBUCKET_SERVER.
 	// +kubebuilder:validation:Optional
 	RepoType *string `json:"repoType" tf:"repo_type,omitempty"`
+
+	// The fully qualified resource name of the Repo API repository. The fully qualified resource name of the Repo API repository.
+	// If unspecified, the repo from which the trigger invocation originated is assumed to be the repo from which to read the specified path.
+	// +kubebuilder:validation:Optional
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
 
 	// The branch, tag, arbitrary ref, or SHA version of the repo to use when resolving the
 	// filename . This field respects the same syntax/resolution as described here: https://git-scm.com/docs/gitrevisions
@@ -690,7 +703,6 @@ type OptionsInitParameters struct {
 	Logging *string `json:"logging,omitempty" tf:"logging,omitempty"`
 
 	// Compute Engine machine type on which to run the build.
-	// Possible values are: UNSPECIFIED, N1_HIGHCPU_8, N1_HIGHCPU_32, E2_HIGHCPU_8, E2_HIGHCPU_32.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
 	// Requested verifiability options.
@@ -755,7 +767,6 @@ type OptionsObservation struct {
 	Logging *string `json:"logging,omitempty" tf:"logging,omitempty"`
 
 	// Compute Engine machine type on which to run the build.
-	// Possible values are: UNSPECIFIED, N1_HIGHCPU_8, N1_HIGHCPU_32, E2_HIGHCPU_8, E2_HIGHCPU_32.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
 	// Requested verifiability options.
@@ -825,7 +836,6 @@ type OptionsParameters struct {
 	Logging *string `json:"logging,omitempty" tf:"logging,omitempty"`
 
 	// Compute Engine machine type on which to run the build.
-	// Possible values are: UNSPECIFIED, N1_HIGHCPU_8, N1_HIGHCPU_32, E2_HIGHCPU_8, E2_HIGHCPU_32.
 	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
@@ -1120,6 +1130,150 @@ type RepoSourceParameters struct {
 	TagName *string `json:"tagName,omitempty" tf:"tag_name,omitempty"`
 }
 
+type RepositoryEventConfigInitParameters struct {
+
+	// Contains filter properties for matching Pull Requests.
+	// Structure is documented below.
+	PullRequest []RepositoryEventConfigPullRequestInitParameters `json:"pullRequest,omitempty" tf:"pull_request,omitempty"`
+
+	// Contains filter properties for matching git pushes.
+	// Structure is documented below.
+	Push []RepositoryEventConfigPushInitParameters `json:"push,omitempty" tf:"push,omitempty"`
+
+	// The resource name of the Repo API resource.
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
+}
+
+type RepositoryEventConfigObservation struct {
+
+	// Contains filter properties for matching Pull Requests.
+	// Structure is documented below.
+	PullRequest []RepositoryEventConfigPullRequestObservation `json:"pullRequest,omitempty" tf:"pull_request,omitempty"`
+
+	// Contains filter properties for matching git pushes.
+	// Structure is documented below.
+	Push []RepositoryEventConfigPushObservation `json:"push,omitempty" tf:"push,omitempty"`
+
+	// The resource name of the Repo API resource.
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
+}
+
+type RepositoryEventConfigParameters struct {
+
+	// Contains filter properties for matching Pull Requests.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PullRequest []RepositoryEventConfigPullRequestParameters `json:"pullRequest,omitempty" tf:"pull_request,omitempty"`
+
+	// Contains filter properties for matching git pushes.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Push []RepositoryEventConfigPushParameters `json:"push,omitempty" tf:"push,omitempty"`
+
+	// The resource name of the Repo API resource.
+	// +kubebuilder:validation:Optional
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
+}
+
+type RepositoryEventConfigPullRequestInitParameters struct {
+
+	// Regex of branches to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	Branch *string `json:"branch,omitempty" tf:"branch,omitempty"`
+
+	// Configure builds to run whether a repository owner or collaborator need to comment /gcbrun.
+	// Possible values are: COMMENTS_DISABLED, COMMENTS_ENABLED, COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY.
+	CommentControl *string `json:"commentControl,omitempty" tf:"comment_control,omitempty"`
+
+	// Only trigger a build if the revision regex does NOT match the revision regex.
+	InvertRegex *bool `json:"invertRegex,omitempty" tf:"invert_regex,omitempty"`
+}
+
+type RepositoryEventConfigPullRequestObservation struct {
+
+	// Regex of branches to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	Branch *string `json:"branch,omitempty" tf:"branch,omitempty"`
+
+	// Configure builds to run whether a repository owner or collaborator need to comment /gcbrun.
+	// Possible values are: COMMENTS_DISABLED, COMMENTS_ENABLED, COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY.
+	CommentControl *string `json:"commentControl,omitempty" tf:"comment_control,omitempty"`
+
+	// Only trigger a build if the revision regex does NOT match the revision regex.
+	InvertRegex *bool `json:"invertRegex,omitempty" tf:"invert_regex,omitempty"`
+}
+
+type RepositoryEventConfigPullRequestParameters struct {
+
+	// Regex of branches to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	// +kubebuilder:validation:Optional
+	Branch *string `json:"branch,omitempty" tf:"branch,omitempty"`
+
+	// Configure builds to run whether a repository owner or collaborator need to comment /gcbrun.
+	// Possible values are: COMMENTS_DISABLED, COMMENTS_ENABLED, COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY.
+	// +kubebuilder:validation:Optional
+	CommentControl *string `json:"commentControl,omitempty" tf:"comment_control,omitempty"`
+
+	// Only trigger a build if the revision regex does NOT match the revision regex.
+	// +kubebuilder:validation:Optional
+	InvertRegex *bool `json:"invertRegex,omitempty" tf:"invert_regex,omitempty"`
+}
+
+type RepositoryEventConfigPushInitParameters struct {
+
+	// Regex of branches to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	Branch *string `json:"branch,omitempty" tf:"branch,omitempty"`
+
+	// Only trigger a build if the revision regex does NOT match the revision regex.
+	InvertRegex *bool `json:"invertRegex,omitempty" tf:"invert_regex,omitempty"`
+
+	// Regex of tags to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+}
+
+type RepositoryEventConfigPushObservation struct {
+
+	// Regex of branches to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	Branch *string `json:"branch,omitempty" tf:"branch,omitempty"`
+
+	// Only trigger a build if the revision regex does NOT match the revision regex.
+	InvertRegex *bool `json:"invertRegex,omitempty" tf:"invert_regex,omitempty"`
+
+	// Regex of tags to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+}
+
+type RepositoryEventConfigPushParameters struct {
+
+	// Regex of branches to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	// +kubebuilder:validation:Optional
+	Branch *string `json:"branch,omitempty" tf:"branch,omitempty"`
+
+	// Only trigger a build if the revision regex does NOT match the revision regex.
+	// +kubebuilder:validation:Optional
+	InvertRegex *bool `json:"invertRegex,omitempty" tf:"invert_regex,omitempty"`
+
+	// Regex of tags to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	// +kubebuilder:validation:Optional
+	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+}
+
 type SecretInitParameters struct {
 
 	// Cloud KMS key name to use to decrypt these envs.
@@ -1245,6 +1399,10 @@ type SourceToBuildInitParameters struct {
 	// Possible values are: UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, BITBUCKET_SERVER.
 	RepoType *string `json:"repoType,omitempty" tf:"repo_type,omitempty"`
 
+	// The qualified resource name of the Repo API repository.
+	// Either uri or repository can be specified and is required.
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
+
 	// The URI of the repo.
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
 }
@@ -1262,6 +1420,10 @@ type SourceToBuildObservation struct {
 	// Values can be UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, BITBUCKET_SERVER
 	// Possible values are: UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, BITBUCKET_SERVER.
 	RepoType *string `json:"repoType,omitempty" tf:"repo_type,omitempty"`
+
+	// The qualified resource name of the Repo API repository.
+	// Either uri or repository can be specified and is required.
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
 
 	// The URI of the repo.
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
@@ -1283,6 +1445,11 @@ type SourceToBuildParameters struct {
 	// Possible values are: UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, BITBUCKET_SERVER.
 	// +kubebuilder:validation:Optional
 	RepoType *string `json:"repoType" tf:"repo_type,omitempty"`
+
+	// The qualified resource name of the Repo API repository.
+	// Either uri or repository can be specified and is required.
+	// +kubebuilder:validation:Optional
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
 
 	// The URI of the repo.
 	// +kubebuilder:validation:Optional
@@ -1742,6 +1909,10 @@ type TriggerInitParameters struct {
 	// Structure is documented below.
 	PubsubConfig []PubsubConfigInitParameters `json:"pubsubConfig,omitempty" tf:"pubsub_config,omitempty"`
 
+	// The configuration of a trigger that creates a build whenever an event from Repo API is received.
+	// Structure is documented below.
+	RepositoryEventConfig []RepositoryEventConfigInitParameters `json:"repositoryEventConfig,omitempty" tf:"repository_event_config,omitempty"`
+
 	// The repo and ref of the repository from which to build.
 	// This field is used only for those triggers that do not respond to SCM events.
 	// Triggers that respond to such events build source at whatever commit caused the event.
@@ -1858,6 +2029,10 @@ type TriggerObservation struct {
 	// One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	PubsubConfig []PubsubConfigObservation `json:"pubsubConfig,omitempty" tf:"pubsub_config,omitempty"`
+
+	// The configuration of a trigger that creates a build whenever an event from Repo API is received.
+	// Structure is documented below.
+	RepositoryEventConfig []RepositoryEventConfigObservation `json:"repositoryEventConfig,omitempty" tf:"repository_event_config,omitempty"`
 
 	// The service account used for all user-controlled operations including
 	// triggers.patch, triggers.run, builds.create, and builds.cancel.
@@ -1995,6 +2170,11 @@ type TriggerParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PubsubConfig []PubsubConfigParameters `json:"pubsubConfig,omitempty" tf:"pubsub_config,omitempty"`
+
+	// The configuration of a trigger that creates a build whenever an event from Repo API is received.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RepositoryEventConfig []RepositoryEventConfigParameters `json:"repositoryEventConfig,omitempty" tf:"repository_event_config,omitempty"`
 
 	// The service account used for all user-controlled operations including
 	// triggers.patch, triggers.run, builds.create, and builds.cancel.

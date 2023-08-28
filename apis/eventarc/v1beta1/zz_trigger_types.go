@@ -263,6 +263,8 @@ type TriggerInitParameters struct {
 	// Required. Destination specifies where the events should be sent to.
 	Destination []DestinationInitParameters `json:"destination,omitempty" tf:"destination,omitempty"`
 
+	EventDataContentType *string `json:"eventDataContentType,omitempty" tf:"event_data_content_type,omitempty"`
+
 	// Optional. User labels attached to the triggers that can be used to group resources.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -295,6 +297,8 @@ type TriggerObservation struct {
 
 	// Output only. This checksum is computed by the server based on the value of other fields, and may be sent only on create requests to ensure the client has an up-to-date value before proceeding.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
+
+	EventDataContentType *string `json:"eventDataContentType,omitempty" tf:"event_data_content_type,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/triggers/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -333,6 +337,9 @@ type TriggerParameters struct {
 	// Required. Destination specifies where the events should be sent to.
 	// +kubebuilder:validation:Optional
 	Destination []DestinationParameters `json:"destination,omitempty" tf:"destination,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	EventDataContentType *string `json:"eventDataContentType,omitempty" tf:"event_data_content_type,omitempty"`
 
 	// Optional. User labels attached to the triggers that can be used to group resources.
 	// +kubebuilder:validation:Optional

@@ -46,6 +46,9 @@ type ColumnFamilyParameters struct {
 
 type TableInitParameters struct {
 
+	// Duration to retain change stream data for the table. Set to 0 to disable. Must be between 1 and 7 days.
+	ChangeStreamRetention *string `json:"changeStreamRetention,omitempty" tf:"change_stream_retention,omitempty"`
+
 	// A group of columns within a table which share a common configuration. This can be specified multiple times. Structure is documented below.
 	ColumnFamily []ColumnFamilyInitParameters `json:"columnFamily,omitempty" tf:"column_family,omitempty"`
 
@@ -61,6 +64,9 @@ type TableInitParameters struct {
 }
 
 type TableObservation struct {
+
+	// Duration to retain change stream data for the table. Set to 0 to disable. Must be between 1 and 7 days.
+	ChangeStreamRetention *string `json:"changeStreamRetention,omitempty" tf:"change_stream_retention,omitempty"`
 
 	// A group of columns within a table which share a common configuration. This can be specified multiple times. Structure is documented below.
 	ColumnFamily []ColumnFamilyObservation `json:"columnFamily,omitempty" tf:"column_family,omitempty"`
@@ -83,6 +89,10 @@ type TableObservation struct {
 }
 
 type TableParameters struct {
+
+	// Duration to retain change stream data for the table. Set to 0 to disable. Must be between 1 and 7 days.
+	// +kubebuilder:validation:Optional
+	ChangeStreamRetention *string `json:"changeStreamRetention,omitempty" tf:"change_stream_retention,omitempty"`
 
 	// A group of columns within a table which share a common configuration. This can be specified multiple times. Structure is documented below.
 	// +kubebuilder:validation:Optional

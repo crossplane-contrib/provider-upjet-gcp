@@ -36,6 +36,13 @@ type OrganizationInitParameters struct {
 	// Description of the Apigee organization.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Flag that specifies whether the VPC Peering through Private Google Access should be
+	// disabled between the consumer network and Apigee. Required if an authorizedNetwork
+	// on the consumer project is not provided, in which case the flag should be set to true.
+	// Valid only when RuntimeType is set to CLOUD. The value must be set before the creation
+	// of any Apigee runtime instance and can be updated only when there are no runtime instances.
+	DisableVPCPeering *bool `json:"disableVpcPeering,omitempty" tf:"disable_vpc_peering,omitempty"`
+
 	// The display name of the Apigee organization.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -65,6 +72,9 @@ type OrganizationObservation struct {
 	// Primary GCP region for analytics data storage. For valid values, see Create an Apigee organization.
 	AnalyticsRegion *string `json:"analyticsRegion,omitempty" tf:"analytics_region,omitempty"`
 
+	// Output only. Project ID of the Apigee Tenant Project.
+	ApigeeProjectID *string `json:"apigeeProjectId,omitempty" tf:"apigee_project_id,omitempty"`
+
 	// Compute Engine network used for Service Networking to be peered with Apigee runtime instances.
 	// See Getting started with the Service Networking API.
 	// Valid only when RuntimeType is set to CLOUD. The value can be updated only when there are no runtime instances. For example: "default".
@@ -79,6 +89,13 @@ type OrganizationObservation struct {
 
 	// Description of the Apigee organization.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Flag that specifies whether the VPC Peering through Private Google Access should be
+	// disabled between the consumer network and Apigee. Required if an authorizedNetwork
+	// on the consumer project is not provided, in which case the flag should be set to true.
+	// Valid only when RuntimeType is set to CLOUD. The value must be set before the creation
+	// of any Apigee runtime instance and can be updated only when there are no runtime instances.
+	DisableVPCPeering *bool `json:"disableVpcPeering,omitempty" tf:"disable_vpc_peering,omitempty"`
 
 	// The display name of the Apigee organization.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -149,6 +166,14 @@ type OrganizationParameters struct {
 	// Description of the Apigee organization.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Flag that specifies whether the VPC Peering through Private Google Access should be
+	// disabled between the consumer network and Apigee. Required if an authorizedNetwork
+	// on the consumer project is not provided, in which case the flag should be set to true.
+	// Valid only when RuntimeType is set to CLOUD. The value must be set before the creation
+	// of any Apigee runtime instance and can be updated only when there are no runtime instances.
+	// +kubebuilder:validation:Optional
+	DisableVPCPeering *bool `json:"disableVpcPeering,omitempty" tf:"disable_vpc_peering,omitempty"`
 
 	// The display name of the Apigee organization.
 	// +kubebuilder:validation:Optional

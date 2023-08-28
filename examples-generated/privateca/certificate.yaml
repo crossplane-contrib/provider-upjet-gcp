@@ -15,8 +15,8 @@ spec:
     - publicKey:
       - format: PEM
         keySecretRef:
-          key: example-key
-          name: example-secret
+          key: attribute.public_key_pem)
+          name: example-private-key
           namespace: upbound-system
       subjectConfig:
       - subject:
@@ -39,8 +39,8 @@ spec:
         - isCa: true
         keyUsage:
         - baseKeyUsage:
-          - crlSign: false
-            decipherOnly: false
+          - certSign: true
+            crlSign: true
           extendedKeyUsage:
           - serverAuth: false
         nameConstraints:

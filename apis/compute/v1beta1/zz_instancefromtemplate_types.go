@@ -30,6 +30,8 @@ type BootDiskInitializeParamsInitParameters struct {
 
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
@@ -39,6 +41,8 @@ type BootDiskInitializeParamsObservation struct {
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
@@ -52,6 +56,9 @@ type BootDiskInitializeParamsParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
@@ -289,6 +296,10 @@ type InstanceFromTemplateInitParameters struct {
 
 	NetworkInterface []InstanceFromTemplateNetworkInterfaceInitParameters `json:"networkInterface,omitempty" tf:"network_interface,omitempty"`
 
+	NetworkPerformanceConfig []InstanceFromTemplateNetworkPerformanceConfigInitParameters `json:"networkPerformanceConfig,omitempty" tf:"network_performance_config,omitempty"`
+
+	Params []InstanceFromTemplateParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
+
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	ReservationAffinity []InstanceFromTemplateReservationAffinityInitParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
@@ -407,6 +418,20 @@ type InstanceFromTemplateNetworkInterfaceParameters struct {
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
 
+type InstanceFromTemplateNetworkPerformanceConfigInitParameters struct {
+	TotalEgressBandwidthTier *string `json:"totalEgressBandwidthTier,omitempty" tf:"total_egress_bandwidth_tier,omitempty"`
+}
+
+type InstanceFromTemplateNetworkPerformanceConfigObservation struct {
+	TotalEgressBandwidthTier *string `json:"totalEgressBandwidthTier,omitempty" tf:"total_egress_bandwidth_tier,omitempty"`
+}
+
+type InstanceFromTemplateNetworkPerformanceConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	TotalEgressBandwidthTier *string `json:"totalEgressBandwidthTier" tf:"total_egress_bandwidth_tier,omitempty"`
+}
+
 type InstanceFromTemplateObservation struct {
 	AdvancedMachineFeatures []InstanceFromTemplateAdvancedMachineFeaturesObservation `json:"advancedMachineFeatures,omitempty" tf:"advanced_machine_features,omitempty"`
 
@@ -462,6 +487,10 @@ type InstanceFromTemplateObservation struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	NetworkInterface []InstanceFromTemplateNetworkInterfaceObservation `json:"networkInterface,omitempty" tf:"network_interface,omitempty"`
+
+	NetworkPerformanceConfig []InstanceFromTemplateNetworkPerformanceConfigObservation `json:"networkPerformanceConfig,omitempty" tf:"network_performance_config,omitempty"`
+
+	Params []InstanceFromTemplateParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
 
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -558,6 +587,12 @@ type InstanceFromTemplateParameters struct {
 	NetworkInterface []InstanceFromTemplateNetworkInterfaceParameters `json:"networkInterface,omitempty" tf:"network_interface,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	NetworkPerformanceConfig []InstanceFromTemplateNetworkPerformanceConfigParameters `json:"networkPerformanceConfig,omitempty" tf:"network_performance_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Params []InstanceFromTemplateParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -603,6 +638,20 @@ type InstanceFromTemplateParameters struct {
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
+type InstanceFromTemplateParamsInitParameters struct {
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type InstanceFromTemplateParamsObservation struct {
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type InstanceFromTemplateParamsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
 type InstanceFromTemplateReservationAffinityInitParameters struct {
 	SpecificReservation []ReservationAffinitySpecificReservationInitParameters `json:"specificReservation,omitempty" tf:"specific_reservation,omitempty"`
 
@@ -629,6 +678,8 @@ type InstanceFromTemplateSchedulingInitParameters struct {
 
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
+	LocalSsdRecoveryTimeout []SchedulingLocalSsdRecoveryTimeoutInitParameters `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
+
 	MinNodeCpus *float64 `json:"minNodeCpus,omitempty" tf:"min_node_cpus,omitempty"`
 
 	NodeAffinities []SchedulingNodeAffinitiesInitParameters `json:"nodeAffinities,omitempty" tf:"node_affinities,omitempty"`
@@ -644,6 +695,8 @@ type InstanceFromTemplateSchedulingObservation struct {
 	AutomaticRestart *bool `json:"automaticRestart,omitempty" tf:"automatic_restart,omitempty"`
 
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
+
+	LocalSsdRecoveryTimeout []SchedulingLocalSsdRecoveryTimeoutObservation `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
 	MinNodeCpus *float64 `json:"minNodeCpus,omitempty" tf:"min_node_cpus,omitempty"`
 
@@ -663,6 +716,9 @@ type InstanceFromTemplateSchedulingParameters struct {
 
 	// +kubebuilder:validation:Optional
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	LocalSsdRecoveryTimeout []SchedulingLocalSsdRecoveryTimeoutParameters `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	MinNodeCpus *float64 `json:"minNodeCpus,omitempty" tf:"min_node_cpus,omitempty"`
@@ -812,6 +868,14 @@ type NetworkInterfaceAliasIPRangeParameters struct {
 }
 
 type NetworkInterfaceIPv6AccessConfigInitParameters struct {
+	ExternalIPv6 *string `json:"externalIpv6,omitempty" tf:"external_ipv6,omitempty"`
+
+	ExternalIPv6PrefixLength *string `json:"externalIpv6PrefixLength,omitempty" tf:"external_ipv6_prefix_length,omitempty"`
+
+	// A unique name for the resource, required by GCE.
+	// Changing this forces a new resource to be created.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
 
 	// A unique name for the resource, required by GCE.
@@ -824,6 +888,10 @@ type NetworkInterfaceIPv6AccessConfigObservation struct {
 
 	ExternalIPv6PrefixLength *string `json:"externalIpv6PrefixLength,omitempty" tf:"external_ipv6_prefix_length,omitempty"`
 
+	// A unique name for the resource, required by GCE.
+	// Changing this forces a new resource to be created.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
 
 	// A unique name for the resource, required by GCE.
@@ -832,6 +900,17 @@ type NetworkInterfaceIPv6AccessConfigObservation struct {
 }
 
 type NetworkInterfaceIPv6AccessConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	ExternalIPv6 *string `json:"externalIpv6,omitempty" tf:"external_ipv6,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ExternalIPv6PrefixLength *string `json:"externalIpv6PrefixLength,omitempty" tf:"external_ipv6_prefix_length,omitempty"`
+
+	// A unique name for the resource, required by GCE.
+	// Changing this forces a new resource to be created.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	NetworkTier *string `json:"networkTier" tf:"network_tier,omitempty"`
@@ -861,6 +940,27 @@ type ReservationAffinitySpecificReservationParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Values []*string `json:"values" tf:"values,omitempty"`
+}
+
+type SchedulingLocalSsdRecoveryTimeoutInitParameters struct {
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type SchedulingLocalSsdRecoveryTimeoutObservation struct {
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type SchedulingLocalSsdRecoveryTimeoutParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
 
 type SchedulingNodeAffinitiesInitParameters struct {

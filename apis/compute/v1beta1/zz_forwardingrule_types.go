@@ -39,6 +39,9 @@ type ForwardingRuleInitParameters struct {
 	// internal load balancer.
 	AllowGlobalAccess *bool `json:"allowGlobalAccess,omitempty" tf:"allow_global_access,omitempty"`
 
+	// This is used in PSC consumer ForwardingRule to control whether the PSC endpoint can be accessed from another region.
+	AllowPscGlobalAccess *bool `json:"allowPscGlobalAccess,omitempty" tf:"allow_psc_global_access,omitempty"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -83,6 +86,9 @@ type ForwardingRuleInitParameters struct {
 	// networkTier of the Address.
 	// Possible values are: PREMIUM, STANDARD.
 	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
+
+	// This is used in PSC consumer ForwardingRule to control whether it should try to auto-generate a DNS zone or not. Non-PSC forwarding rules do not use this field.
+	NoAutomateDNSZone *bool `json:"noAutomateDnsZone,omitempty" tf:"no_automate_dns_zone,omitempty"`
 
 	// This field can only be used:
 	PortRange *string `json:"portRange,omitempty" tf:"port_range,omitempty"`
@@ -134,6 +140,9 @@ type ForwardingRuleObservation struct {
 	// Otherwise only allows access from clients in the same region as the
 	// internal load balancer.
 	AllowGlobalAccess *bool `json:"allowGlobalAccess,omitempty" tf:"allow_global_access,omitempty"`
+
+	// This is used in PSC consumer ForwardingRule to control whether the PSC endpoint can be accessed from another region.
+	AllowPscGlobalAccess *bool `json:"allowPscGlobalAccess,omitempty" tf:"allow_psc_global_access,omitempty"`
 
 	// Identifies the backend service to which the forwarding rule sends traffic.
 	// Required for Internal TCP/UDP Load Balancing and Network Load Balancing;
@@ -214,6 +223,9 @@ type ForwardingRuleObservation struct {
 	// networkTier of the Address.
 	// Possible values are: PREMIUM, STANDARD.
 	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
+
+	// This is used in PSC consumer ForwardingRule to control whether it should try to auto-generate a DNS zone or not. Non-PSC forwarding rules do not use this field.
+	NoAutomateDNSZone *bool `json:"noAutomateDnsZone,omitempty" tf:"no_automate_dns_zone,omitempty"`
 
 	// This field can only be used:
 	PortRange *string `json:"portRange,omitempty" tf:"port_range,omitempty"`
@@ -297,6 +309,10 @@ type ForwardingRuleParameters struct {
 	// internal load balancer.
 	// +kubebuilder:validation:Optional
 	AllowGlobalAccess *bool `json:"allowGlobalAccess,omitempty" tf:"allow_global_access,omitempty"`
+
+	// This is used in PSC consumer ForwardingRule to control whether the PSC endpoint can be accessed from another region.
+	// +kubebuilder:validation:Optional
+	AllowPscGlobalAccess *bool `json:"allowPscGlobalAccess,omitempty" tf:"allow_psc_global_access,omitempty"`
 
 	// Identifies the backend service to which the forwarding rule sends traffic.
 	// Required for Internal TCP/UDP Load Balancing and Network Load Balancing;
@@ -403,6 +419,10 @@ type ForwardingRuleParameters struct {
 	// Possible values are: PREMIUM, STANDARD.
 	// +kubebuilder:validation:Optional
 	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
+
+	// This is used in PSC consumer ForwardingRule to control whether it should try to auto-generate a DNS zone or not. Non-PSC forwarding rules do not use this field.
+	// +kubebuilder:validation:Optional
+	NoAutomateDNSZone *bool `json:"noAutomateDnsZone,omitempty" tf:"no_automate_dns_zone,omitempty"`
 
 	// This field can only be used:
 	// +kubebuilder:validation:Optional

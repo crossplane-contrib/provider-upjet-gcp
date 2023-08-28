@@ -67,6 +67,10 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  changeStreamRetention:
+                    description: Duration to retain change stream data for the table.
+                      Set to 0 to disable. Must be between 1 and 7 days.
+                    type: string
                   columnFamily:
                     description: A group of columns within a table which share a common
                       configuration. This can be specified multiple times. Structure
@@ -184,6 +188,10 @@ spec:
                   creation, for example because of an external controller is managing
                   them, like an autoscaler.
                 properties:
+                  changeStreamRetention:
+                    description: Duration to retain change stream data for the table.
+                      Set to 0 to disable. Must be between 1 and 7 days.
+                    type: string
                   columnFamily:
                     description: A group of columns within a table which share a common
                       configuration. This can be specified multiple times. Structure
@@ -414,6 +422,10 @@ spec:
             properties:
               atProvider:
                 properties:
+                  changeStreamRetention:
+                    description: Duration to retain change stream data for the table.
+                      Set to 0 to disable. Must be between 1 and 7 days.
+                    type: string
                   columnFamily:
                     description: A group of columns within a table which share a common
                       configuration. This can be specified multiple times. Structure

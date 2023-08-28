@@ -85,8 +85,8 @@ type ClusterInitParameters struct {
 	// Describes the Cloud KMS encryption key that will be used to protect the destination Bigtable cluster. The requirements for this key are: 1) The Cloud Bigtable service account associated with the project that contains this cluster must be granted the cloudkms.cryptoKeyEncrypterDecrypter role on the CMEK key. 2) Only regional keys can be used and the region of the CMEK key must match the region of the cluster.
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
-	// The number of nodes in your Cloud Bigtable cluster.
-	// Required, with a minimum of 1 for each cluster in an instance.
+	// The number of nodes in the cluster.
+	// If no value is set, Cloud Bigtable automatically allocates nodes based on your data footprint and optimized for 50% storage utilization.
 	NumNodes *float64 `json:"numNodes,omitempty" tf:"num_nodes,omitempty"`
 
 	// The storage type to use. One of "SSD" or
@@ -110,8 +110,8 @@ type ClusterObservation struct {
 	// Describes the Cloud KMS encryption key that will be used to protect the destination Bigtable cluster. The requirements for this key are: 1) The Cloud Bigtable service account associated with the project that contains this cluster must be granted the cloudkms.cryptoKeyEncrypterDecrypter role on the CMEK key. 2) Only regional keys can be used and the region of the CMEK key must match the region of the cluster.
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
-	// The number of nodes in your Cloud Bigtable cluster.
-	// Required, with a minimum of 1 for each cluster in an instance.
+	// The number of nodes in the cluster.
+	// If no value is set, Cloud Bigtable automatically allocates nodes based on your data footprint and optimized for 50% storage utilization.
 	NumNodes *float64 `json:"numNodes,omitempty" tf:"num_nodes,omitempty"`
 
 	// The storage type to use. One of "SSD" or
@@ -138,8 +138,8 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
-	// The number of nodes in your Cloud Bigtable cluster.
-	// Required, with a minimum of 1 for each cluster in an instance.
+	// The number of nodes in the cluster.
+	// If no value is set, Cloud Bigtable automatically allocates nodes based on your data footprint and optimized for 50% storage utilization.
 	// +kubebuilder:validation:Optional
 	NumNodes *float64 `json:"numNodes,omitempty" tf:"num_nodes,omitempty"`
 

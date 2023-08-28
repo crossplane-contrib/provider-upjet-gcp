@@ -820,7 +820,9 @@ type ConditionMonitoringQueryLanguageInitParameters struct {
 	// Possible values are: EVALUATION_MISSING_DATA_INACTIVE, EVALUATION_MISSING_DATA_ACTIVE, EVALUATION_MISSING_DATA_NO_OP.
 	EvaluationMissingData *string `json:"evaluationMissingData,omitempty" tf:"evaluation_missing_data,omitempty"`
 
-	// Monitoring Query Language query that outputs a boolean stream.
+	// The PromQL expression to evaluate. Every evaluation cycle this
+	// expression is evaluated at the current time, and all resultant time
+	// series become pending/firing alerts. This field must not be empty.
 	Query *string `json:"query,omitempty" tf:"query,omitempty"`
 
 	// The number/percent of time series for which
@@ -860,7 +862,9 @@ type ConditionMonitoringQueryLanguageObservation struct {
 	// Possible values are: EVALUATION_MISSING_DATA_INACTIVE, EVALUATION_MISSING_DATA_ACTIVE, EVALUATION_MISSING_DATA_NO_OP.
 	EvaluationMissingData *string `json:"evaluationMissingData,omitempty" tf:"evaluation_missing_data,omitempty"`
 
-	// Monitoring Query Language query that outputs a boolean stream.
+	// The PromQL expression to evaluate. Every evaluation cycle this
+	// expression is evaluated at the current time, and all resultant time
+	// series become pending/firing alerts. This field must not be empty.
 	Query *string `json:"query,omitempty" tf:"query,omitempty"`
 
 	// The number/percent of time series for which
@@ -902,7 +906,9 @@ type ConditionMonitoringQueryLanguageParameters struct {
 	// +kubebuilder:validation:Optional
 	EvaluationMissingData *string `json:"evaluationMissingData,omitempty" tf:"evaluation_missing_data,omitempty"`
 
-	// Monitoring Query Language query that outputs a boolean stream.
+	// The PromQL expression to evaluate. Every evaluation cycle this
+	// expression is evaluated at the current time, and all resultant time
+	// series become pending/firing alerts. This field must not be empty.
 	// +kubebuilder:validation:Optional
 	Query *string `json:"query" tf:"query,omitempty"`
 
@@ -958,6 +964,198 @@ type ConditionMonitoringQueryLanguageTriggerParameters struct {
 	// condition to be triggered.
 	// +kubebuilder:validation:Optional
 	Percent *float64 `json:"percent,omitempty" tf:"percent,omitempty"`
+}
+
+type ConditionPrometheusQueryLanguageInitParameters struct {
+
+	// The alerting rule name of this alert in the corresponding Prometheus
+	// configuration file.
+	// Some external tools may require this field to be populated correctly
+	// in order to refer to the original Prometheus configuration file.
+	// The rule group name and the alert name are necessary to update the
+	// relevant AlertPolicies in case the definition of the rule group changes
+	// in the future.
+	// This field is optional. If this field is not empty, then it must be a
+	// valid Prometheus label name.
+	AlertRule *string `json:"alertRule,omitempty" tf:"alert_rule,omitempty"`
+
+	// The amount of time that a time series must
+	// violate the threshold to be considered
+	// failing. Currently, only values that are a
+	// multiple of a minute--e.g., 0, 60, 120, or
+	// 300 seconds--are supported. If an invalid
+	// value is given, an error will be returned.
+	// When choosing a duration, it is useful to
+	// keep in mind the frequency of the underlying
+	// time series data (which may also be affected
+	// by any alignments specified in the
+	// aggregations field); a good duration is long
+	// enough so that a single outlier does not
+	// generate spurious alerts, but short enough
+	// that unhealthy states are detected and
+	// alerted on quickly.
+	Duration *string `json:"duration,omitempty" tf:"duration,omitempty"`
+
+	// How often this rule should be evaluated. Must be a positive multiple
+	// of 30 seconds or missing. The default value is 30 seconds. If this
+	// PrometheusQueryLanguageCondition was generated from a Prometheus
+	// alerting rule, then this value should be taken from the enclosing
+	// rule group.
+	EvaluationInterval *string `json:"evaluationInterval,omitempty" tf:"evaluation_interval,omitempty"`
+
+	// Labels to add to or overwrite in the PromQL query result. Label names
+	// must be valid.
+	// Label values can be templatized by using variables. The only available
+	// variable names are the names of the labels in the PromQL result, including
+	// "name" and "value". "labels" may be empty. This field is intended to be
+	// used for organizing and identifying the AlertPolicy
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The PromQL expression to evaluate. Every evaluation cycle this
+	// expression is evaluated at the current time, and all resultant time
+	// series become pending/firing alerts. This field must not be empty.
+	Query *string `json:"query,omitempty" tf:"query,omitempty"`
+
+	// The rule group name of this alert in the corresponding Prometheus
+	// configuration file.
+	// Some external tools may require this field to be populated correctly
+	// in order to refer to the original Prometheus configuration file.
+	// The rule group name and the alert name are necessary to update the
+	// relevant AlertPolicies in case the definition of the rule group changes
+	// in the future.
+	// This field is optional. If this field is not empty, then it must be a
+	// valid Prometheus label name.
+	RuleGroup *string `json:"ruleGroup,omitempty" tf:"rule_group,omitempty"`
+}
+
+type ConditionPrometheusQueryLanguageObservation struct {
+
+	// The alerting rule name of this alert in the corresponding Prometheus
+	// configuration file.
+	// Some external tools may require this field to be populated correctly
+	// in order to refer to the original Prometheus configuration file.
+	// The rule group name and the alert name are necessary to update the
+	// relevant AlertPolicies in case the definition of the rule group changes
+	// in the future.
+	// This field is optional. If this field is not empty, then it must be a
+	// valid Prometheus label name.
+	AlertRule *string `json:"alertRule,omitempty" tf:"alert_rule,omitempty"`
+
+	// The amount of time that a time series must
+	// violate the threshold to be considered
+	// failing. Currently, only values that are a
+	// multiple of a minute--e.g., 0, 60, 120, or
+	// 300 seconds--are supported. If an invalid
+	// value is given, an error will be returned.
+	// When choosing a duration, it is useful to
+	// keep in mind the frequency of the underlying
+	// time series data (which may also be affected
+	// by any alignments specified in the
+	// aggregations field); a good duration is long
+	// enough so that a single outlier does not
+	// generate spurious alerts, but short enough
+	// that unhealthy states are detected and
+	// alerted on quickly.
+	Duration *string `json:"duration,omitempty" tf:"duration,omitempty"`
+
+	// How often this rule should be evaluated. Must be a positive multiple
+	// of 30 seconds or missing. The default value is 30 seconds. If this
+	// PrometheusQueryLanguageCondition was generated from a Prometheus
+	// alerting rule, then this value should be taken from the enclosing
+	// rule group.
+	EvaluationInterval *string `json:"evaluationInterval,omitempty" tf:"evaluation_interval,omitempty"`
+
+	// Labels to add to or overwrite in the PromQL query result. Label names
+	// must be valid.
+	// Label values can be templatized by using variables. The only available
+	// variable names are the names of the labels in the PromQL result, including
+	// "name" and "value". "labels" may be empty. This field is intended to be
+	// used for organizing and identifying the AlertPolicy
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The PromQL expression to evaluate. Every evaluation cycle this
+	// expression is evaluated at the current time, and all resultant time
+	// series become pending/firing alerts. This field must not be empty.
+	Query *string `json:"query,omitempty" tf:"query,omitempty"`
+
+	// The rule group name of this alert in the corresponding Prometheus
+	// configuration file.
+	// Some external tools may require this field to be populated correctly
+	// in order to refer to the original Prometheus configuration file.
+	// The rule group name and the alert name are necessary to update the
+	// relevant AlertPolicies in case the definition of the rule group changes
+	// in the future.
+	// This field is optional. If this field is not empty, then it must be a
+	// valid Prometheus label name.
+	RuleGroup *string `json:"ruleGroup,omitempty" tf:"rule_group,omitempty"`
+}
+
+type ConditionPrometheusQueryLanguageParameters struct {
+
+	// The alerting rule name of this alert in the corresponding Prometheus
+	// configuration file.
+	// Some external tools may require this field to be populated correctly
+	// in order to refer to the original Prometheus configuration file.
+	// The rule group name and the alert name are necessary to update the
+	// relevant AlertPolicies in case the definition of the rule group changes
+	// in the future.
+	// This field is optional. If this field is not empty, then it must be a
+	// valid Prometheus label name.
+	// +kubebuilder:validation:Optional
+	AlertRule *string `json:"alertRule,omitempty" tf:"alert_rule,omitempty"`
+
+	// The amount of time that a time series must
+	// violate the threshold to be considered
+	// failing. Currently, only values that are a
+	// multiple of a minute--e.g., 0, 60, 120, or
+	// 300 seconds--are supported. If an invalid
+	// value is given, an error will be returned.
+	// When choosing a duration, it is useful to
+	// keep in mind the frequency of the underlying
+	// time series data (which may also be affected
+	// by any alignments specified in the
+	// aggregations field); a good duration is long
+	// enough so that a single outlier does not
+	// generate spurious alerts, but short enough
+	// that unhealthy states are detected and
+	// alerted on quickly.
+	// +kubebuilder:validation:Optional
+	Duration *string `json:"duration,omitempty" tf:"duration,omitempty"`
+
+	// How often this rule should be evaluated. Must be a positive multiple
+	// of 30 seconds or missing. The default value is 30 seconds. If this
+	// PrometheusQueryLanguageCondition was generated from a Prometheus
+	// alerting rule, then this value should be taken from the enclosing
+	// rule group.
+	// +kubebuilder:validation:Optional
+	EvaluationInterval *string `json:"evaluationInterval" tf:"evaluation_interval,omitempty"`
+
+	// Labels to add to or overwrite in the PromQL query result. Label names
+	// must be valid.
+	// Label values can be templatized by using variables. The only available
+	// variable names are the names of the labels in the PromQL result, including
+	// "name" and "value". "labels" may be empty. This field is intended to be
+	// used for organizing and identifying the AlertPolicy
+	// +kubebuilder:validation:Optional
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The PromQL expression to evaluate. Every evaluation cycle this
+	// expression is evaluated at the current time, and all resultant time
+	// series become pending/firing alerts. This field must not be empty.
+	// +kubebuilder:validation:Optional
+	Query *string `json:"query" tf:"query,omitempty"`
+
+	// The rule group name of this alert in the corresponding Prometheus
+	// configuration file.
+	// Some external tools may require this field to be populated correctly
+	// in order to refer to the original Prometheus configuration file.
+	// The rule group name and the alert name are necessary to update the
+	// relevant AlertPolicies in case the definition of the rule group changes
+	// in the future.
+	// This field is optional. If this field is not empty, then it must be a
+	// valid Prometheus label name.
+	// +kubebuilder:validation:Optional
+	RuleGroup *string `json:"ruleGroup,omitempty" tf:"rule_group,omitempty"`
 }
 
 type ConditionThresholdAggregationsInitParameters struct {
@@ -1670,6 +1868,14 @@ type ConditionsInitParameters struct {
 	// Structure is documented below.
 	ConditionMonitoringQueryLanguage []ConditionMonitoringQueryLanguageInitParameters `json:"conditionMonitoringQueryLanguage,omitempty" tf:"condition_monitoring_query_language,omitempty"`
 
+	// A Monitoring Query Language query that outputs a boolean stream
+	// A condition type that allows alert policies to be defined using
+	// Prometheus Query Language (PromQL).
+	// The PrometheusQueryLanguageCondition message contains information
+	// from a Prometheus alerting rule and its associated rule group.
+	// Structure is documented below.
+	ConditionPrometheusQueryLanguage []ConditionPrometheusQueryLanguageInitParameters `json:"conditionPrometheusQueryLanguage,omitempty" tf:"condition_prometheus_query_language,omitempty"`
+
 	// A condition that compares a time series against a
 	// threshold.
 	// Structure is documented below.
@@ -1698,6 +1904,14 @@ type ConditionsObservation struct {
 	// A Monitoring Query Language query that outputs a boolean stream
 	// Structure is documented below.
 	ConditionMonitoringQueryLanguage []ConditionMonitoringQueryLanguageObservation `json:"conditionMonitoringQueryLanguage,omitempty" tf:"condition_monitoring_query_language,omitempty"`
+
+	// A Monitoring Query Language query that outputs a boolean stream
+	// A condition type that allows alert policies to be defined using
+	// Prometheus Query Language (PromQL).
+	// The PrometheusQueryLanguageCondition message contains information
+	// from a Prometheus alerting rule and its associated rule group.
+	// Structure is documented below.
+	ConditionPrometheusQueryLanguage []ConditionPrometheusQueryLanguageObservation `json:"conditionPrometheusQueryLanguage,omitempty" tf:"condition_prometheus_query_language,omitempty"`
 
 	// A condition that compares a time series against a
 	// threshold.
@@ -1739,6 +1953,15 @@ type ConditionsParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ConditionMonitoringQueryLanguage []ConditionMonitoringQueryLanguageParameters `json:"conditionMonitoringQueryLanguage,omitempty" tf:"condition_monitoring_query_language,omitempty"`
+
+	// A Monitoring Query Language query that outputs a boolean stream
+	// A condition type that allows alert policies to be defined using
+	// Prometheus Query Language (PromQL).
+	// The PrometheusQueryLanguageCondition message contains information
+	// from a Prometheus alerting rule and its associated rule group.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ConditionPrometheusQueryLanguage []ConditionPrometheusQueryLanguageParameters `json:"conditionPrometheusQueryLanguage,omitempty" tf:"condition_prometheus_query_language,omitempty"`
 
 	// A condition that compares a time series against a
 	// threshold.

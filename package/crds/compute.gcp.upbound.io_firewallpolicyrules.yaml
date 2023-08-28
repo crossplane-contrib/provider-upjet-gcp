@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: FirewallPolicyRule is the Schema for the FirewallPolicyRules
-          API. Specific rules to add to a hierarchical firewall policy
+          API. The Compute FirewallPolicyRule resource
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -69,8 +69,7 @@ spec:
                 properties:
                   action:
                     description: The Action to perform when the client connection
-                      triggers the rule. Can currently be either "allow" or "deny()"
-                      where valid values for status are 403, 404, and 502.
+                      triggers the rule. Valid actions are "allow", "deny" and "goto_next".
                     type: string
                   description:
                     description: An optional description for this resource.
@@ -172,14 +171,21 @@ spec:
                   match:
                     description: A match condition that incoming traffic is evaluated
                       against. If it evaluates to true, the corresponding 'action'
-                      is enforced. Structure is documented below.
+                      is enforced.
                     items:
                       properties:
                         destAddressGroups:
+                          description: Address groups which should be matched against
+                            the traffic destination. Maximum number of destination
+                            address groups is 10. Destination address groups is only
+                            supported in Egress rules.
                           items:
                             type: string
                           type: array
                         destFqdns:
+                          description: Domain names that will be used to match against
+                            the resolved domain name of destination of traffic. Can
+                            only be specified if DIRECTION is egress.
                           items:
                             type: string
                           type: array
@@ -190,16 +196,21 @@ spec:
                             type: string
                           type: array
                         destRegionCodes:
+                          description: The Unicode country codes whose IP addresses
+                            will be used to match against the source of traffic. Can
+                            only be specified if DIRECTION is egress.
                           items:
                             type: string
                           type: array
                         destThreatIntelligences:
+                          description: Name of the Google Cloud Threat Intelligence
+                            list.
                           items:
                             type: string
                           type: array
                         layer4Configs:
                           description: Pairs of IP protocols and ports that the rule
-                            should match. Structure is documented below.
+                            should match.
                           items:
                             properties:
                               ipProtocol:
@@ -221,10 +232,17 @@ spec:
                             type: object
                           type: array
                         srcAddressGroups:
+                          description: Address groups which should be matched against
+                            the traffic source. Maximum number of source address groups
+                            is 10. Source address groups is only supported in Ingress
+                            rules.
                           items:
                             type: string
                           type: array
                         srcFqdns:
+                          description: Domain names that will be used to match against
+                            the resolved domain name of source of traffic. Can only
+                            be specified if DIRECTION is ingress.
                           items:
                             type: string
                           type: array
@@ -235,10 +253,15 @@ spec:
                             type: string
                           type: array
                         srcRegionCodes:
+                          description: The Unicode country codes whose IP addresses
+                            will be used to match against the source of traffic. Can
+                            only be specified if DIRECTION is ingress.
                           items:
                             type: string
                           type: array
                         srcThreatIntelligences:
+                          description: Name of the Google Cloud Threat Intelligence
+                            list.
                           items:
                             type: string
                           type: array
@@ -280,8 +303,7 @@ spec:
                 properties:
                   action:
                     description: The Action to perform when the client connection
-                      triggers the rule. Can currently be either "allow" or "deny()"
-                      where valid values for status are 403, 404, and 502.
+                      triggers the rule. Valid actions are "allow", "deny" and "goto_next".
                     type: string
                   description:
                     description: An optional description for this resource.
@@ -305,14 +327,21 @@ spec:
                   match:
                     description: A match condition that incoming traffic is evaluated
                       against. If it evaluates to true, the corresponding 'action'
-                      is enforced. Structure is documented below.
+                      is enforced.
                     items:
                       properties:
                         destAddressGroups:
+                          description: Address groups which should be matched against
+                            the traffic destination. Maximum number of destination
+                            address groups is 10. Destination address groups is only
+                            supported in Egress rules.
                           items:
                             type: string
                           type: array
                         destFqdns:
+                          description: Domain names that will be used to match against
+                            the resolved domain name of destination of traffic. Can
+                            only be specified if DIRECTION is egress.
                           items:
                             type: string
                           type: array
@@ -323,16 +352,21 @@ spec:
                             type: string
                           type: array
                         destRegionCodes:
+                          description: The Unicode country codes whose IP addresses
+                            will be used to match against the source of traffic. Can
+                            only be specified if DIRECTION is egress.
                           items:
                             type: string
                           type: array
                         destThreatIntelligences:
+                          description: Name of the Google Cloud Threat Intelligence
+                            list.
                           items:
                             type: string
                           type: array
                         layer4Configs:
                           description: Pairs of IP protocols and ports that the rule
-                            should match. Structure is documented below.
+                            should match.
                           items:
                             properties:
                               ipProtocol:
@@ -354,10 +388,17 @@ spec:
                             type: object
                           type: array
                         srcAddressGroups:
+                          description: Address groups which should be matched against
+                            the traffic source. Maximum number of source address groups
+                            is 10. Source address groups is only supported in Ingress
+                            rules.
                           items:
                             type: string
                           type: array
                         srcFqdns:
+                          description: Domain names that will be used to match against
+                            the resolved domain name of source of traffic. Can only
+                            be specified if DIRECTION is ingress.
                           items:
                             type: string
                           type: array
@@ -368,10 +409,15 @@ spec:
                             type: string
                           type: array
                         srcRegionCodes:
+                          description: The Unicode country codes whose IP addresses
+                            will be used to match against the source of traffic. Can
+                            only be specified if DIRECTION is ingress.
                           items:
                             type: string
                           type: array
                         srcThreatIntelligences:
+                          description: Name of the Google Cloud Threat Intelligence
+                            list.
                           items:
                             type: string
                           type: array
@@ -619,8 +665,7 @@ spec:
                 properties:
                   action:
                     description: The Action to perform when the client connection
-                      triggers the rule. Can currently be either "allow" or "deny()"
-                      where valid values for status are 403, 404, and 502.
+                      triggers the rule. Valid actions are "allow", "deny" and "goto_next".
                     type: string
                   description:
                     description: An optional description for this resource.
@@ -654,14 +699,21 @@ spec:
                   match:
                     description: A match condition that incoming traffic is evaluated
                       against. If it evaluates to true, the corresponding 'action'
-                      is enforced. Structure is documented below.
+                      is enforced.
                     items:
                       properties:
                         destAddressGroups:
+                          description: Address groups which should be matched against
+                            the traffic destination. Maximum number of destination
+                            address groups is 10. Destination address groups is only
+                            supported in Egress rules.
                           items:
                             type: string
                           type: array
                         destFqdns:
+                          description: Domain names that will be used to match against
+                            the resolved domain name of destination of traffic. Can
+                            only be specified if DIRECTION is egress.
                           items:
                             type: string
                           type: array
@@ -672,16 +724,21 @@ spec:
                             type: string
                           type: array
                         destRegionCodes:
+                          description: The Unicode country codes whose IP addresses
+                            will be used to match against the source of traffic. Can
+                            only be specified if DIRECTION is egress.
                           items:
                             type: string
                           type: array
                         destThreatIntelligences:
+                          description: Name of the Google Cloud Threat Intelligence
+                            list.
                           items:
                             type: string
                           type: array
                         layer4Configs:
                           description: Pairs of IP protocols and ports that the rule
-                            should match. Structure is documented below.
+                            should match.
                           items:
                             properties:
                               ipProtocol:
@@ -703,10 +760,17 @@ spec:
                             type: object
                           type: array
                         srcAddressGroups:
+                          description: Address groups which should be matched against
+                            the traffic source. Maximum number of source address groups
+                            is 10. Source address groups is only supported in Ingress
+                            rules.
                           items:
                             type: string
                           type: array
                         srcFqdns:
+                          description: Domain names that will be used to match against
+                            the resolved domain name of source of traffic. Can only
+                            be specified if DIRECTION is ingress.
                           items:
                             type: string
                           type: array
@@ -717,10 +781,15 @@ spec:
                             type: string
                           type: array
                         srcRegionCodes:
+                          description: The Unicode country codes whose IP addresses
+                            will be used to match against the source of traffic. Can
+                            only be specified if DIRECTION is ingress.
                           items:
                             type: string
                           type: array
                         srcThreatIntelligences:
+                          description: Name of the Google Cloud Threat Intelligence
+                            list.
                           items:
                             type: string
                           type: array

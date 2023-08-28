@@ -534,6 +534,10 @@ type InstanceTemplateInitParameters struct {
 	// Structure is documented below.
 	NetworkInterface []InstanceTemplateNetworkInterfaceInitParameters `json:"networkInterface,omitempty" tf:"network_interface,omitempty"`
 
+	// os-features, and network_interface.0.nic-type must be GVNIC
+	// in order for this setting to take effect.
+	NetworkPerformanceConfig []InstanceTemplateNetworkPerformanceConfigInitParameters `json:"networkPerformanceConfig,omitempty" tf:"network_performance_config,omitempty"`
+
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -664,6 +668,9 @@ type InstanceTemplateNetworkInterfaceIPv6AccessConfigObservation struct {
 	ExternalIPv6 *string `json:"externalIpv6,omitempty" tf:"external_ipv6,omitempty"`
 
 	ExternalIPv6PrefixLength *string `json:"externalIpv6PrefixLength,omitempty" tf:"external_ipv6_prefix_length,omitempty"`
+
+	// The name of the instance template.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The service-level to be provided for IPv6 traffic when the
 	// subnet has an external subnet. Only PREMIUM and STANDARD tier is valid for IPv6.
@@ -839,6 +846,25 @@ type InstanceTemplateNetworkInterfaceParameters struct {
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
 
+type InstanceTemplateNetworkPerformanceConfigInitParameters struct {
+
+	// The egress bandwidth tier to enable. Possible values: TIER_1, DEFAULT
+	TotalEgressBandwidthTier *string `json:"totalEgressBandwidthTier,omitempty" tf:"total_egress_bandwidth_tier,omitempty"`
+}
+
+type InstanceTemplateNetworkPerformanceConfigObservation struct {
+
+	// The egress bandwidth tier to enable. Possible values: TIER_1, DEFAULT
+	TotalEgressBandwidthTier *string `json:"totalEgressBandwidthTier,omitempty" tf:"total_egress_bandwidth_tier,omitempty"`
+}
+
+type InstanceTemplateNetworkPerformanceConfigParameters struct {
+
+	// The egress bandwidth tier to enable. Possible values: TIER_1, DEFAULT
+	// +kubebuilder:validation:Optional
+	TotalEgressBandwidthTier *string `json:"totalEgressBandwidthTier" tf:"total_egress_bandwidth_tier,omitempty"`
+}
+
 type InstanceTemplateObservation struct {
 
 	// Configure Nested Virtualisation and Simultaneous Hyper Threading on this VM. Structure is documented below
@@ -904,6 +930,10 @@ type InstanceTemplateObservation struct {
 	// this template. This can be specified multiple times for multiple networks.
 	// Structure is documented below.
 	NetworkInterface []InstanceTemplateNetworkInterfaceObservation `json:"networkInterface,omitempty" tf:"network_interface,omitempty"`
+
+	// os-features, and network_interface.0.nic-type must be GVNIC
+	// in order for this setting to take effect.
+	NetworkPerformanceConfig []InstanceTemplateNetworkPerformanceConfigObservation `json:"networkPerformanceConfig,omitempty" tf:"network_performance_config,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -1024,6 +1054,11 @@ type InstanceTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkInterface []InstanceTemplateNetworkInterfaceParameters `json:"networkInterface,omitempty" tf:"network_interface,omitempty"`
 
+	// os-features, and network_interface.0.nic-type must be GVNIC
+	// in order for this setting to take effect.
+	// +kubebuilder:validation:Optional
+	NetworkPerformanceConfig []InstanceTemplateNetworkPerformanceConfigParameters `json:"networkPerformanceConfig,omitempty" tf:"network_performance_config,omitempty"`
+
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
@@ -1137,6 +1172,10 @@ type InstanceTemplateSchedulingInitParameters struct {
 	// Describe the type of termination action for SPOT VM. Can be STOP or DELETE.  Read more on here
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
+	// io/docs/providers/google/guides/provider_versions.html) Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. Structure is documented below.
+	// The local_ssd_recovery_timeout block supports:
+	LocalSsdRecoveryTimeout []InstanceTemplateSchedulingLocalSsdRecoveryTimeoutInitParameters `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
+
 	MinNodeCpus *float64 `json:"minNodeCpus,omitempty" tf:"min_node_cpus,omitempty"`
 
 	// Specifies node affinities or anti-affinities
@@ -1160,6 +1199,50 @@ type InstanceTemplateSchedulingInitParameters struct {
 	// false. For more info about
 	// SPOT, read here
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
+}
+
+type InstanceTemplateSchedulingLocalSsdRecoveryTimeoutInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented with a 0
+	// seconds field and a positive nanos field. Must be from 0 to
+	// 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to
+	// 315,576,000,000 inclusive. Note: these bounds are computed from: 60
+	// sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type InstanceTemplateSchedulingLocalSsdRecoveryTimeoutObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented with a 0
+	// seconds field and a positive nanos field. Must be from 0 to
+	// 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to
+	// 315,576,000,000 inclusive. Note: these bounds are computed from: 60
+	// sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type InstanceTemplateSchedulingLocalSsdRecoveryTimeoutParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented with a 0
+	// seconds field and a positive nanos field. Must be from 0 to
+	// 999,999,999 inclusive.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to
+	// 315,576,000,000 inclusive. Note: these bounds are computed from: 60
+	// sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+	// +kubebuilder:validation:Optional
+	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
 
 type InstanceTemplateSchedulingNodeAffinitiesInitParameters struct {
@@ -1214,6 +1297,10 @@ type InstanceTemplateSchedulingObservation struct {
 	// Describe the type of termination action for SPOT VM. Can be STOP or DELETE.  Read more on here
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
+	// io/docs/providers/google/guides/provider_versions.html) Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. Structure is documented below.
+	// The local_ssd_recovery_timeout block supports:
+	LocalSsdRecoveryTimeout []InstanceTemplateSchedulingLocalSsdRecoveryTimeoutObservation `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
+
 	MinNodeCpus *float64 `json:"minNodeCpus,omitempty" tf:"min_node_cpus,omitempty"`
 
 	// Specifies node affinities or anti-affinities
@@ -1250,6 +1337,11 @@ type InstanceTemplateSchedulingParameters struct {
 	// Describe the type of termination action for SPOT VM. Can be STOP or DELETE.  Read more on here
 	// +kubebuilder:validation:Optional
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
+
+	// io/docs/providers/google/guides/provider_versions.html) Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. Structure is documented below.
+	// The local_ssd_recovery_timeout block supports:
+	// +kubebuilder:validation:Optional
+	LocalSsdRecoveryTimeout []InstanceTemplateSchedulingLocalSsdRecoveryTimeoutParameters `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	MinNodeCpus *float64 `json:"minNodeCpus,omitempty" tf:"min_node_cpus,omitempty"`

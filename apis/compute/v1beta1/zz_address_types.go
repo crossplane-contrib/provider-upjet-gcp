@@ -27,9 +27,8 @@ import (
 
 type AddressInitParameters struct {
 
-	// The static external IP address represented by this resource. Only
-	// IPv4 is supported. An address may only be specified for INTERNAL
-	// address types. The IP address must be inside the specified subnetwork,
+	// The static external IP address represented by this resource.
+	// The IP address must be inside the specified subnetwork,
 	// if any. Set by the API if undefined.
 	Address *string `json:"address,omitempty" tf:"address,omitempty"`
 
@@ -41,6 +40,16 @@ type AddressInitParameters struct {
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The IP Version that will be used by this address. The default value is IPV4.
+	// Possible values are: IPV4, IPV6.
+	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
+
+	// The endpoint type of this address, which should be VM or NETLB. This is
+	// used for deciding which type of endpoint this address can be used after
+	// the external IPv6 address reservation.
+	// Possible values are: VM, NETLB.
+	IPv6EndpointType *string `json:"ipv6EndpointType,omitempty" tf:"ipv6_endpoint_type,omitempty"`
 
 	// The networking tier used for configuring this address. If this field is not
 	// specified, it is assumed to be PREMIUM.
@@ -61,9 +70,8 @@ type AddressInitParameters struct {
 
 type AddressObservation struct {
 
-	// The static external IP address represented by this resource. Only
-	// IPv4 is supported. An address may only be specified for INTERNAL
-	// address types. The IP address must be inside the specified subnetwork,
+	// The static external IP address represented by this resource.
+	// The IP address must be inside the specified subnetwork,
 	// if any. Set by the API if undefined.
 	Address *string `json:"address,omitempty" tf:"address,omitempty"`
 
@@ -81,6 +89,16 @@ type AddressObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/addresses/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The IP Version that will be used by this address. The default value is IPV4.
+	// Possible values are: IPV4, IPV6.
+	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
+
+	// The endpoint type of this address, which should be VM or NETLB. This is
+	// used for deciding which type of endpoint this address can be used after
+	// the external IPv6 address reservation.
+	// Possible values are: VM, NETLB.
+	IPv6EndpointType *string `json:"ipv6EndpointType,omitempty" tf:"ipv6_endpoint_type,omitempty"`
 
 	// The URL of the network in which to reserve the address. This field
 	// can only be used with INTERNAL type with the VPC_PEERING and
@@ -122,9 +140,8 @@ type AddressObservation struct {
 
 type AddressParameters struct {
 
-	// The static external IP address represented by this resource. Only
-	// IPv4 is supported. An address may only be specified for INTERNAL
-	// address types. The IP address must be inside the specified subnetwork,
+	// The static external IP address represented by this resource.
+	// The IP address must be inside the specified subnetwork,
 	// if any. Set by the API if undefined.
 	// +kubebuilder:validation:Optional
 	Address *string `json:"address,omitempty" tf:"address,omitempty"`
@@ -139,6 +156,18 @@ type AddressParameters struct {
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The IP Version that will be used by this address. The default value is IPV4.
+	// Possible values are: IPV4, IPV6.
+	// +kubebuilder:validation:Optional
+	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
+
+	// The endpoint type of this address, which should be VM or NETLB. This is
+	// used for deciding which type of endpoint this address can be used after
+	// the external IPv6 address reservation.
+	// Possible values are: VM, NETLB.
+	// +kubebuilder:validation:Optional
+	IPv6EndpointType *string `json:"ipv6EndpointType,omitempty" tf:"ipv6_endpoint_type,omitempty"`
 
 	// The URL of the network in which to reserve the address. This field
 	// can only be used with INTERNAL type with the VPC_PEERING and

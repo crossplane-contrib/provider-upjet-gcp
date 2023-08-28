@@ -276,7 +276,7 @@ type RouterPeerObservation struct {
 	PeerAsn *float64 `json:"peerAsn,omitempty" tf:"peer_asn,omitempty"`
 
 	// IP address of the BGP interface outside Google Cloud Platform.
-	// Only IPv4 is supported.
+	// Only IPv4 is supported. Required if ip_address is set.
 	PeerIPAddress *string `json:"peerIpAddress,omitempty" tf:"peer_ip_address,omitempty"`
 
 	// IPv6 address of the BGP interface outside Google Cloud Platform.
@@ -380,7 +380,7 @@ type RouterPeerParameters struct {
 	PeerAsn *float64 `json:"peerAsn,omitempty" tf:"peer_asn,omitempty"`
 
 	// IP address of the BGP interface outside Google Cloud Platform.
-	// Only IPv4 is supported.
+	// Only IPv4 is supported. Required if ip_address is set.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Address
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("address",false)
 	// +kubebuilder:validation:Optional

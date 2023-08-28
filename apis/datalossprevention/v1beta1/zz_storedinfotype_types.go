@@ -305,6 +305,11 @@ type StoredInfoTypeInitParameters struct {
 	// Regular expression which defines the rule.
 	// Structure is documented below.
 	Regex []StoredInfoTypeRegexInitParameters `json:"regex,omitempty" tf:"regex,omitempty"`
+
+	// The storedInfoType ID can contain uppercase and lowercase letters, numbers, and hyphens;
+	// that is, it must match the regular expression: [a-zA-Z\d-_]+. The maximum length is 100
+	// characters. Can be empty to allow the system to generate one.
+	StoredInfoTypeID *string `json:"storedInfoTypeId,omitempty" tf:"stored_info_type_id,omitempty"`
 }
 
 type StoredInfoTypeObservation struct {
@@ -335,6 +340,11 @@ type StoredInfoTypeObservation struct {
 	// Regular expression which defines the rule.
 	// Structure is documented below.
 	Regex []StoredInfoTypeRegexObservation `json:"regex,omitempty" tf:"regex,omitempty"`
+
+	// The storedInfoType ID can contain uppercase and lowercase letters, numbers, and hyphens;
+	// that is, it must match the regular expression: [a-zA-Z\d-_]+. The maximum length is 100
+	// characters. Can be empty to allow the system to generate one.
+	StoredInfoTypeID *string `json:"storedInfoTypeId,omitempty" tf:"stored_info_type_id,omitempty"`
 }
 
 type StoredInfoTypeParameters struct {
@@ -365,6 +375,12 @@ type StoredInfoTypeParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Regex []StoredInfoTypeRegexParameters `json:"regex,omitempty" tf:"regex,omitempty"`
+
+	// The storedInfoType ID can contain uppercase and lowercase letters, numbers, and hyphens;
+	// that is, it must match the regular expression: [a-zA-Z\d-_]+. The maximum length is 100
+	// characters. Can be empty to allow the system to generate one.
+	// +kubebuilder:validation:Optional
+	StoredInfoTypeID *string `json:"storedInfoTypeId,omitempty" tf:"stored_info_type_id,omitempty"`
 }
 
 type StoredInfoTypeRegexInitParameters struct {

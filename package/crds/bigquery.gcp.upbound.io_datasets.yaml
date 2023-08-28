@@ -728,6 +728,12 @@ spec:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  storageBillingModel:
+                    description: Specifies the storage billing model for the dataset.
+                      Set this flag value to LOGICAL to use logical bytes for storage
+                      billing, or to PHYSICAL to use physical bytes instead. LOGICAL
+                      is the default if this flag isn't specified.
+                    type: string
                 type: object
               initProvider:
                 description: THIS IS AN ALPHA FIELD. Do not use it in production.
@@ -889,6 +895,12 @@ spec:
                   maxTimeTravelHours:
                     description: Defines the time travel window in hours. The value
                       can be from 48 to 168 hours (2 to 7 days).
+                    type: string
+                  storageBillingModel:
+                    description: Specifies the storage billing model for the dataset.
+                      Set this flag value to LOGICAL to use logical bytes for storage
+                      billing, or to PHYSICAL to use physical bytes instead. LOGICAL
+                      is the default if this flag isn't specified.
                     type: string
                 type: object
               managementPolicies:
@@ -1290,6 +1302,12 @@ spec:
                     type: string
                   selfLink:
                     description: The URI of the created resource.
+                    type: string
+                  storageBillingModel:
+                    description: Specifies the storage billing model for the dataset.
+                      Set this flag value to LOGICAL to use logical bytes for storage
+                      billing, or to PHYSICAL to use physical bytes instead. LOGICAL
+                      is the default if this flag isn't specified.
                     type: string
                 type: object
               conditions:

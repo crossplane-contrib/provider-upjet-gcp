@@ -106,7 +106,7 @@ func (mg *ProjectBucketConfig) ResolveReferences(ctx context.Context, c client.R
 	}
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
-		Extract:      resource.ExtractResourceID(),
+		Extract:      resource.ExtractParamPath("project_id", false),
 		Reference:    mg.Spec.ForProvider.ProjectRef,
 		Selector:     mg.Spec.ForProvider.ProjectSelector,
 		To: reference.To{

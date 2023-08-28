@@ -261,6 +261,9 @@ type ConfigRootVolumeInitParameters struct {
 	// Optional. The size of the volume, in GiBs. When unspecified, a default value is provided. See the specific reference in the parent resource.
 	SizeGib *float64 `json:"sizeGib,omitempty" tf:"size_gib,omitempty"`
 
+	// Optional. The throughput to provision for the volume, in MiB/s. Only valid if the volume type is GP3.
+	Throughput *float64 `json:"throughput,omitempty" tf:"throughput,omitempty"`
+
 	// Optional. Type of the EBS volume. When unspecified, it defaults to GP2 volume. Possible values: VOLUME_TYPE_UNSPECIFIED, GP2, GP3
 	VolumeType *string `json:"volumeType,omitempty" tf:"volume_type,omitempty"`
 }
@@ -275,6 +278,9 @@ type ConfigRootVolumeObservation struct {
 
 	// Optional. The size of the volume, in GiBs. When unspecified, a default value is provided. See the specific reference in the parent resource.
 	SizeGib *float64 `json:"sizeGib,omitempty" tf:"size_gib,omitempty"`
+
+	// Optional. The throughput to provision for the volume, in MiB/s. Only valid if the volume type is GP3.
+	Throughput *float64 `json:"throughput,omitempty" tf:"throughput,omitempty"`
 
 	// Optional. Type of the EBS volume. When unspecified, it defaults to GP2 volume. Possible values: VOLUME_TYPE_UNSPECIFIED, GP2, GP3
 	VolumeType *string `json:"volumeType,omitempty" tf:"volume_type,omitempty"`
@@ -293,6 +299,10 @@ type ConfigRootVolumeParameters struct {
 	// Optional. The size of the volume, in GiBs. When unspecified, a default value is provided. See the specific reference in the parent resource.
 	// +kubebuilder:validation:Optional
 	SizeGib *float64 `json:"sizeGib,omitempty" tf:"size_gib,omitempty"`
+
+	// Optional. The throughput to provision for the volume, in MiB/s. Only valid if the volume type is GP3.
+	// +kubebuilder:validation:Optional
+	Throughput *float64 `json:"throughput,omitempty" tf:"throughput,omitempty"`
 
 	// Optional. Type of the EBS volume. When unspecified, it defaults to GP2 volume. Possible values: VOLUME_TYPE_UNSPECIFIED, GP2, GP3
 	// +kubebuilder:validation:Optional

@@ -1008,6 +1008,12 @@ type PolicyIdsParameters struct {
 
 type PublishingOptionsInitParameters struct {
 
+	// Specifies the encoding format of each CertificateAuthority's CA
+	// certificate and CRLs. If this is omitted, CA certificates and CRLs
+	// will be published in PEM.
+	// Possible values are: PEM, DER.
+	EncodingFormat *string `json:"encodingFormat,omitempty" tf:"encoding_format,omitempty"`
+
 	// When true, publishes each CertificateAuthority's CA certificate and includes its URL in the "Authority Information Access"
 	// X.509 extension in all issued Certificates. If this is false, the CA certificate will not be published and the corresponding
 	// X.509 extension will not be written in issued certificates.
@@ -1022,6 +1028,12 @@ type PublishingOptionsInitParameters struct {
 
 type PublishingOptionsObservation struct {
 
+	// Specifies the encoding format of each CertificateAuthority's CA
+	// certificate and CRLs. If this is omitted, CA certificates and CRLs
+	// will be published in PEM.
+	// Possible values are: PEM, DER.
+	EncodingFormat *string `json:"encodingFormat,omitempty" tf:"encoding_format,omitempty"`
+
 	// When true, publishes each CertificateAuthority's CA certificate and includes its URL in the "Authority Information Access"
 	// X.509 extension in all issued Certificates. If this is false, the CA certificate will not be published and the corresponding
 	// X.509 extension will not be written in issued certificates.
@@ -1035,6 +1047,13 @@ type PublishingOptionsObservation struct {
 }
 
 type PublishingOptionsParameters struct {
+
+	// Specifies the encoding format of each CertificateAuthority's CA
+	// certificate and CRLs. If this is omitted, CA certificates and CRLs
+	// will be published in PEM.
+	// Possible values are: PEM, DER.
+	// +kubebuilder:validation:Optional
+	EncodingFormat *string `json:"encodingFormat,omitempty" tf:"encoding_format,omitempty"`
 
 	// When true, publishes each CertificateAuthority's CA certificate and includes its URL in the "Authority Information Access"
 	// X.509 extension in all issued Certificates. If this is false, the CA certificate will not be published and the corresponding

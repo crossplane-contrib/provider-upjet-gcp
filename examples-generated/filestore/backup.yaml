@@ -31,7 +31,7 @@ metadata:
 spec:
   forProvider:
     fileShares:
-    - capacityGb: 2560
+    - capacityGb: 1024
       name: share1
     location: us-central1-b
     networks:
@@ -39,4 +39,4 @@ spec:
       modes:
       - MODE_IPV4
       network: default
-    tier: BASIC_SSD
+    tier: BASIC_HDD

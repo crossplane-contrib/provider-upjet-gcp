@@ -82,6 +82,16 @@ spec:
                       type: string
                     type: array
                   deletionProtection:
+                    description: Defaults to true.
+                    type: boolean
+                  enableDropProtection:
+                    description: Whether drop protection is enabled for this database.
+                      Defaults to false. whereas setting “enableDropProtection” to
+                      true protects the database from deletions in all interfaces.
+                      (2) Setting "enableDropProtection" to true also prevents the
+                      deletion of the parent instance containing the database. "deletion_protection"
+                      attribute does not provide protection against the deletion of
+                      the parent instance.
                     type: boolean
                   encryptionConfig:
                     description: Encryption configuration for the database Structure
@@ -212,6 +222,16 @@ spec:
                       type: string
                     type: array
                   deletionProtection:
+                    description: Defaults to true.
+                    type: boolean
+                  enableDropProtection:
+                    description: Whether drop protection is enabled for this database.
+                      Defaults to false. whereas setting “enableDropProtection” to
+                      true protects the database from deletions in all interfaces.
+                      (2) Setting "enableDropProtection" to true also prevents the
+                      deletion of the parent instance containing the database. "deletion_protection"
+                      attribute does not provide protection against the deletion of
+                      the parent instance.
                     type: boolean
                   encryptionConfig:
                     description: Encryption configuration for the database Structure
@@ -455,6 +475,16 @@ spec:
                       type: string
                     type: array
                   deletionProtection:
+                    description: Defaults to true.
+                    type: boolean
+                  enableDropProtection:
+                    description: Whether drop protection is enabled for this database.
+                      Defaults to false. whereas setting “enableDropProtection” to
+                      true protects the database from deletions in all interfaces.
+                      (2) Setting "enableDropProtection" to true also prevents the
+                      deletion of the parent instance containing the database. "deletion_protection"
+                      attribute does not provide protection against the deletion of
+                      the parent instance.
                     type: boolean
                   encryptionConfig:
                     description: Encryption configuration for the database Structure

@@ -191,7 +191,7 @@ spec:
                                           loadBalancerType:
                                             description: 'The type of load balancer.
                                               This value is case-sensitive. Possible
-                                              values: ["regionalL4ilb"]'
+                                              values: ["regionalL4ilb", "regionalL7ilb"]'
                                             type: string
                                           networkUrl:
                                             description: The fully qualified url of
@@ -268,7 +268,8 @@ spec:
                                                 loadBalancerType:
                                                   description: 'The type of load balancer.
                                                     This value is case-sensitive.
-                                                    Possible values: ["regionalL4ilb"]'
+                                                    Possible values: ["regionalL4ilb",
+                                                    "regionalL7ilb"]'
                                                   type: string
                                                 networkUrl:
                                                   description: The fully qualified
@@ -424,7 +425,7 @@ spec:
                                           loadBalancerType:
                                             description: 'The type of load balancer.
                                               This value is case-sensitive. Possible
-                                              values: ["regionalL4ilb"]'
+                                              values: ["regionalL4ilb", "regionalL7ilb"]'
                                             type: string
                                           networkUrl:
                                             description: The fully qualified url of
@@ -758,7 +759,7 @@ spec:
                                           loadBalancerType:
                                             description: 'The type of load balancer.
                                               This value is case-sensitive. Possible
-                                              values: ["regionalL4ilb"]'
+                                              values: ["regionalL4ilb", "regionalL7ilb"]'
                                             type: string
                                           networkUrl:
                                             description: The fully qualified url of
@@ -873,7 +874,7 @@ spec:
                                           loadBalancerType:
                                             description: 'The type of load balancer.
                                               This value is case-sensitive. Possible
-                                              values: ["regionalL4ilb"]'
+                                              values: ["regionalL4ilb", "regionalL7ilb"]'
                                             type: string
                                           networkUrl:
                                             description: The fully qualified url of
@@ -950,7 +951,8 @@ spec:
                                                 loadBalancerType:
                                                   description: 'The type of load balancer.
                                                     This value is case-sensitive.
-                                                    Possible values: ["regionalL4ilb"]'
+                                                    Possible values: ["regionalL4ilb",
+                                                    "regionalL7ilb"]'
                                                   type: string
                                                 networkUrl:
                                                   description: The fully qualified
@@ -1012,7 +1014,7 @@ spec:
                                           loadBalancerType:
                                             description: 'The type of load balancer.
                                               This value is case-sensitive. Possible
-                                              values: ["regionalL4ilb"]'
+                                              values: ["regionalL4ilb", "regionalL7ilb"]'
                                             type: string
                                           port:
                                             description: The configured port of the
@@ -1059,7 +1061,7 @@ spec:
                                           loadBalancerType:
                                             description: 'The type of load balancer.
                                               This value is case-sensitive. Possible
-                                              values: ["regionalL4ilb"]'
+                                              values: ["regionalL4ilb", "regionalL7ilb"]'
                                             type: string
                                           networkUrl:
                                             description: The fully qualified url of
@@ -1379,7 +1381,7 @@ spec:
                                           loadBalancerType:
                                             description: 'The type of load balancer.
                                               This value is case-sensitive. Possible
-                                              values: ["regionalL4ilb"]'
+                                              values: ["regionalL4ilb", "regionalL7ilb"]'
                                             type: string
                                           networkUrl:
                                             description: The fully qualified url of
@@ -1456,7 +1458,8 @@ spec:
                                                 loadBalancerType:
                                                   description: 'The type of load balancer.
                                                     This value is case-sensitive.
-                                                    Possible values: ["regionalL4ilb"]'
+                                                    Possible values: ["regionalL4ilb",
+                                                    "regionalL7ilb"]'
                                                   type: string
                                                 networkUrl:
                                                   description: The fully qualified
@@ -1522,7 +1525,7 @@ spec:
                                           loadBalancerType:
                                             description: 'The type of load balancer.
                                               This value is case-sensitive. Possible
-                                              values: ["regionalL4ilb"]'
+                                              values: ["regionalL4ilb", "regionalL7ilb"]'
                                             type: string
                                           networkUrl:
                                             description: The fully qualified url of
@@ -1586,7 +1589,7 @@ spec:
                                           loadBalancerType:
                                             description: 'The type of load balancer.
                                               This value is case-sensitive. Possible
-                                              values: ["regionalL4ilb"]'
+                                              values: ["regionalL4ilb", "regionalL7ilb"]'
                                             type: string
                                           networkUrl:
                                             description: The fully qualified url of

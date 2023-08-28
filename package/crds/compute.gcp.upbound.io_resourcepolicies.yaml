@@ -72,6 +72,16 @@ spec:
                     description: An optional description of this resource. Provide
                       this property when you create the resource.
                     type: string
+                  diskConsistencyGroupPolicy:
+                    description: Replication consistency group for asynchronous disk
+                      replication. Structure is documented below.
+                    items:
+                      properties:
+                        enabled:
+                          description: Enable disk consistency on the resource policy.
+                          type: boolean
+                      type: object
+                    type: array
                   groupPlacementPolicy:
                     description: Resource policy for instances used for placement
                       configuration. Structure is documented below.
@@ -182,7 +192,11 @@ spec:
                                 items:
                                   properties:
                                     daysInCycle:
-                                      description: The number of days between snapshots.
+                                      description: Defines a schedule with units measured
+                                        in days. The value determines how many days
+                                        pass between the start of each cycle. Days
+                                        in cycle for snapshot schedule policy must
+                                        be 1.
                                       type: number
                                     startTime:
                                       description: 'Time within the window to start
@@ -285,6 +299,16 @@ spec:
                     description: An optional description of this resource. Provide
                       this property when you create the resource.
                     type: string
+                  diskConsistencyGroupPolicy:
+                    description: Replication consistency group for asynchronous disk
+                      replication. Structure is documented below.
+                    items:
+                      properties:
+                        enabled:
+                          description: Enable disk consistency on the resource policy.
+                          type: boolean
+                      type: object
+                    type: array
                   groupPlacementPolicy:
                     description: Resource policy for instances used for placement
                       configuration. Structure is documented below.
@@ -392,7 +416,11 @@ spec:
                                 items:
                                   properties:
                                     daysInCycle:
-                                      description: The number of days between snapshots.
+                                      description: Defines a schedule with units measured
+                                        in days. The value determines how many days
+                                        pass between the start of each cycle. Days
+                                        in cycle for snapshot schedule policy must
+                                        be 1.
                                       type: number
                                     startTime:
                                       description: 'Time within the window to start
@@ -682,6 +710,16 @@ spec:
                     description: An optional description of this resource. Provide
                       this property when you create the resource.
                     type: string
+                  diskConsistencyGroupPolicy:
+                    description: Replication consistency group for asynchronous disk
+                      replication. Structure is documented below.
+                    items:
+                      properties:
+                        enabled:
+                          description: Enable disk consistency on the resource policy.
+                          type: boolean
+                      type: object
+                    type: array
                   groupPlacementPolicy:
                     description: Resource policy for instances used for placement
                       configuration. Structure is documented below.
@@ -798,7 +836,11 @@ spec:
                                 items:
                                   properties:
                                     daysInCycle:
-                                      description: The number of days between snapshots.
+                                      description: Defines a schedule with units measured
+                                        in days. The value determines how many days
+                                        pass between the start of each cycle. Days
+                                        in cycle for snapshot schedule policy must
+                                        be 1.
                                       type: number
                                     startTime:
                                       description: 'Time within the window to start

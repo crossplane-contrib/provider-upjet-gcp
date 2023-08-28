@@ -169,12 +169,17 @@ type CertificateParameters struct {
 
 type ManagedInitParameters struct {
 
-	// Authorizations that will be used for performing domain authorization
+	// Authorizations that will be used for performing domain authorization. Either issuanceConfig or dnsAuthorizations should be specificed, but not both.
 	DNSAuthorizations []*string `json:"dnsAuthorizations,omitempty" tf:"dns_authorizations,omitempty"`
 
 	// The domains for which a managed SSL certificate will be generated.
 	// Wildcard domains are only supported with DNS challenge resolution
 	Domains []*string `json:"domains,omitempty" tf:"domains,omitempty"`
+
+	// The resource name for a CertificateIssuanceConfig used to configure private PKI certificates in the format projects//locations//certificateIssuanceConfigs/*.
+	// If this field is not set, the certificates will instead be publicly signed as documented at https://cloud.google.com/load-balancing/docs/ssl-certificates/google-managed-certs#caa.
+	// Either issuanceConfig or dnsAuthorizations should be specificed, but not both.
+	IssuanceConfig *string `json:"issuanceConfig,omitempty" tf:"issuance_config,omitempty"`
 }
 
 type ManagedObservation struct {
@@ -185,12 +190,17 @@ type ManagedObservation struct {
 	// Structure is documented below.
 	AuthorizationAttemptInfo []AuthorizationAttemptInfoObservation `json:"authorizationAttemptInfo,omitempty" tf:"authorization_attempt_info,omitempty"`
 
-	// Authorizations that will be used for performing domain authorization
+	// Authorizations that will be used for performing domain authorization. Either issuanceConfig or dnsAuthorizations should be specificed, but not both.
 	DNSAuthorizations []*string `json:"dnsAuthorizations,omitempty" tf:"dns_authorizations,omitempty"`
 
 	// The domains for which a managed SSL certificate will be generated.
 	// Wildcard domains are only supported with DNS challenge resolution
 	Domains []*string `json:"domains,omitempty" tf:"domains,omitempty"`
+
+	// The resource name for a CertificateIssuanceConfig used to configure private PKI certificates in the format projects//locations//certificateIssuanceConfigs/*.
+	// If this field is not set, the certificates will instead be publicly signed as documented at https://cloud.google.com/load-balancing/docs/ssl-certificates/google-managed-certs#caa.
+	// Either issuanceConfig or dnsAuthorizations should be specificed, but not both.
+	IssuanceConfig *string `json:"issuanceConfig,omitempty" tf:"issuance_config,omitempty"`
 
 	// (Output)
 	// Information about issues with provisioning this Managed Certificate.
@@ -204,7 +214,7 @@ type ManagedObservation struct {
 
 type ManagedParameters struct {
 
-	// Authorizations that will be used for performing domain authorization
+	// Authorizations that will be used for performing domain authorization. Either issuanceConfig or dnsAuthorizations should be specificed, but not both.
 	// +kubebuilder:validation:Optional
 	DNSAuthorizations []*string `json:"dnsAuthorizations,omitempty" tf:"dns_authorizations,omitempty"`
 
@@ -212,6 +222,12 @@ type ManagedParameters struct {
 	// Wildcard domains are only supported with DNS challenge resolution
 	// +kubebuilder:validation:Optional
 	Domains []*string `json:"domains,omitempty" tf:"domains,omitempty"`
+
+	// The resource name for a CertificateIssuanceConfig used to configure private PKI certificates in the format projects//locations//certificateIssuanceConfigs/*.
+	// If this field is not set, the certificates will instead be publicly signed as documented at https://cloud.google.com/load-balancing/docs/ssl-certificates/google-managed-certs#caa.
+	// Either issuanceConfig or dnsAuthorizations should be specificed, but not both.
+	// +kubebuilder:validation:Optional
+	IssuanceConfig *string `json:"issuanceConfig,omitempty" tf:"issuance_config,omitempty"`
 }
 
 type ProvisioningIssueInitParameters struct {

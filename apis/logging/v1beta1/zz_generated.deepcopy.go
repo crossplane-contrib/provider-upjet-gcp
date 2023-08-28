@@ -1448,6 +1448,11 @@ func (in *ProjectBucketConfigInitParameters) DeepCopyInto(out *ProjectBucketConf
 		*out = new(bool)
 		**out = **in
 	}
+	if in.Locked != nil {
+		in, out := &in.Locked, &out.Locked
+		*out = new(bool)
+		**out = **in
+	}
 	if in.RetentionDays != nil {
 		in, out := &in.RetentionDays, &out.RetentionDays
 		*out = new(float64)
@@ -1537,6 +1542,11 @@ func (in *ProjectBucketConfigObservation) DeepCopyInto(out *ProjectBucketConfigO
 		*out = new(string)
 		**out = **in
 	}
+	if in.Locked != nil {
+		in, out := &in.Locked, &out.Locked
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
 		*out = new(string)
@@ -1592,6 +1602,11 @@ func (in *ProjectBucketConfigParameters) DeepCopyInto(out *ProjectBucketConfigPa
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
 		*out = new(string)
+		**out = **in
+	}
+	if in.Locked != nil {
+		in, out := &in.Locked, &out.Locked
+		*out = new(bool)
 		**out = **in
 	}
 	if in.Project != nil {

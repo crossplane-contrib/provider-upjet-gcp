@@ -361,6 +361,9 @@ type FunctionObservation struct {
 	// Describes the current state of the function.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	// Output only. The deployed url for the function.
+	URL *string `json:"url,omitempty" tf:"url,omitempty"`
+
 	// The last update timestamp of a Cloud Function.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
 }

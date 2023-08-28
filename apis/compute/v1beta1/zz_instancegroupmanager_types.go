@@ -82,6 +82,8 @@ type InstanceGroupManagerInitParameters struct {
 	// group manager.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	InstanceLifecyclePolicy []InstanceLifecyclePolicyInitParameters `json:"instanceLifecyclePolicy,omitempty" tf:"instance_lifecycle_policy,omitempty"`
+
 	// Pagination behavior of the listManagedInstances API
 	// method for this managed instance group. Valid values are: PAGELESS, PAGINATED.
 	// If PAGELESS (default), Pagination is disabled for the group's listManagedInstances API method.
@@ -181,6 +183,8 @@ type InstanceGroupManagerObservation struct {
 	// The full URL of the instance group created by the manager.
 	InstanceGroup *string `json:"instanceGroup,omitempty" tf:"instance_group,omitempty"`
 
+	InstanceLifecyclePolicy []InstanceLifecyclePolicyObservation `json:"instanceLifecyclePolicy,omitempty" tf:"instance_lifecycle_policy,omitempty"`
+
 	// Pagination behavior of the listManagedInstances API
 	// method for this managed instance group. Valid values are: PAGELESS, PAGINATED.
 	// If PAGELESS (default), Pagination is disabled for the group's listManagedInstances API method.
@@ -262,6 +266,9 @@ type InstanceGroupManagerParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	InstanceLifecyclePolicy []InstanceLifecyclePolicyParameters `json:"instanceLifecyclePolicy,omitempty" tf:"instance_lifecycle_policy,omitempty"`
+
 	// Pagination behavior of the listManagedInstances API
 	// method for this managed instance group. Valid values are: PAGELESS, PAGINATED.
 	// If PAGELESS (default), Pagination is disabled for the group's listManagedInstances API method.
@@ -333,6 +340,25 @@ type InstanceGroupManagerParameters struct {
 	// in.
 	// +kubebuilder:validation:Required
 	Zone *string `json:"zone" tf:"zone,omitempty"`
+}
+
+type InstanceLifecyclePolicyInitParameters struct {
+
+	// ), Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
+	ForceUpdateOnRepair *string `json:"forceUpdateOnRepair,omitempty" tf:"force_update_on_repair,omitempty"`
+}
+
+type InstanceLifecyclePolicyObservation struct {
+
+	// ), Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
+	ForceUpdateOnRepair *string `json:"forceUpdateOnRepair,omitempty" tf:"force_update_on_repair,omitempty"`
+}
+
+type InstanceLifecyclePolicyParameters struct {
+
+	// ), Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
+	// +kubebuilder:validation:Optional
+	ForceUpdateOnRepair *string `json:"forceUpdateOnRepair,omitempty" tf:"force_update_on_repair,omitempty"`
 }
 
 type PerInstanceConfigsInitParameters struct {

@@ -25,28 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type GuestOsFeaturesInitParameters struct {
-
-	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
-}
-
-type GuestOsFeaturesObservation struct {
-
-	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
-}
-
-type GuestOsFeaturesParameters struct {
-
-	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.
-	// +kubebuilder:validation:Optional
-	Type *string `json:"type" tf:"type,omitempty"`
-}
-
 type ImageEncryptionKeyInitParameters struct {
 
 	// The self link of the encryption key that is stored in Google Cloud
@@ -85,6 +63,28 @@ type ImageEncryptionKeyParameters struct {
 	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
 }
 
+type ImageGuestOsFeaturesInitParameters struct {
+
+	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
+	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type ImageGuestOsFeaturesObservation struct {
+
+	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
+	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type ImageGuestOsFeaturesParameters struct {
+
+	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
+	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type" tf:"type,omitempty"`
+}
+
 type ImageInitParameters struct {
 
 	// An optional description of this resource. Provide this property when
@@ -104,7 +104,7 @@ type ImageInitParameters struct {
 	// A list of features to enable on the guest operating system.
 	// Applicable only for bootable images.
 	// Structure is documented below.
-	GuestOsFeatures []GuestOsFeaturesInitParameters `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
+	GuestOsFeatures []ImageGuestOsFeaturesInitParameters `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
 
 	// Encrypts the image using a customer-supplied encryption key.
 	// After you encrypt an image with a customer-supplied key, you must
@@ -172,7 +172,7 @@ type ImageObservation struct {
 	// A list of features to enable on the guest operating system.
 	// Applicable only for bootable images.
 	// Structure is documented below.
-	GuestOsFeatures []GuestOsFeaturesObservation `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
+	GuestOsFeatures []ImageGuestOsFeaturesObservation `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/global/images/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -247,7 +247,7 @@ type ImageParameters struct {
 	// Applicable only for bootable images.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	GuestOsFeatures []GuestOsFeaturesParameters `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
+	GuestOsFeatures []ImageGuestOsFeaturesParameters `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
 
 	// Encrypts the image using a customer-supplied encryption key.
 	// After you encrypt an image with a customer-supplied key, you must

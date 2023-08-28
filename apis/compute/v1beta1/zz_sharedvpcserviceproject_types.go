@@ -26,10 +26,14 @@ import (
 )
 
 type SharedVPCServiceProjectInitParameters struct {
+
+	// The deletion policy for the shared VPC service. Setting ABANDON allows the resource to be abandoned rather than deleted. Possible values are: "ABANDON".
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 }
 
 type SharedVPCServiceProjectObservation struct {
+
+	// The deletion policy for the shared VPC service. Setting ABANDON allows the resource to be abandoned rather than deleted. Possible values are: "ABANDON".
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The ID of a host project to associate.
@@ -44,6 +48,7 @@ type SharedVPCServiceProjectObservation struct {
 
 type SharedVPCServiceProjectParameters struct {
 
+	// The deletion policy for the shared VPC service. Setting ABANDON allows the resource to be abandoned rather than deleted. Possible values are: "ABANDON".
 	// +kubebuilder:validation:Optional
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 

@@ -186,6 +186,11 @@ spec:
                   location:
                     description: The location of the bucket.
                     type: string
+                  locked:
+                    description: Whether the bucket is locked. The retention period
+                      on a locked bucket cannot be changed. Locked buckets may only
+                      be deleted if they are empty.
+                    type: boolean
                   project:
                     description: The parent resource that contains the logging bucket.
                     type: string
@@ -305,6 +310,11 @@ spec:
                     description: Whether or not Log Analytics is enabled. Logs for
                       buckets with Log Analytics enabled can be queried in the Log
                       Analytics page using SQL queries. Cannot be disabled once enabled.
+                    type: boolean
+                  locked:
+                    description: Whether the bucket is locked. The retention period
+                      on a locked bucket cannot be changed. Locked buckets may only
+                      be deleted if they are empty.
                     type: boolean
                   retentionDays:
                     description: Logs will be retained by default for this amount
@@ -585,6 +595,11 @@ spec:
                   location:
                     description: The location of the bucket.
                     type: string
+                  locked:
+                    description: Whether the bucket is locked. The retention period
+                      on a locked bucket cannot be changed. Locked buckets may only
+                      be deleted if they are empty.
+                    type: boolean
                   name:
                     description: 'The resource name of the bucket. For example: "projects/my-project-id/locations/my-location/buckets/my-bucket-id"'
                     type: string

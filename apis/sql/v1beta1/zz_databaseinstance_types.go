@@ -136,7 +136,7 @@ type BackupConfigurationInitParameters struct {
 	// configuration starts.
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 
-	// The number of days of transaction logs we retain for point in time restore, from 1-7.
+	// The number of days of transaction logs we retain for point in time restore, from 1-7. For PostgreSQL Enterprise Plus instances, the number of days of retained transaction logs can be set from 1 to 35.
 	TransactionLogRetentionDays *float64 `json:"transactionLogRetentionDays,omitempty" tf:"transaction_log_retention_days,omitempty"`
 }
 
@@ -162,7 +162,7 @@ type BackupConfigurationObservation struct {
 	// configuration starts.
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 
-	// The number of days of transaction logs we retain for point in time restore, from 1-7.
+	// The number of days of transaction logs we retain for point in time restore, from 1-7. For PostgreSQL Enterprise Plus instances, the number of days of retained transaction logs can be set from 1 to 35.
 	TransactionLogRetentionDays *float64 `json:"transactionLogRetentionDays,omitempty" tf:"transaction_log_retention_days,omitempty"`
 }
 
@@ -194,7 +194,7 @@ type BackupConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 
-	// The number of days of transaction logs we retain for point in time restore, from 1-7.
+	// The number of days of transaction logs we retain for point in time restore, from 1-7. For PostgreSQL Enterprise Plus instances, the number of days of retained transaction logs can be set from 1 to 35.
 	// +kubebuilder:validation:Optional
 	TransactionLogRetentionDays *float64 `json:"transactionLogRetentionDays,omitempty" tf:"transaction_log_retention_days,omitempty"`
 }
@@ -280,6 +280,28 @@ type CloneParameters struct {
 	SourceInstanceName *string `json:"sourceInstanceName" tf:"source_instance_name,omitempty"`
 }
 
+type DataCacheConfigInitParameters struct {
+
+	// Whether data cache is enabled for the instance. Defaults to false
+	// Can only be used with MYSQL.
+	DataCacheEnabled *bool `json:"dataCacheEnabled,omitempty" tf:"data_cache_enabled,omitempty"`
+}
+
+type DataCacheConfigObservation struct {
+
+	// Whether data cache is enabled for the instance. Defaults to false
+	// Can only be used with MYSQL.
+	DataCacheEnabled *bool `json:"dataCacheEnabled,omitempty" tf:"data_cache_enabled,omitempty"`
+}
+
+type DataCacheConfigParameters struct {
+
+	// Whether data cache is enabled for the instance. Defaults to false
+	// Can only be used with MYSQL.
+	// +kubebuilder:validation:Optional
+	DataCacheEnabled *bool `json:"dataCacheEnabled,omitempty" tf:"data_cache_enabled,omitempty"`
+}
+
 type DatabaseFlagsInitParameters struct {
 
 	// A name for this whitelist entry.
@@ -324,7 +346,7 @@ type DatabaseInstanceInitParameters struct {
 	// The MySQL, PostgreSQL or
 	// SQL Server version to use. Supported values include MYSQL_5_6,
 	// MYSQL_5_7, MYSQL_8_0, POSTGRES_9_6,POSTGRES_10, POSTGRES_11,
-	// POSTGRES_12, POSTGRES_13, POSTGRES_14, SQLSERVER_2017_STANDARD,
+	// POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, SQLSERVER_2017_STANDARD,
 	// SQLSERVER_2017_ENTERPRISE, SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB.
 	// SQLSERVER_2019_STANDARD, SQLSERVER_2019_ENTERPRISE, SQLSERVER_2019_EXPRESS,
 	// SQLSERVER_2019_WEB.
@@ -389,7 +411,7 @@ type DatabaseInstanceObservation struct {
 	// The MySQL, PostgreSQL or
 	// SQL Server version to use. Supported values include MYSQL_5_6,
 	// MYSQL_5_7, MYSQL_8_0, POSTGRES_9_6,POSTGRES_10, POSTGRES_11,
-	// POSTGRES_12, POSTGRES_13, POSTGRES_14, SQLSERVER_2017_STANDARD,
+	// POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, SQLSERVER_2017_STANDARD,
 	// SQLSERVER_2017_ENTERPRISE, SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB.
 	// SQLSERVER_2019_STANDARD, SQLSERVER_2019_ENTERPRISE, SQLSERVER_2019_EXPRESS,
 	// SQLSERVER_2019_WEB.
@@ -474,7 +496,7 @@ type DatabaseInstanceParameters struct {
 	// The MySQL, PostgreSQL or
 	// SQL Server version to use. Supported values include MYSQL_5_6,
 	// MYSQL_5_7, MYSQL_8_0, POSTGRES_9_6,POSTGRES_10, POSTGRES_11,
-	// POSTGRES_12, POSTGRES_13, POSTGRES_14, SQLSERVER_2017_STANDARD,
+	// POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, SQLSERVER_2017_STANDARD,
 	// SQLSERVER_2017_ENTERPRISE, SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB.
 	// SQLSERVER_2019_STANDARD, SQLSERVER_2019_ENTERPRISE, SQLSERVER_2019_EXPRESS,
 	// SQLSERVER_2019_WEB.
@@ -690,7 +712,7 @@ type InsightsConfigInitParameters struct {
 	// Number of query execution plans captured by Insights per minute for all queries combined. Between 0 and 20. Default to 5.
 	QueryPlansPerMinute *float64 `json:"queryPlansPerMinute,omitempty" tf:"query_plans_per_minute,omitempty"`
 
-	// Maximum query length stored in bytes. Between 256 and 4500. Default to 1024.
+	// Maximum query length stored in bytes. Between 256 and 4500. Default to 1024. Higher query lengths are more useful for analytical queries, but they also require more memory. Changing the query length requires you to restart the instance. You can still add tags to queries that exceed the length limit.
 	QueryStringLength *float64 `json:"queryStringLength,omitempty" tf:"query_string_length,omitempty"`
 
 	// True if Query Insights will record application tags from query when enabled.
@@ -708,7 +730,7 @@ type InsightsConfigObservation struct {
 	// Number of query execution plans captured by Insights per minute for all queries combined. Between 0 and 20. Default to 5.
 	QueryPlansPerMinute *float64 `json:"queryPlansPerMinute,omitempty" tf:"query_plans_per_minute,omitempty"`
 
-	// Maximum query length stored in bytes. Between 256 and 4500. Default to 1024.
+	// Maximum query length stored in bytes. Between 256 and 4500. Default to 1024. Higher query lengths are more useful for analytical queries, but they also require more memory. Changing the query length requires you to restart the instance. You can still add tags to queries that exceed the length limit.
 	QueryStringLength *float64 `json:"queryStringLength,omitempty" tf:"query_string_length,omitempty"`
 
 	// True if Query Insights will record application tags from query when enabled.
@@ -728,7 +750,7 @@ type InsightsConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	QueryPlansPerMinute *float64 `json:"queryPlansPerMinute,omitempty" tf:"query_plans_per_minute,omitempty"`
 
-	// Maximum query length stored in bytes. Between 256 and 4500. Default to 1024.
+	// Maximum query length stored in bytes. Between 256 and 4500. Default to 1024. Higher query lengths are more useful for analytical queries, but they also require more memory. Changing the query length requires you to restart the instance. You can still add tags to queries that exceed the length limit.
 	// +kubebuilder:validation:Optional
 	QueryStringLength *float64 `json:"queryStringLength,omitempty" tf:"query_string_length,omitempty"`
 
@@ -923,6 +945,7 @@ type ReplicaConfigurationInitParameters struct {
 	// If the field is set to true the replica will be designated as a failover replica.
 	// If the master instance fails, the replica instance will be promoted as
 	// the new master instance.
+	// ~> NOTE: Not supported for Postgres database.
 	FailoverTarget *bool `json:"failoverTarget,omitempty" tf:"failover_target,omitempty"`
 
 	// Time in ms between replication
@@ -965,6 +988,7 @@ type ReplicaConfigurationObservation struct {
 	// If the field is set to true the replica will be designated as a failover replica.
 	// If the master instance fails, the replica instance will be promoted as
 	// the new master instance.
+	// ~> NOTE: Not supported for Postgres database.
 	FailoverTarget *bool `json:"failoverTarget,omitempty" tf:"failover_target,omitempty"`
 
 	// Time in ms between replication
@@ -1012,6 +1036,7 @@ type ReplicaConfigurationParameters struct {
 	// If the field is set to true the replica will be designated as a failover replica.
 	// If the master instance fails, the replica instance will be promoted as
 	// the new master instance.
+	// ~> NOTE: Not supported for Postgres database.
 	// +kubebuilder:validation:Optional
 	FailoverTarget *bool `json:"failoverTarget,omitempty" tf:"failover_target,omitempty"`
 
@@ -1169,6 +1194,8 @@ type SettingsInitParameters struct {
 	// Specifies if connections must use Cloud SQL connectors.
 	ConnectorEnforcement *string `json:"connectorEnforcement,omitempty" tf:"connector_enforcement,omitempty"`
 
+	DataCacheConfig []DataCacheConfigInitParameters `json:"dataCacheConfig,omitempty" tf:"data_cache_config,omitempty"`
+
 	DatabaseFlags []DatabaseFlagsInitParameters `json:"databaseFlags,omitempty" tf:"database_flags,omitempty"`
 
 	// .
@@ -1187,6 +1214,9 @@ type SettingsInitParameters struct {
 
 	// The type of data disk: PD_SSD or PD_HDD. Defaults to PD_SSD.
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// The edition of the instance, can be ENTERPRISE or ENTERPRISE_PLUS.
+	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
 
 	IPConfiguration []IPConfigurationInitParameters `json:"ipConfiguration,omitempty" tf:"ip_configuration,omitempty"`
 
@@ -1241,6 +1271,8 @@ type SettingsObservation struct {
 	// Specifies if connections must use Cloud SQL connectors.
 	ConnectorEnforcement *string `json:"connectorEnforcement,omitempty" tf:"connector_enforcement,omitempty"`
 
+	DataCacheConfig []DataCacheConfigObservation `json:"dataCacheConfig,omitempty" tf:"data_cache_config,omitempty"`
+
 	DatabaseFlags []DatabaseFlagsObservation `json:"databaseFlags,omitempty" tf:"database_flags,omitempty"`
 
 	// .
@@ -1259,6 +1291,9 @@ type SettingsObservation struct {
 
 	// The type of data disk: PD_SSD or PD_HDD. Defaults to PD_SSD.
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// The edition of the instance, can be ENTERPRISE or ENTERPRISE_PLUS.
+	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
 
 	IPConfiguration []IPConfigurationObservation `json:"ipConfiguration,omitempty" tf:"ip_configuration,omitempty"`
 
@@ -1325,6 +1360,9 @@ type SettingsParameters struct {
 	ConnectorEnforcement *string `json:"connectorEnforcement,omitempty" tf:"connector_enforcement,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	DataCacheConfig []DataCacheConfigParameters `json:"dataCacheConfig,omitempty" tf:"data_cache_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	DatabaseFlags []DatabaseFlagsParameters `json:"databaseFlags,omitempty" tf:"database_flags,omitempty"`
 
 	// .
@@ -1349,6 +1387,10 @@ type SettingsParameters struct {
 	// The type of data disk: PD_SSD or PD_HDD. Defaults to PD_SSD.
 	// +kubebuilder:validation:Optional
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// The edition of the instance, can be ENTERPRISE or ENTERPRISE_PLUS.
+	// +kubebuilder:validation:Optional
+	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	IPConfiguration []IPConfigurationParameters `json:"ipConfiguration,omitempty" tf:"ip_configuration,omitempty"`

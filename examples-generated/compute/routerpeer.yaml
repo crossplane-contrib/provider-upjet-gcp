@@ -13,9 +13,6 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: example
     peerAsn: 65513
-    peerIpAddressSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
     regionSelector:
       matchLabels:
         testing.upbound.io/example-name: example

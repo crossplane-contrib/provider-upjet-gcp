@@ -261,6 +261,11 @@ spec:
                                   GiBs. When unspecified, a default value is provided.
                                   See the specific reference in the parent resource.
                                 type: number
+                              throughput:
+                                description: Optional. The throughput to provision
+                                  for the volume, in MiB/s. Only valid if the volume
+                                  type is GP3.
+                                type: number
                               volumeType:
                                 description: 'Optional. Type of the EBS volume. When
                                   unspecified, it defaults to GP2 volume. Possible
@@ -472,6 +477,11 @@ spec:
                                 description: Optional. The size of the volume, in
                                   GiBs. When unspecified, a default value is provided.
                                   See the specific reference in the parent resource.
+                                type: number
+                              throughput:
+                                description: Optional. The throughput to provision
+                                  for the volume, in MiB/s. Only valid if the volume
+                                  type is GP3.
                                 type: number
                               volumeType:
                                 description: 'Optional. Type of the EBS volume. When
@@ -892,6 +902,11 @@ spec:
                                 description: Optional. The size of the volume, in
                                   GiBs. When unspecified, a default value is provided.
                                   See the specific reference in the parent resource.
+                                type: number
+                              throughput:
+                                description: Optional. The throughput to provision
+                                  for the volume, in MiB/s. Only valid if the volume
+                                  type is GP3.
                                 type: number
                               volumeType:
                                 description: 'Optional. Type of the EBS volume. When

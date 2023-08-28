@@ -20,7 +20,7 @@ spec:
       inventories:
       - osShortName: centos
         osVersion: 8.*
-    location: us-west1-a
+    location: us-central1-a
     osPolicies:
     - allowNoResourceGroupMatch: false
       description: A test os policy
@@ -31,13 +31,35 @@ spec:
         - osShortName: centos
           osVersion: 8.*
         resources:
-        - id: apt
-          pkg:
+        - id: apt-to-yum
+          repository:
           - apt:
-            - name: bazel
-            desiredState: INSTALLED
-    project: my-project-name
+            - archiveType: DEB
+              components:
+              - doc
+              distribution: debian
+              gpgKey: .gnupg/pubring.kbx
+              uri: https://atl.mirrors.clouvider.net/debian
+        - exec:
+          - enforce:
+            - args:
+              - arg1
+              file:
+              - allowInsecure: true
+                remote:
+                - sha256Checksum: c7938fed83afdccbb0e86a2a2e4cad7d5035012ca3214b4a61268393635c3063
+                  uri: https://www.example.com/script.sh
+              interpreter: SHELL
+              outputFilePath: $HOME/out
+            validate:
+            - args:
+              - arg1
+              file:
+              - localPath: $HOME/script.sh
+              interpreter: SHELL
+              outputFilePath: $HOME/out
+          id: exec1
     rollout:
     - disruptionBudget:
-      - fixed: 1
-      minWaitDuration: 3.5s
+      - percent: 100
+      minWaitDuration: 3s

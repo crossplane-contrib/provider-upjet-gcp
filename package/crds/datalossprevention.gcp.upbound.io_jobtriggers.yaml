@@ -547,6 +547,21 @@ spec:
                                               the timestamp property does not exist
                                               or its value is empty or invalid.'
                                             type: string
+                                          sensitivityScore:
+                                            description: Optional custom sensitivity
+                                              for this InfoType. This only applies
+                                              to data profiling. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                score:
+                                                  description: 'The sensitivity score
+                                                    applied to the resource. Possible
+                                                    values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE,
+                                                    SENSITIVITY_HIGH.'
+                                                  type: string
+                                              type: object
+                                            type: array
                                           version:
                                             description: Version of the information
                                               type to use. By default, the version
@@ -580,6 +595,20 @@ spec:
                                               expression. Its syntax (https://github.com/google/re2/wiki/Syntax)
                                               can be found under the google/re2 repository
                                               on GitHub.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    sensitivityScore:
+                                      description: Optional custom sensitivity for
+                                        this InfoType. This only applies to data profiling.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          score:
+                                            description: 'The sensitivity score applied
+                                              to the resource. Possible values are:
+                                              SENSITIVITY_LOW, SENSITIVITY_MODERATE,
+                                              SENSITIVITY_HIGH.'
                                             type: string
                                         type: object
                                       type: array
@@ -648,6 +677,20 @@ spec:
                                         property does not exist or its value is empty
                                         or invalid.'
                                       type: string
+                                    sensitivityScore:
+                                      description: Optional custom sensitivity for
+                                        this InfoType. This only applies to data profiling.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          score:
+                                            description: 'The sensitivity score applied
+                                              to the resource. Possible values are:
+                                              SENSITIVITY_LOW, SENSITIVITY_MODERATE,
+                                              SENSITIVITY_HIGH.'
+                                            type: string
+                                        type: object
+                                      type: array
                                     version:
                                       description: Version of the information type
                                         to use. By default, the version is set to
@@ -698,6 +741,21 @@ spec:
                                                     not exist or its value is empty
                                                     or invalid.'
                                                   type: string
+                                                sensitivityScore:
+                                                  description: Optional custom sensitivity
+                                                    for this InfoType. This only applies
+                                                    to data profiling. Structure is
+                                                    documented below.
+                                                  items:
+                                                    properties:
+                                                      score:
+                                                        description: 'The sensitivity
+                                                          score applied to the resource.
+                                                          Possible values are: SENSITIVITY_LOW,
+                                                          SENSITIVITY_MODERATE, SENSITIVITY_HIGH.'
+                                                        type: string
+                                                    type: object
+                                                  type: array
                                                 version:
                                                   description: Version of the information
                                                     type to use. By default, the version
@@ -761,6 +819,21 @@ spec:
                                               the timestamp property does not exist
                                               or its value is empty or invalid.'
                                             type: string
+                                          sensitivityScore:
+                                            description: Optional custom sensitivity
+                                              for this InfoType. This only applies
+                                              to data profiling. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                score:
+                                                  description: 'The sensitivity score
+                                                    applied to the resource. Possible
+                                                    values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE,
+                                                    SENSITIVITY_HIGH.'
+                                                  type: string
+                                              type: object
+                                            type: array
                                           version:
                                             description: Version of the information
                                               type to use. By default, the version
@@ -949,6 +1022,28 @@ spec:
                                                                 its value is empty
                                                                 or invalid.'
                                                               type: string
+                                                            sensitivityScore:
+                                                              description: Optional
+                                                                custom sensitivity
+                                                                for this InfoType.
+                                                                This only applies
+                                                                to data profiling.
+                                                                Structure is documented
+                                                                below.
+                                                              items:
+                                                                properties:
+                                                                  score:
+                                                                    description: 'The
+                                                                      sensitivity
+                                                                      score applied
+                                                                      to the resource.
+                                                                      Possible values
+                                                                      are: SENSITIVITY_LOW,
+                                                                      SENSITIVITY_MODERATE,
+                                                                      SENSITIVITY_HIGH.'
+                                                                    type: string
+                                                                type: object
+                                                              type: array
                                                             version:
                                                               description: Version
                                                                 of the information
@@ -1116,6 +1211,33 @@ spec:
                                   identifiers. Structure is documented below.
                                 items:
                                   properties:
+                                    excludedFields:
+                                      description: References to fields excluded from
+                                        scanning. This allows you to skip inspection
+                                        of entire columns which you know have no findings.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          name:
+                                            description: 'Specification of the field
+                                              containing the timestamp of scanned
+                                              items. Used for data sources like Datastore
+                                              and BigQuery. For BigQuery: Required
+                                              to filter out rows based on the given
+                                              start and end times. If not specified
+                                              and the table was modified between the
+                                              given start and end times, the entire
+                                              table will be scanned. The valid data
+                                              types of the timestamp field are: INTEGER,
+                                              DATE, TIMESTAMP, or DATETIME BigQuery
+                                              column. For Datastore. Valid data types
+                                              of the timestamp field are: TIMESTAMP.
+                                              Datastore entity will be scanned if
+                                              the timestamp property does not exist
+                                              or its value is empty or invalid.'
+                                            type: string
+                                        type: object
+                                      type: array
                                     identifyingFields:
                                       description: The columns that are the primary
                                         keys for table objects included in ContentItem.
@@ -1124,6 +1246,31 @@ spec:
                                         can be traced to the specific row it came
                                         from. No more than 3 may be provided. Structure
                                         is documented below.
+                                      items:
+                                        properties:
+                                          name:
+                                            description: 'Specification of the field
+                                              containing the timestamp of scanned
+                                              items. Used for data sources like Datastore
+                                              and BigQuery. For BigQuery: Required
+                                              to filter out rows based on the given
+                                              start and end times. If not specified
+                                              and the table was modified between the
+                                              given start and end times, the entire
+                                              table will be scanned. The valid data
+                                              types of the timestamp field are: INTEGER,
+                                              DATE, TIMESTAMP, or DATETIME BigQuery
+                                              column. For Datastore. Valid data types
+                                              of the timestamp field are: TIMESTAMP.
+                                              Datastore entity will be scanned if
+                                              the timestamp property does not exist
+                                              or its value is empty or invalid.'
+                                            type: string
+                                        type: object
+                                      type: array
+                                    includedFields:
+                                      description: Limit scanning only to these fields.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           name:
@@ -1280,7 +1427,7 @@ spec:
                                         does not support image inspection and no fileTypes
                                         were specified. Each value may be one of:
                                         BINARY_FILE, TEXT_FILE, IMAGE, WORD, PDF,
-                                        AVRO, CSV, TSV.'
+                                        AVRO, CSV, TSV, POWERPOINT, EXCEL.'
                                       items:
                                         type: string
                                       type: array
@@ -1489,6 +1636,12 @@ spec:
                   status:
                     description: 'Whether the trigger is currently active. Default
                       value is HEALTHY. Possible values are: PAUSED, HEALTHY, CANCELLED.'
+                    type: string
+                  triggerId:
+                    description: 'The trigger id can contain uppercase and lowercase
+                      letters, numbers, and hyphens; that is, it must match the regular
+                      expression: [a-zA-Z\d-_]+. The maximum length is 100 characters.
+                      Can be empty to allow the system to generate one.'
                     type: string
                   triggers:
                     description: What event needs to occur for a new job to be started.
@@ -1804,6 +1957,21 @@ spec:
                                               the timestamp property does not exist
                                               or its value is empty or invalid.'
                                             type: string
+                                          sensitivityScore:
+                                            description: Optional custom sensitivity
+                                              for this InfoType. This only applies
+                                              to data profiling. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                score:
+                                                  description: 'The sensitivity score
+                                                    applied to the resource. Possible
+                                                    values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE,
+                                                    SENSITIVITY_HIGH.'
+                                                  type: string
+                                              type: object
+                                            type: array
                                           version:
                                             description: Version of the information
                                               type to use. By default, the version
@@ -1837,6 +2005,20 @@ spec:
                                               expression. Its syntax (https://github.com/google/re2/wiki/Syntax)
                                               can be found under the google/re2 repository
                                               on GitHub.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    sensitivityScore:
+                                      description: Optional custom sensitivity for
+                                        this InfoType. This only applies to data profiling.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          score:
+                                            description: 'The sensitivity score applied
+                                              to the resource. Possible values are:
+                                              SENSITIVITY_LOW, SENSITIVITY_MODERATE,
+                                              SENSITIVITY_HIGH.'
                                             type: string
                                         type: object
                                       type: array
@@ -1905,6 +2087,20 @@ spec:
                                         property does not exist or its value is empty
                                         or invalid.'
                                       type: string
+                                    sensitivityScore:
+                                      description: Optional custom sensitivity for
+                                        this InfoType. This only applies to data profiling.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          score:
+                                            description: 'The sensitivity score applied
+                                              to the resource. Possible values are:
+                                              SENSITIVITY_LOW, SENSITIVITY_MODERATE,
+                                              SENSITIVITY_HIGH.'
+                                            type: string
+                                        type: object
+                                      type: array
                                     version:
                                       description: Version of the information type
                                         to use. By default, the version is set to
@@ -1955,6 +2151,21 @@ spec:
                                                     not exist or its value is empty
                                                     or invalid.'
                                                   type: string
+                                                sensitivityScore:
+                                                  description: Optional custom sensitivity
+                                                    for this InfoType. This only applies
+                                                    to data profiling. Structure is
+                                                    documented below.
+                                                  items:
+                                                    properties:
+                                                      score:
+                                                        description: 'The sensitivity
+                                                          score applied to the resource.
+                                                          Possible values are: SENSITIVITY_LOW,
+                                                          SENSITIVITY_MODERATE, SENSITIVITY_HIGH.'
+                                                        type: string
+                                                    type: object
+                                                  type: array
                                                 version:
                                                   description: Version of the information
                                                     type to use. By default, the version
@@ -2018,6 +2229,21 @@ spec:
                                               the timestamp property does not exist
                                               or its value is empty or invalid.'
                                             type: string
+                                          sensitivityScore:
+                                            description: Optional custom sensitivity
+                                              for this InfoType. This only applies
+                                              to data profiling. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                score:
+                                                  description: 'The sensitivity score
+                                                    applied to the resource. Possible
+                                                    values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE,
+                                                    SENSITIVITY_HIGH.'
+                                                  type: string
+                                              type: object
+                                            type: array
                                           version:
                                             description: Version of the information
                                               type to use. By default, the version
@@ -2206,6 +2432,28 @@ spec:
                                                                 its value is empty
                                                                 or invalid.'
                                                               type: string
+                                                            sensitivityScore:
+                                                              description: Optional
+                                                                custom sensitivity
+                                                                for this InfoType.
+                                                                This only applies
+                                                                to data profiling.
+                                                                Structure is documented
+                                                                below.
+                                                              items:
+                                                                properties:
+                                                                  score:
+                                                                    description: 'The
+                                                                      sensitivity
+                                                                      score applied
+                                                                      to the resource.
+                                                                      Possible values
+                                                                      are: SENSITIVITY_LOW,
+                                                                      SENSITIVITY_MODERATE,
+                                                                      SENSITIVITY_HIGH.'
+                                                                    type: string
+                                                                type: object
+                                                              type: array
                                                             version:
                                                               description: Version
                                                                 of the information
@@ -2373,6 +2621,33 @@ spec:
                                   identifiers. Structure is documented below.
                                 items:
                                   properties:
+                                    excludedFields:
+                                      description: References to fields excluded from
+                                        scanning. This allows you to skip inspection
+                                        of entire columns which you know have no findings.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          name:
+                                            description: 'Specification of the field
+                                              containing the timestamp of scanned
+                                              items. Used for data sources like Datastore
+                                              and BigQuery. For BigQuery: Required
+                                              to filter out rows based on the given
+                                              start and end times. If not specified
+                                              and the table was modified between the
+                                              given start and end times, the entire
+                                              table will be scanned. The valid data
+                                              types of the timestamp field are: INTEGER,
+                                              DATE, TIMESTAMP, or DATETIME BigQuery
+                                              column. For Datastore. Valid data types
+                                              of the timestamp field are: TIMESTAMP.
+                                              Datastore entity will be scanned if
+                                              the timestamp property does not exist
+                                              or its value is empty or invalid.'
+                                            type: string
+                                        type: object
+                                      type: array
                                     identifyingFields:
                                       description: The columns that are the primary
                                         keys for table objects included in ContentItem.
@@ -2381,6 +2656,31 @@ spec:
                                         can be traced to the specific row it came
                                         from. No more than 3 may be provided. Structure
                                         is documented below.
+                                      items:
+                                        properties:
+                                          name:
+                                            description: 'Specification of the field
+                                              containing the timestamp of scanned
+                                              items. Used for data sources like Datastore
+                                              and BigQuery. For BigQuery: Required
+                                              to filter out rows based on the given
+                                              start and end times. If not specified
+                                              and the table was modified between the
+                                              given start and end times, the entire
+                                              table will be scanned. The valid data
+                                              types of the timestamp field are: INTEGER,
+                                              DATE, TIMESTAMP, or DATETIME BigQuery
+                                              column. For Datastore. Valid data types
+                                              of the timestamp field are: TIMESTAMP.
+                                              Datastore entity will be scanned if
+                                              the timestamp property does not exist
+                                              or its value is empty or invalid.'
+                                            type: string
+                                        type: object
+                                      type: array
+                                    includedFields:
+                                      description: Limit scanning only to these fields.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           name:
@@ -2537,7 +2837,7 @@ spec:
                                         does not support image inspection and no fileTypes
                                         were specified. Each value may be one of:
                                         BINARY_FILE, TEXT_FILE, IMAGE, WORD, PDF,
-                                        AVRO, CSV, TSV.'
+                                        AVRO, CSV, TSV, POWERPOINT, EXCEL.'
                                       items:
                                         type: string
                                       type: array
@@ -2746,6 +3046,12 @@ spec:
                   status:
                     description: 'Whether the trigger is currently active. Default
                       value is HEALTHY. Possible values are: PAUSED, HEALTHY, CANCELLED.'
+                    type: string
+                  triggerId:
+                    description: 'The trigger id can contain uppercase and lowercase
+                      letters, numbers, and hyphens; that is, it must match the regular
+                      expression: [a-zA-Z\d-_]+. The maximum length is 100 characters.
+                      Can be empty to allow the system to generate one.'
                     type: string
                   triggers:
                     description: What event needs to occur for a new job to be started.
@@ -3277,6 +3583,21 @@ spec:
                                               the timestamp property does not exist
                                               or its value is empty or invalid.'
                                             type: string
+                                          sensitivityScore:
+                                            description: Optional custom sensitivity
+                                              for this InfoType. This only applies
+                                              to data profiling. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                score:
+                                                  description: 'The sensitivity score
+                                                    applied to the resource. Possible
+                                                    values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE,
+                                                    SENSITIVITY_HIGH.'
+                                                  type: string
+                                              type: object
+                                            type: array
                                           version:
                                             description: Version of the information
                                               type to use. By default, the version
@@ -3310,6 +3631,20 @@ spec:
                                               expression. Its syntax (https://github.com/google/re2/wiki/Syntax)
                                               can be found under the google/re2 repository
                                               on GitHub.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    sensitivityScore:
+                                      description: Optional custom sensitivity for
+                                        this InfoType. This only applies to data profiling.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          score:
+                                            description: 'The sensitivity score applied
+                                              to the resource. Possible values are:
+                                              SENSITIVITY_LOW, SENSITIVITY_MODERATE,
+                                              SENSITIVITY_HIGH.'
                                             type: string
                                         type: object
                                       type: array
@@ -3382,6 +3717,20 @@ spec:
                                         property does not exist or its value is empty
                                         or invalid.'
                                       type: string
+                                    sensitivityScore:
+                                      description: Optional custom sensitivity for
+                                        this InfoType. This only applies to data profiling.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          score:
+                                            description: 'The sensitivity score applied
+                                              to the resource. Possible values are:
+                                              SENSITIVITY_LOW, SENSITIVITY_MODERATE,
+                                              SENSITIVITY_HIGH.'
+                                            type: string
+                                        type: object
+                                      type: array
                                     version:
                                       description: Version of the information type
                                         to use. By default, the version is set to
@@ -3432,6 +3781,21 @@ spec:
                                                     not exist or its value is empty
                                                     or invalid.'
                                                   type: string
+                                                sensitivityScore:
+                                                  description: Optional custom sensitivity
+                                                    for this InfoType. This only applies
+                                                    to data profiling. Structure is
+                                                    documented below.
+                                                  items:
+                                                    properties:
+                                                      score:
+                                                        description: 'The sensitivity
+                                                          score applied to the resource.
+                                                          Possible values are: SENSITIVITY_LOW,
+                                                          SENSITIVITY_MODERATE, SENSITIVITY_HIGH.'
+                                                        type: string
+                                                    type: object
+                                                  type: array
                                                 version:
                                                   description: Version of the information
                                                     type to use. By default, the version
@@ -3495,6 +3859,21 @@ spec:
                                               the timestamp property does not exist
                                               or its value is empty or invalid.'
                                             type: string
+                                          sensitivityScore:
+                                            description: Optional custom sensitivity
+                                              for this InfoType. This only applies
+                                              to data profiling. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                score:
+                                                  description: 'The sensitivity score
+                                                    applied to the resource. Possible
+                                                    values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE,
+                                                    SENSITIVITY_HIGH.'
+                                                  type: string
+                                              type: object
+                                            type: array
                                           version:
                                             description: Version of the information
                                               type to use. By default, the version
@@ -3683,6 +4062,28 @@ spec:
                                                                 its value is empty
                                                                 or invalid.'
                                                               type: string
+                                                            sensitivityScore:
+                                                              description: Optional
+                                                                custom sensitivity
+                                                                for this InfoType.
+                                                                This only applies
+                                                                to data profiling.
+                                                                Structure is documented
+                                                                below.
+                                                              items:
+                                                                properties:
+                                                                  score:
+                                                                    description: 'The
+                                                                      sensitivity
+                                                                      score applied
+                                                                      to the resource.
+                                                                      Possible values
+                                                                      are: SENSITIVITY_LOW,
+                                                                      SENSITIVITY_MODERATE,
+                                                                      SENSITIVITY_HIGH.'
+                                                                    type: string
+                                                                type: object
+                                                              type: array
                                                             version:
                                                               description: Version
                                                                 of the information
@@ -3850,6 +4251,33 @@ spec:
                                   identifiers. Structure is documented below.
                                 items:
                                   properties:
+                                    excludedFields:
+                                      description: References to fields excluded from
+                                        scanning. This allows you to skip inspection
+                                        of entire columns which you know have no findings.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          name:
+                                            description: 'Specification of the field
+                                              containing the timestamp of scanned
+                                              items. Used for data sources like Datastore
+                                              and BigQuery. For BigQuery: Required
+                                              to filter out rows based on the given
+                                              start and end times. If not specified
+                                              and the table was modified between the
+                                              given start and end times, the entire
+                                              table will be scanned. The valid data
+                                              types of the timestamp field are: INTEGER,
+                                              DATE, TIMESTAMP, or DATETIME BigQuery
+                                              column. For Datastore. Valid data types
+                                              of the timestamp field are: TIMESTAMP.
+                                              Datastore entity will be scanned if
+                                              the timestamp property does not exist
+                                              or its value is empty or invalid.'
+                                            type: string
+                                        type: object
+                                      type: array
                                     identifyingFields:
                                       description: The columns that are the primary
                                         keys for table objects included in ContentItem.
@@ -3858,6 +4286,31 @@ spec:
                                         can be traced to the specific row it came
                                         from. No more than 3 may be provided. Structure
                                         is documented below.
+                                      items:
+                                        properties:
+                                          name:
+                                            description: 'Specification of the field
+                                              containing the timestamp of scanned
+                                              items. Used for data sources like Datastore
+                                              and BigQuery. For BigQuery: Required
+                                              to filter out rows based on the given
+                                              start and end times. If not specified
+                                              and the table was modified between the
+                                              given start and end times, the entire
+                                              table will be scanned. The valid data
+                                              types of the timestamp field are: INTEGER,
+                                              DATE, TIMESTAMP, or DATETIME BigQuery
+                                              column. For Datastore. Valid data types
+                                              of the timestamp field are: TIMESTAMP.
+                                              Datastore entity will be scanned if
+                                              the timestamp property does not exist
+                                              or its value is empty or invalid.'
+                                            type: string
+                                        type: object
+                                      type: array
+                                    includedFields:
+                                      description: Limit scanning only to these fields.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           name:
@@ -4014,7 +4467,7 @@ spec:
                                         does not support image inspection and no fileTypes
                                         were specified. Each value may be one of:
                                         BINARY_FILE, TEXT_FILE, IMAGE, WORD, PDF,
-                                        AVRO, CSV, TSV.'
+                                        AVRO, CSV, TSV, POWERPOINT, EXCEL.'
                                       items:
                                         type: string
                                       type: array
@@ -4230,6 +4683,12 @@ spec:
                   status:
                     description: 'Whether the trigger is currently active. Default
                       value is HEALTHY. Possible values are: PAUSED, HEALTHY, CANCELLED.'
+                    type: string
+                  triggerId:
+                    description: 'The trigger id can contain uppercase and lowercase
+                      letters, numbers, and hyphens; that is, it must match the regular
+                      expression: [a-zA-Z\d-_]+. The maximum length is 100 characters.
+                      Can be empty to allow the system to generate one.'
                     type: string
                   triggers:
                     description: What event needs to occur for a new job to be started.

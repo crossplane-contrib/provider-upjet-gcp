@@ -316,6 +316,20 @@ spec:
                             subscription was created without this attribute. The possible
                             values for this attribute are:'
                           type: object
+                        noWrapper:
+                          description: When set, the payload to the push endpoint
+                            is not wrapped.Sets the data field as the HTTP body for
+                            delivery. Structure is documented below.
+                          items:
+                            properties:
+                              writeMetadata:
+                                description: When true, writes the Pub/Sub message
+                                  metadata to x-goog-pubsub-<KEY>:<VAL> headers of
+                                  the HTTP request. Writes the Pub/Sub message attributes
+                                  to <KEY>:<VAL> headers of the HTTP request.
+                                type: boolean
+                            type: object
+                          type: array
                         oidcToken:
                           description: If specified, Pub/Sub will generate and attach
                             an OIDC JWT token as an Authorization header in the HTTP
@@ -630,6 +644,20 @@ spec:
                             subscription was created without this attribute. The possible
                             values for this attribute are:'
                           type: object
+                        noWrapper:
+                          description: When set, the payload to the push endpoint
+                            is not wrapped.Sets the data field as the HTTP body for
+                            delivery. Structure is documented below.
+                          items:
+                            properties:
+                              writeMetadata:
+                                description: When true, writes the Pub/Sub message
+                                  metadata to x-goog-pubsub-<KEY>:<VAL> headers of
+                                  the HTTP request. Writes the Pub/Sub message attributes
+                                  to <KEY>:<VAL> headers of the HTTP request.
+                                type: boolean
+                            type: object
+                          type: array
                         oidcToken:
                           description: If specified, Pub/Sub will generate and attach
                             an OIDC JWT token as an Authorization header in the HTTP
@@ -1071,6 +1099,20 @@ spec:
                             subscription was created without this attribute. The possible
                             values for this attribute are:'
                           type: object
+                        noWrapper:
+                          description: When set, the payload to the push endpoint
+                            is not wrapped.Sets the data field as the HTTP body for
+                            delivery. Structure is documented below.
+                          items:
+                            properties:
+                              writeMetadata:
+                                description: When true, writes the Pub/Sub message
+                                  metadata to x-goog-pubsub-<KEY>:<VAL> headers of
+                                  the HTTP request. Writes the Pub/Sub message attributes
+                                  to <KEY>:<VAL> headers of the HTTP request.
+                                type: boolean
+                            type: object
+                          type: array
                         oidcToken:
                           description: If specified, Pub/Sub will generate and attach
                             an OIDC JWT token as an Authorization header in the HTTP

@@ -227,7 +227,8 @@ spec:
                                 type: boolean
                               encoding:
                                 description: The character encoding of the data. The
-                                  supported values are UTF-8 or ISO-8859-1.
+                                  supported values are UTF-8, UTF-16BE, UTF-16LE,
+                                  UTF-32BE, and UTF-32LE. The default value is UTF-8.
                                 type: string
                               fieldDelimiter:
                                 description: The separator for fields in a CSV file.
@@ -307,10 +308,48 @@ spec:
                             many bad records, an invalid error is returned in the
                             job result. The default value is false.
                           type: boolean
+                        jsonOptions:
+                          description: Additional properties to set if source_format
+                            is set to "JSON". Structure is documented below.
+                          items:
+                            properties:
+                              encoding:
+                                description: The character encoding of the data. The
+                                  supported values are UTF-8, UTF-16BE, UTF-16LE,
+                                  UTF-32BE, and UTF-32LE. The default value is UTF-8.
+                                type: string
+                            type: object
+                          type: array
                         maxBadRecords:
                           description: The maximum number of bad records that BigQuery
                             can ignore when reading data.
                           type: number
+                        metadataCacheMode:
+                          description: Metadata Cache Mode for the table. Set this
+                            to enable caching of metadata from external data source.
+                            Valid values are AUTOMATIC and MANUAL.
+                          type: string
+                        objectMetadata:
+                          description: Object Metadata is used to create Object Tables.
+                            Object Tables contain a listing of objects (with their
+                            metadata) found at the sourceUris. If object_metadata
+                            is set, source_format should be omitted.
+                          type: string
+                        parquetOptions:
+                          description: Additional properties to set if source_format
+                            is set to "PARQUET". Structure is documented below.
+                          items:
+                            properties:
+                              enableListInference:
+                                description: Indicates whether to use schema inference
+                                  specifically for Parquet LIST logical type.
+                                type: boolean
+                              enumAsString:
+                                description: Indicates whether to infer Parquet ENUM
+                                  logical type as STRING instead of BYTES by default.
+                                type: boolean
+                            type: object
+                          type: array
                         referenceFileSchemaUri:
                           description: 'When creating an external table, the user
                             can provide a reference file with the table schema. This
@@ -546,7 +585,8 @@ spec:
                                 type: boolean
                               encoding:
                                 description: The character encoding of the data. The
-                                  supported values are UTF-8 or ISO-8859-1.
+                                  supported values are UTF-8, UTF-16BE, UTF-16LE,
+                                  UTF-32BE, and UTF-32LE. The default value is UTF-8.
                                 type: string
                               fieldDelimiter:
                                 description: The separator for fields in a CSV file.
@@ -626,10 +666,48 @@ spec:
                             many bad records, an invalid error is returned in the
                             job result. The default value is false.
                           type: boolean
+                        jsonOptions:
+                          description: Additional properties to set if source_format
+                            is set to "JSON". Structure is documented below.
+                          items:
+                            properties:
+                              encoding:
+                                description: The character encoding of the data. The
+                                  supported values are UTF-8, UTF-16BE, UTF-16LE,
+                                  UTF-32BE, and UTF-32LE. The default value is UTF-8.
+                                type: string
+                            type: object
+                          type: array
                         maxBadRecords:
                           description: The maximum number of bad records that BigQuery
                             can ignore when reading data.
                           type: number
+                        metadataCacheMode:
+                          description: Metadata Cache Mode for the table. Set this
+                            to enable caching of metadata from external data source.
+                            Valid values are AUTOMATIC and MANUAL.
+                          type: string
+                        objectMetadata:
+                          description: Object Metadata is used to create Object Tables.
+                            Object Tables contain a listing of objects (with their
+                            metadata) found at the sourceUris. If object_metadata
+                            is set, source_format should be omitted.
+                          type: string
+                        parquetOptions:
+                          description: Additional properties to set if source_format
+                            is set to "PARQUET". Structure is documented below.
+                          items:
+                            properties:
+                              enableListInference:
+                                description: Indicates whether to use schema inference
+                                  specifically for Parquet LIST logical type.
+                                type: boolean
+                              enumAsString:
+                                description: Indicates whether to infer Parquet ENUM
+                                  logical type as STRING instead of BYTES by default.
+                                type: boolean
+                            type: object
+                          type: array
                         referenceFileSchemaUri:
                           description: 'When creating an external table, the user
                             can provide a reference file with the table schema. This
@@ -1065,7 +1143,8 @@ spec:
                                 type: boolean
                               encoding:
                                 description: The character encoding of the data. The
-                                  supported values are UTF-8 or ISO-8859-1.
+                                  supported values are UTF-8, UTF-16BE, UTF-16LE,
+                                  UTF-32BE, and UTF-32LE. The default value is UTF-8.
                                 type: string
                               fieldDelimiter:
                                 description: The separator for fields in a CSV file.
@@ -1145,10 +1224,48 @@ spec:
                             many bad records, an invalid error is returned in the
                             job result. The default value is false.
                           type: boolean
+                        jsonOptions:
+                          description: Additional properties to set if source_format
+                            is set to "JSON". Structure is documented below.
+                          items:
+                            properties:
+                              encoding:
+                                description: The character encoding of the data. The
+                                  supported values are UTF-8, UTF-16BE, UTF-16LE,
+                                  UTF-32BE, and UTF-32LE. The default value is UTF-8.
+                                type: string
+                            type: object
+                          type: array
                         maxBadRecords:
                           description: The maximum number of bad records that BigQuery
                             can ignore when reading data.
                           type: number
+                        metadataCacheMode:
+                          description: Metadata Cache Mode for the table. Set this
+                            to enable caching of metadata from external data source.
+                            Valid values are AUTOMATIC and MANUAL.
+                          type: string
+                        objectMetadata:
+                          description: Object Metadata is used to create Object Tables.
+                            Object Tables contain a listing of objects (with their
+                            metadata) found at the sourceUris. If object_metadata
+                            is set, source_format should be omitted.
+                          type: string
+                        parquetOptions:
+                          description: Additional properties to set if source_format
+                            is set to "PARQUET". Structure is documented below.
+                          items:
+                            properties:
+                              enableListInference:
+                                description: Indicates whether to use schema inference
+                                  specifically for Parquet LIST logical type.
+                                type: boolean
+                              enumAsString:
+                                description: Indicates whether to infer Parquet ENUM
+                                  logical type as STRING instead of BYTES by default.
+                                type: boolean
+                            type: object
+                          type: array
                         referenceFileSchemaUri:
                           description: 'When creating an external table, the user
                             can provide a reference file with the table schema. This
