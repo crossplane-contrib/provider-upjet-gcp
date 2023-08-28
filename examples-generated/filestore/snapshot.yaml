@@ -11,7 +11,7 @@ spec:
     instanceSelector:
       matchLabels:
         testing.upbound.io/example-name: instance
-    location: us-central1
+    location: us-east1
 
 ---
 
@@ -28,7 +28,7 @@ spec:
     fileShares:
     - capacityGb: 1024
       name: share1
-    location: us-central1
+    location: us-east1
     networks:
     - modes:
       - MODE_IPV4

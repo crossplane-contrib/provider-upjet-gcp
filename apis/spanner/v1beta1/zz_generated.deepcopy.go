@@ -422,6 +422,11 @@ func (in *DatabaseInitParameters) DeepCopyInto(out *DatabaseInitParameters) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.EnableDropProtection != nil {
+		in, out := &in.EnableDropProtection, &out.EnableDropProtection
+		*out = new(bool)
+		**out = **in
+	}
 	if in.EncryptionConfig != nil {
 		in, out := &in.EncryptionConfig, &out.EncryptionConfig
 		*out = make([]EncryptionConfigInitParameters, len(*in))
@@ -507,6 +512,11 @@ func (in *DatabaseObservation) DeepCopyInto(out *DatabaseObservation) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.EnableDropProtection != nil {
+		in, out := &in.EnableDropProtection, &out.EnableDropProtection
+		*out = new(bool)
+		**out = **in
+	}
 	if in.EncryptionConfig != nil {
 		in, out := &in.EncryptionConfig, &out.EncryptionConfig
 		*out = make([]EncryptionConfigObservation, len(*in))
@@ -572,6 +582,11 @@ func (in *DatabaseParameters) DeepCopyInto(out *DatabaseParameters) {
 	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection
+		*out = new(bool)
+		**out = **in
+	}
+	if in.EnableDropProtection != nil {
+		in, out := &in.EnableDropProtection, &out.EnableDropProtection
 		*out = new(bool)
 		**out = **in
 	}

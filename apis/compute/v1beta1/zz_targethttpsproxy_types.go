@@ -35,6 +35,14 @@ type TargetHTTPSProxyInitParameters struct {
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Specifies how long to keep a connection open, after completing a response,
+	// while there is no matching traffic (in seconds). If an HTTP keepalive is
+	// not specified, a default value (610 seconds) will be used. For Global
+	// external HTTP(S) load balancer, the minimum allowed value is 5 seconds and
+	// the maximum allowed value is 1200 seconds. For Global external HTTP(S)
+	// load balancer (classic), this option is not available publicly.
+	HTTPKeepAliveTimeoutSec *float64 `json:"httpKeepAliveTimeoutSec,omitempty" tf:"http_keep_alive_timeout_sec,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -70,6 +78,14 @@ type TargetHTTPSProxyObservation struct {
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Specifies how long to keep a connection open, after completing a response,
+	// while there is no matching traffic (in seconds). If an HTTP keepalive is
+	// not specified, a default value (610 seconds) will be used. For Global
+	// external HTTP(S) load balancer, the minimum allowed value is 5 seconds and
+	// the maximum allowed value is 1200 seconds. For Global external HTTP(S)
+	// load balancer (classic), this option is not available publicly.
+	HTTPKeepAliveTimeoutSec *float64 `json:"httpKeepAliveTimeoutSec,omitempty" tf:"http_keep_alive_timeout_sec,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/global/targetHttpsProxies/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -92,9 +108,8 @@ type TargetHTTPSProxyObservation struct {
 	// Possible values are: NONE, ENABLE, DISABLE.
 	QuicOverride *string `json:"quicOverride,omitempty" tf:"quic_override,omitempty"`
 
-	// A list of SslCertificate resources that are used to authenticate
-	// connections between users and the load balancer. At least one SSL
-	// certificate must be specified.
+	// A list of SslCertificate resource URLs or Certificate Manager certificate URLs that are used to authenticate
+	// connections between users and the load balancer. At least one resource must be specified.
 	SSLCertificates []*string `json:"sslCertificates,omitempty" tf:"ssl_certificates,omitempty"`
 
 	// A reference to the SslPolicy resource that will be associated with
@@ -122,6 +137,15 @@ type TargetHTTPSProxyParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Specifies how long to keep a connection open, after completing a response,
+	// while there is no matching traffic (in seconds). If an HTTP keepalive is
+	// not specified, a default value (610 seconds) will be used. For Global
+	// external HTTP(S) load balancer, the minimum allowed value is 5 seconds and
+	// the maximum allowed value is 1200 seconds. For Global external HTTP(S)
+	// load balancer (classic), this option is not available publicly.
+	// +kubebuilder:validation:Optional
+	HTTPKeepAliveTimeoutSec *float64 `json:"httpKeepAliveTimeoutSec,omitempty" tf:"http_keep_alive_timeout_sec,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
@@ -141,9 +165,8 @@ type TargetHTTPSProxyParameters struct {
 	// +kubebuilder:validation:Optional
 	QuicOverride *string `json:"quicOverride,omitempty" tf:"quic_override,omitempty"`
 
-	// A list of SslCertificate resources that are used to authenticate
-	// connections between users and the load balancer. At least one SSL
-	// certificate must be specified.
+	// A list of SslCertificate resource URLs or Certificate Manager certificate URLs that are used to authenticate
+	// connections between users and the load balancer. At least one resource must be specified.
 	// +crossplane:generate:reference:type=SSLCertificate
 	// +kubebuilder:validation:Optional
 	SSLCertificates []*string `json:"sslCertificates,omitempty" tf:"ssl_certificates,omitempty"`

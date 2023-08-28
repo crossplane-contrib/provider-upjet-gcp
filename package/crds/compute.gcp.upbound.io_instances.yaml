@@ -278,6 +278,15 @@ spec:
                                 description: A map of key/value label pairs to assign
                                   to the instance.
                                 type: object
+                              resourceManagerTags:
+                                additionalProperties:
+                                  type: string
+                                description: A tag is a key-value pair that can be
+                                  attached to a Google Cloud resource. You can use
+                                  tags to conditionally allow or deny policies based
+                                  on whether a resource has a specific tag. This value
+                                  is not returned by the API.
+                                type: object
                               size:
                                 description: The size of the image in gigabytes. If
                                   not specified, it will inherit the size of its base
@@ -471,6 +480,25 @@ spec:
                             Internet access. Structure documented below.
                           items:
                             properties:
+                              externalIpv6:
+                                description: The first IPv6 address of the external
+                                  IPv6 range associated with this instance, prefix
+                                  length is stored in externalIpv6PrefixLength in
+                                  ipv6AccessConfig. To use a static external IP address,
+                                  it must be unused and in the same region as the
+                                  instance's zone. If not specified, Google Cloud
+                                  will automatically assign an external IPv6 address
+                                  from the instance's subnetwork.
+                                type: string
+                              externalIpv6PrefixLength:
+                                description: The prefix length of the external IPv6
+                                  range.
+                                type: string
+                              name:
+                                description: A unique name for the resource, required
+                                  by GCE. Changing this forces a new resource to be
+                                  created.
+                                type: string
                               networkTier:
                                 description: The service-level to be provided for
                                   IPv6 traffic when the subnet has an external subnet.
@@ -679,6 +707,31 @@ spec:
                           type: object
                       type: object
                     type: array
+                  networkPerformanceConfig:
+                    description: os-features, and network_interface.0.nic-type must
+                      be GVNIC in order for this setting to take effect.
+                    items:
+                      properties:
+                        totalEgressBandwidthTier:
+                          description: 'The egress bandwidth tier to enable. Possible
+                            values: TIER_1, DEFAULT'
+                          type: string
+                      type: object
+                    type: array
+                  params:
+                    description: Additional instance parameters. .
+                    items:
+                      properties:
+                        resourceManagerTags:
+                          additionalProperties:
+                            type: string
+                          description: A tag is a key-value pair that can be attached
+                            to a Google Cloud resource. You can use tags to conditionally
+                            allow or deny policies based on whether a resource has
+                            a specific tag. This value is not returned by the API.
+                          type: object
+                      type: object
+                    type: array
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
@@ -735,6 +788,31 @@ spec:
                           description: Describe the type of termination action for
                             VM. Can be STOP or DELETE.  Read more on here
                           type: string
+                        localSsdRecoveryTimeout:
+                          description: 'io/docs/providers/google/guides/provider_versions.html)
+                            Specifies the maximum amount of time a Local Ssd Vm should
+                            wait while recovery of the Local Ssd state is attempted.
+                            Its value should be in between 0 and 168 hours with hour
+                            granularity and the default value being 1 hour. Structure
+                            is documented below. The local_ssd_recovery_timeout block
+                            supports:'
+                          items:
+                            properties:
+                              nanos:
+                                description: Span of time that's a fraction of a second
+                                  at nanosecond resolution. Durations less than one
+                                  second are represented with a 0 seconds field and
+                                  a positive nanos field. Must be from 0 to 999,999,999
+                                  inclusive.
+                                type: number
+                              seconds:
+                                description: 'Span of time at a resolution of a second.
+                                  Must be from 0 to 315,576,000,000 inclusive. Note:
+                                  these bounds are computed from: 60 sec/min * 60
+                                  min/hr * 24 hr/day * 365.25 days/year * 10000 years.'
+                                type: number
+                            type: object
+                          type: array
                         minNodeCpus:
                           description: The minimum number of virtual CPUs this instance
                             will consume when running on a sole-tenant node.
@@ -1042,6 +1120,15 @@ spec:
                                 description: A map of key/value label pairs to assign
                                   to the instance.
                                 type: object
+                              resourceManagerTags:
+                                additionalProperties:
+                                  type: string
+                                description: A tag is a key-value pair that can be
+                                  attached to a Google Cloud resource. You can use
+                                  tags to conditionally allow or deny policies based
+                                  on whether a resource has a specific tag. This value
+                                  is not returned by the API.
+                                type: object
                               size:
                                 description: The size of the image in gigabytes. If
                                   not specified, it will inherit the size of its base
@@ -1235,6 +1322,25 @@ spec:
                             Internet access. Structure documented below.
                           items:
                             properties:
+                              externalIpv6:
+                                description: The first IPv6 address of the external
+                                  IPv6 range associated with this instance, prefix
+                                  length is stored in externalIpv6PrefixLength in
+                                  ipv6AccessConfig. To use a static external IP address,
+                                  it must be unused and in the same region as the
+                                  instance's zone. If not specified, Google Cloud
+                                  will automatically assign an external IPv6 address
+                                  from the instance's subnetwork.
+                                type: string
+                              externalIpv6PrefixLength:
+                                description: The prefix length of the external IPv6
+                                  range.
+                                type: string
+                              name:
+                                description: A unique name for the resource, required
+                                  by GCE. Changing this forces a new resource to be
+                                  created.
+                                type: string
                               networkTier:
                                 description: The service-level to be provided for
                                   IPv6 traffic when the subnet has an external subnet.
@@ -1272,6 +1378,31 @@ spec:
                             If the subnetwork is a name and this field is not provided,
                             the provider project is used.
                           type: string
+                      type: object
+                    type: array
+                  networkPerformanceConfig:
+                    description: os-features, and network_interface.0.nic-type must
+                      be GVNIC in order for this setting to take effect.
+                    items:
+                      properties:
+                        totalEgressBandwidthTier:
+                          description: 'The egress bandwidth tier to enable. Possible
+                            values: TIER_1, DEFAULT'
+                          type: string
+                      type: object
+                    type: array
+                  params:
+                    description: Additional instance parameters. .
+                    items:
+                      properties:
+                        resourceManagerTags:
+                          additionalProperties:
+                            type: string
+                          description: A tag is a key-value pair that can be attached
+                            to a Google Cloud resource. You can use tags to conditionally
+                            allow or deny policies based on whether a resource has
+                            a specific tag. This value is not returned by the API.
+                          type: object
                       type: object
                     type: array
                   project:
@@ -1330,6 +1461,31 @@ spec:
                           description: Describe the type of termination action for
                             VM. Can be STOP or DELETE.  Read more on here
                           type: string
+                        localSsdRecoveryTimeout:
+                          description: 'io/docs/providers/google/guides/provider_versions.html)
+                            Specifies the maximum amount of time a Local Ssd Vm should
+                            wait while recovery of the Local Ssd state is attempted.
+                            Its value should be in between 0 and 168 hours with hour
+                            granularity and the default value being 1 hour. Structure
+                            is documented below. The local_ssd_recovery_timeout block
+                            supports:'
+                          items:
+                            properties:
+                              nanos:
+                                description: Span of time that's a fraction of a second
+                                  at nanosecond resolution. Durations less than one
+                                  second are represented with a 0 seconds field and
+                                  a positive nanos field. Must be from 0 to 999,999,999
+                                  inclusive.
+                                type: number
+                              seconds:
+                                description: 'Span of time at a resolution of a second.
+                                  Must be from 0 to 315,576,000,000 inclusive. Note:
+                                  these bounds are computed from: 60 sec/min * 60
+                                  min/hr * 24 hr/day * 365.25 days/year * 10000 years.'
+                                type: number
+                            type: object
+                          type: array
                         minNodeCpus:
                           description: The minimum number of virtual CPUs this instance
                             will consume when running on a sole-tenant node.
@@ -1772,6 +1928,15 @@ spec:
                                 description: A map of key/value label pairs to assign
                                   to the instance.
                                 type: object
+                              resourceManagerTags:
+                                additionalProperties:
+                                  type: string
+                                description: A tag is a key-value pair that can be
+                                  attached to a Google Cloud resource. You can use
+                                  tags to conditionally allow or deny policies based
+                                  on whether a resource has a specific tag. This value
+                                  is not returned by the API.
+                                type: object
                               size:
                                 description: The size of the image in gigabytes. If
                                   not specified, it will inherit the size of its base
@@ -1991,13 +2156,20 @@ spec:
                                 description: The first IPv6 address of the external
                                   IPv6 range associated with this instance, prefix
                                   length is stored in externalIpv6PrefixLength in
-                                  ipv6AccessConfig. The field is output only, an IPv6
-                                  address from a subnetwork associated with the instance
-                                  will be allocated dynamically.
+                                  ipv6AccessConfig. To use a static external IP address,
+                                  it must be unused and in the same region as the
+                                  instance's zone. If not specified, Google Cloud
+                                  will automatically assign an external IPv6 address
+                                  from the instance's subnetwork.
                                 type: string
                               externalIpv6PrefixLength:
                                 description: The prefix length of the external IPv6
                                   range.
+                                type: string
+                              name:
+                                description: A unique name for the resource, required
+                                  by GCE. Changing this forces a new resource to be
+                                  created.
                                 type: string
                               networkTier:
                                 description: The service-level to be provided for
@@ -2064,6 +2236,31 @@ spec:
                           type: string
                       type: object
                     type: array
+                  networkPerformanceConfig:
+                    description: os-features, and network_interface.0.nic-type must
+                      be GVNIC in order for this setting to take effect.
+                    items:
+                      properties:
+                        totalEgressBandwidthTier:
+                          description: 'The egress bandwidth tier to enable. Possible
+                            values: TIER_1, DEFAULT'
+                          type: string
+                      type: object
+                    type: array
+                  params:
+                    description: Additional instance parameters. .
+                    items:
+                      properties:
+                        resourceManagerTags:
+                          additionalProperties:
+                            type: string
+                          description: A tag is a key-value pair that can be attached
+                            to a Google Cloud resource. You can use tags to conditionally
+                            allow or deny policies based on whether a resource has
+                            a specific tag. This value is not returned by the API.
+                          type: object
+                      type: object
+                    type: array
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
@@ -2120,6 +2317,31 @@ spec:
                           description: Describe the type of termination action for
                             VM. Can be STOP or DELETE.  Read more on here
                           type: string
+                        localSsdRecoveryTimeout:
+                          description: 'io/docs/providers/google/guides/provider_versions.html)
+                            Specifies the maximum amount of time a Local Ssd Vm should
+                            wait while recovery of the Local Ssd state is attempted.
+                            Its value should be in between 0 and 168 hours with hour
+                            granularity and the default value being 1 hour. Structure
+                            is documented below. The local_ssd_recovery_timeout block
+                            supports:'
+                          items:
+                            properties:
+                              nanos:
+                                description: Span of time that's a fraction of a second
+                                  at nanosecond resolution. Durations less than one
+                                  second are represented with a 0 seconds field and
+                                  a positive nanos field. Must be from 0 to 999,999,999
+                                  inclusive.
+                                type: number
+                              seconds:
+                                description: 'Span of time at a resolution of a second.
+                                  Must be from 0 to 315,576,000,000 inclusive. Note:
+                                  these bounds are computed from: 60 sec/min * 60
+                                  min/hr * 24 hr/day * 365.25 days/year * 10000 years.'
+                                type: number
+                            type: object
+                          type: array
                         minNodeCpus:
                           description: The minimum number of virtual CPUs this instance
                             will consume when running on a sole-tenant node.

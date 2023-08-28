@@ -70,6 +70,9 @@ spec:
               forProvider:
                 properties:
                   deletionPolicy:
+                    description: 'The deletion policy for the shared VPC service.
+                      Setting ABANDON allows the resource to be abandoned rather than
+                      deleted. Possible values are: "ABANDON".'
                     type: string
                   hostProject:
                     description: The ID of a host project to associate.
@@ -243,6 +246,9 @@ spec:
                   them, like an autoscaler.
                 properties:
                   deletionPolicy:
+                    description: 'The deletion policy for the shared VPC service.
+                      Setting ABANDON allows the resource to be abandoned rather than
+                      deleted. Possible values are: "ABANDON".'
                     type: string
                 type: object
               managementPolicies:
@@ -449,6 +455,9 @@ spec:
               atProvider:
                 properties:
                   deletionPolicy:
+                    description: 'The deletion policy for the shared VPC service.
+                      Setting ABANDON allows the resource to be abandoned rather than
+                      deleted. Possible values are: "ABANDON".'
                     type: string
                   hostProject:
                     description: The ID of a host project to associate.

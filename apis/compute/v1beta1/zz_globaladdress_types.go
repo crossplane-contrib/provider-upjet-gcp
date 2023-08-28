@@ -44,8 +44,8 @@ type GlobalAddressInitParameters struct {
 
 	// The prefix length of the IP range. If not present, it means the
 	// address field is a single IP address.
-	// This field is not applicable to addresses with addressType=EXTERNAL,
-	// or addressType=INTERNAL when purpose=PRIVATE_SERVICE_CONNECT
+	// This field is not applicable to addresses with addressType=INTERNAL
+	// when purpose=PRIVATE_SERVICE_CONNECT
 	PrefixLength *float64 `json:"prefixLength,omitempty" tf:"prefix_length,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -87,8 +87,8 @@ type GlobalAddressObservation struct {
 
 	// The prefix length of the IP range. If not present, it means the
 	// address field is a single IP address.
-	// This field is not applicable to addresses with addressType=EXTERNAL,
-	// or addressType=INTERNAL when purpose=PRIVATE_SERVICE_CONNECT
+	// This field is not applicable to addresses with addressType=INTERNAL
+	// when purpose=PRIVATE_SERVICE_CONNECT
 	PrefixLength *float64 `json:"prefixLength,omitempty" tf:"prefix_length,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -142,8 +142,8 @@ type GlobalAddressParameters struct {
 
 	// The prefix length of the IP range. If not present, it means the
 	// address field is a single IP address.
-	// This field is not applicable to addresses with addressType=EXTERNAL,
-	// or addressType=INTERNAL when purpose=PRIVATE_SERVICE_CONNECT
+	// This field is not applicable to addresses with addressType=INTERNAL
+	// when purpose=PRIVATE_SERVICE_CONNECT
 	// +kubebuilder:validation:Optional
 	PrefixLength *float64 `json:"prefixLength,omitempty" tf:"prefix_length,omitempty"`
 

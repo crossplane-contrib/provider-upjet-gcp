@@ -88,6 +88,9 @@ type ProjectBucketConfigInitParameters struct {
 	// Whether or not Log Analytics is enabled. Logs for buckets with Log Analytics enabled can be queried in the Log Analytics page using SQL queries. Cannot be disabled once enabled.
 	EnableAnalytics *bool `json:"enableAnalytics,omitempty" tf:"enable_analytics,omitempty"`
 
+	// Whether the bucket is locked. The retention period on a locked bucket cannot be changed. Locked buckets may only be deleted if they are empty.
+	Locked *bool `json:"locked,omitempty" tf:"locked,omitempty"`
+
 	// Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used.
 	RetentionDays *float64 `json:"retentionDays,omitempty" tf:"retention_days,omitempty"`
 }
@@ -114,6 +117,9 @@ type ProjectBucketConfigObservation struct {
 
 	// The location of the bucket.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Whether the bucket is locked. The retention period on a locked bucket cannot be changed. Locked buckets may only be deleted if they are empty.
+	Locked *bool `json:"locked,omitempty" tf:"locked,omitempty"`
 
 	// The resource name of the bucket. For example: "projects/my-project-id/locations/my-location/buckets/my-bucket-id"
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -147,9 +153,13 @@ type ProjectBucketConfigParameters struct {
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 
+	// Whether the bucket is locked. The retention period on a locked bucket cannot be changed. Locked buckets may only be deleted if they are empty.
+	// +kubebuilder:validation:Optional
+	Locked *bool `json:"locked,omitempty" tf:"locked,omitempty"`
+
 	// The parent resource that contains the logging bucket.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("project_id",false)
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 

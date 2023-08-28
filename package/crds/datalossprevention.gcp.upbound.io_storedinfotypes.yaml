@@ -198,6 +198,13 @@ spec:
                           type: string
                       type: object
                     type: array
+                  storedInfoTypeId:
+                    description: 'The storedInfoType ID can contain uppercase and
+                      lowercase letters, numbers, and hyphens; that is, it must match
+                      the regular expression: [a-zA-Z\d-_]+. The maximum length is
+                      100 characters. Can be empty to allow the system to generate
+                      one.'
+                    type: string
                 type: object
               initProvider:
                 description: THIS IS AN ALPHA FIELD. Do not use it in production.
@@ -343,6 +350,13 @@ spec:
                           type: string
                       type: object
                     type: array
+                  storedInfoTypeId:
+                    description: 'The storedInfoType ID can contain uppercase and
+                      lowercase letters, numbers, and hyphens; that is, it must match
+                      the regular expression: [a-zA-Z\d-_]+. The maximum length is
+                      100 characters. Can be empty to allow the system to generate
+                      one.'
+                    type: string
                 type: object
               managementPolicies:
                 default:
@@ -688,6 +702,13 @@ spec:
                           type: string
                       type: object
                     type: array
+                  storedInfoTypeId:
+                    description: 'The storedInfoType ID can contain uppercase and
+                      lowercase letters, numbers, and hyphens; that is, it must match
+                      the regular expression: [a-zA-Z\d-_]+. The maximum length is
+                      100 characters. Can be empty to allow the system to generate
+                      one.'
+                    type: string
                 type: object
               conditions:
                 description: Conditions of the resource.

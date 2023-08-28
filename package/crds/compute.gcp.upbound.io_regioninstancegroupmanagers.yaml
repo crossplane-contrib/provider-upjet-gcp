@@ -184,6 +184,20 @@ spec:
                     items:
                       type: string
                     type: array
+                  instanceLifecyclePolicy:
+                    items:
+                      properties:
+                        forceUpdateOnRepair:
+                          description: '), Specifies whether to apply the group''s
+                            latest configuration when repairing a VM. Valid options
+                            are: YES, NO. If YES and you updated the group''s instance
+                            template or per-instance configurations after the VM was
+                            created, then these changes are applied when VM is repaired.
+                            If NO (default), then updates are applied in accordance
+                            with the group''s update policy type.'
+                          type: string
+                      type: object
+                    type: array
                   listManagedInstancesResults:
                     description: 'Pagination behavior of the listManagedInstances
                       API method for this managed instance group. Valid values are:
@@ -592,6 +606,20 @@ spec:
                       see the official documentation.
                     items:
                       type: string
+                    type: array
+                  instanceLifecyclePolicy:
+                    items:
+                      properties:
+                        forceUpdateOnRepair:
+                          description: '), Specifies whether to apply the group''s
+                            latest configuration when repairing a VM. Valid options
+                            are: YES, NO. If YES and you updated the group''s instance
+                            template or per-instance configurations after the VM was
+                            created, then these changes are applied when VM is repaired.
+                            If NO (default), then updates are applied in accordance
+                            with the group''s update policy type.'
+                          type: string
+                      type: object
                     type: array
                   listManagedInstancesResults:
                     description: 'Pagination behavior of the listManagedInstances
@@ -1057,6 +1085,20 @@ spec:
                     description: The full URL of the instance group created by the
                       manager.
                     type: string
+                  instanceLifecyclePolicy:
+                    items:
+                      properties:
+                        forceUpdateOnRepair:
+                          description: '), Specifies whether to apply the group''s
+                            latest configuration when repairing a VM. Valid options
+                            are: YES, NO. If YES and you updated the group''s instance
+                            template or per-instance configurations after the VM was
+                            created, then these changes are applied when VM is repaired.
+                            If NO (default), then updates are applied in accordance
+                            with the group''s update policy type.'
+                          type: string
+                      type: object
+                    type: array
                   listManagedInstancesResults:
                     description: 'Pagination behavior of the listManagedInstances
                       API method for this managed instance group. Valid values are:

@@ -115,11 +115,20 @@ type ActionsParameters struct {
 
 type BigQueryOptionsInitParameters struct {
 
+	// References to fields excluded from scanning.
+	// This allows you to skip inspection of entire columns which you know have no findings.
+	// Structure is documented below.
+	ExcludedFields []ExcludedFieldsInitParameters `json:"excludedFields,omitempty" tf:"excluded_fields,omitempty"`
+
 	// The columns that are the primary keys for table objects included in ContentItem. A copy of this
 	// cell's value will stored alongside alongside each finding so that the finding can be traced to
 	// the specific row it came from. No more than 3 may be provided.
 	// Structure is documented below.
 	IdentifyingFields []IdentifyingFieldsInitParameters `json:"identifyingFields,omitempty" tf:"identifying_fields,omitempty"`
+
+	// Limit scanning only to these fields.
+	// Structure is documented below.
+	IncludedFields []IncludedFieldsInitParameters `json:"includedFields,omitempty" tf:"included_fields,omitempty"`
 
 	// Max number of rows to scan. If the table has more rows than this value, the rest of the rows are omitted.
 	// If not set, or if set to 0, all rows will be scanned. Only one of rowsLimit and rowsLimitPercent can be
@@ -143,11 +152,20 @@ type BigQueryOptionsInitParameters struct {
 
 type BigQueryOptionsObservation struct {
 
+	// References to fields excluded from scanning.
+	// This allows you to skip inspection of entire columns which you know have no findings.
+	// Structure is documented below.
+	ExcludedFields []ExcludedFieldsObservation `json:"excludedFields,omitempty" tf:"excluded_fields,omitempty"`
+
 	// The columns that are the primary keys for table objects included in ContentItem. A copy of this
 	// cell's value will stored alongside alongside each finding so that the finding can be traced to
 	// the specific row it came from. No more than 3 may be provided.
 	// Structure is documented below.
 	IdentifyingFields []IdentifyingFieldsObservation `json:"identifyingFields,omitempty" tf:"identifying_fields,omitempty"`
+
+	// Limit scanning only to these fields.
+	// Structure is documented below.
+	IncludedFields []IncludedFieldsObservation `json:"includedFields,omitempty" tf:"included_fields,omitempty"`
 
 	// Max number of rows to scan. If the table has more rows than this value, the rest of the rows are omitted.
 	// If not set, or if set to 0, all rows will be scanned. Only one of rowsLimit and rowsLimitPercent can be
@@ -171,12 +189,23 @@ type BigQueryOptionsObservation struct {
 
 type BigQueryOptionsParameters struct {
 
+	// References to fields excluded from scanning.
+	// This allows you to skip inspection of entire columns which you know have no findings.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ExcludedFields []ExcludedFieldsParameters `json:"excludedFields,omitempty" tf:"excluded_fields,omitempty"`
+
 	// The columns that are the primary keys for table objects included in ContentItem. A copy of this
 	// cell's value will stored alongside alongside each finding so that the finding can be traced to
 	// the specific row it came from. No more than 3 may be provided.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	IdentifyingFields []IdentifyingFieldsParameters `json:"identifyingFields,omitempty" tf:"identifying_fields,omitempty"`
+
+	// Limit scanning only to these fields.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	IncludedFields []IncludedFieldsParameters `json:"includedFields,omitempty" tf:"included_fields,omitempty"`
 
 	// Max number of rows to scan. If the table has more rows than this value, the rest of the rows are omitted.
 	// If not set, or if set to 0, all rows will be scanned. Only one of rowsLimit and rowsLimitPercent can be
@@ -219,7 +248,7 @@ type CloudStorageOptionsInitParameters struct {
 	// List of file type groups to include in the scan. If empty, all files are scanned and available data
 	// format processors are applied. In addition, the binary content of the selected files is always scanned as well.
 	// Images are scanned only as binary if the specified region does not support image inspection and no fileTypes were specified.
-	// Each value may be one of: BINARY_FILE, TEXT_FILE, IMAGE, WORD, PDF, AVRO, CSV, TSV.
+	// Each value may be one of: BINARY_FILE, TEXT_FILE, IMAGE, WORD, PDF, AVRO, CSV, TSV, POWERPOINT, EXCEL.
 	FileTypes []*string `json:"fileTypes,omitempty" tf:"file_types,omitempty"`
 
 	// Limits the number of files to scan to this percentage of the input FileSet. Number of files scanned is rounded down.
@@ -249,7 +278,7 @@ type CloudStorageOptionsObservation struct {
 	// List of file type groups to include in the scan. If empty, all files are scanned and available data
 	// format processors are applied. In addition, the binary content of the selected files is always scanned as well.
 	// Images are scanned only as binary if the specified region does not support image inspection and no fileTypes were specified.
-	// Each value may be one of: BINARY_FILE, TEXT_FILE, IMAGE, WORD, PDF, AVRO, CSV, TSV.
+	// Each value may be one of: BINARY_FILE, TEXT_FILE, IMAGE, WORD, PDF, AVRO, CSV, TSV, POWERPOINT, EXCEL.
 	FileTypes []*string `json:"fileTypes,omitempty" tf:"file_types,omitempty"`
 
 	// Limits the number of files to scan to this percentage of the input FileSet. Number of files scanned is rounded down.
@@ -282,7 +311,7 @@ type CloudStorageOptionsParameters struct {
 	// List of file type groups to include in the scan. If empty, all files are scanned and available data
 	// format processors are applied. In addition, the binary content of the selected files is always scanned as well.
 	// Images are scanned only as binary if the specified region does not support image inspection and no fileTypes were specified.
-	// Each value may be one of: BINARY_FILE, TEXT_FILE, IMAGE, WORD, PDF, AVRO, CSV, TSV.
+	// Each value may be one of: BINARY_FILE, TEXT_FILE, IMAGE, WORD, PDF, AVRO, CSV, TSV, POWERPOINT, EXCEL.
 	// +kubebuilder:validation:Optional
 	FileTypes []*string `json:"fileTypes,omitempty" tf:"file_types,omitempty"`
 
@@ -384,6 +413,10 @@ type CustomInfoTypesInfoTypeInitParameters struct {
 	// timestamp property does not exist or its value is empty or invalid.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	SensitivityScore []CustomInfoTypesInfoTypeSensitivityScoreInitParameters `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
+
 	// Version of the information type to use. By default, the version is set to stable
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
@@ -397,6 +430,10 @@ type CustomInfoTypesInfoTypeObservation struct {
 	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
 	// timestamp property does not exist or its value is empty or invalid.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	SensitivityScore []CustomInfoTypesInfoTypeSensitivityScoreObservation `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
 
 	// Version of the information type to use. By default, the version is set to stable
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
@@ -413,9 +450,36 @@ type CustomInfoTypesInfoTypeParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
 
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SensitivityScore []CustomInfoTypesInfoTypeSensitivityScoreParameters `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
+
 	// Version of the information type to use. By default, the version is set to stable
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type CustomInfoTypesInfoTypeSensitivityScoreInitParameters struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	Score *string `json:"score,omitempty" tf:"score,omitempty"`
+}
+
+type CustomInfoTypesInfoTypeSensitivityScoreObservation struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	Score *string `json:"score,omitempty" tf:"score,omitempty"`
+}
+
+type CustomInfoTypesInfoTypeSensitivityScoreParameters struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	// +kubebuilder:validation:Optional
+	Score *string `json:"score" tf:"score,omitempty"`
 }
 
 type CustomInfoTypesRegexInitParameters struct {
@@ -672,6 +736,40 @@ type ExcludeByHotwordProximityParameters struct {
 	WindowBefore *float64 `json:"windowBefore,omitempty" tf:"window_before,omitempty"`
 }
 
+type ExcludedFieldsInitParameters struct {
+
+	// Specification of the field containing the timestamp of scanned items. Used for data sources like Datastore and BigQuery.
+	// For BigQuery: Required to filter out rows based on the given start and end times. If not specified and the table was
+	// modified between the given start and end times, the entire table will be scanned. The valid data types of the timestamp
+	// field are: INTEGER, DATE, TIMESTAMP, or DATETIME BigQuery column.
+	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
+	// timestamp property does not exist or its value is empty or invalid.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type ExcludedFieldsObservation struct {
+
+	// Specification of the field containing the timestamp of scanned items. Used for data sources like Datastore and BigQuery.
+	// For BigQuery: Required to filter out rows based on the given start and end times. If not specified and the table was
+	// modified between the given start and end times, the entire table will be scanned. The valid data types of the timestamp
+	// field are: INTEGER, DATE, TIMESTAMP, or DATETIME BigQuery column.
+	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
+	// timestamp property does not exist or its value is empty or invalid.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type ExcludedFieldsParameters struct {
+
+	// Specification of the field containing the timestamp of scanned items. Used for data sources like Datastore and BigQuery.
+	// For BigQuery: Required to filter out rows based on the given start and end times. If not specified and the table was
+	// modified between the given start and end times, the entire table will be scanned. The valid data types of the timestamp
+	// field are: INTEGER, DATE, TIMESTAMP, or DATETIME BigQuery column.
+	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
+	// timestamp property does not exist or its value is empty or invalid.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+}
+
 type ExclusionRuleDictionaryCloudStoragePathInitParameters struct {
 
 	// A url representing a file or path (no wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt
@@ -748,6 +846,10 @@ type ExclusionRuleExcludeInfoTypesInfoTypesInitParameters struct {
 	// timestamp property does not exist or its value is empty or invalid.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	SensitivityScore []ExclusionRuleExcludeInfoTypesInfoTypesSensitivityScoreInitParameters `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
+
 	// Version of the information type to use. By default, the version is set to stable
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
@@ -761,6 +863,10 @@ type ExclusionRuleExcludeInfoTypesInfoTypesObservation struct {
 	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
 	// timestamp property does not exist or its value is empty or invalid.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	SensitivityScore []ExclusionRuleExcludeInfoTypesInfoTypesSensitivityScoreObservation `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
 
 	// Version of the information type to use. By default, the version is set to stable
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
@@ -777,9 +883,36 @@ type ExclusionRuleExcludeInfoTypesInfoTypesParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
 
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SensitivityScore []ExclusionRuleExcludeInfoTypesInfoTypesSensitivityScoreParameters `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
+
 	// Version of the information type to use. By default, the version is set to stable
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type ExclusionRuleExcludeInfoTypesInfoTypesSensitivityScoreInitParameters struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	Score *string `json:"score,omitempty" tf:"score,omitempty"`
+}
+
+type ExclusionRuleExcludeInfoTypesInfoTypesSensitivityScoreObservation struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	Score *string `json:"score,omitempty" tf:"score,omitempty"`
+}
+
+type ExclusionRuleExcludeInfoTypesInfoTypesSensitivityScoreParameters struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	// +kubebuilder:validation:Optional
+	Score *string `json:"score" tf:"score,omitempty"`
 }
 
 type ExclusionRuleExcludeInfoTypesInitParameters struct {
@@ -1002,6 +1135,40 @@ type IdentifyingFieldsParameters struct {
 	Name *string `json:"name" tf:"name,omitempty"`
 }
 
+type IncludedFieldsInitParameters struct {
+
+	// Specification of the field containing the timestamp of scanned items. Used for data sources like Datastore and BigQuery.
+	// For BigQuery: Required to filter out rows based on the given start and end times. If not specified and the table was
+	// modified between the given start and end times, the entire table will be scanned. The valid data types of the timestamp
+	// field are: INTEGER, DATE, TIMESTAMP, or DATETIME BigQuery column.
+	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
+	// timestamp property does not exist or its value is empty or invalid.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type IncludedFieldsObservation struct {
+
+	// Specification of the field containing the timestamp of scanned items. Used for data sources like Datastore and BigQuery.
+	// For BigQuery: Required to filter out rows based on the given start and end times. If not specified and the table was
+	// modified between the given start and end times, the entire table will be scanned. The valid data types of the timestamp
+	// field are: INTEGER, DATE, TIMESTAMP, or DATETIME BigQuery column.
+	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
+	// timestamp property does not exist or its value is empty or invalid.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type IncludedFieldsParameters struct {
+
+	// Specification of the field containing the timestamp of scanned items. Used for data sources like Datastore and BigQuery.
+	// For BigQuery: Required to filter out rows based on the given start and end times. If not specified and the table was
+	// modified between the given start and end times, the entire table will be scanned. The valid data types of the timestamp
+	// field are: INTEGER, DATE, TIMESTAMP, or DATETIME BigQuery column.
+	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
+	// timestamp property does not exist or its value is empty or invalid.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+}
+
 type InspectConfigCustomInfoTypesInitParameters struct {
 
 	// Dictionary which defines the rule.
@@ -1027,6 +1194,10 @@ type InspectConfigCustomInfoTypesInitParameters struct {
 	// Regular expression which defines the rule.
 	// Structure is documented below.
 	Regex []CustomInfoTypesRegexInitParameters `json:"regex,omitempty" tf:"regex,omitempty"`
+
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	SensitivityScore []InspectConfigCustomInfoTypesSensitivityScoreInitParameters `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
 
 	// A reference to a StoredInfoType to use with scanning.
 	// Structure is documented below.
@@ -1061,6 +1232,10 @@ type InspectConfigCustomInfoTypesObservation struct {
 	// Regular expression which defines the rule.
 	// Structure is documented below.
 	Regex []CustomInfoTypesRegexObservation `json:"regex,omitempty" tf:"regex,omitempty"`
+
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	SensitivityScore []InspectConfigCustomInfoTypesSensitivityScoreObservation `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
 
 	// A reference to a StoredInfoType to use with scanning.
 	// Structure is documented below.
@@ -1101,6 +1276,11 @@ type InspectConfigCustomInfoTypesParameters struct {
 	// +kubebuilder:validation:Optional
 	Regex []CustomInfoTypesRegexParameters `json:"regex,omitempty" tf:"regex,omitempty"`
 
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SensitivityScore []InspectConfigCustomInfoTypesSensitivityScoreParameters `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
+
 	// A reference to a StoredInfoType to use with scanning.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -1109,6 +1289,28 @@ type InspectConfigCustomInfoTypesParameters struct {
 	// Message for detecting output from deidentification transformations that support reversing.
 	// +kubebuilder:validation:Optional
 	SurrogateType []CustomInfoTypesSurrogateTypeParameters `json:"surrogateType,omitempty" tf:"surrogate_type,omitempty"`
+}
+
+type InspectConfigCustomInfoTypesSensitivityScoreInitParameters struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	Score *string `json:"score,omitempty" tf:"score,omitempty"`
+}
+
+type InspectConfigCustomInfoTypesSensitivityScoreObservation struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	Score *string `json:"score,omitempty" tf:"score,omitempty"`
+}
+
+type InspectConfigCustomInfoTypesSensitivityScoreParameters struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	// +kubebuilder:validation:Optional
+	Score *string `json:"score" tf:"score,omitempty"`
 }
 
 type InspectConfigLimitsInitParameters struct {
@@ -1163,6 +1365,10 @@ type InspectConfigRuleSetInfoTypesInitParameters struct {
 	// timestamp property does not exist or its value is empty or invalid.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	SensitivityScore []InspectConfigRuleSetInfoTypesSensitivityScoreInitParameters `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
+
 	// Version of the information type to use. By default, the version is set to stable
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
@@ -1176,6 +1382,10 @@ type InspectConfigRuleSetInfoTypesObservation struct {
 	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
 	// timestamp property does not exist or its value is empty or invalid.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	SensitivityScore []InspectConfigRuleSetInfoTypesSensitivityScoreObservation `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
 
 	// Version of the information type to use. By default, the version is set to stable
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
@@ -1192,9 +1402,36 @@ type InspectConfigRuleSetInfoTypesParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
 
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SensitivityScore []InspectConfigRuleSetInfoTypesSensitivityScoreParameters `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
+
 	// Version of the information type to use. By default, the version is set to stable
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type InspectConfigRuleSetInfoTypesSensitivityScoreInitParameters struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	Score *string `json:"score,omitempty" tf:"score,omitempty"`
+}
+
+type InspectConfigRuleSetInfoTypesSensitivityScoreObservation struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	Score *string `json:"score,omitempty" tf:"score,omitempty"`
+}
+
+type InspectConfigRuleSetInfoTypesSensitivityScoreParameters struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	// +kubebuilder:validation:Optional
+	Score *string `json:"score" tf:"score,omitempty"`
 }
 
 type InspectConfigRuleSetInitParameters struct {
@@ -1260,6 +1497,10 @@ type InspectJobInspectConfigInfoTypesInitParameters struct {
 	// timestamp property does not exist or its value is empty or invalid.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	SensitivityScore []InspectJobInspectConfigInfoTypesSensitivityScoreInitParameters `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
+
 	// Version of the information type to use. By default, the version is set to stable
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
@@ -1273,6 +1514,10 @@ type InspectJobInspectConfigInfoTypesObservation struct {
 	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
 	// timestamp property does not exist or its value is empty or invalid.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	SensitivityScore []InspectJobInspectConfigInfoTypesSensitivityScoreObservation `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
 
 	// Version of the information type to use. By default, the version is set to stable
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
@@ -1289,9 +1534,36 @@ type InspectJobInspectConfigInfoTypesParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
 
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SensitivityScore []InspectJobInspectConfigInfoTypesSensitivityScoreParameters `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
+
 	// Version of the information type to use. By default, the version is set to stable
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type InspectJobInspectConfigInfoTypesSensitivityScoreInitParameters struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	Score *string `json:"score,omitempty" tf:"score,omitempty"`
+}
+
+type InspectJobInspectConfigInfoTypesSensitivityScoreObservation struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	Score *string `json:"score,omitempty" tf:"score,omitempty"`
+}
+
+type InspectJobInspectConfigInfoTypesSensitivityScoreParameters struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	// +kubebuilder:validation:Optional
+	Score *string `json:"score" tf:"score,omitempty"`
 }
 
 type InspectJobInspectConfigInitParameters struct {
@@ -1417,7 +1689,7 @@ type InspectJobParameters struct {
 	// A task to execute on the completion of a job.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Actions []ActionsParameters `json:"actions" tf:"actions,omitempty"`
+	Actions []ActionsParameters `json:"actions,omitempty" tf:"actions,omitempty"`
 
 	// The core content of the template.
 	// Structure is documented below.
@@ -1426,7 +1698,7 @@ type InspectJobParameters struct {
 
 	// The name of the template to run when this job is triggered.
 	// +kubebuilder:validation:Optional
-	InspectTemplateName *string `json:"inspectTemplateName" tf:"inspect_template_name,omitempty"`
+	InspectTemplateName *string `json:"inspectTemplateName,omitempty" tf:"inspect_template_name,omitempty"`
 
 	// Information on where to inspect
 	// Structure is documented below.
@@ -1463,6 +1735,11 @@ type JobTriggerInitParameters struct {
 	// Default value is HEALTHY.
 	// Possible values are: PAUSED, HEALTHY, CANCELLED.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+
+	// The trigger id can contain uppercase and lowercase letters, numbers, and hyphens;
+	// that is, it must match the regular expression: [a-zA-Z\d-_]+.
+	// The maximum length is 100 characters. Can be empty to allow the system to generate one.
+	TriggerID *string `json:"triggerId,omitempty" tf:"trigger_id,omitempty"`
 
 	// What event needs to occur for a new job to be started.
 	// Structure is documented below.
@@ -1502,6 +1779,11 @@ type JobTriggerObservation struct {
 	// Possible values are: PAUSED, HEALTHY, CANCELLED.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
+	// The trigger id can contain uppercase and lowercase letters, numbers, and hyphens;
+	// that is, it must match the regular expression: [a-zA-Z\d-_]+.
+	// The maximum length is 100 characters. Can be empty to allow the system to generate one.
+	TriggerID *string `json:"triggerId,omitempty" tf:"trigger_id,omitempty"`
+
 	// What event needs to occur for a new job to be started.
 	// Structure is documented below.
 	Triggers []TriggersObservation `json:"triggers,omitempty" tf:"triggers,omitempty"`
@@ -1535,6 +1817,12 @@ type JobTriggerParameters struct {
 	// Possible values are: PAUSED, HEALTHY, CANCELLED.
 	// +kubebuilder:validation:Optional
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+
+	// The trigger id can contain uppercase and lowercase letters, numbers, and hyphens;
+	// that is, it must match the regular expression: [a-zA-Z\d-_]+.
+	// The maximum length is 100 characters. Can be empty to allow the system to generate one.
+	// +kubebuilder:validation:Optional
+	TriggerID *string `json:"triggerId,omitempty" tf:"trigger_id,omitempty"`
 
 	// What event needs to occur for a new job to be started.
 	// Structure is documented below.
@@ -1586,6 +1874,10 @@ type LimitsMaxFindingsPerInfoTypeInfoTypeInitParameters struct {
 	// timestamp property does not exist or its value is empty or invalid.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	SensitivityScore []LimitsMaxFindingsPerInfoTypeInfoTypeSensitivityScoreInitParameters `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
+
 	// Version of the information type to use. By default, the version is set to stable
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
@@ -1599,6 +1891,10 @@ type LimitsMaxFindingsPerInfoTypeInfoTypeObservation struct {
 	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
 	// timestamp property does not exist or its value is empty or invalid.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	SensitivityScore []LimitsMaxFindingsPerInfoTypeInfoTypeSensitivityScoreObservation `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
 
 	// Version of the information type to use. By default, the version is set to stable
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
@@ -1615,9 +1911,36 @@ type LimitsMaxFindingsPerInfoTypeInfoTypeParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
 
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SensitivityScore []LimitsMaxFindingsPerInfoTypeInfoTypeSensitivityScoreParameters `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
+
 	// Version of the information type to use. By default, the version is set to stable
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type LimitsMaxFindingsPerInfoTypeInfoTypeSensitivityScoreInitParameters struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	Score *string `json:"score,omitempty" tf:"score,omitempty"`
+}
+
+type LimitsMaxFindingsPerInfoTypeInfoTypeSensitivityScoreObservation struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	Score *string `json:"score,omitempty" tf:"score,omitempty"`
+}
+
+type LimitsMaxFindingsPerInfoTypeInfoTypeSensitivityScoreParameters struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	// +kubebuilder:validation:Optional
+	Score *string `json:"score" tf:"score,omitempty"`
 }
 
 type LimitsMaxFindingsPerInfoTypeInitParameters struct {

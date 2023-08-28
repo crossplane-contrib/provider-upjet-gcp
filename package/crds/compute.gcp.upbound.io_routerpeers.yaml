@@ -246,7 +246,8 @@ spec:
                     type: number
                   peerIpAddress:
                     description: IP address of the BGP interface outside Google Cloud
-                      Platform. Only IPv4 is supported.
+                      Platform. Only IPv4 is supported. Required if ip_address is
+                      set.
                     type: string
                   peerIpAddressRef:
                     description: Reference to a Address in compute to populate peerIpAddress.
@@ -1008,7 +1009,8 @@ spec:
                     type: number
                   peerIpAddress:
                     description: IP address of the BGP interface outside Google Cloud
-                      Platform. Only IPv4 is supported.
+                      Platform. Only IPv4 is supported. Required if ip_address is
+                      set.
                     type: string
                   peerIpv6NexthopAddress:
                     description: IPv6 address of the BGP interface outside Google

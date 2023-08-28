@@ -81,7 +81,7 @@ type ReplicationInitParameters struct {
 	// The Secret will automatically be replicated without any restrictions.
 	Automatic *bool `json:"automatic,omitempty" tf:"automatic,omitempty"`
 
-	// The Secret will automatically be replicated without any restrictions.
+	// The Secret will be replicated to the regions specified by the user.
 	// Structure is documented below.
 	UserManaged []UserManagedInitParameters `json:"userManaged,omitempty" tf:"user_managed,omitempty"`
 }
@@ -91,7 +91,7 @@ type ReplicationObservation struct {
 	// The Secret will automatically be replicated without any restrictions.
 	Automatic *bool `json:"automatic,omitempty" tf:"automatic,omitempty"`
 
-	// The Secret will automatically be replicated without any restrictions.
+	// The Secret will be replicated to the regions specified by the user.
 	// Structure is documented below.
 	UserManaged []UserManagedObservation `json:"userManaged,omitempty" tf:"user_managed,omitempty"`
 }
@@ -102,7 +102,7 @@ type ReplicationParameters struct {
 	// +kubebuilder:validation:Optional
 	Automatic *bool `json:"automatic,omitempty" tf:"automatic,omitempty"`
 
-	// The Secret will automatically be replicated without any restrictions.
+	// The Secret will be replicated to the regions specified by the user.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	UserManaged []UserManagedParameters `json:"userManaged,omitempty" tf:"user_managed,omitempty"`

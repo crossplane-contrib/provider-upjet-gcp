@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: OsPolicyAssignment is the Schema for the OsPolicyAssignments
-          API. Represents an OSPolicyAssignment resource.
+          API.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -72,7 +72,7 @@ spec:
                       limited to 1024 characters.
                     type: string
                   instanceFilter:
-                    description: Required. Filter to select VMs.
+                    description: Filter to select VMs. Structure is documented below.
                     items:
                       properties:
                         all:
@@ -82,7 +82,8 @@ spec:
                         exclusionLabels:
                           description: List of label sets used for VM exclusion. If
                             the list has more than one label set, the VM is excluded
-                            if any of the label sets are applicable for the VM.
+                            if any of the label sets are applicable for the VM. Structure
+                            is documented below.
                           items:
                             properties:
                               labels:
@@ -97,7 +98,8 @@ spec:
                         inclusionLabels:
                           description: List of label sets used for VM inclusion. If
                             the list has more than one LabelSet, the VM is included
-                            if any of the label sets are applicable for the VM.
+                            if any of the label sets are applicable for the VM. Structure
+                            is documented below.
                           items:
                             properties:
                               labels:
@@ -112,11 +114,11 @@ spec:
                         inventories:
                           description: List of inventories to select VMs. A VM is
                             selected if its inventory data matches at least one of
-                            the following inventories.
+                            the following inventories. Structure is documented below.
                           items:
                             properties:
                               osShortName:
-                                description: Required. The OS short name
+                                description: The OS short name
                                 type: string
                               osVersion:
                                 description: The OS version Prefix matches are supported
@@ -133,8 +135,8 @@ spec:
                     description: The location for the resource
                     type: string
                   osPolicies:
-                    description: Required. List of OS policies to be applied to the
-                      VMs.
+                    description: List of OS policies to be applied to the VMs. Structure
+                      is documented below.
                     items:
                       properties:
                         allowNoResourceGroupMatch:
@@ -149,24 +151,22 @@ spec:
                             is limited to 1024 characters.
                           type: string
                         id:
-                          description: 'Required. The id of the OS policy with the
-                            following restrictions: * Must contain only lowercase
-                            letters, numbers, and hyphens. * Must start with a letter.
-                            * Must be between 1-63 characters. * Must end with a number
-                            or a letter. * Must be unique within the assignment.'
+                          description: 'The id of the OS policy with the following
+                            restrictions:'
                           type: string
                         mode:
-                          description: 'Required. Policy mode Possible values: MODE_UNSPECIFIED,
-                            VALIDATION, ENFORCEMENT'
+                          description: 'Policy mode Possible values are: MODE_UNSPECIFIED,
+                            VALIDATION, ENFORCEMENT.'
                           type: string
                         resourceGroups:
-                          description: Required. List of resource groups for the policy.
-                            For a particular VM, resource groups are evaluated in
-                            the order specified and the first resource group that
-                            is applicable is selected and the rest are ignored. If
-                            none of the resource groups are applicable for a VM, the
-                            VM is considered to be non-compliant w.r.t this policy.
-                            This behavior can be toggled by the flag allow_no_resource_group_match
+                          description: List of resource groups for the policy. For
+                            a particular VM, resource groups are evaluated in the
+                            order specified and the first resource group that is applicable
+                            is selected and the rest are ignored. If none of the resource
+                            groups are applicable for a VM, the VM is considered to
+                            be non-compliant w.r.t this policy. This behavior can
+                            be toggled by the flag allow_no_resource_group_match Structure
+                            is documented below.
                           items:
                             properties:
                               inventoryFilters:
@@ -179,11 +179,12 @@ spec:
                                   for the list with following values: inventory_filters[0].os_short_name=''rhel''
                                   and inventory_filters[1].os_short_name=''centos''
                                   If the list is empty, this resource group will be
-                                  applied to the target VM unconditionally.'
+                                  applied to the target VM unconditionally. Structure
+                                  is documented below.'
                                 items:
                                   properties:
                                     osShortName:
-                                      description: Required. The OS short name
+                                      description: The OS short name
                                       type: string
                                     osVersion:
                                       description: The OS version Prefix matches are
@@ -196,13 +197,15 @@ spec:
                                   type: object
                                 type: array
                               resources:
-                                description: Required. List of resources configured
-                                  for this resource group. The resources are executed
-                                  in the exact order specified here.
+                                description: List of resources configured for this
+                                  resource group. The resources are executed in the
+                                  exact order specified here. Structure is documented
+                                  below.
                                 items:
                                   properties:
                                     exec:
-                                      description: Exec resource
+                                      description: Exec resource Structure is documented
+                                        below.
                                       items:
                                         properties:
                                           enforce:
@@ -210,7 +213,8 @@ spec:
                                               resource into the desired state. An
                                               exit code of 100 indicates "success",
                                               any other exit code indicates a failure
-                                              running enforce.
+                                              running enforce. Structure is documented
+                                              below.
                                             items:
                                               properties:
                                                 args:
@@ -221,6 +225,7 @@ spec:
                                                   type: array
                                                 file:
                                                   description: A remote or local file.
+                                                    Structure is documented below.
                                                   items:
                                                     properties:
                                                       allowInsecure:
@@ -235,13 +240,14 @@ spec:
                                                         type: boolean
                                                       gcs:
                                                         description: A Cloud Storage
-                                                          object.
+                                                          object. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             bucket:
-                                                              description: Required.
-                                                                Bucket of the Cloud
-                                                                Storage object.
+                                                              description: Bucket
+                                                                of the Cloud Storage
+                                                                object.
                                                               type: string
                                                             generation:
                                                               description: Generation
@@ -249,9 +255,9 @@ spec:
                                                                 Storage object.
                                                               type: number
                                                             object:
-                                                              description: Required.
-                                                                Name of the Cloud
-                                                                Storage object.
+                                                              description: Name of
+                                                                the Cloud Storage
+                                                                object.
                                                               type: string
                                                           type: object
                                                         type: array
@@ -261,7 +267,8 @@ spec:
                                                         type: string
                                                       remote:
                                                         description: A generic remote
-                                                          file.
+                                                          file. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             sha256Checksum:
@@ -270,11 +277,10 @@ spec:
                                                                 file.
                                                               type: string
                                                             uri:
-                                                              description: Required.
-                                                                URI from which to
-                                                                fetch the object.
-                                                                It should contain
-                                                                both the protocol
+                                                              description: URI from
+                                                                which to fetch the
+                                                                object. It should
+                                                                contain both the protocol
                                                                 and path following
                                                                 the format {protocol}://{location}.
                                                               type: string
@@ -283,10 +289,9 @@ spec:
                                                     type: object
                                                   type: array
                                                 interpreter:
-                                                  description: 'Required. The script
-                                                    interpreter to use. Possible values:
-                                                    INTERPRETER_UNSPECIFIED, NONE,
-                                                    SHELL, POWERSHELL'
+                                                  description: 'The script interpreter
+                                                    to use. Possible values are: INTERPRETER_UNSPECIFIED,
+                                                    NONE, SHELL, POWERSHELL.'
                                                   type: string
                                                 outputFilePath:
                                                   description: Only recorded for enforce
@@ -307,13 +312,13 @@ spec:
                                               type: object
                                             type: array
                                           validate:
-                                            description: Required. What to run to
-                                              validate this resource is in the desired
-                                              state. An exit code of 100 indicates
-                                              "in desired state", and exit code of
-                                              101 indicates "not in desired state".
-                                              Any other exit code indicates a failure
-                                              running validate.
+                                            description: What to run to validate this
+                                              resource is in the desired state. An
+                                              exit code of 100 indicates "in desired
+                                              state", and exit code of 101 indicates
+                                              "not in desired state". Any other exit
+                                              code indicates a failure running validate.
+                                              Structure is documented below.
                                             items:
                                               properties:
                                                 args:
@@ -324,6 +329,7 @@ spec:
                                                   type: array
                                                 file:
                                                   description: A remote or local file.
+                                                    Structure is documented below.
                                                   items:
                                                     properties:
                                                       allowInsecure:
@@ -338,13 +344,14 @@ spec:
                                                         type: boolean
                                                       gcs:
                                                         description: A Cloud Storage
-                                                          object.
+                                                          object. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             bucket:
-                                                              description: Required.
-                                                                Bucket of the Cloud
-                                                                Storage object.
+                                                              description: Bucket
+                                                                of the Cloud Storage
+                                                                object.
                                                               type: string
                                                             generation:
                                                               description: Generation
@@ -352,9 +359,9 @@ spec:
                                                                 Storage object.
                                                               type: number
                                                             object:
-                                                              description: Required.
-                                                                Name of the Cloud
-                                                                Storage object.
+                                                              description: Name of
+                                                                the Cloud Storage
+                                                                object.
                                                               type: string
                                                           type: object
                                                         type: array
@@ -364,7 +371,8 @@ spec:
                                                         type: string
                                                       remote:
                                                         description: A generic remote
-                                                          file.
+                                                          file. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             sha256Checksum:
@@ -373,11 +381,10 @@ spec:
                                                                 file.
                                                               type: string
                                                             uri:
-                                                              description: Required.
-                                                                URI from which to
-                                                                fetch the object.
-                                                                It should contain
-                                                                both the protocol
+                                                              description: URI from
+                                                                which to fetch the
+                                                                object. It should
+                                                                contain both the protocol
                                                                 and path following
                                                                 the format {protocol}://{location}.
                                                               type: string
@@ -386,10 +393,9 @@ spec:
                                                     type: object
                                                   type: array
                                                 interpreter:
-                                                  description: 'Required. The script
-                                                    interpreter to use. Possible values:
-                                                    INTERPRETER_UNSPECIFIED, NONE,
-                                                    SHELL, POWERSHELL'
+                                                  description: 'The script interpreter
+                                                    to use. Possible values are: INTERPRETER_UNSPECIFIED,
+                                                    NONE, SHELL, POWERSHELL.'
                                                   type: string
                                                 outputFilePath:
                                                   description: Only recorded for enforce
@@ -412,7 +418,8 @@ spec:
                                         type: object
                                       type: array
                                     file:
-                                      description: A remote or local file.
+                                      description: A remote or local file. Structure
+                                        is documented below.
                                       items:
                                         properties:
                                           content:
@@ -421,7 +428,8 @@ spec:
                                               1024 characters.
                                             type: string
                                           file:
-                                            description: A remote or local file.
+                                            description: A remote or local file. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 allowInsecure:
@@ -435,19 +443,20 @@ spec:
                                                   type: boolean
                                                 gcs:
                                                   description: A Cloud Storage object.
+                                                    Structure is documented below.
                                                   items:
                                                     properties:
                                                       bucket:
-                                                        description: Required. Bucket
-                                                          of the Cloud Storage object.
+                                                        description: Bucket of the
+                                                          Cloud Storage object.
                                                         type: string
                                                       generation:
                                                         description: Generation number
                                                           of the Cloud Storage object.
                                                         type: number
                                                       object:
-                                                        description: Required. Name
-                                                          of the Cloud Storage object.
+                                                        description: Name of the Cloud
+                                                          Storage object.
                                                         type: string
                                                     type: object
                                                   type: array
@@ -457,6 +466,7 @@ spec:
                                                   type: string
                                                 remote:
                                                   description: A generic remote file.
+                                                    Structure is documented below.
                                                   items:
                                                     properties:
                                                       sha256Checksum:
@@ -464,50 +474,52 @@ spec:
                                                           of the remote file.
                                                         type: string
                                                       uri:
-                                                        description: Required. URI
-                                                          from which to fetch the
-                                                          object. It should contain
-                                                          both the protocol and path
-                                                          following the format {protocol}://{location}.
+                                                        description: URI from which
+                                                          to fetch the object. It
+                                                          should contain both the
+                                                          protocol and path following
+                                                          the format {protocol}://{location}.
                                                         type: string
                                                     type: object
                                                   type: array
                                               type: object
                                             type: array
                                           path:
-                                            description: Required. The absolute path
-                                              of the file within the VM.
+                                            description: The absolute path of the
+                                              file within the VM.
                                             type: string
                                           state:
-                                            description: 'Required. Desired state
-                                              of the file. Possible values: OS_POLICY_COMPLIANCE_STATE_UNSPECIFIED,
-                                              COMPLIANT, NON_COMPLIANT, UNKNOWN, NO_OS_POLICIES_APPLICABLE'
+                                            description: 'Desired state of the file.
+                                              Possible values are: DESIRED_STATE_UNSPECIFIED,
+                                              PRESENT, ABSENT, CONTENTS_MATCH.'
                                             type: string
                                         type: object
                                       type: array
                                     id:
-                                      description: Required. A one word, unique name
-                                        for this repository. This is the repo id in
-                                        the zypper config file and also the display_name
-                                        if display_name is omitted. This id is also
-                                        used as the unique identifier when checking
-                                        for GuestPolicy conflicts.
+                                      description: A one word, unique name for this
+                                        repository. This is the repo id in the zypper
+                                        config file and also the display_name if display_name
+                                        is omitted. This id is also used as the unique
+                                        identifier when checking for GuestPolicy conflicts.
                                       type: string
                                     pkg:
-                                      description: Package resource
+                                      description: Package resource Structure is documented
+                                        below.
                                       items:
                                         properties:
                                           apt:
-                                            description: An Apt Repository.
+                                            description: An Apt Repository. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 name:
-                                                  description: Required. Package name.
+                                                  description: Package name.
                                                   type: string
                                               type: object
                                             type: array
                                           deb:
-                                            description: A deb package file.
+                                            description: A deb package file. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 pullDeps:
@@ -519,7 +531,8 @@ spec:
                                                     zypper -y install package.rpm'
                                                   type: boolean
                                                 source:
-                                                  description: Required. An rpm package.
+                                                  description: An rpm package. Structure
+                                                    is documented below.
                                                   items:
                                                     properties:
                                                       allowInsecure:
@@ -534,13 +547,14 @@ spec:
                                                         type: boolean
                                                       gcs:
                                                         description: A Cloud Storage
-                                                          object.
+                                                          object. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             bucket:
-                                                              description: Required.
-                                                                Bucket of the Cloud
-                                                                Storage object.
+                                                              description: Bucket
+                                                                of the Cloud Storage
+                                                                object.
                                                               type: string
                                                             generation:
                                                               description: Generation
@@ -548,9 +562,9 @@ spec:
                                                                 Storage object.
                                                               type: number
                                                             object:
-                                                              description: Required.
-                                                                Name of the Cloud
-                                                                Storage object.
+                                                              description: Name of
+                                                                the Cloud Storage
+                                                                object.
                                                               type: string
                                                           type: object
                                                         type: array
@@ -560,7 +574,8 @@ spec:
                                                         type: string
                                                       remote:
                                                         description: A generic remote
-                                                          file.
+                                                          file. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             sha256Checksum:
@@ -569,11 +584,10 @@ spec:
                                                                 file.
                                                               type: string
                                                             uri:
-                                                              description: Required.
-                                                                URI from which to
-                                                                fetch the object.
-                                                                It should contain
-                                                                both the protocol
+                                                              description: URI from
+                                                                which to fetch the
+                                                                object. It should
+                                                                contain both the protocol
                                                                 and path following
                                                                 the format {protocol}://{location}.
                                                               type: string
@@ -584,22 +598,24 @@ spec:
                                               type: object
                                             type: array
                                           desiredState:
-                                            description: 'Required. The desired state
-                                              the agent should maintain for this package.
-                                              Possible values: DESIRED_STATE_UNSPECIFIED,
-                                              INSTALLED, REMOVED'
+                                            description: 'The desired state the agent
+                                              should maintain for this package. Possible
+                                              values are: DESIRED_STATE_UNSPECIFIED,
+                                              INSTALLED, REMOVED.'
                                             type: string
                                           googet:
                                             description: A package managed by GooGet.
+                                              Structure is documented below.
                                             items:
                                               properties:
                                                 name:
-                                                  description: Required. Package name.
+                                                  description: Package name.
                                                   type: string
                                               type: object
                                             type: array
                                           msi:
-                                            description: An MSI package.
+                                            description: An MSI package. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 properties:
@@ -612,7 +628,8 @@ spec:
                                                     type: string
                                                   type: array
                                                 source:
-                                                  description: Required. An rpm package.
+                                                  description: An rpm package. Structure
+                                                    is documented below.
                                                   items:
                                                     properties:
                                                       allowInsecure:
@@ -627,13 +644,14 @@ spec:
                                                         type: boolean
                                                       gcs:
                                                         description: A Cloud Storage
-                                                          object.
+                                                          object. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             bucket:
-                                                              description: Required.
-                                                                Bucket of the Cloud
-                                                                Storage object.
+                                                              description: Bucket
+                                                                of the Cloud Storage
+                                                                object.
                                                               type: string
                                                             generation:
                                                               description: Generation
@@ -641,9 +659,9 @@ spec:
                                                                 Storage object.
                                                               type: number
                                                             object:
-                                                              description: Required.
-                                                                Name of the Cloud
-                                                                Storage object.
+                                                              description: Name of
+                                                                the Cloud Storage
+                                                                object.
                                                               type: string
                                                           type: object
                                                         type: array
@@ -653,7 +671,8 @@ spec:
                                                         type: string
                                                       remote:
                                                         description: A generic remote
-                                                          file.
+                                                          file. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             sha256Checksum:
@@ -662,11 +681,10 @@ spec:
                                                                 file.
                                                               type: string
                                                             uri:
-                                                              description: Required.
-                                                                URI from which to
-                                                                fetch the object.
-                                                                It should contain
-                                                                both the protocol
+                                                              description: URI from
+                                                                which to fetch the
+                                                                object. It should
+                                                                contain both the protocol
                                                                 and path following
                                                                 the format {protocol}://{location}.
                                                               type: string
@@ -677,7 +695,8 @@ spec:
                                               type: object
                                             type: array
                                           rpm:
-                                            description: An rpm package file.
+                                            description: An rpm package file. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 pullDeps:
@@ -689,7 +708,8 @@ spec:
                                                     zypper -y install package.rpm'
                                                   type: boolean
                                                 source:
-                                                  description: Required. An rpm package.
+                                                  description: An rpm package. Structure
+                                                    is documented below.
                                                   items:
                                                     properties:
                                                       allowInsecure:
@@ -704,13 +724,14 @@ spec:
                                                         type: boolean
                                                       gcs:
                                                         description: A Cloud Storage
-                                                          object.
+                                                          object. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             bucket:
-                                                              description: Required.
-                                                                Bucket of the Cloud
-                                                                Storage object.
+                                                              description: Bucket
+                                                                of the Cloud Storage
+                                                                object.
                                                               type: string
                                                             generation:
                                                               description: Generation
@@ -718,9 +739,9 @@ spec:
                                                                 Storage object.
                                                               type: number
                                                             object:
-                                                              description: Required.
-                                                                Name of the Cloud
-                                                                Storage object.
+                                                              description: Name of
+                                                                the Cloud Storage
+                                                                object.
                                                               type: string
                                                           type: object
                                                         type: array
@@ -730,7 +751,8 @@ spec:
                                                         type: string
                                                       remote:
                                                         description: A generic remote
-                                                          file.
+                                                          file. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             sha256Checksum:
@@ -739,11 +761,10 @@ spec:
                                                                 file.
                                                               type: string
                                                             uri:
-                                                              description: Required.
-                                                                URI from which to
-                                                                fetch the object.
-                                                                It should contain
-                                                                both the protocol
+                                                              description: URI from
+                                                                which to fetch the
+                                                                object. It should
+                                                                contain both the protocol
                                                                 and path following
                                                                 the format {protocol}://{location}.
                                                               type: string
@@ -754,49 +775,53 @@ spec:
                                               type: object
                                             type: array
                                           yum:
-                                            description: A Yum Repository.
+                                            description: A Yum Repository. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 name:
-                                                  description: Required. Package name.
+                                                  description: Package name.
                                                   type: string
                                               type: object
                                             type: array
                                           zypper:
-                                            description: A Zypper Repository.
+                                            description: A Zypper Repository. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 name:
-                                                  description: Required. Package name.
+                                                  description: Package name.
                                                   type: string
                                               type: object
                                             type: array
                                         type: object
                                       type: array
                                     repository:
-                                      description: Package repository resource
+                                      description: Package repository resource Structure
+                                        is documented below.
                                       items:
                                         properties:
                                           apt:
-                                            description: An Apt Repository.
+                                            description: An Apt Repository. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 archiveType:
-                                                  description: 'Required. Type of
-                                                    archive files in this repository.
-                                                    Possible values: ARCHIVE_TYPE_UNSPECIFIED,
-                                                    DEB, DEB_SRC'
+                                                  description: 'Type of archive files
+                                                    in this repository. Possible values
+                                                    are: ARCHIVE_TYPE_UNSPECIFIED,
+                                                    DEB, DEB_SRC.'
                                                   type: string
                                                 components:
-                                                  description: Required. List of components
+                                                  description: List of components
                                                     for this repository. Must contain
                                                     at least one item.
                                                   items:
                                                     type: string
                                                   type: array
                                                 distribution:
-                                                  description: Required. Distribution
-                                                    of this repository.
+                                                  description: Distribution of this
+                                                    repository.
                                                   type: string
                                                 gpgKey:
                                                   description: URI of the key file
@@ -804,34 +829,34 @@ spec:
                                                     maintains a keyring at /etc/apt/trusted.gpg.d/osconfig_agent_managed.gpg.
                                                   type: string
                                                 uri:
-                                                  description: Required. URI from
-                                                    which to fetch the object. It
-                                                    should contain both the protocol
-                                                    and path following the format
-                                                    {protocol}://{location}.
+                                                  description: URI from which to fetch
+                                                    the object. It should contain
+                                                    both the protocol and path following
+                                                    the format {protocol}://{location}.
                                                   type: string
                                               type: object
                                             type: array
                                           goo:
-                                            description: A Goo Repository.
+                                            description: A Goo Repository. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 name:
-                                                  description: Required. Package name.
+                                                  description: Package name.
                                                   type: string
                                                 url:
-                                                  description: Required. The url of
-                                                    the repository.
+                                                  description: The url of the repository.
                                                   type: string
                                               type: object
                                             type: array
                                           yum:
-                                            description: A Yum Repository.
+                                            description: A Yum Repository. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 baseUrl:
-                                                  description: Required. The location
-                                                    of the repository directory.
+                                                  description: The location of the
+                                                    repository directory.
                                                   type: string
                                                 displayName:
                                                   description: The display name of
@@ -843,10 +868,10 @@ spec:
                                                     type: string
                                                   type: array
                                                 id:
-                                                  description: Required. A one word,
-                                                    unique name for this repository.
-                                                    This is the repo id in the zypper
-                                                    config file and also the display_name
+                                                  description: A one word, unique
+                                                    name for this repository. This
+                                                    is the repo id in the zypper config
+                                                    file and also the display_name
                                                     if display_name is omitted. This
                                                     id is also used as the unique
                                                     identifier when checking for GuestPolicy
@@ -855,12 +880,13 @@ spec:
                                               type: object
                                             type: array
                                           zypper:
-                                            description: A Zypper Repository.
+                                            description: A Zypper Repository. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 baseUrl:
-                                                  description: Required. The location
-                                                    of the repository directory.
+                                                  description: The location of the
+                                                    repository directory.
                                                   type: string
                                                 displayName:
                                                   description: The display name of
@@ -872,10 +898,10 @@ spec:
                                                     type: string
                                                   type: array
                                                 id:
-                                                  description: Required. A one word,
-                                                    unique name for this repository.
-                                                    This is the repo id in the zypper
-                                                    config file and also the display_name
+                                                  description: A one word, unique
+                                                    name for this repository. This
+                                                    is the repo id in the zypper config
+                                                    file and also the display_name
                                                     if display_name is omitted. This
                                                     id is also used as the unique
                                                     identifier when checking for GuestPolicy
@@ -892,19 +918,22 @@ spec:
                       type: object
                     type: array
                   project:
-                    description: The project for the resource
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   rollout:
-                    description: 'Required. Rollout to deploy the OS policy assignment.
-                      A rollout is triggered in the following situations: 1) OSPolicyAssignment
+                    description: 'Rollout to deploy the OS policy assignment. A rollout
+                      is triggered in the following situations: 1) OSPolicyAssignment
                       is created. 2) OSPolicyAssignment is updated and the update
                       contains changes to one of the following fields: - instance_filter
-                      - os_policies 3) OSPolicyAssignment is deleted.'
+                      - os_policies 3) OSPolicyAssignment is deleted. Structure is
+                      documented below.'
                     items:
                       properties:
                         disruptionBudget:
-                          description: Required. The maximum number (or percentage)
-                            of VMs per zone to disrupt at any given moment.
+                          description: The maximum number (or percentage) of VMs per
+                            zone to disrupt at any given moment. Structure is documented
+                            below.
                           items:
                             properties:
                               fixed:
@@ -918,11 +947,11 @@ spec:
                             type: object
                           type: array
                         minWaitDuration:
-                          description: Required. This determines the minimum duration
-                            of time to wait after the configuration changes are applied
-                            through the current rollout. A VM continues to count towards
-                            the disruption_budget at least until this duration of
-                            time has passed after configuration changes are applied.
+                          description: This determines the minimum duration of time
+                            to wait after the configuration changes are applied through
+                            the current rollout. A VM continues to count towards the
+                            disruption_budget at least until this duration of time
+                            has passed after configuration changes are applied.
                           type: string
                       type: object
                     type: array
@@ -951,7 +980,7 @@ spec:
                       limited to 1024 characters.
                     type: string
                   instanceFilter:
-                    description: Required. Filter to select VMs.
+                    description: Filter to select VMs. Structure is documented below.
                     items:
                       properties:
                         all:
@@ -961,7 +990,8 @@ spec:
                         exclusionLabels:
                           description: List of label sets used for VM exclusion. If
                             the list has more than one label set, the VM is excluded
-                            if any of the label sets are applicable for the VM.
+                            if any of the label sets are applicable for the VM. Structure
+                            is documented below.
                           items:
                             properties:
                               labels:
@@ -976,7 +1006,8 @@ spec:
                         inclusionLabels:
                           description: List of label sets used for VM inclusion. If
                             the list has more than one LabelSet, the VM is included
-                            if any of the label sets are applicable for the VM.
+                            if any of the label sets are applicable for the VM. Structure
+                            is documented below.
                           items:
                             properties:
                               labels:
@@ -991,11 +1022,11 @@ spec:
                         inventories:
                           description: List of inventories to select VMs. A VM is
                             selected if its inventory data matches at least one of
-                            the following inventories.
+                            the following inventories. Structure is documented below.
                           items:
                             properties:
                               osShortName:
-                                description: Required. The OS short name
+                                description: The OS short name
                                 type: string
                               osVersion:
                                 description: The OS version Prefix matches are supported
@@ -1009,8 +1040,8 @@ spec:
                       type: object
                     type: array
                   osPolicies:
-                    description: Required. List of OS policies to be applied to the
-                      VMs.
+                    description: List of OS policies to be applied to the VMs. Structure
+                      is documented below.
                     items:
                       properties:
                         allowNoResourceGroupMatch:
@@ -1025,24 +1056,22 @@ spec:
                             is limited to 1024 characters.
                           type: string
                         id:
-                          description: 'Required. The id of the OS policy with the
-                            following restrictions: * Must contain only lowercase
-                            letters, numbers, and hyphens. * Must start with a letter.
-                            * Must be between 1-63 characters. * Must end with a number
-                            or a letter. * Must be unique within the assignment.'
+                          description: 'The id of the OS policy with the following
+                            restrictions:'
                           type: string
                         mode:
-                          description: 'Required. Policy mode Possible values: MODE_UNSPECIFIED,
-                            VALIDATION, ENFORCEMENT'
+                          description: 'Policy mode Possible values are: MODE_UNSPECIFIED,
+                            VALIDATION, ENFORCEMENT.'
                           type: string
                         resourceGroups:
-                          description: Required. List of resource groups for the policy.
-                            For a particular VM, resource groups are evaluated in
-                            the order specified and the first resource group that
-                            is applicable is selected and the rest are ignored. If
-                            none of the resource groups are applicable for a VM, the
-                            VM is considered to be non-compliant w.r.t this policy.
-                            This behavior can be toggled by the flag allow_no_resource_group_match
+                          description: List of resource groups for the policy. For
+                            a particular VM, resource groups are evaluated in the
+                            order specified and the first resource group that is applicable
+                            is selected and the rest are ignored. If none of the resource
+                            groups are applicable for a VM, the VM is considered to
+                            be non-compliant w.r.t this policy. This behavior can
+                            be toggled by the flag allow_no_resource_group_match Structure
+                            is documented below.
                           items:
                             properties:
                               inventoryFilters:
@@ -1055,11 +1084,12 @@ spec:
                                   for the list with following values: inventory_filters[0].os_short_name=''rhel''
                                   and inventory_filters[1].os_short_name=''centos''
                                   If the list is empty, this resource group will be
-                                  applied to the target VM unconditionally.'
+                                  applied to the target VM unconditionally. Structure
+                                  is documented below.'
                                 items:
                                   properties:
                                     osShortName:
-                                      description: Required. The OS short name
+                                      description: The OS short name
                                       type: string
                                     osVersion:
                                       description: The OS version Prefix matches are
@@ -1072,13 +1102,15 @@ spec:
                                   type: object
                                 type: array
                               resources:
-                                description: Required. List of resources configured
-                                  for this resource group. The resources are executed
-                                  in the exact order specified here.
+                                description: List of resources configured for this
+                                  resource group. The resources are executed in the
+                                  exact order specified here. Structure is documented
+                                  below.
                                 items:
                                   properties:
                                     exec:
-                                      description: Exec resource
+                                      description: Exec resource Structure is documented
+                                        below.
                                       items:
                                         properties:
                                           enforce:
@@ -1086,7 +1118,8 @@ spec:
                                               resource into the desired state. An
                                               exit code of 100 indicates "success",
                                               any other exit code indicates a failure
-                                              running enforce.
+                                              running enforce. Structure is documented
+                                              below.
                                             items:
                                               properties:
                                                 args:
@@ -1097,6 +1130,7 @@ spec:
                                                   type: array
                                                 file:
                                                   description: A remote or local file.
+                                                    Structure is documented below.
                                                   items:
                                                     properties:
                                                       allowInsecure:
@@ -1111,13 +1145,14 @@ spec:
                                                         type: boolean
                                                       gcs:
                                                         description: A Cloud Storage
-                                                          object.
+                                                          object. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             bucket:
-                                                              description: Required.
-                                                                Bucket of the Cloud
-                                                                Storage object.
+                                                              description: Bucket
+                                                                of the Cloud Storage
+                                                                object.
                                                               type: string
                                                             generation:
                                                               description: Generation
@@ -1125,9 +1160,9 @@ spec:
                                                                 Storage object.
                                                               type: number
                                                             object:
-                                                              description: Required.
-                                                                Name of the Cloud
-                                                                Storage object.
+                                                              description: Name of
+                                                                the Cloud Storage
+                                                                object.
                                                               type: string
                                                           type: object
                                                         type: array
@@ -1137,7 +1172,8 @@ spec:
                                                         type: string
                                                       remote:
                                                         description: A generic remote
-                                                          file.
+                                                          file. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             sha256Checksum:
@@ -1146,11 +1182,10 @@ spec:
                                                                 file.
                                                               type: string
                                                             uri:
-                                                              description: Required.
-                                                                URI from which to
-                                                                fetch the object.
-                                                                It should contain
-                                                                both the protocol
+                                                              description: URI from
+                                                                which to fetch the
+                                                                object. It should
+                                                                contain both the protocol
                                                                 and path following
                                                                 the format {protocol}://{location}.
                                                               type: string
@@ -1159,10 +1194,9 @@ spec:
                                                     type: object
                                                   type: array
                                                 interpreter:
-                                                  description: 'Required. The script
-                                                    interpreter to use. Possible values:
-                                                    INTERPRETER_UNSPECIFIED, NONE,
-                                                    SHELL, POWERSHELL'
+                                                  description: 'The script interpreter
+                                                    to use. Possible values are: INTERPRETER_UNSPECIFIED,
+                                                    NONE, SHELL, POWERSHELL.'
                                                   type: string
                                                 outputFilePath:
                                                   description: Only recorded for enforce
@@ -1183,13 +1217,13 @@ spec:
                                               type: object
                                             type: array
                                           validate:
-                                            description: Required. What to run to
-                                              validate this resource is in the desired
-                                              state. An exit code of 100 indicates
-                                              "in desired state", and exit code of
-                                              101 indicates "not in desired state".
-                                              Any other exit code indicates a failure
-                                              running validate.
+                                            description: What to run to validate this
+                                              resource is in the desired state. An
+                                              exit code of 100 indicates "in desired
+                                              state", and exit code of 101 indicates
+                                              "not in desired state". Any other exit
+                                              code indicates a failure running validate.
+                                              Structure is documented below.
                                             items:
                                               properties:
                                                 args:
@@ -1200,6 +1234,7 @@ spec:
                                                   type: array
                                                 file:
                                                   description: A remote or local file.
+                                                    Structure is documented below.
                                                   items:
                                                     properties:
                                                       allowInsecure:
@@ -1214,13 +1249,14 @@ spec:
                                                         type: boolean
                                                       gcs:
                                                         description: A Cloud Storage
-                                                          object.
+                                                          object. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             bucket:
-                                                              description: Required.
-                                                                Bucket of the Cloud
-                                                                Storage object.
+                                                              description: Bucket
+                                                                of the Cloud Storage
+                                                                object.
                                                               type: string
                                                             generation:
                                                               description: Generation
@@ -1228,9 +1264,9 @@ spec:
                                                                 Storage object.
                                                               type: number
                                                             object:
-                                                              description: Required.
-                                                                Name of the Cloud
-                                                                Storage object.
+                                                              description: Name of
+                                                                the Cloud Storage
+                                                                object.
                                                               type: string
                                                           type: object
                                                         type: array
@@ -1240,7 +1276,8 @@ spec:
                                                         type: string
                                                       remote:
                                                         description: A generic remote
-                                                          file.
+                                                          file. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             sha256Checksum:
@@ -1249,11 +1286,10 @@ spec:
                                                                 file.
                                                               type: string
                                                             uri:
-                                                              description: Required.
-                                                                URI from which to
-                                                                fetch the object.
-                                                                It should contain
-                                                                both the protocol
+                                                              description: URI from
+                                                                which to fetch the
+                                                                object. It should
+                                                                contain both the protocol
                                                                 and path following
                                                                 the format {protocol}://{location}.
                                                               type: string
@@ -1262,10 +1298,9 @@ spec:
                                                     type: object
                                                   type: array
                                                 interpreter:
-                                                  description: 'Required. The script
-                                                    interpreter to use. Possible values:
-                                                    INTERPRETER_UNSPECIFIED, NONE,
-                                                    SHELL, POWERSHELL'
+                                                  description: 'The script interpreter
+                                                    to use. Possible values are: INTERPRETER_UNSPECIFIED,
+                                                    NONE, SHELL, POWERSHELL.'
                                                   type: string
                                                 outputFilePath:
                                                   description: Only recorded for enforce
@@ -1288,7 +1323,8 @@ spec:
                                         type: object
                                       type: array
                                     file:
-                                      description: A remote or local file.
+                                      description: A remote or local file. Structure
+                                        is documented below.
                                       items:
                                         properties:
                                           content:
@@ -1297,7 +1333,8 @@ spec:
                                               1024 characters.
                                             type: string
                                           file:
-                                            description: A remote or local file.
+                                            description: A remote or local file. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 allowInsecure:
@@ -1311,19 +1348,20 @@ spec:
                                                   type: boolean
                                                 gcs:
                                                   description: A Cloud Storage object.
+                                                    Structure is documented below.
                                                   items:
                                                     properties:
                                                       bucket:
-                                                        description: Required. Bucket
-                                                          of the Cloud Storage object.
+                                                        description: Bucket of the
+                                                          Cloud Storage object.
                                                         type: string
                                                       generation:
                                                         description: Generation number
                                                           of the Cloud Storage object.
                                                         type: number
                                                       object:
-                                                        description: Required. Name
-                                                          of the Cloud Storage object.
+                                                        description: Name of the Cloud
+                                                          Storage object.
                                                         type: string
                                                     type: object
                                                   type: array
@@ -1333,6 +1371,7 @@ spec:
                                                   type: string
                                                 remote:
                                                   description: A generic remote file.
+                                                    Structure is documented below.
                                                   items:
                                                     properties:
                                                       sha256Checksum:
@@ -1340,50 +1379,52 @@ spec:
                                                           of the remote file.
                                                         type: string
                                                       uri:
-                                                        description: Required. URI
-                                                          from which to fetch the
-                                                          object. It should contain
-                                                          both the protocol and path
-                                                          following the format {protocol}://{location}.
+                                                        description: URI from which
+                                                          to fetch the object. It
+                                                          should contain both the
+                                                          protocol and path following
+                                                          the format {protocol}://{location}.
                                                         type: string
                                                     type: object
                                                   type: array
                                               type: object
                                             type: array
                                           path:
-                                            description: Required. The absolute path
-                                              of the file within the VM.
+                                            description: The absolute path of the
+                                              file within the VM.
                                             type: string
                                           state:
-                                            description: 'Required. Desired state
-                                              of the file. Possible values: OS_POLICY_COMPLIANCE_STATE_UNSPECIFIED,
-                                              COMPLIANT, NON_COMPLIANT, UNKNOWN, NO_OS_POLICIES_APPLICABLE'
+                                            description: 'Desired state of the file.
+                                              Possible values are: DESIRED_STATE_UNSPECIFIED,
+                                              PRESENT, ABSENT, CONTENTS_MATCH.'
                                             type: string
                                         type: object
                                       type: array
                                     id:
-                                      description: Required. A one word, unique name
-                                        for this repository. This is the repo id in
-                                        the zypper config file and also the display_name
-                                        if display_name is omitted. This id is also
-                                        used as the unique identifier when checking
-                                        for GuestPolicy conflicts.
+                                      description: A one word, unique name for this
+                                        repository. This is the repo id in the zypper
+                                        config file and also the display_name if display_name
+                                        is omitted. This id is also used as the unique
+                                        identifier when checking for GuestPolicy conflicts.
                                       type: string
                                     pkg:
-                                      description: Package resource
+                                      description: Package resource Structure is documented
+                                        below.
                                       items:
                                         properties:
                                           apt:
-                                            description: An Apt Repository.
+                                            description: An Apt Repository. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 name:
-                                                  description: Required. Package name.
+                                                  description: Package name.
                                                   type: string
                                               type: object
                                             type: array
                                           deb:
-                                            description: A deb package file.
+                                            description: A deb package file. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 pullDeps:
@@ -1395,7 +1436,8 @@ spec:
                                                     zypper -y install package.rpm'
                                                   type: boolean
                                                 source:
-                                                  description: Required. An rpm package.
+                                                  description: An rpm package. Structure
+                                                    is documented below.
                                                   items:
                                                     properties:
                                                       allowInsecure:
@@ -1410,13 +1452,14 @@ spec:
                                                         type: boolean
                                                       gcs:
                                                         description: A Cloud Storage
-                                                          object.
+                                                          object. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             bucket:
-                                                              description: Required.
-                                                                Bucket of the Cloud
-                                                                Storage object.
+                                                              description: Bucket
+                                                                of the Cloud Storage
+                                                                object.
                                                               type: string
                                                             generation:
                                                               description: Generation
@@ -1424,9 +1467,9 @@ spec:
                                                                 Storage object.
                                                               type: number
                                                             object:
-                                                              description: Required.
-                                                                Name of the Cloud
-                                                                Storage object.
+                                                              description: Name of
+                                                                the Cloud Storage
+                                                                object.
                                                               type: string
                                                           type: object
                                                         type: array
@@ -1436,7 +1479,8 @@ spec:
                                                         type: string
                                                       remote:
                                                         description: A generic remote
-                                                          file.
+                                                          file. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             sha256Checksum:
@@ -1445,11 +1489,10 @@ spec:
                                                                 file.
                                                               type: string
                                                             uri:
-                                                              description: Required.
-                                                                URI from which to
-                                                                fetch the object.
-                                                                It should contain
-                                                                both the protocol
+                                                              description: URI from
+                                                                which to fetch the
+                                                                object. It should
+                                                                contain both the protocol
                                                                 and path following
                                                                 the format {protocol}://{location}.
                                                               type: string
@@ -1460,22 +1503,24 @@ spec:
                                               type: object
                                             type: array
                                           desiredState:
-                                            description: 'Required. The desired state
-                                              the agent should maintain for this package.
-                                              Possible values: DESIRED_STATE_UNSPECIFIED,
-                                              INSTALLED, REMOVED'
+                                            description: 'The desired state the agent
+                                              should maintain for this package. Possible
+                                              values are: DESIRED_STATE_UNSPECIFIED,
+                                              INSTALLED, REMOVED.'
                                             type: string
                                           googet:
                                             description: A package managed by GooGet.
+                                              Structure is documented below.
                                             items:
                                               properties:
                                                 name:
-                                                  description: Required. Package name.
+                                                  description: Package name.
                                                   type: string
                                               type: object
                                             type: array
                                           msi:
-                                            description: An MSI package.
+                                            description: An MSI package. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 properties:
@@ -1488,7 +1533,8 @@ spec:
                                                     type: string
                                                   type: array
                                                 source:
-                                                  description: Required. An rpm package.
+                                                  description: An rpm package. Structure
+                                                    is documented below.
                                                   items:
                                                     properties:
                                                       allowInsecure:
@@ -1503,13 +1549,14 @@ spec:
                                                         type: boolean
                                                       gcs:
                                                         description: A Cloud Storage
-                                                          object.
+                                                          object. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             bucket:
-                                                              description: Required.
-                                                                Bucket of the Cloud
-                                                                Storage object.
+                                                              description: Bucket
+                                                                of the Cloud Storage
+                                                                object.
                                                               type: string
                                                             generation:
                                                               description: Generation
@@ -1517,9 +1564,9 @@ spec:
                                                                 Storage object.
                                                               type: number
                                                             object:
-                                                              description: Required.
-                                                                Name of the Cloud
-                                                                Storage object.
+                                                              description: Name of
+                                                                the Cloud Storage
+                                                                object.
                                                               type: string
                                                           type: object
                                                         type: array
@@ -1529,7 +1576,8 @@ spec:
                                                         type: string
                                                       remote:
                                                         description: A generic remote
-                                                          file.
+                                                          file. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             sha256Checksum:
@@ -1538,11 +1586,10 @@ spec:
                                                                 file.
                                                               type: string
                                                             uri:
-                                                              description: Required.
-                                                                URI from which to
-                                                                fetch the object.
-                                                                It should contain
-                                                                both the protocol
+                                                              description: URI from
+                                                                which to fetch the
+                                                                object. It should
+                                                                contain both the protocol
                                                                 and path following
                                                                 the format {protocol}://{location}.
                                                               type: string
@@ -1553,7 +1600,8 @@ spec:
                                               type: object
                                             type: array
                                           rpm:
-                                            description: An rpm package file.
+                                            description: An rpm package file. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 pullDeps:
@@ -1565,7 +1613,8 @@ spec:
                                                     zypper -y install package.rpm'
                                                   type: boolean
                                                 source:
-                                                  description: Required. An rpm package.
+                                                  description: An rpm package. Structure
+                                                    is documented below.
                                                   items:
                                                     properties:
                                                       allowInsecure:
@@ -1580,13 +1629,14 @@ spec:
                                                         type: boolean
                                                       gcs:
                                                         description: A Cloud Storage
-                                                          object.
+                                                          object. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             bucket:
-                                                              description: Required.
-                                                                Bucket of the Cloud
-                                                                Storage object.
+                                                              description: Bucket
+                                                                of the Cloud Storage
+                                                                object.
                                                               type: string
                                                             generation:
                                                               description: Generation
@@ -1594,9 +1644,9 @@ spec:
                                                                 Storage object.
                                                               type: number
                                                             object:
-                                                              description: Required.
-                                                                Name of the Cloud
-                                                                Storage object.
+                                                              description: Name of
+                                                                the Cloud Storage
+                                                                object.
                                                               type: string
                                                           type: object
                                                         type: array
@@ -1606,7 +1656,8 @@ spec:
                                                         type: string
                                                       remote:
                                                         description: A generic remote
-                                                          file.
+                                                          file. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             sha256Checksum:
@@ -1615,11 +1666,10 @@ spec:
                                                                 file.
                                                               type: string
                                                             uri:
-                                                              description: Required.
-                                                                URI from which to
-                                                                fetch the object.
-                                                                It should contain
-                                                                both the protocol
+                                                              description: URI from
+                                                                which to fetch the
+                                                                object. It should
+                                                                contain both the protocol
                                                                 and path following
                                                                 the format {protocol}://{location}.
                                                               type: string
@@ -1630,49 +1680,53 @@ spec:
                                               type: object
                                             type: array
                                           yum:
-                                            description: A Yum Repository.
+                                            description: A Yum Repository. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 name:
-                                                  description: Required. Package name.
+                                                  description: Package name.
                                                   type: string
                                               type: object
                                             type: array
                                           zypper:
-                                            description: A Zypper Repository.
+                                            description: A Zypper Repository. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 name:
-                                                  description: Required. Package name.
+                                                  description: Package name.
                                                   type: string
                                               type: object
                                             type: array
                                         type: object
                                       type: array
                                     repository:
-                                      description: Package repository resource
+                                      description: Package repository resource Structure
+                                        is documented below.
                                       items:
                                         properties:
                                           apt:
-                                            description: An Apt Repository.
+                                            description: An Apt Repository. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 archiveType:
-                                                  description: 'Required. Type of
-                                                    archive files in this repository.
-                                                    Possible values: ARCHIVE_TYPE_UNSPECIFIED,
-                                                    DEB, DEB_SRC'
+                                                  description: 'Type of archive files
+                                                    in this repository. Possible values
+                                                    are: ARCHIVE_TYPE_UNSPECIFIED,
+                                                    DEB, DEB_SRC.'
                                                   type: string
                                                 components:
-                                                  description: Required. List of components
+                                                  description: List of components
                                                     for this repository. Must contain
                                                     at least one item.
                                                   items:
                                                     type: string
                                                   type: array
                                                 distribution:
-                                                  description: Required. Distribution
-                                                    of this repository.
+                                                  description: Distribution of this
+                                                    repository.
                                                   type: string
                                                 gpgKey:
                                                   description: URI of the key file
@@ -1680,34 +1734,34 @@ spec:
                                                     maintains a keyring at /etc/apt/trusted.gpg.d/osconfig_agent_managed.gpg.
                                                   type: string
                                                 uri:
-                                                  description: Required. URI from
-                                                    which to fetch the object. It
-                                                    should contain both the protocol
-                                                    and path following the format
-                                                    {protocol}://{location}.
+                                                  description: URI from which to fetch
+                                                    the object. It should contain
+                                                    both the protocol and path following
+                                                    the format {protocol}://{location}.
                                                   type: string
                                               type: object
                                             type: array
                                           goo:
-                                            description: A Goo Repository.
+                                            description: A Goo Repository. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 name:
-                                                  description: Required. Package name.
+                                                  description: Package name.
                                                   type: string
                                                 url:
-                                                  description: Required. The url of
-                                                    the repository.
+                                                  description: The url of the repository.
                                                   type: string
                                               type: object
                                             type: array
                                           yum:
-                                            description: A Yum Repository.
+                                            description: A Yum Repository. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 baseUrl:
-                                                  description: Required. The location
-                                                    of the repository directory.
+                                                  description: The location of the
+                                                    repository directory.
                                                   type: string
                                                 displayName:
                                                   description: The display name of
@@ -1719,10 +1773,10 @@ spec:
                                                     type: string
                                                   type: array
                                                 id:
-                                                  description: Required. A one word,
-                                                    unique name for this repository.
-                                                    This is the repo id in the zypper
-                                                    config file and also the display_name
+                                                  description: A one word, unique
+                                                    name for this repository. This
+                                                    is the repo id in the zypper config
+                                                    file and also the display_name
                                                     if display_name is omitted. This
                                                     id is also used as the unique
                                                     identifier when checking for GuestPolicy
@@ -1731,12 +1785,13 @@ spec:
                                               type: object
                                             type: array
                                           zypper:
-                                            description: A Zypper Repository.
+                                            description: A Zypper Repository. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 baseUrl:
-                                                  description: Required. The location
-                                                    of the repository directory.
+                                                  description: The location of the
+                                                    repository directory.
                                                   type: string
                                                 displayName:
                                                   description: The display name of
@@ -1748,10 +1803,10 @@ spec:
                                                     type: string
                                                   type: array
                                                 id:
-                                                  description: Required. A one word,
-                                                    unique name for this repository.
-                                                    This is the repo id in the zypper
-                                                    config file and also the display_name
+                                                  description: A one word, unique
+                                                    name for this repository. This
+                                                    is the repo id in the zypper config
+                                                    file and also the display_name
                                                     if display_name is omitted. This
                                                     id is also used as the unique
                                                     identifier when checking for GuestPolicy
@@ -1768,19 +1823,22 @@ spec:
                       type: object
                     type: array
                   project:
-                    description: The project for the resource
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   rollout:
-                    description: 'Required. Rollout to deploy the OS policy assignment.
-                      A rollout is triggered in the following situations: 1) OSPolicyAssignment
+                    description: 'Rollout to deploy the OS policy assignment. A rollout
+                      is triggered in the following situations: 1) OSPolicyAssignment
                       is created. 2) OSPolicyAssignment is updated and the update
                       contains changes to one of the following fields: - instance_filter
-                      - os_policies 3) OSPolicyAssignment is deleted.'
+                      - os_policies 3) OSPolicyAssignment is deleted. Structure is
+                      documented below.'
                     items:
                       properties:
                         disruptionBudget:
-                          description: Required. The maximum number (or percentage)
-                            of VMs per zone to disrupt at any given moment.
+                          description: The maximum number (or percentage) of VMs per
+                            zone to disrupt at any given moment. Structure is documented
+                            below.
                           items:
                             properties:
                               fixed:
@@ -1794,11 +1852,11 @@ spec:
                             type: object
                           type: array
                         minWaitDuration:
-                          description: Required. This determines the minimum duration
-                            of time to wait after the configuration changes are applied
-                            through the current rollout. A VM continues to count towards
-                            the disruption_budget at least until this duration of
-                            time has passed after configuration changes are applied.
+                          description: This determines the minimum duration of time
+                            to wait after the configuration changes are applied through
+                            the current rollout. A VM continues to count towards the
+                            disruption_budget at least until this duration of time
+                            has passed after configuration changes are applied.
                           type: string
                       type: object
                     type: array
@@ -2044,7 +2102,7 @@ spec:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/osPolicyAssignments/{{name}}
                     type: string
                   instanceFilter:
-                    description: Required. Filter to select VMs.
+                    description: Filter to select VMs. Structure is documented below.
                     items:
                       properties:
                         all:
@@ -2054,7 +2112,8 @@ spec:
                         exclusionLabels:
                           description: List of label sets used for VM exclusion. If
                             the list has more than one label set, the VM is excluded
-                            if any of the label sets are applicable for the VM.
+                            if any of the label sets are applicable for the VM. Structure
+                            is documented below.
                           items:
                             properties:
                               labels:
@@ -2069,7 +2128,8 @@ spec:
                         inclusionLabels:
                           description: List of label sets used for VM inclusion. If
                             the list has more than one LabelSet, the VM is included
-                            if any of the label sets are applicable for the VM.
+                            if any of the label sets are applicable for the VM. Structure
+                            is documented below.
                           items:
                             properties:
                               labels:
@@ -2084,11 +2144,11 @@ spec:
                         inventories:
                           description: List of inventories to select VMs. A VM is
                             selected if its inventory data matches at least one of
-                            the following inventories.
+                            the following inventories. Structure is documented below.
                           items:
                             properties:
                               osShortName:
-                                description: Required. The OS short name
+                                description: The OS short name
                                 type: string
                               osVersion:
                                 description: The OS version Prefix matches are supported
@@ -2105,8 +2165,8 @@ spec:
                     description: The location for the resource
                     type: string
                   osPolicies:
-                    description: Required. List of OS policies to be applied to the
-                      VMs.
+                    description: List of OS policies to be applied to the VMs. Structure
+                      is documented below.
                     items:
                       properties:
                         allowNoResourceGroupMatch:
@@ -2121,24 +2181,22 @@ spec:
                             is limited to 1024 characters.
                           type: string
                         id:
-                          description: 'Required. The id of the OS policy with the
-                            following restrictions: * Must contain only lowercase
-                            letters, numbers, and hyphens. * Must start with a letter.
-                            * Must be between 1-63 characters. * Must end with a number
-                            or a letter. * Must be unique within the assignment.'
+                          description: 'The id of the OS policy with the following
+                            restrictions:'
                           type: string
                         mode:
-                          description: 'Required. Policy mode Possible values: MODE_UNSPECIFIED,
-                            VALIDATION, ENFORCEMENT'
+                          description: 'Policy mode Possible values are: MODE_UNSPECIFIED,
+                            VALIDATION, ENFORCEMENT.'
                           type: string
                         resourceGroups:
-                          description: Required. List of resource groups for the policy.
-                            For a particular VM, resource groups are evaluated in
-                            the order specified and the first resource group that
-                            is applicable is selected and the rest are ignored. If
-                            none of the resource groups are applicable for a VM, the
-                            VM is considered to be non-compliant w.r.t this policy.
-                            This behavior can be toggled by the flag allow_no_resource_group_match
+                          description: List of resource groups for the policy. For
+                            a particular VM, resource groups are evaluated in the
+                            order specified and the first resource group that is applicable
+                            is selected and the rest are ignored. If none of the resource
+                            groups are applicable for a VM, the VM is considered to
+                            be non-compliant w.r.t this policy. This behavior can
+                            be toggled by the flag allow_no_resource_group_match Structure
+                            is documented below.
                           items:
                             properties:
                               inventoryFilters:
@@ -2151,11 +2209,12 @@ spec:
                                   for the list with following values: inventory_filters[0].os_short_name=''rhel''
                                   and inventory_filters[1].os_short_name=''centos''
                                   If the list is empty, this resource group will be
-                                  applied to the target VM unconditionally.'
+                                  applied to the target VM unconditionally. Structure
+                                  is documented below.'
                                 items:
                                   properties:
                                     osShortName:
-                                      description: Required. The OS short name
+                                      description: The OS short name
                                       type: string
                                     osVersion:
                                       description: The OS version Prefix matches are
@@ -2168,13 +2227,15 @@ spec:
                                   type: object
                                 type: array
                               resources:
-                                description: Required. List of resources configured
-                                  for this resource group. The resources are executed
-                                  in the exact order specified here.
+                                description: List of resources configured for this
+                                  resource group. The resources are executed in the
+                                  exact order specified here. Structure is documented
+                                  below.
                                 items:
                                   properties:
                                     exec:
-                                      description: Exec resource
+                                      description: Exec resource Structure is documented
+                                        below.
                                       items:
                                         properties:
                                           enforce:
@@ -2182,7 +2243,8 @@ spec:
                                               resource into the desired state. An
                                               exit code of 100 indicates "success",
                                               any other exit code indicates a failure
-                                              running enforce.
+                                              running enforce. Structure is documented
+                                              below.
                                             items:
                                               properties:
                                                 args:
@@ -2193,6 +2255,7 @@ spec:
                                                   type: array
                                                 file:
                                                   description: A remote or local file.
+                                                    Structure is documented below.
                                                   items:
                                                     properties:
                                                       allowInsecure:
@@ -2207,13 +2270,14 @@ spec:
                                                         type: boolean
                                                       gcs:
                                                         description: A Cloud Storage
-                                                          object.
+                                                          object. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             bucket:
-                                                              description: Required.
-                                                                Bucket of the Cloud
-                                                                Storage object.
+                                                              description: Bucket
+                                                                of the Cloud Storage
+                                                                object.
                                                               type: string
                                                             generation:
                                                               description: Generation
@@ -2221,9 +2285,9 @@ spec:
                                                                 Storage object.
                                                               type: number
                                                             object:
-                                                              description: Required.
-                                                                Name of the Cloud
-                                                                Storage object.
+                                                              description: Name of
+                                                                the Cloud Storage
+                                                                object.
                                                               type: string
                                                           type: object
                                                         type: array
@@ -2233,7 +2297,8 @@ spec:
                                                         type: string
                                                       remote:
                                                         description: A generic remote
-                                                          file.
+                                                          file. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             sha256Checksum:
@@ -2242,11 +2307,10 @@ spec:
                                                                 file.
                                                               type: string
                                                             uri:
-                                                              description: Required.
-                                                                URI from which to
-                                                                fetch the object.
-                                                                It should contain
-                                                                both the protocol
+                                                              description: URI from
+                                                                which to fetch the
+                                                                object. It should
+                                                                contain both the protocol
                                                                 and path following
                                                                 the format {protocol}://{location}.
                                                               type: string
@@ -2255,10 +2319,9 @@ spec:
                                                     type: object
                                                   type: array
                                                 interpreter:
-                                                  description: 'Required. The script
-                                                    interpreter to use. Possible values:
-                                                    INTERPRETER_UNSPECIFIED, NONE,
-                                                    SHELL, POWERSHELL'
+                                                  description: 'The script interpreter
+                                                    to use. Possible values are: INTERPRETER_UNSPECIFIED,
+                                                    NONE, SHELL, POWERSHELL.'
                                                   type: string
                                                 outputFilePath:
                                                   description: Only recorded for enforce
@@ -2279,13 +2342,13 @@ spec:
                                               type: object
                                             type: array
                                           validate:
-                                            description: Required. What to run to
-                                              validate this resource is in the desired
-                                              state. An exit code of 100 indicates
-                                              "in desired state", and exit code of
-                                              101 indicates "not in desired state".
-                                              Any other exit code indicates a failure
-                                              running validate.
+                                            description: What to run to validate this
+                                              resource is in the desired state. An
+                                              exit code of 100 indicates "in desired
+                                              state", and exit code of 101 indicates
+                                              "not in desired state". Any other exit
+                                              code indicates a failure running validate.
+                                              Structure is documented below.
                                             items:
                                               properties:
                                                 args:
@@ -2296,6 +2359,7 @@ spec:
                                                   type: array
                                                 file:
                                                   description: A remote or local file.
+                                                    Structure is documented below.
                                                   items:
                                                     properties:
                                                       allowInsecure:
@@ -2310,13 +2374,14 @@ spec:
                                                         type: boolean
                                                       gcs:
                                                         description: A Cloud Storage
-                                                          object.
+                                                          object. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             bucket:
-                                                              description: Required.
-                                                                Bucket of the Cloud
-                                                                Storage object.
+                                                              description: Bucket
+                                                                of the Cloud Storage
+                                                                object.
                                                               type: string
                                                             generation:
                                                               description: Generation
@@ -2324,9 +2389,9 @@ spec:
                                                                 Storage object.
                                                               type: number
                                                             object:
-                                                              description: Required.
-                                                                Name of the Cloud
-                                                                Storage object.
+                                                              description: Name of
+                                                                the Cloud Storage
+                                                                object.
                                                               type: string
                                                           type: object
                                                         type: array
@@ -2336,7 +2401,8 @@ spec:
                                                         type: string
                                                       remote:
                                                         description: A generic remote
-                                                          file.
+                                                          file. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             sha256Checksum:
@@ -2345,11 +2411,10 @@ spec:
                                                                 file.
                                                               type: string
                                                             uri:
-                                                              description: Required.
-                                                                URI from which to
-                                                                fetch the object.
-                                                                It should contain
-                                                                both the protocol
+                                                              description: URI from
+                                                                which to fetch the
+                                                                object. It should
+                                                                contain both the protocol
                                                                 and path following
                                                                 the format {protocol}://{location}.
                                                               type: string
@@ -2358,10 +2423,9 @@ spec:
                                                     type: object
                                                   type: array
                                                 interpreter:
-                                                  description: 'Required. The script
-                                                    interpreter to use. Possible values:
-                                                    INTERPRETER_UNSPECIFIED, NONE,
-                                                    SHELL, POWERSHELL'
+                                                  description: 'The script interpreter
+                                                    to use. Possible values are: INTERPRETER_UNSPECIFIED,
+                                                    NONE, SHELL, POWERSHELL.'
                                                   type: string
                                                 outputFilePath:
                                                   description: Only recorded for enforce
@@ -2384,7 +2448,8 @@ spec:
                                         type: object
                                       type: array
                                     file:
-                                      description: A remote or local file.
+                                      description: A remote or local file. Structure
+                                        is documented below.
                                       items:
                                         properties:
                                           content:
@@ -2393,7 +2458,8 @@ spec:
                                               1024 characters.
                                             type: string
                                           file:
-                                            description: A remote or local file.
+                                            description: A remote or local file. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 allowInsecure:
@@ -2407,19 +2473,20 @@ spec:
                                                   type: boolean
                                                 gcs:
                                                   description: A Cloud Storage object.
+                                                    Structure is documented below.
                                                   items:
                                                     properties:
                                                       bucket:
-                                                        description: Required. Bucket
-                                                          of the Cloud Storage object.
+                                                        description: Bucket of the
+                                                          Cloud Storage object.
                                                         type: string
                                                       generation:
                                                         description: Generation number
                                                           of the Cloud Storage object.
                                                         type: number
                                                       object:
-                                                        description: Required. Name
-                                                          of the Cloud Storage object.
+                                                        description: Name of the Cloud
+                                                          Storage object.
                                                         type: string
                                                     type: object
                                                   type: array
@@ -2429,6 +2496,7 @@ spec:
                                                   type: string
                                                 remote:
                                                   description: A generic remote file.
+                                                    Structure is documented below.
                                                   items:
                                                     properties:
                                                       sha256Checksum:
@@ -2436,25 +2504,25 @@ spec:
                                                           of the remote file.
                                                         type: string
                                                       uri:
-                                                        description: Required. URI
-                                                          from which to fetch the
-                                                          object. It should contain
-                                                          both the protocol and path
-                                                          following the format {protocol}://{location}.
+                                                        description: URI from which
+                                                          to fetch the object. It
+                                                          should contain both the
+                                                          protocol and path following
+                                                          the format {protocol}://{location}.
                                                         type: string
                                                     type: object
                                                   type: array
                                               type: object
                                             type: array
                                           path:
-                                            description: Required. The absolute path
-                                              of the file within the VM.
+                                            description: The absolute path of the
+                                              file within the VM.
                                             type: string
                                           permissions:
-                                            description: 'Consists of three octal
-                                              digits which represent, in order, the
-                                              permissions of the owner, group, and
-                                              other users for the file (similarly
+                                            description: '(Output) Consists of three
+                                              octal digits which represent, in order,
+                                              the permissions of the owner, group,
+                                              and other users for the file (similarly
                                               to the numeric mode used in the linux
                                               chmod utility). Each digit represents
                                               a three bit number with the 4 bit corresponding
@@ -2467,35 +2535,37 @@ spec:
                                               and write: 6 read only: 4'
                                             type: string
                                           state:
-                                            description: 'Required. Desired state
-                                              of the file. Possible values: OS_POLICY_COMPLIANCE_STATE_UNSPECIFIED,
-                                              COMPLIANT, NON_COMPLIANT, UNKNOWN, NO_OS_POLICIES_APPLICABLE'
+                                            description: 'Desired state of the file.
+                                              Possible values are: DESIRED_STATE_UNSPECIFIED,
+                                              PRESENT, ABSENT, CONTENTS_MATCH.'
                                             type: string
                                         type: object
                                       type: array
                                     id:
-                                      description: Required. A one word, unique name
-                                        for this repository. This is the repo id in
-                                        the zypper config file and also the display_name
-                                        if display_name is omitted. This id is also
-                                        used as the unique identifier when checking
-                                        for GuestPolicy conflicts.
+                                      description: A one word, unique name for this
+                                        repository. This is the repo id in the zypper
+                                        config file and also the display_name if display_name
+                                        is omitted. This id is also used as the unique
+                                        identifier when checking for GuestPolicy conflicts.
                                       type: string
                                     pkg:
-                                      description: Package resource
+                                      description: Package resource Structure is documented
+                                        below.
                                       items:
                                         properties:
                                           apt:
-                                            description: An Apt Repository.
+                                            description: An Apt Repository. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 name:
-                                                  description: Required. Package name.
+                                                  description: Package name.
                                                   type: string
                                               type: object
                                             type: array
                                           deb:
-                                            description: A deb package file.
+                                            description: A deb package file. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 pullDeps:
@@ -2507,7 +2577,8 @@ spec:
                                                     zypper -y install package.rpm'
                                                   type: boolean
                                                 source:
-                                                  description: Required. An rpm package.
+                                                  description: An rpm package. Structure
+                                                    is documented below.
                                                   items:
                                                     properties:
                                                       allowInsecure:
@@ -2522,13 +2593,14 @@ spec:
                                                         type: boolean
                                                       gcs:
                                                         description: A Cloud Storage
-                                                          object.
+                                                          object. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             bucket:
-                                                              description: Required.
-                                                                Bucket of the Cloud
-                                                                Storage object.
+                                                              description: Bucket
+                                                                of the Cloud Storage
+                                                                object.
                                                               type: string
                                                             generation:
                                                               description: Generation
@@ -2536,9 +2608,9 @@ spec:
                                                                 Storage object.
                                                               type: number
                                                             object:
-                                                              description: Required.
-                                                                Name of the Cloud
-                                                                Storage object.
+                                                              description: Name of
+                                                                the Cloud Storage
+                                                                object.
                                                               type: string
                                                           type: object
                                                         type: array
@@ -2548,7 +2620,8 @@ spec:
                                                         type: string
                                                       remote:
                                                         description: A generic remote
-                                                          file.
+                                                          file. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             sha256Checksum:
@@ -2557,11 +2630,10 @@ spec:
                                                                 file.
                                                               type: string
                                                             uri:
-                                                              description: Required.
-                                                                URI from which to
-                                                                fetch the object.
-                                                                It should contain
-                                                                both the protocol
+                                                              description: URI from
+                                                                which to fetch the
+                                                                object. It should
+                                                                contain both the protocol
                                                                 and path following
                                                                 the format {protocol}://{location}.
                                                               type: string
@@ -2572,22 +2644,24 @@ spec:
                                               type: object
                                             type: array
                                           desiredState:
-                                            description: 'Required. The desired state
-                                              the agent should maintain for this package.
-                                              Possible values: DESIRED_STATE_UNSPECIFIED,
-                                              INSTALLED, REMOVED'
+                                            description: 'The desired state the agent
+                                              should maintain for this package. Possible
+                                              values are: DESIRED_STATE_UNSPECIFIED,
+                                              INSTALLED, REMOVED.'
                                             type: string
                                           googet:
                                             description: A package managed by GooGet.
+                                              Structure is documented below.
                                             items:
                                               properties:
                                                 name:
-                                                  description: Required. Package name.
+                                                  description: Package name.
                                                   type: string
                                               type: object
                                             type: array
                                           msi:
-                                            description: An MSI package.
+                                            description: An MSI package. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 properties:
@@ -2600,7 +2674,8 @@ spec:
                                                     type: string
                                                   type: array
                                                 source:
-                                                  description: Required. An rpm package.
+                                                  description: An rpm package. Structure
+                                                    is documented below.
                                                   items:
                                                     properties:
                                                       allowInsecure:
@@ -2615,13 +2690,14 @@ spec:
                                                         type: boolean
                                                       gcs:
                                                         description: A Cloud Storage
-                                                          object.
+                                                          object. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             bucket:
-                                                              description: Required.
-                                                                Bucket of the Cloud
-                                                                Storage object.
+                                                              description: Bucket
+                                                                of the Cloud Storage
+                                                                object.
                                                               type: string
                                                             generation:
                                                               description: Generation
@@ -2629,9 +2705,9 @@ spec:
                                                                 Storage object.
                                                               type: number
                                                             object:
-                                                              description: Required.
-                                                                Name of the Cloud
-                                                                Storage object.
+                                                              description: Name of
+                                                                the Cloud Storage
+                                                                object.
                                                               type: string
                                                           type: object
                                                         type: array
@@ -2641,7 +2717,8 @@ spec:
                                                         type: string
                                                       remote:
                                                         description: A generic remote
-                                                          file.
+                                                          file. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             sha256Checksum:
@@ -2650,11 +2727,10 @@ spec:
                                                                 file.
                                                               type: string
                                                             uri:
-                                                              description: Required.
-                                                                URI from which to
-                                                                fetch the object.
-                                                                It should contain
-                                                                both the protocol
+                                                              description: URI from
+                                                                which to fetch the
+                                                                object. It should
+                                                                contain both the protocol
                                                                 and path following
                                                                 the format {protocol}://{location}.
                                                               type: string
@@ -2665,7 +2741,8 @@ spec:
                                               type: object
                                             type: array
                                           rpm:
-                                            description: An rpm package file.
+                                            description: An rpm package file. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 pullDeps:
@@ -2677,7 +2754,8 @@ spec:
                                                     zypper -y install package.rpm'
                                                   type: boolean
                                                 source:
-                                                  description: Required. An rpm package.
+                                                  description: An rpm package. Structure
+                                                    is documented below.
                                                   items:
                                                     properties:
                                                       allowInsecure:
@@ -2692,13 +2770,14 @@ spec:
                                                         type: boolean
                                                       gcs:
                                                         description: A Cloud Storage
-                                                          object.
+                                                          object. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             bucket:
-                                                              description: Required.
-                                                                Bucket of the Cloud
-                                                                Storage object.
+                                                              description: Bucket
+                                                                of the Cloud Storage
+                                                                object.
                                                               type: string
                                                             generation:
                                                               description: Generation
@@ -2706,9 +2785,9 @@ spec:
                                                                 Storage object.
                                                               type: number
                                                             object:
-                                                              description: Required.
-                                                                Name of the Cloud
-                                                                Storage object.
+                                                              description: Name of
+                                                                the Cloud Storage
+                                                                object.
                                                               type: string
                                                           type: object
                                                         type: array
@@ -2718,7 +2797,8 @@ spec:
                                                         type: string
                                                       remote:
                                                         description: A generic remote
-                                                          file.
+                                                          file. Structure is documented
+                                                          below.
                                                         items:
                                                           properties:
                                                             sha256Checksum:
@@ -2727,11 +2807,10 @@ spec:
                                                                 file.
                                                               type: string
                                                             uri:
-                                                              description: Required.
-                                                                URI from which to
-                                                                fetch the object.
-                                                                It should contain
-                                                                both the protocol
+                                                              description: URI from
+                                                                which to fetch the
+                                                                object. It should
+                                                                contain both the protocol
                                                                 and path following
                                                                 the format {protocol}://{location}.
                                                               type: string
@@ -2742,49 +2821,53 @@ spec:
                                               type: object
                                             type: array
                                           yum:
-                                            description: A Yum Repository.
+                                            description: A Yum Repository. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 name:
-                                                  description: Required. Package name.
+                                                  description: Package name.
                                                   type: string
                                               type: object
                                             type: array
                                           zypper:
-                                            description: A Zypper Repository.
+                                            description: A Zypper Repository. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 name:
-                                                  description: Required. Package name.
+                                                  description: Package name.
                                                   type: string
                                               type: object
                                             type: array
                                         type: object
                                       type: array
                                     repository:
-                                      description: Package repository resource
+                                      description: Package repository resource Structure
+                                        is documented below.
                                       items:
                                         properties:
                                           apt:
-                                            description: An Apt Repository.
+                                            description: An Apt Repository. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 archiveType:
-                                                  description: 'Required. Type of
-                                                    archive files in this repository.
-                                                    Possible values: ARCHIVE_TYPE_UNSPECIFIED,
-                                                    DEB, DEB_SRC'
+                                                  description: 'Type of archive files
+                                                    in this repository. Possible values
+                                                    are: ARCHIVE_TYPE_UNSPECIFIED,
+                                                    DEB, DEB_SRC.'
                                                   type: string
                                                 components:
-                                                  description: Required. List of components
+                                                  description: List of components
                                                     for this repository. Must contain
                                                     at least one item.
                                                   items:
                                                     type: string
                                                   type: array
                                                 distribution:
-                                                  description: Required. Distribution
-                                                    of this repository.
+                                                  description: Distribution of this
+                                                    repository.
                                                   type: string
                                                 gpgKey:
                                                   description: URI of the key file
@@ -2792,34 +2875,34 @@ spec:
                                                     maintains a keyring at /etc/apt/trusted.gpg.d/osconfig_agent_managed.gpg.
                                                   type: string
                                                 uri:
-                                                  description: Required. URI from
-                                                    which to fetch the object. It
-                                                    should contain both the protocol
-                                                    and path following the format
-                                                    {protocol}://{location}.
+                                                  description: URI from which to fetch
+                                                    the object. It should contain
+                                                    both the protocol and path following
+                                                    the format {protocol}://{location}.
                                                   type: string
                                               type: object
                                             type: array
                                           goo:
-                                            description: A Goo Repository.
+                                            description: A Goo Repository. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 name:
-                                                  description: Required. Package name.
+                                                  description: Package name.
                                                   type: string
                                                 url:
-                                                  description: Required. The url of
-                                                    the repository.
+                                                  description: The url of the repository.
                                                   type: string
                                               type: object
                                             type: array
                                           yum:
-                                            description: A Yum Repository.
+                                            description: A Yum Repository. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 baseUrl:
-                                                  description: Required. The location
-                                                    of the repository directory.
+                                                  description: The location of the
+                                                    repository directory.
                                                   type: string
                                                 displayName:
                                                   description: The display name of
@@ -2831,10 +2914,10 @@ spec:
                                                     type: string
                                                   type: array
                                                 id:
-                                                  description: Required. A one word,
-                                                    unique name for this repository.
-                                                    This is the repo id in the zypper
-                                                    config file and also the display_name
+                                                  description: A one word, unique
+                                                    name for this repository. This
+                                                    is the repo id in the zypper config
+                                                    file and also the display_name
                                                     if display_name is omitted. This
                                                     id is also used as the unique
                                                     identifier when checking for GuestPolicy
@@ -2843,12 +2926,13 @@ spec:
                                               type: object
                                             type: array
                                           zypper:
-                                            description: A Zypper Repository.
+                                            description: A Zypper Repository. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 baseUrl:
-                                                  description: Required. The location
-                                                    of the repository directory.
+                                                  description: The location of the
+                                                    repository directory.
                                                   type: string
                                                 displayName:
                                                   description: The display name of
@@ -2860,10 +2944,10 @@ spec:
                                                     type: string
                                                   type: array
                                                 id:
-                                                  description: Required. A one word,
-                                                    unique name for this repository.
-                                                    This is the repo id in the zypper
-                                                    config file and also the display_name
+                                                  description: A one word, unique
+                                                    name for this repository. This
+                                                    is the repo id in the zypper config
+                                                    file and also the display_name
                                                     if display_name is omitted. This
                                                     id is also used as the unique
                                                     identifier when checking for GuestPolicy
@@ -2880,12 +2964,13 @@ spec:
                       type: object
                     type: array
                   project:
-                    description: The project for the resource
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   reconciling:
                     description: 'Output only. Indicates that reconciliation is in
                       progress for the revision. This value is true when the rollout_state
-                      is one of: * IN_PROGRESS * CANCELLING'
+                      is one of:'
                     type: boolean
                   revisionCreateTime:
                     description: Output only. The timestamp that the revision was
@@ -2897,16 +2982,18 @@ spec:
                       assignment
                     type: string
                   rollout:
-                    description: 'Required. Rollout to deploy the OS policy assignment.
-                      A rollout is triggered in the following situations: 1) OSPolicyAssignment
+                    description: 'Rollout to deploy the OS policy assignment. A rollout
+                      is triggered in the following situations: 1) OSPolicyAssignment
                       is created. 2) OSPolicyAssignment is updated and the update
                       contains changes to one of the following fields: - instance_filter
-                      - os_policies 3) OSPolicyAssignment is deleted.'
+                      - os_policies 3) OSPolicyAssignment is deleted. Structure is
+                      documented below.'
                     items:
                       properties:
                         disruptionBudget:
-                          description: Required. The maximum number (or percentage)
-                            of VMs per zone to disrupt at any given moment.
+                          description: The maximum number (or percentage) of VMs per
+                            zone to disrupt at any given moment. Structure is documented
+                            below.
                           items:
                             properties:
                               fixed:
@@ -2920,18 +3007,16 @@ spec:
                             type: object
                           type: array
                         minWaitDuration:
-                          description: Required. This determines the minimum duration
-                            of time to wait after the configuration changes are applied
-                            through the current rollout. A VM continues to count towards
-                            the disruption_budget at least until this duration of
-                            time has passed after configuration changes are applied.
+                          description: This determines the minimum duration of time
+                            to wait after the configuration changes are applied through
+                            the current rollout. A VM continues to count towards the
+                            disruption_budget at least until this duration of time
+                            has passed after configuration changes are applied.
                           type: string
                       type: object
                     type: array
                   rolloutState:
-                    description: 'Output only. OS policy assignment rollout state
-                      Possible values: ROLLOUT_STATE_UNSPECIFIED, IN_PROGRESS, CANCELLING,
-                      CANCELLED, SUCCEEDED'
+                    description: Output only. OS policy assignment rollout state
                     type: string
                   skipAwaitRollout:
                     description: Set to true to skip awaiting rollout during resource

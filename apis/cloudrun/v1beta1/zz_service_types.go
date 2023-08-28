@@ -87,6 +87,9 @@ type ContainersInitParameters struct {
 	// Structure is documented below.
 	LivenessProbe []LivenessProbeInitParameters `json:"livenessProbe,omitempty" tf:"liveness_probe,omitempty"`
 
+	// Volume's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	// List of open ports in the container.
 	// Structure is documented below.
 	Ports []PortsInitParameters `json:"ports,omitempty" tf:"ports,omitempty"`
@@ -141,6 +144,9 @@ type ContainersObservation struct {
 	// Periodic probe of container liveness. Container will be restarted if the probe fails.
 	// Structure is documented below.
 	LivenessProbe []LivenessProbeObservation `json:"livenessProbe,omitempty" tf:"liveness_probe,omitempty"`
+
+	// Volume's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// List of open ports in the container.
 	// Structure is documented below.
@@ -202,6 +208,10 @@ type ContainersParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	LivenessProbe []LivenessProbeParameters `json:"livenessProbe,omitempty" tf:"liveness_probe,omitempty"`
+
+	// Volume's name.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// List of open ports in the container.
 	// Structure is documented below.
@@ -937,17 +947,18 @@ type ServiceInitParameters struct {
 	// Structure is documented below.
 	Template []TemplateInitParameters `json:"template,omitempty" tf:"template,omitempty"`
 
+	// (Output)
 	// Traffic specifies how to distribute traffic over a collection of Knative Revisions
 	// and Configurations
 	// Structure is documented below.
-	Traffic []TrafficInitParameters `json:"traffic,omitempty" tf:"traffic,omitempty"`
+	Traffic []ServiceTrafficInitParameters `json:"traffic,omitempty" tf:"traffic,omitempty"`
 }
 
 type ServiceMetadataInitParameters struct {
 
 	// Annotations is a key value map stored with a resource that
 	// may be set by external tools to store and retrieve arbitrary metadata. More
-	// info: http://kubernetes.io/docs/user-guide/annotations
+	// info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
 	// keys to configure features on a Revision template:
@@ -962,7 +973,7 @@ type ServiceMetadataObservation struct {
 
 	// Annotations is a key value map stored with a resource that
 	// may be set by external tools to store and retrieve arbitrary metadata. More
-	// info: http://kubernetes.io/docs/user-guide/annotations
+	// info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
 	// keys to configure features on a Revision template:
@@ -1002,7 +1013,7 @@ type ServiceMetadataParameters struct {
 
 	// Annotations is a key value map stored with a resource that
 	// may be set by external tools to store and retrieve arbitrary metadata. More
-	// info: http://kubernetes.io/docs/user-guide/annotations
+	// info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
 	// keys to configure features on a Revision template:
@@ -1074,10 +1085,11 @@ type ServiceObservation struct {
 	// Structure is documented below.
 	Template []TemplateObservation `json:"template,omitempty" tf:"template,omitempty"`
 
+	// (Output)
 	// Traffic specifies how to distribute traffic over a collection of Knative Revisions
 	// and Configurations
 	// Structure is documented below.
-	Traffic []TrafficObservation `json:"traffic,omitempty" tf:"traffic,omitempty"`
+	Traffic []ServiceTrafficObservation `json:"traffic,omitempty" tf:"traffic,omitempty"`
 }
 
 type ServiceParameters struct {
@@ -1123,11 +1135,12 @@ type ServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	Template []TemplateParameters `json:"template,omitempty" tf:"template,omitempty"`
 
+	// (Output)
 	// Traffic specifies how to distribute traffic over a collection of Knative Revisions
 	// and Configurations
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Traffic []TrafficParameters `json:"traffic,omitempty" tf:"traffic,omitempty"`
+	Traffic []ServiceTrafficParameters `json:"traffic,omitempty" tf:"traffic,omitempty"`
 }
 
 type ServiceStatusInitParameters struct {
@@ -1160,6 +1173,12 @@ type ServiceStatusObservation struct {
 	ObservedGeneration *float64 `json:"observedGeneration,omitempty" tf:"observed_generation,omitempty"`
 
 	// (Output)
+	// Traffic specifies how to distribute traffic over a collection of Knative Revisions
+	// and Configurations
+	// Structure is documented below.
+	Traffic []TrafficObservation `json:"traffic,omitempty" tf:"traffic,omitempty"`
+
+	// (Output)
 	// From RouteStatus. URL holds the url that will distribute traffic over the provided traffic
 	// targets. It generally has the form
 	// https://{route-hash}-{project-hash}-{cluster-level-suffix}.a.run.app
@@ -1167,6 +1186,70 @@ type ServiceStatusObservation struct {
 }
 
 type ServiceStatusParameters struct {
+}
+
+type ServiceTrafficInitParameters struct {
+
+	// LatestRevision may be optionally provided to indicate that the latest ready
+	// Revision of the Configuration should be used for this traffic target. When
+	// provided LatestRevision must be true if RevisionName is empty; it must be
+	// false when RevisionName is non-empty.
+	LatestRevision *bool `json:"latestRevision,omitempty" tf:"latest_revision,omitempty"`
+
+	// Percent specifies percent of the traffic to this Revision or Configuration.
+	Percent *float64 `json:"percent,omitempty" tf:"percent,omitempty"`
+
+	// RevisionName of a specific revision to which to send this portion of traffic.
+	RevisionName *string `json:"revisionName,omitempty" tf:"revision_name,omitempty"`
+
+	// Tag is optionally used to expose a dedicated url for referencing this target exclusively.
+	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+}
+
+type ServiceTrafficObservation struct {
+
+	// LatestRevision may be optionally provided to indicate that the latest ready
+	// Revision of the Configuration should be used for this traffic target. When
+	// provided LatestRevision must be true if RevisionName is empty; it must be
+	// false when RevisionName is non-empty.
+	LatestRevision *bool `json:"latestRevision,omitempty" tf:"latest_revision,omitempty"`
+
+	// Percent specifies percent of the traffic to this Revision or Configuration.
+	Percent *float64 `json:"percent,omitempty" tf:"percent,omitempty"`
+
+	// RevisionName of a specific revision to which to send this portion of traffic.
+	RevisionName *string `json:"revisionName,omitempty" tf:"revision_name,omitempty"`
+
+	// Tag is optionally used to expose a dedicated url for referencing this target exclusively.
+	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+
+	// (Output)
+	// URL displays the URL for accessing tagged traffic targets. URL is displayed in status,
+	// and is disallowed on spec. URL must contain a scheme (e.g. http://) and a hostname,
+	// but may not contain anything else (e.g. basic auth, url path, etc.)
+	URL *string `json:"url,omitempty" tf:"url,omitempty"`
+}
+
+type ServiceTrafficParameters struct {
+
+	// LatestRevision may be optionally provided to indicate that the latest ready
+	// Revision of the Configuration should be used for this traffic target. When
+	// provided LatestRevision must be true if RevisionName is empty; it must be
+	// false when RevisionName is non-empty.
+	// +kubebuilder:validation:Optional
+	LatestRevision *bool `json:"latestRevision,omitempty" tf:"latest_revision,omitempty"`
+
+	// Percent specifies percent of the traffic to this Revision or Configuration.
+	// +kubebuilder:validation:Optional
+	Percent *float64 `json:"percent" tf:"percent,omitempty"`
+
+	// RevisionName of a specific revision to which to send this portion of traffic.
+	// +kubebuilder:validation:Optional
+	RevisionName *string `json:"revisionName,omitempty" tf:"revision_name,omitempty"`
+
+	// Tag is optionally used to expose a dedicated url for referencing this target exclusively.
+	// +kubebuilder:validation:Optional
+	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 }
 
 type StartupProbeGRPCInitParameters struct {
@@ -1435,7 +1518,7 @@ type TemplateMetadataInitParameters struct {
 
 	// Annotations is a key value map stored with a resource that
 	// may be set by external tools to store and retrieve arbitrary metadata. More
-	// info: http://kubernetes.io/docs/user-guide/annotations
+	// info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
 	// keys to configure features on a Revision template:
@@ -1457,7 +1540,7 @@ type TemplateMetadataObservation struct {
 
 	// Annotations is a key value map stored with a resource that
 	// may be set by external tools to store and retrieve arbitrary metadata. More
-	// info: http://kubernetes.io/docs/user-guide/annotations
+	// info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
 	// keys to configure features on a Revision template:
@@ -1500,7 +1583,7 @@ type TemplateMetadataParameters struct {
 
 	// Annotations is a key value map stored with a resource that
 	// may be set by external tools to store and retrieve arbitrary metadata. More
-	// info: http://kubernetes.io/docs/user-guide/annotations
+	// info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
 	// keys to configure features on a Revision template:
@@ -1564,9 +1647,7 @@ type TemplateSpecInitParameters struct {
 	// requests per container of the Revision. Values are:
 	ContainerConcurrency *float64 `json:"containerConcurrency,omitempty" tf:"container_concurrency,omitempty"`
 
-	// Container defines the unit of execution for this Revision.
-	// In the context of a Revision, we disallow a number of the fields of
-	// this Container, including: name, ports, and volumeMounts.
+	// Containers defines the unit of execution for this Revision.
 	// Structure is documented below.
 	Containers []ContainersInitParameters `json:"containers,omitempty" tf:"containers,omitempty"`
 
@@ -1592,9 +1673,7 @@ type TemplateSpecObservation struct {
 	// requests per container of the Revision. Values are:
 	ContainerConcurrency *float64 `json:"containerConcurrency,omitempty" tf:"container_concurrency,omitempty"`
 
-	// Container defines the unit of execution for this Revision.
-	// In the context of a Revision, we disallow a number of the fields of
-	// this Container, including: name, ports, and volumeMounts.
+	// Containers defines the unit of execution for this Revision.
 	// Structure is documented below.
 	Containers []ContainersObservation `json:"containers,omitempty" tf:"containers,omitempty"`
 
@@ -1628,9 +1707,7 @@ type TemplateSpecParameters struct {
 	// +kubebuilder:validation:Optional
 	ContainerConcurrency *float64 `json:"containerConcurrency,omitempty" tf:"container_concurrency,omitempty"`
 
-	// Container defines the unit of execution for this Revision.
-	// In the context of a Revision, we disallow a number of the fields of
-	// this Container, including: name, ports, and volumeMounts.
+	// Containers defines the unit of execution for this Revision.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Containers []ContainersParameters `json:"containers,omitempty" tf:"containers,omitempty"`
@@ -1655,21 +1732,6 @@ type TemplateSpecParameters struct {
 }
 
 type TrafficInitParameters struct {
-
-	// LatestRevision may be optionally provided to indicate that the latest ready
-	// Revision of the Configuration should be used for this traffic target. When
-	// provided LatestRevision must be true if RevisionName is empty; it must be
-	// false when RevisionName is non-empty.
-	LatestRevision *bool `json:"latestRevision,omitempty" tf:"latest_revision,omitempty"`
-
-	// Percent specifies percent of the traffic to this Revision or Configuration.
-	Percent *float64 `json:"percent,omitempty" tf:"percent,omitempty"`
-
-	// RevisionName of a specific revision to which to send this portion of traffic.
-	RevisionName *string `json:"revisionName,omitempty" tf:"revision_name,omitempty"`
-
-	// Tag is optionally used to expose a dedicated url for referencing this target exclusively.
-	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 }
 
 type TrafficObservation struct {
@@ -1697,25 +1759,6 @@ type TrafficObservation struct {
 }
 
 type TrafficParameters struct {
-
-	// LatestRevision may be optionally provided to indicate that the latest ready
-	// Revision of the Configuration should be used for this traffic target. When
-	// provided LatestRevision must be true if RevisionName is empty; it must be
-	// false when RevisionName is non-empty.
-	// +kubebuilder:validation:Optional
-	LatestRevision *bool `json:"latestRevision,omitempty" tf:"latest_revision,omitempty"`
-
-	// Percent specifies percent of the traffic to this Revision or Configuration.
-	// +kubebuilder:validation:Optional
-	Percent *float64 `json:"percent" tf:"percent,omitempty"`
-
-	// RevisionName of a specific revision to which to send this portion of traffic.
-	// +kubebuilder:validation:Optional
-	RevisionName *string `json:"revisionName,omitempty" tf:"revision_name,omitempty"`
-
-	// Tag is optionally used to expose a dedicated url for referencing this target exclusively.
-	// +kubebuilder:validation:Optional
-	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 }
 
 type ValueFromInitParameters struct {
@@ -1807,7 +1850,7 @@ type VolumesParameters struct {
 	// the file is the secret_name.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Secret []SecretParameters `json:"secret" tf:"secret,omitempty"`
+	Secret []SecretParameters `json:"secret,omitempty" tf:"secret,omitempty"`
 }
 
 // ServiceSpec defines the desired state of Service

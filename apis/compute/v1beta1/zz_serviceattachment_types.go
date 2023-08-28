@@ -107,6 +107,12 @@ type ServiceAttachmentInitParameters struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// This flag determines whether a consumer accept/reject list change can reconcile the statuses of existing ACCEPTED or REJECTED PSC endpoints.
+	// If false, connection policy update will only affect existing PENDING PSC endpoints. Existing ACCEPTED/REJECTED endpoints will remain untouched regardless how the connection policy is modified .
+	// If true, update will affect both PENDING and ACCEPTED/REJECTED PSC endpoints. For example, an ACCEPTED PSC endpoint will be moved to REJECTED if its project is added to the reject list.
+	// For newly created service attachment, this boolean defaults to true.
+	ReconcileConnections *bool `json:"reconcileConnections,omitempty" tf:"reconcile_connections,omitempty"`
 }
 
 type ServiceAttachmentObservation struct {
@@ -156,6 +162,12 @@ type ServiceAttachmentObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// This flag determines whether a consumer accept/reject list change can reconcile the statuses of existing ACCEPTED or REJECTED PSC endpoints.
+	// If false, connection policy update will only affect existing PENDING PSC endpoints. Existing ACCEPTED/REJECTED endpoints will remain untouched regardless how the connection policy is modified .
+	// If true, update will affect both PENDING and ACCEPTED/REJECTED PSC endpoints. For example, an ACCEPTED PSC endpoint will be moved to REJECTED if its project is added to the reject list.
+	// For newly created service attachment, this boolean defaults to true.
+	ReconcileConnections *bool `json:"reconcileConnections,omitempty" tf:"reconcile_connections,omitempty"`
 
 	// URL of the region where the resource resides.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
@@ -220,6 +232,13 @@ type ServiceAttachmentParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// This flag determines whether a consumer accept/reject list change can reconcile the statuses of existing ACCEPTED or REJECTED PSC endpoints.
+	// If false, connection policy update will only affect existing PENDING PSC endpoints. Existing ACCEPTED/REJECTED endpoints will remain untouched regardless how the connection policy is modified .
+	// If true, update will affect both PENDING and ACCEPTED/REJECTED PSC endpoints. For example, an ACCEPTED PSC endpoint will be moved to REJECTED if its project is added to the reject list.
+	// For newly created service attachment, this boolean defaults to true.
+	// +kubebuilder:validation:Optional
+	ReconcileConnections *bool `json:"reconcileConnections,omitempty" tf:"reconcile_connections,omitempty"`
 
 	// URL of the region where the resource resides.
 	// +kubebuilder:validation:Required

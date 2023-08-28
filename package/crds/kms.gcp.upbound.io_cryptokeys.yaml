@@ -158,10 +158,8 @@ spec:
                       resource.
                     type: object
                   purpose:
-                    description: 'The immutable purpose of this CryptoKey. See the
-                      purpose reference for possible inputs. Default value is ENCRYPT_DECRYPT.
-                      Possible values are: ENCRYPT_DECRYPT, ASYMMETRIC_SIGN, ASYMMETRIC_DECRYPT,
-                      MAC.'
+                    description: The immutable purpose of this CryptoKey. See the
+                      purpose reference for possible inputs. Default value is "ENCRYPT_DECRYPT".
                     type: string
                   rotationPeriod:
                     description: Every time this period passes, generate a new CryptoKeyVersion
@@ -224,10 +222,8 @@ spec:
                       resource.
                     type: object
                   purpose:
-                    description: 'The immutable purpose of this CryptoKey. See the
-                      purpose reference for possible inputs. Default value is ENCRYPT_DECRYPT.
-                      Possible values are: ENCRYPT_DECRYPT, ASYMMETRIC_SIGN, ASYMMETRIC_DECRYPT,
-                      MAC.'
+                    description: The immutable purpose of this CryptoKey. See the
+                      purpose reference for possible inputs. Default value is "ENCRYPT_DECRYPT".
                     type: string
                   rotationPeriod:
                     description: Every time this period passes, generate a new CryptoKeyVersion
@@ -485,10 +481,8 @@ spec:
                       resource.
                     type: object
                   purpose:
-                    description: 'The immutable purpose of this CryptoKey. See the
-                      purpose reference for possible inputs. Default value is ENCRYPT_DECRYPT.
-                      Possible values are: ENCRYPT_DECRYPT, ASYMMETRIC_SIGN, ASYMMETRIC_DECRYPT,
-                      MAC.'
+                    description: The immutable purpose of this CryptoKey. See the
+                      purpose reference for possible inputs. Default value is "ENCRYPT_DECRYPT".
                     type: string
                   rotationPeriod:
                     description: Every time this period passes, generate a new CryptoKeyVersion

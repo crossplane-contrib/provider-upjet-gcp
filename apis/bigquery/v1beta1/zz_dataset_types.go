@@ -296,6 +296,12 @@ type DatasetInitParameters struct {
 
 	// Defines the time travel window in hours. The value can be from 48 to 168 hours (2 to 7 days).
 	MaxTimeTravelHours *string `json:"maxTimeTravelHours,omitempty" tf:"max_time_travel_hours,omitempty"`
+
+	// Specifies the storage billing model for the dataset.
+	// Set this flag value to LOGICAL to use logical bytes for storage billing,
+	// or to PHYSICAL to use physical bytes instead.
+	// LOGICAL is the default if this flag isn't specified.
+	StorageBillingModel *string `json:"storageBillingModel,omitempty" tf:"storage_billing_model,omitempty"`
 }
 
 type DatasetObservation struct {
@@ -374,6 +380,12 @@ type DatasetObservation struct {
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// Specifies the storage billing model for the dataset.
+	// Set this flag value to LOGICAL to use logical bytes for storage billing,
+	// or to PHYSICAL to use physical bytes instead.
+	// LOGICAL is the default if this flag isn't specified.
+	StorageBillingModel *string `json:"storageBillingModel,omitempty" tf:"storage_billing_model,omitempty"`
 }
 
 type DatasetParameters struct {
@@ -448,6 +460,13 @@ type DatasetParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Specifies the storage billing model for the dataset.
+	// Set this flag value to LOGICAL to use logical bytes for storage billing,
+	// or to PHYSICAL to use physical bytes instead.
+	// LOGICAL is the default if this flag isn't specified.
+	// +kubebuilder:validation:Optional
+	StorageBillingModel *string `json:"storageBillingModel,omitempty" tf:"storage_billing_model,omitempty"`
 }
 
 type DefaultEncryptionConfigurationInitParameters struct {

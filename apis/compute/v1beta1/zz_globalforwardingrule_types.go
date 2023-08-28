@@ -135,6 +135,9 @@ type GlobalForwardingRuleInitParameters struct {
 	// Structure is documented below.
 	MetadataFilters []MetadataFiltersInitParameters `json:"metadataFilters,omitempty" tf:"metadata_filters,omitempty"`
 
+	// This is used in PSC consumer ForwardingRule to control whether it should try to auto-generate a DNS zone or not. Non-PSC forwarding rules do not use this field.
+	NoAutomateDNSZone *bool `json:"noAutomateDnsZone,omitempty" tf:"no_automate_dns_zone,omitempty"`
+
 	// This field can only be used:
 	PortRange *string `json:"portRange,omitempty" tf:"port_range,omitempty"`
 
@@ -216,6 +219,9 @@ type GlobalForwardingRuleObservation struct {
 	// For Private Service Connect forwarding rules that forward traffic to Google
 	// APIs, a network must be provided.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// This is used in PSC consumer ForwardingRule to control whether it should try to auto-generate a DNS zone or not. Non-PSC forwarding rules do not use this field.
+	NoAutomateDNSZone *bool `json:"noAutomateDnsZone,omitempty" tf:"no_automate_dns_zone,omitempty"`
 
 	// This field can only be used:
 	PortRange *string `json:"portRange,omitempty" tf:"port_range,omitempty"`
@@ -336,6 +342,10 @@ type GlobalForwardingRuleParameters struct {
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+
+	// This is used in PSC consumer ForwardingRule to control whether it should try to auto-generate a DNS zone or not. Non-PSC forwarding rules do not use this field.
+	// +kubebuilder:validation:Optional
+	NoAutomateDNSZone *bool `json:"noAutomateDnsZone,omitempty" tf:"no_automate_dns_zone,omitempty"`
 
 	// This field can only be used:
 	// +kubebuilder:validation:Optional

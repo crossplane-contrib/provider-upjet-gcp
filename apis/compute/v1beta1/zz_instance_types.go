@@ -312,6 +312,19 @@ type GuestAcceleratorParameters struct {
 
 type IPv6AccessConfigInitParameters struct {
 
+	// The first IPv6 address of the external IPv6 range associated
+	// with this instance, prefix length is stored in externalIpv6PrefixLength in ipv6AccessConfig.
+	// To use a static external IP address, it must be unused and in the same region as the instance's zone.
+	// If not specified, Google Cloud will automatically assign an external IPv6 address from the instance's subnetwork.
+	ExternalIPv6 *string `json:"externalIpv6,omitempty" tf:"external_ipv6,omitempty"`
+
+	// The prefix length of the external IPv6 range.
+	ExternalIPv6PrefixLength *string `json:"externalIpv6PrefixLength,omitempty" tf:"external_ipv6_prefix_length,omitempty"`
+
+	// A unique name for the resource, required by GCE.
+	// Changing this forces a new resource to be created.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	// The service-level to be provided for IPv6 traffic when the
 	// subnet has an external subnet. Only PREMIUM or STANDARD tier is valid for IPv6.
 	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
@@ -323,13 +336,18 @@ type IPv6AccessConfigInitParameters struct {
 
 type IPv6AccessConfigObservation struct {
 
-	// The first IPv6 address of the external IPv6 range
-	// associated with this instance, prefix length is stored in externalIpv6PrefixLength in ipv6AccessConfig.
-	// The field is output only, an IPv6 address from a subnetwork associated with the instance will be allocated dynamically.
+	// The first IPv6 address of the external IPv6 range associated
+	// with this instance, prefix length is stored in externalIpv6PrefixLength in ipv6AccessConfig.
+	// To use a static external IP address, it must be unused and in the same region as the instance's zone.
+	// If not specified, Google Cloud will automatically assign an external IPv6 address from the instance's subnetwork.
 	ExternalIPv6 *string `json:"externalIpv6,omitempty" tf:"external_ipv6,omitempty"`
 
 	// The prefix length of the external IPv6 range.
 	ExternalIPv6PrefixLength *string `json:"externalIpv6PrefixLength,omitempty" tf:"external_ipv6_prefix_length,omitempty"`
+
+	// A unique name for the resource, required by GCE.
+	// Changing this forces a new resource to be created.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The service-level to be provided for IPv6 traffic when the
 	// subnet has an external subnet. Only PREMIUM or STANDARD tier is valid for IPv6.
@@ -341,6 +359,22 @@ type IPv6AccessConfigObservation struct {
 }
 
 type IPv6AccessConfigParameters struct {
+
+	// The first IPv6 address of the external IPv6 range associated
+	// with this instance, prefix length is stored in externalIpv6PrefixLength in ipv6AccessConfig.
+	// To use a static external IP address, it must be unused and in the same region as the instance's zone.
+	// If not specified, Google Cloud will automatically assign an external IPv6 address from the instance's subnetwork.
+	// +kubebuilder:validation:Optional
+	ExternalIPv6 *string `json:"externalIpv6,omitempty" tf:"external_ipv6,omitempty"`
+
+	// The prefix length of the external IPv6 range.
+	// +kubebuilder:validation:Optional
+	ExternalIPv6PrefixLength *string `json:"externalIpv6PrefixLength,omitempty" tf:"external_ipv6_prefix_length,omitempty"`
+
+	// A unique name for the resource, required by GCE.
+	// Changing this forces a new resource to be created.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The service-level to be provided for IPv6 traffic when the
 	// subnet has an external subnet. Only PREMIUM or STANDARD tier is valid for IPv6.
@@ -357,6 +391,9 @@ type InitializeParamsInitParameters struct {
 
 	// A map of key/value label pairs to assign to the instance.
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// The size of the image in gigabytes. If not specified, it
 	// will inherit the size of its base image.
@@ -381,6 +418,9 @@ type InitializeParamsObservation struct {
 
 	// A map of key/value label pairs to assign to the instance.
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// The size of the image in gigabytes. If not specified, it
 	// will inherit the size of its base image.
@@ -416,6 +456,10 @@ type InitializeParamsParameters struct {
 	// A map of key/value label pairs to assign to the instance.
 	// +kubebuilder:validation:Optional
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
+	// +kubebuilder:validation:Optional
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// The size of the image in gigabytes. If not specified, it
 	// will inherit the size of its base image.
@@ -590,6 +634,14 @@ type InstanceInitParameters struct {
 	// be specified multiple times. Structure is documented below.
 	NetworkInterface []NetworkInterfaceInitParameters `json:"networkInterface,omitempty" tf:"network_interface,omitempty"`
 
+	// os-features, and network_interface.0.nic-type must be GVNIC
+	// in order for this setting to take effect.
+	NetworkPerformanceConfig []NetworkPerformanceConfigInitParameters `json:"networkPerformanceConfig,omitempty" tf:"network_performance_config,omitempty"`
+
+	// Additional instance parameters.
+	// .
+	Params []ParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
+
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -724,6 +776,14 @@ type InstanceObservation struct {
 	// Networks to attach to the instance. This can
 	// be specified multiple times. Structure is documented below.
 	NetworkInterface []NetworkInterfaceObservation `json:"networkInterface,omitempty" tf:"network_interface,omitempty"`
+
+	// os-features, and network_interface.0.nic-type must be GVNIC
+	// in order for this setting to take effect.
+	NetworkPerformanceConfig []NetworkPerformanceConfigObservation `json:"networkPerformanceConfig,omitempty" tf:"network_performance_config,omitempty"`
+
+	// Additional instance parameters.
+	// .
+	Params []ParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -869,6 +929,16 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkInterface []NetworkInterfaceParameters `json:"networkInterface,omitempty" tf:"network_interface,omitempty"`
 
+	// os-features, and network_interface.0.nic-type must be GVNIC
+	// in order for this setting to take effect.
+	// +kubebuilder:validation:Optional
+	NetworkPerformanceConfig []NetworkPerformanceConfigParameters `json:"networkPerformanceConfig,omitempty" tf:"network_performance_config,omitempty"`
+
+	// Additional instance parameters.
+	// .
+	// +kubebuilder:validation:Optional
+	Params []ParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
+
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
@@ -912,6 +982,50 @@ type InstanceParameters struct {
 	// The zone that the machine should be created in. If it is not provided, the provider zone is used.
 	// +kubebuilder:validation:Required
 	Zone *string `json:"zone" tf:"zone,omitempty"`
+}
+
+type LocalSsdRecoveryTimeoutInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented with a 0
+	// seconds field and a positive nanos field. Must be from 0 to
+	// 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to
+	// 315,576,000,000 inclusive. Note: these bounds are computed from: 60
+	// sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type LocalSsdRecoveryTimeoutObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented with a 0
+	// seconds field and a positive nanos field. Must be from 0 to
+	// 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to
+	// 315,576,000,000 inclusive. Note: these bounds are computed from: 60
+	// sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type LocalSsdRecoveryTimeoutParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented with a 0
+	// seconds field and a positive nanos field. Must be from 0 to
+	// 999,999,999 inclusive.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to
+	// 315,576,000,000 inclusive. Note: these bounds are computed from: 60
+	// sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+	// +kubebuilder:validation:Optional
+	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
 
 type NetworkInterfaceInitParameters struct {
@@ -1097,6 +1211,28 @@ type NetworkInterfaceParameters struct {
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
 
+type NetworkPerformanceConfigInitParameters struct {
+
+	// The egress bandwidth tier to enable.
+	// Possible values: TIER_1, DEFAULT
+	TotalEgressBandwidthTier *string `json:"totalEgressBandwidthTier,omitempty" tf:"total_egress_bandwidth_tier,omitempty"`
+}
+
+type NetworkPerformanceConfigObservation struct {
+
+	// The egress bandwidth tier to enable.
+	// Possible values: TIER_1, DEFAULT
+	TotalEgressBandwidthTier *string `json:"totalEgressBandwidthTier,omitempty" tf:"total_egress_bandwidth_tier,omitempty"`
+}
+
+type NetworkPerformanceConfigParameters struct {
+
+	// The egress bandwidth tier to enable.
+	// Possible values: TIER_1, DEFAULT
+	// +kubebuilder:validation:Optional
+	TotalEgressBandwidthTier *string `json:"totalEgressBandwidthTier" tf:"total_egress_bandwidth_tier,omitempty"`
+}
+
 type NodeAffinitiesInitParameters struct {
 
 	// Corresponds to the label key of a reservation resource. To target a SPECIFIC_RESERVATION by name, specify compute.googleapis.com/reservation-name as the key and specify the name of your reservation as the only value.
@@ -1137,6 +1273,25 @@ type NodeAffinitiesParameters struct {
 	// Corresponds to the label values of a reservation resource.
 	// +kubebuilder:validation:Optional
 	Values []*string `json:"values" tf:"values,omitempty"`
+}
+
+type ParamsInitParameters struct {
+
+	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type ParamsObservation struct {
+
+	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type ParamsParameters struct {
+
+	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
+	// +kubebuilder:validation:Optional
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 type ReservationAffinityInitParameters struct {
@@ -1181,6 +1336,10 @@ type SchedulingInitParameters struct {
 	// Describe the type of termination action for VM. Can be STOP or DELETE.  Read more on here
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
+	// io/docs/providers/google/guides/provider_versions.html) Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. Structure is documented below.
+	// The local_ssd_recovery_timeout block supports:
+	LocalSsdRecoveryTimeout []LocalSsdRecoveryTimeoutInitParameters `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
+
 	// The minimum number of virtual CPUs this instance will consume when running on a sole-tenant node.
 	MinNodeCpus *float64 `json:"minNodeCpus,omitempty" tf:"min_node_cpus,omitempty"`
 
@@ -1217,6 +1376,10 @@ type SchedulingObservation struct {
 
 	// Describe the type of termination action for VM. Can be STOP or DELETE.  Read more on here
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
+
+	// io/docs/providers/google/guides/provider_versions.html) Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. Structure is documented below.
+	// The local_ssd_recovery_timeout block supports:
+	LocalSsdRecoveryTimeout []LocalSsdRecoveryTimeoutObservation `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
 	// The minimum number of virtual CPUs this instance will consume when running on a sole-tenant node.
 	MinNodeCpus *float64 `json:"minNodeCpus,omitempty" tf:"min_node_cpus,omitempty"`
@@ -1256,6 +1419,11 @@ type SchedulingParameters struct {
 	// Describe the type of termination action for VM. Can be STOP or DELETE.  Read more on here
 	// +kubebuilder:validation:Optional
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
+
+	// io/docs/providers/google/guides/provider_versions.html) Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. Structure is documented below.
+	// The local_ssd_recovery_timeout block supports:
+	// +kubebuilder:validation:Optional
+	LocalSsdRecoveryTimeout []LocalSsdRecoveryTimeoutParameters `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
 	// The minimum number of virtual CPUs this instance will consume when running on a sole-tenant node.
 	// +kubebuilder:validation:Optional

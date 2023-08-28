@@ -25,6 +25,31 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type NodeConfigGuestAcceleratorGpuDriverInstallationConfigInitParameters struct {
+
+	// The Kubernetes version for the nodes in this pool. Note that if this field
+	// and auto_upgrade are both specified, they will fight each other for what the node version should
+	// be, so setting both is highly discouraged.
+	GpuDriverVersion *string `json:"gpuDriverVersion,omitempty" tf:"gpu_driver_version"`
+}
+
+type NodeConfigGuestAcceleratorGpuDriverInstallationConfigObservation struct {
+
+	// The Kubernetes version for the nodes in this pool. Note that if this field
+	// and auto_upgrade are both specified, they will fight each other for what the node version should
+	// be, so setting both is highly discouraged.
+	GpuDriverVersion *string `json:"gpuDriverVersion,omitempty" tf:"gpu_driver_version,omitempty"`
+}
+
+type NodeConfigGuestAcceleratorGpuDriverInstallationConfigParameters struct {
+
+	// The Kubernetes version for the nodes in this pool. Note that if this field
+	// and auto_upgrade are both specified, they will fight each other for what the node version should
+	// be, so setting both is highly discouraged.
+	// +kubebuilder:validation:Optional
+	GpuDriverVersion *string `json:"gpuDriverVersion,omitempty" tf:"gpu_driver_version"`
+}
+
 type NodeConfigGuestAcceleratorGpuSharingConfigInitParameters struct {
 	GpuSharingStrategy *string `json:"gpuSharingStrategy,omitempty" tf:"gpu_sharing_strategy"`
 
@@ -44,6 +69,34 @@ type NodeConfigGuestAcceleratorGpuSharingConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
 	MaxSharedClientsPerGpu *float64 `json:"maxSharedClientsPerGpu,omitempty" tf:"max_shared_clients_per_gpu"`
+}
+
+type NodeConfigSoleTenantConfigNodeAffinityInitParameters struct {
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
+}
+
+type NodeConfigSoleTenantConfigNodeAffinityObservation struct {
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
+}
+
+type NodeConfigSoleTenantConfigNodeAffinityParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Operator *string `json:"operator" tf:"operator,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Values []*string `json:"values" tf:"values,omitempty"`
 }
 
 type NodePoolAutoscalingInitParameters struct {
@@ -331,6 +384,8 @@ type NodePoolNodeConfigGcfsConfigParameters struct {
 type NodePoolNodeConfigGuestAcceleratorInitParameters struct {
 	Count *float64 `json:"count,omitempty" tf:"count"`
 
+	GpuDriverInstallationConfig []NodeConfigGuestAcceleratorGpuDriverInstallationConfigInitParameters `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config"`
+
 	GpuPartitionSize *string `json:"gpuPartitionSize,omitempty" tf:"gpu_partition_size"`
 
 	GpuSharingConfig []NodeConfigGuestAcceleratorGpuSharingConfigInitParameters `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config"`
@@ -343,6 +398,8 @@ type NodePoolNodeConfigGuestAcceleratorInitParameters struct {
 
 type NodePoolNodeConfigGuestAcceleratorObservation struct {
 	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+
+	GpuDriverInstallationConfig []NodeConfigGuestAcceleratorGpuDriverInstallationConfigObservation `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config,omitempty"`
 
 	GpuPartitionSize *string `json:"gpuPartitionSize,omitempty" tf:"gpu_partition_size,omitempty"`
 
@@ -358,6 +415,9 @@ type NodePoolNodeConfigGuestAcceleratorParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Count *float64 `json:"count,omitempty" tf:"count"`
+
+	// +kubebuilder:validation:Optional
+	GpuDriverInstallationConfig []NodeConfigGuestAcceleratorGpuDriverInstallationConfigParameters `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config"`
 
 	// +kubebuilder:validation:Optional
 	GpuPartitionSize *string `json:"gpuPartitionSize,omitempty" tf:"gpu_partition_size"`
@@ -386,6 +446,20 @@ type NodePoolNodeConfigGvnicParameters struct {
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
+type NodePoolNodeConfigHostMaintenancePolicyInitParameters struct {
+	MaintenanceInterval *string `json:"maintenanceInterval,omitempty" tf:"maintenance_interval,omitempty"`
+}
+
+type NodePoolNodeConfigHostMaintenancePolicyObservation struct {
+	MaintenanceInterval *string `json:"maintenanceInterval,omitempty" tf:"maintenance_interval,omitempty"`
+}
+
+type NodePoolNodeConfigHostMaintenancePolicyParameters struct {
+
+	// +kubebuilder:validation:Optional
+	MaintenanceInterval *string `json:"maintenanceInterval" tf:"maintenance_interval,omitempty"`
+}
+
 type NodePoolNodeConfigInitParameters_2 struct {
 	AdvancedMachineFeatures []NodePoolNodeConfigAdvancedMachineFeaturesInitParameters `json:"advancedMachineFeatures,omitempty" tf:"advanced_machine_features,omitempty"`
 
@@ -402,6 +476,8 @@ type NodePoolNodeConfigInitParameters_2 struct {
 	GuestAccelerator []NodePoolNodeConfigGuestAcceleratorInitParameters `json:"guestAccelerator,omitempty" tf:"guest_accelerator,omitempty"`
 
 	Gvnic []NodePoolNodeConfigGvnicInitParameters `json:"gvnic,omitempty" tf:"gvnic,omitempty"`
+
+	HostMaintenancePolicy []NodePoolNodeConfigHostMaintenancePolicyInitParameters `json:"hostMaintenancePolicy,omitempty" tf:"host_maintenance_policy,omitempty"`
 
 	ImageType *string `json:"imageType,omitempty" tf:"image_type,omitempty"`
 
@@ -436,6 +512,8 @@ type NodePoolNodeConfigInitParameters_2 struct {
 	ResourceLabels map[string]*string `json:"resourceLabels,omitempty" tf:"resource_labels,omitempty"`
 
 	ShieldedInstanceConfig []NodePoolNodeConfigShieldedInstanceConfigInitParameters_2 `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
+
+	SoleTenantConfig []NodePoolNodeConfigSoleTenantConfigInitParameters `json:"soleTenantConfig,omitempty" tf:"sole_tenant_config,omitempty"`
 
 	Spot *bool `json:"spot,omitempty" tf:"spot,omitempty"`
 
@@ -526,6 +604,8 @@ type NodePoolNodeConfigObservation_2 struct {
 
 	Gvnic []NodePoolNodeConfigGvnicObservation `json:"gvnic,omitempty" tf:"gvnic,omitempty"`
 
+	HostMaintenancePolicy []NodePoolNodeConfigHostMaintenancePolicyObservation `json:"hostMaintenancePolicy,omitempty" tf:"host_maintenance_policy,omitempty"`
+
 	ImageType *string `json:"imageType,omitempty" tf:"image_type,omitempty"`
 
 	KubeletConfig []NodePoolNodeConfigKubeletConfigObservation `json:"kubeletConfig,omitempty" tf:"kubelet_config,omitempty"`
@@ -562,6 +642,8 @@ type NodePoolNodeConfigObservation_2 struct {
 
 	ShieldedInstanceConfig []NodePoolNodeConfigShieldedInstanceConfigObservation_2 `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
 
+	SoleTenantConfig []NodePoolNodeConfigSoleTenantConfigObservation `json:"soleTenantConfig,omitempty" tf:"sole_tenant_config,omitempty"`
+
 	Spot *bool `json:"spot,omitempty" tf:"spot,omitempty"`
 
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -596,6 +678,9 @@ type NodePoolNodeConfigParameters_2 struct {
 
 	// +kubebuilder:validation:Optional
 	Gvnic []NodePoolNodeConfigGvnicParameters `json:"gvnic,omitempty" tf:"gvnic,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	HostMaintenancePolicy []NodePoolNodeConfigHostMaintenancePolicyParameters `json:"hostMaintenancePolicy,omitempty" tf:"host_maintenance_policy,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	ImageType *string `json:"imageType,omitempty" tf:"image_type,omitempty"`
@@ -661,6 +746,9 @@ type NodePoolNodeConfigParameters_2 struct {
 	ShieldedInstanceConfig []NodePoolNodeConfigShieldedInstanceConfigParameters_2 `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	SoleTenantConfig []NodePoolNodeConfigSoleTenantConfigParameters `json:"soleTenantConfig,omitempty" tf:"sole_tenant_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	Spot *bool `json:"spot,omitempty" tf:"spot,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -720,6 +808,20 @@ type NodePoolNodeConfigShieldedInstanceConfigParameters_2 struct {
 
 	// +kubebuilder:validation:Optional
 	EnableSecureBoot *bool `json:"enableSecureBoot,omitempty" tf:"enable_secure_boot,omitempty"`
+}
+
+type NodePoolNodeConfigSoleTenantConfigInitParameters struct {
+	NodeAffinity []NodeConfigSoleTenantConfigNodeAffinityInitParameters `json:"nodeAffinity,omitempty" tf:"node_affinity,omitempty"`
+}
+
+type NodePoolNodeConfigSoleTenantConfigObservation struct {
+	NodeAffinity []NodeConfigSoleTenantConfigNodeAffinityObservation `json:"nodeAffinity,omitempty" tf:"node_affinity,omitempty"`
+}
+
+type NodePoolNodeConfigSoleTenantConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	NodeAffinity []NodeConfigSoleTenantConfigNodeAffinityParameters `json:"nodeAffinity" tf:"node_affinity,omitempty"`
 }
 
 type NodePoolNodeConfigTaintInitParameters struct {
@@ -935,6 +1037,11 @@ type NodePoolParameters_2 struct {
 
 type NodePoolPlacementPolicyInitParameters struct {
 
+	// If set, refers to the name of a custom resource policy supplied by the user.
+	// The resource policy must be in the same project and region as the node pool.
+	// If not found, InvalidArgument error is returned.
+	PolicyName *string `json:"policyName,omitempty" tf:"policy_name,omitempty"`
+
 	// The type of the policy. Supports a single value: COMPACT.
 	// Specifying COMPACT placement policy type places node pool's nodes in a closer
 	// physical proximity in order to reduce network latency between nodes.
@@ -943,6 +1050,11 @@ type NodePoolPlacementPolicyInitParameters struct {
 
 type NodePoolPlacementPolicyObservation struct {
 
+	// If set, refers to the name of a custom resource policy supplied by the user.
+	// The resource policy must be in the same project and region as the node pool.
+	// If not found, InvalidArgument error is returned.
+	PolicyName *string `json:"policyName,omitempty" tf:"policy_name,omitempty"`
+
 	// The type of the policy. Supports a single value: COMPACT.
 	// Specifying COMPACT placement policy type places node pool's nodes in a closer
 	// physical proximity in order to reduce network latency between nodes.
@@ -950,6 +1062,12 @@ type NodePoolPlacementPolicyObservation struct {
 }
 
 type NodePoolPlacementPolicyParameters struct {
+
+	// If set, refers to the name of a custom resource policy supplied by the user.
+	// The resource policy must be in the same project and region as the node pool.
+	// If not found, InvalidArgument error is returned.
+	// +kubebuilder:validation:Optional
+	PolicyName *string `json:"policyName,omitempty" tf:"policy_name,omitempty"`
 
 	// The type of the policy. Supports a single value: COMPACT.
 	// Specifying COMPACT placement policy type places node pool's nodes in a closer

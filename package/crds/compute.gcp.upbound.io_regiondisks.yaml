@@ -68,6 +68,94 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  asyncPrimaryDisk:
+                    description: A nested object resource Structure is documented
+                      below.
+                    items:
+                      properties:
+                        disk:
+                          description: Primary disk for asynchronous disk replication.
+                          type: string
+                        diskRef:
+                          description: Reference to a RegionDisk in compute to populate
+                            disk.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        diskSelector:
+                          description: Selector for a RegionDisk in compute to populate
+                            disk.
+                          properties:
+                            matchControllerRef:
+                              description: MatchControllerRef ensures an object with
+                                the same controller reference as the selecting object
+                                is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                      type: object
+                    type: array
                   description:
                     description: An optional description of this resource. Provide
                       this property when you create the resource.
@@ -111,12 +199,33 @@ spec:
                           type: object
                       type: object
                     type: array
+                  guestOsFeatures:
+                    description: A list of features to enable on the guest operating
+                      system. Applicable only for bootable disks. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        type:
+                          description: 'The type of supported feature. Read Enabling
+                            guest operating system features to see a list of available
+                            options. Possible values are: MULTI_IP_SUBNET, SECURE_BOOT,
+                            SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE,
+                            WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE,
+                            SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.'
+                          type: string
+                      type: object
+                    type: array
                   labels:
                     additionalProperties:
                       type: string
                     description: Labels to apply to this disk.  A list of key->value
                       pairs.
                     type: object
+                  licenses:
+                    description: Any applicable license URI.
+                    items:
+                      type: string
+                    type: array
                   physicalBlockSizeBytes:
                     description: Physical block size of the persistent disk, in bytes.
                       If not present in a request, a default value is used. Currently
@@ -263,6 +372,12 @@ spec:
                   creation, for example because of an external controller is managing
                   them, like an autoscaler.
                 properties:
+                  asyncPrimaryDisk:
+                    description: A nested object resource Structure is documented
+                      below.
+                    items:
+                      type: object
+                    type: array
                   description:
                     description: An optional description of this resource. Provide
                       this property when you create the resource.
@@ -286,12 +401,33 @@ spec:
                           type: string
                       type: object
                     type: array
+                  guestOsFeatures:
+                    description: A list of features to enable on the guest operating
+                      system. Applicable only for bootable disks. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        type:
+                          description: 'The type of supported feature. Read Enabling
+                            guest operating system features to see a list of available
+                            options. Possible values are: MULTI_IP_SUBNET, SECURE_BOOT,
+                            SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE,
+                            WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE,
+                            SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.'
+                          type: string
+                      type: object
+                    type: array
                   labels:
                     additionalProperties:
                       type: string
                     description: Labels to apply to this disk.  A list of key->value
                       pairs.
                     type: object
+                  licenses:
+                    description: Any applicable license URI.
+                    items:
+                      type: string
+                    type: array
                   physicalBlockSizeBytes:
                     description: Physical block size of the persistent disk, in bytes.
                       If not present in a request, a default value is used. Currently
@@ -549,6 +685,16 @@ spec:
             properties:
               atProvider:
                 properties:
+                  asyncPrimaryDisk:
+                    description: A nested object resource Structure is documented
+                      below.
+                    items:
+                      properties:
+                        disk:
+                          description: Primary disk for asynchronous disk replication.
+                          type: string
+                      type: object
+                    type: array
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
@@ -580,6 +726,22 @@ spec:
                           type: string
                       type: object
                     type: array
+                  guestOsFeatures:
+                    description: A list of features to enable on the guest operating
+                      system. Applicable only for bootable disks. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        type:
+                          description: 'The type of supported feature. Read Enabling
+                            guest operating system features to see a list of available
+                            options. Possible values are: MULTI_IP_SUBNET, SECURE_BOOT,
+                            SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE,
+                            WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE,
+                            SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.'
+                          type: string
+                      type: object
+                    type: array
                   id:
                     description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/disks/{{name}}
                     type: string
@@ -599,6 +761,11 @@ spec:
                   lastDetachTimestamp:
                     description: Last detach timestamp in RFC3339 text format.
                     type: string
+                  licenses:
+                    description: Any applicable license URI.
+                    items:
+                      type: string
+                    type: array
                   physicalBlockSizeBytes:
                     description: Physical block size of the persistent disk, in bytes.
                       If not present in a request, a default value is used. Currently

@@ -25,6 +25,32 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type RegionDiskAsyncPrimaryDiskInitParameters struct {
+}
+
+type RegionDiskAsyncPrimaryDiskObservation struct {
+
+	// Primary disk for asynchronous disk replication.
+	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
+}
+
+type RegionDiskAsyncPrimaryDiskParameters struct {
+
+	// Primary disk for asynchronous disk replication.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionDisk
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
+
+	// Reference to a RegionDisk in compute to populate disk.
+	// +kubebuilder:validation:Optional
+	DiskRef *v1.Reference `json:"diskRef,omitempty" tf:"-"`
+
+	// Selector for a RegionDisk in compute to populate disk.
+	// +kubebuilder:validation:Optional
+	DiskSelector *v1.Selector `json:"diskSelector,omitempty" tf:"-"`
+}
+
 type RegionDiskDiskEncryptionKeyInitParameters struct {
 
 	// The name of the encryption key that is stored in Google Cloud KMS.
@@ -55,7 +81,33 @@ type RegionDiskDiskEncryptionKeyParameters struct {
 	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 }
 
+type RegionDiskGuestOsFeaturesInitParameters struct {
+
+	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
+	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type RegionDiskGuestOsFeaturesObservation struct {
+
+	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
+	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type RegionDiskGuestOsFeaturesParameters struct {
+
+	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
+	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type" tf:"type,omitempty"`
+}
+
 type RegionDiskInitParameters struct {
+
+	// A nested object resource
+	// Structure is documented below.
+	AsyncPrimaryDisk []RegionDiskAsyncPrimaryDiskInitParameters `json:"asyncPrimaryDisk,omitempty" tf:"async_primary_disk,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
@@ -73,8 +125,16 @@ type RegionDiskInitParameters struct {
 	// Structure is documented below.
 	DiskEncryptionKey []RegionDiskDiskEncryptionKeyInitParameters `json:"diskEncryptionKey,omitempty" tf:"disk_encryption_key,omitempty"`
 
+	// A list of features to enable on the guest operating system.
+	// Applicable only for bootable disks.
+	// Structure is documented below.
+	GuestOsFeatures []RegionDiskGuestOsFeaturesInitParameters `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
+
 	// Labels to apply to this disk.  A list of key->value pairs.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Any applicable license URI.
+	Licenses []*string `json:"licenses,omitempty" tf:"licenses,omitempty"`
 
 	// Physical block size of the persistent disk, in bytes. If not present
 	// in a request, a default value is used. Currently supported sizes
@@ -116,6 +176,10 @@ type RegionDiskInitParameters struct {
 
 type RegionDiskObservation struct {
 
+	// A nested object resource
+	// Structure is documented below.
+	AsyncPrimaryDisk []RegionDiskAsyncPrimaryDiskObservation `json:"asyncPrimaryDisk,omitempty" tf:"async_primary_disk,omitempty"`
+
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
@@ -135,6 +199,11 @@ type RegionDiskObservation struct {
 	// Structure is documented below.
 	DiskEncryptionKey []RegionDiskDiskEncryptionKeyObservation `json:"diskEncryptionKey,omitempty" tf:"disk_encryption_key,omitempty"`
 
+	// A list of features to enable on the guest operating system.
+	// Applicable only for bootable disks.
+	// Structure is documented below.
+	GuestOsFeatures []RegionDiskGuestOsFeaturesObservation `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/disks/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -150,6 +219,9 @@ type RegionDiskObservation struct {
 
 	// Last detach timestamp in RFC3339 text format.
 	LastDetachTimestamp *string `json:"lastDetachTimestamp,omitempty" tf:"last_detach_timestamp,omitempty"`
+
+	// Any applicable license URI.
+	Licenses []*string `json:"licenses,omitempty" tf:"licenses,omitempty"`
 
 	// Physical block size of the persistent disk, in bytes. If not present
 	// in a request, a default value is used. Currently supported sizes
@@ -219,6 +291,11 @@ type RegionDiskObservation struct {
 
 type RegionDiskParameters struct {
 
+	// A nested object resource
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AsyncPrimaryDisk []RegionDiskAsyncPrimaryDiskParameters `json:"asyncPrimaryDisk,omitempty" tf:"async_primary_disk,omitempty"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	// +kubebuilder:validation:Optional
@@ -237,9 +314,19 @@ type RegionDiskParameters struct {
 	// +kubebuilder:validation:Optional
 	DiskEncryptionKey []RegionDiskDiskEncryptionKeyParameters `json:"diskEncryptionKey,omitempty" tf:"disk_encryption_key,omitempty"`
 
+	// A list of features to enable on the guest operating system.
+	// Applicable only for bootable disks.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GuestOsFeatures []RegionDiskGuestOsFeaturesParameters `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
+
 	// Labels to apply to this disk.  A list of key->value pairs.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Any applicable license URI.
+	// +kubebuilder:validation:Optional
+	Licenses []*string `json:"licenses,omitempty" tf:"licenses,omitempty"`
 
 	// Physical block size of the persistent disk, in bytes. If not present
 	// in a request, a default value is used. Currently supported sizes

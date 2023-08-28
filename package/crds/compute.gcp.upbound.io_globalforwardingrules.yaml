@@ -315,6 +315,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  noAutomateDnsZone:
+                    description: This is used in PSC consumer ForwardingRule to control
+                      whether it should try to auto-generate a DNS zone or not. Non-PSC
+                      forwarding rules do not use this field.
+                    type: boolean
                   portRange:
                     description: 'This field can only be used:'
                     type: string
@@ -586,6 +591,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  noAutomateDnsZone:
+                    description: This is used in PSC consumer ForwardingRule to control
+                      whether it should try to auto-generate a DNS zone or not. Non-PSC
+                      forwarding rules do not use this field.
+                    type: boolean
                   portRange:
                     description: 'This field can only be used:'
                     type: string
@@ -919,6 +929,11 @@ spec:
                       Service Connect forwarding rules that forward traffic to Google
                       APIs, a network must be provided.
                     type: string
+                  noAutomateDnsZone:
+                    description: This is used in PSC consumer ForwardingRule to control
+                      whether it should try to auto-generate a DNS zone or not. Non-PSC
+                      forwarding rules do not use this field.
+                    type: boolean
                   portRange:
                     description: 'This field can only be used:'
                     type: string

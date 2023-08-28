@@ -89,6 +89,8 @@ type RegionInstanceGroupManagerInitParameters struct {
 	// group. You can specify one or more values. For more information, see the official documentation.
 	DistributionPolicyZones []*string `json:"distributionPolicyZones,omitempty" tf:"distribution_policy_zones,omitempty"`
 
+	InstanceLifecyclePolicy []RegionInstanceGroupManagerInstanceLifecyclePolicyInitParameters `json:"instanceLifecyclePolicy,omitempty" tf:"instance_lifecycle_policy,omitempty"`
+
 	// Pagination behavior of the listManagedInstances API
 	// method for this managed instance group. Valid values are: PAGELESS, PAGINATED.
 	// If PAGELESS (default), Pagination is disabled for the group's listManagedInstances API method.
@@ -139,6 +141,25 @@ type RegionInstanceGroupManagerInitParameters struct {
 	// set, it will wait for the version target to be reached and any per instance configs to be effective as well as all
 	// instances to be stable before returning. The possible values are STABLE and UPDATED
 	WaitForInstancesStatus *string `json:"waitForInstancesStatus,omitempty" tf:"wait_for_instances_status,omitempty"`
+}
+
+type RegionInstanceGroupManagerInstanceLifecyclePolicyInitParameters struct {
+
+	// ), Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
+	ForceUpdateOnRepair *string `json:"forceUpdateOnRepair,omitempty" tf:"force_update_on_repair,omitempty"`
+}
+
+type RegionInstanceGroupManagerInstanceLifecyclePolicyObservation struct {
+
+	// ), Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
+	ForceUpdateOnRepair *string `json:"forceUpdateOnRepair,omitempty" tf:"force_update_on_repair,omitempty"`
+}
+
+type RegionInstanceGroupManagerInstanceLifecyclePolicyParameters struct {
+
+	// ), Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
+	// +kubebuilder:validation:Optional
+	ForceUpdateOnRepair *string `json:"forceUpdateOnRepair,omitempty" tf:"force_update_on_repair,omitempty"`
 }
 
 type RegionInstanceGroupManagerNamedPortInitParameters struct {
@@ -203,6 +224,8 @@ type RegionInstanceGroupManagerObservation struct {
 
 	// The full URL of the instance group created by the manager.
 	InstanceGroup *string `json:"instanceGroup,omitempty" tf:"instance_group,omitempty"`
+
+	InstanceLifecyclePolicy []RegionInstanceGroupManagerInstanceLifecyclePolicyObservation `json:"instanceLifecyclePolicy,omitempty" tf:"instance_lifecycle_policy,omitempty"`
 
 	// Pagination behavior of the listManagedInstances API
 	// method for this managed instance group. Valid values are: PAGELESS, PAGINATED.
@@ -295,6 +318,9 @@ type RegionInstanceGroupManagerParameters struct {
 	// group. You can specify one or more values. For more information, see the official documentation.
 	// +kubebuilder:validation:Optional
 	DistributionPolicyZones []*string `json:"distributionPolicyZones,omitempty" tf:"distribution_policy_zones,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	InstanceLifecyclePolicy []RegionInstanceGroupManagerInstanceLifecyclePolicyParameters `json:"instanceLifecyclePolicy,omitempty" tf:"instance_lifecycle_policy,omitempty"`
 
 	// Pagination behavior of the listManagedInstances API
 	// method for this managed instance group. Valid values are: PAGELESS, PAGINATED.

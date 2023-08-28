@@ -880,6 +880,13 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  state:
+                    description: The State of the BackupPlan.
+                    type: string
+                  stateReason:
+                    description: Detailed description of why BackupPlan is in its
+                      current state.
+                    type: string
                   uid:
                     description: Server generated, unique identifier of UUID format.
                     type: string

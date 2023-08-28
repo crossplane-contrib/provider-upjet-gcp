@@ -8,7 +8,7 @@ metadata:
   name: main
 spec:
   forProvider:
-    databaseVersion: POSTGRES_14
+    databaseVersion: POSTGRES_15
     region: us-central1
     settings:
     - tier: db-f1-micro

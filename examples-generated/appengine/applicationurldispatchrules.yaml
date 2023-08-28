@@ -32,6 +32,7 @@ metadata:
   name: admin-v3
 spec:
   forProvider:
+    deleteServiceOnDestroy: true
     deployment:
     - zip:
       - sourceUrl: https://storage.googleapis.com/${google_storage_bucket.bucket.name}/${google_storage_bucket_object.object.name}
@@ -39,7 +40,6 @@ spec:
     - shell: node ./app.js
     envVariables:
       port: "8080"
-    noopOnDestroy: true
     runtime: nodejs10
     service: admin
 

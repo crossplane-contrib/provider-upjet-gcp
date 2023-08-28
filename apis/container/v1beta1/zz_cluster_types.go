@@ -48,6 +48,11 @@ type AddonsConfigInitParameters struct {
 	// Whether this cluster should enable the Google Compute Engine Persistent Disk Container Storage Interface (CSI) Driver. Defaults to disabled; set enabled = true to enabled.
 	GcePersistentDiskCsiDriverConfig []GcePersistentDiskCsiDriverConfigInitParameters `json:"gcePersistentDiskCsiDriverConfig,omitempty" tf:"gce_persistent_disk_csi_driver_config,omitempty"`
 
+	// The status of the GCSFuse CSI driver addon,
+	// which allows the usage of a gcs bucket as volumes.
+	// It is disabled by default; set enabled = true to enable.
+	GcsFuseCsiDriverConfig []GcsFuseCsiDriverConfigInitParameters `json:"gcsFuseCsiDriverConfig,omitempty" tf:"gcs_fuse_csi_driver_config,omitempty"`
+
 	// .
 	// The status of the Backup for GKE agent addon. It is disabled by default; Set enabled = true to enable.
 	GkeBackupAgentConfig []GkeBackupAgentConfigInitParameters `json:"gkeBackupAgentConfig,omitempty" tf:"gke_backup_agent_config,omitempty"`
@@ -95,6 +100,11 @@ type AddonsConfigObservation struct {
 	// .
 	// Whether this cluster should enable the Google Compute Engine Persistent Disk Container Storage Interface (CSI) Driver. Defaults to disabled; set enabled = true to enabled.
 	GcePersistentDiskCsiDriverConfig []GcePersistentDiskCsiDriverConfigObservation `json:"gcePersistentDiskCsiDriverConfig,omitempty" tf:"gce_persistent_disk_csi_driver_config,omitempty"`
+
+	// The status of the GCSFuse CSI driver addon,
+	// which allows the usage of a gcs bucket as volumes.
+	// It is disabled by default; set enabled = true to enable.
+	GcsFuseCsiDriverConfig []GcsFuseCsiDriverConfigObservation `json:"gcsFuseCsiDriverConfig,omitempty" tf:"gcs_fuse_csi_driver_config,omitempty"`
 
 	// .
 	// The status of the Backup for GKE agent addon. It is disabled by default; Set enabled = true to enable.
@@ -148,6 +158,12 @@ type AddonsConfigParameters struct {
 	// Whether this cluster should enable the Google Compute Engine Persistent Disk Container Storage Interface (CSI) Driver. Defaults to disabled; set enabled = true to enabled.
 	// +kubebuilder:validation:Optional
 	GcePersistentDiskCsiDriverConfig []GcePersistentDiskCsiDriverConfigParameters `json:"gcePersistentDiskCsiDriverConfig,omitempty" tf:"gce_persistent_disk_csi_driver_config,omitempty"`
+
+	// The status of the GCSFuse CSI driver addon,
+	// which allows the usage of a gcs bucket as volumes.
+	// It is disabled by default; set enabled = true to enable.
+	// +kubebuilder:validation:Optional
+	GcsFuseCsiDriverConfig []GcsFuseCsiDriverConfigParameters `json:"gcsFuseCsiDriverConfig,omitempty" tf:"gcs_fuse_csi_driver_config,omitempty"`
 
 	// .
 	// The status of the Backup for GKE agent addon. It is disabled by default; Set enabled = true to enable.
@@ -615,6 +631,11 @@ type ClusterInitParameters struct {
 	// Structure is documented below.
 	AddonsConfig []AddonsConfigInitParameters `json:"addonsConfig,omitempty" tf:"addons_config,omitempty"`
 
+	// Enable NET_ADMIN for the cluster. Defaults to
+	// false. This field should only be enabled for Autopilot clusters (enable_autopilot
+	// set to true).
+	AllowNetAdmin *bool `json:"allowNetAdmin,omitempty" tf:"allow_net_admin,omitempty"`
+
 	// Configuration for the
 	// Google Groups for GKE feature.
 	// Structure is documented below.
@@ -651,7 +672,7 @@ type ClusterInitParameters struct {
 	// Structure is documented below.
 	DatabaseEncryption []DatabaseEncryptionInitParameters `json:"databaseEncryption,omitempty" tf:"database_encryption,omitempty"`
 
-	// The desired datapath provider for this cluster. By default, uses the IPTables-based kube-proxy implementation.
+	// The desired datapath provider for this cluster. This is set to LEGACY_DATAPATH by default, which uses the IPTables-based kube-proxy implementation. Set to ADVANCED_DATAPATH to enable Dataplane v2.
 	DatapathProvider *string `json:"datapathProvider,omitempty" tf:"datapath_provider,omitempty"`
 
 	// The default maximum number of pods
@@ -679,6 +700,10 @@ type ClusterInitParameters struct {
 
 	// Whether Intra-node visibility is enabled for this cluster. This makes same node pod to pod traffic visible for VPC network.
 	EnableIntranodeVisibility *bool `json:"enableIntranodeVisibility,omitempty" tf:"enable_intranode_visibility,omitempty"`
+
+	// Configuration for Kubernetes Beta APIs.
+	// Structure is documented below.
+	EnableK8SBetaApis []EnableK8SBetaApisInitParameters `json:"enableK8SBetaApis,omitempty" tf:"enable_k8s_beta_apis,omitempty"`
 
 	// Whether to enable Kubernetes Alpha features for
 	// this cluster. Note that when this option is enabled, the cluster cannot be upgraded
@@ -837,6 +862,9 @@ type ClusterInitParameters struct {
 	// Structure is documented below.
 	ResourceUsageExportConfig []ResourceUsageExportConfigInitParameters `json:"resourceUsageExportConfig,omitempty" tf:"resource_usage_export_config,omitempty"`
 
+	// Enable/Disable Security Posture API features for the cluster. Structure is documented below.
+	SecurityPostureConfig []SecurityPostureConfigInitParameters `json:"securityPostureConfig,omitempty" tf:"security_posture_config,omitempty"`
+
 	// Structure is documented below.
 	ServiceExternalIpsConfig []ServiceExternalIpsConfigInitParameters `json:"serviceExternalIpsConfig,omitempty" tf:"service_external_ips_config,omitempty"`
 
@@ -855,6 +883,11 @@ type ClusterObservation struct {
 	// The configuration for addons supported by GKE.
 	// Structure is documented below.
 	AddonsConfig []AddonsConfigObservation `json:"addonsConfig,omitempty" tf:"addons_config,omitempty"`
+
+	// Enable NET_ADMIN for the cluster. Defaults to
+	// false. This field should only be enabled for Autopilot clusters (enable_autopilot
+	// set to true).
+	AllowNetAdmin *bool `json:"allowNetAdmin,omitempty" tf:"allow_net_admin,omitempty"`
 
 	// Configuration for the
 	// Google Groups for GKE feature.
@@ -892,7 +925,7 @@ type ClusterObservation struct {
 	// Structure is documented below.
 	DatabaseEncryption []DatabaseEncryptionObservation `json:"databaseEncryption,omitempty" tf:"database_encryption,omitempty"`
 
-	// The desired datapath provider for this cluster. By default, uses the IPTables-based kube-proxy implementation.
+	// The desired datapath provider for this cluster. This is set to LEGACY_DATAPATH by default, which uses the IPTables-based kube-proxy implementation. Set to ADVANCED_DATAPATH to enable Dataplane v2.
 	DatapathProvider *string `json:"datapathProvider,omitempty" tf:"datapath_provider,omitempty"`
 
 	// The default maximum number of pods
@@ -920,6 +953,10 @@ type ClusterObservation struct {
 
 	// Whether Intra-node visibility is enabled for this cluster. This makes same node pod to pod traffic visible for VPC network.
 	EnableIntranodeVisibility *bool `json:"enableIntranodeVisibility,omitempty" tf:"enable_intranode_visibility,omitempty"`
+
+	// Configuration for Kubernetes Beta APIs.
+	// Structure is documented below.
+	EnableK8SBetaApis []EnableK8SBetaApisObservation `json:"enableK8SBetaApis,omitempty" tf:"enable_k8s_beta_apis,omitempty"`
 
 	// Whether to enable Kubernetes Alpha features for
 	// this cluster. Note that when this option is enabled, the cluster cannot be upgraded
@@ -1115,6 +1152,9 @@ type ClusterObservation struct {
 	// Structure is documented below.
 	ResourceUsageExportConfig []ResourceUsageExportConfigObservation `json:"resourceUsageExportConfig,omitempty" tf:"resource_usage_export_config,omitempty"`
 
+	// Enable/Disable Security Posture API features for the cluster. Structure is documented below.
+	SecurityPostureConfig []SecurityPostureConfigObservation `json:"securityPostureConfig,omitempty" tf:"security_posture_config,omitempty"`
+
 	// The server-defined URL for the resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
@@ -1152,6 +1192,12 @@ type ClusterParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AddonsConfig []AddonsConfigParameters `json:"addonsConfig,omitempty" tf:"addons_config,omitempty"`
+
+	// Enable NET_ADMIN for the cluster. Defaults to
+	// false. This field should only be enabled for Autopilot clusters (enable_autopilot
+	// set to true).
+	// +kubebuilder:validation:Optional
+	AllowNetAdmin *bool `json:"allowNetAdmin,omitempty" tf:"allow_net_admin,omitempty"`
 
 	// Configuration for the
 	// Google Groups for GKE feature.
@@ -1197,7 +1243,7 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	DatabaseEncryption []DatabaseEncryptionParameters `json:"databaseEncryption,omitempty" tf:"database_encryption,omitempty"`
 
-	// The desired datapath provider for this cluster. By default, uses the IPTables-based kube-proxy implementation.
+	// The desired datapath provider for this cluster. This is set to LEGACY_DATAPATH by default, which uses the IPTables-based kube-proxy implementation. Set to ADVANCED_DATAPATH to enable Dataplane v2.
 	// +kubebuilder:validation:Optional
 	DatapathProvider *string `json:"datapathProvider,omitempty" tf:"datapath_provider,omitempty"`
 
@@ -1232,6 +1278,11 @@ type ClusterParameters struct {
 	// Whether Intra-node visibility is enabled for this cluster. This makes same node pod to pod traffic visible for VPC network.
 	// +kubebuilder:validation:Optional
 	EnableIntranodeVisibility *bool `json:"enableIntranodeVisibility,omitempty" tf:"enable_intranode_visibility,omitempty"`
+
+	// Configuration for Kubernetes Beta APIs.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	EnableK8SBetaApis []EnableK8SBetaApisParameters `json:"enableK8SBetaApis,omitempty" tf:"enable_k8s_beta_apis,omitempty"`
 
 	// Whether to enable Kubernetes Alpha features for
 	// this cluster. Note that when this option is enabled, the cluster cannot be upgraded
@@ -1445,6 +1496,10 @@ type ClusterParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ResourceUsageExportConfig []ResourceUsageExportConfigParameters `json:"resourceUsageExportConfig,omitempty" tf:"resource_usage_export_config,omitempty"`
+
+	// Enable/Disable Security Posture API features for the cluster. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SecurityPostureConfig []SecurityPostureConfigParameters `json:"securityPostureConfig,omitempty" tf:"security_posture_config,omitempty"`
 
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -1660,6 +1715,25 @@ type DefaultSnatStatusParameters struct {
 	Disabled *bool `json:"disabled" tf:"disabled,omitempty"`
 }
 
+type EnableK8SBetaApisInitParameters struct {
+
+	// Enabled Kubernetes Beta APIs. To list a Beta API resource, use the representation {group}/{version}/{resource}. The version must be a Beta version. Note that you cannot disable beta APIs that are already enabled on a cluster without recreating it. See the Configure beta APIs for more information.
+	EnabledApis []*string `json:"enabledApis,omitempty" tf:"enabled_apis,omitempty"`
+}
+
+type EnableK8SBetaApisObservation struct {
+
+	// Enabled Kubernetes Beta APIs. To list a Beta API resource, use the representation {group}/{version}/{resource}. The version must be a Beta version. Note that you cannot disable beta APIs that are already enabled on a cluster without recreating it. See the Configure beta APIs for more information.
+	EnabledApis []*string `json:"enabledApis,omitempty" tf:"enabled_apis,omitempty"`
+}
+
+type EnableK8SBetaApisParameters struct {
+
+	// Enabled Kubernetes Beta APIs. To list a Beta API resource, use the representation {group}/{version}/{resource}. The version must be a Beta version. Note that you cannot disable beta APIs that are already enabled on a cluster without recreating it. See the Configure beta APIs for more information.
+	// +kubebuilder:validation:Optional
+	EnabledApis []*string `json:"enabledApis" tf:"enabled_apis,omitempty"`
+}
+
 type EphemeralStorageLocalSsdConfigInitParameters struct {
 
 	// The amount of local SSD disks that will be
@@ -1796,6 +1870,25 @@ type GcfsConfigParameters struct {
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
+type GcsFuseCsiDriverConfigInitParameters struct {
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type GcsFuseCsiDriverConfigObservation struct {
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type GcsFuseCsiDriverConfigParameters struct {
+
+	// Enables vertical pod autoscaling
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
 type GkeBackupAgentConfigInitParameters struct {
 
 	// Enables vertical pod autoscaling
@@ -1813,6 +1906,28 @@ type GkeBackupAgentConfigParameters struct {
 	// Enables vertical pod autoscaling
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
+type GpuDriverInstallationConfigInitParameters struct {
+
+	// Mode for how the GPU driver is installed.
+	// Accepted values are:
+	GpuDriverVersion *string `json:"gpuDriverVersion,omitempty" tf:"gpu_driver_version"`
+}
+
+type GpuDriverInstallationConfigObservation struct {
+
+	// Mode for how the GPU driver is installed.
+	// Accepted values are:
+	GpuDriverVersion *string `json:"gpuDriverVersion,omitempty" tf:"gpu_driver_version,omitempty"`
+}
+
+type GpuDriverInstallationConfigParameters struct {
+
+	// Mode for how the GPU driver is installed.
+	// Accepted values are:
+	// +kubebuilder:validation:Optional
+	GpuDriverVersion *string `json:"gpuDriverVersion,omitempty" tf:"gpu_driver_version"`
 }
 
 type GpuSharingConfigInitParameters struct {
@@ -1847,6 +1962,19 @@ type GpuSharingConfigParameters struct {
 	MaxSharedClientsPerGpu *float64 `json:"maxSharedClientsPerGpu,omitempty" tf:"max_shared_clients_per_gpu"`
 }
 
+type GuestAcceleratorGpuDriverInstallationConfigInitParameters struct {
+}
+
+type GuestAcceleratorGpuDriverInstallationConfigObservation struct {
+
+	// Mode for how the GPU driver is installed.
+	// Accepted values are:
+	GpuDriverVersion *string `json:"gpuDriverVersion,omitempty" tf:"gpu_driver_version,omitempty"`
+}
+
+type GuestAcceleratorGpuDriverInstallationConfigParameters struct {
+}
+
 type GuestAcceleratorGpuSharingConfigInitParameters struct {
 }
 
@@ -1868,6 +1996,9 @@ type GuestAcceleratorInitParameters struct {
 	// The number of the guest accelerator cards exposed to this instance.
 	Count *float64 `json:"count,omitempty" tf:"count"`
 
+	// Configuration for auto installation of GPU driver. Structure is documented below.
+	GpuDriverInstallationConfig []GpuDriverInstallationConfigInitParameters `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config"`
+
 	// Size of partitions to create on the GPU. Valid values are described in the NVIDIA mig user guide.
 	GpuPartitionSize *string `json:"gpuPartitionSize,omitempty" tf:"gpu_partition_size"`
 
@@ -1882,6 +2013,9 @@ type GuestAcceleratorObservation struct {
 
 	// The number of the guest accelerator cards exposed to this instance.
 	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+
+	// Configuration for auto installation of GPU driver. Structure is documented below.
+	GpuDriverInstallationConfig []GpuDriverInstallationConfigObservation `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config,omitempty"`
 
 	// Size of partitions to create on the GPU. Valid values are described in the NVIDIA mig user guide.
 	GpuPartitionSize *string `json:"gpuPartitionSize,omitempty" tf:"gpu_partition_size,omitempty"`
@@ -1898,6 +2032,10 @@ type GuestAcceleratorParameters struct {
 	// The number of the guest accelerator cards exposed to this instance.
 	// +kubebuilder:validation:Optional
 	Count *float64 `json:"count,omitempty" tf:"count"`
+
+	// Configuration for auto installation of GPU driver. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GpuDriverInstallationConfig []GpuDriverInstallationConfigParameters `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config"`
 
 	// Size of partitions to create on the GPU. Valid values are described in the NVIDIA mig user guide.
 	// +kubebuilder:validation:Optional
@@ -1973,6 +2111,20 @@ type HorizontalPodAutoscalingParameters struct {
 	// cluster. It is disabled by default. Set disabled = false to enable.
 	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled" tf:"disabled,omitempty"`
+}
+
+type HostMaintenancePolicyInitParameters struct {
+	MaintenanceInterval *string `json:"maintenanceInterval,omitempty" tf:"maintenance_interval,omitempty"`
+}
+
+type HostMaintenancePolicyObservation struct {
+	MaintenanceInterval *string `json:"maintenanceInterval,omitempty" tf:"maintenance_interval,omitempty"`
+}
+
+type HostMaintenancePolicyParameters struct {
+
+	// +kubebuilder:validation:Optional
+	MaintenanceInterval *string `json:"maintenanceInterval" tf:"maintenance_interval,omitempty"`
 }
 
 type IPAllocationPolicyInitParameters struct {
@@ -2481,7 +2633,7 @@ type MonitoringConfigParameters struct {
 
 	// The GKE components exposing metrics. Supported values include: SYSTEM_COMPONENTS, APISERVER, CONTROLLER_MANAGER, and SCHEDULER. In beta provider, WORKLOADS is supported on top of those 4 values. (WORKLOADS is deprecated and removed in GKE 1.24.)
 	// +kubebuilder:validation:Optional
-	EnableComponents []*string `json:"enableComponents" tf:"enable_components,omitempty"`
+	EnableComponents []*string `json:"enableComponents,omitempty" tf:"enable_components,omitempty"`
 
 	// Configuration for Managed Service for Prometheus. Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -2574,6 +2726,45 @@ type NetworkPolicyParameters struct {
 	Provider *string `json:"provider,omitempty" tf:"provider,omitempty"`
 }
 
+type NodeAffinityInitParameters struct {
+
+	// Key for taint.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// Specifies affinity or anti-affinity. Accepted values are "IN" or "NOT_IN"
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// name"
+	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
+}
+
+type NodeAffinityObservation struct {
+
+	// Key for taint.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// Specifies affinity or anti-affinity. Accepted values are "IN" or "NOT_IN"
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// name"
+	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
+}
+
+type NodeAffinityParameters struct {
+
+	// Key for taint.
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// Specifies affinity or anti-affinity. Accepted values are "IN" or "NOT_IN"
+	// +kubebuilder:validation:Optional
+	Operator *string `json:"operator" tf:"operator,omitempty"`
+
+	// name"
+	// +kubebuilder:validation:Optional
+	Values []*string `json:"values" tf:"values,omitempty"`
+}
+
 type NodeConfigAdvancedMachineFeaturesInitParameters struct {
 }
 
@@ -2638,6 +2829,9 @@ type NodeConfigGuestAcceleratorObservation struct {
 	// The number of the guest accelerator cards exposed to this instance.
 	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
 
+	// Configuration for auto installation of GPU driver. Structure is documented below.
+	GpuDriverInstallationConfig []GuestAcceleratorGpuDriverInstallationConfigObservation `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config,omitempty"`
+
 	// Size of partitions to create on the GPU. Valid values are described in the NVIDIA mig user guide.
 	GpuPartitionSize *string `json:"gpuPartitionSize,omitempty" tf:"gpu_partition_size,omitempty"`
 
@@ -2661,6 +2855,16 @@ type NodeConfigGvnicObservation struct {
 }
 
 type NodeConfigGvnicParameters struct {
+}
+
+type NodeConfigHostMaintenancePolicyInitParameters struct {
+}
+
+type NodeConfigHostMaintenancePolicyObservation struct {
+	MaintenanceInterval *string `json:"maintenanceInterval,omitempty" tf:"maintenance_interval,omitempty"`
+}
+
+type NodeConfigHostMaintenancePolicyParameters struct {
 }
 
 type NodeConfigInitParameters struct {
@@ -2702,6 +2906,10 @@ type NodeConfigInitParameters struct {
 	// GKE node version 1.15.11-gke.15 or later
 	// Structure is documented below.
 	Gvnic []GvnicInitParameters `json:"gvnic,omitempty" tf:"gvnic,omitempty"`
+
+	// The maintenance policy to use for the cluster. Structure is
+	// documented below.
+	HostMaintenancePolicy []HostMaintenancePolicyInitParameters `json:"hostMaintenancePolicy,omitempty" tf:"host_maintenance_policy,omitempty"`
 
 	// The image type to use for this node. Note that changing the image type
 	// will delete and recreate all nodes in the node pool.
@@ -2769,6 +2977,9 @@ type NodeConfigInitParameters struct {
 
 	// Shielded Instance options. Structure is documented below.
 	ShieldedInstanceConfig []NodeConfigShieldedInstanceConfigInitParameters `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
+
+	// Allows specifying multiple node affinities useful for running workloads on sole tenant nodes. node_affinity structure is documented below.
+	SoleTenantConfig []SoleTenantConfigInitParameters `json:"soleTenantConfig,omitempty" tf:"sole_tenant_config,omitempty"`
 
 	// A boolean that represents whether the underlying node VMs are spot.
 	// See the official documentation
@@ -2887,6 +3098,10 @@ type NodeConfigObservation struct {
 	// Structure is documented below.
 	Gvnic []GvnicObservation `json:"gvnic,omitempty" tf:"gvnic,omitempty"`
 
+	// The maintenance policy to use for the cluster. Structure is
+	// documented below.
+	HostMaintenancePolicy []HostMaintenancePolicyObservation `json:"hostMaintenancePolicy,omitempty" tf:"host_maintenance_policy,omitempty"`
+
 	// The image type to use for this node. Note that changing the image type
 	// will delete and recreate all nodes in the node pool.
 	ImageType *string `json:"imageType,omitempty" tf:"image_type,omitempty"`
@@ -2958,6 +3173,9 @@ type NodeConfigObservation struct {
 	// Shielded Instance options. Structure is documented below.
 	ShieldedInstanceConfig []NodeConfigShieldedInstanceConfigObservation `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
 
+	// Allows specifying multiple node affinities useful for running workloads on sole tenant nodes. node_affinity structure is documented below.
+	SoleTenantConfig []SoleTenantConfigObservation `json:"soleTenantConfig,omitempty" tf:"sole_tenant_config,omitempty"`
+
 	// A boolean that represents whether the underlying node VMs are spot.
 	// See the official documentation
 	// for more information. Defaults to false.
@@ -3028,6 +3246,11 @@ type NodeConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Gvnic []GvnicParameters `json:"gvnic,omitempty" tf:"gvnic,omitempty"`
+
+	// The maintenance policy to use for the cluster. Structure is
+	// documented below.
+	// +kubebuilder:validation:Optional
+	HostMaintenancePolicy []HostMaintenancePolicyParameters `json:"hostMaintenancePolicy,omitempty" tf:"host_maintenance_policy,omitempty"`
 
 	// The image type to use for this node. Note that changing the image type
 	// will delete and recreate all nodes in the node pool.
@@ -3127,6 +3350,10 @@ type NodeConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	ShieldedInstanceConfig []NodeConfigShieldedInstanceConfigParameters `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
 
+	// Allows specifying multiple node affinities useful for running workloads on sole tenant nodes. node_affinity structure is documented below.
+	// +kubebuilder:validation:Optional
+	SoleTenantConfig []SoleTenantConfigParameters `json:"soleTenantConfig,omitempty" tf:"sole_tenant_config,omitempty"`
+
 	// A boolean that represents whether the underlying node VMs are spot.
 	// See the official documentation
 	// for more information. Defaults to false.
@@ -3200,6 +3427,16 @@ type NodeConfigShieldedInstanceConfigParameters struct {
 	// Defines if the instance has Secure Boot enabled.
 	// +kubebuilder:validation:Optional
 	EnableSecureBoot *bool `json:"enableSecureBoot,omitempty" tf:"enable_secure_boot,omitempty"`
+}
+
+type NodeConfigSoleTenantConfigInitParameters struct {
+}
+
+type NodeConfigSoleTenantConfigObservation struct {
+	NodeAffinity []SoleTenantConfigNodeAffinityObservation `json:"nodeAffinity,omitempty" tf:"node_affinity,omitempty"`
+}
+
+type NodeConfigSoleTenantConfigParameters struct {
 }
 
 type NodeConfigTaintInitParameters struct {
@@ -3308,6 +3545,10 @@ type NodePoolNodeConfigObservation struct {
 	// Structure is documented below.
 	Gvnic []NodeConfigGvnicObservation `json:"gvnic,omitempty" tf:"gvnic,omitempty"`
 
+	// The maintenance policy to use for the cluster. Structure is
+	// documented below.
+	HostMaintenancePolicy []NodeConfigHostMaintenancePolicyObservation `json:"hostMaintenancePolicy,omitempty" tf:"host_maintenance_policy,omitempty"`
+
 	// The image type to use for this node. Note that changing the image type
 	// will delete and recreate all nodes in the node pool.
 	ImageType *string `json:"imageType,omitempty" tf:"image_type,omitempty"`
@@ -3377,6 +3618,9 @@ type NodePoolNodeConfigObservation struct {
 
 	// Shielded Instance options. Structure is documented below.
 	ShieldedInstanceConfig []NodePoolNodeConfigShieldedInstanceConfigObservation `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
+
+	// Allows specifying multiple node affinities useful for running workloads on sole tenant nodes. node_affinity structure is documented below.
+	SoleTenantConfig []NodeConfigSoleTenantConfigObservation `json:"soleTenantConfig,omitempty" tf:"sole_tenant_config,omitempty"`
 
 	// A boolean that represents whether the underlying node VMs are spot.
 	// See the official documentation
@@ -3512,6 +3756,10 @@ type PlacementPolicyInitParameters struct {
 }
 
 type PlacementPolicyObservation struct {
+
+	// The name of the cluster, unique within the project and
+	// location.
+	PolicyName *string `json:"policyName,omitempty" tf:"policy_name,omitempty"`
 
 	// The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
@@ -3879,6 +4127,35 @@ type ResourceUsageExportConfigParameters struct {
 	EnableResourceConsumptionMetering *bool `json:"enableResourceConsumptionMetering,omitempty" tf:"enable_resource_consumption_metering,omitempty"`
 }
 
+type SecurityPostureConfigInitParameters struct {
+
+	// Sets the mode of the Kubernetes security posture API's off-cluster features. Available options include DISABLED and BASIC.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// Sets the mode of the Kubernetes security posture API's workload vulnerability scanning. Available options include VULNERABILITY_DISABLED and VULNERABILITY_BASIC.
+	VulnerabilityMode *string `json:"vulnerabilityMode,omitempty" tf:"vulnerability_mode,omitempty"`
+}
+
+type SecurityPostureConfigObservation struct {
+
+	// Sets the mode of the Kubernetes security posture API's off-cluster features. Available options include DISABLED and BASIC.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// Sets the mode of the Kubernetes security posture API's workload vulnerability scanning. Available options include VULNERABILITY_DISABLED and VULNERABILITY_BASIC.
+	VulnerabilityMode *string `json:"vulnerabilityMode,omitempty" tf:"vulnerability_mode,omitempty"`
+}
+
+type SecurityPostureConfigParameters struct {
+
+	// Sets the mode of the Kubernetes security posture API's off-cluster features. Available options include DISABLED and BASIC.
+	// +kubebuilder:validation:Optional
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// Sets the mode of the Kubernetes security posture API's workload vulnerability scanning. Available options include VULNERABILITY_DISABLED and VULNERABILITY_BASIC.
+	// +kubebuilder:validation:Optional
+	VulnerabilityMode *string `json:"vulnerabilityMode,omitempty" tf:"vulnerability_mode,omitempty"`
+}
+
 type ServiceExternalIpsConfigInitParameters struct {
 
 	// Controls whether external ips specified by a service will be allowed. It is enabled by default.
@@ -3925,6 +4202,38 @@ type ShieldedInstanceConfigParameters struct {
 	// Defines if the instance has Secure Boot enabled.
 	// +kubebuilder:validation:Optional
 	EnableSecureBoot *bool `json:"enableSecureBoot,omitempty" tf:"enable_secure_boot,omitempty"`
+}
+
+type SoleTenantConfigInitParameters struct {
+	NodeAffinity []NodeAffinityInitParameters `json:"nodeAffinity,omitempty" tf:"node_affinity,omitempty"`
+}
+
+type SoleTenantConfigNodeAffinityInitParameters struct {
+}
+
+type SoleTenantConfigNodeAffinityObservation struct {
+
+	// Key for taint.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// Specifies affinity or anti-affinity. Accepted values are "IN" or "NOT_IN"
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// name"
+	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
+}
+
+type SoleTenantConfigNodeAffinityParameters struct {
+}
+
+type SoleTenantConfigObservation struct {
+	NodeAffinity []NodeAffinityObservation `json:"nodeAffinity,omitempty" tf:"node_affinity,omitempty"`
+}
+
+type SoleTenantConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	NodeAffinity []NodeAffinityParameters `json:"nodeAffinity" tf:"node_affinity,omitempty"`
 }
 
 type StandardRolloutPolicyInitParameters struct {

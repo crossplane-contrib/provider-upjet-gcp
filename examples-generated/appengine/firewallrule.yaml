@@ -44,6 +44,7 @@ metadata:
   name: my-project
 spec:
   forProvider:
+    billingAccount: 000000-0000000-0000000-000000
     name: tf-test-project
     orgId: "123456789"
     projectId: ae-project

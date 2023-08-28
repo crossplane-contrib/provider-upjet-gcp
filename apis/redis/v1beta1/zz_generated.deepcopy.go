@@ -108,11 +108,6 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	if in.MaintenanceSchedule != nil {
-		in, out := &in.MaintenanceSchedule, &out.MaintenanceSchedule
-		*out = make([]MaintenanceScheduleInitParameters, len(*in))
-		copy(*out, *in)
-	}
 	if in.MemorySizeGb != nil {
 		in, out := &in.MemorySizeGb, &out.MemorySizeGb
 		*out = new(float64)
@@ -498,11 +493,6 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
-	}
-	if in.MaintenanceSchedule != nil {
-		in, out := &in.MaintenanceSchedule, &out.MaintenanceSchedule
-		*out = make([]MaintenanceScheduleParameters, len(*in))
-		copy(*out, *in)
 	}
 	if in.MemorySizeGb != nil {
 		in, out := &in.MemorySizeGb, &out.MemorySizeGb

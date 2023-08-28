@@ -38,7 +38,14 @@ type DatabaseInitParameters struct {
 	// error in any statement, the database is not created.
 	Ddl []*string `json:"ddl,omitempty" tf:"ddl,omitempty"`
 
+	// Defaults to true.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
+	// Whether drop protection is enabled for this database. Defaults to false.
+	// whereas setting “enableDropProtection” to true protects the database from deletions in all interfaces.
+	// (2) Setting "enableDropProtection" to true also prevents the deletion of the parent instance containing the database.
+	// "deletion_protection" attribute does not provide protection against the deletion of the parent instance.
+	EnableDropProtection *bool `json:"enableDropProtection,omitempty" tf:"enable_drop_protection,omitempty"`
 
 	// Encryption configuration for the database
 	// Structure is documented below.
@@ -69,7 +76,14 @@ type DatabaseObservation struct {
 	// error in any statement, the database is not created.
 	Ddl []*string `json:"ddl,omitempty" tf:"ddl,omitempty"`
 
+	// Defaults to true.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
+	// Whether drop protection is enabled for this database. Defaults to false.
+	// whereas setting “enableDropProtection” to true protects the database from deletions in all interfaces.
+	// (2) Setting "enableDropProtection" to true also prevents the deletion of the parent instance containing the database.
+	// "deletion_protection" attribute does not provide protection against the deletion of the parent instance.
+	EnableDropProtection *bool `json:"enableDropProtection,omitempty" tf:"enable_drop_protection,omitempty"`
 
 	// Encryption configuration for the database
 	// Structure is documented below.
@@ -111,8 +125,16 @@ type DatabaseParameters struct {
 	// +kubebuilder:validation:Optional
 	Ddl []*string `json:"ddl,omitempty" tf:"ddl,omitempty"`
 
+	// Defaults to true.
 	// +kubebuilder:validation:Optional
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
+	// Whether drop protection is enabled for this database. Defaults to false.
+	// whereas setting “enableDropProtection” to true protects the database from deletions in all interfaces.
+	// (2) Setting "enableDropProtection" to true also prevents the deletion of the parent instance containing the database.
+	// "deletion_protection" attribute does not provide protection against the deletion of the parent instance.
+	// +kubebuilder:validation:Optional
+	EnableDropProtection *bool `json:"enableDropProtection,omitempty" tf:"enable_drop_protection,omitempty"`
 
 	// Encryption configuration for the database
 	// Structure is documented below.

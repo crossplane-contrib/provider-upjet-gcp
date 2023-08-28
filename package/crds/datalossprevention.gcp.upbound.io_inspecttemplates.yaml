@@ -146,6 +146,20 @@ spec:
                                         StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
                                         or projects/project-id/storedInfoTypes/432452342.
                                       type: string
+                                    sensitivityScore:
+                                      description: Optional custom sensitivity for
+                                        this InfoType. This only applies to data profiling.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          score:
+                                            description: 'The sensitivity score applied
+                                              to the resource. Possible values are:
+                                              SENSITIVITY_LOW, SENSITIVITY_MODERATE,
+                                              SENSITIVITY_HIGH.'
+                                            type: string
+                                        type: object
+                                      type: array
                                     version:
                                       description: Version of the information type
                                         to use. By default, the version is set to
@@ -178,6 +192,19 @@ spec:
                                         Its syntax (https://github.com/google/re2/wiki/Syntax)
                                         can be found under the google/re2 repository
                                         on GitHub.
+                                      type: string
+                                  type: object
+                                type: array
+                              sensitivityScore:
+                                description: Optional custom sensitivity for this
+                                  InfoType. This only applies to data profiling. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    score:
+                                      description: 'The sensitivity score applied
+                                        to the resource. Possible values are: SENSITIVITY_LOW,
+                                        SENSITIVITY_MODERATE, SENSITIVITY_HIGH.'
                                       type: string
                                   type: object
                                 type: array
@@ -225,6 +252,19 @@ spec:
                                   for example organizations/433245324/storedInfoTypes/432452342
                                   or projects/project-id/storedInfoTypes/432452342.
                                 type: string
+                              sensitivityScore:
+                                description: Optional custom sensitivity for this
+                                  InfoType. This only applies to data profiling. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    score:
+                                      description: 'The sensitivity score applied
+                                        to the resource. Possible values are: SENSITIVITY_LOW,
+                                        SENSITIVITY_MODERATE, SENSITIVITY_HIGH.'
+                                      type: string
+                                  type: object
+                                type: array
                               version:
                                 description: Version of the information type to use.
                                   By default, the version is set to stable
@@ -257,6 +297,21 @@ spec:
                                               StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
                                               or projects/project-id/storedInfoTypes/432452342.
                                             type: string
+                                          sensitivityScore:
+                                            description: Optional custom sensitivity
+                                              for this InfoType. This only applies
+                                              to data profiling. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                score:
+                                                  description: 'The sensitivity score
+                                                    applied to the resource. Possible
+                                                    values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE,
+                                                    SENSITIVITY_HIGH.'
+                                                  type: string
+                                              type: object
+                                            type: array
                                           version:
                                             description: Version of the information
                                               type to use. By default, the version
@@ -304,6 +359,20 @@ spec:
                                         StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
                                         or projects/project-id/storedInfoTypes/432452342.
                                       type: string
+                                    sensitivityScore:
+                                      description: Optional custom sensitivity for
+                                        this InfoType. This only applies to data profiling.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          score:
+                                            description: 'The sensitivity score applied
+                                              to the resource. Possible values are:
+                                              SENSITIVITY_LOW, SENSITIVITY_MODERATE,
+                                              SENSITIVITY_HIGH.'
+                                            type: string
+                                        type: object
+                                      type: array
                                     version:
                                       description: Version of the information type
                                         to use. By default, the version is set to
@@ -451,6 +520,24 @@ spec:
                                                           for example organizations/433245324/storedInfoTypes/432452342
                                                           or projects/project-id/storedInfoTypes/432452342.
                                                         type: string
+                                                      sensitivityScore:
+                                                        description: Optional custom
+                                                          sensitivity for this InfoType.
+                                                          This only applies to data
+                                                          profiling. Structure is
+                                                          documented below.
+                                                        items:
+                                                          properties:
+                                                            score:
+                                                              description: 'The sensitivity
+                                                                score applied to the
+                                                                resource. Possible
+                                                                values are: SENSITIVITY_LOW,
+                                                                SENSITIVITY_MODERATE,
+                                                                SENSITIVITY_HIGH.'
+                                                              type: string
+                                                          type: object
+                                                        type: array
                                                       version:
                                                         description: Version of the
                                                           information type to use.
@@ -601,6 +688,12 @@ spec:
                   parent:
                     description: 'The parent of the inspect template in any of the
                       following formats:'
+                    type: string
+                  templateId:
+                    description: 'The template id can contain uppercase and lowercase
+                      letters, numbers, and hyphens; that is, it must match the regular
+                      expression: [a-zA-Z\d-_]+. The maximum length is 100 characters.
+                      Can be empty to allow the system to generate one.'
                     type: string
                 type: object
               initProvider:
@@ -695,6 +788,20 @@ spec:
                                         StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
                                         or projects/project-id/storedInfoTypes/432452342.
                                       type: string
+                                    sensitivityScore:
+                                      description: Optional custom sensitivity for
+                                        this InfoType. This only applies to data profiling.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          score:
+                                            description: 'The sensitivity score applied
+                                              to the resource. Possible values are:
+                                              SENSITIVITY_LOW, SENSITIVITY_MODERATE,
+                                              SENSITIVITY_HIGH.'
+                                            type: string
+                                        type: object
+                                      type: array
                                     version:
                                       description: Version of the information type
                                         to use. By default, the version is set to
@@ -727,6 +834,19 @@ spec:
                                         Its syntax (https://github.com/google/re2/wiki/Syntax)
                                         can be found under the google/re2 repository
                                         on GitHub.
+                                      type: string
+                                  type: object
+                                type: array
+                              sensitivityScore:
+                                description: Optional custom sensitivity for this
+                                  InfoType. This only applies to data profiling. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    score:
+                                      description: 'The sensitivity score applied
+                                        to the resource. Possible values are: SENSITIVITY_LOW,
+                                        SENSITIVITY_MODERATE, SENSITIVITY_HIGH.'
                                       type: string
                                   type: object
                                 type: array
@@ -774,6 +894,19 @@ spec:
                                   for example organizations/433245324/storedInfoTypes/432452342
                                   or projects/project-id/storedInfoTypes/432452342.
                                 type: string
+                              sensitivityScore:
+                                description: Optional custom sensitivity for this
+                                  InfoType. This only applies to data profiling. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    score:
+                                      description: 'The sensitivity score applied
+                                        to the resource. Possible values are: SENSITIVITY_LOW,
+                                        SENSITIVITY_MODERATE, SENSITIVITY_HIGH.'
+                                      type: string
+                                  type: object
+                                type: array
                               version:
                                 description: Version of the information type to use.
                                   By default, the version is set to stable
@@ -806,6 +939,21 @@ spec:
                                               StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
                                               or projects/project-id/storedInfoTypes/432452342.
                                             type: string
+                                          sensitivityScore:
+                                            description: Optional custom sensitivity
+                                              for this InfoType. This only applies
+                                              to data profiling. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                score:
+                                                  description: 'The sensitivity score
+                                                    applied to the resource. Possible
+                                                    values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE,
+                                                    SENSITIVITY_HIGH.'
+                                                  type: string
+                                              type: object
+                                            type: array
                                           version:
                                             description: Version of the information
                                               type to use. By default, the version
@@ -853,6 +1001,20 @@ spec:
                                         StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
                                         or projects/project-id/storedInfoTypes/432452342.
                                       type: string
+                                    sensitivityScore:
+                                      description: Optional custom sensitivity for
+                                        this InfoType. This only applies to data profiling.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          score:
+                                            description: 'The sensitivity score applied
+                                              to the resource. Possible values are:
+                                              SENSITIVITY_LOW, SENSITIVITY_MODERATE,
+                                              SENSITIVITY_HIGH.'
+                                            type: string
+                                        type: object
+                                      type: array
                                     version:
                                       description: Version of the information type
                                         to use. By default, the version is set to
@@ -1000,6 +1162,24 @@ spec:
                                                           for example organizations/433245324/storedInfoTypes/432452342
                                                           or projects/project-id/storedInfoTypes/432452342.
                                                         type: string
+                                                      sensitivityScore:
+                                                        description: Optional custom
+                                                          sensitivity for this InfoType.
+                                                          This only applies to data
+                                                          profiling. Structure is
+                                                          documented below.
+                                                        items:
+                                                          properties:
+                                                            score:
+                                                              description: 'The sensitivity
+                                                                score applied to the
+                                                                resource. Possible
+                                                                values are: SENSITIVITY_LOW,
+                                                                SENSITIVITY_MODERATE,
+                                                                SENSITIVITY_HIGH.'
+                                                              type: string
+                                                          type: object
+                                                        type: array
                                                       version:
                                                         description: Version of the
                                                           information type to use.
@@ -1150,6 +1330,12 @@ spec:
                   parent:
                     description: 'The parent of the inspect template in any of the
                       following formats:'
+                    type: string
+                  templateId:
+                    description: 'The template id can contain uppercase and lowercase
+                      letters, numbers, and hyphens; that is, it must match the regular
+                      expression: [a-zA-Z\d-_]+. The maximum length is 100 characters.
+                      Can be empty to allow the system to generate one.'
                     type: string
                 type: object
               managementPolicies:
@@ -1441,6 +1627,20 @@ spec:
                                         StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
                                         or projects/project-id/storedInfoTypes/432452342.
                                       type: string
+                                    sensitivityScore:
+                                      description: Optional custom sensitivity for
+                                        this InfoType. This only applies to data profiling.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          score:
+                                            description: 'The sensitivity score applied
+                                              to the resource. Possible values are:
+                                              SENSITIVITY_LOW, SENSITIVITY_MODERATE,
+                                              SENSITIVITY_HIGH.'
+                                            type: string
+                                        type: object
+                                      type: array
                                     version:
                                       description: Version of the information type
                                         to use. By default, the version is set to
@@ -1473,6 +1673,19 @@ spec:
                                         Its syntax (https://github.com/google/re2/wiki/Syntax)
                                         can be found under the google/re2 repository
                                         on GitHub.
+                                      type: string
+                                  type: object
+                                type: array
+                              sensitivityScore:
+                                description: Optional custom sensitivity for this
+                                  InfoType. This only applies to data profiling. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    score:
+                                      description: 'The sensitivity score applied
+                                        to the resource. Possible values are: SENSITIVITY_LOW,
+                                        SENSITIVITY_MODERATE, SENSITIVITY_HIGH.'
                                       type: string
                                   type: object
                                 type: array
@@ -1520,6 +1733,19 @@ spec:
                                   for example organizations/433245324/storedInfoTypes/432452342
                                   or projects/project-id/storedInfoTypes/432452342.
                                 type: string
+                              sensitivityScore:
+                                description: Optional custom sensitivity for this
+                                  InfoType. This only applies to data profiling. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    score:
+                                      description: 'The sensitivity score applied
+                                        to the resource. Possible values are: SENSITIVITY_LOW,
+                                        SENSITIVITY_MODERATE, SENSITIVITY_HIGH.'
+                                      type: string
+                                  type: object
+                                type: array
                               version:
                                 description: Version of the information type to use.
                                   By default, the version is set to stable
@@ -1552,6 +1778,21 @@ spec:
                                               StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
                                               or projects/project-id/storedInfoTypes/432452342.
                                             type: string
+                                          sensitivityScore:
+                                            description: Optional custom sensitivity
+                                              for this InfoType. This only applies
+                                              to data profiling. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                score:
+                                                  description: 'The sensitivity score
+                                                    applied to the resource. Possible
+                                                    values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE,
+                                                    SENSITIVITY_HIGH.'
+                                                  type: string
+                                              type: object
+                                            type: array
                                           version:
                                             description: Version of the information
                                               type to use. By default, the version
@@ -1599,6 +1840,20 @@ spec:
                                         StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
                                         or projects/project-id/storedInfoTypes/432452342.
                                       type: string
+                                    sensitivityScore:
+                                      description: Optional custom sensitivity for
+                                        this InfoType. This only applies to data profiling.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          score:
+                                            description: 'The sensitivity score applied
+                                              to the resource. Possible values are:
+                                              SENSITIVITY_LOW, SENSITIVITY_MODERATE,
+                                              SENSITIVITY_HIGH.'
+                                            type: string
+                                        type: object
+                                      type: array
                                     version:
                                       description: Version of the information type
                                         to use. By default, the version is set to
@@ -1746,6 +2001,24 @@ spec:
                                                           for example organizations/433245324/storedInfoTypes/432452342
                                                           or projects/project-id/storedInfoTypes/432452342.
                                                         type: string
+                                                      sensitivityScore:
+                                                        description: Optional custom
+                                                          sensitivity for this InfoType.
+                                                          This only applies to data
+                                                          profiling. Structure is
+                                                          documented below.
+                                                        items:
+                                                          properties:
+                                                            score:
+                                                              description: 'The sensitivity
+                                                                score applied to the
+                                                                resource. Possible
+                                                                values are: SENSITIVITY_LOW,
+                                                                SENSITIVITY_MODERATE,
+                                                                SENSITIVITY_HIGH.'
+                                                              type: string
+                                                          type: object
+                                                        type: array
                                                       version:
                                                         description: Version of the
                                                           information type to use.
@@ -1900,6 +2173,12 @@ spec:
                   parent:
                     description: 'The parent of the inspect template in any of the
                       following formats:'
+                    type: string
+                  templateId:
+                    description: 'The template id can contain uppercase and lowercase
+                      letters, numbers, and hyphens; that is, it must match the regular
+                      expression: [a-zA-Z\d-_]+. The maximum length is 100 characters.
+                      Can be empty to allow the system to generate one.'
                     type: string
                 type: object
               conditions:

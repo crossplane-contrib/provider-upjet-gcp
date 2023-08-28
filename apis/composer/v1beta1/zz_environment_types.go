@@ -130,6 +130,12 @@ type ConfigInitParameters struct {
 	// The configuration settings for recovery. Structure is documented below.
 	RecoveryConfig []RecoveryConfigInitParameters `json:"recoveryConfig,omitempty" tf:"recovery_config,omitempty"`
 
+	// The resilience mode states whether high resilience is enabled for
+	// the environment or not. Values for resilience mode are HIGH_RESILIENCE
+	// for high resilience and STANDARD_RESILIENCE for standard
+	// resilience.
+	ResilienceMode *string `json:"resilienceMode,omitempty" tf:"resilience_mode,omitempty"`
+
 	// The configuration settings for software inside the environment.  Structure is documented below.
 	SoftwareConfig []SoftwareConfigInitParameters `json:"softwareConfig,omitempty" tf:"software_config,omitempty"`
 
@@ -197,6 +203,12 @@ type ConfigObservation struct {
 	// The configuration settings for recovery. Structure is documented below.
 	RecoveryConfig []RecoveryConfigObservation `json:"recoveryConfig,omitempty" tf:"recovery_config,omitempty"`
 
+	// The resilience mode states whether high resilience is enabled for
+	// the environment or not. Values for resilience mode are HIGH_RESILIENCE
+	// for high resilience and STANDARD_RESILIENCE for standard
+	// resilience.
+	ResilienceMode *string `json:"resilienceMode,omitempty" tf:"resilience_mode,omitempty"`
+
 	// The configuration settings for software inside the environment.  Structure is documented below.
 	SoftwareConfig []SoftwareConfigObservation `json:"softwareConfig,omitempty" tf:"software_config,omitempty"`
 
@@ -258,6 +270,13 @@ type ConfigParameters struct {
 	// The configuration settings for recovery. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RecoveryConfig []RecoveryConfigParameters `json:"recoveryConfig,omitempty" tf:"recovery_config,omitempty"`
+
+	// The resilience mode states whether high resilience is enabled for
+	// the environment or not. Values for resilience mode are HIGH_RESILIENCE
+	// for high resilience and STANDARD_RESILIENCE for standard
+	// resilience.
+	// +kubebuilder:validation:Optional
+	ResilienceMode *string `json:"resilienceMode,omitempty" tf:"resilience_mode,omitempty"`
 
 	// The configuration settings for software inside the environment.  Structure is documented below.
 	// +kubebuilder:validation:Optional

@@ -27,7 +27,7 @@ import (
 
 type DailyScheduleInitParameters struct {
 
-	// The number of days between snapshots.
+	// Defines a schedule with units measured in days. The value determines how many days pass between the start of each cycle. Days in cycle for snapshot schedule policy must be 1.
 	DaysInCycle *float64 `json:"daysInCycle,omitempty" tf:"days_in_cycle,omitempty"`
 
 	// Time within the window to start the operations.
@@ -37,7 +37,7 @@ type DailyScheduleInitParameters struct {
 
 type DailyScheduleObservation struct {
 
-	// The number of days between snapshots.
+	// Defines a schedule with units measured in days. The value determines how many days pass between the start of each cycle. Days in cycle for snapshot schedule policy must be 1.
 	DaysInCycle *float64 `json:"daysInCycle,omitempty" tf:"days_in_cycle,omitempty"`
 
 	// Time within the window to start the operations.
@@ -47,7 +47,7 @@ type DailyScheduleObservation struct {
 
 type DailyScheduleParameters struct {
 
-	// The number of days between snapshots.
+	// Defines a schedule with units measured in days. The value determines how many days pass between the start of each cycle. Days in cycle for snapshot schedule policy must be 1.
 	// +kubebuilder:validation:Optional
 	DaysInCycle *float64 `json:"daysInCycle" tf:"days_in_cycle,omitempty"`
 
@@ -90,6 +90,25 @@ type DayOfWeeksParameters struct {
 	// It must be in format "HH:MM", where HH : [00-23] and MM : [00-00] GMT.
 	// +kubebuilder:validation:Optional
 	StartTime *string `json:"startTime" tf:"start_time,omitempty"`
+}
+
+type DiskConsistencyGroupPolicyInitParameters struct {
+
+	// Enable disk consistency on the resource policy.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type DiskConsistencyGroupPolicyObservation struct {
+
+	// Enable disk consistency on the resource policy.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type DiskConsistencyGroupPolicyParameters struct {
+
+	// Enable disk consistency on the resource policy.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
 type GroupPlacementPolicyInitParameters struct {
@@ -257,6 +276,10 @@ type ResourcePolicyInitParameters struct {
 	// An optional description of this resource. Provide this property when you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Replication consistency group for asynchronous disk replication.
+	// Structure is documented below.
+	DiskConsistencyGroupPolicy []DiskConsistencyGroupPolicyInitParameters `json:"diskConsistencyGroupPolicy,omitempty" tf:"disk_consistency_group_policy,omitempty"`
+
 	// Resource policy for instances used for placement configuration.
 	// Structure is documented below.
 	GroupPlacementPolicy []GroupPlacementPolicyInitParameters `json:"groupPlacementPolicy,omitempty" tf:"group_placement_policy,omitempty"`
@@ -278,6 +301,10 @@ type ResourcePolicyObservation struct {
 
 	// An optional description of this resource. Provide this property when you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Replication consistency group for asynchronous disk replication.
+	// Structure is documented below.
+	DiskConsistencyGroupPolicy []DiskConsistencyGroupPolicyObservation `json:"diskConsistencyGroupPolicy,omitempty" tf:"disk_consistency_group_policy,omitempty"`
 
 	// Resource policy for instances used for placement configuration.
 	// Structure is documented below.
@@ -310,6 +337,11 @@ type ResourcePolicyParameters struct {
 	// An optional description of this resource. Provide this property when you create the resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Replication consistency group for asynchronous disk replication.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DiskConsistencyGroupPolicy []DiskConsistencyGroupPolicyParameters `json:"diskConsistencyGroupPolicy,omitempty" tf:"disk_consistency_group_policy,omitempty"`
 
 	// Resource policy for instances used for placement configuration.
 	// Structure is documented below.

@@ -862,7 +862,10 @@ type V2ServiceConditionsParameters struct {
 
 type V2ServiceInitParameters struct {
 
-	// KRM-style annotations for the resource.
+	// Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects.
+	// Cloud Run API v2 does not support annotations with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+	// All system annotations in v1 now have a corresponding field in v2 RevisionTemplate.
+	// This field follows Kubernetes annotations' namespacing, limits, and rules.
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Settings for the Binary Authorization feature.
@@ -882,7 +885,10 @@ type V2ServiceInitParameters struct {
 	// Possible values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY, INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.
 	Ingress *string `json:"ingress,omitempty" tf:"ingress,omitempty"`
 
-	// KRM-style labels for the resource.
+	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
+	// For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+	// Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+	// All system labels in v1 now have a corresponding field in v2 RevisionTemplate.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The launch stage as defined by Google Cloud Platform Launch Stages. Cloud Run supports ALPHA, BETA, and GA.
@@ -906,7 +912,10 @@ type V2ServiceInitParameters struct {
 
 type V2ServiceObservation struct {
 
-	// KRM-style annotations for the resource.
+	// Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects.
+	// Cloud Run API v2 does not support annotations with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+	// All system annotations in v1 now have a corresponding field in v2 RevisionTemplate.
+	// This field follows Kubernetes annotations' namespacing, limits, and rules.
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Settings for the Binary Authorization feature.
@@ -939,7 +948,10 @@ type V2ServiceObservation struct {
 	// Possible values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY, INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.
 	Ingress *string `json:"ingress,omitempty" tf:"ingress,omitempty"`
 
-	// KRM-style labels for the resource.
+	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
+	// For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+	// Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+	// All system labels in v1 now have a corresponding field in v2 RevisionTemplate.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Name of the last created revision. See comments in reconciling for additional information on reconciliation process in Cloud Run.
@@ -995,7 +1007,10 @@ type V2ServiceObservation struct {
 
 type V2ServiceParameters struct {
 
-	// KRM-style annotations for the resource.
+	// Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects.
+	// Cloud Run API v2 does not support annotations with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+	// All system annotations in v1 now have a corresponding field in v2 RevisionTemplate.
+	// This field follows Kubernetes annotations' namespacing, limits, and rules.
 	// +kubebuilder:validation:Optional
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
@@ -1021,7 +1036,10 @@ type V2ServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	Ingress *string `json:"ingress,omitempty" tf:"ingress,omitempty"`
 
-	// KRM-style labels for the resource.
+	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
+	// For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+	// Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+	// All system labels in v1 now have a corresponding field in v2 RevisionTemplate.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -1194,7 +1212,10 @@ type V2ServiceTemplateContainersParameters struct {
 
 type V2ServiceTemplateInitParameters struct {
 
-	// KRM-style annotations for the resource.
+	// Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects.
+	// Cloud Run API v2 does not support annotations with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+	// All system annotations in v1 now have a corresponding field in v2 RevisionTemplate.
+	// This field follows Kubernetes annotations' namespacing, limits, and rules.
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Holds the containers that define the unit of execution for this Service.
@@ -1208,7 +1229,10 @@ type V2ServiceTemplateInitParameters struct {
 	// Possible values are: EXECUTION_ENVIRONMENT_GEN1, EXECUTION_ENVIRONMENT_GEN2.
 	ExecutionEnvironment *string `json:"executionEnvironment,omitempty" tf:"execution_environment,omitempty"`
 
-	// KRM-style labels for the resource.
+	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
+	// For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+	// Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+	// All system labels in v1 now have a corresponding field in v2 RevisionTemplate.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Sets the maximum number of requests that each serving instance can receive.
@@ -1242,7 +1266,10 @@ type V2ServiceTemplateInitParameters struct {
 
 type V2ServiceTemplateObservation struct {
 
-	// KRM-style annotations for the resource.
+	// Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects.
+	// Cloud Run API v2 does not support annotations with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+	// All system annotations in v1 now have a corresponding field in v2 RevisionTemplate.
+	// This field follows Kubernetes annotations' namespacing, limits, and rules.
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Holds the containers that define the unit of execution for this Service.
@@ -1256,7 +1283,10 @@ type V2ServiceTemplateObservation struct {
 	// Possible values are: EXECUTION_ENVIRONMENT_GEN1, EXECUTION_ENVIRONMENT_GEN2.
 	ExecutionEnvironment *string `json:"executionEnvironment,omitempty" tf:"execution_environment,omitempty"`
 
-	// KRM-style labels for the resource.
+	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
+	// For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+	// Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+	// All system labels in v1 now have a corresponding field in v2 RevisionTemplate.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Sets the maximum number of requests that each serving instance can receive.
@@ -1290,7 +1320,10 @@ type V2ServiceTemplateObservation struct {
 
 type V2ServiceTemplateParameters struct {
 
-	// KRM-style annotations for the resource.
+	// Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects.
+	// Cloud Run API v2 does not support annotations with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+	// All system annotations in v1 now have a corresponding field in v2 RevisionTemplate.
+	// This field follows Kubernetes annotations' namespacing, limits, and rules.
 	// +kubebuilder:validation:Optional
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
@@ -1308,7 +1341,10 @@ type V2ServiceTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	ExecutionEnvironment *string `json:"executionEnvironment,omitempty" tf:"execution_environment,omitempty"`
 
-	// KRM-style labels for the resource.
+	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
+	// For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+	// Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+	// All system labels in v1 now have a corresponding field in v2 RevisionTemplate.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 

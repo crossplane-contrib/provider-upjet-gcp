@@ -507,6 +507,12 @@ spec:
                       below.
                     items:
                       properties:
+                        encodingFormat:
+                          description: 'Specifies the encoding format of each CertificateAuthority''s
+                            CA certificate and CRLs. If this is omitted, CA certificates
+                            and CRLs will be published in PEM. Possible values are:
+                            PEM, DER.'
+                          type: string
                         publishCaCert:
                           description: When true, publishes each CertificateAuthority's
                             CA certificate and includes its URL in the "Authority
@@ -978,6 +984,12 @@ spec:
                       below.
                     items:
                       properties:
+                        encodingFormat:
+                          description: 'Specifies the encoding format of each CertificateAuthority''s
+                            CA certificate and CRLs. If this is omitted, CA certificates
+                            and CRLs will be published in PEM. Possible values are:
+                            PEM, DER.'
+                          type: string
                         publishCaCert:
                           description: When true, publishes each CertificateAuthority's
                             CA certificate and includes its URL in the "Authority
@@ -1653,6 +1665,12 @@ spec:
                       below.
                     items:
                       properties:
+                        encodingFormat:
+                          description: 'Specifies the encoding format of each CertificateAuthority''s
+                            CA certificate and CRLs. If this is omitted, CA certificates
+                            and CRLs will be published in PEM. Possible values are:
+                            PEM, DER.'
+                          type: string
                         publishCaCert:
                           description: When true, publishes each CertificateAuthority's
                             CA certificate and includes its URL in the "Authority

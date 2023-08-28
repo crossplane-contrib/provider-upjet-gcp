@@ -70,6 +70,10 @@ type CustomInfoTypesInitParameters struct {
 	// Structure is documented below.
 	Regex []RegexInitParameters `json:"regex,omitempty" tf:"regex,omitempty"`
 
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	SensitivityScore []CustomInfoTypesSensitivityScoreInitParameters `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
+
 	// A reference to a StoredInfoType to use with scanning.
 	// Structure is documented below.
 	StoredType []StoredTypeInitParameters `json:"storedType,omitempty" tf:"stored_type,omitempty"`
@@ -103,6 +107,10 @@ type CustomInfoTypesObservation struct {
 	// Regular expression which defines the rule.
 	// Structure is documented below.
 	Regex []RegexObservation `json:"regex,omitempty" tf:"regex,omitempty"`
+
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	SensitivityScore []CustomInfoTypesSensitivityScoreObservation `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
 
 	// A reference to a StoredInfoType to use with scanning.
 	// Structure is documented below.
@@ -143,6 +151,11 @@ type CustomInfoTypesParameters struct {
 	// +kubebuilder:validation:Optional
 	Regex []RegexParameters `json:"regex,omitempty" tf:"regex,omitempty"`
 
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SensitivityScore []CustomInfoTypesSensitivityScoreParameters `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
+
 	// A reference to a StoredInfoType to use with scanning.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -151,6 +164,28 @@ type CustomInfoTypesParameters struct {
 	// Message for detecting output from deidentification transformations that support reversing.
 	// +kubebuilder:validation:Optional
 	SurrogateType []SurrogateTypeParameters `json:"surrogateType,omitempty" tf:"surrogate_type,omitempty"`
+}
+
+type CustomInfoTypesSensitivityScoreInitParameters struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	Score *string `json:"score,omitempty" tf:"score,omitempty"`
+}
+
+type CustomInfoTypesSensitivityScoreObservation struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	Score *string `json:"score,omitempty" tf:"score,omitempty"`
+}
+
+type CustomInfoTypesSensitivityScoreParameters struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	// +kubebuilder:validation:Optional
+	Score *string `json:"score" tf:"score,omitempty"`
 }
 
 type DictionaryCloudStoragePathInitParameters struct {
@@ -282,6 +317,10 @@ type ExcludeInfoTypesInfoTypesInitParameters struct {
 	// or projects/project-id/storedInfoTypes/432452342.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	SensitivityScore []ExcludeInfoTypesInfoTypesSensitivityScoreInitParameters `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
+
 	// Version of the information type to use. By default, the version is set to stable
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
@@ -291,6 +330,10 @@ type ExcludeInfoTypesInfoTypesObservation struct {
 	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
 	// or projects/project-id/storedInfoTypes/432452342.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	SensitivityScore []ExcludeInfoTypesInfoTypesSensitivityScoreObservation `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
 
 	// Version of the information type to use. By default, the version is set to stable
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
@@ -303,9 +346,36 @@ type ExcludeInfoTypesInfoTypesParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
 
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SensitivityScore []ExcludeInfoTypesInfoTypesSensitivityScoreParameters `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
+
 	// Version of the information type to use. By default, the version is set to stable
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type ExcludeInfoTypesInfoTypesSensitivityScoreInitParameters struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	Score *string `json:"score,omitempty" tf:"score,omitempty"`
+}
+
+type ExcludeInfoTypesInfoTypesSensitivityScoreObservation struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	Score *string `json:"score,omitempty" tf:"score,omitempty"`
+}
+
+type ExcludeInfoTypesInfoTypesSensitivityScoreParameters struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	// +kubebuilder:validation:Optional
+	Score *string `json:"score" tf:"score,omitempty"`
 }
 
 type ExcludeInfoTypesInitParameters struct {
@@ -652,6 +722,10 @@ type InfoTypeInitParameters struct {
 	// or projects/project-id/storedInfoTypes/432452342.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	SensitivityScore []InfoTypeSensitivityScoreInitParameters `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
+
 	// Version of the information type to use. By default, the version is set to stable
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
@@ -661,6 +735,10 @@ type InfoTypeObservation struct {
 	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
 	// or projects/project-id/storedInfoTypes/432452342.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	SensitivityScore []InfoTypeSensitivityScoreObservation `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
 
 	// Version of the information type to use. By default, the version is set to stable
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
@@ -673,9 +751,36 @@ type InfoTypeParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
 
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SensitivityScore []InfoTypeSensitivityScoreParameters `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
+
 	// Version of the information type to use. By default, the version is set to stable
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type InfoTypeSensitivityScoreInitParameters struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	Score *string `json:"score,omitempty" tf:"score,omitempty"`
+}
+
+type InfoTypeSensitivityScoreObservation struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	Score *string `json:"score,omitempty" tf:"score,omitempty"`
+}
+
+type InfoTypeSensitivityScoreParameters struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	// +kubebuilder:validation:Optional
+	Score *string `json:"score" tf:"score,omitempty"`
 }
 
 type InspectConfigInfoTypesInitParameters struct {
@@ -683,6 +788,10 @@ type InspectConfigInfoTypesInitParameters struct {
 	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
 	// or projects/project-id/storedInfoTypes/432452342.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	SensitivityScore []InspectConfigInfoTypesSensitivityScoreInitParameters `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
 
 	// Version of the information type to use. By default, the version is set to stable
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
@@ -693,6 +802,10 @@ type InspectConfigInfoTypesObservation struct {
 	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
 	// or projects/project-id/storedInfoTypes/432452342.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	SensitivityScore []InspectConfigInfoTypesSensitivityScoreObservation `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
 
 	// Version of the information type to use. By default, the version is set to stable
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
@@ -705,9 +818,36 @@ type InspectConfigInfoTypesParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
 
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SensitivityScore []InspectConfigInfoTypesSensitivityScoreParameters `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
+
 	// Version of the information type to use. By default, the version is set to stable
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type InspectConfigInfoTypesSensitivityScoreInitParameters struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	Score *string `json:"score,omitempty" tf:"score,omitempty"`
+}
+
+type InspectConfigInfoTypesSensitivityScoreObservation struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	Score *string `json:"score,omitempty" tf:"score,omitempty"`
+}
+
+type InspectConfigInfoTypesSensitivityScoreParameters struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	// +kubebuilder:validation:Optional
+	Score *string `json:"score" tf:"score,omitempty"`
 }
 
 type InspectConfigInitParameters struct {
@@ -846,6 +986,11 @@ type InspectTemplateInitParameters struct {
 
 	// The parent of the inspect template in any of the following formats:
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
+
+	// The template id can contain uppercase and lowercase letters, numbers, and hyphens;
+	// that is, it must match the regular expression: [a-zA-Z\d-_]+. The maximum length is
+	// 100 characters. Can be empty to allow the system to generate one.
+	TemplateID *string `json:"templateId,omitempty" tf:"template_id,omitempty"`
 }
 
 type InspectTemplateObservation struct {
@@ -868,6 +1013,11 @@ type InspectTemplateObservation struct {
 
 	// The parent of the inspect template in any of the following formats:
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
+
+	// The template id can contain uppercase and lowercase letters, numbers, and hyphens;
+	// that is, it must match the regular expression: [a-zA-Z\d-_]+. The maximum length is
+	// 100 characters. Can be empty to allow the system to generate one.
+	TemplateID *string `json:"templateId,omitempty" tf:"template_id,omitempty"`
 }
 
 type InspectTemplateParameters struct {
@@ -888,6 +1038,12 @@ type InspectTemplateParameters struct {
 	// The parent of the inspect template in any of the following formats:
 	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
+
+	// The template id can contain uppercase and lowercase letters, numbers, and hyphens;
+	// that is, it must match the regular expression: [a-zA-Z\d-_]+. The maximum length is
+	// 100 characters. Can be empty to allow the system to generate one.
+	// +kubebuilder:validation:Optional
+	TemplateID *string `json:"templateId,omitempty" tf:"template_id,omitempty"`
 }
 
 type LikelihoodAdjustmentInitParameters struct {
@@ -985,6 +1141,10 @@ type MaxFindingsPerInfoTypeInfoTypeInitParameters struct {
 	// or projects/project-id/storedInfoTypes/432452342.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	SensitivityScore []MaxFindingsPerInfoTypeInfoTypeSensitivityScoreInitParameters `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
+
 	// Version of the information type to use. By default, the version is set to stable
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
@@ -994,6 +1154,10 @@ type MaxFindingsPerInfoTypeInfoTypeObservation struct {
 	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
 	// or projects/project-id/storedInfoTypes/432452342.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	SensitivityScore []MaxFindingsPerInfoTypeInfoTypeSensitivityScoreObservation `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
 
 	// Version of the information type to use. By default, the version is set to stable
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
@@ -1006,9 +1170,36 @@ type MaxFindingsPerInfoTypeInfoTypeParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
 
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SensitivityScore []MaxFindingsPerInfoTypeInfoTypeSensitivityScoreParameters `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
+
 	// Version of the information type to use. By default, the version is set to stable
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type MaxFindingsPerInfoTypeInfoTypeSensitivityScoreInitParameters struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	Score *string `json:"score,omitempty" tf:"score,omitempty"`
+}
+
+type MaxFindingsPerInfoTypeInfoTypeSensitivityScoreObservation struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	Score *string `json:"score,omitempty" tf:"score,omitempty"`
+}
+
+type MaxFindingsPerInfoTypeInfoTypeSensitivityScoreParameters struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	// +kubebuilder:validation:Optional
+	Score *string `json:"score" tf:"score,omitempty"`
 }
 
 type MaxFindingsPerInfoTypeInitParameters struct {
@@ -1116,6 +1307,10 @@ type RuleSetInfoTypesInitParameters struct {
 	// or projects/project-id/storedInfoTypes/432452342.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	SensitivityScore []RuleSetInfoTypesSensitivityScoreInitParameters `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
+
 	// Version of the information type to use. By default, the version is set to stable
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
@@ -1125,6 +1320,10 @@ type RuleSetInfoTypesObservation struct {
 	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
 	// or projects/project-id/storedInfoTypes/432452342.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	SensitivityScore []RuleSetInfoTypesSensitivityScoreObservation `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
 
 	// Version of the information type to use. By default, the version is set to stable
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
@@ -1137,9 +1336,36 @@ type RuleSetInfoTypesParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
 
+	// Optional custom sensitivity for this InfoType. This only applies to data profiling.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SensitivityScore []RuleSetInfoTypesSensitivityScoreParameters `json:"sensitivityScore,omitempty" tf:"sensitivity_score,omitempty"`
+
 	// Version of the information type to use. By default, the version is set to stable
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type RuleSetInfoTypesSensitivityScoreInitParameters struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	Score *string `json:"score,omitempty" tf:"score,omitempty"`
+}
+
+type RuleSetInfoTypesSensitivityScoreObservation struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	Score *string `json:"score,omitempty" tf:"score,omitempty"`
+}
+
+type RuleSetInfoTypesSensitivityScoreParameters struct {
+
+	// The sensitivity score applied to the resource.
+	// Possible values are: SENSITIVITY_LOW, SENSITIVITY_MODERATE, SENSITIVITY_HIGH.
+	// +kubebuilder:validation:Optional
+	Score *string `json:"score" tf:"score,omitempty"`
 }
 
 type RuleSetInitParameters struct {

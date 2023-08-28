@@ -110,6 +110,12 @@ type BackupBackupPlanObservation struct {
 	// Structure is documented below.
 	RetentionPolicy []RetentionPolicyObservation `json:"retentionPolicy,omitempty" tf:"retention_policy,omitempty"`
 
+	// The State of the BackupPlan.
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// Detailed description of why BackupPlan is in its current state.
+	StateReason *string `json:"stateReason,omitempty" tf:"state_reason,omitempty"`
+
 	// Server generated, unique identifier of UUID format.
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
 }

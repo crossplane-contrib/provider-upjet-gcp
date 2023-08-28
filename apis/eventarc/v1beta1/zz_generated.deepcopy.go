@@ -1034,6 +1034,11 @@ func (in *TriggerInitParameters) DeepCopyInto(out *TriggerInitParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.EventDataContentType != nil {
+		in, out := &in.EventDataContentType, &out.EventDataContentType
+		*out = new(string)
+		**out = **in
+	}
 	if in.Labels != nil {
 		in, out := &in.Labels, &out.Labels
 		*out = make(map[string]*string, len(*in))
@@ -1157,6 +1162,11 @@ func (in *TriggerObservation) DeepCopyInto(out *TriggerObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.EventDataContentType != nil {
+		in, out := &in.EventDataContentType, &out.EventDataContentType
+		*out = new(string)
+		**out = **in
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
@@ -1242,6 +1252,11 @@ func (in *TriggerParameters) DeepCopyInto(out *TriggerParameters) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.EventDataContentType != nil {
+		in, out := &in.EventDataContentType, &out.EventDataContentType
+		*out = new(string)
+		**out = **in
 	}
 	if in.Labels != nil {
 		in, out := &in.Labels, &out.Labels

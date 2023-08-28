@@ -184,6 +184,31 @@ type ExpirationPolicyParameters struct {
 	TTL *string `json:"ttl" tf:"ttl,omitempty"`
 }
 
+type NoWrapperInitParameters struct {
+
+	// When true, writes the Pub/Sub message metadata to
+	// x-goog-pubsub-<KEY>:<VAL> headers of the HTTP request. Writes the
+	// Pub/Sub message attributes to <KEY>:<VAL> headers of the HTTP request.
+	WriteMetadata *bool `json:"writeMetadata,omitempty" tf:"write_metadata,omitempty"`
+}
+
+type NoWrapperObservation struct {
+
+	// When true, writes the Pub/Sub message metadata to
+	// x-goog-pubsub-<KEY>:<VAL> headers of the HTTP request. Writes the
+	// Pub/Sub message attributes to <KEY>:<VAL> headers of the HTTP request.
+	WriteMetadata *bool `json:"writeMetadata,omitempty" tf:"write_metadata,omitempty"`
+}
+
+type NoWrapperParameters struct {
+
+	// When true, writes the Pub/Sub message metadata to
+	// x-goog-pubsub-<KEY>:<VAL> headers of the HTTP request. Writes the
+	// Pub/Sub message attributes to <KEY>:<VAL> headers of the HTTP request.
+	// +kubebuilder:validation:Optional
+	WriteMetadata *bool `json:"writeMetadata" tf:"write_metadata,omitempty"`
+}
+
 type OidcTokenInitParameters struct {
 
 	// Audience to be used when generating OIDC token. The audience claim
@@ -257,6 +282,11 @@ type PushConfigInitParameters struct {
 	// The possible values for this attribute are:
 	Attributes map[string]*string `json:"attributes,omitempty" tf:"attributes,omitempty"`
 
+	// When set, the payload to the push endpoint is not wrapped.Sets the
+	// data field as the HTTP body for delivery.
+	// Structure is documented below.
+	NoWrapper []NoWrapperInitParameters `json:"noWrapper,omitempty" tf:"no_wrapper,omitempty"`
+
 	// If specified, Pub/Sub will generate and attach an OIDC JWT token as
 	// an Authorization header in the HTTP request for every pushed message.
 	// Structure is documented below.
@@ -287,6 +317,11 @@ type PushConfigObservation struct {
 	// subscription was created without this attribute.
 	// The possible values for this attribute are:
 	Attributes map[string]*string `json:"attributes,omitempty" tf:"attributes,omitempty"`
+
+	// When set, the payload to the push endpoint is not wrapped.Sets the
+	// data field as the HTTP body for delivery.
+	// Structure is documented below.
+	NoWrapper []NoWrapperObservation `json:"noWrapper,omitempty" tf:"no_wrapper,omitempty"`
 
 	// If specified, Pub/Sub will generate and attach an OIDC JWT token as
 	// an Authorization header in the HTTP request for every pushed message.
@@ -319,6 +354,12 @@ type PushConfigParameters struct {
 	// The possible values for this attribute are:
 	// +kubebuilder:validation:Optional
 	Attributes map[string]*string `json:"attributes,omitempty" tf:"attributes,omitempty"`
+
+	// When set, the payload to the push endpoint is not wrapped.Sets the
+	// data field as the HTTP body for delivery.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NoWrapper []NoWrapperParameters `json:"noWrapper,omitempty" tf:"no_wrapper,omitempty"`
 
 	// If specified, Pub/Sub will generate and attach an OIDC JWT token as
 	// an Authorization header in the HTTP request for every pushed message.

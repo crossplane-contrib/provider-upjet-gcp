@@ -9,4 +9,4 @@ metadata:
 spec:
   forProvider:
     description: The default dnss
-    domain: .hashicorptest.com
+    domain: subdomain.hashicorptest.com
