@@ -16,10 +16,13 @@ import (
 	serviceperimeter "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/serviceperimeter"
 	serviceperimeterresource "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/serviceperimeterresource"
 	domain "github.com/upbound/provider-gcp/internal/controller/activedirectory/domain"
+	backup "github.com/upbound/provider-gcp/internal/controller/alloydb/backup"
+	cluster "github.com/upbound/provider-gcp/internal/controller/alloydb/cluster"
+	instance "github.com/upbound/provider-gcp/internal/controller/alloydb/instance"
 	envgroup "github.com/upbound/provider-gcp/internal/controller/apigee/envgroup"
 	environment "github.com/upbound/provider-gcp/internal/controller/apigee/environment"
 	environmentiammember "github.com/upbound/provider-gcp/internal/controller/apigee/environmentiammember"
-	instance "github.com/upbound/provider-gcp/internal/controller/apigee/instance"
+	instanceapigee "github.com/upbound/provider-gcp/internal/controller/apigee/instance"
 	nataddress "github.com/upbound/provider-gcp/internal/controller/apigee/nataddress"
 	organization "github.com/upbound/provider-gcp/internal/controller/apigee/organization"
 	application "github.com/upbound/provider-gcp/internal/controller/appengine/application"
@@ -189,7 +192,7 @@ import (
 	urlmap "github.com/upbound/provider-gcp/internal/controller/compute/urlmap"
 	vpngateway "github.com/upbound/provider-gcp/internal/controller/compute/vpngateway"
 	vpntunnel "github.com/upbound/provider-gcp/internal/controller/compute/vpntunnel"
-	cluster "github.com/upbound/provider-gcp/internal/controller/container/cluster"
+	clustercontainer "github.com/upbound/provider-gcp/internal/controller/container/cluster"
 	nodepool "github.com/upbound/provider-gcp/internal/controller/container/nodepool"
 	registrycontainer "github.com/upbound/provider-gcp/internal/controller/container/registry"
 	note "github.com/upbound/provider-gcp/internal/controller/containeranalysis/note"
@@ -236,7 +239,7 @@ import (
 	channel "github.com/upbound/provider-gcp/internal/controller/eventarc/channel"
 	googlechannelconfig "github.com/upbound/provider-gcp/internal/controller/eventarc/googlechannelconfig"
 	triggereventarc "github.com/upbound/provider-gcp/internal/controller/eventarc/trigger"
-	backup "github.com/upbound/provider-gcp/internal/controller/filestore/backup"
+	backupfilestore "github.com/upbound/provider-gcp/internal/controller/filestore/backup"
 	instancefilestore "github.com/upbound/provider-gcp/internal/controller/filestore/instance"
 	snapshotfilestore "github.com/upbound/provider-gcp/internal/controller/filestore/snapshot"
 	release "github.com/upbound/provider-gcp/internal/controller/firebaserules/release"
@@ -359,10 +362,13 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		serviceperimeter.Setup,
 		serviceperimeterresource.Setup,
 		domain.Setup,
+		backup.Setup,
+		cluster.Setup,
+		instance.Setup,
 		envgroup.Setup,
 		environment.Setup,
 		environmentiammember.Setup,
-		instance.Setup,
+		instanceapigee.Setup,
 		nataddress.Setup,
 		organization.Setup,
 		application.Setup,
@@ -532,7 +538,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		urlmap.Setup,
 		vpngateway.Setup,
 		vpntunnel.Setup,
-		cluster.Setup,
+		clustercontainer.Setup,
 		nodepool.Setup,
 		registrycontainer.Setup,
 		note.Setup,
@@ -579,7 +585,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		channel.Setup,
 		googlechannelconfig.Setup,
 		triggereventarc.Setup,
-		backup.Setup,
+		backupfilestore.Setup,
 		instancefilestore.Setup,
 		snapshotfilestore.Setup,
 		release.Setup,
