@@ -9,7 +9,9 @@ metadata:
 spec:
   forProvider:
     location: us-central1
-    network: projects/${data.google_project.project.number}/global/networks/${google_compute_network.default.name}
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
 
 ---
 

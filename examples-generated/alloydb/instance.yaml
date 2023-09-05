@@ -34,7 +34,9 @@ spec:
         name: example-secret
         namespace: upbound-system
     location: us-central1
-    network: projects/${data.google_project.project.number}/global/networks/${google_compute_network.default.name}
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: google_compute_network
 
 ---
 
@@ -51,22 +53,9 @@ spec:
     addressType: INTERNAL
     networkSelector:
       matchLabels:
-        testing.upbound.io/example-name: default
+        testing.upbound.io/example-name: google_compute_network
     prefixLength: 16
     purpose: VPC_PEERING
-
----
-
-apiVersion: compute.gcp.upbound.io/v1beta1
-kind: Network
-metadata:
-  annotations:
-    meta.upbound.io/example-id: alloydb/v1beta1/instance
-  labels:
-    testing.upbound.io/example-name: default
-  name: default
-spec:
-  forProvider: {}
 
 ---
 
@@ -82,7 +71,7 @@ spec:
   forProvider:
     networkSelector:
       matchLabels:
-        testing.upbound.io/example-name: default
+        testing.upbound.io/example-name: google_compute_network
     reservedPeeringRangesRefs:
     - name: private_ip_alloc
     service: servicenetworking.googleapis.com

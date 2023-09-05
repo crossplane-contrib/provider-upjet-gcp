@@ -198,10 +198,14 @@ type ClusterEncryptionInfoParameters struct {
 
 type ClusterInitParameters struct {
 
-	// The automated backup policy for this cluster.
-	// If no policy is provided then the default policy will be used. The default policy takes one backup a day, has a backup window of 1 hour, and retains backups for 14 days.
+	// The automated backup policy for this cluster. AutomatedBackupPolicy is disabled by default.
 	// Structure is documented below.
 	AutomatedBackupPolicy []AutomatedBackupPolicyInitParameters `json:"automatedBackupPolicy,omitempty" tf:"automated_backup_policy,omitempty"`
+
+	// The continuous backup config for this cluster.
+	// If no policy is provided then the default policy will be used. The default policy takes one backup a day and retains backups for 14 days.
+	// Structure is documented below.
+	ContinuousBackupConfig []ContinuousBackupConfigInitParameters `json:"continuousBackupConfig,omitempty" tf:"continuous_backup_config,omitempty"`
 
 	// User-settable and human-readable display name for the Cluster.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -217,10 +221,6 @@ type ClusterInitParameters struct {
 	// User-defined labels for the alloydb cluster.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// The relative resource name of the VPC network on which the instance can be accessed. It is specified in the following form:
-	// "projects/{projectNumber}/global/networks/{network_id}".
-	Network *string `json:"network,omitempty" tf:"network,omitempty"`
-
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -228,14 +228,22 @@ type ClusterInitParameters struct {
 
 type ClusterObservation struct {
 
-	// The automated backup policy for this cluster.
-	// If no policy is provided then the default policy will be used. The default policy takes one backup a day, has a backup window of 1 hour, and retains backups for 14 days.
+	// The automated backup policy for this cluster. AutomatedBackupPolicy is disabled by default.
 	// Structure is documented below.
 	AutomatedBackupPolicy []AutomatedBackupPolicyObservation `json:"automatedBackupPolicy,omitempty" tf:"automated_backup_policy,omitempty"`
 
 	// Cluster created from backup.
 	// Structure is documented below.
 	BackupSource []BackupSourceObservation `json:"backupSource,omitempty" tf:"backup_source,omitempty"`
+
+	// The continuous backup config for this cluster.
+	// If no policy is provided then the default policy will be used. The default policy takes one backup a day and retains backups for 14 days.
+	// Structure is documented below.
+	ContinuousBackupConfig []ContinuousBackupConfigObservation `json:"continuousBackupConfig,omitempty" tf:"continuous_backup_config,omitempty"`
+
+	// ContinuousBackupInfo describes the continuous backup properties of a cluster.
+	// Structure is documented below.
+	ContinuousBackupInfo []ContinuousBackupInfoObservation `json:"continuousBackupInfo,omitempty" tf:"continuous_backup_info,omitempty"`
 
 	// The database engine major version. This is an output-only field and it's populated at the Cluster creation time. This field cannot be changed after cluster creation.
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
@@ -285,11 +293,16 @@ type ClusterObservation struct {
 
 type ClusterParameters struct {
 
-	// The automated backup policy for this cluster.
-	// If no policy is provided then the default policy will be used. The default policy takes one backup a day, has a backup window of 1 hour, and retains backups for 14 days.
+	// The automated backup policy for this cluster. AutomatedBackupPolicy is disabled by default.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AutomatedBackupPolicy []AutomatedBackupPolicyParameters `json:"automatedBackupPolicy,omitempty" tf:"automated_backup_policy,omitempty"`
+
+	// The continuous backup config for this cluster.
+	// If no policy is provided then the default policy will be used. The default policy takes one backup a day and retains backups for 14 days.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ContinuousBackupConfig []ContinuousBackupConfigParameters `json:"continuousBackupConfig,omitempty" tf:"continuous_backup_config,omitempty"`
 
 	// User-settable and human-readable display name for the Cluster.
 	// +kubebuilder:validation:Optional
@@ -315,13 +328,130 @@ type ClusterParameters struct {
 
 	// The relative resource name of the VPC network on which the instance can be accessed. It is specified in the following form:
 	// "projects/{projectNumber}/global/networks/{network_id}".
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Reference to a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
+type ContinuousBackupConfigEncryptionConfigInitParameters struct {
+
+	// The fully-qualified resource name of the KMS key. Each Cloud KMS key is regionalized and has the following format: projects/[PROJECT]/locations/[REGION]/keyRings/[RING]/cryptoKeys/[KEY_NAME].
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+}
+
+type ContinuousBackupConfigEncryptionConfigObservation struct {
+
+	// The fully-qualified resource name of the KMS key. Each Cloud KMS key is regionalized and has the following format: projects/[PROJECT]/locations/[REGION]/keyRings/[RING]/cryptoKeys/[KEY_NAME].
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+}
+
+type ContinuousBackupConfigEncryptionConfigParameters struct {
+
+	// The fully-qualified resource name of the KMS key. Each Cloud KMS key is regionalized and has the following format: projects/[PROJECT]/locations/[REGION]/keyRings/[RING]/cryptoKeys/[KEY_NAME].
+	// +kubebuilder:validation:Optional
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+}
+
+type ContinuousBackupConfigInitParameters struct {
+
+	// Whether continuous backup recovery is enabled. If not set, defaults to true.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// EncryptionConfig describes the encryption config of a cluster or a backup that is encrypted with a CMEK (customer-managed encryption key).
+	// Structure is documented below.
+	EncryptionConfig []ContinuousBackupConfigEncryptionConfigInitParameters `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
+
+	// The numbers of days that are eligible to restore from using PITR. To support the entire recovery window, backups and logs are retained for one day more than the recovery window.
+	// If not set, defaults to 14 days.
+	RecoveryWindowDays *float64 `json:"recoveryWindowDays,omitempty" tf:"recovery_window_days,omitempty"`
+}
+
+type ContinuousBackupConfigObservation struct {
+
+	// Whether continuous backup recovery is enabled. If not set, defaults to true.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// EncryptionConfig describes the encryption config of a cluster or a backup that is encrypted with a CMEK (customer-managed encryption key).
+	// Structure is documented below.
+	EncryptionConfig []ContinuousBackupConfigEncryptionConfigObservation `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
+
+	// The numbers of days that are eligible to restore from using PITR. To support the entire recovery window, backups and logs are retained for one day more than the recovery window.
+	// If not set, defaults to 14 days.
+	RecoveryWindowDays *float64 `json:"recoveryWindowDays,omitempty" tf:"recovery_window_days,omitempty"`
+}
+
+type ContinuousBackupConfigParameters struct {
+
+	// Whether continuous backup recovery is enabled. If not set, defaults to true.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// EncryptionConfig describes the encryption config of a cluster or a backup that is encrypted with a CMEK (customer-managed encryption key).
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	EncryptionConfig []ContinuousBackupConfigEncryptionConfigParameters `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
+
+	// The numbers of days that are eligible to restore from using PITR. To support the entire recovery window, backups and logs are retained for one day more than the recovery window.
+	// If not set, defaults to 14 days.
+	// +kubebuilder:validation:Optional
+	RecoveryWindowDays *float64 `json:"recoveryWindowDays,omitempty" tf:"recovery_window_days,omitempty"`
+}
+
+type ContinuousBackupInfoEncryptionInfoInitParameters struct {
+}
+
+type ContinuousBackupInfoEncryptionInfoObservation struct {
+
+	// (Output)
+	// Output only. Type of encryption.
+	EncryptionType *string `json:"encryptionType,omitempty" tf:"encryption_type,omitempty"`
+
+	// (Output)
+	// Output only. Cloud KMS key versions that are being used to protect the database or the backup.
+	KMSKeyVersions []*string `json:"kmsKeyVersions,omitempty" tf:"kms_key_versions,omitempty"`
+}
+
+type ContinuousBackupInfoEncryptionInfoParameters struct {
+}
+
+type ContinuousBackupInfoInitParameters struct {
+}
+
+type ContinuousBackupInfoObservation struct {
+
+	// (Output)
+	// The earliest restorable time that can be restored to. Output only field.
+	EarliestRestorableTime *string `json:"earliestRestorableTime,omitempty" tf:"earliest_restorable_time,omitempty"`
+
+	// (Output)
+	// When ContinuousBackup was most recently enabled. Set to null if ContinuousBackup is not enabled.
+	EnabledTime *string `json:"enabledTime,omitempty" tf:"enabled_time,omitempty"`
+
+	// (Output)
+	// Output only. The encryption information for the WALs and backups required for ContinuousBackup.
+	// Structure is documented below.
+	EncryptionInfo []ContinuousBackupInfoEncryptionInfoObservation `json:"encryptionInfo,omitempty" tf:"encryption_info,omitempty"`
+
+	// (Output)
+	// Days of the week on which a continuous backup is taken. Output only field. Ignored if passed into the request.
+	Schedule []*string `json:"schedule,omitempty" tf:"schedule,omitempty"`
+}
+
+type ContinuousBackupInfoParameters struct {
 }
 
 type InitialUserInitParameters struct {
@@ -527,9 +657,8 @@ type ClusterStatus struct {
 type Cluster struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.network) || has(self.initProvider.network)",message="network is a required parameter"
-	Spec   ClusterSpec   `json:"spec"`
-	Status ClusterStatus `json:"status,omitempty"`
+	Spec              ClusterSpec   `json:"spec"`
+	Status            ClusterStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
