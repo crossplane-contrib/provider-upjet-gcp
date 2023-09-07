@@ -4,14 +4,13 @@ metadata:
   annotations:
     meta.upbound.io/example-id: alloydb/v1beta1/instance
   labels:
-    testing.upbound.io/example-name: default
-  name: default
+    testing.upbound.io/example-name: alloydb-test
+  name: alloydb-test
 spec:
   forProvider:
     clusterSelector:
       matchLabels:
-        testing.upbound.io/example-name: default
-    instanceId: alloydb-instance
+        testing.upbound.io/example-name: alloydb-test
     instanceType: PRIMARY
     machineConfig:
     - cpuCount: 2
@@ -24,8 +23,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: alloydb/v1beta1/instance
   labels:
-    testing.upbound.io/example-name: default
-  name: default
+    testing.upbound.io/example-name: alloydb-test
+  name: alloydb-test
 spec:
   forProvider:
     initialUser:
@@ -34,7 +33,9 @@ spec:
         name: example-secret
         namespace: upbound-system
     location: us-central1
-    network: projects/${data.google_project.project.number}/global/networks/${google_compute_network.default.name}
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: google_compute_network
 
 ---
 
@@ -45,13 +46,13 @@ metadata:
     meta.upbound.io/example-id: alloydb/v1beta1/instance
   labels:
     testing.upbound.io/example-name: private_ip_alloc
-  name: private-ip-alloc
+  name: private-ip-alloc-alloy
 spec:
   forProvider:
     addressType: INTERNAL
     networkSelector:
       matchLabels:
-        testing.upbound.io/example-name: default
+        testing.upbound.io/example-name: google_compute_network
     prefixLength: 16
     purpose: VPC_PEERING
 
@@ -61,10 +62,10 @@ apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Network
 metadata:
   annotations:
-    meta.upbound.io/example-id: alloydb/v1beta1/instance
+    meta.upbound.io/example-id: alloydb/v1beta1/cluster
   labels:
-    testing.upbound.io/example-name: default
-  name: default
+    testing.upbound.io/example-name: google_compute_network
+  name: alloydb-test-network
 spec:
   forProvider: {}
 
@@ -82,7 +83,7 @@ spec:
   forProvider:
     networkSelector:
       matchLabels:
-        testing.upbound.io/example-name: default
+        testing.upbound.io/example-name: google_compute_network
     reservedPeeringRangesRefs:
-    - name: private_ip_alloc
+    - name: private-ip-alloc-alloy
     service: servicenetworking.googleapis.com

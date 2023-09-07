@@ -48,9 +48,6 @@ type InstanceInitParameters struct {
 	// The Compute Engine zone that the instance should serve from, per https://cloud.google.com/compute/docs/regions-zones This can ONLY be specified for ZONAL instances. If present for a REGIONAL instance, an error will be thrown. If this is absent for a ZONAL instance, instance is created in a random zone with available capacity.
 	GceZone *string `json:"gceZone,omitempty" tf:"gce_zone,omitempty"`
 
-	// The ID of the alloydb instance.
-	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
-
 	// The type of the instance. If the instance type is READ_POOL, provide the associated PRIMARY instance in the depends_on meta-data attribute.
 	// Possible values are: PRIMARY, READ_POOL.
 	InstanceType *string `json:"instanceType,omitempty" tf:"instance_type,omitempty"`
@@ -102,9 +99,6 @@ type InstanceObservation struct {
 
 	// The IP address for the Instance. This is the connection endpoint for an end-user application.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
-
-	// The ID of the alloydb instance.
-	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
 	// The type of the instance. If the instance type is READ_POOL, provide the associated PRIMARY instance in the depends_on meta-data attribute.
 	// Possible values are: PRIMARY, READ_POOL.
@@ -179,10 +173,6 @@ type InstanceParameters struct {
 	// The Compute Engine zone that the instance should serve from, per https://cloud.google.com/compute/docs/regions-zones This can ONLY be specified for ZONAL instances. If present for a REGIONAL instance, an error will be thrown. If this is absent for a ZONAL instance, instance is created in a random zone with available capacity.
 	// +kubebuilder:validation:Optional
 	GceZone *string `json:"gceZone,omitempty" tf:"gce_zone,omitempty"`
-
-	// The ID of the alloydb instance.
-	// +kubebuilder:validation:Optional
-	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
 	// The type of the instance. If the instance type is READ_POOL, provide the associated PRIMARY instance in the depends_on meta-data attribute.
 	// Possible values are: PRIMARY, READ_POOL.
@@ -278,7 +268,6 @@ type InstanceStatus struct {
 type Instance struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.instanceId) || has(self.initProvider.instanceId)",message="instanceId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.instanceType) || has(self.initProvider.instanceType)",message="instanceType is a required parameter"
 	Spec   InstanceSpec   `json:"spec"`
 	Status InstanceStatus `json:"status,omitempty"`

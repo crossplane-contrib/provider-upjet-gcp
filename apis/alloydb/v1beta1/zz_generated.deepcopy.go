@@ -1706,11 +1706,6 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.InstanceID != nil {
-		in, out := &in.InstanceID, &out.InstanceID
-		*out = new(string)
-		**out = **in
-	}
 	if in.InstanceType != nil {
 		in, out := &in.InstanceType, &out.InstanceType
 		*out = new(string)
@@ -1857,11 +1852,6 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.InstanceID != nil {
-		in, out := &in.InstanceID, &out.InstanceID
-		*out = new(string)
-		**out = **in
-	}
 	if in.InstanceType != nil {
 		in, out := &in.InstanceType, &out.InstanceType
 		*out = new(string)
@@ -1993,11 +1983,6 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.GceZone != nil {
 		in, out := &in.GceZone, &out.GceZone
-		*out = new(string)
-		**out = **in
-	}
-	if in.InstanceID != nil {
-		in, out := &in.InstanceID, &out.InstanceID
 		*out = new(string)
 		**out = **in
 	}

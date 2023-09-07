@@ -45,7 +45,6 @@ spec:
     clusterSelector:
       matchLabels:
         testing.upbound.io/example-name: default
-    instanceId: alloydb-instance
     instanceType: PRIMARY
 
 ---

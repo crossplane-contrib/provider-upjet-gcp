@@ -183,9 +183,6 @@ spec:
                       for a ZONAL instance, instance is created in a random zone with
                       available capacity.
                     type: string
-                  instanceId:
-                    description: The ID of the alloydb instance.
-                    type: string
                   instanceType:
                     description: 'The type of the instance. If the instance type is
                       READ_POOL, provide the associated PRIMARY instance in the depends_on
@@ -269,9 +266,6 @@ spec:
                       a REGIONAL instance, an error will be thrown. If this is absent
                       for a ZONAL instance, instance is created in a random zone with
                       available capacity.
-                    type: string
-                  instanceId:
-                    description: The ID of the alloydb instance.
                     type: string
                   instanceType:
                     description: 'The type of the instance. If the instance type is
@@ -503,10 +497,6 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
-            - message: instanceId is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.instanceId)
-                || has(self.initProvider.instanceId)'
             - message: instanceType is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.instanceType)
@@ -564,9 +554,6 @@ spec:
                     type: string
                   id:
                     description: an identifier for the resource with format {{cluster}}/instances/{{instance_id}}
-                    type: string
-                  instanceId:
-                    description: The ID of the alloydb instance.
                     type: string
                   instanceType:
                     description: 'The type of the instance. If the instance type is

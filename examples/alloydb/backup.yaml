@@ -4,13 +4,13 @@ metadata:
   annotations:
     meta.upbound.io/example-id: alloydb/v1beta1/backup
   labels:
-    testing.upbound.io/example-name: default
-  name: default
+    testing.upbound.io/example-name: alloydb-test
+  name: alloydb-test
 spec:
   forProvider:
     clusterNameSelector:
       matchLabels:
-        testing.upbound.io/example-name: default
+        testing.upbound.io/example-name: alloydb-test
     location: us-central1
 
 ---
@@ -21,12 +21,14 @@ metadata:
   annotations:
     meta.upbound.io/example-id: alloydb/v1beta1/backup
   labels:
-    testing.upbound.io/example-name: default
-  name: default
+    testing.upbound.io/example-name: alloydb-test
+  name: alloydb-test
 spec:
   forProvider:
     location: us-central1
-    network: ${data.google_compute_network.default.id}
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: google_compute_network
 
 ---
 
@@ -36,14 +38,13 @@ metadata:
   annotations:
     meta.upbound.io/example-id: alloydb/v1beta1/backup
   labels:
-    testing.upbound.io/example-name: default
-  name: default
+    testing.upbound.io/example-name: alloydb-test
+  name: alloydb-test
 spec:
   forProvider:
     clusterSelector:
       matchLabels:
         testing.upbound.io/example-name: default
-    instanceId: alloydb-instance
     instanceType: PRIMARY
 
 ---
@@ -55,7 +56,7 @@ metadata:
     meta.upbound.io/example-id: alloydb/v1beta1/backup
   labels:
     testing.upbound.io/example-name: private_ip_alloc
-  name: private-ip-alloc
+  name: private-ip-alloc-alloy
 spec:
   forProvider:
     addressType: INTERNAL
@@ -81,5 +82,18 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: google_compute_network
     reservedPeeringRangesRefs:
-    - name: private_ip_alloc
+    - name: private-ip-alloc-alloy
     service: servicenetworking.googleapis.com
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alloydb/v1beta1/cluster
+  labels:
+    testing.upbound.io/example-name: google_compute_network
+  name: alloydb-test-network
+spec:
+  forProvider: {}
