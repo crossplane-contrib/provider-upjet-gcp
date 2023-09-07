@@ -62,7 +62,7 @@ apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Network
 metadata:
   annotations:
-    meta.upbound.io/example-id: alloydb/v1beta1/cluster
+    meta.upbound.io/example-id: alloydb/v1beta1/instance
   labels:
     testing.upbound.io/example-name: google_compute_network
   name: alloydb-test-network
