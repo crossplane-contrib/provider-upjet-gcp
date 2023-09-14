@@ -210,8 +210,7 @@ spec:
                             comply with RFC1035. Example value: "run-service".'
                           type: string
                         serviceRef:
-                          description: Reference to a Service in cloudrun to populate
-                            service.
+                          description: Reference to a  to populate service.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -246,8 +245,7 @@ spec:
                           - name
                           type: object
                         serviceSelector:
-                          description: Selector for a Service in cloudrun to populate
-                            service.
+                          description: Selector for a  to populate service.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with

@@ -1196,9 +1196,6 @@ type V2JobTemplateParameters struct {
 
 type VPCAccessInitParameters struct {
 
-	// VPC Access connector name. Format: projects/{project}/locations/{location}/connectors/{connector}, where {project} can be project id or number.
-	Connector *string `json:"connector,omitempty" tf:"connector,omitempty"`
-
 	// Traffic VPC egress settings.
 	// Possible values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.
 	Egress *string `json:"egress,omitempty" tf:"egress,omitempty"`
@@ -1217,8 +1214,18 @@ type VPCAccessObservation struct {
 type VPCAccessParameters struct {
 
 	// VPC Access connector name. Format: projects/{project}/locations/{location}/connectors/{connector}, where {project} can be project id or number.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/vpcaccess/v1beta1.Connector
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Connector *string `json:"connector,omitempty" tf:"connector,omitempty"`
+
+	// Reference to a Connector in vpcaccess to populate connector.
+	// +kubebuilder:validation:Optional
+	ConnectorRef *v1.Reference `json:"connectorRef,omitempty" tf:"-"`
+
+	// Selector for a Connector in vpcaccess to populate connector.
+	// +kubebuilder:validation:Optional
+	ConnectorSelector *v1.Selector `json:"connectorSelector,omitempty" tf:"-"`
 
 	// Traffic VPC egress settings.
 	// Possible values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.

@@ -23,7 +23,6 @@ import (
 	errors "github.com/pkg/errors"
 	v1beta12 "github.com/upbound/provider-gcp/apis/cloudfunctions/v1beta1"
 	v1beta11 "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1"
-	v1beta13 "github.com/upbound/provider-gcp/apis/cloudrun/v1beta1"
 	v1beta1 "github.com/upbound/provider-gcp/apis/storage/v1beta1"
 	common "github.com/upbound/provider-gcp/config/common"
 	compute "github.com/upbound/provider-gcp/config/compute"
@@ -1806,24 +1805,6 @@ func (mg *RegionNetworkEndpointGroup) ResolveReferences(ctx context.Context, c c
 		}
 		mg.Spec.ForProvider.CloudFunction[i3].Function = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.ForProvider.CloudFunction[i3].FunctionRef = rsp.ResolvedReference
-
-	}
-	for i3 := 0; i3 < len(mg.Spec.ForProvider.CloudRun); i3++ {
-		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CloudRun[i3].Service),
-			Extract:      reference.ExternalName(),
-			Reference:    mg.Spec.ForProvider.CloudRun[i3].ServiceRef,
-			Selector:     mg.Spec.ForProvider.CloudRun[i3].ServiceSelector,
-			To: reference.To{
-				List:    &v1beta13.ServiceList{},
-				Managed: &v1beta13.Service{},
-			},
-		})
-		if err != nil {
-			return errors.Wrap(err, "mg.Spec.ForProvider.CloudRun[i3].Service")
-		}
-		mg.Spec.ForProvider.CloudRun[i3].Service = reference.ToPtrValue(rsp.ResolvedValue)
-		mg.Spec.ForProvider.CloudRun[i3].ServiceRef = rsp.ResolvedReference
 
 	}
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
