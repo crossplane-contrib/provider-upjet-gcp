@@ -471,6 +471,9 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	p.AddResourceConfigurator("google_compute_project_metadata_item", func(r *config.Resource) {
 		r.MetaResource.ArgumentDocs["id"] = "an identifier for the resource with format `{{key}}`"
 	})
+	p.AddResourceConfigurator("google_compute_region_network_endpoint_group", func(r *config.Resource) {
+		r.References["cloud_run.service"] = config.Reference{}
+	})
 }
 
 // InstanceGroupExtractor extracts Instance Group from
