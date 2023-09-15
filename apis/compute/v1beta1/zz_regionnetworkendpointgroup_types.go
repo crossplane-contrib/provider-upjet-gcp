@@ -194,14 +194,15 @@ type CloudRunParameters struct {
 	// Cloud Run service is the main resource of Cloud Run.
 	// The service must be 1-63 characters long, and comply with RFC1035.
 	// Example value: "run-service".
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudrun/v1beta1.Service
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
-	// Reference to a  to populate service.
+	// Reference to a Service in cloudrun to populate service.
 	// +kubebuilder:validation:Optional
 	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
 
-	// Selector for a  to populate service.
+	// Selector for a Service in cloudrun to populate service.
 	// +kubebuilder:validation:Optional
 	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
 

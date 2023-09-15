@@ -23,8 +23,6 @@ import (
 	errors "github.com/pkg/errors"
 	v1beta1 "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1"
 	v1beta11 "github.com/upbound/provider-gcp/apis/secretmanager/v1beta1"
-	v1beta12 "github.com/upbound/provider-gcp/apis/vpcaccess/v1beta1"
-	resource "github.com/upbound/upjet/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -235,28 +233,6 @@ func (mg *V2Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.Template); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.Template[i3].Template); i4++ {
-			for i5 := 0; i5 < len(mg.Spec.ForProvider.Template[i3].Template[i4].VPCAccess); i5++ {
-				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template[i3].Template[i4].VPCAccess[i5].Connector),
-					Extract:      resource.ExtractResourceID(),
-					Reference:    mg.Spec.ForProvider.Template[i3].Template[i4].VPCAccess[i5].ConnectorRef,
-					Selector:     mg.Spec.ForProvider.Template[i3].Template[i4].VPCAccess[i5].ConnectorSelector,
-					To: reference.To{
-						List:    &v1beta12.ConnectorList{},
-						Managed: &v1beta12.Connector{},
-					},
-				})
-				if err != nil {
-					return errors.Wrap(err, "mg.Spec.ForProvider.Template[i3].Template[i4].VPCAccess[i5].Connector")
-				}
-				mg.Spec.ForProvider.Template[i3].Template[i4].VPCAccess[i5].Connector = reference.ToPtrValue(rsp.ResolvedValue)
-				mg.Spec.ForProvider.Template[i3].Template[i4].VPCAccess[i5].ConnectorRef = rsp.ResolvedReference
-
-			}
-		}
-	}
-	for i3 := 0; i3 < len(mg.Spec.ForProvider.Template); i3++ {
-		for i4 := 0; i4 < len(mg.Spec.ForProvider.Template[i3].Template); i4++ {
 			for i5 := 0; i5 < len(mg.Spec.ForProvider.Template[i3].Template[i4].Volumes); i5++ {
 				for i6 := 0; i6 < len(mg.Spec.ForProvider.Template[i3].Template[i4].Volumes[i5].Secret); i6++ {
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
@@ -314,26 +290,6 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 					}
 				}
 			}
-		}
-	}
-	for i3 := 0; i3 < len(mg.Spec.ForProvider.Template); i3++ {
-		for i4 := 0; i4 < len(mg.Spec.ForProvider.Template[i3].VPCAccess); i4++ {
-			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template[i3].VPCAccess[i4].Connector),
-				Extract:      resource.ExtractResourceID(),
-				Reference:    mg.Spec.ForProvider.Template[i3].VPCAccess[i4].ConnectorRef,
-				Selector:     mg.Spec.ForProvider.Template[i3].VPCAccess[i4].ConnectorSelector,
-				To: reference.To{
-					List:    &v1beta12.ConnectorList{},
-					Managed: &v1beta12.Connector{},
-				},
-			})
-			if err != nil {
-				return errors.Wrap(err, "mg.Spec.ForProvider.Template[i3].VPCAccess[i4].Connector")
-			}
-			mg.Spec.ForProvider.Template[i3].VPCAccess[i4].Connector = reference.ToPtrValue(rsp.ResolvedValue)
-			mg.Spec.ForProvider.Template[i3].VPCAccess[i4].ConnectorRef = rsp.ResolvedReference
-
 		}
 	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.Template); i3++ {

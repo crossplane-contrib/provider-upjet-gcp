@@ -848,8 +848,7 @@ spec:
                                         where {project} can be project id or number.'
                                       type: string
                                     connectorRef:
-                                      description: Reference to a Connector in vpcaccess
-                                        to populate connector.
+                                      description: Reference to a  to populate connector.
                                       properties:
                                         name:
                                           description: Name of the referenced object.
@@ -887,8 +886,7 @@ spec:
                                       - name
                                       type: object
                                     connectorSelector:
-                                      description: Selector for a Connector in vpcaccess
-                                        to populate connector.
+                                      description: Selector for a  to populate connector.
                                       properties:
                                         matchControllerRef:
                                           description: MatchControllerRef ensures

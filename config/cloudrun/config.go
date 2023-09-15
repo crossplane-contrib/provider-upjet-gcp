@@ -55,4 +55,10 @@ func Configure(p *config.Provider) {
 		}
 		config.MarkAsRequired(r.TerraformResource, "location")
 	})
+	p.AddResourceConfigurator("google_cloud_run_v2_job", func(r *config.Resource) {
+		r.References["template.template.vpc_access.connector"] = config.Reference{}
+	})
+	p.AddResourceConfigurator("google_cloud_run_v2_service", func(r *config.Resource) {
+		r.References["template.vpc_access.connector"] = config.Reference{}
+	})
 }
