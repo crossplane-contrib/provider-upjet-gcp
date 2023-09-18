@@ -22,6 +22,7 @@ import (
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
 	v1beta1 "github.com/upbound/provider-gcp/apis/storage/v1beta1"
+	v1beta11 "github.com/upbound/provider-gcp/apis/vpcaccess/v1beta1"
 	resource "github.com/upbound/upjet/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -64,6 +65,22 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 	}
 	mg.Spec.ForProvider.SourceArchiveObject = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SourceArchiveObjectRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VPCConnector),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.VPCConnectorRef,
+		Selector:     mg.Spec.ForProvider.VPCConnectorSelector,
+		To: reference.To{
+			List:    &v1beta11.ConnectorList{},
+			Managed: &v1beta11.Connector{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.VPCConnector")
+	}
+	mg.Spec.ForProvider.VPCConnector = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.VPCConnectorRef = rsp.ResolvedReference
 
 	return nil
 }

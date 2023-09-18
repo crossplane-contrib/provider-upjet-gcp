@@ -168,9 +168,6 @@ type FunctionInitParameters struct {
 	// Boolean variable. Any HTTP request (of a supported type) to the endpoint will trigger function execution. Supported HTTP request types are: POST, PUT, GET, DELETE, and OPTIONS. Endpoint is returned as https_trigger_url. Cannot be used with event_trigger.
 	TriggerHTTP *bool `json:"triggerHttp,omitempty" tf:"trigger_http,omitempty"`
 
-	// The VPC Network Connector that this cloud function can connect to. It should be set up as fully-qualified URI. The format of this field is projects/*/locations/*/connectors/*.
-	VPCConnector *string `json:"vpcConnector,omitempty" tf:"vpc_connector,omitempty"`
-
 	// The egress settings for the connector, controlling what traffic is diverted through it. Allowed values are ALL_TRAFFIC and PRIVATE_RANGES_ONLY. Defaults to PRIVATE_RANGES_ONLY. If unset, this field preserves the previously set value.
 	VPCConnectorEgressSettings *string `json:"vpcConnectorEgressSettings,omitempty" tf:"vpc_connector_egress_settings,omitempty"`
 }
@@ -404,12 +401,21 @@ type FunctionParameters struct {
 	TriggerHTTP *bool `json:"triggerHttp,omitempty" tf:"trigger_http,omitempty"`
 
 	// The VPC Network Connector that this cloud function can connect to. It should be set up as fully-qualified URI. The format of this field is projects/*/locations/*/connectors/*.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/vpcaccess/v1beta1.Connector
 	// +kubebuilder:validation:Optional
 	VPCConnector *string `json:"vpcConnector,omitempty" tf:"vpc_connector,omitempty"`
 
 	// The egress settings for the connector, controlling what traffic is diverted through it. Allowed values are ALL_TRAFFIC and PRIVATE_RANGES_ONLY. Defaults to PRIVATE_RANGES_ONLY. If unset, this field preserves the previously set value.
 	// +kubebuilder:validation:Optional
 	VPCConnectorEgressSettings *string `json:"vpcConnectorEgressSettings,omitempty" tf:"vpc_connector_egress_settings,omitempty"`
+
+	// Reference to a Connector in vpcaccess to populate vpcConnector.
+	// +kubebuilder:validation:Optional
+	VPCConnectorRef *v1.Reference `json:"vpcConnectorRef,omitempty" tf:"-"`
+
+	// Selector for a Connector in vpcaccess to populate vpcConnector.
+	// +kubebuilder:validation:Optional
+	VPCConnectorSelector *v1.Selector `json:"vpcConnectorSelector,omitempty" tf:"-"`
 }
 
 type SecretEnvironmentVariablesInitParameters struct {

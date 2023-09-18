@@ -648,9 +648,6 @@ type ServiceConfigInitParameters struct {
 	// timeout period. Defaults to 60 seconds.
 	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
 
-	// The Serverless VPC Access connector that this cloud function can connect to.
-	VPCConnector *string `json:"vpcConnector,omitempty" tf:"vpc_connector,omitempty"`
-
 	// Available egress settings.
 	// Possible values are: VPC_CONNECTOR_EGRESS_SETTINGS_UNSPECIFIED, PRIVATE_RANGES_ONLY, ALL_TRAFFIC.
 	VPCConnectorEgressSettings *string `json:"vpcConnectorEgressSettings,omitempty" tf:"vpc_connector_egress_settings,omitempty"`
@@ -798,6 +795,7 @@ type ServiceConfigParameters struct {
 	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
 
 	// The Serverless VPC Access connector that this cloud function can connect to.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/vpcaccess/v1beta1.Connector
 	// +kubebuilder:validation:Optional
 	VPCConnector *string `json:"vpcConnector,omitempty" tf:"vpc_connector,omitempty"`
 
@@ -805,6 +803,14 @@ type ServiceConfigParameters struct {
 	// Possible values are: VPC_CONNECTOR_EGRESS_SETTINGS_UNSPECIFIED, PRIVATE_RANGES_ONLY, ALL_TRAFFIC.
 	// +kubebuilder:validation:Optional
 	VPCConnectorEgressSettings *string `json:"vpcConnectorEgressSettings,omitempty" tf:"vpc_connector_egress_settings,omitempty"`
+
+	// Reference to a Connector in vpcaccess to populate vpcConnector.
+	// +kubebuilder:validation:Optional
+	VPCConnectorRef *v1.Reference `json:"vpcConnectorRef,omitempty" tf:"-"`
+
+	// Selector for a Connector in vpcaccess to populate vpcConnector.
+	// +kubebuilder:validation:Optional
+	VPCConnectorSelector *v1.Selector `json:"vpcConnectorSelector,omitempty" tf:"-"`
 }
 
 type SourceInitParameters struct {
