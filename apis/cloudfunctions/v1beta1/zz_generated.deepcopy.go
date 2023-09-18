@@ -686,6 +686,11 @@ func (in *FunctionInitParameters) DeepCopyInto(out *FunctionInitParameters) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.VPCConnector != nil {
+		in, out := &in.VPCConnector, &out.VPCConnector
+		*out = new(string)
+		**out = **in
+	}
 	if in.VPCConnectorEgressSettings != nil {
 		in, out := &in.VPCConnectorEgressSettings, &out.VPCConnectorEgressSettings
 		*out = new(string)
@@ -1100,16 +1105,6 @@ func (in *FunctionParameters) DeepCopyInto(out *FunctionParameters) {
 		in, out := &in.VPCConnectorEgressSettings, &out.VPCConnectorEgressSettings
 		*out = new(string)
 		**out = **in
-	}
-	if in.VPCConnectorRef != nil {
-		in, out := &in.VPCConnectorRef, &out.VPCConnectorRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.VPCConnectorSelector != nil {
-		in, out := &in.VPCConnectorSelector, &out.VPCConnectorSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
 	}
 }
 

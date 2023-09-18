@@ -18,9 +18,6 @@ func Configure(p *config.Provider) {
 			Schema["build_environment_variables"].Elem = schema.TypeString
 		r.TerraformResource.
 			Schema["environment_variables"].Elem = schema.TypeString
-		r.References["vpc_connector"] = config.Reference{
-			Type: "github.com/upbound/provider-gcp/apis/vpcaccess/v1beta1.Connector",
-		}
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 

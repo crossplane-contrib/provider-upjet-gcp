@@ -26,7 +26,6 @@ import (
 	v1beta12 "github.com/upbound/provider-gcp/apis/pubsub/v1beta1"
 	v1beta14 "github.com/upbound/provider-gcp/apis/secretmanager/v1beta1"
 	v1beta1 "github.com/upbound/provider-gcp/apis/storage/v1beta1"
-	v1beta15 "github.com/upbound/provider-gcp/apis/vpcaccess/v1beta1"
 	resource "github.com/upbound/upjet/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -212,24 +211,6 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 		mg.Spec.ForProvider.ServiceConfig[i3].ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.ForProvider.ServiceConfig[i3].ServiceAccountEmailRef = rsp.ResolvedReference
-
-	}
-	for i3 := 0; i3 < len(mg.Spec.ForProvider.ServiceConfig); i3++ {
-		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceConfig[i3].VPCConnector),
-			Extract:      reference.ExternalName(),
-			Reference:    mg.Spec.ForProvider.ServiceConfig[i3].VPCConnectorRef,
-			Selector:     mg.Spec.ForProvider.ServiceConfig[i3].VPCConnectorSelector,
-			To: reference.To{
-				List:    &v1beta15.ConnectorList{},
-				Managed: &v1beta15.Connector{},
-			},
-		})
-		if err != nil {
-			return errors.Wrap(err, "mg.Spec.ForProvider.ServiceConfig[i3].VPCConnector")
-		}
-		mg.Spec.ForProvider.ServiceConfig[i3].VPCConnector = reference.ToPtrValue(rsp.ResolvedValue)
-		mg.Spec.ForProvider.ServiceConfig[i3].VPCConnectorRef = rsp.ResolvedReference
 
 	}
 

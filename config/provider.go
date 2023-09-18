@@ -29,7 +29,6 @@ import (
 	"github.com/upbound/provider-gcp/config/bigtable"
 	composer "github.com/upbound/provider-gcp/config/cloudcomposer"
 	"github.com/upbound/provider-gcp/config/cloudfunctions"
-	"github.com/upbound/provider-gcp/config/cloudfunctions2"
 	"github.com/upbound/provider-gcp/config/cloudiot"
 	"github.com/upbound/provider-gcp/config/cloudplatform"
 	"github.com/upbound/provider-gcp/config/cloudrun"
@@ -162,7 +161,6 @@ func GetProvider() *tjconfig.Provider {
 		bigtable.Configure,
 		composer.Configure,
 		cloudfunctions.Configure,
-		cloudfunctions2.Configure,
 		cloudiot.Configure,
 		cloudplatform.Configure,
 		cloudrun.Configure,
