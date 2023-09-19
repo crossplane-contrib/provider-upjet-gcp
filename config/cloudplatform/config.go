@@ -109,4 +109,13 @@ func Configure(p *config.Provider) {
 		config.MarkAsRequired(r.TerraformResource, "network")
 		config.MarkAsRequired(r.TerraformResource, "service")
 	})
+	p.AddResourceConfigurator("google_tags_tag_key", func(r *config.Resource) {
+		r.UseAsync = true
+	})
+	p.AddResourceConfigurator("google_tags_tag_value", func(r *config.Resource) {
+		r.UseAsync = true
+	})
+	p.AddResourceConfigurator("google_tags_tag_binding", func(r *config.Resource) {
+		r.UseAsync = true
+	})
 }

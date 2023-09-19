@@ -343,6 +343,11 @@ import (
 	objectaccesscontrol "github.com/upbound/provider-gcp/internal/controller/storage/objectaccesscontrol"
 	objectacl "github.com/upbound/provider-gcp/internal/controller/storage/objectacl"
 	agentpool "github.com/upbound/provider-gcp/internal/controller/storagetransfer/agentpool"
+	tagbinding "github.com/upbound/provider-gcp/internal/controller/tags/tagbinding"
+	tagkey "github.com/upbound/provider-gcp/internal/controller/tags/tagkey"
+	tagkeyiammember "github.com/upbound/provider-gcp/internal/controller/tags/tagkeyiammember"
+	tagvalue "github.com/upbound/provider-gcp/internal/controller/tags/tagvalue"
+	tagvalueiammember "github.com/upbound/provider-gcp/internal/controller/tags/tagvalueiammember"
 	node "github.com/upbound/provider-gcp/internal/controller/tpu/node"
 	datasetvertexai "github.com/upbound/provider-gcp/internal/controller/vertexai/dataset"
 	featurestore "github.com/upbound/provider-gcp/internal/controller/vertexai/featurestore"
@@ -689,6 +694,11 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		objectaccesscontrol.Setup,
 		objectacl.Setup,
 		agentpool.Setup,
+		tagbinding.Setup,
+		tagkey.Setup,
+		tagkeyiammember.Setup,
+		tagvalue.Setup,
+		tagvalueiammember.Setup,
 		node.Setup,
 		datasetvertexai.Setup,
 		featurestore.Setup,

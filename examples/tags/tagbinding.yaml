@@ -1,0 +1,56 @@
+apiVersion: tags.gcp.upbound.io/v1beta1
+kind: TagBinding
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tags/v1beta1/tagbinding
+  labels:
+    testing.upbound.io/example-name: binding
+  name: binding
+spec:
+  forProvider:
+    parent: //cloudresourcemanager.googleapis.com/projects/${google_project.project.number}
+    tagValue: tagValues/${google_tags_tag_value.value.name}
+
+---
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tags/v1beta1/tagbinding
+  labels:
+    testing.upbound.io/example-name: project
+  name: project
+spec:
+  forProvider:
+    orgId: '123456789'
+    projectId: project_id
+
+---
+apiVersion: tags.gcp.upbound.io/v1beta1
+kind: TagKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tags/v1beta1/tagbinding
+  labels:
+    testing.upbound.io/example-name: key
+  name: key
+spec:
+  forProvider:
+    description: For keyname resources.
+    parent: organizations/123456789
+    shortName: keyname
+
+---
+apiVersion: tags.gcp.upbound.io/v1beta1
+kind: TagValue
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tags/v1beta1/tagbinding
+  labels:
+    testing.upbound.io/example-name: value
+  name: value
+spec:
+  forProvider:
+    description: For valuename resources.
+    parent: tagKeys/${google_tags_tag_key.key.name}
+    shortName: valuename
