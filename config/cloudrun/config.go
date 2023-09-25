@@ -57,10 +57,10 @@ func Configure(p *config.Provider) {
 	})
 	p.AddResourceConfigurator("google_cloud_run_v2_job", func(r *config.Resource) {
 		// This prevents an import cycle not allowed error
-		r.References["template.template.vpc_access.connector"] = config.Reference{}
+		delete(r.References, "template.template.vpc_access.connector")
 	})
 	p.AddResourceConfigurator("google_cloud_run_v2_service", func(r *config.Resource) {
 		// This prevents an import cycle not allowed error
-		r.References["template.vpc_access.connector"] = config.Reference{}
+		delete(r.References, "template.vpc_access.connector")
 	})
 }

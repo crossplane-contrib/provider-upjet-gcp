@@ -1196,6 +1196,9 @@ type V2JobTemplateParameters struct {
 
 type VPCAccessInitParameters struct {
 
+	// VPC Access connector name. Format: projects/{project}/locations/{location}/connectors/{connector}, where {project} can be project id or number.
+	Connector *string `json:"connector,omitempty" tf:"connector,omitempty"`
+
 	// Traffic VPC egress settings.
 	// Possible values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.
 	Egress *string `json:"egress,omitempty" tf:"egress,omitempty"`
@@ -1216,14 +1219,6 @@ type VPCAccessParameters struct {
 	// VPC Access connector name. Format: projects/{project}/locations/{location}/connectors/{connector}, where {project} can be project id or number.
 	// +kubebuilder:validation:Optional
 	Connector *string `json:"connector,omitempty" tf:"connector,omitempty"`
-
-	// Reference to a  to populate connector.
-	// +kubebuilder:validation:Optional
-	ConnectorRef *v1.Reference `json:"connectorRef,omitempty" tf:"-"`
-
-	// Selector for a  to populate connector.
-	// +kubebuilder:validation:Optional
-	ConnectorSelector *v1.Selector `json:"connectorSelector,omitempty" tf:"-"`
 
 	// Traffic VPC egress settings.
 	// Possible values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.
