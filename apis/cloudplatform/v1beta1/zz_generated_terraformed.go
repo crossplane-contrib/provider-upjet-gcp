@@ -165,6 +165,16 @@ func (tr *FolderIAMBinding) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this FolderIAMBinding
+func (tr *FolderIAMBinding) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this FolderIAMBinding using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *FolderIAMBinding) LateInitialize(attrs []byte) (bool, error) {
@@ -827,6 +837,16 @@ func (tr *ProjectIAMBinding) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+// GetInitParameters of this ProjectIAMBinding
+func (tr *ProjectIAMBinding) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
 // LateInitialize this ProjectIAMBinding using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *ProjectIAMBinding) LateInitialize(attrs []byte) (bool, error) {
@@ -1319,6 +1339,16 @@ func (tr *ServiceAccountIAMBinding) SetParameters(params map[string]any) error {
 		return err
 	}
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this ServiceAccountIAMBinding
+func (tr *ServiceAccountIAMBinding) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // LateInitialize this ServiceAccountIAMBinding using its observed tfState.

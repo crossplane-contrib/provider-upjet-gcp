@@ -105,9 +105,9 @@ func (mg *FolderIAMBinding) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this FolderIAMBinding.
-func (mg *FolderIAMBinding) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this FolderIAMBinding.
+func (mg *FolderIAMBinding) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this FolderIAMBinding.
@@ -143,9 +143,9 @@ func (mg *FolderIAMBinding) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this FolderIAMBinding.
-func (mg *FolderIAMBinding) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this FolderIAMBinding.
+func (mg *FolderIAMBinding) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this FolderIAMBinding.
@@ -713,9 +713,9 @@ func (mg *ProjectIAMBinding) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this ProjectIAMBinding.
-func (mg *ProjectIAMBinding) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this ProjectIAMBinding.
+func (mg *ProjectIAMBinding) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this ProjectIAMBinding.
@@ -751,9 +751,9 @@ func (mg *ProjectIAMBinding) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this ProjectIAMBinding.
-func (mg *ProjectIAMBinding) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this ProjectIAMBinding.
+func (mg *ProjectIAMBinding) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this ProjectIAMBinding.
@@ -1169,9 +1169,9 @@ func (mg *ServiceAccountIAMBinding) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this ServiceAccountIAMBinding.
-func (mg *ServiceAccountIAMBinding) GetManagementPolicy() xpv1.ManagementPolicy {
-	return mg.Spec.ManagementPolicy
+// GetManagementPolicies of this ServiceAccountIAMBinding.
+func (mg *ServiceAccountIAMBinding) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this ServiceAccountIAMBinding.
@@ -1207,9 +1207,9 @@ func (mg *ServiceAccountIAMBinding) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this ServiceAccountIAMBinding.
-func (mg *ServiceAccountIAMBinding) SetManagementPolicy(r xpv1.ManagementPolicy) {
-	mg.Spec.ManagementPolicy = r
+// SetManagementPolicies of this ServiceAccountIAMBinding.
+func (mg *ServiceAccountIAMBinding) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this ServiceAccountIAMBinding.

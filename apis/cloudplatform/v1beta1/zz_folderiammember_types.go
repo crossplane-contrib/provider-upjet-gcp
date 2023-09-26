@@ -25,7 +25,7 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type ConditionInitParameters struct {
+type FolderIAMMemberConditionInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
@@ -33,7 +33,7 @@ type ConditionInitParameters struct {
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
-type ConditionObservation struct {
+type FolderIAMMemberConditionObservation struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
@@ -54,7 +54,7 @@ type FolderIAMMemberConditionParameters struct {
 }
 
 type FolderIAMMemberInitParameters struct {
-	Condition []ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition []FolderIAMMemberConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
