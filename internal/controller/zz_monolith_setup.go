@@ -348,6 +348,7 @@ import (
 	featurestore "github.com/upbound/provider-gcp/internal/controller/vertexai/featurestore"
 	featurestoreentitytype "github.com/upbound/provider-gcp/internal/controller/vertexai/featurestoreentitytype"
 	tensorboard "github.com/upbound/provider-gcp/internal/controller/vertexai/tensorboard"
+	connector "github.com/upbound/provider-gcp/internal/controller/vpcaccess/connector"
 	workflow "github.com/upbound/provider-gcp/internal/controller/workflows/workflow"
 )
 
@@ -694,6 +695,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		featurestore.Setup,
 		featurestoreentitytype.Setup,
 		tensorboard.Setup,
+		connector.Setup,
 		workflow.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
