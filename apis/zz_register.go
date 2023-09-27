@@ -89,6 +89,7 @@ import (
 	v1beta1sql "github.com/upbound/provider-gcp/apis/sql/v1beta1"
 	v1beta1storage "github.com/upbound/provider-gcp/apis/storage/v1beta1"
 	v1beta1storagetransfer "github.com/upbound/provider-gcp/apis/storagetransfer/v1beta1"
+	v1beta1tags "github.com/upbound/provider-gcp/apis/tags/v1beta1"
 	v1beta1tpu "github.com/upbound/provider-gcp/apis/tpu/v1beta1"
 	v1alpha1 "github.com/upbound/provider-gcp/apis/v1alpha1"
 	v1beta1apis "github.com/upbound/provider-gcp/apis/v1beta1"
@@ -167,6 +168,7 @@ func init() {
 		v1beta1sql.SchemeBuilder.AddToScheme,
 		v1beta1storage.SchemeBuilder.AddToScheme,
 		v1beta1storagetransfer.SchemeBuilder.AddToScheme,
+		v1beta1tags.SchemeBuilder.AddToScheme,
 		v1beta1tpu.SchemeBuilder.AddToScheme,
 		v1alpha1.SchemeBuilder.AddToScheme,
 		v1beta1apis.SchemeBuilder.AddToScheme,
