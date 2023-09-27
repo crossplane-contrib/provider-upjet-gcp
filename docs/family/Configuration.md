@@ -2,12 +2,11 @@
 title: Configuration
 weight: 2
 ---
-⚠️ **Warning:** The monolithic GCP provider (`upbound/provider-gcp`) has been deprecated in favor of the [GCP provider family](https://marketplace.upbound.io/providers/upbound/provider-family-gcp/). You can read more about the provider families in our [blog post](https://blog.upbound.io/new-provider-families) and the official documentation for the provider families is [here](https://docs.upbound.io/providers/provider-families/). We will continue support for the monolithic GCP provider until June 12, 2024. And you can find more information on migrating from the monolithic providers to the provider families [here](https://docs.upbound.io/providers/migration/).
 
-# GCP official provider documentation
-Upbound supports and maintains the Upbound GCP official provider.
+# GCP official provider-family documentation
+Upbound supports and maintains the Upbound GCP official provider-family.
 
-## Install the provider
+## Install the provider-family-gcp
 ### Prerequisites
 #### Upbound Up command-line
 The Upbound Up command-line simplifies configuration and management of Upbound
@@ -33,35 +32,42 @@ up uxp install
 
 Find more information in the [Upbound UXP documentation](https://docs.upbound.io/uxp/).
 
-### Install the provider
+### Install the provider-family-gcp
 
-Install the Upbound official GCP provider with the following configuration file
+Install the Upbound official GCP provider-family with the following configuration file.
+For instance, let's install the `provider-gcp-storage`.
+
+_Note_: The first provider installed of a family also installs an extra provider-family Provider.
+The provider-family provider manages the ProviderConfig for all other providers in the same family.
 
 ```yaml
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
-  name: provider-gcp
+  name: provider-gcp-storage
 spec:
-  package: xpkg.upbound.io/upbound/provider-gcp:<version>
+  package: xpkg.upbound.io/upbound/provider-gcp-storage:<version>
 ```
 
-Define the provider version with `spec.package`.
+Define the `provider-gcp-storage` version with `spec.package`.
 
-Install the provider with `kubectl apply -f`.
+Install the `provider-gcp-storage` with `kubectl apply -f`.
 
 Verify the configuration with `kubectl get providers`.
 
 ```shell
 $ kubectl get providers
-NAME           INSTALLED   HEALTHY   PACKAGE                                       AGE
-provider-gcp   True        True      xpkg.upbound.io/upbound/provider-gcp:v0.15.0  62s
+NAME                          INSTALLED   HEALTHY   PACKAGE                                                AGE
+provider-gcp-storage          True        True      xpkg.upbound.io/upbound/provider-gcp-storage:v0.36.0   78s
+upbound-provider-family-gcp   True        True      xpkg.upbound.io/upbound/provider-family-gcp:v0.36.0    70s
 ```
 
 View the Crossplane [Provider CRD definition](https://doc.crds.dev/github.com/crossplane/crossplane/pkg.crossplane.io/Provider/v1) to view all available `Provider` options.
 
-## Configure the provider
-The GCP provider requires credentials for authentication to Google Cloud Platform.
+If you are going to use your own registry please check [Install Providers in an offline environment](https://docs.upbound.io/providers/provider-families/#installing-a-provider-family:~:text=services%20to%20install.-,Install%20Providers%20in%20an%20offline%20environment,-View%20the%20installed).
+
+## Configure the provider-family-gcp
+The GCP provider-family requires credentials for authentication to Google Cloud Platform.
 This can be done in one of the following ways:
 
 - Authenticating using a base-64 encoded service account key in a Kubernetes
@@ -128,8 +134,8 @@ can smoothly set it up:
 
 ```console
 $ PROJECT_ID=<YOUR_GCP_PROJECT_ID>                               # e.g.) <project_id>
-$ PROVIDER_GCP=<YOUR_PROVIDER_GCP_NAME>                          # e.g.) provider-gcp
-$ VERSION=<YOUR_PROVIDER_GCP_VERSION>                            # e.g.) 0.20.0
+$ PROVIDER_GCP=<YOUR_PROVIDER_GCP_NAME>                          # e.g.) provider-gcp-storage
+$ VERSION=<YOUR_PROVIDER_GCP_VERSION>                            # e.g.) 0.36.0
 $ GCP_SERVICE_ACCOUNT=<YOUR_CROSSPLANE_GCP_SERVICE_ACCOUNT_NAME> # e.g.) <gcp_sa_name>
 $ ROLE=<YOUR_ROLE_FOR_CROSSPLANE_GCP_SERVICE_ACCOUNT>            # e.g.) roles/cloudsql.admin
 $ CONTROLLER_CONFIG=<YOUR_CONTROLLER_CONFIG_NAME>                # e.g.) gcp-config (Optional)
@@ -250,7 +256,7 @@ EOF
 
 ### 4. Next steps
 
-Now that you have configured `provider-gcp` with Workload Identity supported.
+Now that you have configured `provider-gcp-storage` with Workload Identity supported.
 
 ## Authenticate with Impersonated Service Account
 #### 0. Setup Variables
@@ -307,7 +313,7 @@ EOF
 
 ### 4. Next steps
 
-Now you have configured `provider-gcp` with Impersonated Service Account support.
+Now you have configured `provider-gcp-storage` with Impersonated Service Account support.
 
 ## Authenticating with Access Tokens
 
@@ -335,8 +341,8 @@ $ KUBERNETES_SERVICE_ACCOUNT=<YOUR_KUBERNETES_SERVICE_ACCOUNT>   # e.g.) token-g
 $ NAMESPACE=<YOUR_KUBERNETES_NAMESPACE>                          # e.g.) default
 $ SECRET_NAME=<YOUR_CREDENTIALS_SECRET_NAME>                     # e.g.) gcp-credentials
 $ SECRET_KEY=<NAME_OF_KEY_IN_SECRET>                             # e.g.) token
-$ PROVIDER_GCP=<YOUR_PROVIDER_GCP_NAME>                          # e.g.) provider-gcp
-$ VERSION=<YOUR_PROVIDER_GCP_VERSION>                            # e.g.) v0.19.0
+$ PROVIDER_GCP=<YOUR_PROVIDER_GCP_NAME>                          # e.g.) provider-gcp-storage
+$ VERSION=<YOUR_PROVIDER_GCP_VERSION>                            # e.g.) v0.36.0
 ```
 
 #### 1. Create a GKE cluster with Workload Identity Enabled
@@ -525,7 +531,7 @@ $ helm repo add crossplane-stable https://charts.crossplane.io/stable
 $ helm install crossplane --create-namespace --namespace crossplane-system crossplane-stable/crossplane
 ```
 
-`provider-gcp` can be installed with either the [Crossplane CLI](https://crossplane.io/docs/v1.6/getting-started/install-configure.html#install-crossplane-cli)
+`provider-gcp-storage` can be installed with either the [Crossplane CLI](https://crossplane.io/docs/v1.6/getting-started/install-configure.html#install-crossplane-cli)
 or a `Provider` resource as below:
 
 ```console
@@ -533,9 +539,9 @@ $ cat <<EOF | kubectl apply -f -
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
-  name: provider-gcp
+  name: provider-gcp-storage
 spec:
-  package: xpkg.upbound.io/upbound/provider-gcp:${VERSION}
+  package: xpkg.upbound.io/upbound/provider-gcp-storage:${VERSION}
 EOF
 ```
 
@@ -559,7 +565,7 @@ EOF
 
 ### 7. Next steps
 
-Now that you have configured `provider-gcp` with Access Tokens supported,
+Now that you have configured `provider-gcp-storage` with Access Tokens supported,
 you can [provision infrastructure](https://crossplane.io/docs/v1.6/getting-started/provision-infrastructure).
 
 #### 8. Clean up

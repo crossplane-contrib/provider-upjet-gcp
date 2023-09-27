@@ -2,13 +2,12 @@
 title: Quickstart
 weight: 1
 ---
-⚠️ **Warning:** The monolithic GCP provider (`upbound/provider-gcp`) has been deprecated in favor of the [GCP provider family](https://marketplace.upbound.io/providers/upbound/provider-family-gcp/). You can read more about the provider families in our [blog post](https://blog.upbound.io/new-provider-families) and the official documentation for the provider families is [here](https://docs.upbound.io/providers/provider-families/). We will continue support for the monolithic GCP provider until June 12, 2024. And you can find more information on migrating from the monolithic providers to the provider families [here](https://docs.upbound.io/providers/migration/).
 
 # Quickstart
 
-This guide walks through the process to install Upbound Universal Crossplane and install the GCP official provider.
+This guide walks through the process to install Upbound Universal Crossplane and install the GCP official provider-family.
 
-To use this official provider, install Upbound Universal Crossplane into your Kubernetes cluster, install the `Provider`, apply a `ProviderConfig`, and create a *managed resource* in GCP via Kubernetes.
+To use GCP official provider-family, install Upbound Universal Crossplane into your Kubernetes cluster, install the `Provider`, apply a `ProviderConfig`, and create a *managed resource* in GCP via Kubernetes.
 
 ## Install the Up command-line
 Download and install the Upbound `up` command-line.
@@ -22,9 +21,8 @@ Verify the version of `up` with `up --version`
 
 ```shell
 $ up --version
-v0.13.0
+v0.19.1
 ```
-
 _Note_: official providers only support `up` command-line versions v0.13.0 or later.
 
 ## Install Universal Crossplane
@@ -32,31 +30,35 @@ Install Upbound Universal Crossplane with the Up command-line.
 
 ```shell
 $ up uxp install
-UXP 1.9.0-up.3 installed
+UXP 1.13.2-up.2 installed
 ```
+
+_Note_: Official provider-families only support crossplane version 1.12.1 or UXP version 1.12.1-up.1 or later.
 
 Verify the UXP pods are running with `kubectl get pods -n upbound-system`
 
 ```shell
 $ kubectl get pods -n upbound-system
-NAME                                        READY   STATUS    RESTARTS      AGE
-crossplane-7fdfbd897c-pmrml                 1/1     Running   0             68m
-crossplane-rbac-manager-7d6867bc4d-v7wpb    1/1     Running   0             68m
-upbound-bootstrapper-5f47977d54-t8kvk       1/1     Running   0             68m
-xgql-7c4b74c458-5bf2q                       1/1     Running   3 (67m ago)   68m
+NAME                                       READY   STATUS    RESTARTS   AGE
+crossplane-77ff754998-k76zz                1/1     Running   0          40s
+crossplane-rbac-manager-79b8bdd6d8-79577   1/1     Running   0          40s
 ```
 
-## Install the official GCP provider
+## Install the official GCP provider-family
 
-Install the official provider into the Kubernetes cluster with a Kubernetes configuration file. 
+Install the official provider-family into the Kubernetes cluster with a Kubernetes configuration file.
+For instance, let's install the `provider-gcp-storage`
+
+_Note_: The first provider installed of a family also installs an extra provider-family Provider.
+The provider-family provider manages the ProviderConfig for all other providers in the same family.
 
 ```yaml
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
-  name: provider-gcp
+  name: provider-gcp-storage
 spec:
-  package: xpkg.upbound.io/upbound/provider-gcp:<version>
+  package: xpkg.upbound.io/upbound/provider-gcp-storage:<version>
 ```
 
 Apply this configuration with `kubectl apply -f`.
@@ -65,14 +67,17 @@ After installing the provider, verify the install with `kubectl get providers`.
 
 ```shell
 $ kubectl get providers
-NAME           INSTALLED   HEALTHY   PACKAGE                                       AGE
-provider-gcp   True        True      xpkg.upbound.io/upbound/provider-gcp:v0.15.0   15s
+NAME                          INSTALLED   HEALTHY   PACKAGE                                                AGE
+provider-gcp-storage          True        True      xpkg.upbound.io/upbound/provider-gcp-storage:v0.36.0   78s
+upbound-provider-family-gcp   True        True      xpkg.upbound.io/upbound/provider-family-gcp:v0.36.0    70s
 ```
 
 It may take up to 5 minutes to report `HEALTHY`.
 
+If you are going to use your own registry please check [Install Providers in an offline environment](https://docs.upbound.io/providers/provider-families/#installing-a-provider-family:~:text=services%20to%20install.-,Install%20Providers%20in%20an%20offline%20environment,-View%20the%20installed).
+
 ## Create a Kubernetes secret
-The provider requires credentials to create and manage GCP resources.
+The `provider-gcp-storage` requires credentials to create and manage GCP resources.
 
 ### Generate a GCP JSON key file
 Create a JSON key file containing the GCP account credentials. GCP provides documentation on [how to create a key file](https://cloud.google.com/iam/docs/creating-managing-service-account-keys).
@@ -115,7 +120,7 @@ Data
 creds:  2334 bytes
 ```
 ## Create a ProviderConfig
-Create a `ProviderConfig` Kubernetes configuration file to attach the GCP credentials to the installed official provider.
+Create a `ProviderConfig` Kubernetes configuration file to attach the GCP credentials to the installed official `provider-gcp-storage`.
 
 **Note:** the `ProviderConfig` must contain the correct GCP project ID. The project ID must match the `project_id` from the JSON key file.
 
@@ -158,7 +163,7 @@ Spec:
 ```
 
 ## Create a managed resource
-Create a managed resource to verify the provider is functioning. 
+Create a managed resource to verify the `provider-gcp-storage` is functioning. 
 
 This example creates a GCP storage bucket, which requires a globally unique name. 
 
