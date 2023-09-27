@@ -1,0 +1,13 @@
+apiVersion: tags.gcp.upbound.io/v1beta1
+kind: TagKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tags/v1beta1/tagkey
+  labels:
+    testing.upbound.io/example-name: key
+  name: key
+spec:
+  forProvider:
+    description: For keyname resources.
+    parent: organizations/123456789
+    shortName: keyname

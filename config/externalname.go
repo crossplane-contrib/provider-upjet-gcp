@@ -954,6 +954,15 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following projects/{{project}}/locations/{{location}}/dataExchanges/{{data_exchange_id}} roles/viewer user:jane@example.com
 	"google_bigquery_analytics_hub_data_exchange_iam_member": config.IdentifierFromProvider,
 
+	// tags
+	//
+	// Imported by using the following tagKeys/{{name}}
+	"google_tags_tag_key": config.IdentifierFromProvider,
+	// Imported by using the following tagValues/{{name}}
+	"google_tags_tag_value": config.IdentifierFromProvider,
+	// Imported by using the following tagBindings/{{name}}
+	"google_tags_tag_binding": config.IdentifierFromProvider,
+
 	// tpu
 	//
 	// Imported by using the following projects/{{project}}/locations/{{zone}}/nodes/{{name}}
