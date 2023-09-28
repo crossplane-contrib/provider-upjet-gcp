@@ -39,14 +39,6 @@ func (mg *Secret) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this Secret.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *Secret) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this Secret.
 func (mg *Secret) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -75,14 +67,6 @@ func (mg *Secret) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this Secret.
 func (mg *Secret) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this Secret.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *Secret) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this Secret.
@@ -115,14 +99,6 @@ func (mg *SecretIAMMember) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this SecretIAMMember.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *SecretIAMMember) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this SecretIAMMember.
 func (mg *SecretIAMMember) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -151,14 +127,6 @@ func (mg *SecretIAMMember) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this SecretIAMMember.
 func (mg *SecretIAMMember) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this SecretIAMMember.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *SecretIAMMember) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this SecretIAMMember.
@@ -191,14 +159,6 @@ func (mg *SecretVersion) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this SecretVersion.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *SecretVersion) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this SecretVersion.
 func (mg *SecretVersion) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -227,14 +187,6 @@ func (mg *SecretVersion) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this SecretVersion.
 func (mg *SecretVersion) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this SecretVersion.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *SecretVersion) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this SecretVersion.

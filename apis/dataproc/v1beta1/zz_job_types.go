@@ -992,7 +992,7 @@ type JobStatus struct {
 type Job struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.placement) || has(self.initProvider.placement)",message="placement is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.placement) || (has(self.initProvider) && has(self.initProvider.placement))",message="spec.forProvider.placement is a required parameter"
 	Spec   JobSpec   `json:"spec"`
 	Status JobStatus `json:"status,omitempty"`
 }

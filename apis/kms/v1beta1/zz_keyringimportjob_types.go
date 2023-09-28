@@ -173,8 +173,8 @@ type KeyRingImportJobStatus struct {
 type KeyRingImportJob struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.importMethod) || has(self.initProvider.importMethod)",message="importMethod is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.protectionLevel) || has(self.initProvider.protectionLevel)",message="protectionLevel is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.importMethod) || (has(self.initProvider) && has(self.initProvider.importMethod))",message="spec.forProvider.importMethod is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.protectionLevel) || (has(self.initProvider) && has(self.initProvider.protectionLevel))",message="spec.forProvider.protectionLevel is a required parameter"
 	Spec   KeyRingImportJobSpec   `json:"spec"`
 	Status KeyRingImportJobStatus `json:"status,omitempty"`
 }

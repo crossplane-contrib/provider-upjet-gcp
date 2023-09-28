@@ -568,8 +568,8 @@ type RouterNATStatus struct {
 type RouterNAT struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.natIpAllocateOption) || has(self.initProvider.natIpAllocateOption)",message="natIpAllocateOption is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.sourceSubnetworkIpRangesToNat) || has(self.initProvider.sourceSubnetworkIpRangesToNat)",message="sourceSubnetworkIpRangesToNat is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.natIpAllocateOption) || (has(self.initProvider) && has(self.initProvider.natIpAllocateOption))",message="spec.forProvider.natIpAllocateOption is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.sourceSubnetworkIpRangesToNat) || (has(self.initProvider) && has(self.initProvider.sourceSubnetworkIpRangesToNat))",message="spec.forProvider.sourceSubnetworkIpRangesToNat is a required parameter"
 	Spec   RouterNATSpec   `json:"spec"`
 	Status RouterNATStatus `json:"status,omitempty"`
 }

@@ -164,7 +164,7 @@ type NetworkEndpointStatus struct {
 type NetworkEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ipAddress) || has(self.initProvider.ipAddress)",message="ipAddress is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ipAddress) || (has(self.initProvider) && has(self.initProvider.ipAddress))",message="spec.forProvider.ipAddress is a required parameter"
 	Spec   NetworkEndpointSpec   `json:"spec"`
 	Status NetworkEndpointStatus `json:"status,omitempty"`
 }

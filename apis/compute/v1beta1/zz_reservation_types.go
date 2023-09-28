@@ -401,7 +401,7 @@ type ReservationStatus struct {
 type Reservation struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.specificReservation) || has(self.initProvider.specificReservation)",message="specificReservation is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.specificReservation) || (has(self.initProvider) && has(self.initProvider.specificReservation))",message="spec.forProvider.specificReservation is a required parameter"
 	Spec   ReservationSpec   `json:"spec"`
 	Status ReservationStatus `json:"status,omitempty"`
 }

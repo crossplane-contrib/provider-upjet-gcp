@@ -39,14 +39,6 @@ func (mg *SSHPublicKey) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this SSHPublicKey.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *SSHPublicKey) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this SSHPublicKey.
 func (mg *SSHPublicKey) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -75,14 +67,6 @@ func (mg *SSHPublicKey) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this SSHPublicKey.
 func (mg *SSHPublicKey) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this SSHPublicKey.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *SSHPublicKey) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this SSHPublicKey.

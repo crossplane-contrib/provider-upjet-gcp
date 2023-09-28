@@ -153,7 +153,7 @@ type ApplicationURLDispatchRulesStatus struct {
 type ApplicationURLDispatchRules struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dispatchRules) || has(self.initProvider.dispatchRules)",message="dispatchRules is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dispatchRules) || (has(self.initProvider) && has(self.initProvider.dispatchRules))",message="spec.forProvider.dispatchRules is a required parameter"
 	Spec   ApplicationURLDispatchRulesSpec   `json:"spec"`
 	Status ApplicationURLDispatchRulesStatus `json:"status,omitempty"`
 }

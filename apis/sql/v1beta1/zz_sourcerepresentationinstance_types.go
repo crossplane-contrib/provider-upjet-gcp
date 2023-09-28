@@ -190,8 +190,8 @@ type SourceRepresentationInstanceStatus struct {
 type SourceRepresentationInstance struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.databaseVersion) || has(self.initProvider.databaseVersion)",message="databaseVersion is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.host) || has(self.initProvider.host)",message="host is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.databaseVersion) || (has(self.initProvider) && has(self.initProvider.databaseVersion))",message="spec.forProvider.databaseVersion is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.host) || (has(self.initProvider) && has(self.initProvider.host))",message="spec.forProvider.host is a required parameter"
 	Spec   SourceRepresentationInstanceSpec   `json:"spec"`
 	Status SourceRepresentationInstanceStatus `json:"status,omitempty"`
 }

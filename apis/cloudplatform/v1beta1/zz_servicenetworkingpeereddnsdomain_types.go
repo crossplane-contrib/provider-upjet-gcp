@@ -110,7 +110,7 @@ type ServiceNetworkingPeeredDNSDomainStatus struct {
 type ServiceNetworkingPeeredDNSDomain struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dnsSuffix) || has(self.initProvider.dnsSuffix)",message="dnsSuffix is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dnsSuffix) || (has(self.initProvider) && has(self.initProvider.dnsSuffix))",message="spec.forProvider.dnsSuffix is a required parameter"
 	Spec   ServiceNetworkingPeeredDNSDomainSpec   `json:"spec"`
 	Status ServiceNetworkingPeeredDNSDomainStatus `json:"status,omitempty"`
 }

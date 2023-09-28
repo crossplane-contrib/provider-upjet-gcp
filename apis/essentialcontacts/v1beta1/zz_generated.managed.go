@@ -39,14 +39,6 @@ func (mg *Contact) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this Contact.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *Contact) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this Contact.
 func (mg *Contact) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -75,14 +67,6 @@ func (mg *Contact) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this Contact.
 func (mg *Contact) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this Contact.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *Contact) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this Contact.

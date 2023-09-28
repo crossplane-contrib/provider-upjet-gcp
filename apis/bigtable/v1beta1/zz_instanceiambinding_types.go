@@ -131,7 +131,7 @@ type InstanceIAMBindingStatus struct {
 type InstanceIAMBinding struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.members) || has(self.initProvider.members)",message="members is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.members) || (has(self.initProvider) && has(self.initProvider.members))",message="spec.forProvider.members is a required parameter"
 	Spec   InstanceIAMBindingSpec   `json:"spec"`
 	Status InstanceIAMBindingStatus `json:"status,omitempty"`
 }

@@ -39,14 +39,6 @@ func (mg *Channel) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this Channel.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *Channel) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this Channel.
 func (mg *Channel) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -75,14 +67,6 @@ func (mg *Channel) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this Channel.
 func (mg *Channel) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this Channel.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *Channel) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this Channel.
@@ -115,14 +99,6 @@ func (mg *GoogleChannelConfig) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this GoogleChannelConfig.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *GoogleChannelConfig) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this GoogleChannelConfig.
 func (mg *GoogleChannelConfig) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -151,14 +127,6 @@ func (mg *GoogleChannelConfig) SetManagementPolicies(r xpv1.ManagementPolicies) 
 // SetProviderConfigReference of this GoogleChannelConfig.
 func (mg *GoogleChannelConfig) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this GoogleChannelConfig.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *GoogleChannelConfig) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this GoogleChannelConfig.
@@ -191,14 +159,6 @@ func (mg *Trigger) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this Trigger.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *Trigger) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this Trigger.
 func (mg *Trigger) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -227,14 +187,6 @@ func (mg *Trigger) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this Trigger.
 func (mg *Trigger) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this Trigger.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *Trigger) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this Trigger.

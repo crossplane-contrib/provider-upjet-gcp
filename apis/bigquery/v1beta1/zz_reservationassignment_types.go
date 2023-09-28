@@ -136,8 +136,8 @@ type ReservationAssignmentStatus struct {
 type ReservationAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.assignee) || has(self.initProvider.assignee)",message="assignee is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.jobType) || has(self.initProvider.jobType)",message="jobType is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.assignee) || (has(self.initProvider) && has(self.initProvider.assignee))",message="spec.forProvider.assignee is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.jobType) || (has(self.initProvider) && has(self.initProvider.jobType))",message="spec.forProvider.jobType is a required parameter"
 	Spec   ReservationAssignmentSpec   `json:"spec"`
 	Status ReservationAssignmentStatus `json:"status,omitempty"`
 }

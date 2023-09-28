@@ -130,7 +130,7 @@ type RegionDiskResourcePolicyAttachmentStatus struct {
 type RegionDiskResourcePolicyAttachment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.region) || has(self.initProvider.region)",message="region is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.region) || (has(self.initProvider) && has(self.initProvider.region))",message="spec.forProvider.region is a required parameter"
 	Spec   RegionDiskResourcePolicyAttachmentSpec   `json:"spec"`
 	Status RegionDiskResourcePolicyAttachmentStatus `json:"status,omitempty"`
 }

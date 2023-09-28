@@ -267,8 +267,8 @@ type NodeStatus struct {
 type Node struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.acceleratorType) || has(self.initProvider.acceleratorType)",message="acceleratorType is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.tensorflowVersion) || has(self.initProvider.tensorflowVersion)",message="tensorflowVersion is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.acceleratorType) || (has(self.initProvider) && has(self.initProvider.acceleratorType))",message="spec.forProvider.acceleratorType is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.tensorflowVersion) || (has(self.initProvider) && has(self.initProvider.tensorflowVersion))",message="spec.forProvider.tensorflowVersion is a required parameter"
 	Spec   NodeSpec   `json:"spec"`
 	Status NodeStatus `json:"status,omitempty"`
 }

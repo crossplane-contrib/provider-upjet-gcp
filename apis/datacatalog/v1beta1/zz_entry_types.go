@@ -373,7 +373,7 @@ type EntryStatus struct {
 type Entry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.entryId) || has(self.initProvider.entryId)",message="entryId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.entryId) || (has(self.initProvider) && has(self.initProvider.entryId))",message="spec.forProvider.entryId is a required parameter"
 	Spec   EntrySpec   `json:"spec"`
 	Status EntryStatus `json:"status,omitempty"`
 }

@@ -342,7 +342,7 @@ type PolicyStatus struct {
 type Policy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.defaultAdmissionRule) || has(self.initProvider.defaultAdmissionRule)",message="defaultAdmissionRule is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.defaultAdmissionRule) || (has(self.initProvider) && has(self.initProvider.defaultAdmissionRule))",message="spec.forProvider.defaultAdmissionRule is a required parameter"
 	Spec   PolicySpec   `json:"spec"`
 	Status PolicyStatus `json:"status,omitempty"`
 }

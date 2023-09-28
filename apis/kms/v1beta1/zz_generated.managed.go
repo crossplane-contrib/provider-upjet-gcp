@@ -39,14 +39,6 @@ func (mg *CryptoKey) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this CryptoKey.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *CryptoKey) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this CryptoKey.
 func (mg *CryptoKey) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -75,14 +67,6 @@ func (mg *CryptoKey) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this CryptoKey.
 func (mg *CryptoKey) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this CryptoKey.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *CryptoKey) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this CryptoKey.
@@ -115,14 +99,6 @@ func (mg *CryptoKeyIAMMember) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this CryptoKeyIAMMember.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *CryptoKeyIAMMember) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this CryptoKeyIAMMember.
 func (mg *CryptoKeyIAMMember) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -151,14 +127,6 @@ func (mg *CryptoKeyIAMMember) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this CryptoKeyIAMMember.
 func (mg *CryptoKeyIAMMember) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this CryptoKeyIAMMember.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *CryptoKeyIAMMember) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this CryptoKeyIAMMember.
@@ -191,14 +159,6 @@ func (mg *CryptoKeyVersion) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this CryptoKeyVersion.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *CryptoKeyVersion) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this CryptoKeyVersion.
 func (mg *CryptoKeyVersion) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -227,14 +187,6 @@ func (mg *CryptoKeyVersion) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this CryptoKeyVersion.
 func (mg *CryptoKeyVersion) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this CryptoKeyVersion.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *CryptoKeyVersion) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this CryptoKeyVersion.
@@ -267,14 +219,6 @@ func (mg *KeyRing) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this KeyRing.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *KeyRing) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this KeyRing.
 func (mg *KeyRing) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -303,14 +247,6 @@ func (mg *KeyRing) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this KeyRing.
 func (mg *KeyRing) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this KeyRing.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *KeyRing) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this KeyRing.
@@ -343,14 +279,6 @@ func (mg *KeyRingIAMMember) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this KeyRingIAMMember.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *KeyRingIAMMember) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this KeyRingIAMMember.
 func (mg *KeyRingIAMMember) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -379,14 +307,6 @@ func (mg *KeyRingIAMMember) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this KeyRingIAMMember.
 func (mg *KeyRingIAMMember) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this KeyRingIAMMember.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *KeyRingIAMMember) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this KeyRingIAMMember.
@@ -419,14 +339,6 @@ func (mg *KeyRingImportJob) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this KeyRingImportJob.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *KeyRingImportJob) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this KeyRingImportJob.
 func (mg *KeyRingImportJob) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -455,14 +367,6 @@ func (mg *KeyRingImportJob) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this KeyRingImportJob.
 func (mg *KeyRingImportJob) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this KeyRingImportJob.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *KeyRingImportJob) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this KeyRingImportJob.
@@ -495,14 +399,6 @@ func (mg *SecretCiphertext) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this SecretCiphertext.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *SecretCiphertext) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this SecretCiphertext.
 func (mg *SecretCiphertext) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -531,14 +427,6 @@ func (mg *SecretCiphertext) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this SecretCiphertext.
 func (mg *SecretCiphertext) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this SecretCiphertext.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *SecretCiphertext) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this SecretCiphertext.

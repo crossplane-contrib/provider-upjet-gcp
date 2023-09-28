@@ -121,7 +121,7 @@ type ProjectDefaultServiceAccountsStatus struct {
 type ProjectDefaultServiceAccounts struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.action) || has(self.initProvider.action)",message="action is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.action) || (has(self.initProvider) && has(self.initProvider.action))",message="spec.forProvider.action is a required parameter"
 	Spec   ProjectDefaultServiceAccountsSpec   `json:"spec"`
 	Status ProjectDefaultServiceAccountsStatus `json:"status,omitempty"`
 }

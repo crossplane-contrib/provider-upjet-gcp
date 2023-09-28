@@ -456,7 +456,7 @@ type RegionDiskStatus struct {
 type RegionDisk struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.replicaZones) || has(self.initProvider.replicaZones)",message="replicaZones is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.replicaZones) || (has(self.initProvider) && has(self.initProvider.replicaZones))",message="spec.forProvider.replicaZones is a required parameter"
 	Spec   RegionDiskSpec   `json:"spec"`
 	Status RegionDiskStatus `json:"status,omitempty"`
 }

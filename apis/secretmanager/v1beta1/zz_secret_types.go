@@ -354,7 +354,7 @@ type SecretStatus struct {
 type Secret struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.replication) || has(self.initProvider.replication)",message="replication is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.replication) || (has(self.initProvider) && has(self.initProvider.replication))",message="spec.forProvider.replication is a required parameter"
 	Spec   SecretSpec   `json:"spec"`
 	Status SecretStatus `json:"status,omitempty"`
 }

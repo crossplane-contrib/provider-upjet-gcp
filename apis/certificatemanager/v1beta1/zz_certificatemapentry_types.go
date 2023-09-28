@@ -183,7 +183,7 @@ type CertificateMapEntryStatus struct {
 type CertificateMapEntry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.certificates) || has(self.initProvider.certificates)",message="certificates is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.certificates) || (has(self.initProvider) && has(self.initProvider.certificates))",message="spec.forProvider.certificates is a required parameter"
 	Spec   CertificateMapEntrySpec   `json:"spec"`
 	Status CertificateMapEntryStatus `json:"status,omitempty"`
 }

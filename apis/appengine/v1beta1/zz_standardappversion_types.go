@@ -914,9 +914,9 @@ type StandardAppVersionStatus struct {
 type StandardAppVersion struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.deployment) || has(self.initProvider.deployment)",message="deployment is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.entrypoint) || has(self.initProvider.entrypoint)",message="entrypoint is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.runtime) || has(self.initProvider.runtime)",message="runtime is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.deployment) || (has(self.initProvider) && has(self.initProvider.deployment))",message="spec.forProvider.deployment is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.entrypoint) || (has(self.initProvider) && has(self.initProvider.entrypoint))",message="spec.forProvider.entrypoint is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.runtime) || (has(self.initProvider) && has(self.initProvider.runtime))",message="spec.forProvider.runtime is a required parameter"
 	Spec   StandardAppVersionSpec   `json:"spec"`
 	Status StandardAppVersionStatus `json:"status,omitempty"`
 }

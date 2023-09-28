@@ -39,14 +39,6 @@ func (mg *ConnectivityTest) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this ConnectivityTest.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *ConnectivityTest) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this ConnectivityTest.
 func (mg *ConnectivityTest) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -75,14 +67,6 @@ func (mg *ConnectivityTest) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this ConnectivityTest.
 func (mg *ConnectivityTest) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this ConnectivityTest.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *ConnectivityTest) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this ConnectivityTest.

@@ -1466,7 +1466,7 @@ type SLOStatus struct {
 type SLO struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.goal) || has(self.initProvider.goal)",message="goal is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.goal) || (has(self.initProvider) && has(self.initProvider.goal))",message="spec.forProvider.goal is a required parameter"
 	Spec   SLOSpec   `json:"spec"`
 	Status SLOStatus `json:"status,omitempty"`
 }

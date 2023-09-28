@@ -39,14 +39,6 @@ func (mg *Membership) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this Membership.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *Membership) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this Membership.
 func (mg *Membership) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -75,14 +67,6 @@ func (mg *Membership) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this Membership.
 func (mg *Membership) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this Membership.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *Membership) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this Membership.
@@ -115,14 +99,6 @@ func (mg *MembershipIAMMember) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this MembershipIAMMember.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *MembershipIAMMember) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this MembershipIAMMember.
 func (mg *MembershipIAMMember) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -151,14 +127,6 @@ func (mg *MembershipIAMMember) SetManagementPolicies(r xpv1.ManagementPolicies) 
 // SetProviderConfigReference of this MembershipIAMMember.
 func (mg *MembershipIAMMember) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this MembershipIAMMember.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *MembershipIAMMember) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this MembershipIAMMember.

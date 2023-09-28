@@ -39,14 +39,6 @@ func (mg *CAPool) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this CAPool.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *CAPool) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this CAPool.
 func (mg *CAPool) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -75,14 +67,6 @@ func (mg *CAPool) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this CAPool.
 func (mg *CAPool) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this CAPool.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *CAPool) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this CAPool.
@@ -115,14 +99,6 @@ func (mg *CAPoolIAMMember) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this CAPoolIAMMember.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *CAPoolIAMMember) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this CAPoolIAMMember.
 func (mg *CAPoolIAMMember) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -151,14 +127,6 @@ func (mg *CAPoolIAMMember) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this CAPoolIAMMember.
 func (mg *CAPoolIAMMember) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this CAPoolIAMMember.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *CAPoolIAMMember) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this CAPoolIAMMember.
@@ -191,14 +159,6 @@ func (mg *Certificate) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this Certificate.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *Certificate) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this Certificate.
 func (mg *Certificate) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -227,14 +187,6 @@ func (mg *Certificate) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this Certificate.
 func (mg *Certificate) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this Certificate.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *Certificate) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this Certificate.
@@ -267,14 +219,6 @@ func (mg *CertificateAuthority) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this CertificateAuthority.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *CertificateAuthority) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this CertificateAuthority.
 func (mg *CertificateAuthority) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -303,14 +247,6 @@ func (mg *CertificateAuthority) SetManagementPolicies(r xpv1.ManagementPolicies)
 // SetProviderConfigReference of this CertificateAuthority.
 func (mg *CertificateAuthority) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this CertificateAuthority.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *CertificateAuthority) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this CertificateAuthority.
@@ -343,14 +279,6 @@ func (mg *CertificateTemplate) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this CertificateTemplate.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *CertificateTemplate) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this CertificateTemplate.
 func (mg *CertificateTemplate) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -379,14 +307,6 @@ func (mg *CertificateTemplate) SetManagementPolicies(r xpv1.ManagementPolicies) 
 // SetProviderConfigReference of this CertificateTemplate.
 func (mg *CertificateTemplate) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this CertificateTemplate.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *CertificateTemplate) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this CertificateTemplate.
@@ -419,14 +339,6 @@ func (mg *CertificateTemplateIAMMember) GetProviderConfigReference() *xpv1.Refer
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this CertificateTemplateIAMMember.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *CertificateTemplateIAMMember) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this CertificateTemplateIAMMember.
 func (mg *CertificateTemplateIAMMember) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -455,14 +367,6 @@ func (mg *CertificateTemplateIAMMember) SetManagementPolicies(r xpv1.ManagementP
 // SetProviderConfigReference of this CertificateTemplateIAMMember.
 func (mg *CertificateTemplateIAMMember) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this CertificateTemplateIAMMember.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *CertificateTemplateIAMMember) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this CertificateTemplateIAMMember.
