@@ -106,7 +106,7 @@ type ServicePerimeterResourceStatus struct {
 type ServicePerimeterResource struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.resource) || has(self.initProvider.resource)",message="resource is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.resource) || (has(self.initProvider) && has(self.initProvider.resource))",message="spec.forProvider.resource is a required parameter"
 	Spec   ServicePerimeterResourceSpec   `json:"spec"`
 	Status ServicePerimeterResourceStatus `json:"status,omitempty"`
 }

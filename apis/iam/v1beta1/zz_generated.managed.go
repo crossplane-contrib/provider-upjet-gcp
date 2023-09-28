@@ -39,14 +39,6 @@ func (mg *WorkloadIdentityPool) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this WorkloadIdentityPool.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *WorkloadIdentityPool) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this WorkloadIdentityPool.
 func (mg *WorkloadIdentityPool) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -75,14 +67,6 @@ func (mg *WorkloadIdentityPool) SetManagementPolicies(r xpv1.ManagementPolicies)
 // SetProviderConfigReference of this WorkloadIdentityPool.
 func (mg *WorkloadIdentityPool) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this WorkloadIdentityPool.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *WorkloadIdentityPool) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this WorkloadIdentityPool.
@@ -115,14 +99,6 @@ func (mg *WorkloadIdentityPoolProvider) GetProviderConfigReference() *xpv1.Refer
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this WorkloadIdentityPoolProvider.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *WorkloadIdentityPoolProvider) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this WorkloadIdentityPoolProvider.
 func (mg *WorkloadIdentityPoolProvider) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -151,14 +127,6 @@ func (mg *WorkloadIdentityPoolProvider) SetManagementPolicies(r xpv1.ManagementP
 // SetProviderConfigReference of this WorkloadIdentityPoolProvider.
 func (mg *WorkloadIdentityPoolProvider) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this WorkloadIdentityPoolProvider.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *WorkloadIdentityPoolProvider) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this WorkloadIdentityPoolProvider.

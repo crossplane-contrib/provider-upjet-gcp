@@ -177,7 +177,7 @@ type AppConnectorStatus struct {
 type AppConnector struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.principalInfo) || has(self.initProvider.principalInfo)",message="principalInfo is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.principalInfo) || (has(self.initProvider) && has(self.initProvider.principalInfo))",message="spec.forProvider.principalInfo is a required parameter"
 	Spec   AppConnectorSpec   `json:"spec"`
 	Status AppConnectorStatus `json:"status,omitempty"`
 }

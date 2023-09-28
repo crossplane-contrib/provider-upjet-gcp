@@ -296,8 +296,8 @@ type ServiceAttachmentStatus struct {
 type ServiceAttachment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.connectionPreference) || has(self.initProvider.connectionPreference)",message="connectionPreference is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.enableProxyProtocol) || has(self.initProvider.enableProxyProtocol)",message="enableProxyProtocol is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.connectionPreference) || (has(self.initProvider) && has(self.initProvider.connectionPreference))",message="spec.forProvider.connectionPreference is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.enableProxyProtocol) || (has(self.initProvider) && has(self.initProvider.enableProxyProtocol))",message="spec.forProvider.enableProxyProtocol is a required parameter"
 	Spec   ServiceAttachmentSpec   `json:"spec"`
 	Status ServiceAttachmentStatus `json:"status,omitempty"`
 }

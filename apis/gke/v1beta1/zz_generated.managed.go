@@ -39,14 +39,6 @@ func (mg *BackupBackupPlan) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this BackupBackupPlan.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *BackupBackupPlan) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this BackupBackupPlan.
 func (mg *BackupBackupPlan) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -75,14 +67,6 @@ func (mg *BackupBackupPlan) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this BackupBackupPlan.
 func (mg *BackupBackupPlan) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this BackupBackupPlan.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *BackupBackupPlan) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this BackupBackupPlan.

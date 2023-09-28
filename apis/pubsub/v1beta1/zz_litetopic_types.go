@@ -272,8 +272,8 @@ type LiteTopicStatus struct {
 type LiteTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.partitionConfig) || has(self.initProvider.partitionConfig)",message="partitionConfig is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.retentionConfig) || has(self.initProvider.retentionConfig)",message="retentionConfig is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.partitionConfig) || (has(self.initProvider) && has(self.initProvider.partitionConfig))",message="spec.forProvider.partitionConfig is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.retentionConfig) || (has(self.initProvider) && has(self.initProvider.retentionConfig))",message="spec.forProvider.retentionConfig is a required parameter"
 	Spec   LiteTopicSpec   `json:"spec"`
 	Status LiteTopicStatus `json:"status,omitempty"`
 }

@@ -39,14 +39,6 @@ func (mg *LogView) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this LogView.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *LogView) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this LogView.
 func (mg *LogView) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -75,14 +67,6 @@ func (mg *LogView) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this LogView.
 func (mg *LogView) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this LogView.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *LogView) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this LogView.
@@ -115,14 +99,6 @@ func (mg *Metric) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this Metric.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *Metric) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this Metric.
 func (mg *Metric) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -151,14 +127,6 @@ func (mg *Metric) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this Metric.
 func (mg *Metric) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this Metric.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *Metric) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this Metric.
@@ -191,14 +159,6 @@ func (mg *ProjectBucketConfig) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this ProjectBucketConfig.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *ProjectBucketConfig) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this ProjectBucketConfig.
 func (mg *ProjectBucketConfig) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -227,14 +187,6 @@ func (mg *ProjectBucketConfig) SetManagementPolicies(r xpv1.ManagementPolicies) 
 // SetProviderConfigReference of this ProjectBucketConfig.
 func (mg *ProjectBucketConfig) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this ProjectBucketConfig.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *ProjectBucketConfig) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this ProjectBucketConfig.
@@ -267,14 +219,6 @@ func (mg *ProjectExclusion) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this ProjectExclusion.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *ProjectExclusion) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this ProjectExclusion.
 func (mg *ProjectExclusion) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -303,14 +247,6 @@ func (mg *ProjectExclusion) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this ProjectExclusion.
 func (mg *ProjectExclusion) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this ProjectExclusion.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *ProjectExclusion) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this ProjectExclusion.
@@ -343,14 +279,6 @@ func (mg *ProjectSink) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this ProjectSink.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *ProjectSink) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this ProjectSink.
 func (mg *ProjectSink) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -379,14 +307,6 @@ func (mg *ProjectSink) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this ProjectSink.
 func (mg *ProjectSink) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this ProjectSink.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *ProjectSink) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this ProjectSink.

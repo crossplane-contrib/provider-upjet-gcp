@@ -378,9 +378,9 @@ type PacketMirroringStatus struct {
 type PacketMirroring struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.collectorIlb) || has(self.initProvider.collectorIlb)",message="collectorIlb is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.mirroredResources) || has(self.initProvider.mirroredResources)",message="mirroredResources is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.network) || has(self.initProvider.network)",message="network is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.collectorIlb) || (has(self.initProvider) && has(self.initProvider.collectorIlb))",message="spec.forProvider.collectorIlb is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.mirroredResources) || (has(self.initProvider) && has(self.initProvider.mirroredResources))",message="spec.forProvider.mirroredResources is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.network) || (has(self.initProvider) && has(self.initProvider.network))",message="spec.forProvider.network is a required parameter"
 	Spec   PacketMirroringSpec   `json:"spec"`
 	Status PacketMirroringStatus `json:"status,omitempty"`
 }

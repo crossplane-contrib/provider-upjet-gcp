@@ -339,7 +339,7 @@ type AttestorStatus struct {
 type Attestor struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.attestationAuthorityNote) || has(self.initProvider.attestationAuthorityNote)",message="attestationAuthorityNote is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.attestationAuthorityNote) || (has(self.initProvider) && has(self.initProvider.attestationAuthorityNote))",message="spec.forProvider.attestationAuthorityNote is a required parameter"
 	Spec   AttestorSpec   `json:"spec"`
 	Status AttestorStatus `json:"status,omitempty"`
 }

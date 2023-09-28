@@ -1465,7 +1465,7 @@ type DatabaseInstanceStatus struct {
 type DatabaseInstance struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.databaseVersion) || has(self.initProvider.databaseVersion)",message="databaseVersion is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.databaseVersion) || (has(self.initProvider) && has(self.initProvider.databaseVersion))",message="spec.forProvider.databaseVersion is a required parameter"
 	Spec   DatabaseInstanceSpec   `json:"spec"`
 	Status DatabaseInstanceStatus `json:"status,omitempty"`
 }

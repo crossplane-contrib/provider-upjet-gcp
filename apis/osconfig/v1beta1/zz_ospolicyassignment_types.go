@@ -2372,9 +2372,9 @@ type OsPolicyAssignmentStatus struct {
 type OsPolicyAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.instanceFilter) || has(self.initProvider.instanceFilter)",message="instanceFilter is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.osPolicies) || has(self.initProvider.osPolicies)",message="osPolicies is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.rollout) || has(self.initProvider.rollout)",message="rollout is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.instanceFilter) || (has(self.initProvider) && has(self.initProvider.instanceFilter))",message="spec.forProvider.instanceFilter is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.osPolicies) || (has(self.initProvider) && has(self.initProvider.osPolicies))",message="spec.forProvider.osPolicies is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.rollout) || (has(self.initProvider) && has(self.initProvider.rollout))",message="spec.forProvider.rollout is a required parameter"
 	Spec   OsPolicyAssignmentSpec   `json:"spec"`
 	Status OsPolicyAssignmentStatus `json:"status,omitempty"`
 }

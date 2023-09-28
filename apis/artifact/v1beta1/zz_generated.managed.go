@@ -39,14 +39,6 @@ func (mg *RegistryRepository) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this RegistryRepository.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *RegistryRepository) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this RegistryRepository.
 func (mg *RegistryRepository) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -75,14 +67,6 @@ func (mg *RegistryRepository) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this RegistryRepository.
 func (mg *RegistryRepository) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this RegistryRepository.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *RegistryRepository) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this RegistryRepository.
@@ -115,14 +99,6 @@ func (mg *RegistryRepositoryIAMMember) GetProviderConfigReference() *xpv1.Refere
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this RegistryRepositoryIAMMember.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *RegistryRepositoryIAMMember) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this RegistryRepositoryIAMMember.
 func (mg *RegistryRepositoryIAMMember) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -151,14 +127,6 @@ func (mg *RegistryRepositoryIAMMember) SetManagementPolicies(r xpv1.ManagementPo
 // SetProviderConfigReference of this RegistryRepositoryIAMMember.
 func (mg *RegistryRepositoryIAMMember) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this RegistryRepositoryIAMMember.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *RegistryRepositoryIAMMember) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this RegistryRepositoryIAMMember.

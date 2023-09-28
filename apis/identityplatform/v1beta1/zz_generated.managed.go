@@ -39,14 +39,6 @@ func (mg *DefaultSupportedIdPConfig) GetProviderConfigReference() *xpv1.Referenc
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this DefaultSupportedIdPConfig.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *DefaultSupportedIdPConfig) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this DefaultSupportedIdPConfig.
 func (mg *DefaultSupportedIdPConfig) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -75,14 +67,6 @@ func (mg *DefaultSupportedIdPConfig) SetManagementPolicies(r xpv1.ManagementPoli
 // SetProviderConfigReference of this DefaultSupportedIdPConfig.
 func (mg *DefaultSupportedIdPConfig) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this DefaultSupportedIdPConfig.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *DefaultSupportedIdPConfig) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this DefaultSupportedIdPConfig.
@@ -115,14 +99,6 @@ func (mg *InboundSAMLConfig) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this InboundSAMLConfig.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *InboundSAMLConfig) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this InboundSAMLConfig.
 func (mg *InboundSAMLConfig) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -151,14 +127,6 @@ func (mg *InboundSAMLConfig) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this InboundSAMLConfig.
 func (mg *InboundSAMLConfig) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this InboundSAMLConfig.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *InboundSAMLConfig) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this InboundSAMLConfig.
@@ -191,14 +159,6 @@ func (mg *OAuthIdPConfig) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this OAuthIdPConfig.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *OAuthIdPConfig) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this OAuthIdPConfig.
 func (mg *OAuthIdPConfig) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -227,14 +187,6 @@ func (mg *OAuthIdPConfig) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this OAuthIdPConfig.
 func (mg *OAuthIdPConfig) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this OAuthIdPConfig.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *OAuthIdPConfig) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this OAuthIdPConfig.
@@ -267,14 +219,6 @@ func (mg *ProjectDefaultConfig) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this ProjectDefaultConfig.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *ProjectDefaultConfig) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this ProjectDefaultConfig.
 func (mg *ProjectDefaultConfig) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -303,14 +247,6 @@ func (mg *ProjectDefaultConfig) SetManagementPolicies(r xpv1.ManagementPolicies)
 // SetProviderConfigReference of this ProjectDefaultConfig.
 func (mg *ProjectDefaultConfig) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this ProjectDefaultConfig.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *ProjectDefaultConfig) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this ProjectDefaultConfig.
@@ -343,14 +279,6 @@ func (mg *Tenant) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this Tenant.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *Tenant) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this Tenant.
 func (mg *Tenant) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -379,14 +307,6 @@ func (mg *Tenant) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this Tenant.
 func (mg *Tenant) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this Tenant.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *Tenant) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this Tenant.
@@ -419,14 +339,6 @@ func (mg *TenantDefaultSupportedIdPConfig) GetProviderConfigReference() *xpv1.Re
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this TenantDefaultSupportedIdPConfig.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *TenantDefaultSupportedIdPConfig) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this TenantDefaultSupportedIdPConfig.
 func (mg *TenantDefaultSupportedIdPConfig) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -455,14 +367,6 @@ func (mg *TenantDefaultSupportedIdPConfig) SetManagementPolicies(r xpv1.Manageme
 // SetProviderConfigReference of this TenantDefaultSupportedIdPConfig.
 func (mg *TenantDefaultSupportedIdPConfig) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this TenantDefaultSupportedIdPConfig.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *TenantDefaultSupportedIdPConfig) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this TenantDefaultSupportedIdPConfig.
@@ -495,14 +399,6 @@ func (mg *TenantInboundSAMLConfig) GetProviderConfigReference() *xpv1.Reference 
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this TenantInboundSAMLConfig.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *TenantInboundSAMLConfig) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this TenantInboundSAMLConfig.
 func (mg *TenantInboundSAMLConfig) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -531,14 +427,6 @@ func (mg *TenantInboundSAMLConfig) SetManagementPolicies(r xpv1.ManagementPolici
 // SetProviderConfigReference of this TenantInboundSAMLConfig.
 func (mg *TenantInboundSAMLConfig) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this TenantInboundSAMLConfig.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *TenantInboundSAMLConfig) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this TenantInboundSAMLConfig.
@@ -571,14 +459,6 @@ func (mg *TenantOAuthIdPConfig) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this TenantOAuthIdPConfig.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *TenantOAuthIdPConfig) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this TenantOAuthIdPConfig.
 func (mg *TenantOAuthIdPConfig) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -607,14 +487,6 @@ func (mg *TenantOAuthIdPConfig) SetManagementPolicies(r xpv1.ManagementPolicies)
 // SetProviderConfigReference of this TenantOAuthIdPConfig.
 func (mg *TenantOAuthIdPConfig) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this TenantOAuthIdPConfig.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *TenantOAuthIdPConfig) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this TenantOAuthIdPConfig.

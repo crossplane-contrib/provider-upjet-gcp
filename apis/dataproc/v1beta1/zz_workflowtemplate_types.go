@@ -2594,8 +2594,8 @@ type WorkflowTemplateStatus struct {
 type WorkflowTemplate struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.jobs) || has(self.initProvider.jobs)",message="jobs is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.placement) || has(self.initProvider.placement)",message="placement is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.jobs) || (has(self.initProvider) && has(self.initProvider.jobs))",message="spec.forProvider.jobs is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.placement) || (has(self.initProvider) && has(self.initProvider.placement))",message="spec.forProvider.placement is a required parameter"
 	Spec   WorkflowTemplateSpec   `json:"spec"`
 	Status WorkflowTemplateStatus `json:"status,omitempty"`
 }

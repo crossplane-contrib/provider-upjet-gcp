@@ -39,14 +39,6 @@ func (mg *DeidentifyTemplate) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this DeidentifyTemplate.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *DeidentifyTemplate) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this DeidentifyTemplate.
 func (mg *DeidentifyTemplate) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -75,14 +67,6 @@ func (mg *DeidentifyTemplate) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this DeidentifyTemplate.
 func (mg *DeidentifyTemplate) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this DeidentifyTemplate.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *DeidentifyTemplate) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this DeidentifyTemplate.
@@ -115,14 +99,6 @@ func (mg *InspectTemplate) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this InspectTemplate.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *InspectTemplate) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this InspectTemplate.
 func (mg *InspectTemplate) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -151,14 +127,6 @@ func (mg *InspectTemplate) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this InspectTemplate.
 func (mg *InspectTemplate) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this InspectTemplate.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *InspectTemplate) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this InspectTemplate.
@@ -191,14 +159,6 @@ func (mg *JobTrigger) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this JobTrigger.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *JobTrigger) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this JobTrigger.
 func (mg *JobTrigger) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -227,14 +187,6 @@ func (mg *JobTrigger) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this JobTrigger.
 func (mg *JobTrigger) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this JobTrigger.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *JobTrigger) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this JobTrigger.
@@ -267,14 +219,6 @@ func (mg *StoredInfoType) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this StoredInfoType.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *StoredInfoType) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this StoredInfoType.
 func (mg *StoredInfoType) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -303,14 +247,6 @@ func (mg *StoredInfoType) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this StoredInfoType.
 func (mg *StoredInfoType) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this StoredInfoType.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *StoredInfoType) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this StoredInfoType.

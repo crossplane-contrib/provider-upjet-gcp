@@ -548,7 +548,7 @@ type RegistryRepositoryStatus struct {
 type RegistryRepository struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.format) || has(self.initProvider.format)",message="format is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.format) || (has(self.initProvider) && has(self.initProvider.format))",message="spec.forProvider.format is a required parameter"
 	Spec   RegistryRepositorySpec   `json:"spec"`
 	Status RegistryRepositoryStatus `json:"status,omitempty"`
 }

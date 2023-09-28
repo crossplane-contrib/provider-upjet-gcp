@@ -611,7 +611,7 @@ type ManagedZoneStatus struct {
 type ManagedZone struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dnsName) || has(self.initProvider.dnsName)",message="dnsName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dnsName) || (has(self.initProvider) && has(self.initProvider.dnsName))",message="spec.forProvider.dnsName is a required parameter"
 	Spec   ManagedZoneSpec   `json:"spec"`
 	Status ManagedZoneStatus `json:"status,omitempty"`
 }

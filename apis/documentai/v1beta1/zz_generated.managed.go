@@ -39,14 +39,6 @@ func (mg *Processor) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this Processor.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *Processor) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this Processor.
 func (mg *Processor) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -75,14 +67,6 @@ func (mg *Processor) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this Processor.
 func (mg *Processor) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this Processor.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *Processor) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this Processor.

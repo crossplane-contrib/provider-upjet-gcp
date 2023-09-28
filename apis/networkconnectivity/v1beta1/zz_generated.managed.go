@@ -39,14 +39,6 @@ func (mg *Hub) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this Hub.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *Hub) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this Hub.
 func (mg *Hub) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -75,14 +67,6 @@ func (mg *Hub) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this Hub.
 func (mg *Hub) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this Hub.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *Hub) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this Hub.
@@ -115,14 +99,6 @@ func (mg *Spoke) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this Spoke.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *Spoke) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this Spoke.
 func (mg *Spoke) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -151,14 +127,6 @@ func (mg *Spoke) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this Spoke.
 func (mg *Spoke) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this Spoke.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *Spoke) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this Spoke.

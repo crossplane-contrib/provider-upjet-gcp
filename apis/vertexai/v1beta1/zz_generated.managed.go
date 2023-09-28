@@ -39,14 +39,6 @@ func (mg *Dataset) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this Dataset.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *Dataset) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this Dataset.
 func (mg *Dataset) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -75,14 +67,6 @@ func (mg *Dataset) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this Dataset.
 func (mg *Dataset) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this Dataset.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *Dataset) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this Dataset.
@@ -115,14 +99,6 @@ func (mg *Featurestore) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this Featurestore.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *Featurestore) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this Featurestore.
 func (mg *Featurestore) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -151,14 +127,6 @@ func (mg *Featurestore) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this Featurestore.
 func (mg *Featurestore) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this Featurestore.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *Featurestore) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this Featurestore.
@@ -191,14 +159,6 @@ func (mg *FeaturestoreEntitytype) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this FeaturestoreEntitytype.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *FeaturestoreEntitytype) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this FeaturestoreEntitytype.
 func (mg *FeaturestoreEntitytype) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -227,14 +187,6 @@ func (mg *FeaturestoreEntitytype) SetManagementPolicies(r xpv1.ManagementPolicie
 // SetProviderConfigReference of this FeaturestoreEntitytype.
 func (mg *FeaturestoreEntitytype) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this FeaturestoreEntitytype.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *FeaturestoreEntitytype) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this FeaturestoreEntitytype.
@@ -267,14 +219,6 @@ func (mg *Tensorboard) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this Tensorboard.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *Tensorboard) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this Tensorboard.
 func (mg *Tensorboard) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -303,14 +247,6 @@ func (mg *Tensorboard) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this Tensorboard.
 func (mg *Tensorboard) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this Tensorboard.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *Tensorboard) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this Tensorboard.

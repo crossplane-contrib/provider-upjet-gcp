@@ -102,7 +102,7 @@ type InstanceIAMPolicyStatus struct {
 type InstanceIAMPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.policyData) || has(self.initProvider.policyData)",message="policyData is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.policyData) || (has(self.initProvider) && has(self.initProvider.policyData))",message="spec.forProvider.policyData is a required parameter"
 	Spec   InstanceIAMPolicySpec   `json:"spec"`
 	Status InstanceIAMPolicyStatus `json:"status,omitempty"`
 }

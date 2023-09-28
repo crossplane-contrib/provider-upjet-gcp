@@ -39,14 +39,6 @@ func (mg *OsPolicyAssignment) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this OsPolicyAssignment.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *OsPolicyAssignment) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this OsPolicyAssignment.
 func (mg *OsPolicyAssignment) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -75,14 +67,6 @@ func (mg *OsPolicyAssignment) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this OsPolicyAssignment.
 func (mg *OsPolicyAssignment) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this OsPolicyAssignment.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *OsPolicyAssignment) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this OsPolicyAssignment.
@@ -115,14 +99,6 @@ func (mg *PatchDeployment) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this PatchDeployment.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *PatchDeployment) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this PatchDeployment.
 func (mg *PatchDeployment) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -151,14 +127,6 @@ func (mg *PatchDeployment) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this PatchDeployment.
 func (mg *PatchDeployment) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this PatchDeployment.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *PatchDeployment) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this PatchDeployment.

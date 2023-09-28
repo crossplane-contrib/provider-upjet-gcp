@@ -485,7 +485,7 @@ type SubnetworkStatus struct {
 type Subnetwork struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ipCidrRange) || has(self.initProvider.ipCidrRange)",message="ipCidrRange is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ipCidrRange) || (has(self.initProvider) && has(self.initProvider.ipCidrRange))",message="spec.forProvider.ipCidrRange is a required parameter"
 	Spec   SubnetworkSpec   `json:"spec"`
 	Status SubnetworkStatus `json:"status,omitempty"`
 }

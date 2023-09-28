@@ -141,7 +141,7 @@ type ServiceNetworkSettingsStatus struct {
 type ServiceNetworkSettings struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.networkSettings) || has(self.initProvider.networkSettings)",message="networkSettings is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.networkSettings) || (has(self.initProvider) && has(self.initProvider.networkSettings))",message="spec.forProvider.networkSettings is a required parameter"
 	Spec   ServiceNetworkSettingsSpec   `json:"spec"`
 	Status ServiceNetworkSettingsStatus `json:"status,omitempty"`
 }

@@ -1159,7 +1159,7 @@ type CAPoolStatus struct {
 type CAPool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.tier) || has(self.initProvider.tier)",message="tier is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.tier) || (has(self.initProvider) && has(self.initProvider.tier))",message="spec.forProvider.tier is a required parameter"
 	Spec   CAPoolSpec   `json:"spec"`
 	Status CAPoolStatus `json:"status,omitempty"`
 }
