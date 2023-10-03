@@ -27,6 +27,7 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 				"workload_identity_config",
 				"addons_config.network_policy_config",
 				"addons_config.gcp_filestore_csi_driver_config",
+				"addons_config.gcs_fuse_csi_driver_config",
 				"addons_config.dns_cache_config",
 				"default_max_pods_per_node",
 				"cluster_autoscaling.enabled",
