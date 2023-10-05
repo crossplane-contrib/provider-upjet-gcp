@@ -226,6 +226,10 @@ spec:
                       type: object
                     type: array
                   eventDataContentType:
+                    description: Optional. EventDataContentType specifies the type
+                      of payload in MIME format that is expected from the CloudEvent
+                      data field. This is set to application/json if the value is
+                      not defined.
                     type: string
                   labels:
                     additionalProperties:
@@ -388,6 +392,10 @@ spec:
                       type: object
                     type: array
                   eventDataContentType:
+                    description: Optional. EventDataContentType specifies the type
+                      of payload in MIME format that is expected from the CloudEvent
+                      data field. This is set to application/json if the value is
+                      not defined.
                     type: string
                   labels:
                     additionalProperties:
@@ -721,6 +729,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
                   etag:
                     description: Output only. This checksum is computed by the server
                       based on the value of other fields, and may be sent only on
@@ -728,6 +740,10 @@ spec:
                       before proceeding.
                     type: string
                   eventDataContentType:
+                    description: Optional. EventDataContentType specifies the type
+                      of payload in MIME format that is expected from the CloudEvent
+                      data field. This is set to application/json if the value is
+                      not defined.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/triggers/{{name}}
@@ -781,6 +797,12 @@ spec:
                       In order to create Audit Log triggers, the service account should
                       also have roles/eventarc.eventReceiver IAM role.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                   transport:
                     description: Optional. In order to deliver messages, Eventarc
                       may use other GCP products as transport intermediary. This field

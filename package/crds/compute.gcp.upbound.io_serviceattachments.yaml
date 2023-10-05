@@ -203,8 +203,7 @@ spec:
                       policy is modified . If true, update will affect both PENDING
                       and ACCEPTED/REJECTED PSC endpoints. For example, an ACCEPTED
                       PSC endpoint will be moved to REJECTED if its project is added
-                      to the reject list. For newly created service attachment, this
-                      boolean defaults to true.
+                      to the reject list.
                     type: boolean
                   region:
                     description: URL of the region where the resource resides.
@@ -358,8 +357,7 @@ spec:
                       policy is modified . If true, update will affect both PENDING
                       and ACCEPTED/REJECTED PSC endpoints. For example, an ACCEPTED
                       PSC endpoint will be moved to REJECTED if its project is added
-                      to the reject list. For newly created service attachment, this
-                      boolean defaults to true.
+                      to the reject list.
                     type: boolean
                 type: object
               managementPolicies:
@@ -619,8 +617,7 @@ spec:
                       policy is modified . If true, update will affect both PENDING
                       and ACCEPTED/REJECTED PSC endpoints. For example, an ACCEPTED
                       PSC endpoint will be moved to REJECTED if its project is added
-                      to the reject list. For newly created service attachment, this
-                      boolean defaults to true.
+                      to the reject list.
                     type: boolean
                   region:
                     description: URL of the region where the resource resides.

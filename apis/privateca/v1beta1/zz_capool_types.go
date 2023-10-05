@@ -404,6 +404,9 @@ type CAPoolInitParameters struct {
 
 type CAPoolObservation struct {
 
+	// for all of the labels present on the resource.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/caPools/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -427,6 +430,10 @@ type CAPoolObservation struct {
 	// The PublishingOptions to follow when issuing Certificates from any CertificateAuthority in this CaPool.
 	// Structure is documented below.
 	PublishingOptions []PublishingOptionsObservation `json:"publishingOptions,omitempty" tf:"publishing_options,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// The Tier of this CaPool.
 	// Possible values are: ENTERPRISE, DEVOPS.

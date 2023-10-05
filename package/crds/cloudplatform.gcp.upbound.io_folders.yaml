@@ -362,6 +362,7 @@ spec:
                       no longer than 30 characters.
                     type: string
                   folderId:
+                    description: The folder id from the name "folders/{folder_id}"
                     type: string
                   id:
                     type: string

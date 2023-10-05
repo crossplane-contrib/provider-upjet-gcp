@@ -2375,6 +2375,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
                   extract:
                     description: Configures an extract job. Structure is documented
                       below.
@@ -2997,6 +3001,12 @@ spec:
                           type: string
                       type: object
                     type: array
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: (Output) The combination of labels configured directly
+                      on the resource and default labels configured on the provider.
+                    type: object
                   userEmail:
                     description: Email address of the user who ran the job.
                     type: string

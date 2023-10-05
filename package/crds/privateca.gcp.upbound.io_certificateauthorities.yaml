@@ -1775,6 +1775,10 @@ spec:
                     description: Desired state of the CertificateAuthority. Set this
                       field to STAGED to create a STAGED root CA.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
                   gcsBucket:
                     description: The name of a Cloud Storage bucket where this CertificateAuthority
                       will publish content, such as the CA certificate and CRLs. This
@@ -1896,6 +1900,12 @@ spec:
                           type: array
                       type: object
                     type: array
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                   type:
                     description: 'The Type of this CertificateAuthority. ~> Note:
                       For SUBORDINATE Certificate Authorities, they need to be activated

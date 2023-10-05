@@ -275,8 +275,11 @@ spec:
                               labels:
                                 additionalProperties:
                                   type: string
-                                description: A map of key/value label pairs to assign
-                                  to the instance.
+                                description: 'A map of key/value label pairs to assign
+                                  to the instance. Note: This field is non-authoritative,
+                                  and will only manage the labels present in your
+                                  configuration. Please refer to the field ''effective_labels''
+                                  for all of the labels present on the resource.'
                                 type: object
                               resourceManagerTags:
                                 additionalProperties:
@@ -384,7 +387,11 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: A map of key/value label pairs to assign to the instance.
+                    description: 'A map of key/value label pairs to assign to the
+                      instance. Note: This field is non-authoritative, and will only
+                      manage the labels present in your configuration. Please refer
+                      to the field ''effective_labels'' for all of the labels present
+                      on the resource.'
                     type: object
                   machineType:
                     description: The machine type to create.
@@ -472,6 +479,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        internalIpv6PrefixLength:
+                          type: number
                         ipv6AccessConfig:
                           description: An array of IPv6 access configurations for
                             this interface. Currently, only one IPv6 access config,
@@ -510,6 +519,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        ipv6Address:
+                          type: string
                         network:
                           description: The name or self_link of the network to attach
                             this interface to. Either network or subnetwork must be
@@ -857,8 +868,8 @@ spec:
                           description: Describe the type of preemptible VM. This field
                             accepts the value STANDARD or SPOT. If the value is STANDARD,
                             there will be no discount. If this   is set to SPOT, preemptible
-                            should be true and auto_restart should be false. For more
-                            info about SPOT, read here
+                            should be true and automatic_restart should be false.
+                            For more info about SPOT, read here
                           type: string
                       type: object
                     type: array
@@ -1117,8 +1128,11 @@ spec:
                               labels:
                                 additionalProperties:
                                   type: string
-                                description: A map of key/value label pairs to assign
-                                  to the instance.
+                                description: 'A map of key/value label pairs to assign
+                                  to the instance. Note: This field is non-authoritative,
+                                  and will only manage the labels present in your
+                                  configuration. Please refer to the field ''effective_labels''
+                                  for all of the labels present on the resource.'
                                 type: object
                               resourceManagerTags:
                                 additionalProperties:
@@ -1226,7 +1240,11 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: A map of key/value label pairs to assign to the instance.
+                    description: 'A map of key/value label pairs to assign to the
+                      instance. Note: This field is non-authoritative, and will only
+                      manage the labels present in your configuration. Please refer
+                      to the field ''effective_labels'' for all of the labels present
+                      on the resource.'
                     type: object
                   machineType:
                     description: The machine type to create.
@@ -1314,6 +1332,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        internalIpv6PrefixLength:
+                          type: number
                         ipv6AccessConfig:
                           description: An array of IPv6 access configurations for
                             this interface. Currently, only one IPv6 access config,
@@ -1352,6 +1372,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        ipv6Address:
+                          type: string
                         networkIp:
                           description: The private IP address to assign to the instance.
                             If empty, the address will be automatically assigned.
@@ -1530,8 +1552,8 @@ spec:
                           description: Describe the type of preemptible VM. This field
                             accepts the value STANDARD or SPOT. If the value is STANDARD,
                             there will be no discount. If this   is set to SPOT, preemptible
-                            should be true and auto_restart should be false. For more
-                            info about SPOT, read here
+                            should be true and automatic_restart should be false.
+                            For more info about SPOT, read here
                           type: string
                       type: object
                     type: array
@@ -1889,8 +1911,11 @@ spec:
                               labels:
                                 additionalProperties:
                                   type: string
-                                description: A map of key/value label pairs to assign
-                                  to the instance.
+                                description: 'A map of key/value label pairs to assign
+                                  to the instance. Note: This field is non-authoritative,
+                                  and will only manage the labels present in your
+                                  configuration. Please refer to the field ''effective_labels''
+                                  for all of the labels present on the resource.'
                                 type: object
                               resourceManagerTags:
                                 additionalProperties:
@@ -1971,6 +1996,10 @@ spec:
                     description: Desired status of the instance. Either "RUNNING"
                       or "TERMINATED".
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
                   enableDisplay:
                     description: 'Enable Virtual Displays on this instance. Note:
                       allow_stopping_for_update must be set to true or your instance
@@ -2017,7 +2046,11 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: A map of key/value label pairs to assign to the instance.
+                    description: 'A map of key/value label pairs to assign to the
+                      instance. Note: This field is non-authoritative, and will only
+                      manage the labels present in your configuration. Please refer
+                      to the field ''effective_labels'' for all of the labels present
+                      on the resource.'
                     type: object
                   machineType:
                     description: The machine type to create.
@@ -2108,6 +2141,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        internalIpv6PrefixLength:
+                          type: number
                         ipv6AccessConfig:
                           description: An array of IPv6 access configurations for
                             this interface. Currently, only one IPv6 access config,
@@ -2150,6 +2185,8 @@ spec:
                           description: One of EXTERNAL, INTERNAL to indicate whether
                             the IP can be accessed from the Internet. This field is
                             always inherited from its subnetwork.
+                          type: string
+                        ipv6Address:
                           type: string
                         name:
                           description: A unique name for the resource, required by
@@ -2350,8 +2387,8 @@ spec:
                           description: Describe the type of preemptible VM. This field
                             accepts the value STANDARD or SPOT. If the value is STANDARD,
                             there will be no discount. If this   is set to SPOT, preemptible
-                            should be true and auto_restart should be false. For more
-                            info about SPOT, read here
+                            should be true and automatic_restart should be false.
+                            For more info about SPOT, read here
                           type: string
                       type: object
                     type: array
@@ -2443,6 +2480,12 @@ spec:
                   tagsFingerprint:
                     description: The unique fingerprint of the tags.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                   zone:
                     description: The zone that the machine should be created in. If
                       it is not provided, the provider zone is used.

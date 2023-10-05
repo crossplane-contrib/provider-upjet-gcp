@@ -113,8 +113,7 @@ spec:
                         gcePersistentDiskCsiDriverConfig:
                           description: . Whether this cluster should enable the Google
                             Compute Engine Persistent Disk Container Storage Interface
-                            (CSI) Driver. Defaults to disabled; set enabled = true
-                            to enabled.
+                            (CSI) Driver. Set enabled = true to enable.
                           items:
                             properties:
                               enabled:
@@ -136,7 +135,11 @@ spec:
                         gcsFuseCsiDriverConfig:
                           description: The status of the GCSFuse CSI driver addon,
                             which allows the usage of a gcs bucket as volumes. It
-                            is disabled by default; set enabled = true to enable.
+                            is disabled by default for Standard clusters; set enabled
+                            = true to enable. It is enabled by default for Autopilot
+                            clusters with version 1.24 or later; set enabled = true
+                            to enable it explicitly. See Enable the Cloud Storage
+                            FUSE CSI driver for more information.
                           items:
                             properties:
                               enabled:
@@ -234,9 +237,6 @@ spec:
                         evaluationMode:
                           description: Mode of operation for Binary Authorization
                             policy evaluation. Valid values are DISABLED and PROJECT_SINGLETON_POLICY_ENFORCE.
-                            PROJECT_SINGLETON_POLICY_ENFORCE is functionally equivalent
-                            to the deprecated enable_binary_authorization parameter
-                            being set to true.
                           type: string
                       type: object
                     type: array
@@ -445,8 +445,8 @@ spec:
                     description: The IP address range of the Kubernetes pods in this
                       cluster in CIDR notation (e.g. 10.96.0.0/14). Leave blank to
                       have one automatically chosen or specify a /14 block in 10.0.0.0/8.
-                      This field will only work for routes-based clusters, where ip_allocation_policy
-                      is not defined.
+                      This field will default a new cluster to routes-based, where
+                      ip_allocation_policy is not defined.
                     type: string
                   confidentialNodes:
                     description: Configuration for Confidential Nodes feature. Structure
@@ -454,7 +454,8 @@ spec:
                     items:
                       properties:
                         enabled:
-                          description: Enable Confidential Nodes for this cluster.
+                          description: Enable Confidential GKE Nodes for this cluster,
+                            to enforce encryption of data in-use.
                           type: boolean
                       type: object
                     type: array
@@ -508,6 +509,8 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  deletionProtection:
+                    type: boolean
                   description:
                     description: Description of the cluster.
                     type: string
@@ -535,11 +538,6 @@ spec:
                       Note that when this option is enabled, certain features of Standard
                       GKE are not available. See the official documentation for available
                       features.
-                    type: boolean
-                  enableBinaryAuthorization:
-                    description: (DEPRECATED) Enable Binary Authorization for this
-                      cluster. If enabled, all container images will be validated
-                      by Google Binary Authorization. Deprecated in favor of binary_authorization.
                     type: boolean
                   enableIntranodeVisibility:
                     description: Whether Intra-node visibility is enabled for this
@@ -608,11 +606,26 @@ spec:
                     type: number
                   ipAllocationPolicy:
                     description: Configuration of cluster IP allocation for VPC-native
-                      clusters. Adding this block enables IP aliasing, making the
-                      cluster VPC-native instead of routes-based. Structure is documented
-                      below.
+                      clusters. If this block is unset during creation, it will be
+                      set by the GKE backend. Structure is documented below.
                     items:
                       properties:
+                        additionalPodRangesConfig:
+                          description: The configuration for additional pod secondary
+                            ranges at the cluster level. Used for Autopilot clusters
+                            and Standard clusters with which control of the secondary
+                            Pod IP address assignment to node pools isn't needed.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              podRangeNames:
+                                description: The names of the Pod ranges to add to
+                                  the cluster.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
                         clusterIpv4CidrBlock:
                           description: The IP address range for the cluster pod IPs.
                             Set to blank to have a range chosen with the default size.
@@ -815,11 +828,26 @@ spec:
                       is documented below.
                     items:
                       properties:
+                        advancedDatapathObservabilityConfig:
+                          description: Configuration for Advanced Datapath Monitoring.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              enableMetrics:
+                                description: Whether or not to enable advanced datapath
+                                  metrics.
+                                type: boolean
+                              relayMode:
+                                description: Mode used to make Relay available.
+                                type: string
+                            type: object
+                          type: array
                         enableComponents:
                           description: 'The GKE components exposing metrics. Supported
-                            values include: SYSTEM_COMPONENTS, APISERVER, CONTROLLER_MANAGER,
-                            and SCHEDULER. In beta provider, WORKLOADS is supported
-                            on top of those 4 values. (WORKLOADS is deprecated and
+                            values include: SYSTEM_COMPONENTS, APISERVER, SCHEDULER,
+                            CONTROLLER_MANAGER, STORAGE, HPA, POD, DAEMONSET, DEPLOYMENT
+                            and STATEFULSET. In beta provider, WORKLOADS is supported
+                            on top of those 10 values. (WORKLOADS is deprecated and
                             removed in GKE 1.24.)'
                           items:
                             type: string
@@ -940,10 +968,8 @@ spec:
                   networkingMode:
                     description: Determines whether alias IPs or routes will be used
                       for pod IPs in the cluster. Options are VPC_NATIVE or ROUTES.
-                      VPC_NATIVE enables IP aliasing, and requires the ip_allocation_policy
-                      block to be defined. By default, when this field is unspecified
-                      and no ip_allocation_policy blocks are set, GKE will create
-                      a ROUTES-based cluster.
+                      VPC_NATIVE enables IP aliasing. Newly created clusters will
+                      default to VPC_NATIVE.
                     type: string
                   nodeConfig:
                     description: Parameters used in creating the default node pool.
@@ -971,6 +997,16 @@ spec:
                             For more information about protecting resources with Cloud
                             KMS Keys please see: https://cloud.google.com/compute/docs/disks/customer-managed-encryption'
                           type: string
+                        confidentialNodes:
+                          description: Configuration for Confidential Nodes feature.
+                            Structure is documented below documented below.
+                          items:
+                            properties:
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
+                            type: object
+                          type: array
                         diskSizeGb:
                           description: Size of the disk attached to each node, specified
                             in GB. The smallest allowed disk size is 10GB. Defaults
@@ -991,6 +1027,18 @@ spec:
                                 description: The amount of local SSD disks that will
                                   be attached to each cluster node. Defaults to 0.
                                 type: number
+                            type: object
+                          type: array
+                        fastSocket:
+                          description: Parameters for the NCCL Fast Socket feature.
+                            If unspecified, NCCL Fast Socket will not be enabled on
+                            the node pool. Node Pool must enable gvnic. GKE version
+                            1.25.2-gke.1700 or later. Structure is documented below.
+                          items:
+                            properties:
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
                             type: object
                           type: array
                         gcfsConfig:
@@ -1368,13 +1416,7 @@ spec:
                           type: array
                         taint:
                           description: A list of Kubernetes taints to apply to nodes.
-                            GKE's API can only set this field on cluster creation.
-                            However, GKE will add taints to your nodes if you enable
-                            certain features such as GPUs. Taint values can be updated
-                            safely in Kubernetes (eg. through kubectl), and it's recommended
-                            that you do not use this field to manage taints. If you
-                            do, lifecycle.ignore_changes is recommended. Structure
-                            is documented below.
+                            Structure is documented below.
                           items:
                             properties:
                               effect:
@@ -1410,6 +1452,27 @@ spec:
                       zone.
                     items:
                       type: string
+                    type: array
+                  nodePoolAutoConfig:
+                    description: Node pool configs that apply to auto-provisioned
+                      node pools in autopilot clusters and node auto-provisioning-enabled
+                      clusters. Structure is documented below.
+                    items:
+                      properties:
+                        networkTags:
+                          description: The network tag config for the cluster's automatically
+                            provisioned node pools.
+                          items:
+                            properties:
+                              tags:
+                                description: List of network tags applied to auto-provisioned
+                                  node pools.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                      type: object
                     type: array
                   nodePoolDefaults:
                     description: Default NodePool settings for the entire cluster.
@@ -1783,8 +1846,7 @@ spec:
                         gcePersistentDiskCsiDriverConfig:
                           description: . Whether this cluster should enable the Google
                             Compute Engine Persistent Disk Container Storage Interface
-                            (CSI) Driver. Defaults to disabled; set enabled = true
-                            to enabled.
+                            (CSI) Driver. Set enabled = true to enable.
                           items:
                             properties:
                               enabled:
@@ -1806,7 +1868,11 @@ spec:
                         gcsFuseCsiDriverConfig:
                           description: The status of the GCSFuse CSI driver addon,
                             which allows the usage of a gcs bucket as volumes. It
-                            is disabled by default; set enabled = true to enable.
+                            is disabled by default for Standard clusters; set enabled
+                            = true to enable. It is enabled by default for Autopilot
+                            clusters with version 1.24 or later; set enabled = true
+                            to enable it explicitly. See Enable the Cloud Storage
+                            FUSE CSI driver for more information.
                           items:
                             properties:
                               enabled:
@@ -1904,9 +1970,6 @@ spec:
                         evaluationMode:
                           description: Mode of operation for Binary Authorization
                             policy evaluation. Valid values are DISABLED and PROJECT_SINGLETON_POLICY_ENFORCE.
-                            PROJECT_SINGLETON_POLICY_ENFORCE is functionally equivalent
-                            to the deprecated enable_binary_authorization parameter
-                            being set to true.
                           type: string
                       type: object
                     type: array
@@ -2115,8 +2178,8 @@ spec:
                     description: The IP address range of the Kubernetes pods in this
                       cluster in CIDR notation (e.g. 10.96.0.0/14). Leave blank to
                       have one automatically chosen or specify a /14 block in 10.0.0.0/8.
-                      This field will only work for routes-based clusters, where ip_allocation_policy
-                      is not defined.
+                      This field will default a new cluster to routes-based, where
+                      ip_allocation_policy is not defined.
                     type: string
                   confidentialNodes:
                     description: Configuration for Confidential Nodes feature. Structure
@@ -2124,7 +2187,8 @@ spec:
                     items:
                       properties:
                         enabled:
-                          description: Enable Confidential Nodes for this cluster.
+                          description: Enable Confidential GKE Nodes for this cluster,
+                            to enforce encryption of data in-use.
                           type: boolean
                       type: object
                     type: array
@@ -2178,6 +2242,8 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  deletionProtection:
+                    type: boolean
                   description:
                     description: Description of the cluster.
                     type: string
@@ -2205,11 +2271,6 @@ spec:
                       Note that when this option is enabled, certain features of Standard
                       GKE are not available. See the official documentation for available
                       features.
-                    type: boolean
-                  enableBinaryAuthorization:
-                    description: (DEPRECATED) Enable Binary Authorization for this
-                      cluster. If enabled, all container images will be validated
-                      by Google Binary Authorization. Deprecated in favor of binary_authorization.
                     type: boolean
                   enableIntranodeVisibility:
                     description: Whether Intra-node visibility is enabled for this
@@ -2278,11 +2339,26 @@ spec:
                     type: number
                   ipAllocationPolicy:
                     description: Configuration of cluster IP allocation for VPC-native
-                      clusters. Adding this block enables IP aliasing, making the
-                      cluster VPC-native instead of routes-based. Structure is documented
-                      below.
+                      clusters. If this block is unset during creation, it will be
+                      set by the GKE backend. Structure is documented below.
                     items:
                       properties:
+                        additionalPodRangesConfig:
+                          description: The configuration for additional pod secondary
+                            ranges at the cluster level. Used for Autopilot clusters
+                            and Standard clusters with which control of the secondary
+                            Pod IP address assignment to node pools isn't needed.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              podRangeNames:
+                                description: The names of the Pod ranges to add to
+                                  the cluster.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
                         clusterIpv4CidrBlock:
                           description: The IP address range for the cluster pod IPs.
                             Set to blank to have a range chosen with the default size.
@@ -2476,11 +2552,26 @@ spec:
                       is documented below.
                     items:
                       properties:
+                        advancedDatapathObservabilityConfig:
+                          description: Configuration for Advanced Datapath Monitoring.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              enableMetrics:
+                                description: Whether or not to enable advanced datapath
+                                  metrics.
+                                type: boolean
+                              relayMode:
+                                description: Mode used to make Relay available.
+                                type: string
+                            type: object
+                          type: array
                         enableComponents:
                           description: 'The GKE components exposing metrics. Supported
-                            values include: SYSTEM_COMPONENTS, APISERVER, CONTROLLER_MANAGER,
-                            and SCHEDULER. In beta provider, WORKLOADS is supported
-                            on top of those 4 values. (WORKLOADS is deprecated and
+                            values include: SYSTEM_COMPONENTS, APISERVER, SCHEDULER,
+                            CONTROLLER_MANAGER, STORAGE, HPA, POD, DAEMONSET, DEPLOYMENT
+                            and STATEFULSET. In beta provider, WORKLOADS is supported
+                            on top of those 10 values. (WORKLOADS is deprecated and
                             removed in GKE 1.24.)'
                           items:
                             type: string
@@ -2523,10 +2614,8 @@ spec:
                   networkingMode:
                     description: Determines whether alias IPs or routes will be used
                       for pod IPs in the cluster. Options are VPC_NATIVE or ROUTES.
-                      VPC_NATIVE enables IP aliasing, and requires the ip_allocation_policy
-                      block to be defined. By default, when this field is unspecified
-                      and no ip_allocation_policy blocks are set, GKE will create
-                      a ROUTES-based cluster.
+                      VPC_NATIVE enables IP aliasing. Newly created clusters will
+                      default to VPC_NATIVE.
                     type: string
                   nodeConfig:
                     description: Parameters used in creating the default node pool.
@@ -2554,6 +2643,16 @@ spec:
                             For more information about protecting resources with Cloud
                             KMS Keys please see: https://cloud.google.com/compute/docs/disks/customer-managed-encryption'
                           type: string
+                        confidentialNodes:
+                          description: Configuration for Confidential Nodes feature.
+                            Structure is documented below documented below.
+                          items:
+                            properties:
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
+                            type: object
+                          type: array
                         diskSizeGb:
                           description: Size of the disk attached to each node, specified
                             in GB. The smallest allowed disk size is 10GB. Defaults
@@ -2574,6 +2673,18 @@ spec:
                                 description: The amount of local SSD disks that will
                                   be attached to each cluster node. Defaults to 0.
                                 type: number
+                            type: object
+                          type: array
+                        fastSocket:
+                          description: Parameters for the NCCL Fast Socket feature.
+                            If unspecified, NCCL Fast Socket will not be enabled on
+                            the node pool. Node Pool must enable gvnic. GKE version
+                            1.25.2-gke.1700 or later. Structure is documented below.
+                          items:
+                            properties:
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
                             type: object
                           type: array
                         gcfsConfig:
@@ -2868,13 +2979,7 @@ spec:
                           type: array
                         taint:
                           description: A list of Kubernetes taints to apply to nodes.
-                            GKE's API can only set this field on cluster creation.
-                            However, GKE will add taints to your nodes if you enable
-                            certain features such as GPUs. Taint values can be updated
-                            safely in Kubernetes (eg. through kubectl), and it's recommended
-                            that you do not use this field to manage taints. If you
-                            do, lifecycle.ignore_changes is recommended. Structure
-                            is documented below.
+                            Structure is documented below.
                           items:
                             properties:
                               effect:
@@ -2910,6 +3015,27 @@ spec:
                       zone.
                     items:
                       type: string
+                    type: array
+                  nodePoolAutoConfig:
+                    description: Node pool configs that apply to auto-provisioned
+                      node pools in autopilot clusters and node auto-provisioning-enabled
+                      clusters. Structure is documented below.
+                    items:
+                      properties:
+                        networkTags:
+                          description: The network tag config for the cluster's automatically
+                            provisioned node pools.
+                          items:
+                            properties:
+                              tags:
+                                description: List of network tags applied to auto-provisioned
+                                  node pools.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                      type: object
                     type: array
                   nodePoolDefaults:
                     description: Default NodePool settings for the entire cluster.
@@ -3355,8 +3481,7 @@ spec:
                         gcePersistentDiskCsiDriverConfig:
                           description: . Whether this cluster should enable the Google
                             Compute Engine Persistent Disk Container Storage Interface
-                            (CSI) Driver. Defaults to disabled; set enabled = true
-                            to enabled.
+                            (CSI) Driver. Set enabled = true to enable.
                           items:
                             properties:
                               enabled:
@@ -3378,7 +3503,11 @@ spec:
                         gcsFuseCsiDriverConfig:
                           description: The status of the GCSFuse CSI driver addon,
                             which allows the usage of a gcs bucket as volumes. It
-                            is disabled by default; set enabled = true to enable.
+                            is disabled by default for Standard clusters; set enabled
+                            = true to enable. It is enabled by default for Autopilot
+                            clusters with version 1.24 or later; set enabled = true
+                            to enable it explicitly. See Enable the Cloud Storage
+                            FUSE CSI driver for more information.
                           items:
                             properties:
                               enabled:
@@ -3476,9 +3605,6 @@ spec:
                         evaluationMode:
                           description: Mode of operation for Binary Authorization
                             policy evaluation. Valid values are DISABLED and PROJECT_SINGLETON_POLICY_ENFORCE.
-                            PROJECT_SINGLETON_POLICY_ENFORCE is functionally equivalent
-                            to the deprecated enable_binary_authorization parameter
-                            being set to true.
                           type: string
                       type: object
                     type: array
@@ -3699,8 +3825,8 @@ spec:
                     description: The IP address range of the Kubernetes pods in this
                       cluster in CIDR notation (e.g. 10.96.0.0/14). Leave blank to
                       have one automatically chosen or specify a /14 block in 10.0.0.0/8.
-                      This field will only work for routes-based clusters, where ip_allocation_policy
-                      is not defined.
+                      This field will default a new cluster to routes-based, where
+                      ip_allocation_policy is not defined.
                     type: string
                   confidentialNodes:
                     description: Configuration for Confidential Nodes feature. Structure
@@ -3708,7 +3834,8 @@ spec:
                     items:
                       properties:
                         enabled:
-                          description: Enable Confidential Nodes for this cluster.
+                          description: Enable Confidential GKE Nodes for this cluster,
+                            to enforce encryption of data in-use.
                           type: boolean
                       type: object
                     type: array
@@ -3762,6 +3889,8 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  deletionProtection:
+                    type: boolean
                   description:
                     description: Description of the cluster.
                     type: string
@@ -3789,11 +3918,6 @@ spec:
                       Note that when this option is enabled, certain features of Standard
                       GKE are not available. See the official documentation for available
                       features.
-                    type: boolean
-                  enableBinaryAuthorization:
-                    description: (DEPRECATED) Enable Binary Authorization for this
-                      cluster. If enabled, all container images will be validated
-                      by Google Binary Authorization. Deprecated in favor of binary_authorization.
                     type: boolean
                   enableIntranodeVisibility:
                     description: Whether Intra-node visibility is enabled for this
@@ -3868,11 +3992,26 @@ spec:
                     type: number
                   ipAllocationPolicy:
                     description: Configuration of cluster IP allocation for VPC-native
-                      clusters. Adding this block enables IP aliasing, making the
-                      cluster VPC-native instead of routes-based. Structure is documented
-                      below.
+                      clusters. If this block is unset during creation, it will be
+                      set by the GKE backend. Structure is documented below.
                     items:
                       properties:
+                        additionalPodRangesConfig:
+                          description: The configuration for additional pod secondary
+                            ranges at the cluster level. Used for Autopilot clusters
+                            and Standard clusters with which control of the secondary
+                            Pod IP address assignment to node pools isn't needed.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              podRangeNames:
+                                description: The names of the Pod ranges to add to
+                                  the cluster.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
                         clusterIpv4CidrBlock:
                           description: The IP address range for the cluster pod IPs.
                             Set to blank to have a range chosen with the default size.
@@ -4096,11 +4235,26 @@ spec:
                       is documented below.
                     items:
                       properties:
+                        advancedDatapathObservabilityConfig:
+                          description: Configuration for Advanced Datapath Monitoring.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              enableMetrics:
+                                description: Whether or not to enable advanced datapath
+                                  metrics.
+                                type: boolean
+                              relayMode:
+                                description: Mode used to make Relay available.
+                                type: string
+                            type: object
+                          type: array
                         enableComponents:
                           description: 'The GKE components exposing metrics. Supported
-                            values include: SYSTEM_COMPONENTS, APISERVER, CONTROLLER_MANAGER,
-                            and SCHEDULER. In beta provider, WORKLOADS is supported
-                            on top of those 4 values. (WORKLOADS is deprecated and
+                            values include: SYSTEM_COMPONENTS, APISERVER, SCHEDULER,
+                            CONTROLLER_MANAGER, STORAGE, HPA, POD, DAEMONSET, DEPLOYMENT
+                            and STATEFULSET. In beta provider, WORKLOADS is supported
+                            on top of those 10 values. (WORKLOADS is deprecated and
                             removed in GKE 1.24.)'
                           items:
                             type: string
@@ -4148,10 +4302,8 @@ spec:
                   networkingMode:
                     description: Determines whether alias IPs or routes will be used
                       for pod IPs in the cluster. Options are VPC_NATIVE or ROUTES.
-                      VPC_NATIVE enables IP aliasing, and requires the ip_allocation_policy
-                      block to be defined. By default, when this field is unspecified
-                      and no ip_allocation_policy blocks are set, GKE will create
-                      a ROUTES-based cluster.
+                      VPC_NATIVE enables IP aliasing. Newly created clusters will
+                      default to VPC_NATIVE.
                     type: string
                   nodeConfig:
                     description: Parameters used in creating the default node pool.
@@ -4179,6 +4331,16 @@ spec:
                             For more information about protecting resources with Cloud
                             KMS Keys please see: https://cloud.google.com/compute/docs/disks/customer-managed-encryption'
                           type: string
+                        confidentialNodes:
+                          description: Configuration for Confidential Nodes feature.
+                            Structure is documented below documented below.
+                          items:
+                            properties:
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
+                            type: object
+                          type: array
                         diskSizeGb:
                           description: Size of the disk attached to each node, specified
                             in GB. The smallest allowed disk size is 10GB. Defaults
@@ -4189,6 +4351,23 @@ spec:
                             'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified,
                             the default disk type is 'pd-standard'
                           type: string
+                        effectiveTaints:
+                          description: List of kubernetes taints applied to each node.
+                            Structure is documented above.
+                          items:
+                            properties:
+                              effect:
+                                description: Effect for taint. Accepted values are
+                                  NO_SCHEDULE, PREFER_NO_SCHEDULE, and NO_EXECUTE.
+                                type: string
+                              key:
+                                description: Key for taint.
+                                type: string
+                              value:
+                                description: Value for taint.
+                                type: string
+                            type: object
+                          type: array
                         ephemeralStorageLocalSsdConfig:
                           description: Parameters for the ephemeral storage filesystem.
                             If unspecified, ephemeral storage is backed by the boot
@@ -4199,6 +4378,18 @@ spec:
                                 description: The amount of local SSD disks that will
                                   be attached to each cluster node. Defaults to 0.
                                 type: number
+                            type: object
+                          type: array
+                        fastSocket:
+                          description: Parameters for the NCCL Fast Socket feature.
+                            If unspecified, NCCL Fast Socket will not be enabled on
+                            the node pool. Node Pool must enable gvnic. GKE version
+                            1.25.2-gke.1700 or later. Structure is documented below.
+                          items:
+                            properties:
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
                             type: object
                           type: array
                         gcfsConfig:
@@ -4498,13 +4689,7 @@ spec:
                           type: array
                         taint:
                           description: A list of Kubernetes taints to apply to nodes.
-                            GKE's API can only set this field on cluster creation.
-                            However, GKE will add taints to your nodes if you enable
-                            certain features such as GPUs. Taint values can be updated
-                            safely in Kubernetes (eg. through kubectl), and it's recommended
-                            that you do not use this field to manage taints. If you
-                            do, lifecycle.ignore_changes is recommended. Structure
-                            is documented below.
+                            Structure is documented below.
                           items:
                             properties:
                               effect:
@@ -4666,6 +4851,17 @@ spec:
                                   For more information about protecting resources
                                   with Cloud KMS Keys please see: https://cloud.google.com/compute/docs/disks/customer-managed-encryption'
                                 type: string
+                              confidentialNodes:
+                                description: Configuration for Confidential Nodes
+                                  feature. Structure is documented below documented
+                                  below.
+                                items:
+                                  properties:
+                                    enabled:
+                                      description: Enables vertical pod autoscaling
+                                      type: boolean
+                                  type: object
+                                type: array
                               diskSizeGb:
                                 description: Size of the disk attached to each node,
                                   specified in GB. The smallest allowed disk size
@@ -4676,6 +4872,23 @@ spec:
                                   (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd').
                                   If unspecified, the default disk type is 'pd-standard'
                                 type: string
+                              effectiveTaints:
+                                description: List of kubernetes taints applied to
+                                  each node. Structure is documented above.
+                                items:
+                                  properties:
+                                    effect:
+                                      description: Effect for taint. Accepted values
+                                        are NO_SCHEDULE, PREFER_NO_SCHEDULE, and NO_EXECUTE.
+                                      type: string
+                                    key:
+                                      description: Key for taint.
+                                      type: string
+                                    value:
+                                      description: Value for taint.
+                                      type: string
+                                  type: object
+                                type: array
                               ephemeralStorageLocalSsdConfig:
                                 description: Parameters for the ephemeral storage
                                   filesystem. If unspecified, ephemeral storage is
@@ -4688,6 +4901,19 @@ spec:
                                         will be attached to each cluster node. Defaults
                                         to 0.
                                       type: number
+                                  type: object
+                                type: array
+                              fastSocket:
+                                description: Parameters for the NCCL Fast Socket feature.
+                                  If unspecified, NCCL Fast Socket will not be enabled
+                                  on the node pool. Node Pool must enable gvnic. GKE
+                                  version 1.25.2-gke.1700 or later. Structure is documented
+                                  below.
+                                items:
+                                  properties:
+                                    enabled:
+                                      description: Enables vertical pod autoscaling
+                                      type: boolean
                                   type: object
                                 type: array
                               gcfsConfig:
@@ -4988,14 +5214,7 @@ spec:
                                 type: array
                               taint:
                                 description: A list of Kubernetes taints to apply
-                                  to nodes. GKE's API can only set this field on cluster
-                                  creation. However, GKE will add taints to your nodes
-                                  if you enable certain features such as GPUs. Taint
-                                  values can be updated safely in Kubernetes (eg.
-                                  through kubectl), and it's recommended that you
-                                  do not use this field to manage taints. If you do,
-                                  lifecycle.ignore_changes is recommended. Structure
-                                  is documented below.
+                                  to nodes. Structure is documented below.
                                 items:
                                   properties:
                                     effect:
@@ -5041,6 +5260,8 @@ spec:
                               policyName:
                                 description: The name of the cluster, unique within
                                   the project and location.
+                                type: string
+                              tpuTopology:
                                 type: string
                               type:
                                 description: The accelerator type resource to expose
@@ -5115,6 +5336,27 @@ spec:
                           type: array
                         version:
                           type: string
+                      type: object
+                    type: array
+                  nodePoolAutoConfig:
+                    description: Node pool configs that apply to auto-provisioned
+                      node pools in autopilot clusters and node auto-provisioning-enabled
+                      clusters. Structure is documented below.
+                    items:
+                      properties:
+                        networkTags:
+                          description: The network tag config for the cluster's automatically
+                            provisioned node pools.
+                          items:
+                            properties:
+                              tags:
+                                description: List of network tags applied to auto-provisioned
+                                  node pools.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
                       type: object
                     type: array
                   nodePoolDefaults:

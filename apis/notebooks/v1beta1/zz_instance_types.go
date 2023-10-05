@@ -255,6 +255,9 @@ type InstanceObservation struct {
 	// Possible values are: DISK_ENCRYPTION_UNSPECIFIED, GMEK, CMEK.
 	DiskEncryption *string `json:"diskEncryption,omitempty" tf:"disk_encryption,omitempty"`
 
+	// for all of the labels present on the resource.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/instances/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -347,6 +350,10 @@ type InstanceObservation struct {
 
 	// The Compute Engine tags to add to instance.
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// Instance update time.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`

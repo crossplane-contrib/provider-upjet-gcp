@@ -146,6 +146,9 @@ type BucketObservation struct {
 	// Whether or not to automatically apply an eventBasedHold to new objects added to the bucket.
 	DefaultEventBasedHold *bool `json:"defaultEventBasedHold,omitempty" tf:"default_event_based_hold,omitempty"`
 
+	// A map of key/value label pairs to assign to the bucket.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// The bucket's encryption configuration. Structure is documented below.
 	Encryption []EncryptionObservation `json:"encryption,omitempty" tf:"encryption,omitempty"`
 
@@ -185,6 +188,9 @@ type BucketObservation struct {
 
 	// The Storage Class of the new bucket. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE.
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
+
+	// A map of key/value label pairs to assign to the bucket.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// The base URL of the bucket, in the format gs://<bucket-name>.
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`

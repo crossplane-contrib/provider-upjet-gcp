@@ -429,6 +429,11 @@ spec:
                       If not specified at creation time, the default duration is 24
                       hours.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
                   id:
                     description: an identifier for the resource with format {{key_ring}}/cryptoKeys/{{name}}
                     type: string
@@ -461,6 +466,12 @@ spec:
                       without any CryptoKeyVersions. You must use the google_kms_key_ring_import_job
                       resource to import the CryptoKeyVersion.
                     type: boolean
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                   versionTemplate:
                     description: A template describing settings for new crypto key
                       versions. Structure is documented below.

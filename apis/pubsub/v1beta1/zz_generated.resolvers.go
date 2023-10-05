@@ -21,7 +21,8 @@ import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
-	v1beta1 "github.com/upbound/provider-gcp/apis/kms/v1beta1"
+	v1beta11 "github.com/upbound/provider-gcp/apis/kms/v1beta1"
+	v1beta1 "github.com/upbound/provider-gcp/apis/storage/v1beta1"
 	resource "github.com/upbound/upjet/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -88,6 +89,24 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 	var rsp reference.ResolutionResponse
 	var err error
 
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.CloudStorageConfig); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CloudStorageConfig[i3].Bucket),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.ForProvider.CloudStorageConfig[i3].BucketRef,
+			Selector:     mg.Spec.ForProvider.CloudStorageConfig[i3].BucketSelector,
+			To: reference.To{
+				List:    &v1beta1.BucketList{},
+				Managed: &v1beta1.Bucket{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.CloudStorageConfig[i3].Bucket")
+		}
+		mg.Spec.ForProvider.CloudStorageConfig[i3].Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.CloudStorageConfig[i3].BucketRef = rsp.ResolvedReference
+
+	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.DeadLetterPolicy); i3++ {
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DeadLetterPolicy[i3].DeadLetterTopic),
@@ -164,8 +183,8 @@ func (mg *Topic) ResolveReferences(ctx context.Context, c client.Reader) error {
 		Reference:    mg.Spec.ForProvider.KMSKeyNameRef,
 		Selector:     mg.Spec.ForProvider.KMSKeyNameSelector,
 		To: reference.To{
-			List:    &v1beta1.CryptoKeyList{},
-			Managed: &v1beta1.CryptoKey{},
+			List:    &v1beta11.CryptoKeyList{},
+			Managed: &v1beta11.CryptoKey{},
 		},
 	})
 	if err != nil {

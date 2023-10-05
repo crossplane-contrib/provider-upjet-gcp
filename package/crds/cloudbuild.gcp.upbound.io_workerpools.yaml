@@ -455,6 +455,10 @@ spec:
                   displayName:
                     description: User-defined name of the WorkerPool.
                     type: string
+                  effectiveAnnotations:
+                    additionalProperties:
+                      type: string
+                    type: object
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/workerPools/{{name}}
                     type: string

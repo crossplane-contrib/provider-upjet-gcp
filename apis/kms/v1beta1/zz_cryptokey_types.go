@@ -64,6 +64,9 @@ type CryptoKeyObservation struct {
 	// If not specified at creation time, the default duration is 24 hours.
 	DestroyScheduledDuration *string `json:"destroyScheduledDuration,omitempty" tf:"destroy_scheduled_duration,omitempty"`
 
+	// for all of the labels present on the resource.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format {{key_ring}}/cryptoKeys/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -92,6 +95,10 @@ type CryptoKeyObservation struct {
 	// If set to true, the request will create a CryptoKey without any CryptoKeyVersions.
 	// You must use the google_kms_key_ring_import_job resource to import the CryptoKeyVersion.
 	SkipInitialVersionCreation *bool `json:"skipInitialVersionCreation,omitempty" tf:"skip_initial_version_creation,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// A template describing settings for new crypto key versions.
 	// Structure is documented below.

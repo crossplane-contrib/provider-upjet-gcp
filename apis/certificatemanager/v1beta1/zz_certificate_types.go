@@ -58,6 +58,8 @@ type CertificateInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Set of label tags associated with the Certificate resource.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Configuration and state of a Managed Certificate.
@@ -75,7 +77,8 @@ type CertificateInitParameters struct {
 	// If unsure, choose this option.
 	// EDGE_CACHE: Certificates with scope EDGE_CACHE are special-purposed certificates,
 	// served from non-core Google data centers.
-	// Currently allowed only for managed certificates.
+	// ALL_REGIONS: Certificates with ALL_REGIONS scope are served from all GCP regions (You can only use ALL_REGIONS with global certs).
+	// see https://cloud.google.com/compute/docs/regions-zones
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 
 	// Certificate data for a SelfManaged Certificate.
@@ -90,10 +93,14 @@ type CertificateObservation struct {
 	// A human-readable description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/certificates/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Set of label tags associated with the Certificate resource.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The Certificate Manager location. If not specified, "global" is used.
@@ -114,7 +121,8 @@ type CertificateObservation struct {
 	// If unsure, choose this option.
 	// EDGE_CACHE: Certificates with scope EDGE_CACHE are special-purposed certificates,
 	// served from non-core Google data centers.
-	// Currently allowed only for managed certificates.
+	// ALL_REGIONS: Certificates with ALL_REGIONS scope are served from all GCP regions (You can only use ALL_REGIONS with global certs).
+	// see https://cloud.google.com/compute/docs/regions-zones
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 
 	// Certificate data for a SelfManaged Certificate.
@@ -122,6 +130,10 @@ type CertificateObservation struct {
 	// certificates before they expire remains the user's responsibility.
 	// Structure is documented below.
 	SelfManaged []SelfManagedObservation `json:"selfManaged,omitempty" tf:"self_managed,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type CertificateParameters struct {
@@ -131,6 +143,8 @@ type CertificateParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Set of label tags associated with the Certificate resource.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -155,7 +169,8 @@ type CertificateParameters struct {
 	// If unsure, choose this option.
 	// EDGE_CACHE: Certificates with scope EDGE_CACHE are special-purposed certificates,
 	// served from non-core Google data centers.
-	// Currently allowed only for managed certificates.
+	// ALL_REGIONS: Certificates with ALL_REGIONS scope are served from all GCP regions (You can only use ALL_REGIONS with global certs).
+	// see https://cloud.google.com/compute/docs/regions-zones
 	// +kubebuilder:validation:Optional
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 
@@ -265,7 +280,7 @@ type SelfManagedObservation struct {
 
 type SelfManagedParameters struct {
 
-	// Deprecated The certificate chain in PEM-encoded form.
+	// The certificate chain in PEM-encoded form.
 	// Leaf certificate comes first, followed by intermediate ones if any.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
@@ -281,7 +296,7 @@ type SelfManagedParameters struct {
 	// +kubebuilder:validation:Optional
 	PemPrivateKeySecretRef *v1.SecretKeySelector `json:"pemPrivateKeySecretRef,omitempty" tf:"-"`
 
-	// Deprecated The private key of the leaf certificate in PEM-encoded form.
+	// The private key of the leaf certificate in PEM-encoded form.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
 	PrivateKeyPemSecretRef *v1.SecretKeySelector `json:"privateKeyPemSecretRef,omitempty" tf:"-"`

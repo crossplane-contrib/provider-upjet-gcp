@@ -119,6 +119,25 @@ func (mg *Flow) ResolveReferences(ctx context.Context, c client.Reader) error {
 	mg.Spec.ForProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ParentRef = rsp.ResolvedReference
 
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.TransitionRoutes); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TransitionRoutes[i3].TargetFlow),
+			Extract:      resource.ExtractParamPath("start_flow", true),
+			Reference:    mg.Spec.ForProvider.TransitionRoutes[i3].TargetFlowRef,
+			Selector:     mg.Spec.ForProvider.TransitionRoutes[i3].TargetFlowSelector,
+			To: reference.To{
+				List:    &AgentList{},
+				Managed: &Agent{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.TransitionRoutes[i3].TargetFlow")
+		}
+		mg.Spec.ForProvider.TransitionRoutes[i3].TargetFlow = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.TransitionRoutes[i3].TargetFlowRef = rsp.ResolvedReference
+
+	}
+
 	return nil
 }
 
@@ -155,6 +174,80 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var rsp reference.ResolutionResponse
 	var err error
 
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Form); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Form[i3].Parameters); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior); i5++ {
+				for i6 := 0; i6 < len(mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior[i5].RepromptEventHandlers); i6++ {
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior[i5].RepromptEventHandlers[i6].TargetFlow),
+						Extract:      resource.ExtractParamPath("start_flow", true),
+						Reference:    mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior[i5].RepromptEventHandlers[i6].TargetFlowRef,
+						Selector:     mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior[i5].RepromptEventHandlers[i6].TargetFlowSelector,
+						To: reference.To{
+							List:    &AgentList{},
+							Managed: &Agent{},
+						},
+					})
+					if err != nil {
+						return errors.Wrap(err, "mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior[i5].RepromptEventHandlers[i6].TargetFlow")
+					}
+					mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior[i5].RepromptEventHandlers[i6].TargetFlow = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior[i5].RepromptEventHandlers[i6].TargetFlowRef = rsp.ResolvedReference
+
+				}
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Form); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Form[i3].Parameters); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior); i5++ {
+				for i6 := 0; i6 < len(mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior[i5].RepromptEventHandlers); i6++ {
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior[i5].RepromptEventHandlers[i6].TargetPage),
+						Extract:      resource.ExtractResourceID(),
+						Reference:    mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior[i5].RepromptEventHandlers[i6].TargetPageRef,
+						Selector:     mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior[i5].RepromptEventHandlers[i6].TargetPageSelector,
+						To: reference.To{
+							List:    &PageList{},
+							Managed: &Page{},
+						},
+					})
+					if err != nil {
+						return errors.Wrap(err, "mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior[i5].RepromptEventHandlers[i6].TargetPage")
+					}
+					mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior[i5].RepromptEventHandlers[i6].TargetPage = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior[i5].RepromptEventHandlers[i6].TargetPageRef = rsp.ResolvedReference
+
+				}
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Form); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Form[i3].Parameters); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior); i5++ {
+				for i6 := 0; i6 < len(mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior[i5].RepromptEventHandlers); i6++ {
+					for i7 := 0; i7 < len(mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior[i5].RepromptEventHandlers[i6].TriggerFulfillment); i7++ {
+						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+							CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior[i5].RepromptEventHandlers[i6].TriggerFulfillment[i7].Webhook),
+							Extract:      resource.ExtractResourceID(),
+							Reference:    mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior[i5].RepromptEventHandlers[i6].TriggerFulfillment[i7].WebhookRef,
+							Selector:     mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior[i5].RepromptEventHandlers[i6].TriggerFulfillment[i7].WebhookSelector,
+							To: reference.To{
+								List:    &WebhookList{},
+								Managed: &Webhook{},
+							},
+						})
+						if err != nil {
+							return errors.Wrap(err, "mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior[i5].RepromptEventHandlers[i6].TriggerFulfillment[i7].Webhook")
+						}
+						mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior[i5].RepromptEventHandlers[i6].TriggerFulfillment[i7].Webhook = reference.ToPtrValue(rsp.ResolvedValue)
+						mg.Spec.ForProvider.Form[i3].Parameters[i4].FillBehavior[i5].RepromptEventHandlers[i6].TriggerFulfillment[i7].WebhookRef = rsp.ResolvedReference
+
+					}
+				}
+			}
+		}
+	}
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Parent),
 		Extract:      resource.ExtractParamPath("start_flow", true),

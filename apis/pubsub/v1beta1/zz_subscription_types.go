@@ -25,6 +25,31 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AvroConfigInitParameters struct {
+
+	// When true, writes the Pub/Sub message metadata to
+	// x-goog-pubsub-<KEY>:<VAL> headers of the HTTP request. Writes the
+	// Pub/Sub message attributes to <KEY>:<VAL> headers of the HTTP request.
+	WriteMetadata *bool `json:"writeMetadata,omitempty" tf:"write_metadata,omitempty"`
+}
+
+type AvroConfigObservation struct {
+
+	// When true, writes the Pub/Sub message metadata to
+	// x-goog-pubsub-<KEY>:<VAL> headers of the HTTP request. Writes the
+	// Pub/Sub message attributes to <KEY>:<VAL> headers of the HTTP request.
+	WriteMetadata *bool `json:"writeMetadata,omitempty" tf:"write_metadata,omitempty"`
+}
+
+type AvroConfigParameters struct {
+
+	// When true, writes the Pub/Sub message metadata to
+	// x-goog-pubsub-<KEY>:<VAL> headers of the HTTP request. Writes the
+	// Pub/Sub message attributes to <KEY>:<VAL> headers of the HTTP request.
+	// +kubebuilder:validation:Optional
+	WriteMetadata *bool `json:"writeMetadata,omitempty" tf:"write_metadata,omitempty"`
+}
+
 type BigqueryConfigInitParameters struct {
 
 	// When true and useTopicSchema is true, any fields that are a part of the topic schema that are not part of the BigQuery table schema are dropped when writing to BigQuery.
@@ -78,6 +103,97 @@ type BigqueryConfigParameters struct {
 	// The subscription name, messageId, and publishTime fields are put in their own columns while all other message properties (other than data) are written to a JSON object in the attributes column.
 	// +kubebuilder:validation:Optional
 	WriteMetadata *bool `json:"writeMetadata,omitempty" tf:"write_metadata,omitempty"`
+}
+
+type CloudStorageConfigInitParameters struct {
+
+	// If set, message data will be written to Cloud Storage in Avro format.
+	// Structure is documented below.
+	AvroConfig []AvroConfigInitParameters `json:"avroConfig,omitempty" tf:"avro_config,omitempty"`
+
+	// User-provided prefix for Cloud Storage filename.
+	FilenamePrefix *string `json:"filenamePrefix,omitempty" tf:"filename_prefix,omitempty"`
+
+	// User-provided suffix for Cloud Storage filename. Must not end in "/".
+	FilenameSuffix *string `json:"filenameSuffix,omitempty" tf:"filename_suffix,omitempty"`
+
+	// The maximum bytes that can be written to a Cloud Storage file before a new file is created. Min 1 KB, max 10 GiB.
+	// The maxBytes limit may be exceeded in cases where messages are larger than the limit.
+	MaxBytes *float64 `json:"maxBytes,omitempty" tf:"max_bytes,omitempty"`
+
+	// The maximum duration that can elapse before a new Cloud Storage file is created. Min 1 minute, max 10 minutes, default 5 minutes.
+	// May not exceed the subscription's acknowledgement deadline.
+	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+	MaxDuration *string `json:"maxDuration,omitempty" tf:"max_duration,omitempty"`
+}
+
+type CloudStorageConfigObservation struct {
+
+	// If set, message data will be written to Cloud Storage in Avro format.
+	// Structure is documented below.
+	AvroConfig []AvroConfigObservation `json:"avroConfig,omitempty" tf:"avro_config,omitempty"`
+
+	// User-provided name for the Cloud Storage bucket. The bucket must be created by the user. The bucket name must be without any prefix like "gs://".
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// User-provided prefix for Cloud Storage filename.
+	FilenamePrefix *string `json:"filenamePrefix,omitempty" tf:"filename_prefix,omitempty"`
+
+	// User-provided suffix for Cloud Storage filename. Must not end in "/".
+	FilenameSuffix *string `json:"filenameSuffix,omitempty" tf:"filename_suffix,omitempty"`
+
+	// The maximum bytes that can be written to a Cloud Storage file before a new file is created. Min 1 KB, max 10 GiB.
+	// The maxBytes limit may be exceeded in cases where messages are larger than the limit.
+	MaxBytes *float64 `json:"maxBytes,omitempty" tf:"max_bytes,omitempty"`
+
+	// The maximum duration that can elapse before a new Cloud Storage file is created. Min 1 minute, max 10 minutes, default 5 minutes.
+	// May not exceed the subscription's acknowledgement deadline.
+	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+	MaxDuration *string `json:"maxDuration,omitempty" tf:"max_duration,omitempty"`
+
+	// (Output)
+	// An output-only field that indicates whether or not the subscription can receive messages.
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
+}
+
+type CloudStorageConfigParameters struct {
+
+	// If set, message data will be written to Cloud Storage in Avro format.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AvroConfig []AvroConfigParameters `json:"avroConfig,omitempty" tf:"avro_config,omitempty"`
+
+	// User-provided name for the Cloud Storage bucket. The bucket must be created by the user. The bucket name must be without any prefix like "gs://".
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta1.Bucket
+	// +kubebuilder:validation:Optional
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// Reference to a Bucket in storage to populate bucket.
+	// +kubebuilder:validation:Optional
+	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in storage to populate bucket.
+	// +kubebuilder:validation:Optional
+	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+
+	// User-provided prefix for Cloud Storage filename.
+	// +kubebuilder:validation:Optional
+	FilenamePrefix *string `json:"filenamePrefix,omitempty" tf:"filename_prefix,omitempty"`
+
+	// User-provided suffix for Cloud Storage filename. Must not end in "/".
+	// +kubebuilder:validation:Optional
+	FilenameSuffix *string `json:"filenameSuffix,omitempty" tf:"filename_suffix,omitempty"`
+
+	// The maximum bytes that can be written to a Cloud Storage file before a new file is created. Min 1 KB, max 10 GiB.
+	// The maxBytes limit may be exceeded in cases where messages are larger than the limit.
+	// +kubebuilder:validation:Optional
+	MaxBytes *float64 `json:"maxBytes,omitempty" tf:"max_bytes,omitempty"`
+
+	// The maximum duration that can elapse before a new Cloud Storage file is created. Min 1 minute, max 10 minutes, default 5 minutes.
+	// May not exceed the subscription's acknowledgement deadline.
+	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+	// +kubebuilder:validation:Optional
+	MaxDuration *string `json:"maxDuration,omitempty" tf:"max_duration,omitempty"`
 }
 
 type DeadLetterPolicyInitParameters struct {
@@ -429,10 +545,16 @@ type SubscriptionInitParameters struct {
 	AckDeadlineSeconds *float64 `json:"ackDeadlineSeconds,omitempty" tf:"ack_deadline_seconds,omitempty"`
 
 	// If delivery to BigQuery is used with this subscription, this field is used to configure it.
-	// Either pushConfig or bigQueryConfig can be set, but not both.
-	// If both are empty, then the subscriber will pull and ack messages using API methods.
+	// Either pushConfig, bigQueryConfig or cloudStorageConfig can be set, but not combined.
+	// If all three are empty, then the subscriber will pull and ack messages using API methods.
 	// Structure is documented below.
 	BigqueryConfig []BigqueryConfigInitParameters `json:"bigqueryConfig,omitempty" tf:"bigquery_config,omitempty"`
+
+	// If delivery to Cloud Storage is used with this subscription, this field is used to configure it.
+	// Either pushConfig, bigQueryConfig or cloudStorageConfig can be set, but not combined.
+	// If all three are empty, then the subscriber will pull and ack messages using API methods.
+	// Structure is documented below.
+	CloudStorageConfig []CloudStorageConfigInitParameters `json:"cloudStorageConfig,omitempty" tf:"cloud_storage_config,omitempty"`
 
 	// A policy that specifies the conditions for dead lettering messages in
 	// this subscription. If dead_letter_policy is not set, dead lettering
@@ -525,10 +647,16 @@ type SubscriptionObservation struct {
 	AckDeadlineSeconds *float64 `json:"ackDeadlineSeconds,omitempty" tf:"ack_deadline_seconds,omitempty"`
 
 	// If delivery to BigQuery is used with this subscription, this field is used to configure it.
-	// Either pushConfig or bigQueryConfig can be set, but not both.
-	// If both are empty, then the subscriber will pull and ack messages using API methods.
+	// Either pushConfig, bigQueryConfig or cloudStorageConfig can be set, but not combined.
+	// If all three are empty, then the subscriber will pull and ack messages using API methods.
 	// Structure is documented below.
 	BigqueryConfig []BigqueryConfigObservation `json:"bigqueryConfig,omitempty" tf:"bigquery_config,omitempty"`
+
+	// If delivery to Cloud Storage is used with this subscription, this field is used to configure it.
+	// Either pushConfig, bigQueryConfig or cloudStorageConfig can be set, but not combined.
+	// If all three are empty, then the subscriber will pull and ack messages using API methods.
+	// Structure is documented below.
+	CloudStorageConfig []CloudStorageConfigObservation `json:"cloudStorageConfig,omitempty" tf:"cloud_storage_config,omitempty"`
 
 	// A policy that specifies the conditions for dead lettering messages in
 	// this subscription. If dead_letter_policy is not set, dead lettering
@@ -539,6 +667,9 @@ type SubscriptionObservation struct {
 	// permission to Acknowledge() messages on this subscription.
 	// Structure is documented below.
 	DeadLetterPolicy []DeadLetterPolicyObservation `json:"deadLetterPolicy,omitempty" tf:"dead_letter_policy,omitempty"`
+
+	// for all of the labels present on the resource.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
 	// If true, Pub/Sub provides the following guarantees for the delivery
 	// of a message with a given value of messageId on this Subscriptions':
@@ -603,6 +734,10 @@ type SubscriptionObservation struct {
 	// Structure is documented below.
 	RetryPolicy []RetryPolicyObservation `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
 
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
 	// A reference to a Topic resource.
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 }
@@ -628,11 +763,18 @@ type SubscriptionParameters struct {
 	AckDeadlineSeconds *float64 `json:"ackDeadlineSeconds,omitempty" tf:"ack_deadline_seconds,omitempty"`
 
 	// If delivery to BigQuery is used with this subscription, this field is used to configure it.
-	// Either pushConfig or bigQueryConfig can be set, but not both.
-	// If both are empty, then the subscriber will pull and ack messages using API methods.
+	// Either pushConfig, bigQueryConfig or cloudStorageConfig can be set, but not combined.
+	// If all three are empty, then the subscriber will pull and ack messages using API methods.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	BigqueryConfig []BigqueryConfigParameters `json:"bigqueryConfig,omitempty" tf:"bigquery_config,omitempty"`
+
+	// If delivery to Cloud Storage is used with this subscription, this field is used to configure it.
+	// Either pushConfig, bigQueryConfig or cloudStorageConfig can be set, but not combined.
+	// If all three are empty, then the subscriber will pull and ack messages using API methods.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CloudStorageConfig []CloudStorageConfigParameters `json:"cloudStorageConfig,omitempty" tf:"cloud_storage_config,omitempty"`
 
 	// A policy that specifies the conditions for dead lettering messages in
 	// this subscription. If dead_letter_policy is not set, dead lettering

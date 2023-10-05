@@ -249,6 +249,13 @@ spec:
                                 type: number
                             type: object
                           type: array
+                        fileSetSpecType:
+                          description: Specifies how source URIs are interpreted for
+                            constructing the file set to load. By default source URIs
+                            are expanded against the underlying storage. Other options
+                            include specifying manifest files. Only applicable to
+                            object storage systems. Docs
+                          type: string
                         googleSheetsOptions:
                           description: Additional options if source_format is set
                             to "GOOGLE_SHEETS". Structure is documented below.
@@ -397,6 +404,10 @@ spec:
                       view. Structure is documented below.
                     items:
                       properties:
+                        allowNonIncrementalDefinition:
+                          description: Allow non incremental materialized view definition.
+                            The default value is false.
+                          type: boolean
                         enableRefresh:
                           description: Specifies whether to use BigQuery's automatic
                             refresh for this materialized view when the base table
@@ -411,6 +422,11 @@ spec:
                           type: number
                       type: object
                     type: array
+                  maxStaleness:
+                    description: ':  The maximum staleness of data that could be returned
+                      when the table (or stale MV) is queried. Staleness encoded as
+                      a string encoding of sql IntervalValue type.'
+                    type: string
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
@@ -445,6 +461,78 @@ spec:
                   schema:
                     description: A JSON schema for the table.
                     type: string
+                  tableConstraints:
+                    description: Defines the primary key and foreign keys. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        foreignKeys:
+                          description: Present only if the table has a foreign key.
+                            The foreign key is not enforced. Structure is documented
+                            below.
+                          items:
+                            properties:
+                              columnReferences:
+                                description: ':  The pair of the foreign key column
+                                  and primary key column. Structure is documented
+                                  below.'
+                                items:
+                                  properties:
+                                    referencedColumn:
+                                      description: ':  The column in the primary key
+                                        that are referenced by the referencingColumn'
+                                      type: string
+                                    referencingColumn:
+                                      description: ':  The column that composes the
+                                        foreign key.'
+                                      type: string
+                                  type: object
+                                type: array
+                              name:
+                                description: ':  Set only if the foreign key constraint
+                                  is named.'
+                                type: string
+                              referencedTable:
+                                description: ':  The table that holds the primary
+                                  key and is referenced by this foreign key. Structure
+                                  is documented below.'
+                                items:
+                                  properties:
+                                    datasetId:
+                                      description: ':  The ID of the dataset containing
+                                        this table.'
+                                      type: string
+                                    projectId:
+                                      description: ':  The ID of the project containing
+                                        this table.'
+                                      type: string
+                                    tableId:
+                                      description: A unique ID for the resource. Changing
+                                        this forces a new resource to be created.
+                                      type: string
+                                  required:
+                                  - datasetId
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        primaryKey:
+                          description: Represents the primary key constraint on a
+                            table's columns. Present only if the table has a primary
+                            key. The primary key is not enforced. Structure is documented
+                            below.
+                          items:
+                            properties:
+                              columns:
+                                description: ':  The columns that are composed of
+                                  the primary key constraint.'
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   timePartitioning:
                     description: If specified, configures time-based partitioning
                       for this table. Structure is documented below.
@@ -607,6 +695,13 @@ spec:
                                 type: number
                             type: object
                           type: array
+                        fileSetSpecType:
+                          description: Specifies how source URIs are interpreted for
+                            constructing the file set to load. By default source URIs
+                            are expanded against the underlying storage. Other options
+                            include specifying manifest files. Only applicable to
+                            object storage systems. Docs
+                          type: string
                         googleSheetsOptions:
                           description: Additional options if source_format is set
                             to "GOOGLE_SHEETS". Structure is documented below.
@@ -755,6 +850,10 @@ spec:
                       view. Structure is documented below.
                     items:
                       properties:
+                        allowNonIncrementalDefinition:
+                          description: Allow non incremental materialized view definition.
+                            The default value is false.
+                          type: boolean
                         enableRefresh:
                           description: Specifies whether to use BigQuery's automatic
                             refresh for this materialized view when the base table
@@ -769,6 +868,11 @@ spec:
                           type: number
                       type: object
                     type: array
+                  maxStaleness:
+                    description: ':  The maximum staleness of data that could be returned
+                      when the table (or stale MV) is queried. Staleness encoded as
+                      a string encoding of sql IntervalValue type.'
+                    type: string
                   rangePartitioning:
                     description: If specified, configures range-based partitioning
                       for this table. Structure is documented below.
@@ -799,6 +903,72 @@ spec:
                   schema:
                     description: A JSON schema for the table.
                     type: string
+                  tableConstraints:
+                    description: Defines the primary key and foreign keys. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        foreignKeys:
+                          description: Present only if the table has a foreign key.
+                            The foreign key is not enforced. Structure is documented
+                            below.
+                          items:
+                            properties:
+                              columnReferences:
+                                description: ':  The pair of the foreign key column
+                                  and primary key column. Structure is documented
+                                  below.'
+                                items:
+                                  properties:
+                                    referencedColumn:
+                                      description: ':  The column in the primary key
+                                        that are referenced by the referencingColumn'
+                                      type: string
+                                    referencingColumn:
+                                      description: ':  The column that composes the
+                                        foreign key.'
+                                      type: string
+                                  type: object
+                                type: array
+                              name:
+                                description: ':  Set only if the foreign key constraint
+                                  is named.'
+                                type: string
+                              referencedTable:
+                                description: ':  The table that holds the primary
+                                  key and is referenced by this foreign key. Structure
+                                  is documented below.'
+                                items:
+                                  properties:
+                                    projectId:
+                                      description: ':  The ID of the project containing
+                                        this table.'
+                                      type: string
+                                    tableId:
+                                      description: A unique ID for the resource. Changing
+                                        this forces a new resource to be created.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        primaryKey:
+                          description: Represents the primary key constraint on a
+                            table's columns. Present only if the table has a primary
+                            key. The primary key is not enforced. Structure is documented
+                            below.
+                          items:
+                            properties:
+                              columns:
+                                description: ':  The columns that are composed of
+                                  the primary key constraint.'
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   timePartitioning:
                     description: If specified, configures time-based partitioning
                       for this table. Structure is documented below.
@@ -1029,6 +1199,10 @@ spec:
                   description:
                     description: The field description.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
                   encryptionConfiguration:
                     description: Specifies how the table should be encrypted. If left
                       blank, the table will be encrypted with a Google-managed key;
@@ -1129,6 +1303,13 @@ spec:
                                 type: number
                             type: object
                           type: array
+                        fileSetSpecType:
+                          description: Specifies how source URIs are interpreted for
+                            constructing the file set to load. By default source URIs
+                            are expanded against the underlying storage. Other options
+                            include specifying manifest files. Only applicable to
+                            object storage systems. Docs
+                          type: string
                         googleSheetsOptions:
                           description: Additional options if source_format is set
                             to "GOOGLE_SHEETS". Structure is documented below.
@@ -1288,6 +1469,10 @@ spec:
                       view. Structure is documented below.
                     items:
                       properties:
+                        allowNonIncrementalDefinition:
+                          description: Allow non incremental materialized view definition.
+                            The default value is false.
+                          type: boolean
                         enableRefresh:
                           description: Specifies whether to use BigQuery's automatic
                             refresh for this materialized view when the base table
@@ -1302,6 +1487,11 @@ spec:
                           type: number
                       type: object
                     type: array
+                  maxStaleness:
+                    description: ':  The maximum staleness of data that could be returned
+                      when the table (or stale MV) is queried. Staleness encoded as
+                      a string encoding of sql IntervalValue type.'
+                    type: string
                   numBytes:
                     description: The size of this table in bytes, excluding any data
                       in the streaming buffer.
@@ -1351,6 +1541,82 @@ spec:
                   selfLink:
                     description: The URI of the created resource.
                     type: string
+                  tableConstraints:
+                    description: Defines the primary key and foreign keys. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        foreignKeys:
+                          description: Present only if the table has a foreign key.
+                            The foreign key is not enforced. Structure is documented
+                            below.
+                          items:
+                            properties:
+                              columnReferences:
+                                description: ':  The pair of the foreign key column
+                                  and primary key column. Structure is documented
+                                  below.'
+                                items:
+                                  properties:
+                                    referencedColumn:
+                                      description: ':  The column in the primary key
+                                        that are referenced by the referencingColumn'
+                                      type: string
+                                    referencingColumn:
+                                      description: ':  The column that composes the
+                                        foreign key.'
+                                      type: string
+                                  type: object
+                                type: array
+                              name:
+                                description: ':  Set only if the foreign key constraint
+                                  is named.'
+                                type: string
+                              referencedTable:
+                                description: ':  The table that holds the primary
+                                  key and is referenced by this foreign key. Structure
+                                  is documented below.'
+                                items:
+                                  properties:
+                                    datasetId:
+                                      description: ':  The ID of the dataset containing
+                                        this table.'
+                                      type: string
+                                    projectId:
+                                      description: ':  The ID of the project containing
+                                        this table.'
+                                      type: string
+                                    tableId:
+                                      description: A unique ID for the resource. Changing
+                                        this forces a new resource to be created.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        primaryKey:
+                          description: Represents the primary key constraint on a
+                            table's columns. Present only if the table has a primary
+                            key. The primary key is not enforced. Structure is documented
+                            below.
+                          items:
+                            properties:
+                              columns:
+                                description: ':  The columns that are composed of
+                                  the primary key constraint.'
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                   timePartitioning:
                     description: If specified, configures time-based partitioning
                       for this table. Structure is documented below.

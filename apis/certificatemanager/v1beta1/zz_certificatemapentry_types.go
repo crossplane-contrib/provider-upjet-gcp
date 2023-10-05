@@ -68,6 +68,9 @@ type CertificateMapEntryObservation struct {
 	// A human-readable description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// for all of the labels present on the resource.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// A Hostname (FQDN, e.g. example.com) or a wildcard hostname expression (*.example.com)
 	// for a set of hostnames with common suffix. Used as Server Name Indication (SNI) for
 	// selecting a proper certificate.
@@ -93,6 +96,10 @@ type CertificateMapEntryObservation struct {
 
 	// A serving state of this Certificate Map Entry.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// Update timestamp of a Certificate Map Entry. Timestamp in RFC3339 UTC "Zulu" format,
 	// with nanosecond resolution and up to nine fractional digits.

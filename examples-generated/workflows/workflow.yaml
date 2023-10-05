@@ -9,6 +9,8 @@ metadata:
 spec:
   forProvider:
     description: Magic
+    labels:
+      env: test
     name: workflow
     region: us-central1
     serviceAccountSelector:

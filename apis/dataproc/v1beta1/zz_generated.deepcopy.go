@@ -1345,6 +1345,22 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.EffectiveLabels != nil {
+		in, out := &in.EffectiveLabels, &out.EffectiveLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.GracefulDecommissionTimeout != nil {
 		in, out := &in.GracefulDecommissionTimeout, &out.GracefulDecommissionTimeout
 		*out = new(string)
@@ -1385,6 +1401,22 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 		in, out := &in.Region, &out.Region
 		*out = new(string)
 		**out = **in
+	}
+	if in.TerraformLabels != nil {
+		in, out := &in.TerraformLabels, &out.TerraformLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.VirtualClusterConfig != nil {
 		in, out := &in.VirtualClusterConfig, &out.VirtualClusterConfig
@@ -5929,6 +5961,22 @@ func (in *JobObservation) DeepCopyInto(out *JobObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.EffectiveLabels != nil {
+		in, out := &in.EffectiveLabels, &out.EffectiveLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ForceDelete != nil {
 		in, out := &in.ForceDelete, &out.ForceDelete
 		*out = new(bool)
@@ -6040,6 +6088,22 @@ func (in *JobObservation) DeepCopyInto(out *JobObservation) {
 		*out = make([]StatusObservation, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.TerraformLabels != nil {
+		in, out := &in.TerraformLabels, &out.TerraformLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
 		}
 	}
 }
@@ -8476,6 +8540,13 @@ func (in *MetastoreServiceInitParameters) DeepCopyInto(out *MetastoreServiceInit
 		*out = new(string)
 		**out = **in
 	}
+	if in.ScalingConfig != nil {
+		in, out := &in.ScalingConfig, &out.ScalingConfig
+		*out = make([]ScalingConfigInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.TelemetryConfig != nil {
 		in, out := &in.TelemetryConfig, &out.TelemetryConfig
 		*out = make([]TelemetryConfigInitParameters, len(*in))
@@ -8544,6 +8615,22 @@ func (in *MetastoreServiceObservation) DeepCopyInto(out *MetastoreServiceObserva
 		in, out := &in.DatabaseType, &out.DatabaseType
 		*out = new(string)
 		**out = **in
+	}
+	if in.EffectiveLabels != nil {
+		in, out := &in.EffectiveLabels, &out.EffectiveLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.EncryptionConfig != nil {
 		in, out := &in.EncryptionConfig, &out.EncryptionConfig
@@ -8629,6 +8716,13 @@ func (in *MetastoreServiceObservation) DeepCopyInto(out *MetastoreServiceObserva
 		*out = new(string)
 		**out = **in
 	}
+	if in.ScalingConfig != nil {
+		in, out := &in.ScalingConfig, &out.ScalingConfig
+		*out = make([]ScalingConfigObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
 		*out = new(string)
@@ -8644,6 +8738,22 @@ func (in *MetastoreServiceObservation) DeepCopyInto(out *MetastoreServiceObserva
 		*out = make([]TelemetryConfigObservation, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.TerraformLabels != nil {
+		in, out := &in.TerraformLabels, &out.TerraformLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
 		}
 	}
 	if in.Tier != nil {
@@ -8744,6 +8854,13 @@ func (in *MetastoreServiceParameters) DeepCopyInto(out *MetastoreServiceParamete
 		in, out := &in.ReleaseChannel, &out.ReleaseChannel
 		*out = new(string)
 		**out = **in
+	}
+	if in.ScalingConfig != nil {
+		in, out := &in.ScalingConfig, &out.ScalingConfig
+		*out = make([]ScalingConfigParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.TelemetryConfig != nil {
 		in, out := &in.TelemetryConfig, &out.TelemetryConfig
@@ -12215,6 +12332,81 @@ func (in *ReservationAffinityParameters) DeepCopy() *ReservationAffinityParamete
 		return nil
 	}
 	out := new(ReservationAffinityParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ScalingConfigInitParameters) DeepCopyInto(out *ScalingConfigInitParameters) {
+	*out = *in
+	if in.InstanceSize != nil {
+		in, out := &in.InstanceSize, &out.InstanceSize
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScalingFactor != nil {
+		in, out := &in.ScalingFactor, &out.ScalingFactor
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ScalingConfigInitParameters.
+func (in *ScalingConfigInitParameters) DeepCopy() *ScalingConfigInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ScalingConfigInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ScalingConfigObservation) DeepCopyInto(out *ScalingConfigObservation) {
+	*out = *in
+	if in.InstanceSize != nil {
+		in, out := &in.InstanceSize, &out.InstanceSize
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScalingFactor != nil {
+		in, out := &in.ScalingFactor, &out.ScalingFactor
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ScalingConfigObservation.
+func (in *ScalingConfigObservation) DeepCopy() *ScalingConfigObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(ScalingConfigObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ScalingConfigParameters) DeepCopyInto(out *ScalingConfigParameters) {
+	*out = *in
+	if in.InstanceSize != nil {
+		in, out := &in.InstanceSize, &out.InstanceSize
+		*out = new(string)
+		**out = **in
+	}
+	if in.ScalingFactor != nil {
+		in, out := &in.ScalingFactor, &out.ScalingFactor
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ScalingConfigParameters.
+func (in *ScalingConfigParameters) DeepCopy() *ScalingConfigParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ScalingConfigParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -15876,6 +16068,22 @@ func (in *WorkflowTemplateObservation) DeepCopyInto(out *WorkflowTemplateObserva
 		*out = new(string)
 		**out = **in
 	}
+	if in.EffectiveLabels != nil {
+		in, out := &in.EffectiveLabels, &out.EffectiveLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
@@ -15927,6 +16135,22 @@ func (in *WorkflowTemplateObservation) DeepCopyInto(out *WorkflowTemplateObserva
 		in, out := &in.Project, &out.Project
 		*out = new(string)
 		**out = **in
+	}
+	if in.TerraformLabels != nil {
+		in, out := &in.TerraformLabels, &out.TerraformLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.UpdateTime != nil {
 		in, out := &in.UpdateTime, &out.UpdateTime

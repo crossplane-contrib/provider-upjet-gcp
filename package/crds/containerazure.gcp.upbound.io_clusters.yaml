@@ -911,6 +911,10 @@ spec:
                     description: Optional. A human readable description of this cluster.
                       Cannot be longer than 255 UTF-8 encoded bytes.
                     type: string
+                  effectiveAnnotations:
+                    additionalProperties:
+                      type: string
+                    type: object
                   endpoint:
                     description: Output only. The endpoint of the cluster's API server.
                     type: string

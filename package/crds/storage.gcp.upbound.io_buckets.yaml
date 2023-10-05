@@ -860,6 +860,11 @@ spec:
                     description: Whether or not to automatically apply an eventBasedHold
                       to new objects added to the bucket.
                     type: boolean
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: A map of key/value label pairs to assign to the bucket.
+                    type: object
                   encryption:
                     description: The bucket's encryption configuration. Structure
                       is documented below.
@@ -1039,6 +1044,11 @@ spec:
                       include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE,
                       ARCHIVE.'
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: A map of key/value label pairs to assign to the bucket.
+                    type: object
                   uniformBucketLevelAccess:
                     description: Enables Uniform bucket-level access access to a bucket.
                     type: boolean

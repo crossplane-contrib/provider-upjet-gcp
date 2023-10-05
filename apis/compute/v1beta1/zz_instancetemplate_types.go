@@ -226,6 +226,8 @@ type InstanceTemplateDiskInitParameters struct {
 	// read-write mode.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
 	// - A list (short name or id) of resource policies to attach to this disk for automatic snapshot creations. Currently a max of 1 resource policy is supported.
 	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
 
@@ -301,6 +303,8 @@ type InstanceTemplateDiskObservation struct {
 	// or READ_ONLY. If you are attaching or creating a boot disk, this must
 	// read-write mode.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
 
 	// - A list (short name or id) of resource policies to attach to this disk for automatic snapshot creations. Currently a max of 1 resource policy is supported.
 	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
@@ -392,6 +396,9 @@ type InstanceTemplateDiskParameters struct {
 	// read-write mode.
 	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
 
 	// - A list (short name or id) of resource policies to attach to this disk for automatic snapshot creations. Currently a max of 1 resource policy is supported.
 	// +kubebuilder:validation:Optional
@@ -705,6 +712,10 @@ type InstanceTemplateNetworkInterfaceInitParameters struct {
 	// specified, then this instance will have no external IPv6 Internet access. Structure documented below.
 	IPv6AccessConfig []InstanceTemplateNetworkInterfaceIPv6AccessConfigInitParameters `json:"ipv6AccessConfig,omitempty" tf:"ipv6_access_config,omitempty"`
 
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
+
+	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
+
 	// The private IP address to assign to the instance. If
 	// empty, the address will be automatically assigned.
 	NetworkIP *string `json:"networkIp,omitempty" tf:"network_ip,omitempty"`
@@ -741,6 +752,10 @@ type InstanceTemplateNetworkInterfaceObservation struct {
 	IPv6AccessConfig []InstanceTemplateNetworkInterfaceIPv6AccessConfigObservation `json:"ipv6AccessConfig,omitempty" tf:"ipv6_access_config,omitempty"`
 
 	IPv6AccessType *string `json:"ipv6AccessType,omitempty" tf:"ipv6_access_type,omitempty"`
+
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
+
+	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
 
 	// The name of the instance template.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -792,6 +807,12 @@ type InstanceTemplateNetworkInterfaceParameters struct {
 	// specified, then this instance will have no external IPv6 Internet access. Structure documented below.
 	// +kubebuilder:validation:Optional
 	IPv6AccessConfig []InstanceTemplateNetworkInterfaceIPv6AccessConfigParameters `json:"ipv6AccessConfig,omitempty" tf:"ipv6_access_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
 
 	// The name or self_link of the network to attach this interface to.
 	// Use network attribute for Legacy or Auto subnetted networks and
@@ -885,6 +906,8 @@ type InstanceTemplateObservation struct {
 	// documented below.
 	Disk []InstanceTemplateDiskObservation `json:"disk,omitempty" tf:"disk,omitempty"`
 
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// List of the type and count of accelerator cards attached to the instance. Structure documented below.
 	GuestAccelerator []InstanceTemplateGuestAcceleratorObservation `json:"guestAccelerator,omitempty" tf:"guest_accelerator,omitempty"`
 
@@ -977,6 +1000,9 @@ type InstanceTemplateObservation struct {
 
 	// The unique fingerprint of the tags.
 	TagsFingerprint *string `json:"tagsFingerprint,omitempty" tf:"tags_fingerprint,omitempty"`
+
+	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type InstanceTemplateParameters struct {
@@ -1195,7 +1221,7 @@ type InstanceTemplateSchedulingInitParameters struct {
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
 	// Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
-	// preemptible should be true and auto_restart should be
+	// preemptible should be true and automatic_restart should be
 	// false. For more info about
 	// SPOT, read here
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
@@ -1320,7 +1346,7 @@ type InstanceTemplateSchedulingObservation struct {
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
 	// Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
-	// preemptible should be true and auto_restart should be
+	// preemptible should be true and automatic_restart should be
 	// false. For more info about
 	// SPOT, read here
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
@@ -1366,7 +1392,7 @@ type InstanceTemplateSchedulingParameters struct {
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
 	// Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
-	// preemptible should be true and auto_restart should be
+	// preemptible should be true and automatic_restart should be
 	// false. For more info about
 	// SPOT, read here
 	// +kubebuilder:validation:Optional

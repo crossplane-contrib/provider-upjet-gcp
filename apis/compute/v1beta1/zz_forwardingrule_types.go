@@ -54,8 +54,17 @@ type ForwardingRuleInitParameters struct {
 	// The valid IP protocols are different for different load balancing products
 	// as described in Load balancing
 	// features.
+	// A Forwarding Rule with protocol L3_DEFAULT can attach with target instance or
+	// backend service with UNSPECIFIED protocol.
+	// A forwarding rule with "L3_DEFAULT" IPProtocal cannot be attached to a backend service with TCP or UDP.
 	// Possible values are: TCP, UDP, ESP, AH, SCTP, ICMP, L3_DEFAULT.
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
+
+	// The IP address version that will be used by this forwarding rule.
+	// Valid options are IPV4 and IPV6.
+	// If not set, the IPv4 address will be used by default.
+	// Possible values are: IPV4, IPV6.
+	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
 	// Indicates whether or not this load balancer can be used as a collector for
 	// packet mirroring. To prevent mirroring loops, instances behind this
@@ -159,6 +168,9 @@ type ForwardingRuleObservation struct {
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// for all of the labels present on the resource.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/forwardingRules/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -177,8 +189,17 @@ type ForwardingRuleObservation struct {
 	// The valid IP protocols are different for different load balancing products
 	// as described in Load balancing
 	// features.
+	// A Forwarding Rule with protocol L3_DEFAULT can attach with target instance or
+	// backend service with UNSPECIFIED protocol.
+	// A forwarding rule with "L3_DEFAULT" IPProtocal cannot be attached to a backend service with TCP or UDP.
 	// Possible values are: TCP, UDP, ESP, AH, SCTP, ICMP, L3_DEFAULT.
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
+
+	// The IP address version that will be used by this forwarding rule.
+	// Valid options are IPV4 and IPV6.
+	// If not set, the IPv4 address will be used by default.
+	// Possible values are: IPV4, IPV6.
+	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
 	// Indicates whether or not this load balancer can be used as a collector for
 	// packet mirroring. To prevent mirroring loops, instances behind this
@@ -292,6 +313,10 @@ type ForwardingRuleObservation struct {
 	// validateForProxyless is set to true, the
 	// IPAddress should be set to 0.0.0.0.
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type ForwardingRuleParameters struct {
@@ -361,9 +386,19 @@ type ForwardingRuleParameters struct {
 	// The valid IP protocols are different for different load balancing products
 	// as described in Load balancing
 	// features.
+	// A Forwarding Rule with protocol L3_DEFAULT can attach with target instance or
+	// backend service with UNSPECIFIED protocol.
+	// A forwarding rule with "L3_DEFAULT" IPProtocal cannot be attached to a backend service with TCP or UDP.
 	// Possible values are: TCP, UDP, ESP, AH, SCTP, ICMP, L3_DEFAULT.
 	// +kubebuilder:validation:Optional
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
+
+	// The IP address version that will be used by this forwarding rule.
+	// Valid options are IPV4 and IPV6.
+	// If not set, the IPv4 address will be used by default.
+	// Possible values are: IPV4, IPV6.
+	// +kubebuilder:validation:Optional
+	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
 	// Indicates whether or not this load balancer can be used as a collector for
 	// packet mirroring. To prevent mirroring loops, instances behind this

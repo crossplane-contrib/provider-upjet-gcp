@@ -515,7 +515,7 @@ type BackendServiceInitParameters struct {
 	// load balancing cannot be used with the other. For more information, refer to
 	// Choosing a load balancer.
 	// Default value is EXTERNAL.
-	// Possible values are: EXTERNAL, INTERNAL_SELF_MANAGED, EXTERNAL_MANAGED.
+	// Possible values are: EXTERNAL, INTERNAL_SELF_MANAGED, INTERNAL_MANAGED, EXTERNAL_MANAGED.
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
 	// A list of locality load balancing policies to be used in order of
@@ -553,8 +553,10 @@ type BackendServiceInitParameters struct {
 
 	// The protocol this BackendService uses to communicate with backends.
 	// The default is HTTP. NOTE: HTTP2 is only valid for beta HTTP/2 load balancer
-	// types and may result in errors if used with the GA API.
-	// Possible values are: HTTP, HTTPS, HTTP2, TCP, SSL, GRPC.
+	// types and may result in errors if used with the GA API. NOTE: With protocol “UNSPECIFIED”,
+	// the backend service can be used by Layer 4 Internal Load Balancing or Network Load Balancing
+	// with TCP/UDP/L3_DEFAULT Forwarding Rule protocol.
+	// Possible values are: HTTP, HTTPS, HTTP2, TCP, SSL, GRPC, UNSPECIFIED.
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
 	// The security policy associated with this backend service.
@@ -665,7 +667,7 @@ type BackendServiceObservation struct {
 	// load balancing cannot be used with the other. For more information, refer to
 	// Choosing a load balancer.
 	// Default value is EXTERNAL.
-	// Possible values are: EXTERNAL, INTERNAL_SELF_MANAGED, EXTERNAL_MANAGED.
+	// Possible values are: EXTERNAL, INTERNAL_SELF_MANAGED, INTERNAL_MANAGED, EXTERNAL_MANAGED.
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
 	// A list of locality load balancing policies to be used in order of
@@ -703,8 +705,10 @@ type BackendServiceObservation struct {
 
 	// The protocol this BackendService uses to communicate with backends.
 	// The default is HTTP. NOTE: HTTP2 is only valid for beta HTTP/2 load balancer
-	// types and may result in errors if used with the GA API.
-	// Possible values are: HTTP, HTTPS, HTTP2, TCP, SSL, GRPC.
+	// types and may result in errors if used with the GA API. NOTE: With protocol “UNSPECIFIED”,
+	// the backend service can be used by Layer 4 Internal Load Balancing or Network Load Balancing
+	// with TCP/UDP/L3_DEFAULT Forwarding Rule protocol.
+	// Possible values are: HTTP, HTTPS, HTTP2, TCP, SSL, GRPC, UNSPECIFIED.
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
 	// The security policy associated with this backend service.
@@ -829,7 +833,7 @@ type BackendServiceParameters struct {
 	// load balancing cannot be used with the other. For more information, refer to
 	// Choosing a load balancer.
 	// Default value is EXTERNAL.
-	// Possible values are: EXTERNAL, INTERNAL_SELF_MANAGED, EXTERNAL_MANAGED.
+	// Possible values are: EXTERNAL, INTERNAL_SELF_MANAGED, INTERNAL_MANAGED, EXTERNAL_MANAGED.
 	// +kubebuilder:validation:Optional
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
@@ -874,8 +878,10 @@ type BackendServiceParameters struct {
 
 	// The protocol this BackendService uses to communicate with backends.
 	// The default is HTTP. NOTE: HTTP2 is only valid for beta HTTP/2 load balancer
-	// types and may result in errors if used with the GA API.
-	// Possible values are: HTTP, HTTPS, HTTP2, TCP, SSL, GRPC.
+	// types and may result in errors if used with the GA API. NOTE: With protocol “UNSPECIFIED”,
+	// the backend service can be used by Layer 4 Internal Load Balancing or Network Load Balancing
+	// with TCP/UDP/L3_DEFAULT Forwarding Rule protocol.
+	// Possible values are: HTTP, HTTPS, HTTP2, TCP, SSL, GRPC, UNSPECIFIED.
 	// +kubebuilder:validation:Optional
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 

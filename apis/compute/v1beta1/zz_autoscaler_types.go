@@ -155,8 +155,6 @@ type AutoscalingPolicyInitParameters struct {
 	MinReplicas *float64 `json:"minReplicas,omitempty" tf:"min_replicas,omitempty"`
 
 	// Defines operating mode for this policy.
-	// Default value is ON.
-	// Possible values are: OFF, ONLY_UP, ON.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
 	// Defines scale in controls to reduce the risk of response latency
@@ -209,8 +207,6 @@ type AutoscalingPolicyObservation struct {
 	MinReplicas *float64 `json:"minReplicas,omitempty" tf:"min_replicas,omitempty"`
 
 	// Defines operating mode for this policy.
-	// Default value is ON.
-	// Possible values are: OFF, ONLY_UP, ON.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
 	// Defines scale in controls to reduce the risk of response latency
@@ -269,8 +265,6 @@ type AutoscalingPolicyParameters struct {
 	MinReplicas *float64 `json:"minReplicas" tf:"min_replicas,omitempty"`
 
 	// Defines operating mode for this policy.
-	// Default value is ON.
-	// Possible values are: OFF, ONLY_UP, ON.
 	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 

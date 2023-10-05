@@ -42,6 +42,8 @@ spec:
         key: taint-key
         value: taint-value
     location: us-west1
+    management:
+    - autoRepair: true
     maxPodsConstraint:
     - maxPodsPerNode: 110
     project: my-project-name

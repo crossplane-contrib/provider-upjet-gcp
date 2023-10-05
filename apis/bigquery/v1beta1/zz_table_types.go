@@ -50,6 +50,38 @@ type AvroOptionsParameters struct {
 	UseAvroLogicalTypes *bool `json:"useAvroLogicalTypes" tf:"use_avro_logical_types,omitempty"`
 }
 
+type ColumnReferencesInitParameters struct {
+
+	// :  The column in the primary key that are
+	// referenced by the referencingColumn
+	ReferencedColumn *string `json:"referencedColumn,omitempty" tf:"referenced_column,omitempty"`
+
+	// :  The column that composes the foreign key.
+	ReferencingColumn *string `json:"referencingColumn,omitempty" tf:"referencing_column,omitempty"`
+}
+
+type ColumnReferencesObservation struct {
+
+	// :  The column in the primary key that are
+	// referenced by the referencingColumn
+	ReferencedColumn *string `json:"referencedColumn,omitempty" tf:"referenced_column,omitempty"`
+
+	// :  The column that composes the foreign key.
+	ReferencingColumn *string `json:"referencingColumn,omitempty" tf:"referencing_column,omitempty"`
+}
+
+type ColumnReferencesParameters struct {
+
+	// :  The column in the primary key that are
+	// referenced by the referencingColumn
+	// +kubebuilder:validation:Optional
+	ReferencedColumn *string `json:"referencedColumn" tf:"referenced_column,omitempty"`
+
+	// :  The column that composes the foreign key.
+	// +kubebuilder:validation:Optional
+	ReferencingColumn *string `json:"referencingColumn" tf:"referencing_column,omitempty"`
+}
+
 type CsvOptionsInitParameters struct {
 
 	// Indicates if BigQuery should accept rows
@@ -201,6 +233,11 @@ type ExternalDataConfigurationInitParameters struct {
 	// source_format is set to "CSV". Structure is documented below.
 	CsvOptions []CsvOptionsInitParameters `json:"csvOptions,omitempty" tf:"csv_options,omitempty"`
 
+	// Specifies how source URIs are interpreted for constructing the file set to load.
+	// By default source URIs are expanded against the underlying storage.
+	// Other options include specifying manifest files. Only applicable to object storage systems. Docs
+	FileSetSpecType *string `json:"fileSetSpecType,omitempty" tf:"file_set_spec_type,omitempty"`
+
 	// Additional options if
 	// source_format is set to "GOOGLE_SHEETS". Structure is
 	// documented below.
@@ -288,6 +325,11 @@ type ExternalDataConfigurationObservation struct {
 	// Additional properties to set if
 	// source_format is set to "CSV". Structure is documented below.
 	CsvOptions []CsvOptionsObservation `json:"csvOptions,omitempty" tf:"csv_options,omitempty"`
+
+	// Specifies how source URIs are interpreted for constructing the file set to load.
+	// By default source URIs are expanded against the underlying storage.
+	// Other options include specifying manifest files. Only applicable to object storage systems. Docs
+	FileSetSpecType *string `json:"fileSetSpecType,omitempty" tf:"file_set_spec_type,omitempty"`
 
 	// Additional options if
 	// source_format is set to "GOOGLE_SHEETS". Structure is
@@ -381,6 +423,12 @@ type ExternalDataConfigurationParameters struct {
 	// source_format is set to "CSV". Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CsvOptions []CsvOptionsParameters `json:"csvOptions,omitempty" tf:"csv_options,omitempty"`
+
+	// Specifies how source URIs are interpreted for constructing the file set to load.
+	// By default source URIs are expanded against the underlying storage.
+	// Other options include specifying manifest files. Only applicable to object storage systems. Docs
+	// +kubebuilder:validation:Optional
+	FileSetSpecType *string `json:"fileSetSpecType,omitempty" tf:"file_set_spec_type,omitempty"`
 
 	// Additional options if
 	// source_format is set to "GOOGLE_SHEETS". Structure is
@@ -485,6 +533,54 @@ type ExternalDataConfigurationParquetOptionsParameters struct {
 	// Indicates whether to infer Parquet ENUM logical type as STRING instead of BYTES by default.
 	// +kubebuilder:validation:Optional
 	EnumAsString *bool `json:"enumAsString,omitempty" tf:"enum_as_string,omitempty"`
+}
+
+type ForeignKeysInitParameters struct {
+
+	// :  The pair of the foreign key column and primary key column.
+	// Structure is documented below.
+	ColumnReferences []ColumnReferencesInitParameters `json:"columnReferences,omitempty" tf:"column_references,omitempty"`
+
+	// :  Set only if the foreign key constraint is named.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// :  The table that holds the primary key
+	// and is referenced by this foreign key.
+	// Structure is documented below.
+	ReferencedTable []ReferencedTableInitParameters `json:"referencedTable,omitempty" tf:"referenced_table,omitempty"`
+}
+
+type ForeignKeysObservation struct {
+
+	// :  The pair of the foreign key column and primary key column.
+	// Structure is documented below.
+	ColumnReferences []ColumnReferencesObservation `json:"columnReferences,omitempty" tf:"column_references,omitempty"`
+
+	// :  Set only if the foreign key constraint is named.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// :  The table that holds the primary key
+	// and is referenced by this foreign key.
+	// Structure is documented below.
+	ReferencedTable []ReferencedTableObservation `json:"referencedTable,omitempty" tf:"referenced_table,omitempty"`
+}
+
+type ForeignKeysParameters struct {
+
+	// :  The pair of the foreign key column and primary key column.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ColumnReferences []ColumnReferencesParameters `json:"columnReferences" tf:"column_references,omitempty"`
+
+	// :  Set only if the foreign key constraint is named.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// :  The table that holds the primary key
+	// and is referenced by this foreign key.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ReferencedTable []ReferencedTableParameters `json:"referencedTable" tf:"referenced_table,omitempty"`
 }
 
 type GoogleSheetsOptionsInitParameters struct {
@@ -615,6 +711,10 @@ type JSONOptionsParameters struct {
 
 type MaterializedViewInitParameters struct {
 
+	// Allow non incremental materialized view definition.
+	// The default value is false.
+	AllowNonIncrementalDefinition *bool `json:"allowNonIncrementalDefinition,omitempty" tf:"allow_non_incremental_definition,omitempty"`
+
 	// Specifies whether to use BigQuery's automatic refresh for this materialized view when the base table is updated.
 	// The default value is true.
 	EnableRefresh *bool `json:"enableRefresh,omitempty" tf:"enable_refresh,omitempty"`
@@ -628,6 +728,10 @@ type MaterializedViewInitParameters struct {
 }
 
 type MaterializedViewObservation struct {
+
+	// Allow non incremental materialized view definition.
+	// The default value is false.
+	AllowNonIncrementalDefinition *bool `json:"allowNonIncrementalDefinition,omitempty" tf:"allow_non_incremental_definition,omitempty"`
 
 	// Specifies whether to use BigQuery's automatic refresh for this materialized view when the base table is updated.
 	// The default value is true.
@@ -643,6 +747,11 @@ type MaterializedViewObservation struct {
 
 type MaterializedViewParameters struct {
 
+	// Allow non incremental materialized view definition.
+	// The default value is false.
+	// +kubebuilder:validation:Optional
+	AllowNonIncrementalDefinition *bool `json:"allowNonIncrementalDefinition,omitempty" tf:"allow_non_incremental_definition,omitempty"`
+
 	// Specifies whether to use BigQuery's automatic refresh for this materialized view when the base table is updated.
 	// The default value is true.
 	// +kubebuilder:validation:Optional
@@ -656,6 +765,25 @@ type MaterializedViewParameters struct {
 	// The default value is 1800000
 	// +kubebuilder:validation:Optional
 	RefreshIntervalMs *float64 `json:"refreshIntervalMs,omitempty" tf:"refresh_interval_ms,omitempty"`
+}
+
+type PrimaryKeyInitParameters struct {
+
+	// :  The columns that are composed of the primary key constraint.
+	Columns []*string `json:"columns,omitempty" tf:"columns,omitempty"`
+}
+
+type PrimaryKeyObservation struct {
+
+	// :  The columns that are composed of the primary key constraint.
+	Columns []*string `json:"columns,omitempty" tf:"columns,omitempty"`
+}
+
+type PrimaryKeyParameters struct {
+
+	// :  The columns that are composed of the primary key constraint.
+	// +kubebuilder:validation:Optional
+	Columns []*string `json:"columns" tf:"columns,omitempty"`
 }
 
 type RangeInitParameters struct {
@@ -732,6 +860,89 @@ type RangePartitioningParameters struct {
 	Range []RangeParameters `json:"range" tf:"range,omitempty"`
 }
 
+type ReferencedTableInitParameters struct {
+
+	// :  The ID of the project containing this table.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// A unique ID for the resource.
+	// Changing this forces a new resource to be created.
+	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
+}
+
+type ReferencedTableObservation struct {
+
+	// :  The ID of the dataset containing this table.
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// :  The ID of the project containing this table.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// A unique ID for the resource.
+	// Changing this forces a new resource to be created.
+	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
+}
+
+type ReferencedTableParameters struct {
+
+	// :  The ID of the dataset containing this table.
+	// +kubebuilder:validation:Required
+	DatasetID *string `json:"datasetId" tf:"dataset_id,omitempty"`
+
+	// :  The ID of the project containing this table.
+	// +kubebuilder:validation:Optional
+	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
+
+	// A unique ID for the resource.
+	// Changing this forces a new resource to be created.
+	// +kubebuilder:validation:Optional
+	TableID *string `json:"tableId" tf:"table_id,omitempty"`
+}
+
+type TableConstraintsInitParameters struct {
+
+	// Present only if the table has a foreign key.
+	// The foreign key is not enforced.
+	// Structure is documented below.
+	ForeignKeys []ForeignKeysInitParameters `json:"foreignKeys,omitempty" tf:"foreign_keys,omitempty"`
+
+	// Represents the primary key constraint
+	// on a table's columns. Present only if the table has a primary key.
+	// The primary key is not enforced.
+	// Structure is documented below.
+	PrimaryKey []PrimaryKeyInitParameters `json:"primaryKey,omitempty" tf:"primary_key,omitempty"`
+}
+
+type TableConstraintsObservation struct {
+
+	// Present only if the table has a foreign key.
+	// The foreign key is not enforced.
+	// Structure is documented below.
+	ForeignKeys []ForeignKeysObservation `json:"foreignKeys,omitempty" tf:"foreign_keys,omitempty"`
+
+	// Represents the primary key constraint
+	// on a table's columns. Present only if the table has a primary key.
+	// The primary key is not enforced.
+	// Structure is documented below.
+	PrimaryKey []PrimaryKeyObservation `json:"primaryKey,omitempty" tf:"primary_key,omitempty"`
+}
+
+type TableConstraintsParameters struct {
+
+	// Present only if the table has a foreign key.
+	// The foreign key is not enforced.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ForeignKeys []ForeignKeysParameters `json:"foreignKeys,omitempty" tf:"foreign_keys,omitempty"`
+
+	// Represents the primary key constraint
+	// on a table's columns. Present only if the table has a primary key.
+	// The primary key is not enforced.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PrimaryKey []PrimaryKeyParameters `json:"primaryKey,omitempty" tf:"primary_key,omitempty"`
+}
+
 type TableInitParameters struct {
 
 	// Specifies column names to use for data clustering.
@@ -771,12 +982,19 @@ type TableInitParameters struct {
 	// Structure is documented below.
 	MaterializedView []MaterializedViewInitParameters `json:"materializedView,omitempty" tf:"materialized_view,omitempty"`
 
+	// :  The maximum staleness of data that could be returned when the table (or stale MV) is queried. Staleness encoded as a string encoding of sql IntervalValue type.
+	MaxStaleness *string `json:"maxStaleness,omitempty" tf:"max_staleness,omitempty"`
+
 	// If specified, configures range-based
 	// partitioning for this table. Structure is documented below.
 	RangePartitioning []RangePartitioningInitParameters `json:"rangePartitioning,omitempty" tf:"range_partitioning,omitempty"`
 
 	// A JSON schema for the table.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
+
+	// Defines the primary key and foreign keys.
+	// Structure is documented below.
+	TableConstraints []TableConstraintsInitParameters `json:"tableConstraints,omitempty" tf:"table_constraints,omitempty"`
 
 	// If specified, configures time-based
 	// partitioning for this table. Structure is documented below.
@@ -805,6 +1023,8 @@ type TableObservation struct {
 
 	// The field description.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
 	// Specifies how the table should be encrypted.
 	// If left blank, the table will be encrypted with a Google-managed key; that process
@@ -845,6 +1065,9 @@ type TableObservation struct {
 	// Structure is documented below.
 	MaterializedView []MaterializedViewObservation `json:"materializedView,omitempty" tf:"materialized_view,omitempty"`
 
+	// :  The maximum staleness of data that could be returned when the table (or stale MV) is queried. Staleness encoded as a string encoding of sql IntervalValue type.
+	MaxStaleness *string `json:"maxStaleness,omitempty" tf:"max_staleness,omitempty"`
+
 	// The size of this table in bytes, excluding any data in the streaming buffer.
 	NumBytes *float64 `json:"numBytes,omitempty" tf:"num_bytes,omitempty"`
 
@@ -867,6 +1090,13 @@ type TableObservation struct {
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// Defines the primary key and foreign keys.
+	// Structure is documented below.
+	TableConstraints []TableConstraintsObservation `json:"tableConstraints,omitempty" tf:"table_constraints,omitempty"`
+
+	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// If specified, configures time-based
 	// partitioning for this table. Structure is documented below.
@@ -942,6 +1172,10 @@ type TableParameters struct {
 	// +kubebuilder:validation:Optional
 	MaterializedView []MaterializedViewParameters `json:"materializedView,omitempty" tf:"materialized_view,omitempty"`
 
+	// :  The maximum staleness of data that could be returned when the table (or stale MV) is queried. Staleness encoded as a string encoding of sql IntervalValue type.
+	// +kubebuilder:validation:Optional
+	MaxStaleness *string `json:"maxStaleness,omitempty" tf:"max_staleness,omitempty"`
+
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
@@ -955,6 +1189,11 @@ type TableParameters struct {
 	// A JSON schema for the table.
 	// +kubebuilder:validation:Optional
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
+
+	// Defines the primary key and foreign keys.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TableConstraints []TableConstraintsParameters `json:"tableConstraints,omitempty" tf:"table_constraints,omitempty"`
 
 	// If specified, configures time-based
 	// partitioning for this table. Structure is documented below.

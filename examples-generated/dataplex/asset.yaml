@@ -13,6 +13,9 @@ spec:
         testing.upbound.io/example-name: basic_zone
     discoverySpec:
     - enabled: false
+    labels:
+      env: foo
+      my-asset: exists
     lakeSelector:
       matchLabels:
         testing.upbound.io/example-name: basic_lake

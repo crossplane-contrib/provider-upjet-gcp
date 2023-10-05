@@ -48,6 +48,8 @@ type HubObservation struct {
 	// An optional description of the hub.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/global/hubs/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -65,6 +67,9 @@ type HubObservation struct {
 
 	// Output only. The current lifecycle state of this hub. Possible values: STATE_UNSPECIFIED, CREATING, ACTIVE, DELETING
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// Output only. The Google-generated UUID for the hub. This value is unique across all hub resources. If a hub is deleted and another with the same name is created, the new hub is assigned a different unique_id.
 	UniqueID *string `json:"uniqueId,omitempty" tf:"unique_id,omitempty"`

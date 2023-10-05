@@ -247,6 +247,8 @@ type MetastoreServiceInitParameters struct {
 	HiveMetastoreConfig []HiveMetastoreConfigInitParameters `json:"hiveMetastoreConfig,omitempty" tf:"hive_metastore_config,omitempty"`
 
 	// User-defined labels for the metastore service.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The one hour maintenance window of the metastore service.
@@ -275,6 +277,10 @@ type MetastoreServiceInitParameters struct {
 	// Possible values are: CANARY, STABLE.
 	ReleaseChannel *string `json:"releaseChannel,omitempty" tf:"release_channel,omitempty"`
 
+	// Represents the scaling configuration of a metastore service.
+	// Structure is documented below.
+	ScalingConfig []ScalingConfigInitParameters `json:"scalingConfig,omitempty" tf:"scaling_config,omitempty"`
+
 	// The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
 	// Structure is documented below.
 	TelemetryConfig []TelemetryConfigInitParameters `json:"telemetryConfig,omitempty" tf:"telemetry_config,omitempty"`
@@ -294,6 +300,8 @@ type MetastoreServiceObservation struct {
 	// Possible values are: MYSQL, SPANNER.
 	DatabaseType *string `json:"databaseType,omitempty" tf:"database_type,omitempty"`
 
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// Information used to configure the Dataproc Metastore service to encrypt
 	// customer data at rest.
 	// Structure is documented below.
@@ -310,6 +318,8 @@ type MetastoreServiceObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// User-defined labels for the metastore service.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location where the metastore service should reside.
@@ -345,6 +355,10 @@ type MetastoreServiceObservation struct {
 	// Possible values are: CANARY, STABLE.
 	ReleaseChannel *string `json:"releaseChannel,omitempty" tf:"release_channel,omitempty"`
 
+	// Represents the scaling configuration of a metastore service.
+	// Structure is documented below.
+	ScalingConfig []ScalingConfigObservation `json:"scalingConfig,omitempty" tf:"scaling_config,omitempty"`
+
 	// The current state of the metastore service.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
@@ -354,6 +368,10 @@ type MetastoreServiceObservation struct {
 	// The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
 	// Structure is documented below.
 	TelemetryConfig []TelemetryConfigObservation `json:"telemetryConfig,omitempty" tf:"telemetry_config,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// The tier of the service.
 	// Possible values are: DEVELOPER, ENTERPRISE.
@@ -383,6 +401,8 @@ type MetastoreServiceParameters struct {
 	HiveMetastoreConfig []HiveMetastoreConfigParameters `json:"hiveMetastoreConfig,omitempty" tf:"hive_metastore_config,omitempty"`
 
 	// User-defined labels for the metastore service.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -423,6 +443,11 @@ type MetastoreServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	ReleaseChannel *string `json:"releaseChannel,omitempty" tf:"release_channel,omitempty"`
 
+	// Represents the scaling configuration of a metastore service.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ScalingConfig []ScalingConfigParameters `json:"scalingConfig,omitempty" tf:"scaling_config,omitempty"`
+
 	// The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -454,6 +479,38 @@ type NetworkConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Consumers []ConsumersParameters `json:"consumers" tf:"consumers,omitempty"`
+}
+
+type ScalingConfigInitParameters struct {
+
+	// Metastore instance sizes.
+	// Possible values are: EXTRA_SMALL, SMALL, MEDIUM, LARGE, EXTRA_LARGE.
+	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
+
+	// Scaling factor, in increments of 0.1 for values less than 1.0, and increments of 1.0 for values greater than 1.0.
+	ScalingFactor *float64 `json:"scalingFactor,omitempty" tf:"scaling_factor,omitempty"`
+}
+
+type ScalingConfigObservation struct {
+
+	// Metastore instance sizes.
+	// Possible values are: EXTRA_SMALL, SMALL, MEDIUM, LARGE, EXTRA_LARGE.
+	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
+
+	// Scaling factor, in increments of 0.1 for values less than 1.0, and increments of 1.0 for values greater than 1.0.
+	ScalingFactor *float64 `json:"scalingFactor,omitempty" tf:"scaling_factor,omitempty"`
+}
+
+type ScalingConfigParameters struct {
+
+	// Metastore instance sizes.
+	// Possible values are: EXTRA_SMALL, SMALL, MEDIUM, LARGE, EXTRA_LARGE.
+	// +kubebuilder:validation:Optional
+	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
+
+	// Scaling factor, in increments of 0.1 for values less than 1.0, and increments of 1.0 for values greater than 1.0.
+	// +kubebuilder:validation:Optional
+	ScalingFactor *float64 `json:"scalingFactor,omitempty" tf:"scaling_factor,omitempty"`
 }
 
 type TelemetryConfigInitParameters struct {

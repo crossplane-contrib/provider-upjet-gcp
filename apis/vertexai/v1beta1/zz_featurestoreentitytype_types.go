@@ -69,6 +69,9 @@ type FeaturestoreEntitytypeObservation struct {
 	// Optional. Description of the EntityType.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// for all of the labels present on the resource.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// Used to perform consistent read-modify-write updates.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
@@ -90,6 +93,10 @@ type FeaturestoreEntitytypeObservation struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// The timestamp of when the featurestore was last updated in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`

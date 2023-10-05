@@ -25,6 +25,28 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AptRepositoryInitParameters struct {
+
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
+	PublicRepository []PublicRepositoryInitParameters `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
+}
+
+type AptRepositoryObservation struct {
+
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
+	PublicRepository []PublicRepositoryObservation `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
+}
+
+type AptRepositoryParameters struct {
+
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PublicRepository []PublicRepositoryParameters `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
+}
+
 type DockerConfigInitParameters struct {
 
 	// The repository which enabled this flag prevents all tags from being modified, moved or deleted. This does not prevent tags from being created.
@@ -46,25 +68,22 @@ type DockerConfigParameters struct {
 
 type DockerRepositoryInitParameters struct {
 
-	// Address of the remote repository.
-	// Default value is PYPI.
-	// Possible values are: PYPI.
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
 type DockerRepositoryObservation struct {
 
-	// Address of the remote repository.
-	// Default value is PYPI.
-	// Possible values are: PYPI.
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
 type DockerRepositoryParameters struct {
 
-	// Address of the remote repository.
-	// Default value is PYPI.
-	// Possible values are: PYPI.
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
@@ -109,75 +128,98 @@ type MavenConfigParameters struct {
 
 type MavenRepositoryInitParameters struct {
 
-	// Address of the remote repository.
-	// Default value is PYPI.
-	// Possible values are: PYPI.
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
 type MavenRepositoryObservation struct {
 
-	// Address of the remote repository.
-	// Default value is PYPI.
-	// Possible values are: PYPI.
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
 type MavenRepositoryParameters struct {
 
-	// Address of the remote repository.
-	// Default value is PYPI.
-	// Possible values are: PYPI.
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
 type NpmRepositoryInitParameters struct {
 
-	// Address of the remote repository.
-	// Default value is PYPI.
-	// Possible values are: PYPI.
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
 type NpmRepositoryObservation struct {
 
-	// Address of the remote repository.
-	// Default value is PYPI.
-	// Possible values are: PYPI.
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
 type NpmRepositoryParameters struct {
 
-	// Address of the remote repository.
-	// Default value is PYPI.
-	// Possible values are: PYPI.
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
+type PublicRepositoryInitParameters struct {
+
+	// A common public repository base for Yum.
+	// Possible values are: CENTOS, CENTOS_DEBUG, CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.
+	RepositoryBase *string `json:"repositoryBase,omitempty" tf:"repository_base,omitempty"`
+
+	// Specific repository from the base, e.g. "8-stream/BaseOs/x86_64/os"
+	RepositoryPath *string `json:"repositoryPath,omitempty" tf:"repository_path,omitempty"`
+}
+
+type PublicRepositoryObservation struct {
+
+	// A common public repository base for Yum.
+	// Possible values are: CENTOS, CENTOS_DEBUG, CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.
+	RepositoryBase *string `json:"repositoryBase,omitempty" tf:"repository_base,omitempty"`
+
+	// Specific repository from the base, e.g. "8-stream/BaseOs/x86_64/os"
+	RepositoryPath *string `json:"repositoryPath,omitempty" tf:"repository_path,omitempty"`
+}
+
+type PublicRepositoryParameters struct {
+
+	// A common public repository base for Yum.
+	// Possible values are: CENTOS, CENTOS_DEBUG, CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.
+	// +kubebuilder:validation:Optional
+	RepositoryBase *string `json:"repositoryBase" tf:"repository_base,omitempty"`
+
+	// Specific repository from the base, e.g. "8-stream/BaseOs/x86_64/os"
+	// +kubebuilder:validation:Optional
+	RepositoryPath *string `json:"repositoryPath" tf:"repository_path,omitempty"`
+}
+
 type PythonRepositoryInitParameters struct {
 
-	// Address of the remote repository.
-	// Default value is PYPI.
-	// Possible values are: PYPI.
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
 type PythonRepositoryObservation struct {
 
-	// Address of the remote repository.
-	// Default value is PYPI.
-	// Possible values are: PYPI.
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
 type PythonRepositoryParameters struct {
 
-	// Address of the remote repository.
-	// Default value is PYPI.
-	// Possible values are: PYPI.
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
@@ -246,6 +288,9 @@ type RegistryRepositoryObservation struct {
 	// Structure is documented below.
 	DockerConfig []DockerConfigObservation `json:"dockerConfig,omitempty" tf:"docker_config,omitempty"`
 
+	// for all of the labels present on the resource.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// The format of packages that are stored in the repository. Supported formats
 	// can be found here.
 	// You can only create alpha formats if you are a member of the
@@ -293,6 +338,10 @@ type RegistryRepositoryObservation struct {
 	// Configuration specific for a Remote Repository.
 	// Structure is documented below.
 	RemoteRepositoryConfig []RemoteRepositoryConfigObservation `json:"remoteRepositoryConfig,omitempty" tf:"remote_repository_config,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// The time when the repository was last updated.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
@@ -370,6 +419,10 @@ type RegistryRepositoryParameters struct {
 
 type RemoteRepositoryConfigInitParameters struct {
 
+	// Specific settings for an Apt remote repository.
+	// Structure is documented below.
+	AptRepository []AptRepositoryInitParameters `json:"aptRepository,omitempty" tf:"apt_repository,omitempty"`
+
 	// The description of the remote source.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -388,9 +441,17 @@ type RemoteRepositoryConfigInitParameters struct {
 	// Specific settings for a Python remote repository.
 	// Structure is documented below.
 	PythonRepository []PythonRepositoryInitParameters `json:"pythonRepository,omitempty" tf:"python_repository,omitempty"`
+
+	// Specific settings for an Yum remote repository.
+	// Structure is documented below.
+	YumRepository []YumRepositoryInitParameters `json:"yumRepository,omitempty" tf:"yum_repository,omitempty"`
 }
 
 type RemoteRepositoryConfigObservation struct {
+
+	// Specific settings for an Apt remote repository.
+	// Structure is documented below.
+	AptRepository []AptRepositoryObservation `json:"aptRepository,omitempty" tf:"apt_repository,omitempty"`
 
 	// The description of the remote source.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -410,9 +471,18 @@ type RemoteRepositoryConfigObservation struct {
 	// Specific settings for a Python remote repository.
 	// Structure is documented below.
 	PythonRepository []PythonRepositoryObservation `json:"pythonRepository,omitempty" tf:"python_repository,omitempty"`
+
+	// Specific settings for an Yum remote repository.
+	// Structure is documented below.
+	YumRepository []YumRepositoryObservation `json:"yumRepository,omitempty" tf:"yum_repository,omitempty"`
 }
 
 type RemoteRepositoryConfigParameters struct {
+
+	// Specific settings for an Apt remote repository.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AptRepository []AptRepositoryParameters `json:"aptRepository,omitempty" tf:"apt_repository,omitempty"`
 
 	// The description of the remote source.
 	// +kubebuilder:validation:Optional
@@ -437,6 +507,11 @@ type RemoteRepositoryConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PythonRepository []PythonRepositoryParameters `json:"pythonRepository,omitempty" tf:"python_repository,omitempty"`
+
+	// Specific settings for an Yum remote repository.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	YumRepository []YumRepositoryParameters `json:"yumRepository,omitempty" tf:"yum_repository,omitempty"`
 }
 
 type UpstreamPoliciesInitParameters struct {
@@ -510,6 +585,60 @@ type VirtualRepositoryConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	UpstreamPolicies []UpstreamPoliciesParameters `json:"upstreamPolicies,omitempty" tf:"upstream_policies,omitempty"`
+}
+
+type YumRepositoryInitParameters struct {
+
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
+	PublicRepository []YumRepositoryPublicRepositoryInitParameters `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
+}
+
+type YumRepositoryObservation struct {
+
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
+	PublicRepository []YumRepositoryPublicRepositoryObservation `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
+}
+
+type YumRepositoryParameters struct {
+
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PublicRepository []YumRepositoryPublicRepositoryParameters `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
+}
+
+type YumRepositoryPublicRepositoryInitParameters struct {
+
+	// A common public repository base for Yum.
+	// Possible values are: CENTOS, CENTOS_DEBUG, CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.
+	RepositoryBase *string `json:"repositoryBase,omitempty" tf:"repository_base,omitempty"`
+
+	// Specific repository from the base, e.g. "8-stream/BaseOs/x86_64/os"
+	RepositoryPath *string `json:"repositoryPath,omitempty" tf:"repository_path,omitempty"`
+}
+
+type YumRepositoryPublicRepositoryObservation struct {
+
+	// A common public repository base for Yum.
+	// Possible values are: CENTOS, CENTOS_DEBUG, CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.
+	RepositoryBase *string `json:"repositoryBase,omitempty" tf:"repository_base,omitempty"`
+
+	// Specific repository from the base, e.g. "8-stream/BaseOs/x86_64/os"
+	RepositoryPath *string `json:"repositoryPath,omitempty" tf:"repository_path,omitempty"`
+}
+
+type YumRepositoryPublicRepositoryParameters struct {
+
+	// A common public repository base for Yum.
+	// Possible values are: CENTOS, CENTOS_DEBUG, CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.
+	// +kubebuilder:validation:Optional
+	RepositoryBase *string `json:"repositoryBase" tf:"repository_base,omitempty"`
+
+	// Specific repository from the base, e.g. "8-stream/BaseOs/x86_64/os"
+	// +kubebuilder:validation:Optional
+	RepositoryPath *string `json:"repositoryPath" tf:"repository_path,omitempty"`
 }
 
 // RegistryRepositorySpec defines the desired state of RegistryRepository

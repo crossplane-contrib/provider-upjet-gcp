@@ -82,11 +82,6 @@ type CertificateDescriptionObservation struct {
 	// Structure is documented below.
 	CertFingerprint []CertFingerprintObservation `json:"certFingerprint,omitempty" tf:"cert_fingerprint,omitempty"`
 
-	// (Output, Deprecated)
-	// Describes some of the technical fields in a certificate.
-	// Structure is documented below.
-	ConfigValues []ConfigValuesObservation `json:"configValues,omitempty" tf:"config_values,omitempty"`
-
 	// (Output)
 	// Describes a list of locations to obtain CRL information, i.e. the DistributionPoint.fullName described by https://tools.ietf.org/html/rfc5280#section-4.2.1.13
 	CrlDistributionPoints []*string `json:"crlDistributionPoints,omitempty" tf:"crl_distribution_points,omitempty"`
@@ -164,6 +159,9 @@ type CertificateObservation struct {
 	// This is in RFC3339 text format.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// for all of the labels present on the resource.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/caPools/{{pool}}/certificates/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -188,10 +186,6 @@ type CertificateObservation struct {
 	// The chain that may be used to verify the X.509 certificate. Expected to be in issuer-to-root order according to RFC 5246.
 	PemCertificateChain []*string `json:"pemCertificateChain,omitempty" tf:"pem_certificate_chain,omitempty"`
 
-	// (Deprecated)
-	// Required. Expected to be in leaf-to-root order according to RFC 5246.
-	PemCertificates []*string `json:"pemCertificates,omitempty" tf:"pem_certificates,omitempty"`
-
 	// Immutable. A pem-encoded X.509 certificate signing request (CSR).
 	PemCsr *string `json:"pemCsr,omitempty" tf:"pem_csr,omitempty"`
 
@@ -206,6 +200,10 @@ type CertificateObservation struct {
 	// considered revoked if and only if this field is present.
 	// Structure is documented below.
 	RevocationDetails []RevocationDetailsObservation `json:"revocationDetails,omitempty" tf:"revocation_details,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// Output only. The time at which this CertificateAuthority was updated.
 	// This is in RFC3339 text format.
@@ -365,54 +363,7 @@ type ConfigPublicKeyParameters struct {
 	KeySecretRef *v1.SecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
 }
 
-type ConfigValuesInitParameters struct {
-}
-
-type ConfigValuesKeyUsageInitParameters struct {
-}
-
-type ConfigValuesKeyUsageObservation struct {
-
-	// Describes high-level ways in which a key may be used.
-	// Structure is documented below.
-	BaseKeyUsage []KeyUsageBaseKeyUsageObservation `json:"baseKeyUsage,omitempty" tf:"base_key_usage,omitempty"`
-
-	// Describes high-level ways in which a key may be used.
-	// Structure is documented below.
-	ExtendedKeyUsage []KeyUsageExtendedKeyUsageObservation `json:"extendedKeyUsage,omitempty" tf:"extended_key_usage,omitempty"`
-
-	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
-	// Structure is documented below.
-	UnknownExtendedKeyUsages []KeyUsageUnknownExtendedKeyUsagesObservation `json:"unknownExtendedKeyUsages,omitempty" tf:"unknown_extended_key_usages,omitempty"`
-}
-
-type ConfigValuesKeyUsageParameters struct {
-}
-
-type ConfigValuesObservation struct {
-
-	// (Output)
-	// Indicates the intended use for keys that correspond to a certificate.
-	// Structure is documented below.
-	KeyUsage []ConfigValuesKeyUsageObservation `json:"keyUsage,omitempty" tf:"key_usage,omitempty"`
-}
-
-type ConfigValuesParameters struct {
-}
-
 type CustomSansInitParameters struct {
-}
-
-type CustomSansObectIDInitParameters struct {
-}
-
-type CustomSansObectIDObservation struct {
-
-	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
-	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
-}
-
-type CustomSansObectIDParameters struct {
 }
 
 type CustomSansObservation struct {
@@ -421,9 +372,9 @@ type CustomSansObservation struct {
 	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
 
 	// (Output)
-	// Required. Describes how some of the technical fields in a certificate should be populated.
+	// Describes how some of the technical fields in a certificate should be populated.
 	// Structure is documented below.
-	ObectID []CustomSansObectIDObservation `json:"obectId,omitempty" tf:"obect_id,omitempty"`
+	ObectID []ObectIDObservation `json:"obectId,omitempty" tf:"obect_id,omitempty"`
 
 	// (Output)
 	// The value of this X.509 extension.
@@ -438,10 +389,32 @@ type KeyUsageBaseKeyUsageInitParameters struct {
 
 type KeyUsageBaseKeyUsageObservation struct {
 
-	// (Output)
-	// Describes high-level ways in which a key may be used.
-	// Structure is documented below.
-	KeyUsageOptions []KeyUsageOptionsObservation `json:"keyUsageOptions,omitempty" tf:"key_usage_options,omitempty"`
+	// The key may be used to sign certificates.
+	CertSign *bool `json:"certSign,omitempty" tf:"cert_sign,omitempty"`
+
+	// The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
+	ContentCommitment *bool `json:"contentCommitment,omitempty" tf:"content_commitment,omitempty"`
+
+	// The key may be used sign certificate revocation lists.
+	CrlSign *bool `json:"crlSign,omitempty" tf:"crl_sign,omitempty"`
+
+	// The key may be used to encipher data.
+	DataEncipherment *bool `json:"dataEncipherment,omitempty" tf:"data_encipherment,omitempty"`
+
+	// The key may be used to decipher only.
+	DecipherOnly *bool `json:"decipherOnly,omitempty" tf:"decipher_only,omitempty"`
+
+	// The key may be used for digital signatures.
+	DigitalSignature *bool `json:"digitalSignature,omitempty" tf:"digital_signature,omitempty"`
+
+	// The key may be used to encipher only.
+	EncipherOnly *bool `json:"encipherOnly,omitempty" tf:"encipher_only,omitempty"`
+
+	// The key may be used in a key agreement protocol.
+	KeyAgreement *bool `json:"keyAgreement,omitempty" tf:"key_agreement,omitempty"`
+
+	// The key may be used to encipher other keys.
+	KeyEncipherment *bool `json:"keyEncipherment,omitempty" tf:"key_encipherment,omitempty"`
 }
 
 type KeyUsageBaseKeyUsageParameters struct {
@@ -474,60 +447,13 @@ type KeyUsageExtendedKeyUsageObservation struct {
 type KeyUsageExtendedKeyUsageParameters struct {
 }
 
-type KeyUsageOptionsInitParameters struct {
-}
-
-type KeyUsageOptionsObservation struct {
-
-	// (Output)
-	// The key may be used to sign certificates.
-	CertSign *bool `json:"certSign,omitempty" tf:"cert_sign,omitempty"`
-
-	// (Output)
-	// The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
-	ContentCommitment *bool `json:"contentCommitment,omitempty" tf:"content_commitment,omitempty"`
-
-	// (Output)
-	// The key may be used sign certificate revocation lists.
-	CrlSign *bool `json:"crlSign,omitempty" tf:"crl_sign,omitempty"`
-
-	// (Output)
-	// The key may be used to encipher data.
-	DataEncipherment *bool `json:"dataEncipherment,omitempty" tf:"data_encipherment,omitempty"`
-
-	// (Output)
-	// The key may be used to decipher only.
-	DecipherOnly *bool `json:"decipherOnly,omitempty" tf:"decipher_only,omitempty"`
-
-	// (Output)
-	// The key may be used for digital signatures.
-	DigitalSignature *bool `json:"digitalSignature,omitempty" tf:"digital_signature,omitempty"`
-
-	// (Output)
-	// The key may be used to encipher only.
-	EncipherOnly *bool `json:"encipherOnly,omitempty" tf:"encipher_only,omitempty"`
-
-	// (Output)
-	// The key may be used in a key agreement protocol.
-	KeyAgreement *bool `json:"keyAgreement,omitempty" tf:"key_agreement,omitempty"`
-
-	// (Output)
-	// The key may be used to encipher other keys.
-	KeyEncipherment *bool `json:"keyEncipherment,omitempty" tf:"key_encipherment,omitempty"`
-}
-
-type KeyUsageOptionsParameters struct {
-}
-
 type KeyUsageUnknownExtendedKeyUsagesInitParameters struct {
 }
 
 type KeyUsageUnknownExtendedKeyUsagesObservation struct {
 
-	// (Output)
-	// Required. Describes how some of the technical fields in a certificate should be populated.
-	// Structure is documented below.
-	ObectID []ObectIDObservation `json:"obectId,omitempty" tf:"obect_id,omitempty"`
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
+	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
 }
 
 type KeyUsageUnknownExtendedKeyUsagesParameters struct {
@@ -1024,125 +950,98 @@ type X509ConfigInitParameters struct {
 
 type X509ConfigKeyUsageBaseKeyUsageInitParameters struct {
 
-	// (Output)
 	// The key may be used to sign certificates.
 	CertSign *bool `json:"certSign,omitempty" tf:"cert_sign,omitempty"`
 
-	// (Output)
 	// The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
 	ContentCommitment *bool `json:"contentCommitment,omitempty" tf:"content_commitment,omitempty"`
 
-	// (Output)
 	// The key may be used sign certificate revocation lists.
 	CrlSign *bool `json:"crlSign,omitempty" tf:"crl_sign,omitempty"`
 
-	// (Output)
 	// The key may be used to encipher data.
 	DataEncipherment *bool `json:"dataEncipherment,omitempty" tf:"data_encipherment,omitempty"`
 
-	// (Output)
 	// The key may be used to decipher only.
 	DecipherOnly *bool `json:"decipherOnly,omitempty" tf:"decipher_only,omitempty"`
 
-	// (Output)
 	// The key may be used for digital signatures.
 	DigitalSignature *bool `json:"digitalSignature,omitempty" tf:"digital_signature,omitempty"`
 
-	// (Output)
 	// The key may be used to encipher only.
 	EncipherOnly *bool `json:"encipherOnly,omitempty" tf:"encipher_only,omitempty"`
 
-	// (Output)
 	// The key may be used in a key agreement protocol.
 	KeyAgreement *bool `json:"keyAgreement,omitempty" tf:"key_agreement,omitempty"`
 
-	// (Output)
 	// The key may be used to encipher other keys.
 	KeyEncipherment *bool `json:"keyEncipherment,omitempty" tf:"key_encipherment,omitempty"`
 }
 
 type X509ConfigKeyUsageBaseKeyUsageObservation struct {
 
-	// (Output)
 	// The key may be used to sign certificates.
 	CertSign *bool `json:"certSign,omitempty" tf:"cert_sign,omitempty"`
 
-	// (Output)
 	// The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
 	ContentCommitment *bool `json:"contentCommitment,omitempty" tf:"content_commitment,omitempty"`
 
-	// (Output)
 	// The key may be used sign certificate revocation lists.
 	CrlSign *bool `json:"crlSign,omitempty" tf:"crl_sign,omitempty"`
 
-	// (Output)
 	// The key may be used to encipher data.
 	DataEncipherment *bool `json:"dataEncipherment,omitempty" tf:"data_encipherment,omitempty"`
 
-	// (Output)
 	// The key may be used to decipher only.
 	DecipherOnly *bool `json:"decipherOnly,omitempty" tf:"decipher_only,omitempty"`
 
-	// (Output)
 	// The key may be used for digital signatures.
 	DigitalSignature *bool `json:"digitalSignature,omitempty" tf:"digital_signature,omitempty"`
 
-	// (Output)
 	// The key may be used to encipher only.
 	EncipherOnly *bool `json:"encipherOnly,omitempty" tf:"encipher_only,omitempty"`
 
-	// (Output)
 	// The key may be used in a key agreement protocol.
 	KeyAgreement *bool `json:"keyAgreement,omitempty" tf:"key_agreement,omitempty"`
 
-	// (Output)
 	// The key may be used to encipher other keys.
 	KeyEncipherment *bool `json:"keyEncipherment,omitempty" tf:"key_encipherment,omitempty"`
 }
 
 type X509ConfigKeyUsageBaseKeyUsageParameters struct {
 
-	// (Output)
 	// The key may be used to sign certificates.
 	// +kubebuilder:validation:Optional
 	CertSign *bool `json:"certSign,omitempty" tf:"cert_sign,omitempty"`
 
-	// (Output)
 	// The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
 	// +kubebuilder:validation:Optional
 	ContentCommitment *bool `json:"contentCommitment,omitempty" tf:"content_commitment,omitempty"`
 
-	// (Output)
 	// The key may be used sign certificate revocation lists.
 	// +kubebuilder:validation:Optional
 	CrlSign *bool `json:"crlSign,omitempty" tf:"crl_sign,omitempty"`
 
-	// (Output)
 	// The key may be used to encipher data.
 	// +kubebuilder:validation:Optional
 	DataEncipherment *bool `json:"dataEncipherment,omitempty" tf:"data_encipherment,omitempty"`
 
-	// (Output)
 	// The key may be used to decipher only.
 	// +kubebuilder:validation:Optional
 	DecipherOnly *bool `json:"decipherOnly,omitempty" tf:"decipher_only,omitempty"`
 
-	// (Output)
 	// The key may be used for digital signatures.
 	// +kubebuilder:validation:Optional
 	DigitalSignature *bool `json:"digitalSignature,omitempty" tf:"digital_signature,omitempty"`
 
-	// (Output)
 	// The key may be used to encipher only.
 	// +kubebuilder:validation:Optional
 	EncipherOnly *bool `json:"encipherOnly,omitempty" tf:"encipher_only,omitempty"`
 
-	// (Output)
 	// The key may be used in a key agreement protocol.
 	// +kubebuilder:validation:Optional
 	KeyAgreement *bool `json:"keyAgreement,omitempty" tf:"key_agreement,omitempty"`
 
-	// (Output)
 	// The key may be used to encipher other keys.
 	// +kubebuilder:validation:Optional
 	KeyEncipherment *bool `json:"keyEncipherment,omitempty" tf:"key_encipherment,omitempty"`
@@ -1585,78 +1484,6 @@ type X509DescriptionCAOptionsParameters struct {
 type X509DescriptionInitParameters struct {
 }
 
-type X509DescriptionKeyUsageBaseKeyUsageInitParameters struct {
-}
-
-type X509DescriptionKeyUsageBaseKeyUsageObservation struct {
-
-	// (Output)
-	// The key may be used to sign certificates.
-	CertSign *bool `json:"certSign,omitempty" tf:"cert_sign,omitempty"`
-
-	// (Output)
-	// The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
-	ContentCommitment *bool `json:"contentCommitment,omitempty" tf:"content_commitment,omitempty"`
-
-	// (Output)
-	// The key may be used sign certificate revocation lists.
-	CrlSign *bool `json:"crlSign,omitempty" tf:"crl_sign,omitempty"`
-
-	// (Output)
-	// The key may be used to encipher data.
-	DataEncipherment *bool `json:"dataEncipherment,omitempty" tf:"data_encipherment,omitempty"`
-
-	// (Output)
-	// The key may be used to decipher only.
-	DecipherOnly *bool `json:"decipherOnly,omitempty" tf:"decipher_only,omitempty"`
-
-	// (Output)
-	// The key may be used for digital signatures.
-	DigitalSignature *bool `json:"digitalSignature,omitempty" tf:"digital_signature,omitempty"`
-
-	// (Output)
-	// The key may be used to encipher only.
-	EncipherOnly *bool `json:"encipherOnly,omitempty" tf:"encipher_only,omitempty"`
-
-	// (Output)
-	// The key may be used in a key agreement protocol.
-	KeyAgreement *bool `json:"keyAgreement,omitempty" tf:"key_agreement,omitempty"`
-
-	// (Output)
-	// The key may be used to encipher other keys.
-	KeyEncipherment *bool `json:"keyEncipherment,omitempty" tf:"key_encipherment,omitempty"`
-}
-
-type X509DescriptionKeyUsageBaseKeyUsageParameters struct {
-}
-
-type X509DescriptionKeyUsageExtendedKeyUsageInitParameters struct {
-}
-
-type X509DescriptionKeyUsageExtendedKeyUsageObservation struct {
-
-	// Corresponds to OID 1.3.6.1.5.5.7.3.2. Officially described as "TLS WWW client authentication", though regularly used for non-WWW TLS.
-	ClientAuth *bool `json:"clientAuth,omitempty" tf:"client_auth,omitempty"`
-
-	// Corresponds to OID 1.3.6.1.5.5.7.3.3. Officially described as "Signing of downloadable executable code client authentication".
-	CodeSigning *bool `json:"codeSigning,omitempty" tf:"code_signing,omitempty"`
-
-	// Corresponds to OID 1.3.6.1.5.5.7.3.4. Officially described as "Email protection".
-	EmailProtection *bool `json:"emailProtection,omitempty" tf:"email_protection,omitempty"`
-
-	// Corresponds to OID 1.3.6.1.5.5.7.3.9. Officially described as "Signing OCSP responses".
-	OcspSigning *bool `json:"ocspSigning,omitempty" tf:"ocsp_signing,omitempty"`
-
-	// Corresponds to OID 1.3.6.1.5.5.7.3.1. Officially described as "TLS WWW server authentication", though regularly used for non-WWW TLS.
-	ServerAuth *bool `json:"serverAuth,omitempty" tf:"server_auth,omitempty"`
-
-	// Corresponds to OID 1.3.6.1.5.5.7.3.8. Officially described as "Binding the hash of an object to a time".
-	TimeStamping *bool `json:"timeStamping,omitempty" tf:"time_stamping,omitempty"`
-}
-
-type X509DescriptionKeyUsageExtendedKeyUsageParameters struct {
-}
-
 type X509DescriptionKeyUsageInitParameters struct {
 }
 
@@ -1664,30 +1491,18 @@ type X509DescriptionKeyUsageObservation struct {
 
 	// Describes high-level ways in which a key may be used.
 	// Structure is documented below.
-	BaseKeyUsage []X509DescriptionKeyUsageBaseKeyUsageObservation `json:"baseKeyUsage,omitempty" tf:"base_key_usage,omitempty"`
+	BaseKeyUsage []KeyUsageBaseKeyUsageObservation `json:"baseKeyUsage,omitempty" tf:"base_key_usage,omitempty"`
 
 	// Describes high-level ways in which a key may be used.
 	// Structure is documented below.
-	ExtendedKeyUsage []X509DescriptionKeyUsageExtendedKeyUsageObservation `json:"extendedKeyUsage,omitempty" tf:"extended_key_usage,omitempty"`
+	ExtendedKeyUsage []KeyUsageExtendedKeyUsageObservation `json:"extendedKeyUsage,omitempty" tf:"extended_key_usage,omitempty"`
 
 	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	// Structure is documented below.
-	UnknownExtendedKeyUsages []X509DescriptionKeyUsageUnknownExtendedKeyUsagesObservation `json:"unknownExtendedKeyUsages,omitempty" tf:"unknown_extended_key_usages,omitempty"`
+	UnknownExtendedKeyUsages []KeyUsageUnknownExtendedKeyUsagesObservation `json:"unknownExtendedKeyUsages,omitempty" tf:"unknown_extended_key_usages,omitempty"`
 }
 
 type X509DescriptionKeyUsageParameters struct {
-}
-
-type X509DescriptionKeyUsageUnknownExtendedKeyUsagesInitParameters struct {
-}
-
-type X509DescriptionKeyUsageUnknownExtendedKeyUsagesObservation struct {
-
-	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
-	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
-}
-
-type X509DescriptionKeyUsageUnknownExtendedKeyUsagesParameters struct {
 }
 
 type X509DescriptionNameConstraintsInitParameters struct {

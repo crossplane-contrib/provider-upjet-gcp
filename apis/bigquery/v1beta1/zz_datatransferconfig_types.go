@@ -129,8 +129,9 @@ type DataTransferConfigObservation struct {
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// The resource name of the transfer config. Transfer config names have the
-	// form projects/{projectId}/locations/{location}/transferConfigs/{configId}.
-	// Where configId is usually a uuid, but this is not required.
+	// form projects/{projectId}/locations/{location}/transferConfigs/{configId}
+	// or projects/{projectId}/transferConfigs/{configId},
+	// where configId is usually a uuid, but this is not required.
 	// The name is ignored when creating a transfer config.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 

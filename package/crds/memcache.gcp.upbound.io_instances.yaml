@@ -593,6 +593,10 @@ spec:
                   displayName:
                     description: A user-visible name for the instance.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/instances/{{name}}
                     type: string
@@ -778,6 +782,12 @@ spec:
                     description: The region of the Memcache instance. If it is not
                       provided, the provider region is used.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                   zones:
                     description: Zones where memcache nodes should be provisioned.  If
                       not provided, all zones will be used.

@@ -224,6 +224,22 @@ func (in *JobObservation) DeepCopyInto(out *JobObservation) {
 			}
 		}
 	}
+	if in.EffectiveLabels != nil {
+		in, out := &in.EffectiveLabels, &out.EffectiveLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.EnableStreamingEngine != nil {
 		in, out := &in.EnableStreamingEngine, &out.EnableStreamingEngine
 		*out = new(bool)
@@ -327,6 +343,22 @@ func (in *JobObservation) DeepCopyInto(out *JobObservation) {
 		in, out := &in.TemplateGcsPath, &out.TemplateGcsPath
 		*out = new(string)
 		**out = **in
+	}
+	if in.TerraformLabels != nil {
+		in, out := &in.TerraformLabels, &out.TerraformLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.TransformNameMapping != nil {
 		in, out := &in.TransformNameMapping, &out.TransformNameMapping

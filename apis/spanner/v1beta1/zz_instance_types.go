@@ -72,6 +72,9 @@ type InstanceObservation struct {
 	// unique per project and between 4 and 30 characters in length.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// for all of the labels present on the resource.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// When deleting a spanner instance, this boolean option will delete all backups of this instance.
 	// This must be set to true if you created a backup manually in the console.
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
@@ -95,6 +98,10 @@ type InstanceObservation struct {
 
 	// Instance status: CREATING or READY.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type InstanceParameters struct {

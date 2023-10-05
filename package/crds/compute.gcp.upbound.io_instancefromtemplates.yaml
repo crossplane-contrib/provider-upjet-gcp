@@ -232,6 +232,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        internalIpv6PrefixLength:
+                          type: number
                         ipv6AccessConfig:
                           items:
                             properties:
@@ -253,6 +255,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        ipv6Address:
+                          type: string
                         network:
                           type: string
                         networkIp:
@@ -778,6 +782,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        internalIpv6PrefixLength:
+                          type: number
                         ipv6AccessConfig:
                           items:
                             properties:
@@ -799,6 +805,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        ipv6Address:
+                          type: string
                         networkIp:
                           type: string
                         nicType:
@@ -1193,6 +1201,10 @@ spec:
                     type: string
                   desiredStatus:
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
                   enableDisplay:
                     type: boolean
                   guestAccelerator:
@@ -1263,6 +1275,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        internalIpv6PrefixLength:
+                          type: number
                         ipv6AccessConfig:
                           items:
                             properties:
@@ -1285,6 +1299,8 @@ spec:
                             type: object
                           type: array
                         ipv6AccessType:
+                          type: string
+                        ipv6Address:
                           type: string
                         name:
                           description: A unique name for the resource, required by
@@ -1429,6 +1445,10 @@ spec:
                     type: array
                   tagsFingerprint:
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
                   zone:
                     description: The zone that the machine should be created in. If
                       not set, the provider zone is used.

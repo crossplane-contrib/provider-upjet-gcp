@@ -37,7 +37,6 @@ import (
 	v1beta1cloudbuild "github.com/upbound/provider-gcp/apis/cloudbuild/v1beta1"
 	v1beta1cloudfunctions "github.com/upbound/provider-gcp/apis/cloudfunctions/v1beta1"
 	v1beta1cloudfunctions2 "github.com/upbound/provider-gcp/apis/cloudfunctions2/v1beta1"
-	v1beta1cloudiot "github.com/upbound/provider-gcp/apis/cloudiot/v1beta1"
 	v1beta1cloudplatform "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1"
 	v1beta1cloudrun "github.com/upbound/provider-gcp/apis/cloudrun/v1beta1"
 	v1beta1cloudscheduler "github.com/upbound/provider-gcp/apis/cloudscheduler/v1beta1"
@@ -115,7 +114,6 @@ func init() {
 		v1beta1cloudbuild.SchemeBuilder.AddToScheme,
 		v1beta1cloudfunctions.SchemeBuilder.AddToScheme,
 		v1beta1cloudfunctions2.SchemeBuilder.AddToScheme,
-		v1beta1cloudiot.SchemeBuilder.AddToScheme,
 		v1beta1cloudplatform.SchemeBuilder.AddToScheme,
 		v1beta1cloudrun.SchemeBuilder.AddToScheme,
 		v1beta1cloudscheduler.SchemeBuilder.AddToScheme,

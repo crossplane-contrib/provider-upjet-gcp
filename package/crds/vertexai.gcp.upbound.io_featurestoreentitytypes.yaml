@@ -557,6 +557,11 @@ spec:
                   description:
                     description: Optional. Description of the EntityType.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
                   etag:
                     description: Used to perform consistent read-modify-write updates.
                     type: string
@@ -676,6 +681,12 @@ spec:
                     type: string
                   region:
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                   updateTime:
                     description: The timestamp of when the featurestore was last updated
                       in RFC3339 UTC "Zulu" format, with nanosecond resolution and

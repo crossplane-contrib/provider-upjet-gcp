@@ -777,6 +777,11 @@ spec:
                   description:
                     description: User specified descriptive string for this BackupPlan.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
                   etag:
                     description: 'etag is used for optimistic concurrency control
                       as a way to help prevent simultaneous updates of a backup plan
@@ -851,6 +856,12 @@ spec:
                     description: Detailed description of why BackupPlan is in its
                       current state.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                   uid:
                     description: Server generated, unique identifier of UUID format.
                     type: string

@@ -287,7 +287,7 @@ type DatasetInitParameters struct {
 	IsCaseInsensitive *bool `json:"isCaseInsensitive,omitempty" tf:"is_case_insensitive,omitempty"`
 
 	// The labels associated with this dataset. You can use these to
-	// organize and group your datasets
+	// organize and group your datasets.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The geographic location where the dataset should reside.
@@ -345,6 +345,9 @@ type DatasetObservation struct {
 	// A user-friendly description of the dataset
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// for all of the labels present on the resource.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// A hash of the resource.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
@@ -360,7 +363,7 @@ type DatasetObservation struct {
 	IsCaseInsensitive *bool `json:"isCaseInsensitive,omitempty" tf:"is_case_insensitive,omitempty"`
 
 	// The labels associated with this dataset. You can use these to
-	// organize and group your datasets
+	// organize and group your datasets.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The date when this dataset or any of its tables was last modified, in
@@ -386,6 +389,10 @@ type DatasetObservation struct {
 	// or to PHYSICAL to use physical bytes instead.
 	// LOGICAL is the default if this flag isn't specified.
 	StorageBillingModel *string `json:"storageBillingModel,omitempty" tf:"storage_billing_model,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type DatasetParameters struct {
@@ -443,7 +450,7 @@ type DatasetParameters struct {
 	IsCaseInsensitive *bool `json:"isCaseInsensitive,omitempty" tf:"is_case_insensitive,omitempty"`
 
 	// The labels associated with this dataset. You can use these to
-	// organize and group your datasets
+	// organize and group your datasets.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 

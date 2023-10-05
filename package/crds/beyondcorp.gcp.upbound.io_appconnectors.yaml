@@ -396,6 +396,10 @@ spec:
                   displayName:
                     description: An arbitrary user-provided name for the AppConnector.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/appConnectors/{{name}}
                     type: string
@@ -431,6 +435,12 @@ spec:
                   state:
                     description: Represents the different states of a AppConnector.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                 type: object
               conditions:
                 description: Conditions of the resource.

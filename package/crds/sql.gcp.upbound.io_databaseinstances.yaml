@@ -91,6 +91,12 @@ spec:
                           description: The timestamp of the point in time that should
                             be restored.
                           type: string
+                        preferredZone:
+                          description: (Point-in-time recovery for PostgreSQL only)
+                            Clone to an instance in the specified zone. If no zone
+                            is specified, clone to the same zone as the source instance.
+                            clone-unavailable-instance
+                          type: string
                         sourceInstanceName:
                           description: Name of the source instance which will be cloned.
                           type: string
@@ -192,6 +198,7 @@ spec:
                           - namespace
                           type: object
                         sslCipher:
+                          description: Permissible ciphers for use in SSL encryption.
                           type: string
                         username:
                           description: Username for replication connection.
@@ -568,6 +575,26 @@ spec:
                                         type: string
                                     type: object
                                 type: object
+                              pscConfig:
+                                items:
+                                  properties:
+                                    allowedConsumerProjects:
+                                      description: List of consumer projects that
+                                        are allow-listed for PSC connections to this
+                                        instance. This instance can be connected to
+                                        with PSC from any network in these projects.
+                                        Each consumer project in this list may be
+                                        represented by a project number (numeric)
+                                        or by a project id (alphanumeric).
+                                      items:
+                                        type: string
+                                      type: array
+                                    pscEnabled:
+                                      description: Whether PSC connectivity is enabled
+                                        for this instance.
+                                      type: boolean
+                                  type: object
+                                type: array
                               requireSsl:
                                 description: Whether SSL connections over IP are enforced
                                   or not.
@@ -717,6 +744,12 @@ spec:
                           description: The timestamp of the point in time that should
                             be restored.
                           type: string
+                        preferredZone:
+                          description: (Point-in-time recovery for PostgreSQL only)
+                            Clone to an instance in the specified zone. If no zone
+                            is specified, clone to the same zone as the source instance.
+                            clone-unavailable-instance
+                          type: string
                         sourceInstanceName:
                           description: Name of the source instance which will be cloned.
                           type: string
@@ -801,6 +834,7 @@ spec:
                           description: Time in ms between replication heartbeats.
                           type: number
                         sslCipher:
+                          description: Permissible ciphers for use in SSL encryption.
                           type: string
                         username:
                           description: Username for replication connection.
@@ -1071,6 +1105,26 @@ spec:
                                   be assigned a public IPV4 address. At least ipv4_enabled
                                   must be enabled or a private_network must be configured.
                                 type: boolean
+                              pscConfig:
+                                items:
+                                  properties:
+                                    allowedConsumerProjects:
+                                      description: List of consumer projects that
+                                        are allow-listed for PSC connections to this
+                                        instance. This instance can be connected to
+                                        with PSC from any network in these projects.
+                                        Each consumer project in this list may be
+                                        represented by a project number (numeric)
+                                        or by a project id (alphanumeric).
+                                      items:
+                                        type: string
+                                      type: array
+                                    pscEnabled:
+                                      description: Whether PSC connectivity is enabled
+                                        for this instance.
+                                      type: boolean
+                                  type: object
+                                type: array
                               requireSsl:
                                 description: Whether SSL connections over IP are enforced
                                   or not.
@@ -1384,6 +1438,12 @@ spec:
                           description: The timestamp of the point in time that should
                             be restored.
                           type: string
+                        preferredZone:
+                          description: (Point-in-time recovery for PostgreSQL only)
+                            Clone to an instance in the specified zone. If no zone
+                            is specified, clone to the same zone as the source instance.
+                            clone-unavailable-instance
+                          type: string
                         sourceInstanceName:
                           description: Name of the source instance which will be cloned.
                           type: string
@@ -1406,6 +1466,10 @@ spec:
                   deletionProtection:
                     description: Defaults to true.
                     type: boolean
+                  dnsName:
+                    description: The name of the instance. This is done because after
+                      a name is used, it cannot be reused for up to one week.
+                    type: string
                   encryptionKeyName:
                     description: The full path to the encryption key used for the
                       CMEK disk encryption. The provided key must be in the same region
@@ -1462,6 +1526,8 @@ spec:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  pscServiceAttachmentLink:
+                    type: string
                   publicIpAddress:
                     description: The first public (PRIMARY) IPv4 address assigned.
                     type: string
@@ -1505,6 +1571,7 @@ spec:
                           description: Time in ms between replication heartbeats.
                           type: number
                         sslCipher:
+                          description: Permissible ciphers for use in SSL encryption.
                           type: string
                         username:
                           description: Username for replication connection.
@@ -1812,6 +1879,26 @@ spec:
                                   must be configured. This setting can be updated,
                                   but it cannot be removed after it is set.
                                 type: string
+                              pscConfig:
+                                items:
+                                  properties:
+                                    allowedConsumerProjects:
+                                      description: List of consumer projects that
+                                        are allow-listed for PSC connections to this
+                                        instance. This instance can be connected to
+                                        with PSC from any network in these projects.
+                                        Each consumer project in this list may be
+                                        represented by a project number (numeric)
+                                        or by a project id (alphanumeric).
+                                      items:
+                                        type: string
+                                      type: array
+                                    pscEnabled:
+                                      description: Whether PSC connectivity is enabled
+                                        for this instance.
+                                      type: boolean
+                                  type: object
+                                type: array
                               requireSsl:
                                 description: Whether SSL connections over IP are enforced
                                   or not.

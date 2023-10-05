@@ -47,6 +47,8 @@ type AppConnectorObservation struct {
 	// An arbitrary user-provided name for the AppConnector.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/appConnectors/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -66,6 +68,10 @@ type AppConnectorObservation struct {
 
 	// Represents the different states of a AppConnector.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type AppConnectorParameters struct {

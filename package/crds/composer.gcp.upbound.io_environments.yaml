@@ -560,6 +560,11 @@ spec:
                                   tenant project will be reserved for Cloud SQL. Needs
                                   to be disjoint from web_server_ipv4_cidr_block
                                 type: string
+                              connectionType:
+                                description: Mode of internal communication within
+                                  the Composer environment. Must be one of "VPC_PEERING"
+                                  or "PRIVATE_SERVICE_CONNECT".
+                                type: string
                               enablePrivateEndpoint:
                                 description: If true, access to the public endpoint
                                   of the GKE cluster is denied. If this field is set
@@ -1145,6 +1150,11 @@ spec:
                                 description: The CIDR block from which IP range in
                                   tenant project will be reserved for Cloud SQL. Needs
                                   to be disjoint from web_server_ipv4_cidr_block
+                                type: string
+                              connectionType:
+                                description: Mode of internal communication within
+                                  the Composer environment. Must be one of "VPC_PEERING"
+                                  or "PRIVATE_SERVICE_CONNECT".
                                 type: string
                               enablePrivateEndpoint:
                                 description: If true, access to the public endpoint
@@ -1840,6 +1850,11 @@ spec:
                                   tenant project will be reserved for Cloud SQL. Needs
                                   to be disjoint from web_server_ipv4_cidr_block
                                 type: string
+                              connectionType:
+                                description: Mode of internal communication within
+                                  the Composer environment. Must be one of "VPC_PEERING"
+                                  or "PRIVATE_SERVICE_CONNECT".
+                                type: string
                               enablePrivateEndpoint:
                                 description: If true, access to the public endpoint
                                   of the GKE cluster is denied. If this field is set
@@ -2085,6 +2100,10 @@ spec:
                           type: array
                       type: object
                     type: array
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/environments/{{name}}
                     type: string
@@ -2108,6 +2127,12 @@ spec:
                   region:
                     description: The location or Compute Engine region for the environment.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                 type: object
               conditions:
                 description: Conditions of the resource.

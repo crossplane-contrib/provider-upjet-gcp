@@ -412,6 +412,11 @@ spec:
                     description: Description of the workflow provided by the user.
                       Must be at most 1000 unicode characters long.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/workflows/{{name}}
                     type: string
@@ -458,6 +463,12 @@ spec:
                   state:
                     description: State of the workflow deployment.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                   updateTime:
                     description: The timestamp of when the workflow was last updated
                       in RFC3339 UTC "Zulu" format, with nanosecond resolution and

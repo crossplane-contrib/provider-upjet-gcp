@@ -435,6 +435,8 @@ type JobObservation struct {
 	// Structure is documented below.
 	Copy []CopyObservation `json:"copy,omitempty" tf:"copy,omitempty"`
 
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// Configures an extract job.
 	// Structure is documented below.
 	Extract []ExtractObservation `json:"extract,omitempty" tf:"extract,omitempty"`
@@ -473,6 +475,11 @@ type JobObservation struct {
 	// The status of this job. Examine this value when polling an asynchronous job to see if the job is complete.
 	// Structure is documented below.
 	Status []StatusObservation `json:"status,omitempty" tf:"status,omitempty"`
+
+	// (Output)
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// Email address of the user who ran the job.
 	UserEmail *string `json:"userEmail,omitempty" tf:"user_email,omitempty"`

@@ -363,7 +363,7 @@ spec:
                                             description: Port number to access on
                                               the container. Must be in the range
                                               1 to 65535. If not specified, defaults
-                                              to 8080.
+                                              to the same value as container.ports[0].containerPort.
                                             type: number
                                           service:
                                             description: The name of the service to
@@ -403,7 +403,7 @@ spec:
                                             description: Port number to access on
                                               the container. Must be in the range
                                               1 to 65535. If not specified, defaults
-                                              to 8080.
+                                              to the same value as container.ports[0].containerPort.
                                             type: number
                                         type: object
                                       type: array
@@ -422,21 +422,6 @@ spec:
                                         is 3600. Maximum value for startup probe is
                                         240. Must be greater or equal than timeoutSeconds
                                       type: number
-                                    tcpSocket:
-                                      description: TCPSocket specifies an action involving
-                                        a TCP port. Exactly one of HTTPGet or TCPSocket
-                                        must be specified. Structure is documented
-                                        below.
-                                      items:
-                                        properties:
-                                          port:
-                                            description: Port number to access on
-                                              the container. Must be in the range
-                                              1 to 65535. If not specified, defaults
-                                              to 8080.
-                                            type: number
-                                        type: object
-                                      type: array
                                     timeoutSeconds:
                                       description: 'Number of seconds after which
                                         the probe times out. Defaults to 1 second.
@@ -521,7 +506,7 @@ spec:
                                             description: Port number to access on
                                               the container. Must be in the range
                                               1 to 65535. If not specified, defaults
-                                              to 8080.
+                                              to the same value as container.ports[0].containerPort.
                                             type: number
                                           service:
                                             description: The name of the service to
@@ -561,7 +546,7 @@ spec:
                                             description: Port number to access on
                                               the container. Must be in the range
                                               1 to 65535. If not specified, defaults
-                                              to 8080.
+                                              to the same value as container.ports[0].containerPort.
                                             type: number
                                         type: object
                                       type: array
@@ -591,7 +576,7 @@ spec:
                                             description: Port number to access on
                                               the container. Must be in the range
                                               1 to 65535. If not specified, defaults
-                                              to 8080.
+                                              to the same value as container.ports[0].containerPort.
                                             type: number
                                         type: object
                                       type: array
@@ -871,6 +856,40 @@ spec:
                                 description: 'Traffic VPC egress settings. Possible
                                   values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.'
                                 type: string
+                              networkInterfaces:
+                                description: Direct VPC egress settings. Currently
+                                  only single network interface is supported. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    network:
+                                      description: The VPC network that the Cloud
+                                        Run resource will be able to send traffic
+                                        to. At least one of network or subnetwork
+                                        must be specified. If both network and subnetwork
+                                        are specified, the given VPC subnetwork must
+                                        belong to the given VPC network. If network
+                                        is not specified, it will be looked up from
+                                        the subnetwork.
+                                      type: string
+                                    subnetwork:
+                                      description: The VPC subnetwork that the Cloud
+                                        Run resource will get IPs from. At least one
+                                        of network or subnetwork must be specified.
+                                        If both network and subnetwork are specified,
+                                        the given VPC subnetwork must belong to the
+                                        given VPC network. If subnetwork is not specified,
+                                        the subnetwork with the same name with the
+                                        network will be used.
+                                      type: string
+                                    tags:
+                                      description: Network tags applied to this Cloud
+                                        Run service.
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
                             type: object
                           type: array
                       type: object
@@ -1101,7 +1120,7 @@ spec:
                                             description: Port number to access on
                                               the container. Must be in the range
                                               1 to 65535. If not specified, defaults
-                                              to 8080.
+                                              to the same value as container.ports[0].containerPort.
                                             type: number
                                           service:
                                             description: The name of the service to
@@ -1141,7 +1160,7 @@ spec:
                                             description: Port number to access on
                                               the container. Must be in the range
                                               1 to 65535. If not specified, defaults
-                                              to 8080.
+                                              to the same value as container.ports[0].containerPort.
                                             type: number
                                         type: object
                                       type: array
@@ -1160,21 +1179,6 @@ spec:
                                         is 3600. Maximum value for startup probe is
                                         240. Must be greater or equal than timeoutSeconds
                                       type: number
-                                    tcpSocket:
-                                      description: TCPSocket specifies an action involving
-                                        a TCP port. Exactly one of HTTPGet or TCPSocket
-                                        must be specified. Structure is documented
-                                        below.
-                                      items:
-                                        properties:
-                                          port:
-                                            description: Port number to access on
-                                              the container. Must be in the range
-                                              1 to 65535. If not specified, defaults
-                                              to 8080.
-                                            type: number
-                                        type: object
-                                      type: array
                                     timeoutSeconds:
                                       description: 'Number of seconds after which
                                         the probe times out. Defaults to 1 second.
@@ -1259,7 +1263,7 @@ spec:
                                             description: Port number to access on
                                               the container. Must be in the range
                                               1 to 65535. If not specified, defaults
-                                              to 8080.
+                                              to the same value as container.ports[0].containerPort.
                                             type: number
                                           service:
                                             description: The name of the service to
@@ -1299,7 +1303,7 @@ spec:
                                             description: Port number to access on
                                               the container. Must be in the range
                                               1 to 65535. If not specified, defaults
-                                              to 8080.
+                                              to the same value as container.ports[0].containerPort.
                                             type: number
                                         type: object
                                       type: array
@@ -1329,7 +1333,7 @@ spec:
                                             description: Port number to access on
                                               the container. Must be in the range
                                               1 to 65535. If not specified, defaults
-                                              to 8080.
+                                              to the same value as container.ports[0].containerPort.
                                             type: number
                                         type: object
                                       type: array
@@ -1520,6 +1524,40 @@ spec:
                                 description: 'Traffic VPC egress settings. Possible
                                   values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.'
                                 type: string
+                              networkInterfaces:
+                                description: Direct VPC egress settings. Currently
+                                  only single network interface is supported. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    network:
+                                      description: The VPC network that the Cloud
+                                        Run resource will be able to send traffic
+                                        to. At least one of network or subnetwork
+                                        must be specified. If both network and subnetwork
+                                        are specified, the given VPC subnetwork must
+                                        belong to the given VPC network. If network
+                                        is not specified, it will be looked up from
+                                        the subnetwork.
+                                      type: string
+                                    subnetwork:
+                                      description: The VPC subnetwork that the Cloud
+                                        Run resource will get IPs from. At least one
+                                        of network or subnetwork must be specified.
+                                        If both network and subnetwork are specified,
+                                        the given VPC subnetwork must belong to the
+                                        given VPC network. If subnetwork is not specified,
+                                        the subnetwork with the same name with the
+                                        network will be used.
+                                      type: string
+                                    tags:
+                                      description: Network tags applied to this Cloud
+                                        Run service.
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
                             type: object
                           type: array
                       type: object
@@ -1801,14 +1839,35 @@ spec:
                           type: string
                       type: object
                     type: array
+                  createTime:
+                    description: The creation time.
+                    type: string
+                  creator:
+                    description: Email address of the authenticated creator.
+                    type: string
+                  deleteTime:
+                    description: The deletion time.
+                    type: string
                   description:
                     description: User-provided description of the Service. This field
                       currently has a 512-character limit.
                     type: string
+                  effectiveAnnotations:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
                   etag:
                     description: A system-generated fingerprint for this version of
                       the resource. May be used to detect modification conflict during
                       updates.
+                    type: string
+                  expireTime:
+                    description: For a deleted resource, the time after which it will
+                      be permamently deleted.
                     type: string
                   generation:
                     description: A number that monotonically increases every time
@@ -1840,6 +1899,9 @@ spec:
                       namespaces, and they will be rejected. All system labels in
                       v1 now have a corresponding field in v2 RevisionTemplate.
                     type: object
+                  lastModifier:
+                    description: Email address of the last authenticated modifier.
+                    type: string
                   latestCreatedRevision:
                     description: Name of the last created revision. See comments in
                       reconciling for additional information on reconciliation process
@@ -2012,7 +2074,7 @@ spec:
                                             description: Port number to access on
                                               the container. Must be in the range
                                               1 to 65535. If not specified, defaults
-                                              to 8080.
+                                              to the same value as container.ports[0].containerPort.
                                             type: number
                                           service:
                                             description: The name of the service to
@@ -2052,7 +2114,7 @@ spec:
                                             description: Port number to access on
                                               the container. Must be in the range
                                               1 to 65535. If not specified, defaults
-                                              to 8080.
+                                              to the same value as container.ports[0].containerPort.
                                             type: number
                                         type: object
                                       type: array
@@ -2071,21 +2133,6 @@ spec:
                                         is 3600. Maximum value for startup probe is
                                         240. Must be greater or equal than timeoutSeconds
                                       type: number
-                                    tcpSocket:
-                                      description: TCPSocket specifies an action involving
-                                        a TCP port. Exactly one of HTTPGet or TCPSocket
-                                        must be specified. Structure is documented
-                                        below.
-                                      items:
-                                        properties:
-                                          port:
-                                            description: Port number to access on
-                                              the container. Must be in the range
-                                              1 to 65535. If not specified, defaults
-                                              to 8080.
-                                            type: number
-                                        type: object
-                                      type: array
                                     timeoutSeconds:
                                       description: 'Number of seconds after which
                                         the probe times out. Defaults to 1 second.
@@ -2170,7 +2217,7 @@ spec:
                                             description: Port number to access on
                                               the container. Must be in the range
                                               1 to 65535. If not specified, defaults
-                                              to 8080.
+                                              to the same value as container.ports[0].containerPort.
                                             type: number
                                           service:
                                             description: The name of the service to
@@ -2210,7 +2257,7 @@ spec:
                                             description: Port number to access on
                                               the container. Must be in the range
                                               1 to 65535. If not specified, defaults
-                                              to 8080.
+                                              to the same value as container.ports[0].containerPort.
                                             type: number
                                         type: object
                                       type: array
@@ -2240,7 +2287,7 @@ spec:
                                             description: Port number to access on
                                               the container. Must be in the range
                                               1 to 65535. If not specified, defaults
-                                              to 8080.
+                                              to the same value as container.ports[0].containerPort.
                                             type: number
                                         type: object
                                       type: array
@@ -2436,6 +2483,40 @@ spec:
                                 description: 'Traffic VPC egress settings. Possible
                                   values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.'
                                 type: string
+                              networkInterfaces:
+                                description: Direct VPC egress settings. Currently
+                                  only single network interface is supported. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    network:
+                                      description: The VPC network that the Cloud
+                                        Run resource will be able to send traffic
+                                        to. At least one of network or subnetwork
+                                        must be specified. If both network and subnetwork
+                                        are specified, the given VPC subnetwork must
+                                        belong to the given VPC network. If network
+                                        is not specified, it will be looked up from
+                                        the subnetwork.
+                                      type: string
+                                    subnetwork:
+                                      description: The VPC subnetwork that the Cloud
+                                        Run resource will get IPs from. At least one
+                                        of network or subnetwork must be specified.
+                                        If both network and subnetwork are specified,
+                                        the given VPC subnetwork must belong to the
+                                        given VPC network. If subnetwork is not specified,
+                                        the subnetwork with the same name with the
+                                        network will be used.
+                                      type: string
+                                    tags:
+                                      description: Network tags applied to this Cloud
+                                        Run service.
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
                             type: object
                           type: array
                       type: object
@@ -2481,6 +2562,12 @@ spec:
                           type: string
                       type: object
                     type: array
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                   traffic:
                     description: Specifies how to distribute traffic over a collection
                       of Revisions belonging to the Service. If traffic is empty or
@@ -2539,6 +2626,9 @@ spec:
                     description: Server assigned unique identifier for the trigger.
                       The value is a UUID4 string and guaranteed to remain unchanged
                       until the resource is deleted.
+                    type: string
+                  updateTime:
+                    description: The last-modified time.
                     type: string
                   uri:
                     description: The main URI in which this Service is serving traffic.

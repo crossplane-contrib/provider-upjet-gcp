@@ -21,7 +21,8 @@ import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
-	v1beta1 "github.com/upbound/provider-gcp/apis/kms/v1beta1"
+	v1beta1 "github.com/upbound/provider-gcp/apis/compute/v1beta1"
+	v1beta11 "github.com/upbound/provider-gcp/apis/kms/v1beta1"
 	resource "github.com/upbound/upjet/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -34,13 +35,29 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AuthorizedNetwork),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.ForProvider.AuthorizedNetworkRef,
+		Selector:     mg.Spec.ForProvider.AuthorizedNetworkSelector,
+		To: reference.To{
+			List:    &v1beta1.NetworkList{},
+			Managed: &v1beta1.Network{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.AuthorizedNetwork")
+	}
+	mg.Spec.ForProvider.AuthorizedNetwork = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.AuthorizedNetworkRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CustomerManagedKey),
 		Extract:      resource.ExtractResourceID(),
 		Reference:    mg.Spec.ForProvider.CustomerManagedKeyRef,
 		Selector:     mg.Spec.ForProvider.CustomerManagedKeySelector,
 		To: reference.To{
-			List:    &v1beta1.CryptoKeyList{},
-			Managed: &v1beta1.CryptoKey{},
+			List:    &v1beta11.CryptoKeyList{},
+			Managed: &v1beta11.CryptoKey{},
 		},
 	})
 	if err != nil {

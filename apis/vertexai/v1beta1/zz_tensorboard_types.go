@@ -75,6 +75,9 @@ type TensorboardObservation struct {
 	// Description of this Tensorboard.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// for all of the labels present on the resource.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// Customer-managed encryption key spec for a Tensorboard. If set, this Tensorboard and all sub-resources of this Tensorboard will be secured by this key.
 	// Structure is documented below.
 	EncryptionSpec []TensorboardEncryptionSpecObservation `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
@@ -97,6 +100,10 @@ type TensorboardObservation struct {
 
 	// The number of Runs stored in this Tensorboard.
 	RunCount *string `json:"runCount,omitempty" tf:"run_count,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// The timestamp of when the Tensorboard was last updated in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`

@@ -104,8 +104,9 @@ type InstanceGroupManagerInitParameters struct {
 	StatefulDisk []StatefulDiskInitParameters `json:"statefulDisk,omitempty" tf:"stateful_disk,omitempty"`
 
 	// The target number of running instances for this managed
-	// instance group. This value should always be explicitly set unless this resource is attached to
-	// an autoscaler, in which case it should never be set. Defaults to 0.
+	// instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
+	// when using one. If a value is required, such as to specify a creation-time target size for the MIG,
+	// lifecycle. Defaults to 0.
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
 
 	// The update policy for this managed instance group. Structure is documented below. For more information, see the official documentation and API
@@ -218,8 +219,9 @@ type InstanceGroupManagerObservation struct {
 	TargetPools []*string `json:"targetPools,omitempty" tf:"target_pools,omitempty"`
 
 	// The target number of running instances for this managed
-	// instance group. This value should always be explicitly set unless this resource is attached to
-	// an autoscaler, in which case it should never be set. Defaults to 0.
+	// instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
+	// when using one. If a value is required, such as to specify a creation-time target size for the MIG,
+	// lifecycle. Defaults to 0.
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
 
 	// The update policy for this managed instance group. Structure is documented below. For more information, see the official documentation and API
@@ -309,8 +311,9 @@ type InstanceGroupManagerParameters struct {
 	TargetPoolsSelector *v1.Selector `json:"targetPoolsSelector,omitempty" tf:"-"`
 
 	// The target number of running instances for this managed
-	// instance group. This value should always be explicitly set unless this resource is attached to
-	// an autoscaler, in which case it should never be set. Defaults to 0.
+	// instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
+	// when using one. If a value is required, such as to specify a creation-time target size for the MIG,
+	// lifecycle. Defaults to 0.
 	// +kubebuilder:validation:Optional
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
 

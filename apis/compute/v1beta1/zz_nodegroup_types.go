@@ -93,13 +93,14 @@ type NodeGroupInitParameters struct {
 
 	// If you use sole-tenant nodes for your workloads, you can use the node
 	// group autoscaler to automatically manage the sizes of your node groups.
+	// One of initial_size or autoscaling_policy must be configured on resource creation.
 	// Structure is documented below.
 	AutoscalingPolicy []NodeGroupAutoscalingPolicyInitParameters `json:"autoscalingPolicy,omitempty" tf:"autoscaling_policy,omitempty"`
 
 	// An optional textual description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The initial number of nodes in the node group. One of initial_size or size must be specified.
+	// The initial number of nodes in the node group. One of initial_size or autoscaling_policy must be configured on resource creation.
 	InitialSize *float64 `json:"initialSize,omitempty" tf:"initial_size,omitempty"`
 
 	// Specifies how to handle instances when a node in the group undergoes maintenance. Set to one of: DEFAULT, RESTART_IN_PLACE, or MIGRATE_WITHIN_NODE_GROUP. The default value is DEFAULT.
@@ -116,15 +117,13 @@ type NodeGroupInitParameters struct {
 	// Share settings for the node group.
 	// Structure is documented below.
 	ShareSettings []ShareSettingsInitParameters `json:"shareSettings,omitempty" tf:"share_settings,omitempty"`
-
-	// The total number of nodes in the node group. One of initial_size or size must be specified.
-	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 }
 
 type NodeGroupObservation struct {
 
 	// If you use sole-tenant nodes for your workloads, you can use the node
 	// group autoscaler to automatically manage the sizes of your node groups.
+	// One of initial_size or autoscaling_policy must be configured on resource creation.
 	// Structure is documented below.
 	AutoscalingPolicy []NodeGroupAutoscalingPolicyObservation `json:"autoscalingPolicy,omitempty" tf:"autoscaling_policy,omitempty"`
 
@@ -137,7 +136,7 @@ type NodeGroupObservation struct {
 	// an identifier for the resource with format projects/{{project}}/zones/{{zone}}/nodeGroups/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The initial number of nodes in the node group. One of initial_size or size must be specified.
+	// The initial number of nodes in the node group. One of initial_size or autoscaling_policy must be configured on resource creation.
 	InitialSize *float64 `json:"initialSize,omitempty" tf:"initial_size,omitempty"`
 
 	// Specifies how to handle instances when a node in the group undergoes maintenance. Set to one of: DEFAULT, RESTART_IN_PLACE, or MIGRATE_WITHIN_NODE_GROUP. The default value is DEFAULT.
@@ -161,7 +160,7 @@ type NodeGroupObservation struct {
 	// Structure is documented below.
 	ShareSettings []ShareSettingsObservation `json:"shareSettings,omitempty" tf:"share_settings,omitempty"`
 
-	// The total number of nodes in the node group. One of initial_size or size must be specified.
+	// The total number of nodes in the node group.
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
 	// Zone where this node group is located
@@ -172,6 +171,7 @@ type NodeGroupParameters struct {
 
 	// If you use sole-tenant nodes for your workloads, you can use the node
 	// group autoscaler to automatically manage the sizes of your node groups.
+	// One of initial_size or autoscaling_policy must be configured on resource creation.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AutoscalingPolicy []NodeGroupAutoscalingPolicyParameters `json:"autoscalingPolicy,omitempty" tf:"autoscaling_policy,omitempty"`
@@ -180,7 +180,7 @@ type NodeGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The initial number of nodes in the node group. One of initial_size or size must be specified.
+	// The initial number of nodes in the node group. One of initial_size or autoscaling_policy must be configured on resource creation.
 	// +kubebuilder:validation:Optional
 	InitialSize *float64 `json:"initialSize,omitempty" tf:"initial_size,omitempty"`
 
@@ -216,10 +216,6 @@ type NodeGroupParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ShareSettings []ShareSettingsParameters `json:"shareSettings,omitempty" tf:"share_settings,omitempty"`
-
-	// The total number of nodes in the node group. One of initial_size or size must be specified.
-	// +kubebuilder:validation:Optional
-	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
 	// Zone where this node group is located
 	// +kubebuilder:validation:Required

@@ -169,6 +169,8 @@ spec:
                             READ_WRITE or READ_ONLY. If you are attaching or creating
                             a boot disk, this must read-write mode.
                           type: string
+                        provisionedIops:
+                          type: number
                         resourcePolicies:
                           description: '- A list (short name or id) of resource policies
                             to attach to this disk for automatic snapshot creations.
@@ -417,6 +419,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        internalIpv6PrefixLength:
+                          type: number
                         ipv6AccessConfig:
                           description: An array of IPv6 access configurations for
                             this interface. Currently, only one IPv6 access config,
@@ -432,6 +436,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        ipv6Address:
+                          type: string
                         network:
                           description: The name or self_link of the network to attach
                             this interface to. Use network attribute for Legacy or
@@ -763,8 +769,8 @@ spec:
                           description: Describe the type of preemptible VM. This field
                             accepts the value STANDARD or SPOT. If the value is STANDARD,
                             there will be no discount. If this   is set to SPOT, preemptible
-                            should be true and auto_restart should be false. For more
-                            info about SPOT, read here
+                            should be true and automatic_restart should be false.
+                            For more info about SPOT, read here
                           type: string
                       type: object
                     type: array
@@ -1013,6 +1019,8 @@ spec:
                             READ_WRITE or READ_ONLY. If you are attaching or creating
                             a boot disk, this must read-write mode.
                           type: string
+                        provisionedIops:
+                          type: number
                         resourcePolicies:
                           description: '- A list (short name or id) of resource policies
                             to attach to this disk for automatic snapshot creations.
@@ -1176,6 +1184,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        internalIpv6PrefixLength:
+                          type: number
                         ipv6AccessConfig:
                           description: An array of IPv6 access configurations for
                             this interface. Currently, only one IPv6 access config,
@@ -1191,6 +1201,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        ipv6Address:
+                          type: string
                         networkIp:
                           description: The private IP address to assign to the instance.
                             If empty, the address will be automatically assigned.
@@ -1358,8 +1370,8 @@ spec:
                           description: Describe the type of preemptible VM. This field
                             accepts the value STANDARD or SPOT. If the value is STANDARD,
                             there will be no discount. If this   is set to SPOT, preemptible
-                            should be true and auto_restart should be false. For more
-                            info about SPOT, read here
+                            should be true and automatic_restart should be false.
+                            For more info about SPOT, read here
                           type: string
                       type: object
                     type: array
@@ -1687,6 +1699,8 @@ spec:
                             READ_WRITE or READ_ONLY. If you are attaching or creating
                             a boot disk, this must read-write mode.
                           type: string
+                        provisionedIops:
+                          type: number
                         resourcePolicies:
                           description: '- A list (short name or id) of resource policies
                             to attach to this disk for automatic snapshot creations.
@@ -1756,6 +1770,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
                   guestAccelerator:
                     description: List of the type and count of accelerator cards attached
                       to the instance. Structure documented below.
@@ -1866,6 +1884,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        internalIpv6PrefixLength:
+                          type: number
                         ipv6AccessConfig:
                           description: An array of IPv6 access configurations for
                             this interface. Currently, only one IPv6 access config,
@@ -1892,6 +1912,8 @@ spec:
                             type: object
                           type: array
                         ipv6AccessType:
+                          type: string
+                        ipv6Address:
                           type: string
                         name:
                           description: The name of the instance template.
@@ -2075,8 +2097,8 @@ spec:
                           description: Describe the type of preemptible VM. This field
                             accepts the value STANDARD or SPOT. If the value is STANDARD,
                             there will be no discount. If this   is set to SPOT, preemptible
-                            should be true and auto_restart should be false. For more
-                            info about SPOT, read here
+                            should be true and automatic_restart should be false.
+                            For more info about SPOT, read here
                           type: string
                       type: object
                     type: array
@@ -2145,6 +2167,12 @@ spec:
                   tagsFingerprint:
                     description: The unique fingerprint of the tags.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                 type: object
               conditions:
                 description: Conditions of the resource.

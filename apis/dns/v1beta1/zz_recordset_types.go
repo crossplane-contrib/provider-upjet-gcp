@@ -146,7 +146,7 @@ type HealthCheckedTargetsInternalLoadBalancersInitParameters struct {
 	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
-	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb"]
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb", "globalL7ilb"]
 	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
 
 	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
@@ -171,7 +171,7 @@ type HealthCheckedTargetsInternalLoadBalancersObservation struct {
 	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
-	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb"]
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb", "globalL7ilb"]
 	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
 
 	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
@@ -198,7 +198,7 @@ type HealthCheckedTargetsInternalLoadBalancersParameters struct {
 	// +kubebuilder:validation:Optional
 	IPProtocol *string `json:"ipProtocol" tf:"ip_protocol,omitempty"`
 
-	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb"]
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb", "globalL7ilb"]
 	// +kubebuilder:validation:Optional
 	LoadBalancerType *string `json:"loadBalancerType" tf:"load_balancer_type,omitempty"`
 
@@ -243,7 +243,7 @@ type InternalLoadBalancersInitParameters struct {
 	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
-	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb"]
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb", "globalL7ilb"]
 	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
 
 	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
@@ -268,7 +268,7 @@ type InternalLoadBalancersObservation struct {
 	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
-	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb"]
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb", "globalL7ilb"]
 	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
 
 	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
@@ -295,7 +295,7 @@ type InternalLoadBalancersParameters struct {
 	// +kubebuilder:validation:Optional
 	IPProtocol *string `json:"ipProtocol" tf:"ip_protocol,omitempty"`
 
-	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb"]
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb", "globalL7ilb"]
 	// +kubebuilder:validation:Optional
 	LoadBalancerType *string `json:"loadBalancerType" tf:"load_balancer_type,omitempty"`
 
@@ -384,7 +384,7 @@ type PrimaryInternalLoadBalancersInitParameters struct {
 	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
-	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb"]
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb", "globalL7ilb"]
 	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
 
 	// The configured port of the load balancer.
@@ -399,7 +399,7 @@ type PrimaryInternalLoadBalancersObservation struct {
 	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
-	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb"]
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb", "globalL7ilb"]
 	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
 
 	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
@@ -436,7 +436,7 @@ type PrimaryInternalLoadBalancersParameters struct {
 	// +kubebuilder:validation:Optional
 	IPProtocol *string `json:"ipProtocol" tf:"ip_protocol,omitempty"`
 
-	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb"]
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb", "globalL7ilb"]
 	// +kubebuilder:validation:Optional
 	LoadBalancerType *string `json:"loadBalancerType" tf:"load_balancer_type,omitempty"`
 
@@ -678,7 +678,7 @@ type WrrHealthCheckedTargetsInternalLoadBalancersInitParameters struct {
 	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
-	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb"]
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb", "globalL7ilb"]
 	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
 
 	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
@@ -703,7 +703,7 @@ type WrrHealthCheckedTargetsInternalLoadBalancersObservation struct {
 	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
-	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb"]
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb", "globalL7ilb"]
 	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
 
 	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
@@ -730,7 +730,7 @@ type WrrHealthCheckedTargetsInternalLoadBalancersParameters struct {
 	// +kubebuilder:validation:Optional
 	IPProtocol *string `json:"ipProtocol" tf:"ip_protocol,omitempty"`
 
-	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb"]
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb", "globalL7ilb"]
 	// +kubebuilder:validation:Optional
 	LoadBalancerType *string `json:"loadBalancerType" tf:"load_balancer_type,omitempty"`
 

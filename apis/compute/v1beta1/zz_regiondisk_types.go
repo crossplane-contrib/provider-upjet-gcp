@@ -199,6 +199,9 @@ type RegionDiskObservation struct {
 	// Structure is documented below.
 	DiskEncryptionKey []RegionDiskDiskEncryptionKeyObservation `json:"diskEncryptionKey,omitempty" tf:"disk_encryption_key,omitempty"`
 
+	// for all of the labels present on the resource.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// A list of features to enable on the guest operating system.
 	// Applicable only for bootable disks.
 	// Structure is documented below.
@@ -279,6 +282,10 @@ type RegionDiskObservation struct {
 	// snapshot ID would identify the exact version of the snapshot that was
 	// used.
 	SourceSnapshotID *string `json:"sourceSnapshotId,omitempty" tf:"source_snapshot_id,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// URL of the disk type resource describing which disk type to use to
 	// create the disk. Provide this when creating the disk.

@@ -375,6 +375,10 @@ type BuildParameters struct {
 
 type GitFileSourceInitParameters struct {
 
+	// The full resource name of the bitbucket server config.
+	// Format: projects/{project}/locations/{location}/bitbucketServerConfigs/{id}.
+	BitbucketServerConfig *string `json:"bitbucketServerConfig,omitempty" tf:"bitbucket_server_config,omitempty"`
+
 	// The full resource name of the github enterprise config.
 	// Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}. projects/{project}/githubEnterpriseConfigs/{id}.
 	GithubEnterpriseConfig *string `json:"githubEnterpriseConfig,omitempty" tf:"github_enterprise_config,omitempty"`
@@ -403,6 +407,10 @@ type GitFileSourceInitParameters struct {
 
 type GitFileSourceObservation struct {
 
+	// The full resource name of the bitbucket server config.
+	// Format: projects/{project}/locations/{location}/bitbucketServerConfigs/{id}.
+	BitbucketServerConfig *string `json:"bitbucketServerConfig,omitempty" tf:"bitbucket_server_config,omitempty"`
+
 	// The full resource name of the github enterprise config.
 	// Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}. projects/{project}/githubEnterpriseConfigs/{id}.
 	GithubEnterpriseConfig *string `json:"githubEnterpriseConfig,omitempty" tf:"github_enterprise_config,omitempty"`
@@ -430,6 +438,11 @@ type GitFileSourceObservation struct {
 }
 
 type GitFileSourceParameters struct {
+
+	// The full resource name of the bitbucket server config.
+	// Format: projects/{project}/locations/{location}/bitbucketServerConfigs/{id}.
+	// +kubebuilder:validation:Optional
+	BitbucketServerConfig *string `json:"bitbucketServerConfig,omitempty" tf:"bitbucket_server_config,omitempty"`
 
 	// The full resource name of the github enterprise config.
 	// Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}. projects/{project}/githubEnterpriseConfigs/{id}.
@@ -1387,6 +1400,10 @@ type SourceParameters struct {
 
 type SourceToBuildInitParameters struct {
 
+	// The full resource name of the bitbucket server config.
+	// Format: projects/{project}/locations/{location}/bitbucketServerConfigs/{id}.
+	BitbucketServerConfig *string `json:"bitbucketServerConfig,omitempty" tf:"bitbucket_server_config,omitempty"`
+
 	// The full resource name of the github enterprise config.
 	// Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}. projects/{project}/githubEnterpriseConfigs/{id}.
 	GithubEnterpriseConfig *string `json:"githubEnterpriseConfig,omitempty" tf:"github_enterprise_config,omitempty"`
@@ -1409,6 +1426,10 @@ type SourceToBuildInitParameters struct {
 
 type SourceToBuildObservation struct {
 
+	// The full resource name of the bitbucket server config.
+	// Format: projects/{project}/locations/{location}/bitbucketServerConfigs/{id}.
+	BitbucketServerConfig *string `json:"bitbucketServerConfig,omitempty" tf:"bitbucket_server_config,omitempty"`
+
 	// The full resource name of the github enterprise config.
 	// Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}. projects/{project}/githubEnterpriseConfigs/{id}.
 	GithubEnterpriseConfig *string `json:"githubEnterpriseConfig,omitempty" tf:"github_enterprise_config,omitempty"`
@@ -1430,6 +1451,11 @@ type SourceToBuildObservation struct {
 }
 
 type SourceToBuildParameters struct {
+
+	// The full resource name of the bitbucket server config.
+	// Format: projects/{project}/locations/{location}/bitbucketServerConfigs/{id}.
+	// +kubebuilder:validation:Optional
+	BitbucketServerConfig *string `json:"bitbucketServerConfig,omitempty" tf:"bitbucket_server_config,omitempty"`
 
 	// The full resource name of the github enterprise config.
 	// Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}. projects/{project}/githubEnterpriseConfigs/{id}.

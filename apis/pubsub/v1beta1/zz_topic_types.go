@@ -134,6 +134,9 @@ type TopicInitParameters struct {
 
 type TopicObservation struct {
 
+	// for all of the labels present on the resource.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/topics/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -169,6 +172,10 @@ type TopicObservation struct {
 	// Settings for validating messages published against a schema.
 	// Structure is documented below.
 	SchemaSettings []SchemaSettingsObservation `json:"schemaSettings,omitempty" tf:"schema_settings,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type TopicParameters struct {

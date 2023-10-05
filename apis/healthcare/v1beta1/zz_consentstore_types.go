@@ -59,6 +59,9 @@ type ConsentStoreObservation struct {
 	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
 	DefaultConsentTTL *string `json:"defaultConsentTtl,omitempty" tf:"default_consent_ttl,omitempty"`
 
+	// for all of the labels present on the resource.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// If true, [consents.patch] [google.cloud.healthcare.v1.consent.UpdateConsent] creates the consent if it does not already exist.
 	EnableConsentCreateOnUpdate *bool `json:"enableConsentCreateOnUpdate,omitempty" tf:"enable_consent_create_on_update,omitempty"`
 
@@ -78,6 +81,10 @@ type ConsentStoreObservation struct {
 	// The name of this ConsentStore, for example:
 	// "consent1"
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type ConsentStoreParameters struct {

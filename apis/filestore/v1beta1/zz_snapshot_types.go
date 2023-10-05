@@ -46,6 +46,9 @@ type SnapshotObservation struct {
 	// A description of the snapshot with 2048 characters or less. Requests with longer descriptions will be rejected.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// for all of the labels present on the resource.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// The amount of bytes needed to allocate a full copy of the snapshot content.
 	FilesystemUsedBytes *string `json:"filesystemUsedBytes,omitempty" tf:"filesystem_used_bytes,omitempty"`
 
@@ -67,6 +70,10 @@ type SnapshotObservation struct {
 
 	// The snapshot state.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type SnapshotParameters struct {

@@ -32,6 +32,7 @@ spec:
     addonsConfig:
     - gkeBackupAgentConfig:
       - enabled: true
+    deletionProtection: "true"
     initialNodeCount: 1
     location: us-central1
     workloadIdentityConfig:

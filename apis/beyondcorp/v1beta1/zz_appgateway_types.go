@@ -72,6 +72,9 @@ type AppGatewayObservation struct {
 	// An arbitrary user-provided name for the AppGateway.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// for all of the labels present on the resource.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// The type of hosting used by the AppGateway.
 	// Default value is HOST_TYPE_UNSPECIFIED.
 	// Possible values are: HOST_TYPE_UNSPECIFIED, GCP_REGIONAL_MIG.
@@ -92,6 +95,10 @@ type AppGatewayObservation struct {
 
 	// Represents the different states of a AppGateway.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// The type of network connectivity used by the AppGateway.
 	// Default value is TYPE_UNSPECIFIED.

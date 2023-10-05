@@ -762,6 +762,11 @@ spec:
                       disks, defaults to GMEK. Possible values are: DISK_ENCRYPTION_UNSPECIFIED,
                       GMEK, CMEK.'
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/instances/{{name}}
                     type: string
@@ -911,6 +916,12 @@ spec:
                     items:
                       type: string
                     type: array
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                   updateTime:
                     description: Instance update time.
                     type: string

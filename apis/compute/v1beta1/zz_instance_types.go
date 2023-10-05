@@ -390,6 +390,8 @@ type IPv6AccessConfigParameters struct {
 type InitializeParamsInitParameters struct {
 
 	// A map of key/value label pairs to assign to the instance.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field 'effective_labels' for all of the labels present on the resource.
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
@@ -417,6 +419,8 @@ type InitializeParamsObservation struct {
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
 	// A map of key/value label pairs to assign to the instance.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field 'effective_labels' for all of the labels present on the resource.
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
@@ -454,6 +458,8 @@ type InitializeParamsParameters struct {
 	ImageSelector *v1.Selector `json:"imageSelector,omitempty" tf:"-"`
 
 	// A map of key/value label pairs to assign to the instance.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field 'effective_labels' for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -603,6 +609,8 @@ type InstanceInitParameters struct {
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
 	// A map of key/value label pairs to assign to the instance.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field 'effective_labels' for all of the labels present on the resource.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The machine type to create.
@@ -715,6 +723,8 @@ type InstanceObservation struct {
 	// "RUNNING" or "TERMINATED".
 	DesiredStatus *string `json:"desiredStatus,omitempty" tf:"desired_status,omitempty"`
 
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// Enable Virtual Displays on this instance.
 	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
 	EnableDisplay *bool `json:"enableDisplay,omitempty" tf:"enable_display,omitempty"`
@@ -743,6 +753,8 @@ type InstanceObservation struct {
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
 
 	// A map of key/value label pairs to assign to the instance.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field 'effective_labels' for all of the labels present on the resource.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The machine type to create.
@@ -823,6 +835,9 @@ type InstanceObservation struct {
 	// The unique fingerprint of the tags.
 	TagsFingerprint *string `json:"tagsFingerprint,omitempty" tf:"tags_fingerprint,omitempty"`
 
+	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
 	// The zone that the machine should be created in. If it is not provided, the provider zone is used.
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
@@ -892,6 +907,8 @@ type InstanceParameters struct {
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
 	// A map of key/value label pairs to assign to the instance.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field 'effective_labels' for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -1047,6 +1064,10 @@ type NetworkInterfaceInitParameters struct {
 	// specified, then this instance will have no external IPv6 Internet access. Structure documented below.
 	IPv6AccessConfig []IPv6AccessConfigInitParameters `json:"ipv6AccessConfig,omitempty" tf:"ipv6_access_config,omitempty"`
 
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
+
+	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
+
 	// The private IP address to assign to the instance. If
 	// empty, the address will be automatically assigned.
 	NetworkIP *string `json:"networkIp,omitempty" tf:"network_ip,omitempty"`
@@ -1089,6 +1110,10 @@ type NetworkInterfaceObservation struct {
 	// One of EXTERNAL, INTERNAL to indicate whether the IP can be accessed from the Internet.
 	// This field is always inherited from its subnetwork.
 	IPv6AccessType *string `json:"ipv6AccessType,omitempty" tf:"ipv6_access_type,omitempty"`
+
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
+
+	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
 
 	// A unique name for the resource, required by GCE.
 	// Changing this forces a new resource to be created.
@@ -1149,6 +1174,12 @@ type NetworkInterfaceParameters struct {
 	// specified, then this instance will have no external IPv6 Internet access. Structure documented below.
 	// +kubebuilder:validation:Optional
 	IPv6AccessConfig []IPv6AccessConfigParameters `json:"ipv6AccessConfig,omitempty" tf:"ipv6_access_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
 
 	// The name or self_link of the network to attach this interface to.
 	// Either network or subnetwork must be provided. If network isn't provided it will
@@ -1361,7 +1392,7 @@ type SchedulingInitParameters struct {
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
 	// Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
-	// preemptible should be true and auto_restart should be
+	// preemptible should be true and automatic_restart should be
 	// false. For more info about
 	// SPOT, read here
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
@@ -1402,7 +1433,7 @@ type SchedulingObservation struct {
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
 	// Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
-	// preemptible should be true and auto_restart should be
+	// preemptible should be true and automatic_restart should be
 	// false. For more info about
 	// SPOT, read here
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
@@ -1450,7 +1481,7 @@ type SchedulingParameters struct {
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
 	// Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
-	// preemptible should be true and auto_restart should be
+	// preemptible should be true and automatic_restart should be
 	// false. For more info about
 	// SPOT, read here
 	// +kubebuilder:validation:Optional

@@ -67,6 +67,9 @@ type WorkflowObservation struct {
 	// Description of the workflow provided by the user. Must be at most 1000 unicode characters long.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// for all of the labels present on the resource.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/workflows/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -104,6 +107,10 @@ type WorkflowObservation struct {
 
 	// State of the workflow deployment.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// The timestamp of when the workflow was last updated in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`

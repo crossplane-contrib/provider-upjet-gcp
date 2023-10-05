@@ -328,6 +328,10 @@ spec:
                   displayName:
                     description: Optional. User friendly display name.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/lakes/{{name}}
                     type: string
@@ -382,6 +386,12 @@ spec:
                     description: 'Output only. Current state of the lake. Possible
                       values: STATE_UNSPECIFIED, ACTIVE, CREATING, DELETING, ACTION_REQUIRED'
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                   uid:
                     description: Output only. System generated globally unique ID
                       for the lake. This ID will be different if the lake is deleted

@@ -63,6 +63,17 @@ type TargetHTTPSProxyInitParameters struct {
 	// the TargetHttpsProxy resource. If not set, the TargetHttpsProxy
 	// resource will not have any SSL policy configured.
 	SSLPolicy *string `json:"sslPolicy,omitempty" tf:"ssl_policy,omitempty"`
+
+	// A URL referring to a networksecurity.ServerTlsPolicy
+	// resource that describes how the proxy should authenticate inbound
+	// traffic. serverTlsPolicy only applies to a global TargetHttpsProxy
+	// attached to globalForwardingRules with the loadBalancingScheme
+	// set to INTERNAL_SELF_MANAGED or EXTERNAL or EXTERNAL_MANAGED.
+	// For details which ServerTlsPolicy resources are accepted with
+	// INTERNAL_SELF_MANAGED and which with EXTERNAL, EXTERNAL_MANAGED
+	// loadBalancingScheme consult ServerTlsPolicy documentation.
+	// If left blank, communications are not encrypted.
+	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
 }
 
 type TargetHTTPSProxyObservation struct {
@@ -119,6 +130,17 @@ type TargetHTTPSProxyObservation struct {
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// A URL referring to a networksecurity.ServerTlsPolicy
+	// resource that describes how the proxy should authenticate inbound
+	// traffic. serverTlsPolicy only applies to a global TargetHttpsProxy
+	// attached to globalForwardingRules with the loadBalancingScheme
+	// set to INTERNAL_SELF_MANAGED or EXTERNAL or EXTERNAL_MANAGED.
+	// For details which ServerTlsPolicy resources are accepted with
+	// INTERNAL_SELF_MANAGED and which with EXTERNAL, EXTERNAL_MANAGED
+	// loadBalancingScheme consult ServerTlsPolicy documentation.
+	// If left blank, communications are not encrypted.
+	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
 
 	// A reference to the UrlMap resource that defines the mapping from URL
 	// to the BackendService.
@@ -184,6 +206,18 @@ type TargetHTTPSProxyParameters struct {
 	// resource will not have any SSL policy configured.
 	// +kubebuilder:validation:Optional
 	SSLPolicy *string `json:"sslPolicy,omitempty" tf:"ssl_policy,omitempty"`
+
+	// A URL referring to a networksecurity.ServerTlsPolicy
+	// resource that describes how the proxy should authenticate inbound
+	// traffic. serverTlsPolicy only applies to a global TargetHttpsProxy
+	// attached to globalForwardingRules with the loadBalancingScheme
+	// set to INTERNAL_SELF_MANAGED or EXTERNAL or EXTERNAL_MANAGED.
+	// For details which ServerTlsPolicy resources are accepted with
+	// INTERNAL_SELF_MANAGED and which with EXTERNAL, EXTERNAL_MANAGED
+	// loadBalancingScheme consult ServerTlsPolicy documentation.
+	// If left blank, communications are not encrypted.
+	// +kubebuilder:validation:Optional
+	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
 
 	// A reference to the UrlMap resource that defines the mapping from URL
 	// to the BackendService.

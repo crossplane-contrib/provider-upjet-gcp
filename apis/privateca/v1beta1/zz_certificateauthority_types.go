@@ -163,6 +163,8 @@ type CertificateAuthorityObservation struct {
 	// Desired state of the CertificateAuthority. Set this field to STAGED to create a STAGED root CA.
 	DesiredState *string `json:"desiredState,omitempty" tf:"desired_state,omitempty"`
 
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// The name of a Cloud Storage bucket where this CertificateAuthority will publish content,
 	// such as the CA certificate and CRLs. This must be a bucket name, without any prefixes
 	// (such as gs://) or suffixes (such as .googleapis.com). For example, to use a bucket named
@@ -230,6 +232,10 @@ type CertificateAuthorityObservation struct {
 	// with the subordinate configuration, which describes its issuers.
 	// Structure is documented below.
 	SubordinateConfig []SubordinateConfigObservation `json:"subordinateConfig,omitempty" tf:"subordinate_config,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// The Type of this CertificateAuthority.
 	// ~> Note: For SUBORDINATE Certificate Authorities, they need to

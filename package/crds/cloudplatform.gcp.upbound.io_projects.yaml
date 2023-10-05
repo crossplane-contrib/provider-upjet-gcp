@@ -165,7 +165,11 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: A set of key/value label pairs to assign to the project.
+                    description: 'A set of key/value label pairs to assign to the
+                      project. Note: This field is non-authoritative, and will only
+                      manage the labels present in your configuration. Please refer
+                      to the field ''effective_labels'' for all of the labels present
+                      on the resource.'
                     type: object
                   name:
                     description: The display name of the project.
@@ -215,7 +219,11 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: A set of key/value label pairs to assign to the project.
+                    description: 'A set of key/value label pairs to assign to the
+                      project. Note: This field is non-authoritative, and will only
+                      manage the labels present in your configuration. Please refer
+                      to the field ''effective_labels'' for all of the labels present
+                      on the resource.'
                     type: object
                   name:
                     description: The display name of the project.
@@ -424,6 +432,10 @@ spec:
                       belongs to.user) on the billing account. See Google Cloud Billing
                       API Access Control for more details.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
                   folderId:
                     description: The numeric ID of the folder this project should
                       be created under. Only one of org_id or folder_id may be specified.
@@ -437,7 +449,11 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: A set of key/value label pairs to assign to the project.
+                    description: 'A set of key/value label pairs to assign to the
+                      project. Note: This field is non-authoritative, and will only
+                      manage the labels present in your configuration. Please refer
+                      to the field ''effective_labels'' for all of the labels present
+                      on the resource.'
                     type: object
                   name:
                     description: The display name of the project.
@@ -460,6 +476,12 @@ spec:
                     type: string
                   skipDelete:
                     type: boolean
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                 type: object
               conditions:
                 description: Conditions of the resource.

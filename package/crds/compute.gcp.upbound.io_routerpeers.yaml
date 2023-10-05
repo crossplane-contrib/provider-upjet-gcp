@@ -75,7 +75,7 @@ spec:
                     type: string
                   advertisedGroups:
                     description: 'User-specified list of prefix groups to advertise
-                      in custom mode, which can take one of the following options:'
+                      in custom mode, which currently supports the following option:'
                     items:
                       type: string
                     type: array
@@ -589,7 +589,7 @@ spec:
                     type: string
                   advertisedGroups:
                     description: 'User-specified list of prefix groups to advertise
-                      in custom mode, which can take one of the following options:'
+                      in custom mode, which currently supports the following option:'
                     items:
                       type: string
                     type: array
@@ -870,7 +870,7 @@ spec:
                     type: string
                   advertisedGroups:
                     description: 'User-specified list of prefix groups to advertise
-                      in custom mode, which can take one of the following options:'
+                      in custom mode, which currently supports the following option:'
                     items:
                       type: string
                     type: array

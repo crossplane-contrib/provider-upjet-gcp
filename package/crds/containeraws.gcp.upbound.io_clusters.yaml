@@ -103,6 +103,17 @@ spec:
                       call to list all supported AWS regions within a given Google
                       Cloud region.
                     type: string
+                  binaryAuthorization:
+                    description: Configuration options for the Binary Authorization
+                      feature.
+                    items:
+                      properties:
+                        evaluationMode:
+                          description: 'Mode of operation for Binary Authorization
+                            policy evaluation. Possible values: DISABLED, PROJECT_SINGLETON_POLICY_ENFORCE'
+                          type: string
+                      type: object
+                    type: array
                   controlPlane:
                     description: Configuration related to the cluster control plane.
                     items:
@@ -395,6 +406,17 @@ spec:
                       call to list all supported AWS regions within a given Google
                       Cloud region.
                     type: string
+                  binaryAuthorization:
+                    description: Configuration options for the Binary Authorization
+                      feature.
+                    items:
+                      properties:
+                        evaluationMode:
+                          description: 'Mode of operation for Binary Authorization
+                            policy evaluation. Possible values: DISABLED, PROJECT_SINGLETON_POLICY_ENFORCE'
+                          type: string
+                      type: object
+                    type: array
                   controlPlane:
                     description: Configuration related to the cluster control plane.
                     items:
@@ -856,6 +878,17 @@ spec:
                       call to list all supported AWS regions within a given Google
                       Cloud region.
                     type: string
+                  binaryAuthorization:
+                    description: Configuration options for the Binary Authorization
+                      feature.
+                    items:
+                      properties:
+                        evaluationMode:
+                          description: 'Mode of operation for Binary Authorization
+                            policy evaluation. Possible values: DISABLED, PROJECT_SINGLETON_POLICY_ENFORCE'
+                          type: string
+                      type: object
+                    type: array
                   controlPlane:
                     description: Configuration related to the cluster control plane.
                     items:
@@ -1049,6 +1082,10 @@ spec:
                     description: Optional. A human readable description of this cluster.
                       Cannot be longer than 255 UTF-8 encoded bytes.
                     type: string
+                  effectiveAnnotations:
+                    additionalProperties:
+                      type: string
+                    type: object
                   endpoint:
                     description: Output only. The endpoint of the cluster's API server.
                     type: string

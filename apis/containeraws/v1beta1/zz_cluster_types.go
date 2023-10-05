@@ -92,6 +92,25 @@ type AwsServicesAuthenticationParameters struct {
 	RoleSessionName *string `json:"roleSessionName,omitempty" tf:"role_session_name,omitempty"`
 }
 
+type BinaryAuthorizationInitParameters struct {
+
+	// Mode of operation for Binary Authorization policy evaluation. Possible values: DISABLED, PROJECT_SINGLETON_POLICY_ENFORCE
+	EvaluationMode *string `json:"evaluationMode,omitempty" tf:"evaluation_mode,omitempty"`
+}
+
+type BinaryAuthorizationObservation struct {
+
+	// Mode of operation for Binary Authorization policy evaluation. Possible values: DISABLED, PROJECT_SINGLETON_POLICY_ENFORCE
+	EvaluationMode *string `json:"evaluationMode,omitempty" tf:"evaluation_mode,omitempty"`
+}
+
+type BinaryAuthorizationParameters struct {
+
+	// Mode of operation for Binary Authorization policy evaluation. Possible values: DISABLED, PROJECT_SINGLETON_POLICY_ENFORCE
+	// +kubebuilder:validation:Optional
+	EvaluationMode *string `json:"evaluationMode,omitempty" tf:"evaluation_mode,omitempty"`
+}
+
 type ClusterInitParameters struct {
 
 	// Optional. Annotations on the cluster. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix  and name , separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between.
@@ -102,6 +121,9 @@ type ClusterInitParameters struct {
 
 	// The AWS region where the cluster runs. Each Google Cloud region supports a subset of nearby AWS regions. You can call to list all supported AWS regions within a given Google Cloud region.
 	AwsRegion *string `json:"awsRegion,omitempty" tf:"aws_region,omitempty"`
+
+	// Configuration options for the Binary Authorization feature.
+	BinaryAuthorization []BinaryAuthorizationInitParameters `json:"binaryAuthorization,omitempty" tf:"binary_authorization,omitempty"`
 
 	// Configuration related to the cluster control plane.
 	ControlPlane []ControlPlaneInitParameters `json:"controlPlane,omitempty" tf:"control_plane,omitempty"`
@@ -130,6 +152,9 @@ type ClusterObservation struct {
 	// The AWS region where the cluster runs. Each Google Cloud region supports a subset of nearby AWS regions. You can call to list all supported AWS regions within a given Google Cloud region.
 	AwsRegion *string `json:"awsRegion,omitempty" tf:"aws_region,omitempty"`
 
+	// Configuration options for the Binary Authorization feature.
+	BinaryAuthorization []BinaryAuthorizationObservation `json:"binaryAuthorization,omitempty" tf:"binary_authorization,omitempty"`
+
 	// Configuration related to the cluster control plane.
 	ControlPlane []ControlPlaneObservation `json:"controlPlane,omitempty" tf:"control_plane,omitempty"`
 
@@ -138,6 +163,8 @@ type ClusterObservation struct {
 
 	// Optional. A human readable description of this cluster. Cannot be longer than 255 UTF-8 encoded bytes.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	EffectiveAnnotations map[string]*string `json:"effectiveAnnotations,omitempty" tf:"effective_annotations,omitempty"`
 
 	// Output only. The endpoint of the cluster's API server.
 	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
@@ -189,6 +216,10 @@ type ClusterParameters struct {
 	// The AWS region where the cluster runs. Each Google Cloud region supports a subset of nearby AWS regions. You can call to list all supported AWS regions within a given Google Cloud region.
 	// +kubebuilder:validation:Optional
 	AwsRegion *string `json:"awsRegion,omitempty" tf:"aws_region,omitempty"`
+
+	// Configuration options for the Binary Authorization feature.
+	// +kubebuilder:validation:Optional
+	BinaryAuthorization []BinaryAuthorizationParameters `json:"binaryAuthorization,omitempty" tf:"binary_authorization,omitempty"`
 
 	// Configuration related to the cluster control plane.
 	// +kubebuilder:validation:Optional

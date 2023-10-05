@@ -28,6 +28,8 @@ import (
 type InstanceInitParameters struct {
 
 	// Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels.
+	// Note: This field is non-authoritative, and will only manage the annotations present in your configuration.
+	// Please refer to the field effective_annotations for all of the annotations present on the resource.
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// 'Availability type of an Instance. Defaults to REGIONAL for both primary and read instances.
@@ -53,13 +55,19 @@ type InstanceInitParameters struct {
 	InstanceType *string `json:"instanceType,omitempty" tf:"instance_type,omitempty"`
 
 	// User-defined labels for the alloydb instance.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Configurations for the machines that host the underlying database engine.
 	// Structure is documented below.
 	MachineConfig []MachineConfigInitParameters `json:"machineConfig,omitempty" tf:"machine_config,omitempty"`
 
-	// Read pool specific config.
+	// Configuration for query insights.
+	// Structure is documented below.
+	QueryInsightsConfig []QueryInsightsConfigInitParameters `json:"queryInsightsConfig,omitempty" tf:"query_insights_config,omitempty"`
+
+	// Read pool specific config. If the instance type is READ_POOL, this configuration must be provided.
 	// Structure is documented below.
 	ReadPoolConfig []ReadPoolConfigInitParameters `json:"readPoolConfig,omitempty" tf:"read_pool_config,omitempty"`
 }
@@ -67,6 +75,8 @@ type InstanceInitParameters struct {
 type InstanceObservation struct {
 
 	// Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels.
+	// Note: This field is non-authoritative, and will only manage the annotations present in your configuration.
+	// Please refer to the field effective_annotations for all of the annotations present on the resource.
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// 'Availability type of an Instance. Defaults to REGIONAL for both primary and read instances.
@@ -91,6 +101,10 @@ type InstanceObservation struct {
 	// User-settable and human-readable display name for the Instance.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	EffectiveAnnotations map[string]*string `json:"effectiveAnnotations,omitempty" tf:"effective_annotations,omitempty"`
+
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// The Compute Engine zone that the instance should serve from, per https://cloud.google.com/compute/docs/regions-zones This can ONLY be specified for ZONAL instances. If present for a REGIONAL instance, an error will be thrown. If this is absent for a ZONAL instance, instance is created in a random zone with available capacity.
 	GceZone *string `json:"gceZone,omitempty" tf:"gce_zone,omitempty"`
 
@@ -105,6 +119,8 @@ type InstanceObservation struct {
 	InstanceType *string `json:"instanceType,omitempty" tf:"instance_type,omitempty"`
 
 	// User-defined labels for the alloydb instance.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Configurations for the machines that host the underlying database engine.
@@ -114,7 +130,11 @@ type InstanceObservation struct {
 	// The name of the instance resource.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// Read pool specific config.
+	// Configuration for query insights.
+	// Structure is documented below.
+	QueryInsightsConfig []QueryInsightsConfigObservation `json:"queryInsightsConfig,omitempty" tf:"query_insights_config,omitempty"`
+
+	// Read pool specific config. If the instance type is READ_POOL, this configuration must be provided.
 	// Structure is documented below.
 	ReadPoolConfig []ReadPoolConfigObservation `json:"readPoolConfig,omitempty" tf:"read_pool_config,omitempty"`
 
@@ -123,6 +143,10 @@ type InstanceObservation struct {
 
 	// The current state of the alloydb instance.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// The system-generated UID of the resource.
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
@@ -134,6 +158,8 @@ type InstanceObservation struct {
 type InstanceParameters struct {
 
 	// Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels.
+	// Note: This field is non-authoritative, and will only manage the annotations present in your configuration.
+	// Please refer to the field effective_annotations for all of the annotations present on the resource.
 	// +kubebuilder:validation:Optional
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
@@ -180,6 +206,8 @@ type InstanceParameters struct {
 	InstanceType *string `json:"instanceType,omitempty" tf:"instance_type,omitempty"`
 
 	// User-defined labels for the alloydb instance.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -188,7 +216,12 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	MachineConfig []MachineConfigParameters `json:"machineConfig,omitempty" tf:"machine_config,omitempty"`
 
-	// Read pool specific config.
+	// Configuration for query insights.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	QueryInsightsConfig []QueryInsightsConfigParameters `json:"queryInsightsConfig,omitempty" tf:"query_insights_config,omitempty"`
+
+	// Read pool specific config. If the instance type is READ_POOL, this configuration must be provided.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ReadPoolConfig []ReadPoolConfigParameters `json:"readPoolConfig,omitempty" tf:"read_pool_config,omitempty"`
@@ -211,6 +244,55 @@ type MachineConfigParameters struct {
 	// The number of CPU's in the VM instance.
 	// +kubebuilder:validation:Optional
 	CPUCount *float64 `json:"cpuCount,omitempty" tf:"cpu_count,omitempty"`
+}
+
+type QueryInsightsConfigInitParameters struct {
+
+	// Number of query execution plans captured by Insights per minute for all queries combined. The default value is 5. Any integer between 0 and 20 is considered valid.
+	QueryPlansPerMinute *float64 `json:"queryPlansPerMinute,omitempty" tf:"query_plans_per_minute,omitempty"`
+
+	// Query string length. The default value is 1024. Any integer between 256 and 4500 is considered valid.
+	QueryStringLength *float64 `json:"queryStringLength,omitempty" tf:"query_string_length,omitempty"`
+
+	// Record application tags for an instance. This flag is turned "on" by default.
+	RecordApplicationTags *bool `json:"recordApplicationTags,omitempty" tf:"record_application_tags,omitempty"`
+
+	// Record client address for an instance. Client address is PII information. This flag is turned "on" by default.
+	RecordClientAddress *bool `json:"recordClientAddress,omitempty" tf:"record_client_address,omitempty"`
+}
+
+type QueryInsightsConfigObservation struct {
+
+	// Number of query execution plans captured by Insights per minute for all queries combined. The default value is 5. Any integer between 0 and 20 is considered valid.
+	QueryPlansPerMinute *float64 `json:"queryPlansPerMinute,omitempty" tf:"query_plans_per_minute,omitempty"`
+
+	// Query string length. The default value is 1024. Any integer between 256 and 4500 is considered valid.
+	QueryStringLength *float64 `json:"queryStringLength,omitempty" tf:"query_string_length,omitempty"`
+
+	// Record application tags for an instance. This flag is turned "on" by default.
+	RecordApplicationTags *bool `json:"recordApplicationTags,omitempty" tf:"record_application_tags,omitempty"`
+
+	// Record client address for an instance. Client address is PII information. This flag is turned "on" by default.
+	RecordClientAddress *bool `json:"recordClientAddress,omitempty" tf:"record_client_address,omitempty"`
+}
+
+type QueryInsightsConfigParameters struct {
+
+	// Number of query execution plans captured by Insights per minute for all queries combined. The default value is 5. Any integer between 0 and 20 is considered valid.
+	// +kubebuilder:validation:Optional
+	QueryPlansPerMinute *float64 `json:"queryPlansPerMinute,omitempty" tf:"query_plans_per_minute,omitempty"`
+
+	// Query string length. The default value is 1024. Any integer between 256 and 4500 is considered valid.
+	// +kubebuilder:validation:Optional
+	QueryStringLength *float64 `json:"queryStringLength,omitempty" tf:"query_string_length,omitempty"`
+
+	// Record application tags for an instance. This flag is turned "on" by default.
+	// +kubebuilder:validation:Optional
+	RecordApplicationTags *bool `json:"recordApplicationTags,omitempty" tf:"record_application_tags,omitempty"`
+
+	// Record client address for an instance. Client address is PII information. This flag is turned "on" by default.
+	// +kubebuilder:validation:Optional
+	RecordClientAddress *bool `json:"recordClientAddress,omitempty" tf:"record_client_address,omitempty"`
 }
 
 type ReadPoolConfigInitParameters struct {

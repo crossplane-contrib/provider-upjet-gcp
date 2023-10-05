@@ -314,6 +314,11 @@ spec:
                   displayName:
                     description: An arbitrary user-provided name for the AppGateway.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
                   hostType:
                     description: 'The type of hosting used by the AppGateway. Default
                       value is HOST_TYPE_UNSPECIFIED. Possible values are: HOST_TYPE_UNSPECIFIED,
@@ -337,6 +342,12 @@ spec:
                   state:
                     description: Represents the different states of a AppGateway.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                   type:
                     description: 'The type of network connectivity used by the AppGateway.
                       Default value is TYPE_UNSPECIFIED. Possible values are: TYPE_UNSPECIFIED,

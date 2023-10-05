@@ -632,9 +632,10 @@ spec:
                     type: string
                   name:
                     description: The resource name of the transfer config. Transfer
-                      config names have the form projects/{projectId}/locations/{location}/transferConfigs/{configId}.
-                      Where configId is usually a uuid, but this is not required.
-                      The name is ignored when creating a transfer config.
+                      config names have the form projects/{projectId}/locations/{location}/transferConfigs/{configId}
+                      or projects/{projectId}/transferConfigs/{configId}, where configId
+                      is usually a uuid, but this is not required. The name is ignored
+                      when creating a transfer config.
                     type: string
                   notificationPubsubTopic:
                     description: Pub/Sub topic where notifications will be sent after

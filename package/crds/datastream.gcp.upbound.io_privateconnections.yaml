@@ -74,7 +74,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: Labels.
+                    description: 'Labels. Note: This field is non-authoritative, and
+                      will only manage the labels present in your configuration. Please
+                      refer to the field effective_labels for all of the labels present
+                      on the resource.'
                     type: object
                   location:
                     description: The name of the location this private connection
@@ -199,7 +202,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: Labels.
+                    description: 'Labels. Note: This field is non-authoritative, and
+                      will only manage the labels present in your configuration. Please
+                      refer to the field effective_labels for all of the labels present
+                      on the resource.'
                     type: object
                   project:
                     description: The ID of the project in which the resource belongs.
@@ -395,6 +401,10 @@ spec:
                   displayName:
                     description: Display name.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
                   error:
                     description: The PrivateConnection error in case of failure. Structure
                       is documented below.
@@ -417,7 +427,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: Labels.
+                    description: 'Labels. Note: This field is non-authoritative, and
+                      will only manage the labels present in your configuration. Please
+                      refer to the field effective_labels for all of the labels present
+                      on the resource.'
                     type: object
                   location:
                     description: The name of the location this private connection
@@ -433,6 +446,12 @@ spec:
                   state:
                     description: State of the PrivateConnection.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                   vpcPeeringConfig:
                     description: The VPC Peering configuration is used to create VPC
                       peering between Datastream and the consumer's VPC. Structure

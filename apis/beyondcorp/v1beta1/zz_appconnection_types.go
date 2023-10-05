@@ -72,6 +72,8 @@ type AppConnectionObservation struct {
 	// An arbitrary user-provided name for the AppConnection.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// Gateway used by the AppConnection.
 	// Structure is documented below.
 	Gateway []GatewayObservation `json:"gateway,omitempty" tf:"gateway,omitempty"`
@@ -91,6 +93,10 @@ type AppConnectionObservation struct {
 
 	// The region of the AppConnection.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// The type of hosting used by the gateway. Refer to
 	// https://cloud.google.com/beyondcorp/docs/reference/rest/v1/projects.locations.appConnections#Type_1

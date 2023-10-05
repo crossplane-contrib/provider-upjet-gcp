@@ -219,7 +219,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: User-defined labels for the metastore service.
+                    description: 'User-defined labels for the metastore service. Note:
+                      This field is non-authoritative, and will only manage the labels
+                      present in your configuration. Please refer to the field effective_labels
+                      for all of the labels present on the resource.'
                     type: object
                   location:
                     description: The location where the metastore service should reside.
@@ -367,6 +370,22 @@ spec:
                       defaults to STABLE. Default value is STABLE. Possible values
                       are: CANARY, STABLE.'
                     type: string
+                  scalingConfig:
+                    description: Represents the scaling configuration of a metastore
+                      service. Structure is documented below.
+                    items:
+                      properties:
+                        instanceSize:
+                          description: 'Metastore instance sizes. Possible values
+                            are: EXTRA_SMALL, SMALL, MEDIUM, LARGE, EXTRA_LARGE.'
+                          type: string
+                        scalingFactor:
+                          description: Scaling factor, in increments of 0.1 for values
+                            less than 1.0, and increments of 1.0 for values greater
+                            than 1.0.
+                          type: number
+                      type: object
+                    type: array
                   telemetryConfig:
                     description: The configuration specifying telemetry settings for
                       the Dataproc Metastore service. If unspecified defaults to JSON.
@@ -466,7 +485,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: User-defined labels for the metastore service.
+                    description: 'User-defined labels for the metastore service. Note:
+                      This field is non-authoritative, and will only manage the labels
+                      present in your configuration. Please refer to the field effective_labels
+                      for all of the labels present on the resource.'
                     type: object
                   maintenanceWindow:
                     description: The one hour maintenance window of the metastore
@@ -519,6 +541,22 @@ spec:
                       defaults to STABLE. Default value is STABLE. Possible values
                       are: CANARY, STABLE.'
                     type: string
+                  scalingConfig:
+                    description: Represents the scaling configuration of a metastore
+                      service. Structure is documented below.
+                    items:
+                      properties:
+                        instanceSize:
+                          description: 'Metastore instance sizes. Possible values
+                            are: EXTRA_SMALL, SMALL, MEDIUM, LARGE, EXTRA_LARGE.'
+                          type: string
+                        scalingFactor:
+                          description: Scaling factor, in increments of 0.1 for values
+                            less than 1.0, and increments of 1.0 for values greater
+                            than 1.0.
+                          type: number
+                      type: object
+                    type: array
                   telemetryConfig:
                     description: The configuration specifying telemetry settings for
                       the Dataproc Metastore service. If unspecified defaults to JSON.
@@ -712,6 +750,10 @@ spec:
                       its data. Default value is MYSQL. Possible values are: MYSQL,
                       SPANNER.'
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
                   encryptionConfig:
                     description: Information used to configure the Dataproc Metastore
                       service to encrypt customer data at rest. Structure is documented
@@ -788,7 +830,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: User-defined labels for the metastore service.
+                    description: 'User-defined labels for the metastore service. Note:
+                      This field is non-authoritative, and will only manage the labels
+                      present in your configuration. Please refer to the field effective_labels
+                      for all of the labels present on the resource.'
                     type: object
                   location:
                     description: The location where the metastore service should reside.
@@ -863,6 +908,22 @@ spec:
                       defaults to STABLE. Default value is STABLE. Possible values
                       are: CANARY, STABLE.'
                     type: string
+                  scalingConfig:
+                    description: Represents the scaling configuration of a metastore
+                      service. Structure is documented below.
+                    items:
+                      properties:
+                        instanceSize:
+                          description: 'Metastore instance sizes. Possible values
+                            are: EXTRA_SMALL, SMALL, MEDIUM, LARGE, EXTRA_LARGE.'
+                          type: string
+                        scalingFactor:
+                          description: Scaling factor, in increments of 0.1 for values
+                            less than 1.0, and increments of 1.0 for values greater
+                            than 1.0.
+                          type: number
+                      type: object
+                    type: array
                   state:
                     description: The current state of the metastore service.
                     type: string
@@ -883,6 +944,12 @@ spec:
                           type: string
                       type: object
                     type: array
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                   tier:
                     description: 'The tier of the service. Possible values are: DEVELOPER,
                       ENTERPRISE.'

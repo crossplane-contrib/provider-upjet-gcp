@@ -198,9 +198,11 @@ spec:
                       properties:
                         autoRepair:
                           description: Whether the nodes will be automatically repaired.
+                            Enabled by default.
                           type: boolean
                         autoUpgrade:
                           description: Whether the nodes will be automatically upgraded.
+                            Enabled by default.
                           type: boolean
                       type: object
                     type: array
@@ -262,6 +264,17 @@ spec:
                           type: array
                         bootDiskKmsKey:
                           type: string
+                        confidentialNodes:
+                          description: Configuration for Confidential Nodes feature.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              enabled:
+                                description: Enable Confidential GKE Nodes for this
+                                  cluster, to enforce encryption of data in-use.
+                                type: boolean
+                            type: object
+                          type: array
                         diskSizeGb:
                           type: number
                         diskType:
@@ -273,10 +286,21 @@ spec:
                                 type: number
                             type: object
                           type: array
+                        fastSocket:
+                          items:
+                            properties:
+                              enabled:
+                                description: Enable Confidential GKE Nodes for this
+                                  cluster, to enforce encryption of data in-use.
+                                type: boolean
+                            type: object
+                          type: array
                         gcfsConfig:
                           items:
                             properties:
                               enabled:
+                                description: Enable Confidential GKE Nodes for this
+                                  cluster, to enforce encryption of data in-use.
                                 type: boolean
                             type: object
                           type: array
@@ -321,6 +345,8 @@ spec:
                           items:
                             properties:
                               enabled:
+                                description: Enable Confidential GKE Nodes for this
+                                  cluster, to enforce encryption of data in-use.
                                 type: boolean
                             type: object
                           type: array
@@ -562,6 +588,10 @@ spec:
                             be in the same project and region as the node pool. If
                             not found, InvalidArgument error is returned.
                           type: string
+                        tpuTopology:
+                          description: The TPU placement topology for pod slice node
+                            pool.
+                          type: string
                         type:
                           description: 'The type of the policy. Supports a single
                             value: COMPACT. Specifying COMPACT placement policy type
@@ -698,9 +728,11 @@ spec:
                       properties:
                         autoRepair:
                           description: Whether the nodes will be automatically repaired.
+                            Enabled by default.
                           type: boolean
                         autoUpgrade:
                           description: Whether the nodes will be automatically upgraded.
+                            Enabled by default.
                           type: boolean
                       type: object
                     type: array
@@ -762,6 +794,17 @@ spec:
                           type: array
                         bootDiskKmsKey:
                           type: string
+                        confidentialNodes:
+                          description: Configuration for Confidential Nodes feature.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              enabled:
+                                description: Enable Confidential GKE Nodes for this
+                                  cluster, to enforce encryption of data in-use.
+                                type: boolean
+                            type: object
+                          type: array
                         diskSizeGb:
                           type: number
                         diskType:
@@ -773,10 +816,21 @@ spec:
                                 type: number
                             type: object
                           type: array
+                        fastSocket:
+                          items:
+                            properties:
+                              enabled:
+                                description: Enable Confidential GKE Nodes for this
+                                  cluster, to enforce encryption of data in-use.
+                                type: boolean
+                            type: object
+                          type: array
                         gcfsConfig:
                           items:
                             properties:
                               enabled:
+                                description: Enable Confidential GKE Nodes for this
+                                  cluster, to enforce encryption of data in-use.
                                 type: boolean
                             type: object
                           type: array
@@ -821,6 +875,8 @@ spec:
                           items:
                             properties:
                               enabled:
+                                description: Enable Confidential GKE Nodes for this
+                                  cluster, to enforce encryption of data in-use.
                                 type: boolean
                             type: object
                           type: array
@@ -981,6 +1037,10 @@ spec:
                             policy supplied by the user. The resource policy must
                             be in the same project and region as the node pool. If
                             not found, InvalidArgument error is returned.
+                          type: string
+                        tpuTopology:
+                          description: The TPU placement topology for pod slice node
+                            pool.
                           type: string
                         type:
                           description: 'The type of the policy. Supports a single
@@ -1295,9 +1355,11 @@ spec:
                       properties:
                         autoRepair:
                           description: Whether the nodes will be automatically repaired.
+                            Enabled by default.
                           type: boolean
                         autoUpgrade:
                           description: Whether the nodes will be automatically upgraded.
+                            Enabled by default.
                           type: boolean
                       type: object
                     type: array
@@ -1359,10 +1421,32 @@ spec:
                           type: array
                         bootDiskKmsKey:
                           type: string
+                        confidentialNodes:
+                          description: Configuration for Confidential Nodes feature.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              enabled:
+                                description: Enable Confidential GKE Nodes for this
+                                  cluster, to enforce encryption of data in-use.
+                                type: boolean
+                            type: object
+                          type: array
                         diskSizeGb:
                           type: number
                         diskType:
                           type: string
+                        effectiveTaints:
+                          items:
+                            properties:
+                              effect:
+                                type: string
+                              key:
+                                type: string
+                              value:
+                                type: string
+                            type: object
+                          type: array
                         ephemeralStorageLocalSsdConfig:
                           items:
                             properties:
@@ -1370,10 +1454,21 @@ spec:
                                 type: number
                             type: object
                           type: array
+                        fastSocket:
+                          items:
+                            properties:
+                              enabled:
+                                description: Enable Confidential GKE Nodes for this
+                                  cluster, to enforce encryption of data in-use.
+                                type: boolean
+                            type: object
+                          type: array
                         gcfsConfig:
                           items:
                             properties:
                               enabled:
+                                description: Enable Confidential GKE Nodes for this
+                                  cluster, to enforce encryption of data in-use.
                                 type: boolean
                             type: object
                           type: array
@@ -1418,6 +1513,8 @@ spec:
                           items:
                             properties:
                               enabled:
+                                description: Enable Confidential GKE Nodes for this
+                                  cluster, to enforce encryption of data in-use.
                                 type: boolean
                             type: object
                           type: array
@@ -1582,6 +1679,10 @@ spec:
                             policy supplied by the user. The resource policy must
                             be in the same project and region as the node pool. If
                             not found, InvalidArgument error is returned.
+                          type: string
+                        tpuTopology:
+                          description: The TPU placement topology for pod slice node
+                            pool.
                           type: string
                         type:
                           description: 'The type of the policy. Supports a single

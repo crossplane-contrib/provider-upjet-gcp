@@ -180,6 +180,25 @@ type ConfigSSHConfigParameters struct {
 	AuthorizedKey *string `json:"authorizedKey" tf:"authorized_key,omitempty"`
 }
 
+type ManagementInitParameters struct {
+
+	// Optional. Whether or not the nodes will be automatically repaired.
+	AutoRepair *bool `json:"autoRepair,omitempty" tf:"auto_repair,omitempty"`
+}
+
+type ManagementObservation struct {
+
+	// Optional. Whether or not the nodes will be automatically repaired.
+	AutoRepair *bool `json:"autoRepair,omitempty" tf:"auto_repair,omitempty"`
+}
+
+type ManagementParameters struct {
+
+	// Optional. Whether or not the nodes will be automatically repaired.
+	// +kubebuilder:validation:Optional
+	AutoRepair *bool `json:"autoRepair,omitempty" tf:"auto_repair,omitempty"`
+}
+
 type MaxPodsConstraintInitParameters struct {
 
 	// The maximum number of pods to schedule on a single node.
@@ -212,6 +231,9 @@ type NodePoolInitParameters struct {
 
 	// The node configuration of the node pool.
 	Config []ConfigInitParameters `json:"config,omitempty" tf:"config,omitempty"`
+
+	// The Management configuration for this node pool.
+	Management []ManagementInitParameters `json:"management,omitempty" tf:"management,omitempty"`
 
 	// The constraint on the maximum number of pods that can be run simultaneously on a node in the node pool.
 	MaxPodsConstraint []MaxPodsConstraintInitParameters `json:"maxPodsConstraint,omitempty" tf:"max_pods_constraint,omitempty"`
@@ -246,6 +268,8 @@ type NodePoolObservation struct {
 	// Output only. The time at which this node pool was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	EffectiveAnnotations map[string]*string `json:"effectiveAnnotations,omitempty" tf:"effective_annotations,omitempty"`
+
 	// Allows clients to perform consistent read-modify-writes through optimistic concurrency control. May be sent on update and delete requests to ensure the client has an up-to-date value before proceeding.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
@@ -254,6 +278,9 @@ type NodePoolObservation struct {
 
 	// The location for the resource
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// The Management configuration for this node pool.
+	Management []ManagementObservation `json:"management,omitempty" tf:"management,omitempty"`
 
 	// The constraint on the maximum number of pods that can be run simultaneously on a node in the node pool.
 	MaxPodsConstraint []MaxPodsConstraintObservation `json:"maxPodsConstraint,omitempty" tf:"max_pods_constraint,omitempty"`
@@ -314,6 +341,10 @@ type NodePoolParameters struct {
 	// The location for the resource
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
+
+	// The Management configuration for this node pool.
+	// +kubebuilder:validation:Optional
+	Management []ManagementParameters `json:"management,omitempty" tf:"management,omitempty"`
 
 	// The constraint on the maximum number of pods that can be run simultaneously on a node in the node pool.
 	// +kubebuilder:validation:Optional

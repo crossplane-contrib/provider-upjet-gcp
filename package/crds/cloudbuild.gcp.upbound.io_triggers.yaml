@@ -618,6 +618,10 @@ spec:
                       template. Structure is documented below.
                     items:
                       properties:
+                        bitbucketServerConfig:
+                          description: 'The full resource name of the bitbucket server
+                            config. Format: projects/{project}/locations/{location}/bitbucketServerConfigs/{id}.'
+                          type: string
                         githubEnterpriseConfig:
                           description: 'The full resource name of the github enterprise
                             config. Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}.
@@ -1010,6 +1014,10 @@ spec:
                       below.
                     items:
                       properties:
+                        bitbucketServerConfig:
+                          description: 'The full resource name of the bitbucket server
+                            config. Format: projects/{project}/locations/{location}/bitbucketServerConfigs/{id}.'
+                          type: string
                         githubEnterpriseConfig:
                           description: 'The full resource name of the github enterprise
                             config. Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}.
@@ -1747,6 +1755,10 @@ spec:
                       template. Structure is documented below.
                     items:
                       properties:
+                        bitbucketServerConfig:
+                          description: 'The full resource name of the bitbucket server
+                            config. Format: projects/{project}/locations/{location}/bitbucketServerConfigs/{id}.'
+                          type: string
                         githubEnterpriseConfig:
                           description: 'The full resource name of the github enterprise
                             config. Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}.
@@ -1975,6 +1987,10 @@ spec:
                       below.
                     items:
                       properties:
+                        bitbucketServerConfig:
+                          description: 'The full resource name of the bitbucket server
+                            config. Format: projects/{project}/locations/{location}/bitbucketServerConfigs/{id}.'
+                          type: string
                         githubEnterpriseConfig:
                           description: 'The full resource name of the github enterprise
                             config. Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}.
@@ -2806,6 +2822,10 @@ spec:
                       template. Structure is documented below.
                     items:
                       properties:
+                        bitbucketServerConfig:
+                          description: 'The full resource name of the bitbucket server
+                            config. Format: projects/{project}/locations/{location}/bitbucketServerConfigs/{id}.'
+                          type: string
                         githubEnterpriseConfig:
                           description: 'The full resource name of the github enterprise
                             config. Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}.
@@ -3056,6 +3076,10 @@ spec:
                       below.
                     items:
                       properties:
+                        bitbucketServerConfig:
+                          description: 'The full resource name of the bitbucket server
+                            config. Format: projects/{project}/locations/{location}/bitbucketServerConfigs/{id}.'
+                          type: string
                         githubEnterpriseConfig:
                           description: 'The full resource name of the github enterprise
                             config. Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}.

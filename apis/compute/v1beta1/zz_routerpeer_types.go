@@ -160,7 +160,7 @@ type RouterPeerInitParameters struct {
 	AdvertiseMode *string `json:"advertiseMode,omitempty" tf:"advertise_mode,omitempty"`
 
 	// User-specified list of prefix groups to advertise in custom
-	// mode, which can take one of the following options:
+	// mode, which currently supports the following option:
 	AdvertisedGroups []*string `json:"advertisedGroups,omitempty" tf:"advertised_groups,omitempty"`
 
 	// User-specified list of individual IP ranges to advertise in
@@ -223,7 +223,7 @@ type RouterPeerObservation struct {
 	AdvertiseMode *string `json:"advertiseMode,omitempty" tf:"advertise_mode,omitempty"`
 
 	// User-specified list of prefix groups to advertise in custom
-	// mode, which can take one of the following options:
+	// mode, which currently supports the following option:
 	AdvertisedGroups []*string `json:"advertisedGroups,omitempty" tf:"advertised_groups,omitempty"`
 
 	// User-specified list of individual IP ranges to advertise in
@@ -313,7 +313,7 @@ type RouterPeerParameters struct {
 	AdvertiseMode *string `json:"advertiseMode,omitempty" tf:"advertise_mode,omitempty"`
 
 	// User-specified list of prefix groups to advertise in custom
-	// mode, which can take one of the following options:
+	// mode, which currently supports the following option:
 	// +kubebuilder:validation:Optional
 	AdvertisedGroups []*string `json:"advertisedGroups,omitempty" tf:"advertised_groups,omitempty"`
 

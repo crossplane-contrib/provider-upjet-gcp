@@ -32,12 +32,146 @@ spec:
           - text:
             - One more time?
         returnPartialResponses: false
+    - event: another-event
+      triggerFulfillment:
+      - conditionalCases:
+        - cases: |-
+            ${jsonencode([
+                      {
+                        condition = "$sys.func.RAND() < 0.5",
+                        caseContent = [
+                          {
+                            message = { text = { text = ["First case"] } }
+                          },
+                          {
+                            additionalCases = {
+                              cases = [
+                                {
+                                  condition = "$sys.func.RAND() < 0.2"
+                                  caseContent = [
+                                    {
+                                      message = { text = { text = ["Nested case"] } }
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        caseContent = [
+                          {
+                            message = { text = { text = ["Final case"] } }
+                          }
+                        ]
+                      },
+                    ])}
+        messages:
+        - channel: some-channel
+          text:
+          - text:
+            - Some text
+        - payload: |2
+                      {"some-key": "some-value", "other-key": ["other-value"]}
+        - conversationSuccess:
+          - metadata: |2
+                          {"some-metadata-key": "some-value", "other-metadata-key": 1234}
+        - outputAudioText:
+          - text: some output text
+        - outputAudioText:
+          - ssml: |2
+                          <speak>Some example <say-as interpret-as="characters">SSML XML</say-as></speak>
+        - liveAgentHandoff:
+          - metadata: |2
+                          {"some-metadata-key": "some-value", "other-metadata-key": 1234}
+        - playAudio:
+          - audioUri: http://example.com/some-audio-file.mp3
+        - telephonyTransferCall:
+          - phoneNumber: 1-234-567-8901
+        returnPartialResponses: true
+        setParameterActions:
+        - parameter: some-param
+          value: "123.45"
+        - parameter: another-param
+          value: ${jsonencode("abc")}
+        - parameter: other-param
+          value: ${jsonencode(["foo"])}
     nluSettings:
     - classificationThreshold: 0.3
       modelType: MODEL_TYPE_STANDARD
     parentSelector:
       matchLabels:
         testing.upbound.io/example-name: agent
+    transitionRoutes:
+    - condition: "true"
+      targetFlowSelector:
+        matchLabels:
+          testing.upbound.io/example-name: agent
+      triggerFulfillment:
+      - conditionalCases:
+        - cases: |-
+            ${jsonencode([
+                      {
+                        condition = "$sys.func.RAND() < 0.5",
+                        caseContent = [
+                          {
+                            message = { text = { text = ["First case"] } }
+                          },
+                          {
+                            additionalCases = {
+                              cases = [
+                                {
+                                  condition = "$sys.func.RAND() < 0.2"
+                                  caseContent = [
+                                    {
+                                      message = { text = { text = ["Nested case"] } }
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        caseContent = [
+                          {
+                            message = { text = { text = ["Final case"] } }
+                          }
+                        ]
+                      },
+                    ])}
+        messages:
+        - channel: some-channel
+          text:
+          - text:
+            - Some text
+        - payload: |2
+                      {"some-key": "some-value", "other-key": ["other-value"]}
+        - conversationSuccess:
+          - metadata: |2
+                          {"some-metadata-key": "some-value", "other-metadata-key": 1234}
+        - outputAudioText:
+          - text: some output text
+        - outputAudioText:
+          - ssml: |2
+                          <speak>Some example <say-as interpret-as="characters">SSML XML</say-as></speak>
+        - liveAgentHandoff:
+          - metadata: |2
+                          {"some-metadata-key": "some-value", "other-metadata-key": 1234}
+        - playAudio:
+          - audioUri: http://example.com/some-audio-file.mp3
+        - telephonyTransferCall:
+          - phoneNumber: 1-234-567-8901
+        returnPartialResponses: true
+        setParameterActions:
+        - parameter: some-param
+          value: "123.45"
+        - parameter: another-param
+          value: ${jsonencode("abc")}
+        - parameter: other-param
+          value: ${jsonencode(["foo"])}
 
 ---
 

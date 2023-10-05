@@ -85,6 +85,8 @@ type InstanceObservation struct {
 	// A user-visible name for the instance.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/instances/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -133,6 +135,10 @@ type InstanceObservation struct {
 
 	// The region of the Memcache instance. If it is not provided, the provider region is used.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// Zones where memcache nodes should be provisioned.  If not
 	// provided, all zones will be used.

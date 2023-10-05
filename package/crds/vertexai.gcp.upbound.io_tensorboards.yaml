@@ -322,6 +322,11 @@ spec:
                   description:
                     description: Description of this Tensorboard.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
                   encryptionSpec:
                     description: Customer-managed encryption key spec for a Tensorboard.
                       If set, this Tensorboard and all sub-resources of this Tensorboard
@@ -359,6 +364,12 @@ spec:
                   runCount:
                     description: The number of Runs stored in this Tensorboard.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                   updateTime:
                     description: The timestamp of when the Tensorboard was last updated
                       in RFC3339 UTC "Zulu" format, with nanosecond resolution and

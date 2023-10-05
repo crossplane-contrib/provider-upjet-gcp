@@ -114,6 +114,9 @@ type ClusterObservation struct {
 	// If no value is set, Cloud Bigtable automatically allocates nodes based on your data footprint and optimized for 50% storage utilization.
 	NumNodes *float64 `json:"numNodes,omitempty" tf:"num_nodes,omitempty"`
 
+	// describes the current state of the cluster.
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
 	// The storage type to use. One of "SSD" or
 	// "HDD". Defaults to "SSD".
 	StorageType *string `json:"storageType,omitempty" tf:"storage_type,omitempty"`
@@ -194,6 +197,8 @@ type InstanceObservation struct {
 	// The human-readable display name of the Bigtable instance. Defaults to the instance name.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/instances/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -210,6 +215,9 @@ type InstanceObservation struct {
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type InstanceParameters struct {

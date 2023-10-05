@@ -372,6 +372,8 @@ type EnvironmentObservation struct {
 	// Configuration parameters for this environment  Structure is documented below.
 	Config []ConfigObservation `json:"config,omitempty" tf:"config,omitempty"`
 
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/environments/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -392,6 +394,9 @@ type EnvironmentObservation struct {
 
 	// The location or Compute Engine region for the environment.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type EnvironmentParameters struct {
@@ -830,6 +835,10 @@ type PrivateEnvironmentConfigInitParameters struct {
 	// The CIDR block from which IP range in tenant project will be reserved for Cloud SQL. Needs to be disjoint from web_server_ipv4_cidr_block
 	CloudSQLIPv4CidrBlock *string `json:"cloudSqlIpv4CidrBlock,omitempty" tf:"cloud_sql_ipv4_cidr_block,omitempty"`
 
+	// Mode of internal communication within the Composer environment. Must be one
+	// of "VPC_PEERING" or "PRIVATE_SERVICE_CONNECT".
+	ConnectionType *string `json:"connectionType,omitempty" tf:"connection_type,omitempty"`
+
 	// If true, access to the public endpoint of the GKE cluster is denied.
 	// If this field is set to true, the ip_allocation_policy.use_ip_aliases field must
 	// also be set to true for Cloud Composer 1 environments.
@@ -862,6 +871,10 @@ type PrivateEnvironmentConfigObservation struct {
 
 	// The CIDR block from which IP range in tenant project will be reserved for Cloud SQL. Needs to be disjoint from web_server_ipv4_cidr_block
 	CloudSQLIPv4CidrBlock *string `json:"cloudSqlIpv4CidrBlock,omitempty" tf:"cloud_sql_ipv4_cidr_block,omitempty"`
+
+	// Mode of internal communication within the Composer environment. Must be one
+	// of "VPC_PEERING" or "PRIVATE_SERVICE_CONNECT".
+	ConnectionType *string `json:"connectionType,omitempty" tf:"connection_type,omitempty"`
 
 	// If true, access to the public endpoint of the GKE cluster is denied.
 	// If this field is set to true, the ip_allocation_policy.use_ip_aliases field must
@@ -898,6 +911,11 @@ type PrivateEnvironmentConfigParameters struct {
 	// The CIDR block from which IP range in tenant project will be reserved for Cloud SQL. Needs to be disjoint from web_server_ipv4_cidr_block
 	// +kubebuilder:validation:Optional
 	CloudSQLIPv4CidrBlock *string `json:"cloudSqlIpv4CidrBlock,omitempty" tf:"cloud_sql_ipv4_cidr_block,omitempty"`
+
+	// Mode of internal communication within the Composer environment. Must be one
+	// of "VPC_PEERING" or "PRIVATE_SERVICE_CONNECT".
+	// +kubebuilder:validation:Optional
+	ConnectionType *string `json:"connectionType,omitempty" tf:"connection_type,omitempty"`
 
 	// If true, access to the public endpoint of the GKE cluster is denied.
 	// If this field is set to true, the ip_allocation_policy.use_ip_aliases field must

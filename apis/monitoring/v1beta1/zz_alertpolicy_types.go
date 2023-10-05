@@ -1128,7 +1128,7 @@ type ConditionPrometheusQueryLanguageParameters struct {
 	// alerting rule, then this value should be taken from the enclosing
 	// rule group.
 	// +kubebuilder:validation:Optional
-	EvaluationInterval *string `json:"evaluationInterval" tf:"evaluation_interval,omitempty"`
+	EvaluationInterval *string `json:"evaluationInterval,omitempty" tf:"evaluation_interval,omitempty"`
 
 	// Labels to add to or overwrite in the PromQL query result. Label names
 	// must be valid.

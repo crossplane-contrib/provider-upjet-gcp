@@ -507,9 +507,7 @@ type ClusterInitParameters struct {
 	// For more context see the docs
 	GracefulDecommissionTimeout *string `json:"gracefulDecommissionTimeout,omitempty" tf:"graceful_decommission_timeout,omitempty"`
 
-	// The list of labels (key/value pairs) to be applied to
-	// instances in the cluster. GCP generates some itself including goog-dataproc-cluster-name
-	// which is the name of the cluster.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration. Please refer to the field effective_labels for all of the labels present on the resource.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of the cluster, unique within the project and
@@ -535,6 +533,11 @@ type ClusterObservation struct {
 	// Structure defined below.
 	ClusterConfig []ClusterConfigObservation `json:"clusterConfig,omitempty" tf:"cluster_config,omitempty"`
 
+	// (Computed) The list of labels (key/value pairs) to be applied to
+	// instances in the cluster. GCP generates some itself including goog-dataproc-cluster-name
+	// which is the name of the cluster.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// Does not affect auto scaling decomissioning from an autoscaling policy.
 	// Graceful decommissioning allows removing nodes from the cluster without interrupting jobs in progress.
 	// Timeout specifies how long to wait for jobs in progress to finish before forcefully removing nodes (and potentially interrupting jobs).
@@ -546,9 +549,7 @@ type ClusterObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The list of labels (key/value pairs) to be applied to
-	// instances in the cluster. GCP generates some itself including goog-dataproc-cluster-name
-	// which is the name of the cluster.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration. Please refer to the field effective_labels for all of the labels present on the resource.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of the cluster, unique within the project and
@@ -562,6 +563,9 @@ type ClusterObservation struct {
 	// The region in which the cluster and associated nodes will be created in.
 	// Defaults to global.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// Allows you to configure a virtual Dataproc on GKE cluster.
 	// Structure defined below.
@@ -585,9 +589,7 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	GracefulDecommissionTimeout *string `json:"gracefulDecommissionTimeout,omitempty" tf:"graceful_decommission_timeout,omitempty"`
 
-	// The list of labels (key/value pairs) to be applied to
-	// instances in the cluster. GCP generates some itself including goog-dataproc-cluster-name
-	// which is the name of the cluster.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration. Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 

@@ -147,8 +147,7 @@ spec:
                             on maximum number of instances allowed.
                           type: number
                         mode:
-                          description: 'Defines operating mode for this policy. Default
-                            value is ON. Possible values are: OFF, ONLY_UP, ON.'
+                          description: Defines operating mode for this policy.
                           type: string
                         scaleInControl:
                           description: Defines scale in controls to reduce the risk
@@ -407,8 +406,7 @@ spec:
                             on maximum number of instances allowed.
                           type: number
                         mode:
-                          description: 'Defines operating mode for this policy. Default
-                            value is ON. Possible values are: OFF, ONLY_UP, ON.'
+                          description: Defines operating mode for this policy.
                           type: string
                         scaleInControl:
                           description: Defines scale in controls to reduce the risk
@@ -741,8 +739,7 @@ spec:
                             on maximum number of instances allowed.
                           type: number
                         mode:
-                          description: 'Defines operating mode for this policy. Default
-                            value is ON. Possible values are: OFF, ONLY_UP, ON.'
+                          description: Defines operating mode for this policy.
                           type: string
                         scaleInControl:
                           description: Defines scale in controls to reduce the risk

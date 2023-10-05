@@ -1245,6 +1245,9 @@ type WeekDayOfMonthInitParameters struct {
 	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	DayOfWeek *string `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
 
+	// Represents the number of days before or after the given week day of month that the patch deployment is scheduled for.
+	DayOffset *float64 `json:"dayOffset,omitempty" tf:"day_offset,omitempty"`
+
 	// Week number in a month. 1-4 indicates the 1st to 4th week of the month. -1 indicates the last week of the month.
 	WeekOrdinal *float64 `json:"weekOrdinal,omitempty" tf:"week_ordinal,omitempty"`
 }
@@ -1254,6 +1257,9 @@ type WeekDayOfMonthObservation struct {
 	// IANA Time Zone Database time zone, e.g. "America/New_York".
 	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	DayOfWeek *string `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+
+	// Represents the number of days before or after the given week day of month that the patch deployment is scheduled for.
+	DayOffset *float64 `json:"dayOffset,omitempty" tf:"day_offset,omitempty"`
 
 	// Week number in a month. 1-4 indicates the 1st to 4th week of the month. -1 indicates the last week of the month.
 	WeekOrdinal *float64 `json:"weekOrdinal,omitempty" tf:"week_ordinal,omitempty"`
@@ -1265,6 +1271,10 @@ type WeekDayOfMonthParameters struct {
 	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	// +kubebuilder:validation:Optional
 	DayOfWeek *string `json:"dayOfWeek" tf:"day_of_week,omitempty"`
+
+	// Represents the number of days before or after the given week day of month that the patch deployment is scheduled for.
+	// +kubebuilder:validation:Optional
+	DayOffset *float64 `json:"dayOffset,omitempty" tf:"day_offset,omitempty"`
 
 	// Week number in a month. 1-4 indicates the 1st to 4th week of the month. -1 indicates the last week of the month.
 	// +kubebuilder:validation:Optional

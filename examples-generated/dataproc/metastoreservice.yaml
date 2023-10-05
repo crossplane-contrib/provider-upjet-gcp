@@ -10,6 +10,8 @@ spec:
   forProvider:
     hiveMetastoreConfig:
     - version: 2.3.6
+    labels:
+      env: test
     location: us-central1
     maintenanceWindow:
     - dayOfWeek: SUNDAY

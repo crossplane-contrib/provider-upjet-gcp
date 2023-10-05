@@ -69,6 +69,9 @@ type IntentObservation struct {
 	// The human-readable name of the intent, unique within the agent.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// for all of the labels present on the resource.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format {{parent}}/intents/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -102,6 +105,10 @@ type IntentObservation struct {
 	// If the supplied value is unspecified or 0, the service translates the value to 500,000, which corresponds to the Normal priority in the console.
 	// If the supplied value is negative, the intent is ignored in runtime detect intent requests.
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// The collection of training phrases the agent is trained on to identify the intent.
 	// Structure is documented below.

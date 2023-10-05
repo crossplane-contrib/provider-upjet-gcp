@@ -128,6 +128,8 @@ type WorkerPoolObservation struct {
 	// User-defined name of the WorkerPool.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	EffectiveAnnotations map[string]*string `json:"effectiveAnnotations,omitempty" tf:"effective_annotations,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/workerPools/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 

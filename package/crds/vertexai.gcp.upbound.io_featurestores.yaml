@@ -383,6 +383,11 @@ spec:
                       in RFC3339 UTC "Zulu" format, with nanosecond resolution and
                       up to nine fractional digits.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
                   encryptionSpec:
                     description: If set, both of the online and offline data storage
                       will be secured by this key. Structure is documented below.
@@ -454,6 +459,12 @@ spec:
                   region:
                     description: The region of the dataset. eg us-central1
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                   updateTime:
                     description: The timestamp of when the featurestore was last updated
                       in RFC3339 UTC "Zulu" format, with nanosecond resolution and

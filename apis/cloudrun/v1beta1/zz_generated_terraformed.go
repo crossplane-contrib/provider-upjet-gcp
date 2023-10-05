@@ -106,7 +106,7 @@ func (tr *DomainMapping) LateInitialize(attrs []byte) (bool, error) {
 
 // GetTerraformSchemaVersion returns the associated Terraform schema version
 func (tr *DomainMapping) GetTerraformSchemaVersion() int {
-	return 0
+	return 1
 }
 
 // GetTerraformResourceType returns Terraform resource type for this Service
@@ -190,7 +190,7 @@ func (tr *Service) LateInitialize(attrs []byte) (bool, error) {
 
 // GetTerraformSchemaVersion returns the associated Terraform schema version
 func (tr *Service) GetTerraformSchemaVersion() int {
-	return 1
+	return 2
 }
 
 // GetTerraformResourceType returns Terraform resource type for this ServiceIAMMember

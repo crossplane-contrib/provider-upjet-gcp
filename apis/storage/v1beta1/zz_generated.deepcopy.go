@@ -1576,6 +1576,22 @@ func (in *BucketObservation) DeepCopyInto(out *BucketObservation) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.EffectiveLabels != nil {
+		in, out := &in.EffectiveLabels, &out.EffectiveLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.Encryption != nil {
 		in, out := &in.Encryption, &out.Encryption
 		*out = make([]EncryptionObservation, len(*in))
@@ -1659,6 +1675,22 @@ func (in *BucketObservation) DeepCopyInto(out *BucketObservation) {
 		in, out := &in.StorageClass, &out.StorageClass
 		*out = new(string)
 		**out = **in
+	}
+	if in.TerraformLabels != nil {
+		in, out := &in.TerraformLabels, &out.TerraformLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.URL != nil {
 		in, out := &in.URL, &out.URL

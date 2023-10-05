@@ -643,6 +643,22 @@ func (mg *GlobalForwardingRule) ResolveReferences(ctx context.Context, c client.
 	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Subnetwork),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.ForProvider.SubnetworkRef,
+		Selector:     mg.Spec.ForProvider.SubnetworkSelector,
+		To: reference.To{
+			List:    &SubnetworkList{},
+			Managed: &Subnetwork{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Subnetwork")
+	}
+	mg.Spec.ForProvider.Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.SubnetworkRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Target),
 		Extract:      resource.ExtractResourceID(),
 		Reference:    mg.Spec.ForProvider.TargetRef,

@@ -906,6 +906,10 @@ spec:
                       built by Cloud Build. If unspecified, Container Registry will
                       be used by default, unless specified otherwise by other means.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
                   entryPoint:
                     description: Name of the function that will be executed when the
                       Google Cloud Function is triggered.
@@ -1108,6 +1112,12 @@ spec:
                     type: array
                   status:
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                   timeout:
                     description: Timeout (in seconds) for the function. Default value
                       is 60 seconds. Cannot be more than 540 seconds.

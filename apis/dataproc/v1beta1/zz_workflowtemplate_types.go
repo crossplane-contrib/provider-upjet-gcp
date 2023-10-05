@@ -2466,6 +2466,8 @@ type WorkflowTemplateObservation struct {
 	// (Beta only) Optional. Timeout duration for the DAG of jobs. You can use "s", "m", "h", and "d" suffixes for second, minute, hour, and day duration values, respectively. The timeout duration must be from 10 minutes ("10m") to 24 hours ("24h" or "1d"). The timer begins when the first job is submitted. If the workflow is running at the end of the timeout period, any remaining jobs are cancelled, the workflow is ended, and if the workflow was running on a (/dataproc/docs/concepts/workflows/using-workflows#configuring_or_selecting_a_cluster), the cluster is deleted.
 	DagTimeout *string `json:"dagTimeout,omitempty" tf:"dag_timeout,omitempty"`
 
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/workflowTemplates/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -2486,6 +2488,8 @@ type WorkflowTemplateObservation struct {
 
 	// The project for the resource
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// Output only. The time template was last updated.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`

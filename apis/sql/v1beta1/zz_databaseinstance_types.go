@@ -242,6 +242,9 @@ type CloneInitParameters struct {
 	// The timestamp of the point in time that should be restored.
 	PointInTime *string `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
 
+	// (Point-in-time recovery for PostgreSQL only) Clone to an instance in the specified zone. If no zone is specified, clone to the same zone as the source instance. clone-unavailable-instance
+	PreferredZone *string `json:"preferredZone,omitempty" tf:"preferred_zone,omitempty"`
+
 	// Name of the source instance which will be cloned.
 	SourceInstanceName *string `json:"sourceInstanceName,omitempty" tf:"source_instance_name,omitempty"`
 }
@@ -256,6 +259,9 @@ type CloneObservation struct {
 
 	// The timestamp of the point in time that should be restored.
 	PointInTime *string `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
+
+	// (Point-in-time recovery for PostgreSQL only) Clone to an instance in the specified zone. If no zone is specified, clone to the same zone as the source instance. clone-unavailable-instance
+	PreferredZone *string `json:"preferredZone,omitempty" tf:"preferred_zone,omitempty"`
 
 	// Name of the source instance which will be cloned.
 	SourceInstanceName *string `json:"sourceInstanceName,omitempty" tf:"source_instance_name,omitempty"`
@@ -274,6 +280,10 @@ type CloneParameters struct {
 	// The timestamp of the point in time that should be restored.
 	// +kubebuilder:validation:Optional
 	PointInTime *string `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
+
+	// (Point-in-time recovery for PostgreSQL only) Clone to an instance in the specified zone. If no zone is specified, clone to the same zone as the source instance. clone-unavailable-instance
+	// +kubebuilder:validation:Optional
+	PreferredZone *string `json:"preferredZone,omitempty" tf:"preferred_zone,omitempty"`
 
 	// Name of the source instance which will be cloned.
 	// +kubebuilder:validation:Optional
@@ -408,6 +418,10 @@ type DatabaseInstanceObservation struct {
 	// connection strings. For example, when connecting with Cloud SQL Proxy.
 	ConnectionName *string `json:"connectionName,omitempty" tf:"connection_name,omitempty"`
 
+	// The name of the instance. This is done because after a name is used, it cannot be reused for
+	// up to one week.
+	DNSName *string `json:"dnsName,omitempty" tf:"dns_name,omitempty"`
+
 	// The MySQL, PostgreSQL or
 	// SQL Server version to use. Supported values include MYSQL_5_6,
 	// MYSQL_5_7, MYSQL_8_0, POSTGRES_9_6,POSTGRES_10, POSTGRES_11,
@@ -456,6 +470,8 @@ type DatabaseInstanceObservation struct {
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	PscServiceAttachmentLink *string `json:"pscServiceAttachmentLink,omitempty" tf:"psc_service_attachment_link,omitempty"`
 
 	// The first public (PRIMARY) IPv4 address assigned.
 	PublicIPAddress *string `json:"publicIpAddress,omitempty" tf:"public_ip_address,omitempty"`
@@ -632,6 +648,8 @@ type IPConfigurationInitParameters struct {
 	// private_network must be configured.
 	IPv4Enabled *bool `json:"ipv4Enabled,omitempty" tf:"ipv4_enabled,omitempty"`
 
+	PscConfig []PscConfigInitParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
+
 	// Whether SSL connections over IP are enforced or not.
 	RequireSSL *bool `json:"requireSsl,omitempty" tf:"require_ssl,omitempty"`
 }
@@ -657,6 +675,8 @@ type IPConfigurationObservation struct {
 	// At least ipv4_enabled must be enabled or a private_network must be configured.
 	// This setting can be updated, but it cannot be removed after it is set.
 	PrivateNetwork *string `json:"privateNetwork,omitempty" tf:"private_network,omitempty"`
+
+	PscConfig []PscConfigObservation `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
 	// Whether SSL connections over IP are enforced or not.
 	RequireSSL *bool `json:"requireSsl,omitempty" tf:"require_ssl,omitempty"`
@@ -698,6 +718,9 @@ type IPConfigurationParameters struct {
 	// Selector for a Network in compute to populate privateNetwork.
 	// +kubebuilder:validation:Optional
 	PrivateNetworkSelector *v1.Selector `json:"privateNetworkSelector,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	PscConfig []PscConfigParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
 	// Whether SSL connections over IP are enforced or not.
 	// +kubebuilder:validation:Optional
@@ -919,6 +942,35 @@ type PasswordValidationPolicyParameters struct {
 	ReuseInterval *float64 `json:"reuseInterval,omitempty" tf:"reuse_interval,omitempty"`
 }
 
+type PscConfigInitParameters struct {
+
+	// List of consumer projects that are allow-listed for PSC connections to this instance. This instance can be connected to with PSC from any network in these projects. Each consumer project in this list may be represented by a project number (numeric) or by a project id (alphanumeric).
+	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
+
+	// Whether PSC connectivity is enabled for this instance.
+	PscEnabled *bool `json:"pscEnabled,omitempty" tf:"psc_enabled,omitempty"`
+}
+
+type PscConfigObservation struct {
+
+	// List of consumer projects that are allow-listed for PSC connections to this instance. This instance can be connected to with PSC from any network in these projects. Each consumer project in this list may be represented by a project number (numeric) or by a project id (alphanumeric).
+	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
+
+	// Whether PSC connectivity is enabled for this instance.
+	PscEnabled *bool `json:"pscEnabled,omitempty" tf:"psc_enabled,omitempty"`
+}
+
+type PscConfigParameters struct {
+
+	// List of consumer projects that are allow-listed for PSC connections to this instance. This instance can be connected to with PSC from any network in these projects. Each consumer project in this list may be represented by a project number (numeric) or by a project id (alphanumeric).
+	// +kubebuilder:validation:Optional
+	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
+
+	// Whether PSC connectivity is enabled for this instance.
+	// +kubebuilder:validation:Optional
+	PscEnabled *bool `json:"pscEnabled,omitempty" tf:"psc_enabled,omitempty"`
+}
+
 type ReplicaConfigurationInitParameters struct {
 
 	// PEM representation of the trusted CA's x509
@@ -952,6 +1004,7 @@ type ReplicaConfigurationInitParameters struct {
 	// heartbeats.
 	MasterHeartbeatPeriod *float64 `json:"masterHeartbeatPeriod,omitempty" tf:"master_heartbeat_period,omitempty"`
 
+	// Permissible ciphers for use in SSL encryption.
 	SSLCipher *string `json:"sslCipher,omitempty" tf:"ssl_cipher,omitempty"`
 
 	// Username for replication connection.
@@ -995,6 +1048,7 @@ type ReplicaConfigurationObservation struct {
 	// heartbeats.
 	MasterHeartbeatPeriod *float64 `json:"masterHeartbeatPeriod,omitempty" tf:"master_heartbeat_period,omitempty"`
 
+	// Permissible ciphers for use in SSL encryption.
 	SSLCipher *string `json:"sslCipher,omitempty" tf:"ssl_cipher,omitempty"`
 
 	// Username for replication connection.
@@ -1049,6 +1103,7 @@ type ReplicaConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
+	// Permissible ciphers for use in SSL encryption.
 	// +kubebuilder:validation:Optional
 	SSLCipher *string `json:"sslCipher,omitempty" tf:"ssl_cipher,omitempty"`
 

@@ -279,6 +279,99 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  linkedVpcNetwork:
+                    description: VPC network that is associated with the spoke.
+                    items:
+                      properties:
+                        excludeExportRanges:
+                          description: IP ranges encompassing the subnets to be excluded
+                            from peering.
+                          items:
+                            type: string
+                          type: array
+                        uri:
+                          description: The URI of the VPC network resource.
+                          type: string
+                        uriRef:
+                          description: Reference to a Network in compute to populate
+                            uri.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        uriSelector:
+                          description: Selector for a Network in compute to populate
+                            uri.
+                          properties:
+                            matchControllerRef:
+                              description: MatchControllerRef ensures an object with
+                                the same controller reference as the selecting object
+                                is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                      type: object
+                    type: array
                   linkedVpnTunnels:
                     description: The URIs of linked VPN tunnel resources
                     items:
@@ -367,6 +460,18 @@ spec:
                             data transfer is enabled for these resources. Note that
                             data transfer is available only in supported locations.
                           type: boolean
+                      type: object
+                    type: array
+                  linkedVpcNetwork:
+                    description: VPC network that is associated with the spoke.
+                    items:
+                      properties:
+                        excludeExportRanges:
+                          description: IP ranges encompassing the subnets to be excluded
+                            from peering.
+                          items:
+                            type: string
+                          type: array
                       type: object
                     type: array
                   linkedVpnTunnels:
@@ -577,6 +682,10 @@ spec:
                   description:
                     description: An optional description of the spoke.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
                   hub:
                     description: Immutable. The URI of the hub that this spoke is
                       attached to.
@@ -634,6 +743,21 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  linkedVpcNetwork:
+                    description: VPC network that is associated with the spoke.
+                    items:
+                      properties:
+                        excludeExportRanges:
+                          description: IP ranges encompassing the subnets to be excluded
+                            from peering.
+                          items:
+                            type: string
+                          type: array
+                        uri:
+                          description: The URI of the VPC network resource.
+                          type: string
+                      type: object
+                    type: array
                   linkedVpnTunnels:
                     description: The URIs of linked VPN tunnel resources
                     items:
@@ -665,6 +789,12 @@ spec:
                       spoke. Possible values: STATE_UNSPECIFIED, CREATING, ACTIVE,
                       DELETING'
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                   uniqueId:
                     description: Output only. The Google-generated UUID for the spoke.
                       This value is unique across all spoke resources. If a spoke

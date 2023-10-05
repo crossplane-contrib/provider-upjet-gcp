@@ -35,7 +35,7 @@ spec:
     location: us-central1
     networkSelector:
       matchLabels:
-        testing.upbound.io/example-name: google_compute_network
+        testing.upbound.io/example-name: default
 
 ---
 
@@ -52,9 +52,22 @@ spec:
     addressType: INTERNAL
     networkSelector:
       matchLabels:
-        testing.upbound.io/example-name: google_compute_network
+        testing.upbound.io/example-name: default
     prefixLength: 16
     purpose: VPC_PEERING
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alloydb/v1beta1/instance
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider: {}
 
 ---
 
@@ -70,7 +83,7 @@ spec:
   forProvider:
     networkSelector:
       matchLabels:
-        testing.upbound.io/example-name: google_compute_network
+        testing.upbound.io/example-name: default
     reservedPeeringRangesRefs:
     - name: private_ip_alloc
     service: servicenetworking.googleapis.com

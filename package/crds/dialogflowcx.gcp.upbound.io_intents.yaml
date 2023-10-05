@@ -572,6 +572,11 @@ spec:
                     description: The human-readable name of the intent, unique within
                       the agent.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
                   id:
                     description: an identifier for the resource with format {{parent}}/intents/{{name}}
                     type: string
@@ -649,6 +654,12 @@ spec:
                       is negative, the intent is ignored in runtime detect intent
                       requests.
                     type: number
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                   trainingPhrases:
                     description: The collection of training phrases the agent is trained
                       on to identify the intent. Structure is documented below.

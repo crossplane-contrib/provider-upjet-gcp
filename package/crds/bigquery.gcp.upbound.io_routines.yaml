@@ -492,6 +492,10 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.definitionBody)
                 || (has(self.initProvider) && has(self.initProvider.definitionBody))'
+            - message: spec.forProvider.routineType is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.routineType)
+                || (has(self.initProvider) && has(self.initProvider.routineType))'
           status:
             description: RoutineStatus defines the observed state of Routine.
             properties:

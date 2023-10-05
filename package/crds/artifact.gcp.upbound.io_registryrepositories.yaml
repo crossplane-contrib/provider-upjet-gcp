@@ -141,6 +141,30 @@ spec:
                       is documented below.
                     items:
                       properties:
+                        aptRepository:
+                          description: Specific settings for an Apt remote repository.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              publicRepository:
+                                description: One of the publicly available Yum repositories
+                                  supported by Artifact Registry. Structure is documented
+                                  below.
+                                items:
+                                  properties:
+                                    repositoryBase:
+                                      description: 'A common public repository base
+                                        for Yum. Possible values are: CENTOS, CENTOS_DEBUG,
+                                        CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.'
+                                      type: string
+                                    repositoryPath:
+                                      description: Specific repository from the base,
+                                        e.g. "8-stream/BaseOs/x86_64/os"
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                         description:
                           description: The description of the remote source.
                           type: string
@@ -150,8 +174,9 @@ spec:
                           items:
                             properties:
                               publicRepository:
-                                description: 'Address of the remote repository. Default
-                                  value is PYPI. Possible values are: PYPI.'
+                                description: One of the publicly available Yum repositories
+                                  supported by Artifact Registry. Structure is documented
+                                  below.
                                 type: string
                             type: object
                           type: array
@@ -161,8 +186,9 @@ spec:
                           items:
                             properties:
                               publicRepository:
-                                description: 'Address of the remote repository. Default
-                                  value is PYPI. Possible values are: PYPI.'
+                                description: One of the publicly available Yum repositories
+                                  supported by Artifact Registry. Structure is documented
+                                  below.
                                 type: string
                             type: object
                           type: array
@@ -172,8 +198,9 @@ spec:
                           items:
                             properties:
                               publicRepository:
-                                description: 'Address of the remote repository. Default
-                                  value is PYPI. Possible values are: PYPI.'
+                                description: One of the publicly available Yum repositories
+                                  supported by Artifact Registry. Structure is documented
+                                  below.
                                 type: string
                             type: object
                           type: array
@@ -183,9 +210,34 @@ spec:
                           items:
                             properties:
                               publicRepository:
-                                description: 'Address of the remote repository. Default
-                                  value is PYPI. Possible values are: PYPI.'
+                                description: One of the publicly available Yum repositories
+                                  supported by Artifact Registry. Structure is documented
+                                  below.
                                 type: string
+                            type: object
+                          type: array
+                        yumRepository:
+                          description: Specific settings for an Yum remote repository.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              publicRepository:
+                                description: One of the publicly available Yum repositories
+                                  supported by Artifact Registry. Structure is documented
+                                  below.
+                                items:
+                                  properties:
+                                    repositoryBase:
+                                      description: 'A common public repository base
+                                        for Yum. Possible values are: CENTOS, CENTOS_DEBUG,
+                                        CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.'
+                                      type: string
+                                    repositoryPath:
+                                      description: Specific repository from the base,
+                                        e.g. "8-stream/BaseOs/x86_64/os"
+                                      type: string
+                                  type: object
+                                type: array
                             type: object
                           type: array
                       type: object
@@ -382,6 +434,30 @@ spec:
                       is documented below.
                     items:
                       properties:
+                        aptRepository:
+                          description: Specific settings for an Apt remote repository.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              publicRepository:
+                                description: One of the publicly available Yum repositories
+                                  supported by Artifact Registry. Structure is documented
+                                  below.
+                                items:
+                                  properties:
+                                    repositoryBase:
+                                      description: 'A common public repository base
+                                        for Yum. Possible values are: CENTOS, CENTOS_DEBUG,
+                                        CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.'
+                                      type: string
+                                    repositoryPath:
+                                      description: Specific repository from the base,
+                                        e.g. "8-stream/BaseOs/x86_64/os"
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                         description:
                           description: The description of the remote source.
                           type: string
@@ -391,8 +467,9 @@ spec:
                           items:
                             properties:
                               publicRepository:
-                                description: 'Address of the remote repository. Default
-                                  value is PYPI. Possible values are: PYPI.'
+                                description: One of the publicly available Yum repositories
+                                  supported by Artifact Registry. Structure is documented
+                                  below.
                                 type: string
                             type: object
                           type: array
@@ -402,8 +479,9 @@ spec:
                           items:
                             properties:
                               publicRepository:
-                                description: 'Address of the remote repository. Default
-                                  value is PYPI. Possible values are: PYPI.'
+                                description: One of the publicly available Yum repositories
+                                  supported by Artifact Registry. Structure is documented
+                                  below.
                                 type: string
                             type: object
                           type: array
@@ -413,8 +491,9 @@ spec:
                           items:
                             properties:
                               publicRepository:
-                                description: 'Address of the remote repository. Default
-                                  value is PYPI. Possible values are: PYPI.'
+                                description: One of the publicly available Yum repositories
+                                  supported by Artifact Registry. Structure is documented
+                                  below.
                                 type: string
                             type: object
                           type: array
@@ -424,9 +503,34 @@ spec:
                           items:
                             properties:
                               publicRepository:
-                                description: 'Address of the remote repository. Default
-                                  value is PYPI. Possible values are: PYPI.'
+                                description: One of the publicly available Yum repositories
+                                  supported by Artifact Registry. Structure is documented
+                                  below.
                                 type: string
+                            type: object
+                          type: array
+                        yumRepository:
+                          description: Specific settings for an Yum remote repository.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              publicRepository:
+                                description: One of the publicly available Yum repositories
+                                  supported by Artifact Registry. Structure is documented
+                                  below.
+                                items:
+                                  properties:
+                                    repositoryBase:
+                                      description: 'A common public repository base
+                                        for Yum. Possible values are: CENTOS, CENTOS_DEBUG,
+                                        CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.'
+                                      type: string
+                                    repositoryPath:
+                                      description: Specific repository from the base,
+                                        e.g. "8-stream/BaseOs/x86_64/os"
+                                      type: string
+                                  type: object
+                                type: array
                             type: object
                           type: array
                       type: object
@@ -646,6 +750,11 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
                   format:
                     description: The format of packages that are stored in the repository.
                       Supported formats can be found here. You can only create alpha
@@ -710,6 +819,30 @@ spec:
                       is documented below.
                     items:
                       properties:
+                        aptRepository:
+                          description: Specific settings for an Apt remote repository.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              publicRepository:
+                                description: One of the publicly available Yum repositories
+                                  supported by Artifact Registry. Structure is documented
+                                  below.
+                                items:
+                                  properties:
+                                    repositoryBase:
+                                      description: 'A common public repository base
+                                        for Yum. Possible values are: CENTOS, CENTOS_DEBUG,
+                                        CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.'
+                                      type: string
+                                    repositoryPath:
+                                      description: Specific repository from the base,
+                                        e.g. "8-stream/BaseOs/x86_64/os"
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                         description:
                           description: The description of the remote source.
                           type: string
@@ -719,8 +852,9 @@ spec:
                           items:
                             properties:
                               publicRepository:
-                                description: 'Address of the remote repository. Default
-                                  value is PYPI. Possible values are: PYPI.'
+                                description: One of the publicly available Yum repositories
+                                  supported by Artifact Registry. Structure is documented
+                                  below.
                                 type: string
                             type: object
                           type: array
@@ -730,8 +864,9 @@ spec:
                           items:
                             properties:
                               publicRepository:
-                                description: 'Address of the remote repository. Default
-                                  value is PYPI. Possible values are: PYPI.'
+                                description: One of the publicly available Yum repositories
+                                  supported by Artifact Registry. Structure is documented
+                                  below.
                                 type: string
                             type: object
                           type: array
@@ -741,8 +876,9 @@ spec:
                           items:
                             properties:
                               publicRepository:
-                                description: 'Address of the remote repository. Default
-                                  value is PYPI. Possible values are: PYPI.'
+                                description: One of the publicly available Yum repositories
+                                  supported by Artifact Registry. Structure is documented
+                                  below.
                                 type: string
                             type: object
                           type: array
@@ -752,13 +888,44 @@ spec:
                           items:
                             properties:
                               publicRepository:
-                                description: 'Address of the remote repository. Default
-                                  value is PYPI. Possible values are: PYPI.'
+                                description: One of the publicly available Yum repositories
+                                  supported by Artifact Registry. Structure is documented
+                                  below.
                                 type: string
+                            type: object
+                          type: array
+                        yumRepository:
+                          description: Specific settings for an Yum remote repository.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              publicRepository:
+                                description: One of the publicly available Yum repositories
+                                  supported by Artifact Registry. Structure is documented
+                                  below.
+                                items:
+                                  properties:
+                                    repositoryBase:
+                                      description: 'A common public repository base
+                                        for Yum. Possible values are: CENTOS, CENTOS_DEBUG,
+                                        CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.'
+                                      type: string
+                                    repositoryPath:
+                                      description: Specific repository from the base,
+                                        e.g. "8-stream/BaseOs/x86_64/os"
+                                      type: string
+                                  type: object
+                                type: array
                             type: object
                           type: array
                       type: object
                     type: array
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                   updateTime:
                     description: The time when the repository was last updated.
                     type: string

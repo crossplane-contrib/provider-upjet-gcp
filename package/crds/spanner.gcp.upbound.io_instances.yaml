@@ -343,6 +343,11 @@ spec:
                       in UIs. Must be unique per project and between 4 and 30 characters
                       in length.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
                   forceDestroy:
                     description: When deleting a spanner instance, this boolean option
                       will delete all backups of this instance. This must be set to
@@ -371,6 +376,12 @@ spec:
                   state:
                     description: 'Instance status: CREATING or READY.'
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                 type: object
               conditions:
                 description: Conditions of the resource.

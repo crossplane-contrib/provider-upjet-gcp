@@ -69,6 +69,24 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 
 		}
 	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.LinkedVPCNetwork); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.LinkedVPCNetwork[i3].URI),
+			Extract:      resource.ExtractParamPath("self_link", true),
+			Reference:    mg.Spec.ForProvider.LinkedVPCNetwork[i3].URIRef,
+			Selector:     mg.Spec.ForProvider.LinkedVPCNetwork[i3].URISelector,
+			To: reference.To{
+				List:    &v1beta1.NetworkList{},
+				Managed: &v1beta1.Network{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.LinkedVPCNetwork[i3].URI")
+		}
+		mg.Spec.ForProvider.LinkedVPCNetwork[i3].URI = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.LinkedVPCNetwork[i3].URIRef = rsp.ResolvedReference
+
+	}
 
 	return nil
 }

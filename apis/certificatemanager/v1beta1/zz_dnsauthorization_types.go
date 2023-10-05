@@ -36,6 +36,8 @@ type DNSAuthorizationInitParameters struct {
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
 	// Set of label tags associated with the DNS Authorization resource.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -59,15 +61,23 @@ type DNSAuthorizationObservation struct {
 	// be used to issue certificates for "example.com" and "*.example.com".
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/global/dnsAuthorizations/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Set of label tags associated with the DNS Authorization resource.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type DNSAuthorizationParameters struct {
@@ -83,6 +93,8 @@ type DNSAuthorizationParameters struct {
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
 	// Set of label tags associated with the DNS Authorization resource.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 

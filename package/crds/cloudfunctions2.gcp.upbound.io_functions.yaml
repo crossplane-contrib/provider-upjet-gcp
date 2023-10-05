@@ -77,6 +77,84 @@ spec:
                             Registry optionally with a customer managed encryption
                             key.
                           type: string
+                        dockerRepositoryRef:
+                          description: Reference to a RegistryRepository in artifact
+                            to populate dockerRepository.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        dockerRepositorySelector:
+                          description: Selector for a RegistryRepository in artifact
+                            to populate dockerRepository.
+                          properties:
+                            matchControllerRef:
+                              description: MatchControllerRef ensures an object with
+                                the same controller reference as the selecting object
+                                is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
                         entryPoint:
                           description: The name of the function (as defined in source
                             code) that will be executed. Defaults to the resource
@@ -714,6 +792,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  kmsKeyName:
+                    description: Resource name of a KMS crypto key (managed by the
+                      user) used to encrypt/decrypt function resources. It must match
+                      the pattern projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}.
+                    type: string
                   labels:
                     additionalProperties:
                       type: string
@@ -1109,6 +1192,8 @@ spec:
                           type: string
                       type: object
                     type: array
+                required:
+                - location
                 type: object
               initProvider:
                 description: THIS IS AN ALPHA FIELD. Do not use it in production.
@@ -1128,11 +1213,6 @@ spec:
                       a container from the given source. Structure is documented below.
                     items:
                       properties:
-                        dockerRepository:
-                          description: User managed repository created in Artifact
-                            Registry optionally with a customer managed encryption
-                            key.
-                          type: string
                         entryPoint:
                           description: The name of the function (as defined in source
                             code) that will be executed. Defaults to the resource
@@ -1262,6 +1342,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  kmsKeyName:
+                    description: Resource name of a KMS crypto key (managed by the
+                      user) used to encrypt/decrypt function resources. It must match
+                      the pattern projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}.
+                    type: string
                   labels:
                     additionalProperties:
                       type: string
@@ -1679,6 +1764,11 @@ spec:
                   description:
                     description: User-provided description of a function.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
                   environment:
                     description: The environment the function is hosted on.
                     type: string
@@ -1750,6 +1840,11 @@ spec:
                     type: array
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/functions/{{name}}
+                    type: string
+                  kmsKeyName:
+                    description: Resource name of a KMS crypto key (managed by the
+                      user) used to encrypt/decrypt function resources. It must match
+                      the pattern projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}.
                     type: string
                   labels:
                     additionalProperties:
@@ -1917,6 +2012,12 @@ spec:
                   state:
                     description: Describes the current state of the function.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                   updateTime:
                     description: The last update timestamp of a Cloud Function.
                     type: string

@@ -174,7 +174,7 @@ spec:
                     description: 'Specifies the forwarding rule type. For more information
                       about forwarding rules, refer to Forwarding rule concepts. Default
                       value is EXTERNAL. Possible values are: EXTERNAL, EXTERNAL_MANAGED,
-                      INTERNAL_SELF_MANAGED.'
+                      INTERNAL_MANAGED, INTERNAL_SELF_MANAGED.'
                     type: string
                   metadataFilters:
                     description: Opaque filter criteria used by Loadbalancer to restrict
@@ -411,6 +411,90 @@ spec:
                     items:
                       type: string
                     type: array
+                  subnetwork:
+                    description: This field identifies the subnetwork that the load
+                      balanced IP should belong to for this Forwarding Rule, used
+                      in internal load balancing and network load balancing with IPv6.
+                      If the network specified is in auto subnet mode, this field
+                      is optional. However, a subnetwork must be specified if the
+                      network is in custom subnet mode or when creating external forwarding
+                      rule with IPv6.
+                    type: string
+                  subnetworkRef:
+                    description: Reference to a Subnetwork in compute to populate
+                      subnetwork.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  subnetworkSelector:
+                    description: Selector for a Subnetwork in compute to populate
+                      subnetwork.
+                    properties:
+                      matchControllerRef:
+                        description: MatchControllerRef ensures an object with the
+                          same controller reference as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   target:
                     description: The URL of the target resource to receive the matched
                       traffic.  For regional forwarding rules, this target must be
@@ -533,7 +617,7 @@ spec:
                     description: 'Specifies the forwarding rule type. For more information
                       about forwarding rules, refer to Forwarding rule concepts. Default
                       value is EXTERNAL. Possible values are: EXTERNAL, EXTERNAL_MANAGED,
-                      INTERNAL_SELF_MANAGED.'
+                      INTERNAL_MANAGED, INTERNAL_SELF_MANAGED.'
                     type: string
                   metadataFilters:
                     description: Opaque filter criteria used by Loadbalancer to restrict
@@ -790,6 +874,11 @@ spec:
                     description: An optional description of this resource. Provide
                       this property when you create the resource.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
                   id:
                     description: an identifier for the resource with format projects/{{project}}/global/forwardingRules/{{name}}
                     type: string
@@ -825,7 +914,7 @@ spec:
                     description: 'Specifies the forwarding rule type. For more information
                       about forwarding rules, refer to Forwarding rule concepts. Default
                       value is EXTERNAL. Possible values are: EXTERNAL, EXTERNAL_MANAGED,
-                      INTERNAL_SELF_MANAGED.'
+                      INTERNAL_MANAGED, INTERNAL_SELF_MANAGED.'
                     type: string
                   metadataFilters:
                     description: Opaque filter criteria used by Loadbalancer to restrict
@@ -927,6 +1016,15 @@ spec:
                     items:
                       type: string
                     type: array
+                  subnetwork:
+                    description: This field identifies the subnetwork that the load
+                      balanced IP should belong to for this Forwarding Rule, used
+                      in internal load balancing and network load balancing with IPv6.
+                      If the network specified is in auto subnet mode, this field
+                      is optional. However, a subnetwork must be specified if the
+                      network is in custom subnet mode or when creating external forwarding
+                      rule with IPv6.
+                    type: string
                   target:
                     description: The URL of the target resource to receive the matched
                       traffic.  For regional forwarding rules, this target must be
@@ -935,6 +1033,12 @@ spec:
                       The forwarded traffic must be of a type appropriate to the target
                       object.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                 type: object
               conditions:
                 description: Conditions of the resource.

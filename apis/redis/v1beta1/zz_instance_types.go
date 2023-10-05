@@ -38,11 +38,6 @@ type InstanceInitParameters struct {
 	// Default value is "false" meaning AUTH is disabled.
 	AuthEnabled *bool `json:"authEnabled,omitempty" tf:"auth_enabled,omitempty"`
 
-	// The full name of the Google Compute Engine network to which the
-	// instance is connected. If left unspecified, the default network
-	// will be used.
-	AuthorizedNetwork *string `json:"authorizedNetwork,omitempty" tf:"authorized_network,omitempty"`
-
 	// The connection mode of the Redis instance.
 	// Default value is DIRECT_PEERING.
 	// Possible values are: DIRECT_PEERING, PRIVATE_SERVICE_ACCESS.
@@ -52,6 +47,8 @@ type InstanceInitParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Resource labels to represent user provided metadata.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The zone where the instance will be provisioned. If not provided,
@@ -157,6 +154,8 @@ type InstanceObservation struct {
 	// An arbitrary and optional user-provided name for the instance.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// Hostname or IP address of the exposed Redis endpoint used by clients
 	// to connect to the service.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
@@ -165,6 +164,8 @@ type InstanceObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Resource labels to represent user provided metadata.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The zone where the instance will be provisioned. If not provided,
@@ -255,6 +256,10 @@ type InstanceObservation struct {
 	// Structure is documented below.
 	ServerCACerts []ServerCACertsObservation `json:"serverCaCerts,omitempty" tf:"server_ca_certs,omitempty"`
 
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
 	// The service tier of the instance. Must be one of these values:
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 
@@ -280,8 +285,18 @@ type InstanceParameters struct {
 	// The full name of the Google Compute Engine network to which the
 	// instance is connected. If left unspecified, the default network
 	// will be used.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	AuthorizedNetwork *string `json:"authorizedNetwork,omitempty" tf:"authorized_network,omitempty"`
+
+	// Reference to a Network in compute to populate authorizedNetwork.
+	// +kubebuilder:validation:Optional
+	AuthorizedNetworkRef *v1.Reference `json:"authorizedNetworkRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate authorizedNetwork.
+	// +kubebuilder:validation:Optional
+	AuthorizedNetworkSelector *v1.Selector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
 
 	// The connection mode of the Redis instance.
 	// Default value is DIRECT_PEERING.
@@ -309,6 +324,8 @@ type InstanceParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Resource labels to represent user provided metadata.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 

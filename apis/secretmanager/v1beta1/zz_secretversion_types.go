@@ -27,14 +27,27 @@ import (
 
 type SecretVersionInitParameters struct {
 
+	// The deletion policy for the secret version. Setting ABANDON allows the resource
+	// to be abandoned rather than deleted. Setting DISABLE allows the resource to be
+	// disabled rather than deleted. Default is DELETE. Possible values are:
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The current state of the SecretVersion.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// If set to 'true', the secret data is expected to be base64-encoded string and would be sent as is.
+	IsSecretDataBase64 *bool `json:"isSecretDataBase64,omitempty" tf:"is_secret_data_base64,omitempty"`
 }
 
 type SecretVersionObservation struct {
 
 	// The time at which the Secret was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// The deletion policy for the secret version. Setting ABANDON allows the resource
+	// to be abandoned rather than deleted. Setting DISABLE allows the resource to be
+	// disabled rather than deleted. Default is DELETE. Possible values are:
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The time at which the Secret was destroyed. Only present if state is DESTROYED.
 	DestroyTime *string `json:"destroyTime,omitempty" tf:"destroy_time,omitempty"`
@@ -44,6 +57,9 @@ type SecretVersionObservation struct {
 
 	// an identifier for the resource with format {{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// If set to 'true', the secret data is expected to be base64-encoded string and would be sent as is.
+	IsSecretDataBase64 *bool `json:"isSecretDataBase64,omitempty" tf:"is_secret_data_base64,omitempty"`
 
 	// The resource name of the SecretVersion. Format:
 	// projects/{{project}}/secrets/{{secret_id}}/versions/{{version}}
@@ -58,9 +74,19 @@ type SecretVersionObservation struct {
 
 type SecretVersionParameters struct {
 
+	// The deletion policy for the secret version. Setting ABANDON allows the resource
+	// to be abandoned rather than deleted. Setting DISABLE allows the resource to be
+	// disabled rather than deleted. Default is DELETE. Possible values are:
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The current state of the SecretVersion.
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// If set to 'true', the secret data is expected to be base64-encoded string and would be sent as is.
+	// +kubebuilder:validation:Optional
+	IsSecretDataBase64 *bool `json:"isSecretDataBase64,omitempty" tf:"is_secret_data_base64,omitempty"`
 
 	// Secret Manager secret resource
 	// +crossplane:generate:reference:type=Secret

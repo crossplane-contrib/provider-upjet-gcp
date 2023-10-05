@@ -198,6 +198,10 @@ type ClusterEncryptionInfoParameters struct {
 
 type ClusterInitParameters struct {
 
+	// Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128
+	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
+
 	// The automated backup policy for this cluster. AutomatedBackupPolicy is disabled by default.
 	// Structure is documented below.
 	AutomatedBackupPolicy []AutomatedBackupPolicyInitParameters `json:"automatedBackupPolicy,omitempty" tf:"automated_backup_policy,omitempty"`
@@ -214,19 +218,40 @@ type ClusterInitParameters struct {
 	// Structure is documented below.
 	EncryptionConfig []ClusterEncryptionConfigInitParameters `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
+	// For Resource freshness validation (https://google.aip.dev/154)
+	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
+
 	// Initial user to setup during cluster creation.
 	// Structure is documented below.
 	InitialUser []InitialUserInitParameters `json:"initialUser,omitempty" tf:"initial_user,omitempty"`
 
 	// User-defined labels for the alloydb cluster.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Metadata related to network configuration.
+	// Structure is documented below.
+	NetworkConfig []NetworkConfigInitParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', both can't be set together.
+	// Structure is documented below.
+	RestoreBackupSource []RestoreBackupSourceInitParameters `json:"restoreBackupSource,omitempty" tf:"restore_backup_source,omitempty"`
+
+	// The source when restoring via point in time recovery (PITR). Conflicts with 'restore_backup_source', both can't be set together.
+	// Structure is documented below.
+	RestoreContinuousBackupSource []RestoreContinuousBackupSourceInitParameters `json:"restoreContinuousBackupSource,omitempty" tf:"restore_continuous_backup_source,omitempty"`
 }
 
 type ClusterObservation struct {
+
+	// Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128
+	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// The automated backup policy for this cluster. AutomatedBackupPolicy is disabled by default.
 	// Structure is documented below.
@@ -251,6 +276,11 @@ type ClusterObservation struct {
 	// User-settable and human-readable display name for the Cluster.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// for all of the annotations present on the resource.
+	EffectiveAnnotations map[string]*string `json:"effectiveAnnotations,omitempty" tf:"effective_annotations,omitempty"`
+
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// EncryptionConfig describes the encryption config of a cluster or a backup that is encrypted with a CMEK (customer-managed encryption key).
 	// Structure is documented below.
 	EncryptionConfig []ClusterEncryptionConfigObservation `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
@@ -258,6 +288,9 @@ type ClusterObservation struct {
 	// EncryptionInfo describes the encryption information of a cluster or a backup.
 	// Structure is documented below.
 	EncryptionInfo []ClusterEncryptionInfoObservation `json:"encryptionInfo,omitempty" tf:"encryption_info,omitempty"`
+
+	// For Resource freshness validation (https://google.aip.dev/154)
+	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/clusters/{{cluster_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -267,6 +300,8 @@ type ClusterObservation struct {
 	InitialUser []InitialUserObservation `json:"initialUser,omitempty" tf:"initial_user,omitempty"`
 
 	// User-defined labels for the alloydb cluster.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location where the alloydb cluster should reside.
@@ -283,15 +318,44 @@ type ClusterObservation struct {
 	// "projects/{projectNumber}/global/networks/{network_id}".
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// Metadata related to network configuration.
+	// Structure is documented below.
+	NetworkConfig []NetworkConfigObservation `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Output only. Reconciling (https://google.aip.dev/128#reconciliation).
+	// Set to true if the current state of Cluster does not match the user's intended state, and the service is actively updating the resource to reconcile them.
+	// This can happen due to user-triggered updates or system actions like failover or maintenance.
+	Reconciling *bool `json:"reconciling,omitempty" tf:"reconciling,omitempty"`
+
+	// The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', both can't be set together.
+	// Structure is documented below.
+	RestoreBackupSource []RestoreBackupSourceObservation `json:"restoreBackupSource,omitempty" tf:"restore_backup_source,omitempty"`
+
+	// The source when restoring via point in time recovery (PITR). Conflicts with 'restore_backup_source', both can't be set together.
+	// Structure is documented below.
+	RestoreContinuousBackupSource []RestoreContinuousBackupSourceObservation `json:"restoreContinuousBackupSource,omitempty" tf:"restore_continuous_backup_source,omitempty"`
+
+	// Output only. The current serving state of the cluster.
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// The system-generated UID of the resource.
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
 }
 
 type ClusterParameters struct {
+
+	// Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128
+	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +kubebuilder:validation:Optional
+	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// The automated backup policy for this cluster. AutomatedBackupPolicy is disabled by default.
 	// Structure is documented below.
@@ -313,12 +377,18 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	EncryptionConfig []ClusterEncryptionConfigParameters `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
+	// For Resource freshness validation (https://google.aip.dev/154)
+	// +kubebuilder:validation:Optional
+	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
+
 	// Initial user to setup during cluster creation.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	InitialUser []InitialUserParameters `json:"initialUser,omitempty" tf:"initial_user,omitempty"`
 
 	// User-defined labels for the alloydb cluster.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -333,6 +403,11 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// Metadata related to network configuration.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NetworkConfig []NetworkConfigParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
+
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
@@ -345,6 +420,16 @@ type ClusterParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', both can't be set together.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RestoreBackupSource []RestoreBackupSourceParameters `json:"restoreBackupSource,omitempty" tf:"restore_backup_source,omitempty"`
+
+	// The source when restoring via point in time recovery (PITR). Conflicts with 'restore_backup_source', both can't be set together.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RestoreContinuousBackupSource []RestoreContinuousBackupSourceParameters `json:"restoreContinuousBackupSource,omitempty" tf:"restore_continuous_backup_source,omitempty"`
 }
 
 type ContinuousBackupConfigEncryptionConfigInitParameters struct {
@@ -496,6 +581,41 @@ type MigrationSourceObservation struct {
 type MigrationSourceParameters struct {
 }
 
+type NetworkConfigInitParameters struct {
+
+	// The name of the allocated IP range for the private IP AlloyDB cluster. For example: "google-managed-services-default".
+	// If set, the instance IPs for this cluster will be created in the allocated range.
+	AllocatedIPRange *string `json:"allocatedIpRange,omitempty" tf:"allocated_ip_range,omitempty"`
+
+	// The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster.
+	// It is specified in the form: "projects/{projectNumber}/global/networks/{network_id}".
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+}
+
+type NetworkConfigObservation struct {
+
+	// The name of the allocated IP range for the private IP AlloyDB cluster. For example: "google-managed-services-default".
+	// If set, the instance IPs for this cluster will be created in the allocated range.
+	AllocatedIPRange *string `json:"allocatedIpRange,omitempty" tf:"allocated_ip_range,omitempty"`
+
+	// The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster.
+	// It is specified in the form: "projects/{projectNumber}/global/networks/{network_id}".
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+}
+
+type NetworkConfigParameters struct {
+
+	// The name of the allocated IP range for the private IP AlloyDB cluster. For example: "google-managed-services-default".
+	// If set, the instance IPs for this cluster will be created in the allocated range.
+	// +kubebuilder:validation:Optional
+	AllocatedIPRange *string `json:"allocatedIpRange,omitempty" tf:"allocated_ip_range,omitempty"`
+
+	// The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster.
+	// It is specified in the form: "projects/{projectNumber}/global/networks/{network_id}".
+	// +kubebuilder:validation:Optional
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+}
+
 type QuantityBasedRetentionInitParameters struct {
 
 	// The number of backups to retain.
@@ -513,6 +633,68 @@ type QuantityBasedRetentionParameters struct {
 	// The number of backups to retain.
 	// +kubebuilder:validation:Optional
 	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+}
+
+type RestoreBackupSourceInitParameters struct {
+}
+
+type RestoreBackupSourceObservation struct {
+
+	// The name of the backup that this cluster is restored from.
+	BackupName *string `json:"backupName,omitempty" tf:"backup_name,omitempty"`
+}
+
+type RestoreBackupSourceParameters struct {
+
+	// The name of the backup that this cluster is restored from.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/alloydb/v1beta1.Backup
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +kubebuilder:validation:Optional
+	BackupName *string `json:"backupName,omitempty" tf:"backup_name,omitempty"`
+
+	// Reference to a Backup in alloydb to populate backupName.
+	// +kubebuilder:validation:Optional
+	BackupNameRef *v1.Reference `json:"backupNameRef,omitempty" tf:"-"`
+
+	// Selector for a Backup in alloydb to populate backupName.
+	// +kubebuilder:validation:Optional
+	BackupNameSelector *v1.Selector `json:"backupNameSelector,omitempty" tf:"-"`
+}
+
+type RestoreContinuousBackupSourceInitParameters struct {
+
+	// The point in time that this cluster is restored to, in RFC 3339 format.
+	PointInTime *string `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
+}
+
+type RestoreContinuousBackupSourceObservation struct {
+
+	// The name of the source cluster that this cluster is restored from.
+	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
+
+	// The point in time that this cluster is restored to, in RFC 3339 format.
+	PointInTime *string `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
+}
+
+type RestoreContinuousBackupSourceParameters struct {
+
+	// The name of the source cluster that this cluster is restored from.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/alloydb/v1beta1.Cluster
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +kubebuilder:validation:Optional
+	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
+
+	// Reference to a Cluster in alloydb to populate cluster.
+	// +kubebuilder:validation:Optional
+	ClusterRef *v1.Reference `json:"clusterRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in alloydb to populate cluster.
+	// +kubebuilder:validation:Optional
+	ClusterSelector *v1.Selector `json:"clusterSelector,omitempty" tf:"-"`
+
+	// The point in time that this cluster is restored to, in RFC 3339 format.
+	// +kubebuilder:validation:Optional
+	PointInTime *string `json:"pointInTime" tf:"point_in_time,omitempty"`
 }
 
 type StartTimesInitParameters struct {

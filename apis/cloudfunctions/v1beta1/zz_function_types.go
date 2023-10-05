@@ -194,6 +194,8 @@ type FunctionObservation struct {
 	// User managed repository created in Artifact Registry optionally with a customer managed encryption key. If specified, deployments will use Artifact Registry. This is the repository to which the function docker image will be pushed after it is built by Cloud Build. If unspecified, Container Registry will be used by default, unless specified otherwise by other means.
 	DockerRepository *string `json:"dockerRepository,omitempty" tf:"docker_repository,omitempty"`
 
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// Name of the function that will be executed when the Google Cloud Function is triggered.
 	EntryPoint *string `json:"entryPoint,omitempty" tf:"entry_point,omitempty"`
 
@@ -258,6 +260,9 @@ type FunctionObservation struct {
 	SourceRepository []SourceRepositoryObservation `json:"sourceRepository,omitempty" tf:"source_repository,omitempty"`
 
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+
+	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// Timeout (in seconds) for the function. Default value is 60 seconds. Cannot be more than 540 seconds.
 	Timeout *float64 `json:"timeout,omitempty" tf:"timeout,omitempty"`

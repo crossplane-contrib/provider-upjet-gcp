@@ -263,6 +263,7 @@ type TriggerInitParameters struct {
 	// Required. Destination specifies where the events should be sent to.
 	Destination []DestinationInitParameters `json:"destination,omitempty" tf:"destination,omitempty"`
 
+	// Optional. EventDataContentType specifies the type of payload in MIME format that is expected from the CloudEvent data field. This is set to application/json if the value is not defined.
 	EventDataContentType *string `json:"eventDataContentType,omitempty" tf:"event_data_content_type,omitempty"`
 
 	// Optional. User labels attached to the triggers that can be used to group resources.
@@ -295,9 +296,12 @@ type TriggerObservation struct {
 	// Required. Destination specifies where the events should be sent to.
 	Destination []DestinationObservation `json:"destination,omitempty" tf:"destination,omitempty"`
 
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// Output only. This checksum is computed by the server based on the value of other fields, and may be sent only on create requests to ensure the client has an up-to-date value before proceeding.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
+	// Optional. EventDataContentType specifies the type of payload in MIME format that is expected from the CloudEvent data field. This is set to application/json if the value is not defined.
 	EventDataContentType *string `json:"eventDataContentType,omitempty" tf:"event_data_content_type,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/triggers/{{name}}
@@ -317,6 +321,9 @@ type TriggerObservation struct {
 
 	// Optional. The IAM service account email associated with the trigger. The service account represents the identity of the trigger. The principal who calls this API must have iam.serviceAccounts.actAs permission in the service account. See https://cloud.google.com/iam/docs/understanding-service-accounts#sa_common for more information. For Cloud Run destinations, this service account is used to generate identity tokens when invoking the service. See https://cloud.google.com/run/docs/triggering/pubsub-push#create-service-account for information on how to invoke authenticated Cloud Run services. In order to create Audit Log triggers, the service account should also have roles/eventarc.eventReceiver IAM role.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// Optional. In order to deliver messages, Eventarc may use other GCP products as transport intermediary. This field contains a reference to that transport intermediary. This information can be used for debugging purposes.
 	Transport []TransportObservation `json:"transport,omitempty" tf:"transport,omitempty"`
@@ -338,6 +345,7 @@ type TriggerParameters struct {
 	// +kubebuilder:validation:Optional
 	Destination []DestinationParameters `json:"destination,omitempty" tf:"destination,omitempty"`
 
+	// Optional. EventDataContentType specifies the type of payload in MIME format that is expected from the CloudEvent data field. This is set to application/json if the value is not defined.
 	// +kubebuilder:validation:Optional
 	EventDataContentType *string `json:"eventDataContentType,omitempty" tf:"event_data_content_type,omitempty"`
 

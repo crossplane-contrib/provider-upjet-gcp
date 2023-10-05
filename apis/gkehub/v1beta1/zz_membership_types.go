@@ -129,6 +129,9 @@ type MembershipObservation struct {
 	// Structure is documented below.
 	Authority []AuthorityObservation `json:"authority,omitempty" tf:"authority,omitempty"`
 
+	// for all of the labels present on the resource.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// If this Membership is a Kubernetes API server hosted on GKE, this is a self link to its GCP resource.
 	// Structure is documented below.
 	Endpoint []EndpointObservation `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
@@ -145,6 +148,10 @@ type MembershipObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type MembershipParameters struct {

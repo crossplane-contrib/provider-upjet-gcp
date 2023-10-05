@@ -75,6 +75,43 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 	mg.Spec.ForProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NetworkRef = rsp.ResolvedReference
 
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.RestoreBackupSource); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RestoreBackupSource[i3].BackupName),
+			Extract:      resource.ExtractParamPath("name", true),
+			Reference:    mg.Spec.ForProvider.RestoreBackupSource[i3].BackupNameRef,
+			Selector:     mg.Spec.ForProvider.RestoreBackupSource[i3].BackupNameSelector,
+			To: reference.To{
+				List:    &BackupList{},
+				Managed: &Backup{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.RestoreBackupSource[i3].BackupName")
+		}
+		mg.Spec.ForProvider.RestoreBackupSource[i3].BackupName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.RestoreBackupSource[i3].BackupNameRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.RestoreContinuousBackupSource); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RestoreContinuousBackupSource[i3].Cluster),
+			Extract:      resource.ExtractParamPath("name", true),
+			Reference:    mg.Spec.ForProvider.RestoreContinuousBackupSource[i3].ClusterRef,
+			Selector:     mg.Spec.ForProvider.RestoreContinuousBackupSource[i3].ClusterSelector,
+			To: reference.To{
+				List:    &ClusterList{},
+				Managed: &Cluster{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.RestoreContinuousBackupSource[i3].Cluster")
+		}
+		mg.Spec.ForProvider.RestoreContinuousBackupSource[i3].Cluster = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.RestoreContinuousBackupSource[i3].ClusterRef = rsp.ResolvedReference
+
+	}
+
 	return nil
 }
 

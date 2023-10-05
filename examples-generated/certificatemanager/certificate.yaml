@@ -9,6 +9,8 @@ metadata:
 spec:
   forProvider:
     description: The default cert
+    labels:
+      env: test
     managed:
     - dnsAuthorizations:
       - ${google_certificate_manager_dns_authorization.instance.id}

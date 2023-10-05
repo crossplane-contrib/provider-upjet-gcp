@@ -498,6 +498,9 @@ spec:
                             is set, Cloud Bigtable automatically allocates nodes based
                             on your data footprint and optimized for 50% storage utilization.
                           type: number
+                        state:
+                          description: describes the current state of the cluster.
+                          type: string
                         storageType:
                           description: The storage type to use. One of "SSD" or "HDD".
                             Defaults to "SSD".
@@ -517,6 +520,10 @@ spec:
                     description: The human-readable display name of the Bigtable instance.
                       Defaults to the instance name.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
                   id:
                     description: an identifier for the resource with format projects/{{project}}/instances/{{name}}
                     type: string
@@ -542,6 +549,12 @@ spec:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                 type: object
               conditions:
                 description: Conditions of the resource.

@@ -72,6 +72,8 @@ type LakeObservation struct {
 	// Optional. User friendly display name.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/lakes/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -95,6 +97,9 @@ type LakeObservation struct {
 
 	// Output only. Current state of the lake. Possible values: STATE_UNSPECIFIED, ACTIVE, CREATING, DELETING, ACTION_REQUIRED
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// Output only. System generated globally unique ID for the lake. This ID will be different if the lake is deleted and re-created with the same name.
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`

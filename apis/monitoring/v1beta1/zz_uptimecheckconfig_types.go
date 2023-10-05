@@ -81,6 +81,32 @@ type AuthInfoParameters struct {
 	Username *string `json:"username" tf:"username,omitempty"`
 }
 
+type CloudFunctionV2InitParameters struct {
+}
+
+type CloudFunctionV2Observation struct {
+
+	// The fully qualified name of the cloud function resource.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type CloudFunctionV2Parameters struct {
+
+	// The fully qualified name of the cloud function resource.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudfunctions2/v1beta1.Function
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Reference to a Function in cloudfunctions2 to populate name.
+	// +kubebuilder:validation:Optional
+	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+
+	// Selector for a Function in cloudfunctions2 to populate name.
+	// +kubebuilder:validation:Optional
+	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
+}
+
 type ContentMatchersInitParameters struct {
 
 	// String or regex content to match (max 1024 bytes)
@@ -366,6 +392,28 @@ type ResourceGroupParameters struct {
 	ResourceType *string `json:"resourceType,omitempty" tf:"resource_type,omitempty"`
 }
 
+type SyntheticMonitorInitParameters struct {
+
+	// Target a Synthetic Monitor GCFv2 Instance
+	// Structure is documented below.
+	CloudFunctionV2 []CloudFunctionV2InitParameters `json:"cloudFunctionV2,omitempty" tf:"cloud_function_v2,omitempty"`
+}
+
+type SyntheticMonitorObservation struct {
+
+	// Target a Synthetic Monitor GCFv2 Instance
+	// Structure is documented below.
+	CloudFunctionV2 []CloudFunctionV2Observation `json:"cloudFunctionV2,omitempty" tf:"cloud_function_v2,omitempty"`
+}
+
+type SyntheticMonitorParameters struct {
+
+	// Target a Synthetic Monitor GCFv2 Instance
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CloudFunctionV2 []CloudFunctionV2Parameters `json:"cloudFunctionV2" tf:"cloud_function_v2,omitempty"`
+}
+
 type TCPCheckInitParameters struct {
 
 	// The port to the page to run the check against. Will be combined with host (specified within the MonitoredResource) to construct the full URL.
@@ -420,6 +468,10 @@ type UptimeCheckConfigInitParameters struct {
 	// The list of regions from which the check will be run. Some regions contain one location, and others contain more than one. If this field is specified, enough regions to include a minimum of 3 locations must be provided, or an error message is returned. Not specifying this field will result in uptime checks running from all regions.
 	SelectedRegions []*string `json:"selectedRegions,omitempty" tf:"selected_regions,omitempty"`
 
+	// A Synthetic Monitor deployed to a Cloud Functions V2 instance.
+	// Structure is documented below.
+	SyntheticMonitor []SyntheticMonitorInitParameters `json:"syntheticMonitor,omitempty" tf:"synthetic_monitor,omitempty"`
+
 	// Contains information needed to make a TCP check.
 	// Structure is documented below.
 	TCPCheck []TCPCheckInitParameters `json:"tcpCheck,omitempty" tf:"tcp_check,omitempty"`
@@ -468,6 +520,10 @@ type UptimeCheckConfigObservation struct {
 
 	// The list of regions from which the check will be run. Some regions contain one location, and others contain more than one. If this field is specified, enough regions to include a minimum of 3 locations must be provided, or an error message is returned. Not specifying this field will result in uptime checks running from all regions.
 	SelectedRegions []*string `json:"selectedRegions,omitempty" tf:"selected_regions,omitempty"`
+
+	// A Synthetic Monitor deployed to a Cloud Functions V2 instance.
+	// Structure is documented below.
+	SyntheticMonitor []SyntheticMonitorObservation `json:"syntheticMonitor,omitempty" tf:"synthetic_monitor,omitempty"`
 
 	// Contains information needed to make a TCP check.
 	// Structure is documented below.
@@ -523,6 +579,11 @@ type UptimeCheckConfigParameters struct {
 	// The list of regions from which the check will be run. Some regions contain one location, and others contain more than one. If this field is specified, enough regions to include a minimum of 3 locations must be provided, or an error message is returned. Not specifying this field will result in uptime checks running from all regions.
 	// +kubebuilder:validation:Optional
 	SelectedRegions []*string `json:"selectedRegions,omitempty" tf:"selected_regions,omitempty"`
+
+	// A Synthetic Monitor deployed to a Cloud Functions V2 instance.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SyntheticMonitor []SyntheticMonitorParameters `json:"syntheticMonitor,omitempty" tf:"synthetic_monitor,omitempty"`
 
 	// Contains information needed to make a TCP check.
 	// Structure is documented below.

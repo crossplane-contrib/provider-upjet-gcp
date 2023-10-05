@@ -738,6 +738,22 @@ func (in *EnvironmentObservation) DeepCopyInto(out *EnvironmentObservation) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.EffectiveLabels != nil {
+		in, out := &in.EffectiveLabels, &out.EffectiveLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
@@ -768,6 +784,22 @@ func (in *EnvironmentObservation) DeepCopyInto(out *EnvironmentObservation) {
 		in, out := &in.Region, &out.Region
 		*out = new(string)
 		**out = **in
+	}
+	if in.TerraformLabels != nil {
+		in, out := &in.TerraformLabels, &out.TerraformLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 }
 
@@ -1435,6 +1467,11 @@ func (in *PrivateEnvironmentConfigInitParameters) DeepCopyInto(out *PrivateEnvir
 		*out = new(string)
 		**out = **in
 	}
+	if in.ConnectionType != nil {
+		in, out := &in.ConnectionType, &out.ConnectionType
+		*out = new(string)
+		**out = **in
+	}
 	if in.EnablePrivateEndpoint != nil {
 		in, out := &in.EnablePrivateEndpoint, &out.EnablePrivateEndpoint
 		*out = new(bool)
@@ -1485,6 +1522,11 @@ func (in *PrivateEnvironmentConfigObservation) DeepCopyInto(out *PrivateEnvironm
 		*out = new(string)
 		**out = **in
 	}
+	if in.ConnectionType != nil {
+		in, out := &in.ConnectionType, &out.ConnectionType
+		*out = new(string)
+		**out = **in
+	}
 	if in.EnablePrivateEndpoint != nil {
 		in, out := &in.EnablePrivateEndpoint, &out.EnablePrivateEndpoint
 		*out = new(bool)
@@ -1532,6 +1574,11 @@ func (in *PrivateEnvironmentConfigParameters) DeepCopyInto(out *PrivateEnvironme
 	}
 	if in.CloudSQLIPv4CidrBlock != nil {
 		in, out := &in.CloudSQLIPv4CidrBlock, &out.CloudSQLIPv4CidrBlock
+		*out = new(string)
+		**out = **in
+	}
+	if in.ConnectionType != nil {
+		in, out := &in.ConnectionType, &out.ConnectionType
 		*out = new(string)
 		**out = **in
 	}

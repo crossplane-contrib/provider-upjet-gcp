@@ -25,6 +25,28 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AutoInitParameters struct {
+
+	// Customer Managed Encryption for the secret.
+	// Structure is documented below.
+	CustomerManagedEncryption []CustomerManagedEncryptionInitParameters `json:"customerManagedEncryption,omitempty" tf:"customer_managed_encryption,omitempty"`
+}
+
+type AutoObservation struct {
+
+	// Customer Managed Encryption for the secret.
+	// Structure is documented below.
+	CustomerManagedEncryption []CustomerManagedEncryptionObservation `json:"customerManagedEncryption,omitempty" tf:"customer_managed_encryption,omitempty"`
+}
+
+type AutoParameters struct {
+
+	// Customer Managed Encryption for the secret.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CustomerManagedEncryption []CustomerManagedEncryptionParameters `json:"customerManagedEncryption,omitempty" tf:"customer_managed_encryption,omitempty"`
+}
+
 type CustomerManagedEncryptionInitParameters struct {
 
 	// Describes the Cloud KMS encryption key that will be used to protect destination secret.
@@ -44,11 +66,30 @@ type CustomerManagedEncryptionParameters struct {
 	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
 }
 
+type ReplicasCustomerManagedEncryptionInitParameters struct {
+
+	// Describes the Cloud KMS encryption key that will be used to protect destination secret.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+}
+
+type ReplicasCustomerManagedEncryptionObservation struct {
+
+	// Describes the Cloud KMS encryption key that will be used to protect destination secret.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+}
+
+type ReplicasCustomerManagedEncryptionParameters struct {
+
+	// Describes the Cloud KMS encryption key that will be used to protect destination secret.
+	// +kubebuilder:validation:Optional
+	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
+}
+
 type ReplicasInitParameters struct {
 
 	// Customer Managed Encryption for the secret.
 	// Structure is documented below.
-	CustomerManagedEncryption []CustomerManagedEncryptionInitParameters `json:"customerManagedEncryption,omitempty" tf:"customer_managed_encryption,omitempty"`
+	CustomerManagedEncryption []ReplicasCustomerManagedEncryptionInitParameters `json:"customerManagedEncryption,omitempty" tf:"customer_managed_encryption,omitempty"`
 
 	// The canonical IDs of the location to replicate data. For example: "us-east1".
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
@@ -58,7 +99,7 @@ type ReplicasObservation struct {
 
 	// Customer Managed Encryption for the secret.
 	// Structure is documented below.
-	CustomerManagedEncryption []CustomerManagedEncryptionObservation `json:"customerManagedEncryption,omitempty" tf:"customer_managed_encryption,omitempty"`
+	CustomerManagedEncryption []ReplicasCustomerManagedEncryptionObservation `json:"customerManagedEncryption,omitempty" tf:"customer_managed_encryption,omitempty"`
 
 	// The canonical IDs of the location to replicate data. For example: "us-east1".
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
@@ -69,7 +110,7 @@ type ReplicasParameters struct {
 	// Customer Managed Encryption for the secret.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	CustomerManagedEncryption []CustomerManagedEncryptionParameters `json:"customerManagedEncryption,omitempty" tf:"customer_managed_encryption,omitempty"`
+	CustomerManagedEncryption []ReplicasCustomerManagedEncryptionParameters `json:"customerManagedEncryption,omitempty" tf:"customer_managed_encryption,omitempty"`
 
 	// The canonical IDs of the location to replicate data. For example: "us-east1".
 	// +kubebuilder:validation:Optional
@@ -79,7 +120,8 @@ type ReplicasParameters struct {
 type ReplicationInitParameters struct {
 
 	// The Secret will automatically be replicated without any restrictions.
-	Automatic *bool `json:"automatic,omitempty" tf:"automatic,omitempty"`
+	// Structure is documented below.
+	Auto []AutoInitParameters `json:"auto,omitempty" tf:"auto,omitempty"`
 
 	// The Secret will be replicated to the regions specified by the user.
 	// Structure is documented below.
@@ -89,7 +131,8 @@ type ReplicationInitParameters struct {
 type ReplicationObservation struct {
 
 	// The Secret will automatically be replicated without any restrictions.
-	Automatic *bool `json:"automatic,omitempty" tf:"automatic,omitempty"`
+	// Structure is documented below.
+	Auto []AutoObservation `json:"auto,omitempty" tf:"auto,omitempty"`
 
 	// The Secret will be replicated to the regions specified by the user.
 	// Structure is documented below.
@@ -99,8 +142,9 @@ type ReplicationObservation struct {
 type ReplicationParameters struct {
 
 	// The Secret will automatically be replicated without any restrictions.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Automatic *bool `json:"automatic,omitempty" tf:"automatic,omitempty"`
+	Auto []AutoParameters `json:"auto,omitempty" tf:"auto,omitempty"`
 
 	// The Secret will be replicated to the regions specified by the user.
 	// Structure is documented below.
@@ -145,6 +189,18 @@ type RotationParameters struct {
 
 type SecretInitParameters struct {
 
+	// Custom metadata about the secret.
+	// Annotations are distinct from various forms of labels. Annotations exist to allow
+	// client tools to store their own state information without requiring a database.
+	// Annotation keys must be between 1 and 63 characters long, have a UTF-8 encoding of
+	// maximum 128 bytes, begin and end with an alphanumeric character ([a-z0-9A-Z]), and
+	// may have dashes (-), underscores (_), dots (.), and alphanumerics in between these
+	// symbols.
+	// The total size of annotation keys and values must be less than 16KiB.
+	// An object containing a list of "key": value pairs. Example:
+	// { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
+
 	// Timestamp in UTC when the Secret is scheduled to expire. This is always provided on output, regardless of what was sent on input.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	ExpireTime *string `json:"expireTime,omitempty" tf:"expire_time,omitempty"`
@@ -179,12 +235,37 @@ type SecretInitParameters struct {
 	// A list of up to 10 Pub/Sub topics to which messages are published when control plane operations are called on the secret or its versions.
 	// Structure is documented below.
 	Topics []TopicsInitParameters `json:"topics,omitempty" tf:"topics,omitempty"`
+
+	// Mapping from version alias to version name.
+	// A version alias is a string with a maximum length of 63 characters and can contain
+	// uppercase and lowercase letters, numerals, and the hyphen (-) and underscore ('_')
+	// characters. An alias string must start with a letter and cannot be the string
+	// 'latest' or 'NEW'. No more than 50 aliases can be assigned to a given secret.
+	// An object containing a list of "key": value pairs. Example:
+	// { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	VersionAliases map[string]*string `json:"versionAliases,omitempty" tf:"version_aliases,omitempty"`
 }
 
 type SecretObservation struct {
 
+	// Custom metadata about the secret.
+	// Annotations are distinct from various forms of labels. Annotations exist to allow
+	// client tools to store their own state information without requiring a database.
+	// Annotation keys must be between 1 and 63 characters long, have a UTF-8 encoding of
+	// maximum 128 bytes, begin and end with an alphanumeric character ([a-z0-9A-Z]), and
+	// may have dashes (-), underscores (_), dots (.), and alphanumerics in between these
+	// symbols.
+	// The total size of annotation keys and values must be less than 16KiB.
+	// An object containing a list of "key": value pairs. Example:
+	// { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
+
 	// The time at which the Secret was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	EffectiveAnnotations map[string]*string `json:"effectiveAnnotations,omitempty" tf:"effective_annotations,omitempty"`
+
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
 	// Timestamp in UTC when the Secret is scheduled to expire. This is always provided on output, regardless of what was sent on input.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
@@ -224,12 +305,38 @@ type SecretObservation struct {
 	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
 	TTL *string `json:"ttl,omitempty" tf:"ttl,omitempty"`
 
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
 	// A list of up to 10 Pub/Sub topics to which messages are published when control plane operations are called on the secret or its versions.
 	// Structure is documented below.
 	Topics []TopicsObservation `json:"topics,omitempty" tf:"topics,omitempty"`
+
+	// Mapping from version alias to version name.
+	// A version alias is a string with a maximum length of 63 characters and can contain
+	// uppercase and lowercase letters, numerals, and the hyphen (-) and underscore ('_')
+	// characters. An alias string must start with a letter and cannot be the string
+	// 'latest' or 'NEW'. No more than 50 aliases can be assigned to a given secret.
+	// An object containing a list of "key": value pairs. Example:
+	// { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	VersionAliases map[string]*string `json:"versionAliases,omitempty" tf:"version_aliases,omitempty"`
 }
 
 type SecretParameters struct {
+
+	// Custom metadata about the secret.
+	// Annotations are distinct from various forms of labels. Annotations exist to allow
+	// client tools to store their own state information without requiring a database.
+	// Annotation keys must be between 1 and 63 characters long, have a UTF-8 encoding of
+	// maximum 128 bytes, begin and end with an alphanumeric character ([a-z0-9A-Z]), and
+	// may have dashes (-), underscores (_), dots (.), and alphanumerics in between these
+	// symbols.
+	// The total size of annotation keys and values must be less than 16KiB.
+	// An object containing a list of "key": value pairs. Example:
+	// { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +kubebuilder:validation:Optional
+	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Timestamp in UTC when the Secret is scheduled to expire. This is always provided on output, regardless of what was sent on input.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
@@ -272,6 +379,16 @@ type SecretParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Topics []TopicsParameters `json:"topics,omitempty" tf:"topics,omitempty"`
+
+	// Mapping from version alias to version name.
+	// A version alias is a string with a maximum length of 63 characters and can contain
+	// uppercase and lowercase letters, numerals, and the hyphen (-) and underscore ('_')
+	// characters. An alias string must start with a letter and cannot be the string
+	// 'latest' or 'NEW'. No more than 50 aliases can be assigned to a given secret.
+	// An object containing a list of "key": value pairs. Example:
+	// { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +kubebuilder:validation:Optional
+	VersionAliases map[string]*string `json:"versionAliases,omitempty" tf:"version_aliases,omitempty"`
 }
 
 type TopicsInitParameters struct {

@@ -70,8 +70,11 @@ spec:
                   annotations:
                     additionalProperties:
                       type: string
-                    description: Annotations to allow client tools to store small
-                      amount of arbitrary data. This is distinct from labels.
+                    description: 'Annotations to allow client tools to store small
+                      amount of arbitrary data. This is distinct from labels. Note:
+                      This field is non-authoritative, and will only manage the annotations
+                      present in your configuration. Please refer to the field effective_annotations
+                      for all of the annotations present on the resource.'
                     type: object
                   availabilityType:
                     description: '''Availability type of an Instance. Defaults to
@@ -191,7 +194,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: User-defined labels for the alloydb instance.
+                    description: 'User-defined labels for the alloydb instance. Note:
+                      This field is non-authoritative, and will only manage the labels
+                      present in your configuration. Please refer to the field effective_labels
+                      for all of the labels present on the resource.'
                     type: object
                   machineConfig:
                     description: Configurations for the machines that host the underlying
@@ -203,9 +209,36 @@ spec:
                           type: number
                       type: object
                     type: array
-                  readPoolConfig:
-                    description: Read pool specific config. Structure is documented
+                  queryInsightsConfig:
+                    description: Configuration for query insights. Structure is documented
                       below.
+                    items:
+                      properties:
+                        queryPlansPerMinute:
+                          description: Number of query execution plans captured by
+                            Insights per minute for all queries combined. The default
+                            value is 5. Any integer between 0 and 20 is considered
+                            valid.
+                          type: number
+                        queryStringLength:
+                          description: Query string length. The default value is 1024.
+                            Any integer between 256 and 4500 is considered valid.
+                          type: number
+                        recordApplicationTags:
+                          description: Record application tags for an instance. This
+                            flag is turned "on" by default.
+                          type: boolean
+                        recordClientAddress:
+                          description: Record client address for an instance. Client
+                            address is PII information. This flag is turned "on" by
+                            default.
+                          type: boolean
+                      type: object
+                    type: array
+                  readPoolConfig:
+                    description: Read pool specific config. If the instance type is
+                      READ_POOL, this configuration must be provided. Structure is
+                      documented below.
                     items:
                       properties:
                         nodeCount:
@@ -231,8 +264,11 @@ spec:
                   annotations:
                     additionalProperties:
                       type: string
-                    description: Annotations to allow client tools to store small
-                      amount of arbitrary data. This is distinct from labels.
+                    description: 'Annotations to allow client tools to store small
+                      amount of arbitrary data. This is distinct from labels. Note:
+                      This field is non-authoritative, and will only manage the annotations
+                      present in your configuration. Please refer to the field effective_annotations
+                      for all of the annotations present on the resource.'
                     type: object
                   availabilityType:
                     description: '''Availability type of an Instance. Defaults to
@@ -275,7 +311,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: User-defined labels for the alloydb instance.
+                    description: 'User-defined labels for the alloydb instance. Note:
+                      This field is non-authoritative, and will only manage the labels
+                      present in your configuration. Please refer to the field effective_labels
+                      for all of the labels present on the resource.'
                     type: object
                   machineConfig:
                     description: Configurations for the machines that host the underlying
@@ -287,9 +326,36 @@ spec:
                           type: number
                       type: object
                     type: array
-                  readPoolConfig:
-                    description: Read pool specific config. Structure is documented
+                  queryInsightsConfig:
+                    description: Configuration for query insights. Structure is documented
                       below.
+                    items:
+                      properties:
+                        queryPlansPerMinute:
+                          description: Number of query execution plans captured by
+                            Insights per minute for all queries combined. The default
+                            value is 5. Any integer between 0 and 20 is considered
+                            valid.
+                          type: number
+                        queryStringLength:
+                          description: Query string length. The default value is 1024.
+                            Any integer between 256 and 4500 is considered valid.
+                          type: number
+                        recordApplicationTags:
+                          description: Record application tags for an instance. This
+                            flag is turned "on" by default.
+                          type: boolean
+                        recordClientAddress:
+                          description: Record client address for an instance. Client
+                            address is PII information. This flag is turned "on" by
+                            default.
+                          type: boolean
+                      type: object
+                    type: array
+                  readPoolConfig:
+                    description: Read pool specific config. If the instance type is
+                      READ_POOL, this configuration must be provided. Structure is
+                      documented below.
                     items:
                       properties:
                         nodeCount:
@@ -473,8 +539,11 @@ spec:
                   annotations:
                     additionalProperties:
                       type: string
-                    description: Annotations to allow client tools to store small
-                      amount of arbitrary data. This is distinct from labels.
+                    description: 'Annotations to allow client tools to store small
+                      amount of arbitrary data. This is distinct from labels. Note:
+                      This field is non-authoritative, and will only manage the annotations
+                      present in your configuration. Please refer to the field effective_annotations
+                      for all of the annotations present on the resource.'
                     type: object
                   availabilityType:
                     description: '''Availability type of an Instance. Defaults to
@@ -508,6 +577,14 @@ spec:
                     description: User-settable and human-readable display name for
                       the Instance.
                     type: string
+                  effectiveAnnotations:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
                   gceZone:
                     description: The Compute Engine zone that the instance should
                       serve from, per https://cloud.google.com/compute/docs/regions-zones
@@ -531,7 +608,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: User-defined labels for the alloydb instance.
+                    description: 'User-defined labels for the alloydb instance. Note:
+                      This field is non-authoritative, and will only manage the labels
+                      present in your configuration. Please refer to the field effective_labels
+                      for all of the labels present on the resource.'
                     type: object
                   machineConfig:
                     description: Configurations for the machines that host the underlying
@@ -546,9 +626,36 @@ spec:
                   name:
                     description: The name of the instance resource.
                     type: string
-                  readPoolConfig:
-                    description: Read pool specific config. Structure is documented
+                  queryInsightsConfig:
+                    description: Configuration for query insights. Structure is documented
                       below.
+                    items:
+                      properties:
+                        queryPlansPerMinute:
+                          description: Number of query execution plans captured by
+                            Insights per minute for all queries combined. The default
+                            value is 5. Any integer between 0 and 20 is considered
+                            valid.
+                          type: number
+                        queryStringLength:
+                          description: Query string length. The default value is 1024.
+                            Any integer between 256 and 4500 is considered valid.
+                          type: number
+                        recordApplicationTags:
+                          description: Record application tags for an instance. This
+                            flag is turned "on" by default.
+                          type: boolean
+                        recordClientAddress:
+                          description: Record client address for an instance. Client
+                            address is PII information. This flag is turned "on" by
+                            default.
+                          type: boolean
+                      type: object
+                    type: array
+                  readPoolConfig:
+                    description: Read pool specific config. If the instance type is
+                      READ_POOL, this configuration must be provided. Structure is
+                      documented below.
                     items:
                       properties:
                         nodeCount:
@@ -567,6 +674,12 @@ spec:
                   state:
                     description: The current state of the alloydb instance.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                   uid:
                     description: The system-generated UID of the resource.
                     type: string

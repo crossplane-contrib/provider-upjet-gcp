@@ -103,6 +103,17 @@ spec:
                       used. Default value is NONE. Possible values are: NONE, ENABLE,
                       DISABLE.'
                     type: string
+                  serverTlsPolicy:
+                    description: A URL referring to a networksecurity.ServerTlsPolicy
+                      resource that describes how the proxy should authenticate inbound
+                      traffic. serverTlsPolicy only applies to a global TargetHttpsProxy
+                      attached to globalForwardingRules with the loadBalancingScheme
+                      set to INTERNAL_SELF_MANAGED or EXTERNAL or EXTERNAL_MANAGED.
+                      For details which ServerTlsPolicy resources are accepted with
+                      INTERNAL_SELF_MANAGED and which with EXTERNAL, EXTERNAL_MANAGED
+                      loadBalancingScheme consult ServerTlsPolicy documentation. If
+                      left blank, communications are not encrypted.
+                    type: string
                   sslCertificates:
                     description: A list of SslCertificate resource URLs or Certificate
                       Manager certificate URLs that are used to authenticate connections
@@ -318,6 +329,17 @@ spec:
                       DISABLE. If NONE is specified, Google manages whether QUIC is
                       used. Default value is NONE. Possible values are: NONE, ENABLE,
                       DISABLE.'
+                    type: string
+                  serverTlsPolicy:
+                    description: A URL referring to a networksecurity.ServerTlsPolicy
+                      resource that describes how the proxy should authenticate inbound
+                      traffic. serverTlsPolicy only applies to a global TargetHttpsProxy
+                      attached to globalForwardingRules with the loadBalancingScheme
+                      set to INTERNAL_SELF_MANAGED or EXTERNAL or EXTERNAL_MANAGED.
+                      For details which ServerTlsPolicy resources are accepted with
+                      INTERNAL_SELF_MANAGED and which with EXTERNAL, EXTERNAL_MANAGED
+                      loadBalancingScheme consult ServerTlsPolicy documentation. If
+                      left blank, communications are not encrypted.
                     type: string
                   sslPolicy:
                     description: A reference to the SslPolicy resource that will be
@@ -537,6 +559,17 @@ spec:
                     type: string
                   selfLink:
                     description: The URI of the created resource.
+                    type: string
+                  serverTlsPolicy:
+                    description: A URL referring to a networksecurity.ServerTlsPolicy
+                      resource that describes how the proxy should authenticate inbound
+                      traffic. serverTlsPolicy only applies to a global TargetHttpsProxy
+                      attached to globalForwardingRules with the loadBalancingScheme
+                      set to INTERNAL_SELF_MANAGED or EXTERNAL or EXTERNAL_MANAGED.
+                      For details which ServerTlsPolicy resources are accepted with
+                      INTERNAL_SELF_MANAGED and which with EXTERNAL, EXTERNAL_MANAGED
+                      loadBalancingScheme consult ServerTlsPolicy documentation. If
+                      left blank, communications are not encrypted.
                     type: string
                   sslCertificates:
                     description: A list of SslCertificate resource URLs or Certificate

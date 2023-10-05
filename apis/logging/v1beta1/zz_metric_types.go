@@ -126,15 +126,15 @@ type ExponentialBucketsParameters struct {
 
 	// Must be greater than 1.
 	// +kubebuilder:validation:Optional
-	GrowthFactor *float64 `json:"growthFactor,omitempty" tf:"growth_factor,omitempty"`
+	GrowthFactor *float64 `json:"growthFactor" tf:"growth_factor,omitempty"`
 
 	// Must be greater than 0.
 	// +kubebuilder:validation:Optional
-	NumFiniteBuckets *float64 `json:"numFiniteBuckets,omitempty" tf:"num_finite_buckets,omitempty"`
+	NumFiniteBuckets *float64 `json:"numFiniteBuckets" tf:"num_finite_buckets,omitempty"`
 
 	// Must be greater than 0.
 	// +kubebuilder:validation:Optional
-	Scale *float64 `json:"scale,omitempty" tf:"scale,omitempty"`
+	Scale *float64 `json:"scale" tf:"scale,omitempty"`
 }
 
 type LabelsInitParameters struct {
@@ -213,15 +213,15 @@ type LinearBucketsParameters struct {
 
 	// Must be greater than 0.
 	// +kubebuilder:validation:Optional
-	NumFiniteBuckets *float64 `json:"numFiniteBuckets,omitempty" tf:"num_finite_buckets,omitempty"`
+	NumFiniteBuckets *float64 `json:"numFiniteBuckets" tf:"num_finite_buckets,omitempty"`
 
 	// Lower bound of the first bucket.
 	// +kubebuilder:validation:Optional
-	Offset *float64 `json:"offset,omitempty" tf:"offset,omitempty"`
+	Offset *float64 `json:"offset" tf:"offset,omitempty"`
 
 	// Must be greater than 0.
 	// +kubebuilder:validation:Optional
-	Width *float64 `json:"width,omitempty" tf:"width,omitempty"`
+	Width *float64 `json:"width" tf:"width,omitempty"`
 }
 
 type MetricDescriptorInitParameters struct {

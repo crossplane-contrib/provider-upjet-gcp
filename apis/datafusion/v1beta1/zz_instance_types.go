@@ -214,6 +214,9 @@ type InstanceObservation struct {
 	// Display name for an instance.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// for all of the labels present on the resource.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// Option to enable granular role-based access control.
 	EnableRbac *bool `json:"enableRbac,omitempty" tf:"enable_rbac,omitempty"`
 
@@ -270,6 +273,10 @@ type InstanceObservation struct {
 
 	// The name of the tenant project.
 	TenantProjectID *string `json:"tenantProjectId,omitempty" tf:"tenant_project_id,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// Represents the type of Data Fusion instance. Each type is configured with
 	// the default settings for processing and memory.

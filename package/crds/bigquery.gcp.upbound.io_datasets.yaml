@@ -714,7 +714,7 @@ spec:
                     additionalProperties:
                       type: string
                     description: The labels associated with this dataset. You can
-                      use these to organize and group your datasets
+                      use these to organize and group your datasets.
                     type: object
                   location:
                     description: The geographic location where the dataset should
@@ -886,7 +886,7 @@ spec:
                     additionalProperties:
                       type: string
                     description: The labels associated with this dataset. You can
-                      use these to organize and group your datasets
+                      use these to organize and group your datasets.
                     type: object
                   location:
                     description: The geographic location where the dataset should
@@ -1227,6 +1227,11 @@ spec:
                   description:
                     description: A user-friendly description of the dataset
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
                   etag:
                     description: A hash of the resource.
                     type: string
@@ -1246,7 +1251,7 @@ spec:
                     additionalProperties:
                       type: string
                     description: The labels associated with this dataset. You can
-                      use these to organize and group your datasets
+                      use these to organize and group your datasets.
                     type: object
                   lastModifiedTime:
                     description: The date when this dataset or any of its tables was
@@ -1273,6 +1278,12 @@ spec:
                       billing, or to PHYSICAL to use physical bytes instead. LOGICAL
                       is the default if this flag isn't specified.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                 type: object
               conditions:
                 description: Conditions of the resource.

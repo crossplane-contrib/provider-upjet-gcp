@@ -13,6 +13,8 @@ spec:
       - resourceLinkSelector:
           matchLabels:
             testing.upbound.io/example-name: primary
+    labels:
+      env: test
 
 ---
 
@@ -26,5 +28,6 @@ metadata:
   name: primary
 spec:
   forProvider:
+    deletionProtection: "true"
     initialNodeCount: 1
     location: us-central1-a

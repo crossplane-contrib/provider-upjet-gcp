@@ -731,9 +731,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: The list of labels (key/value pairs) to be applied
-                      to instances in the cluster. GCP generates some itself including
-                      goog-dataproc-cluster-name which is the name of the cluster.
+                    description: 'Note: This field is non-authoritative, and will
+                      only manage the labels present in your configuration. Please
+                      refer to the field effective_labels for all of the labels present
+                      on the resource.'
                     type: object
                   name:
                     description: The name of the cluster, unique within the project
@@ -1547,9 +1548,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: The list of labels (key/value pairs) to be applied
-                      to instances in the cluster. GCP generates some itself including
-                      goog-dataproc-cluster-name which is the name of the cluster.
+                    description: 'Note: This field is non-authoritative, and will
+                      only manage the labels present in your configuration. Please
+                      refer to the field effective_labels for all of the labels present
+                      on the resource.'
                     type: object
                   name:
                     description: The name of the cluster, unique within the project
@@ -2555,6 +2557,14 @@ spec:
                           type: array
                       type: object
                     type: array
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: (Computed) The list of labels (key/value pairs) to
+                      be applied to instances in the cluster. GCP generates some itself
+                      including goog-dataproc-cluster-name which is the name of the
+                      cluster.
+                    type: object
                   gracefulDecommissionTimeout:
                     description: Does not affect auto scaling decomissioning from
                       an autoscaling policy. Graceful decommissioning allows removing
@@ -2571,9 +2581,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: The list of labels (key/value pairs) to be applied
-                      to instances in the cluster. GCP generates some itself including
-                      goog-dataproc-cluster-name which is the name of the cluster.
+                    description: 'Note: This field is non-authoritative, and will
+                      only manage the labels present in your configuration. Please
+                      refer to the field effective_labels for all of the labels present
+                      on the resource.'
                     type: object
                   name:
                     description: The name of the cluster, unique within the project
@@ -2587,6 +2598,12 @@ spec:
                     description: The region in which the cluster and associated nodes
                       will be created in. Defaults to global.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                   virtualClusterConfig:
                     description: Allows you to configure a virtual Dataproc on GKE
                       cluster. Structure defined below.

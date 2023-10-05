@@ -154,6 +154,8 @@ type ClusterObservation struct {
 	// Optional. A human readable description of this cluster. Cannot be longer than 255 UTF-8 encoded bytes.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	EffectiveAnnotations map[string]*string `json:"effectiveAnnotations,omitempty" tf:"effective_annotations,omitempty"`
+
 	// Output only. The endpoint of the cluster's API server.
 	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
 

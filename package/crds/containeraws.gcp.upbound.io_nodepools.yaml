@@ -322,6 +322,16 @@ spec:
                   location:
                     description: The location for the resource
                     type: string
+                  management:
+                    description: The Management configuration for this node pool.
+                    items:
+                      properties:
+                        autoRepair:
+                          description: Optional. Whether or not the nodes will be
+                            automatically repaired.
+                          type: boolean
+                      type: object
+                    type: array
                   maxPodsConstraint:
                     description: The constraint on the maximum number of pods that
                       can be run simultaneously on a node in the node pool.
@@ -534,6 +544,16 @@ spec:
                                 type: string
                             type: object
                           type: array
+                      type: object
+                    type: array
+                  management:
+                    description: The Management configuration for this node pool.
+                    items:
+                      properties:
+                        autoRepair:
+                          description: Optional. Whether or not the nodes will be
+                            automatically repaired.
+                          type: boolean
                       type: object
                     type: array
                   maxPodsConstraint:
@@ -929,6 +949,10 @@ spec:
                     description: Output only. The time at which this node pool was
                       created.
                     type: string
+                  effectiveAnnotations:
+                    additionalProperties:
+                      type: string
+                    type: object
                   etag:
                     description: Allows clients to perform consistent read-modify-writes
                       through optimistic concurrency control. May be sent on update
@@ -941,6 +965,16 @@ spec:
                   location:
                     description: The location for the resource
                     type: string
+                  management:
+                    description: The Management configuration for this node pool.
+                    items:
+                      properties:
+                        autoRepair:
+                          description: Optional. Whether or not the nodes will be
+                            automatically repaired.
+                          type: boolean
+                      type: object
+                    type: array
                   maxPodsConstraint:
                     description: The constraint on the maximum number of pods that
                       can be run simultaneously on a node in the node pool.
