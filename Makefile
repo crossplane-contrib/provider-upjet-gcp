@@ -67,7 +67,7 @@ export SUBPACKAGES := $(SUBPACKAGES)
 KIND_VERSION = v0.15.0
 UPTEST_VERSION = v0.5.0
 # dependency for up
-UP_VERSION = v0.17.0
+UP_VERSION = v0.19.2
 UP_CHANNEL = stable
 
 export UP_VERSION := $(UP_VERSION)
