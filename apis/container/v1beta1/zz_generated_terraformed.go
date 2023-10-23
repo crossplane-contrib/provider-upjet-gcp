@@ -101,6 +101,7 @@ func (tr *Cluster) LateInitialize(attrs []byte) (bool, error) {
 	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
 	opts = append(opts, resource.WithNameFilter("AddonsConfig.DNSCacheConfig"))
 	opts = append(opts, resource.WithNameFilter("AddonsConfig.GCPFilestoreCsiDriverConfig"))
+	opts = append(opts, resource.WithNameFilter("AddonsConfig.GcsFuseCsiDriverConfig"))
 	opts = append(opts, resource.WithNameFilter("AddonsConfig.NetworkPolicyConfig"))
 	opts = append(opts, resource.WithNameFilter("ClusterAutoscaling.Enabled"))
 	opts = append(opts, resource.WithNameFilter("ClusterAutoscaling.ResourceLimits"))
