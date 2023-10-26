@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 The Crossplane Authors <https://crossplane.io>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 /*
 Copyright 2021 The Crossplane Authors.
 
@@ -219,7 +223,7 @@ type AccessLevelConditionParameters struct {
 
 	// The name of the Access Level to add this condition to.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/accesscontextmanager/v1beta1.AccessLevel
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
 

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 The Crossplane Authors <https://crossplane.io>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 /*
 Copyright 2021 The Crossplane Authors.
 
@@ -51,7 +55,7 @@ type ServicePerimeterResourceParameters struct {
 
 	// The name of the Service Perimeter to add this resource to.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/accesscontextmanager/v1beta1.ServicePerimeter
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	PerimeterName *string `json:"perimeterName,omitempty" tf:"perimeter_name,omitempty"`
 

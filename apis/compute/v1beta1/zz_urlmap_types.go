@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 The Crossplane Authors <https://crossplane.io>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 /*
 Copyright 2021 The Crossplane Authors.
 
@@ -2038,7 +2042,7 @@ type PathMatcherPathRuleParameters struct {
 
 	// The backend service or backend bucket link that should be matched by this test.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.BackendBucket
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
@@ -2343,7 +2347,7 @@ type PathMatcherRouteRulesParameters struct {
 
 	// The backend service or backend bucket link that should be matched by this test.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.BackendService
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
@@ -3456,7 +3460,7 @@ type PathRuleRouteActionRequestMirrorPolicyParameters struct {
 	// forwarding the request to backendService, the loadbalancer applies any relevant
 	// headerActions specified as part of this backendServiceWeight.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.BackendService
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
@@ -3737,7 +3741,7 @@ type PathRuleRouteActionWeightedBackendServicesParameters struct {
 	// forwarding the request to backendService, the loadbalancer applies any relevant
 	// headerActions specified as part of this backendServiceWeight.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.BackendService
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
@@ -5138,7 +5142,7 @@ type URLMapParameters struct {
 
 	// The backend service or backend bucket to use when none of the given rules match.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.BackendBucket
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	DefaultService *string `json:"defaultService,omitempty" tf:"default_service,omitempty"`
 
@@ -5427,7 +5431,7 @@ type URLMapPathMatcherParameters struct {
 
 	// The backend service or backend bucket to use when none of the given paths match.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.BackendBucket
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	DefaultService *string `json:"defaultService,omitempty" tf:"default_service,omitempty"`
 
@@ -5526,7 +5530,7 @@ type URLMapTestParameters struct {
 
 	// The backend service or backend bucket link that should be matched by this test.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.BackendBucket
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 

@@ -3,7 +3,7 @@ package secretmanager
 import (
 	"github.com/upbound/provider-gcp/config/common"
 
-	"github.com/upbound/upjet/pkg/config"
+	"github.com/crossplane/upjet/pkg/config"
 )
 
 // Configure configures individual resources by adding custom ResourceConfigurators.

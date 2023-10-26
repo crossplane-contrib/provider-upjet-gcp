@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 The Crossplane Authors <https://crossplane.io>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 /*
 Copyright 2021 The Crossplane Authors.
 
@@ -85,7 +89,7 @@ type ConsentStoreParameters struct {
 	// Identifies the dataset addressed by this request. Must be in the format
 	// 'projects/{project}/locations/{location}/datasets/{dataset}'
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/healthcare/v1beta1.Dataset
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Dataset *string `json:"dataset,omitempty" tf:"dataset,omitempty"`
 

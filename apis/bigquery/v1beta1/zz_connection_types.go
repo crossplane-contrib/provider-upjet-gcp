@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 The Crossplane Authors <https://crossplane.io>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 /*
 Copyright 2021 The Crossplane Authors.
 
@@ -186,7 +190,7 @@ type CloudSQLParameters struct {
 
 	// Cloud SQL instance ID in the form project:location:instance.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta1.DatabaseInstance
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("connection_name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("connection_name",true)
 	// +kubebuilder:validation:Optional
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 

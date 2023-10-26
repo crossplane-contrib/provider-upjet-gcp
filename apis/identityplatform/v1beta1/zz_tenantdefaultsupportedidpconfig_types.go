@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 The Crossplane Authors <https://crossplane.io>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 /*
 Copyright 2021 The Crossplane Authors.
 
@@ -85,7 +89,7 @@ type TenantDefaultSupportedIdPConfigParameters struct {
 
 	// The name of the tenant where this DefaultSupportedIdpConfig resource exists
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/identityplatform/v1beta1.Tenant
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	Tenant *string `json:"tenant,omitempty" tf:"tenant,omitempty"`
 

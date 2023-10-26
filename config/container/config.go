@@ -4,8 +4,8 @@ import (
 	"encoding/base64"
 	"net/url"
 
+	"github.com/crossplane/upjet/pkg/config"
 	"github.com/pkg/errors"
-	"github.com/upbound/upjet/pkg/config"
 	"k8s.io/client-go/tools/clientcmd"
 	clientcmdapi "k8s.io/client-go/tools/clientcmd/api"
 

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 The Crossplane Authors <https://crossplane.io>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 /*
 Copyright 2021 The Crossplane Authors.
 
@@ -147,7 +151,7 @@ type OrganizationParameters struct {
 	// See Getting started with the Service Networking API.
 	// Valid only when RuntimeType is set to CLOUD. The value can be updated only when there are no runtime instances. For example: "default".
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	AuthorizedNetwork *string `json:"authorizedNetwork,omitempty" tf:"authorized_network,omitempty"`
 
@@ -202,7 +206,7 @@ type OrganizationParameters struct {
 	// If not specified, a Google-Managed encryption key will be used.
 	// Valid only when RuntimeType is CLOUD. For example: projects/foo/locations/us/keyRings/bar/cryptoKeys/baz.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta1.CryptoKey
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	RuntimeDatabaseEncryptionKeyName *string `json:"runtimeDatabaseEncryptionKeyName,omitempty" tf:"runtime_database_encryption_key_name,omitempty"`
 

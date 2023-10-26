@@ -16,7 +16,7 @@ package providerconfig
 import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/upbound/upjet/pkg/controller"
+	"github.com/crossplane/upjet/pkg/controller"
 
 	"github.com/crossplane/crossplane-runtime/pkg/event"
 	"github.com/crossplane/crossplane-runtime/pkg/reconciler/providerconfig"

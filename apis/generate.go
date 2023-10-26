@@ -33,7 +33,7 @@ limitations under the License.
 //go:generate bash -c "find ../cmd/provider -type d -maxdepth 1 -mindepth 1 -empty -delete"
 
 // Scrape metadata from Terraform registry
-//go:generate go run github.com/upbound/upjet/cmd/scraper -n hashicorp/terraform-provider-google -r ../.work/terraform-provider-google/website/docs/r -o ../config/provider-metadata.yaml --prelude-xpath "//text()[contains(., \"subcategory\")]" --resource-prefix google
+//go:generate go run github.com/crossplane/upjet/cmd/scraper -n hashicorp/terraform-provider-google -r ../.work/terraform-provider-google/website/docs/r -o ../config/provider-metadata.yaml --prelude-xpath "//text()[contains(., \"subcategory\")]" --resource-prefix google
 
 // Run Terrajet generator
 //go:generate go run ../cmd/generator/main.go ..
@@ -51,5 +51,5 @@ import (
 
 	_ "github.com/crossplane/crossplane-tools/cmd/angryjet" //nolint:typecheck
 
-	_ "github.com/upbound/upjet/cmd/scraper"
+	_ "github.com/crossplane/upjet/cmd/scraper"
 )

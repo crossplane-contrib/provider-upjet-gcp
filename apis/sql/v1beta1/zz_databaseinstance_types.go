@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 The Crossplane Authors <https://crossplane.io>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 /*
 Copyright 2021 The Crossplane Authors.
 
@@ -687,7 +691,7 @@ type IPConfigurationParameters struct {
 	// At least ipv4_enabled must be enabled or a private_network must be configured.
 	// This setting can be updated, but it cannot be removed after it is set.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	PrivateNetwork *string `json:"privateNetwork,omitempty" tf:"private_network,omitempty"`
 

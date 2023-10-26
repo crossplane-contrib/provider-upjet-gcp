@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 The Crossplane Authors <https://crossplane.io>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 /*
 Copyright 2021 The Crossplane Authors.
 
@@ -474,7 +478,7 @@ type UpstreamPoliciesParameters struct {
 	// A reference to the repository resource, for example:
 	// "projects/p1/locations/us-central1/repository/repo1".
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/artifact/v1beta1.RegistryRepository
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
 

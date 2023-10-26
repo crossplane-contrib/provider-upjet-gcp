@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/upbound/upjet/pkg/config"
+	"github.com/crossplane/upjet/pkg/config"
 
 	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 

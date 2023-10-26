@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 The Crossplane Authors <https://crossplane.io>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 /*
 Copyright 2021 The Crossplane Authors.
 
@@ -337,7 +341,7 @@ type RegionNetworkEndpointGroupParameters struct {
 	// The URL of the network to which all network endpoints in the NEG belong. Uses
 	// "default" project network if unspecified.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -363,7 +367,7 @@ type RegionNetworkEndpointGroupParameters struct {
 	// The target service url used to set up private service connection to
 	// a Google API or a PSC Producer Service Attachment.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.ServiceAttachment
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	PscTargetService *string `json:"pscTargetService,omitempty" tf:"psc_target_service,omitempty"`
 
@@ -382,7 +386,7 @@ type RegionNetworkEndpointGroupParameters struct {
 	// This field is only used for PSC.
 	// Optional URL of the subnetwork to which all network endpoints in the NEG belong.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 

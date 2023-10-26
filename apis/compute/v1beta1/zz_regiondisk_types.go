@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 The Crossplane Authors <https://crossplane.io>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 /*
 Copyright 2021 The Crossplane Authors.
 
@@ -38,7 +42,7 @@ type RegionDiskAsyncPrimaryDiskParameters struct {
 
 	// Primary disk for asynchronous disk replication.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionDisk
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
 
@@ -363,7 +367,7 @@ type RegionDiskParameters struct {
 	// a partial or full URL to the resource. For example, the following are
 	// valid values:
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Snapshot
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Snapshot *string `json:"snapshot,omitempty" tf:"snapshot,omitempty"`
 

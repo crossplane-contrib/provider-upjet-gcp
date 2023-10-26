@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 The Crossplane Authors <https://crossplane.io>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 /*
 Copyright 2021 The Crossplane Authors.
 
@@ -292,7 +296,7 @@ type InstanceParameters struct {
 	// Optional. The KMS key reference that you want to use to encrypt the data at rest for this Redis
 	// instance. If this is provided, CMEK is enabled.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta1.CryptoKey
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	CustomerManagedKey *string `json:"customerManagedKey,omitempty" tf:"customer_managed_key,omitempty"`
 

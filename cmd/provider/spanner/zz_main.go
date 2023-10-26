@@ -39,8 +39,8 @@ import (
 	"github.com/crossplane/crossplane-runtime/pkg/ratelimiter"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 
-	tjcontroller "github.com/upbound/upjet/pkg/controller"
-	"github.com/upbound/upjet/pkg/terraform"
+	tjcontroller "github.com/crossplane/upjet/pkg/controller"
+	"github.com/crossplane/upjet/pkg/terraform"
 
 	"github.com/upbound/provider-gcp/apis"
 	"github.com/upbound/provider-gcp/apis/v1alpha1"
