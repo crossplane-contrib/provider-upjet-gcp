@@ -1,8 +1,8 @@
 package cloudiot
 
 import (
+	"github.com/crossplane/upjet/pkg/config"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/upbound/upjet/pkg/config"
 )
 
 // Configure configures individual resources by adding custom

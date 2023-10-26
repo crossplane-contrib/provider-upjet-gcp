@@ -4,10 +4,10 @@ import (
 	"regexp"
 	"strings"
 
+	tjconfig "github.com/crossplane/upjet/pkg/config"
+	"github.com/crossplane/upjet/pkg/types/name"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/pkg/errors"
-	tjconfig "github.com/upbound/upjet/pkg/config"
-	"github.com/upbound/upjet/pkg/types/name"
 )
 
 // VersionV1Beta1 is used to signify that the resource has been tested and external name configured

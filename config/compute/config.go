@@ -4,8 +4,8 @@ import (
 	"github.com/crossplane/crossplane-runtime/pkg/fieldpath"
 	"github.com/crossplane/crossplane-runtime/pkg/reference"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/upjet/pkg/config"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/upbound/upjet/pkg/config"
 
 	"github.com/upbound/provider-gcp/config/common"
 )
@@ -277,7 +277,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	})
 
 	p.AddResourceConfigurator("google_compute_forwarding_rule", func(r *config.Resource) {
-		// Note(donovanmuller): See https://github.com/upbound/upjet/issues/95
+		// Note(donovanmuller): See https://github.com/crossplane/upjet/issues/95
 		// BackendService is also a valid reference Type
 		r.References["backend_service"] = config.Reference{
 			Type:      "RegionBackendService",

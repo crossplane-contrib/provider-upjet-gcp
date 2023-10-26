@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 The Crossplane Authors <https://crossplane.io>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 /*
 Copyright 2021 The Crossplane Authors.
 
@@ -103,7 +107,7 @@ type FeaturestoreEntitytypeParameters struct {
 
 	// The name of the Featurestore to use, in the format projects/{project}/locations/{location}/featurestores/{featurestore}.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/vertexai/v1beta1.Featurestore
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Featurestore *string `json:"featurestore,omitempty" tf:"featurestore,omitempty"`
 

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 The Crossplane Authors <https://crossplane.io>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 /*
 Copyright 2021 The Crossplane Authors.
 
@@ -104,7 +108,7 @@ type DispatchRulesParameters struct {
 	// Pathname within the host. Must start with a "/". A single "*" can be included at the end of the path.
 	// The sum of the lengths of the domain and path may not exceed 100 characters.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/appengine/v1beta1.StandardAppVersion
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("service",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("service",false)
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 

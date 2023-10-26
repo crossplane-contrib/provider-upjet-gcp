@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 The Crossplane Authors <https://crossplane.io>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 /*
 Copyright 2021 The Crossplane Authors.
 
@@ -1235,7 +1239,7 @@ type SubordinateConfigParameters struct {
 	// and usability purposes only. The resource name is in the format
 	// projects/*/locations/*/caPools/*/certificateAuthorities/*.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/privateca/v1beta1.CertificateAuthority
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	CertificateAuthority *string `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
 

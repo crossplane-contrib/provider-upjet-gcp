@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 The Crossplane Authors <https://crossplane.io>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 /*
 Copyright 2021 The Crossplane Authors.
 
@@ -414,7 +418,7 @@ type PostgresqlProfileParameters struct {
 
 	// Hostname for the PostgreSQL connection.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta1.DatabaseInstance
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("public_ip_address",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("public_ip_address",true)
 	// +kubebuilder:validation:Optional
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
@@ -462,7 +466,7 @@ type PrivateConnectivityParameters struct {
 
 	// A reference to a private connection resource. Format: projects/{project}/locations/{location}/privateConnections/{name}
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/datastream/v1beta1.PrivateConnection
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	PrivateConnection *string `json:"privateConnection,omitempty" tf:"private_connection,omitempty"`
 

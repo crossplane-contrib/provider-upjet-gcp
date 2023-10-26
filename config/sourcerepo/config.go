@@ -1,7 +1,7 @@
 package sourcerepo
 
 import (
-	"github.com/upbound/upjet/pkg/config"
+	"github.com/crossplane/upjet/pkg/config"
 )
 
 // Configure configures individual resources by adding custom

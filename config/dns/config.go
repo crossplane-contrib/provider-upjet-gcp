@@ -1,7 +1,7 @@
 package dns
 
 import (
-	"github.com/upbound/upjet/pkg/config"
+	"github.com/crossplane/upjet/pkg/config"
 
 	"github.com/upbound/provider-gcp/config/common"
 )

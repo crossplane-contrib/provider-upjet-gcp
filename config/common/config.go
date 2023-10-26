@@ -5,7 +5,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	jresource "github.com/upbound/upjet/pkg/resource"
+	jresource "github.com/crossplane/upjet/pkg/resource"
 
 	"github.com/crossplane/crossplane-runtime/pkg/fieldpath"
 	"github.com/crossplane/crossplane-runtime/pkg/reference"

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 The Crossplane Authors <https://crossplane.io>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 /*
 Copyright 2021 The Crossplane Authors.
 
@@ -202,7 +206,7 @@ type GatewayParameters struct {
 
 	// AppGateway name in following format: projects/{project_id}/locations/{locationId}/appgateways/{gateway_id}.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/beyondcorp/v1beta1.AppGateway
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	AppGateway *string `json:"appGateway,omitempty" tf:"app_gateway,omitempty"`
 

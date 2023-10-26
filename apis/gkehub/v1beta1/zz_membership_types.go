@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 The Crossplane Authors <https://crossplane.io>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 /*
 Copyright 2021 The Crossplane Authors.
 
@@ -88,7 +92,7 @@ type GkeClusterParameters struct {
 	// It can be at the most 1000 characters in length.googleapis.com/${google_container_cluster.my-cluster.id}" or
 	// google_container_cluster.my-cluster.id.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/container/v1beta1.Cluster
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ResourceLink *string `json:"resourceLink,omitempty" tf:"resource_link,omitempty"`
 
