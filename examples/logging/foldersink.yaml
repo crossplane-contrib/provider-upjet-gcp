@@ -3,6 +3,7 @@ kind: FolderSink
 metadata:
   annotations:
     meta.upbound.io/example-id: logging/v1beta1/foldersink
+    upjet.upbound.io/manual-intervention: "FolderSink requires a folder id"
   labels:
     testing.upbound.io/example-name: my-sink
   name: my-sink

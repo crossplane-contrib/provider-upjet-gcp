@@ -3,6 +3,7 @@ kind: FolderBucketConfig
 metadata:
   annotations:
     meta.upbound.io/example-id: logging/v1beta1/folderbucketconfig
+    upjet.upbound.io/manual-intervention: "FolderBucketConfig requires a folder id"
   labels:
     testing.upbound.io/example-name: basic
   name: basic
