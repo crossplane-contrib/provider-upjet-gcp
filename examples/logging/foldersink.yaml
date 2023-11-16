@@ -41,7 +41,7 @@ metadata:
     meta.upbound.io/example-id: logging/v1beta1/foldersink
   labels:
     testing.upbound.io/example-name: log-bucket
-  name: log-bucket
+  name: log-bucket-${Rand.RFC1123Subdomain}
 spec:
   forProvider:
     location: US
