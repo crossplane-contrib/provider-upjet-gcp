@@ -39,14 +39,6 @@ func (mg *FolderBucketConfig) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this FolderBucketConfig.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *FolderBucketConfig) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this FolderBucketConfig.
 func (mg *FolderBucketConfig) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -75,14 +67,6 @@ func (mg *FolderBucketConfig) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this FolderBucketConfig.
 func (mg *FolderBucketConfig) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this FolderBucketConfig.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *FolderBucketConfig) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this FolderBucketConfig.
@@ -115,14 +99,6 @@ func (mg *FolderExclusion) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this FolderExclusion.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *FolderExclusion) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this FolderExclusion.
 func (mg *FolderExclusion) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -151,14 +127,6 @@ func (mg *FolderExclusion) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this FolderExclusion.
 func (mg *FolderExclusion) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this FolderExclusion.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *FolderExclusion) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this FolderExclusion.
@@ -191,14 +159,6 @@ func (mg *FolderSink) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this FolderSink.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *FolderSink) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
 // GetPublishConnectionDetailsTo of this FolderSink.
 func (mg *FolderSink) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
@@ -227,14 +187,6 @@ func (mg *FolderSink) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this FolderSink.
 func (mg *FolderSink) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this FolderSink.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *FolderSink) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this FolderSink.
