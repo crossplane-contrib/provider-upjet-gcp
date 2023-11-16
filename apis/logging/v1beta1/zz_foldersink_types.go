@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2023 The Crossplane Authors <https://crossplane.io>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 /*
 Copyright 2021 The Crossplane Authors.
 
@@ -29,35 +25,35 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type ProjectSinkBigqueryOptionsInitParameters struct {
+type BigqueryOptionsInitParameters struct {
 
 	// Whether to use BigQuery's partition tables.
 	// By default, Logging creates dated tables based on the log entries' timestamps, e.g. syslog_20170523. With partitioned
-	// tables the date suffix is no longer present and special query syntax
+	// tables, the date suffix is no longer present and special query syntax
 	// has to be used instead. In both cases, tables are sharded based on UTC timezone.
 	UsePartitionedTables *bool `json:"usePartitionedTables,omitempty" tf:"use_partitioned_tables,omitempty"`
 }
 
-type ProjectSinkBigqueryOptionsObservation struct {
+type BigqueryOptionsObservation struct {
 
 	// Whether to use BigQuery's partition tables.
 	// By default, Logging creates dated tables based on the log entries' timestamps, e.g. syslog_20170523. With partitioned
-	// tables the date suffix is no longer present and special query syntax
+	// tables, the date suffix is no longer present and special query syntax
 	// has to be used instead. In both cases, tables are sharded based on UTC timezone.
 	UsePartitionedTables *bool `json:"usePartitionedTables,omitempty" tf:"use_partitioned_tables,omitempty"`
 }
 
-type ProjectSinkBigqueryOptionsParameters struct {
+type BigqueryOptionsParameters struct {
 
 	// Whether to use BigQuery's partition tables.
 	// By default, Logging creates dated tables based on the log entries' timestamps, e.g. syslog_20170523. With partitioned
-	// tables the date suffix is no longer present and special query syntax
+	// tables, the date suffix is no longer present and special query syntax
 	// has to be used instead. In both cases, tables are sharded based on UTC timezone.
 	// +kubebuilder:validation:Optional
 	UsePartitionedTables *bool `json:"usePartitionedTables" tf:"use_partitioned_tables,omitempty"`
 }
 
-type ProjectSinkExclusionsInitParameters struct {
+type ExclusionsInitParameters struct {
 
 	// A description of this exclusion.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -73,7 +69,7 @@ type ProjectSinkExclusionsInitParameters struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
-type ProjectSinkExclusionsObservation struct {
+type ExclusionsObservation struct {
 
 	// A description of this exclusion.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -89,7 +85,7 @@ type ProjectSinkExclusionsObservation struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
-type ProjectSinkExclusionsParameters struct {
+type ExclusionsParameters struct {
 
 	// A description of this exclusion.
 	// +kubebuilder:validation:Optional
@@ -109,93 +105,85 @@ type ProjectSinkExclusionsParameters struct {
 	Name *string `json:"name" tf:"name,omitempty"`
 }
 
-type ProjectSinkInitParameters struct {
+type FolderSinkInitParameters struct {
 
 	// Options that affect sinks exporting data to BigQuery. Structure documented below.
-	BigqueryOptions []ProjectSinkBigqueryOptionsInitParameters `json:"bigqueryOptions,omitempty" tf:"bigquery_options,omitempty"`
+	BigqueryOptions []BigqueryOptionsInitParameters `json:"bigqueryOptions,omitempty" tf:"bigquery_options,omitempty"`
 
 	// A description of this sink. The maximum length of the description is 8000 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The destination of the sink (or, in other words, where logs are written to). Can be a
-	// Cloud Storage bucket, a PubSub topic, a BigQuery dataset or a Cloud Logging bucket . Examples:
+	// Cloud Storage bucket, a PubSub topic, a BigQuery dataset or a Cloud Logging bucket. Examples:
 	Destination *string `json:"destination,omitempty" tf:"destination,omitempty"`
 
 	// If set to True, then this sink is disabled and it does not export any log entries.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
 	// Log entries that match any of the exclusion filters will not be exported. If a log entry is matched by both filter and one of exclusions.filter, it will not be exported.  Can be repeated multiple times for multiple exclusions. Structure is documented below.
-	Exclusions []ProjectSinkExclusionsInitParameters `json:"exclusions,omitempty" tf:"exclusions,omitempty"`
+	Exclusions []ExclusionsInitParameters `json:"exclusions,omitempty" tf:"exclusions,omitempty"`
 
 	// The filter to apply when exporting logs. Only log entries that match the filter are exported.
 	// See Advanced Log Filters for information on how to
 	// write a filter.
 	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
 
-	// The ID of the project to create the sink in. If omitted, the project associated with the provider is
-	// used.
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// Whether or not to create a unique identity associated with this sink. If false
-	// (the default), then the writer_identity used is serviceAccount:cloud-logs@system.gserviceaccount.com. If true,
-	// then a unique service account is created and used for this sink. If you wish to publish logs across projects or utilize
-	// bigquery_options, you must set unique_writer_identity to true.
-	UniqueWriterIdentity *bool `json:"uniqueWriterIdentity,omitempty" tf:"unique_writer_identity,omitempty"`
+	// Whether or not to include children folders in the sink export. If true, logs
+	// associated with child projects are also exported; otherwise only logs relating to the provided folder are included.
+	IncludeChildren *bool `json:"includeChildren,omitempty" tf:"include_children,omitempty"`
 }
 
-type ProjectSinkObservation struct {
+type FolderSinkObservation struct {
 
 	// Options that affect sinks exporting data to BigQuery. Structure documented below.
-	BigqueryOptions []ProjectSinkBigqueryOptionsObservation `json:"bigqueryOptions,omitempty" tf:"bigquery_options,omitempty"`
+	BigqueryOptions []BigqueryOptionsObservation `json:"bigqueryOptions,omitempty" tf:"bigquery_options,omitempty"`
 
 	// A description of this sink. The maximum length of the description is 8000 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The destination of the sink (or, in other words, where logs are written to). Can be a
-	// Cloud Storage bucket, a PubSub topic, a BigQuery dataset or a Cloud Logging bucket . Examples:
+	// Cloud Storage bucket, a PubSub topic, a BigQuery dataset or a Cloud Logging bucket. Examples:
 	Destination *string `json:"destination,omitempty" tf:"destination,omitempty"`
 
 	// If set to True, then this sink is disabled and it does not export any log entries.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
 	// Log entries that match any of the exclusion filters will not be exported. If a log entry is matched by both filter and one of exclusions.filter, it will not be exported.  Can be repeated multiple times for multiple exclusions. Structure is documented below.
-	Exclusions []ProjectSinkExclusionsObservation `json:"exclusions,omitempty" tf:"exclusions,omitempty"`
+	Exclusions []ExclusionsObservation `json:"exclusions,omitempty" tf:"exclusions,omitempty"`
 
 	// The filter to apply when exporting logs. Only log entries that match the filter are exported.
 	// See Advanced Log Filters for information on how to
 	// write a filter.
 	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
 
-	// an identifier for the resource with format projects/{{project}}/sinks/{{name}}
+	// The folder to be exported to the sink. Note that either [FOLDER_ID] or folders/[FOLDER_ID] is
+	// accepted.
+	Folder *string `json:"folder,omitempty" tf:"folder,omitempty"`
+
+	// an identifier for the resource with format folders/{{folder_id}}/sinks/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The ID of the project to create the sink in. If omitted, the project associated with the provider is
-	// used.
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// Whether or not to create a unique identity associated with this sink. If false
-	// (the default), then the writer_identity used is serviceAccount:cloud-logs@system.gserviceaccount.com. If true,
-	// then a unique service account is created and used for this sink. If you wish to publish logs across projects or utilize
-	// bigquery_options, you must set unique_writer_identity to true.
-	UniqueWriterIdentity *bool `json:"uniqueWriterIdentity,omitempty" tf:"unique_writer_identity,omitempty"`
+	// Whether or not to include children folders in the sink export. If true, logs
+	// associated with child projects are also exported; otherwise only logs relating to the provided folder are included.
+	IncludeChildren *bool `json:"includeChildren,omitempty" tf:"include_children,omitempty"`
 
 	// The identity associated with this sink. This identity must be granted write access to the
 	// configured destination.
 	WriterIdentity *string `json:"writerIdentity,omitempty" tf:"writer_identity,omitempty"`
 }
 
-type ProjectSinkParameters struct {
+type FolderSinkParameters struct {
 
 	// Options that affect sinks exporting data to BigQuery. Structure documented below.
 	// +kubebuilder:validation:Optional
-	BigqueryOptions []ProjectSinkBigqueryOptionsParameters `json:"bigqueryOptions,omitempty" tf:"bigquery_options,omitempty"`
+	BigqueryOptions []BigqueryOptionsParameters `json:"bigqueryOptions,omitempty" tf:"bigquery_options,omitempty"`
 
 	// A description of this sink. The maximum length of the description is 8000 characters.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The destination of the sink (or, in other words, where logs are written to). Can be a
-	// Cloud Storage bucket, a PubSub topic, a BigQuery dataset or a Cloud Logging bucket . Examples:
+	// Cloud Storage bucket, a PubSub topic, a BigQuery dataset or a Cloud Logging bucket. Examples:
 	// +kubebuilder:validation:Optional
 	Destination *string `json:"destination,omitempty" tf:"destination,omitempty"`
 
@@ -205,7 +193,7 @@ type ProjectSinkParameters struct {
 
 	// Log entries that match any of the exclusion filters will not be exported. If a log entry is matched by both filter and one of exclusions.filter, it will not be exported.  Can be repeated multiple times for multiple exclusions. Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Exclusions []ProjectSinkExclusionsParameters `json:"exclusions,omitempty" tf:"exclusions,omitempty"`
+	Exclusions []ExclusionsParameters `json:"exclusions,omitempty" tf:"exclusions,omitempty"`
 
 	// The filter to apply when exporting logs. Only log entries that match the filter are exported.
 	// See Advanced Log Filters for information on how to
@@ -213,25 +201,34 @@ type ProjectSinkParameters struct {
 	// +kubebuilder:validation:Optional
 	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
 
-	// The ID of the project to create the sink in. If omitted, the project associated with the provider is
-	// used.
+	// The folder to be exported to the sink. Note that either [FOLDER_ID] or folders/[FOLDER_ID] is
+	// accepted.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Folder
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+	Folder *string `json:"folder,omitempty" tf:"folder,omitempty"`
 
-	// Whether or not to create a unique identity associated with this sink. If false
-	// (the default), then the writer_identity used is serviceAccount:cloud-logs@system.gserviceaccount.com. If true,
-	// then a unique service account is created and used for this sink. If you wish to publish logs across projects or utilize
-	// bigquery_options, you must set unique_writer_identity to true.
+	// Reference to a Folder in cloudplatform to populate folder.
 	// +kubebuilder:validation:Optional
-	UniqueWriterIdentity *bool `json:"uniqueWriterIdentity,omitempty" tf:"unique_writer_identity,omitempty"`
+	FolderRef *v1.Reference `json:"folderRef,omitempty" tf:"-"`
+
+	// Selector for a Folder in cloudplatform to populate folder.
+	// +kubebuilder:validation:Optional
+	FolderSelector *v1.Selector `json:"folderSelector,omitempty" tf:"-"`
+
+	// Whether or not to include children folders in the sink export. If true, logs
+	// associated with child projects are also exported; otherwise only logs relating to the provided folder are included.
+	// +kubebuilder:validation:Optional
+	IncludeChildren *bool `json:"includeChildren,omitempty" tf:"include_children,omitempty"`
 }
 
-// ProjectSinkSpec defines the desired state of ProjectSink
-type ProjectSinkSpec struct {
+// FolderSinkSpec defines the desired state of FolderSink
+type FolderSinkSpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     ProjectSinkParameters `json:"forProvider"`
-	// THIS IS A BETA FIELD. It will be honored
-	// unless the Management Policies feature flag is disabled.
+	ForProvider     FolderSinkParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
 	// InitProvider holds the same fields as ForProvider, with the exception
 	// of Identifier and other resource reference fields. The fields that are
 	// in InitProvider are merged into ForProvider when the resource is created.
@@ -240,49 +237,49 @@ type ProjectSinkSpec struct {
 	// required on creation, but we do not desire to update them after creation,
 	// for example because of an external controller is managing them, like an
 	// autoscaler.
-	InitProvider ProjectSinkInitParameters `json:"initProvider,omitempty"`
+	InitProvider FolderSinkInitParameters `json:"initProvider,omitempty"`
 }
 
-// ProjectSinkStatus defines the observed state of ProjectSink.
-type ProjectSinkStatus struct {
+// FolderSinkStatus defines the observed state of FolderSink.
+type FolderSinkStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        ProjectSinkObservation `json:"atProvider,omitempty"`
+	AtProvider        FolderSinkObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// ProjectSink is the Schema for the ProjectSinks API. Manages a project-level logging sink.
+// FolderSink is the Schema for the FolderSinks API. Manages a folder-level logging sink.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,gcp}
-type ProjectSink struct {
+type FolderSink struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.destination) || (has(self.initProvider) && has(self.initProvider.destination))",message="spec.forProvider.destination is a required parameter"
-	Spec   ProjectSinkSpec   `json:"spec"`
-	Status ProjectSinkStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.destination) || has(self.initProvider.destination)",message="destination is a required parameter"
+	Spec   FolderSinkSpec   `json:"spec"`
+	Status FolderSinkStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// ProjectSinkList contains a list of ProjectSinks
-type ProjectSinkList struct {
+// FolderSinkList contains a list of FolderSinks
+type FolderSinkList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []ProjectSink `json:"items"`
+	Items           []FolderSink `json:"items"`
 }
 
 // Repository type metadata.
 var (
-	ProjectSink_Kind             = "ProjectSink"
-	ProjectSink_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: ProjectSink_Kind}.String()
-	ProjectSink_KindAPIVersion   = ProjectSink_Kind + "." + CRDGroupVersion.String()
-	ProjectSink_GroupVersionKind = CRDGroupVersion.WithKind(ProjectSink_Kind)
+	FolderSink_Kind             = "FolderSink"
+	FolderSink_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: FolderSink_Kind}.String()
+	FolderSink_KindAPIVersion   = FolderSink_Kind + "." + CRDGroupVersion.String()
+	FolderSink_GroupVersionKind = CRDGroupVersion.WithKind(FolderSink_Kind)
 )
 
 func init() {
-	SchemeBuilder.Register(&ProjectSink{}, &ProjectSinkList{})
+	SchemeBuilder.Register(&FolderSink{}, &FolderSinkList{})
 }

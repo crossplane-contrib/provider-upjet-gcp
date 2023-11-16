@@ -274,6 +274,9 @@ import (
 	keyringiammember "github.com/upbound/provider-gcp/internal/controller/kms/keyringiammember"
 	keyringimportjob "github.com/upbound/provider-gcp/internal/controller/kms/keyringimportjob"
 	secretciphertext "github.com/upbound/provider-gcp/internal/controller/kms/secretciphertext"
+	folderbucketconfig "github.com/upbound/provider-gcp/internal/controller/logging/folderbucketconfig"
+	folderexclusion "github.com/upbound/provider-gcp/internal/controller/logging/folderexclusion"
+	foldersink "github.com/upbound/provider-gcp/internal/controller/logging/foldersink"
 	logview "github.com/upbound/provider-gcp/internal/controller/logging/logview"
 	metric "github.com/upbound/provider-gcp/internal/controller/logging/metric"
 	projectbucketconfig "github.com/upbound/provider-gcp/internal/controller/logging/projectbucketconfig"
@@ -621,6 +624,9 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		keyringiammember.Setup,
 		keyringimportjob.Setup,
 		secretciphertext.Setup,
+		folderbucketconfig.Setup,
+		folderexclusion.Setup,
+		foldersink.Setup,
 		logview.Setup,
 		metric.Setup,
 		projectbucketconfig.Setup,

@@ -912,6 +912,13 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Project-level logging sinks can be imported using their URI
 	// projects/my-project/sinks/my-sink
 	"google_logging_project_sink": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/sinks/{{ .external_name }}"),
+	// This resource can be imported using the following format: folders/{{folder}}/locations/{{location}}/buckets/{{bucket_id}}
+	"google_logging_folder_bucket_config": config.TemplatedStringAsIdentifier("", "folders/{{ .parameters.folder }}/locations/{{ .parameters.location }}/buckets/{{ .parameters.bucket_id }}"),
+	// Folder-level logging exclusions can be imported using their URI
+	// folders/my-folder/exclusions/my-exclusion
+	"google_logging_folder_exclusion": config.TemplatedStringAsIdentifier("name", "folders/{{ .parameters.folder }}/exclusions/{{ .external_name }}"),
+	// Folder-level logging sinks can be imported using this format: folders/{{folder_id}}/sinks/{{name}}
+	"google_logging_folder_sink": config.TemplatedStringAsIdentifier("name", "folders/{{ .parameters.folder }}/sinks/{{ .external_name }}"),
 
 	// vertexai
 	//
