@@ -3,7 +3,7 @@ kind: FolderBucketConfig
 metadata:
   annotations:
     meta.upbound.io/example-id: logging/v1beta1/folderbucketconfig
-    upjet.upbound.io/manual-intervention: "FolderBucketConfig requires a folder id"
+    upjet.upbound.io/manual-intervention: "This resource depends on Folder.cloudplatform with the required organization level IAM permissions"
   labels:
     testing.upbound.io/example-name: basic
   name: basic
@@ -29,6 +29,4 @@ metadata:
 spec:
   forProvider:
     displayName: some-folder-name
-    parentSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    parent: organizations/{org_id}

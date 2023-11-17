@@ -3,7 +3,6 @@ kind: ProjectExclusion
 metadata:
   annotations:
     meta.upbound.io/example-id: logging/v1beta1/projectexclusion
-    upjet.upbound.io/manual-intervention: "ProjectExclusion requires a real Project ID"
   labels:
     testing.upbound.io/example-name: my-exclusion
   name: my-exclusion

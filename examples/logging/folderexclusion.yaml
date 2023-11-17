@@ -3,7 +3,7 @@ kind: FolderExclusion
 metadata:
   annotations:
     meta.upbound.io/example-id: logging/v1beta1/folderexclusion
-    upjet.upbound.io/manual-intervention: "FolderExclusion requires a folder id"
+    upjet.upbound.io/manual-intervention: "This resource depends on Folder.cloudplatform with the required organization level IAM permissions"
   labels:
     testing.upbound.io/example-name: my-exclusion
   name: my-exclusion
@@ -28,6 +28,4 @@ metadata:
 spec:
   forProvider:
     displayName: My folder
-    parentSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    parent: organizations/{org_id}
