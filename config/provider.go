@@ -15,12 +15,18 @@
 package config
 
 import (
+	"context"
 	// Note(ezgidemirel): we are importing this to embed provider schema document
 	_ "embed"
 
 	tjconfig "github.com/crossplane/upjet/pkg/config"
 	"github.com/crossplane/upjet/pkg/registry/reference"
+	conversiontfjson "github.com/crossplane/upjet/pkg/types/conversion/tfjson"
 	"github.com/crossplane/upjet/pkg/types/name"
+	tfjson "github.com/hashicorp/terraform-json"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-provider-google/google/provider"
+	"github.com/pkg/errors"
 
 	"github.com/upbound/provider-gcp/config/accessapproval"
 	"github.com/upbound/provider-gcp/config/accesscontextmanager"
@@ -137,24 +143,59 @@ var skipList = []string{
 	"google_endpoints_service_consumers_iam_binding",
 }
 
+// workaround for the TF Google v4.77.0-based no-fork release: We would like to
+// keep the types in the generated CRDs intact
+// (prevent number->int type replacements).
+func getProviderSchema(s string) (*schema.Provider, error) {
+	ps := tfjson.ProviderSchemas{}
+	if err := ps.UnmarshalJSON([]byte(s)); err != nil {
+		panic(err)
+	}
+	if len(ps.Schemas) != 1 {
+		return nil, errors.Errorf("there should exactly be 1 provider schema but there are %d", len(ps.Schemas))
+	}
+	var rs map[string]*tfjson.Schema
+	for _, v := range ps.Schemas {
+		rs = v.ResourceSchemas
+		break
+	}
+	return &schema.Provider{
+		ResourcesMap: conversiontfjson.GetV2ResourceMap(rs),
+	}, nil
+}
+
 // GetProvider returns provider configuration
-func GetProvider() *tjconfig.Provider {
+func GetProvider(_ context.Context, generationProvider bool) (*tjconfig.Provider, error) {
+	var p *schema.Provider
+	var err error
+	if generationProvider {
+		p, err = getProviderSchema(providerSchema)
+	} else {
+		p = provider.Provider()
+	}
+	if err != nil {
+		return nil, errors.Wrapf(err, "cannot get the Terraform provider schema with generation mode set to %t", generationProvider)
+	}
+
 	pc := tjconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, providerMetadata,
 		tjconfig.WithDefaultResourceOptions(
 			groupOverrides(),
 			externalNameConfig(),
 			defaultVersion(),
-			externalNameConfigurations(),
+			resourceConfigurator(),
 			descriptionOverrides(),
 		),
 		tjconfig.WithRootGroup("gcp.upbound.io"),
 		tjconfig.WithShortName("gcp"),
 		// Comment out the following line to generate all resources.
-		tjconfig.WithIncludeList(resourcesWithExternalNameConfig()),
+		tjconfig.WithIncludeList(resourceList(cliReconciledExternalNameConfigs)),
+		tjconfig.WithNoForkIncludeList(resourceList(noForkExternalNameConfigs)),
 		tjconfig.WithReferenceInjectors([]tjconfig.ReferenceInjector{reference.NewInjector(modulePath)}),
 		tjconfig.WithSkipList(skipList),
 		tjconfig.WithFeaturesPackage("internal/features"),
-		tjconfig.WithMainTemplate(hack.MainTemplate))
+		tjconfig.WithMainTemplate(hack.MainTemplate),
+		tjconfig.WithTerraformProvider(p),
+	)
 
 	for _, configure := range []func(provider *tjconfig.Provider){
 		accessapproval.Configure,
@@ -207,15 +248,15 @@ func GetProvider() *tjconfig.Provider {
 	}
 
 	pc.ConfigureResources()
-	return pc
+	return pc, nil
 }
 
-// resourcesWithExternalNameConfig returns the list of resources that have external
-// name configured in ExternalNameConfigs table.
-func resourcesWithExternalNameConfig() []string {
-	l := make([]string, len(externalNameConfigs))
+// resourceList returns the list of resources that have external
+// name configured in the specified table.
+func resourceList(t map[string]tjconfig.ExternalName) []string {
+	l := make([]string, len(t))
 	i := 0
-	for n := range externalNameConfigs {
+	for n := range t {
 		// Expected format is regex and we'd like to have exact matches.
 		l[i] = n + "$"
 		i++
