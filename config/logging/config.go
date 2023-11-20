@@ -2,6 +2,7 @@ package logging
 
 import (
 	"github.com/crossplane/upjet/pkg/config"
+
 	"github.com/upbound/provider-gcp/config/common"
 )
 
