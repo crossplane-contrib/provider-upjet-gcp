@@ -29,10 +29,10 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type CmekSettingsInitParameters struct {
+type ProjectBucketConfigCmekSettingsInitParameters struct {
 }
 
-type CmekSettingsObservation struct {
+type ProjectBucketConfigCmekSettingsObservation struct {
 
 	// The resource name for the configured Cloud KMS key.
 	// KMS key name format:
@@ -59,7 +59,7 @@ type CmekSettingsObservation struct {
 	ServiceAccountID *string `json:"serviceAccountId,omitempty" tf:"service_account_id,omitempty"`
 }
 
-type CmekSettingsParameters struct {
+type ProjectBucketConfigCmekSettingsParameters struct {
 
 	// The resource name for the configured Cloud KMS key.
 	// KMS key name format:
@@ -84,7 +84,7 @@ type CmekSettingsParameters struct {
 type ProjectBucketConfigInitParameters struct {
 
 	// The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. Structure is documented below.
-	CmekSettings []CmekSettingsInitParameters `json:"cmekSettings,omitempty" tf:"cmek_settings,omitempty"`
+	CmekSettings []ProjectBucketConfigCmekSettingsInitParameters `json:"cmekSettings,omitempty" tf:"cmek_settings,omitempty"`
 
 	// Describes this bucket.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -105,7 +105,7 @@ type ProjectBucketConfigObservation struct {
 	BucketID *string `json:"bucketId,omitempty" tf:"bucket_id,omitempty"`
 
 	// The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. Structure is documented below.
-	CmekSettings []CmekSettingsObservation `json:"cmekSettings,omitempty" tf:"cmek_settings,omitempty"`
+	CmekSettings []ProjectBucketConfigCmekSettingsObservation `json:"cmekSettings,omitempty" tf:"cmek_settings,omitempty"`
 
 	// Describes this bucket.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -143,7 +143,7 @@ type ProjectBucketConfigParameters struct {
 
 	// The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. Structure is documented below.
 	// +kubebuilder:validation:Optional
-	CmekSettings []CmekSettingsParameters `json:"cmekSettings,omitempty" tf:"cmek_settings,omitempty"`
+	CmekSettings []ProjectBucketConfigCmekSettingsParameters `json:"cmekSettings,omitempty" tf:"cmek_settings,omitempty"`
 
 	// Describes this bucket.
 	// +kubebuilder:validation:Optional

@@ -22,10 +22,89 @@ import (
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	resource "github.com/crossplane/upjet/pkg/resource"
 	errors "github.com/pkg/errors"
-	v1beta11 "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1"
-	v1beta1 "github.com/upbound/provider-gcp/apis/kms/v1beta1"
+	v1beta1 "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1"
+	v1beta11 "github.com/upbound/provider-gcp/apis/kms/v1beta1"
+	common "github.com/upbound/provider-gcp/config/common"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
+
+// ResolveReferences of this FolderBucketConfig.
+func (mg *FolderBucketConfig) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Folder),
+		Extract:      common.ExtractFolderID(),
+		Reference:    mg.Spec.ForProvider.FolderRef,
+		Selector:     mg.Spec.ForProvider.FolderSelector,
+		To: reference.To{
+			List:    &v1beta1.FolderList{},
+			Managed: &v1beta1.Folder{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Folder")
+	}
+	mg.Spec.ForProvider.Folder = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.FolderRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this FolderExclusion.
+func (mg *FolderExclusion) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Folder),
+		Extract:      resource.ExtractParamPath("name", true),
+		Reference:    mg.Spec.ForProvider.FolderRef,
+		Selector:     mg.Spec.ForProvider.FolderSelector,
+		To: reference.To{
+			List:    &v1beta1.FolderList{},
+			Managed: &v1beta1.Folder{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Folder")
+	}
+	mg.Spec.ForProvider.Folder = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.FolderRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this FolderSink.
+func (mg *FolderSink) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Folder),
+		Extract:      resource.ExtractParamPath("name", true),
+		Reference:    mg.Spec.ForProvider.FolderRef,
+		Selector:     mg.Spec.ForProvider.FolderSelector,
+		To: reference.To{
+			List:    &v1beta1.FolderList{},
+			Managed: &v1beta1.Folder{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Folder")
+	}
+	mg.Spec.ForProvider.Folder = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.FolderRef = rsp.ResolvedReference
+
+	return nil
+}
 
 // ResolveReferences of this LogView.
 func (mg *LogView) ResolveReferences(ctx context.Context, c client.Reader) error {
@@ -93,8 +172,8 @@ func (mg *ProjectBucketConfig) ResolveReferences(ctx context.Context, c client.R
 			Reference:    mg.Spec.ForProvider.CmekSettings[i3].KMSKeyNameRef,
 			Selector:     mg.Spec.ForProvider.CmekSettings[i3].KMSKeyNameSelector,
 			To: reference.To{
-				List:    &v1beta1.CryptoKeyList{},
-				Managed: &v1beta1.CryptoKey{},
+				List:    &v1beta11.CryptoKeyList{},
+				Managed: &v1beta11.CryptoKey{},
 			},
 		})
 		if err != nil {
@@ -110,8 +189,8 @@ func (mg *ProjectBucketConfig) ResolveReferences(ctx context.Context, c client.R
 		Reference:    mg.Spec.ForProvider.ProjectRef,
 		Selector:     mg.Spec.ForProvider.ProjectSelector,
 		To: reference.To{
-			List:    &v1beta11.ProjectList{},
-			Managed: &v1beta11.Project{},
+			List:    &v1beta1.ProjectList{},
+			Managed: &v1beta1.Project{},
 		},
 	})
 	if err != nil {

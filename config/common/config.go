@@ -21,6 +21,7 @@ const (
 	// ExtractResourceIDFuncPath holds the GCP resource ID extractor func name
 	ExtractResourceIDFuncPath = "github.com/upbound/provider-gcp/config/common.ExtractResourceID()"
 	ExtractProjectIDFuncPath  = "github.com/upbound/provider-gcp/config/common.ExtractProjectID()"
+	ExtractFolderIDFuncPath   = "github.com/upbound/provider-gcp/config/common.ExtractFolderID()"
 )
 
 var (
@@ -83,5 +84,15 @@ func ExtractProjectID() reference.ExtractValueFn {
 			return ""
 		}
 		return strings.TrimPrefix(tr.GetID(), "projects/")
+	}
+}
+
+func ExtractFolderID() reference.ExtractValueFn {
+	return func(mr resource.Managed) string {
+		tr, ok := mr.(jresource.Terraformed)
+		if !ok {
+			return ""
+		}
+		return strings.TrimPrefix(tr.GetID(), "folders/")
 	}
 }

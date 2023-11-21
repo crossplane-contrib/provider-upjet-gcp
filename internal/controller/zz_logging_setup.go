@@ -9,6 +9,9 @@ import (
 
 	"github.com/crossplane/upjet/pkg/controller"
 
+	folderbucketconfig "github.com/upbound/provider-gcp/internal/controller/logging/folderbucketconfig"
+	folderexclusion "github.com/upbound/provider-gcp/internal/controller/logging/folderexclusion"
+	foldersink "github.com/upbound/provider-gcp/internal/controller/logging/foldersink"
 	logview "github.com/upbound/provider-gcp/internal/controller/logging/logview"
 	metric "github.com/upbound/provider-gcp/internal/controller/logging/metric"
 	projectbucketconfig "github.com/upbound/provider-gcp/internal/controller/logging/projectbucketconfig"
@@ -20,6 +23,9 @@ import (
 // the supplied manager.
 func Setup_logging(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		folderbucketconfig.Setup,
+		folderexclusion.Setup,
+		foldersink.Setup,
 		logview.Setup,
 		metric.Setup,
 		projectbucketconfig.Setup,
