@@ -12,3 +12,4 @@ spec:
     ipAllocationPolicy:
       - {}
     enableAutopilot: true
+    enableIntranodeVisibility: true
