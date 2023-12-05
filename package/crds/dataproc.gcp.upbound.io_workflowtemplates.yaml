@@ -127,6 +127,7 @@ spec:
                                         = FATAL'', ''root = INFO'', ''org.apache =
                                         DEBUG'''
                                       type: object
+                                      x-kubernetes-map-type: granular
                                   type: object
                                 type: array
                               mainClass:
@@ -146,6 +147,7 @@ spec:
                                   that conflict with values set by the Dataproc API
                                   may be overwritten.
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         hiveJob:
@@ -172,6 +174,7 @@ spec:
                                   that conflict with values set by the Dataproc API
                                   may be overwritten.
                                 type: object
+                                x-kubernetes-map-type: granular
                               queryFileUri:
                                 description: The HCFS URI of the script that contains
                                   SQL queries.
@@ -200,6 +203,7 @@ spec:
                                 description: 'Mapping of query variable names to values
                                   (equivalent to the Spark SQL command: SET name="value";).'
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         labels:
@@ -210,6 +214,7 @@ spec:
                             conform to the following regular expression: {0,63} No
                             more than 32 labels can be associated with a given job.'
                           type: object
+                          x-kubernetes-map-type: granular
                         pigJob:
                           description: Job is a Pig job.
                           items:
@@ -239,6 +244,7 @@ spec:
                                         = FATAL'', ''root = INFO'', ''org.apache =
                                         DEBUG'''
                                       type: object
+                                      x-kubernetes-map-type: granular
                                   type: object
                                 type: array
                               properties:
@@ -249,6 +255,7 @@ spec:
                                   that conflict with values set by the Dataproc API
                                   may be overwritten.
                                 type: object
+                                x-kubernetes-map-type: granular
                               queryFileUri:
                                 description: The HCFS URI of the script that contains
                                   SQL queries.
@@ -277,6 +284,7 @@ spec:
                                 description: 'Mapping of query variable names to values
                                   (equivalent to the Spark SQL command: SET name="value";).'
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         prerequisiteStepIds:
@@ -315,6 +323,7 @@ spec:
                                         = FATAL'', ''root = INFO'', ''org.apache =
                                         DEBUG'''
                                       type: object
+                                      x-kubernetes-map-type: granular
                                   type: object
                                 type: array
                               outputFormat:
@@ -330,6 +339,7 @@ spec:
                                   that conflict with values set by the Dataproc API
                                   may be overwritten.
                                 type: object
+                                x-kubernetes-map-type: granular
                               queryFileUri:
                                 description: The HCFS URI of the script that contains
                                   SQL queries.
@@ -399,6 +409,7 @@ spec:
                                         = FATAL'', ''root = INFO'', ''org.apache =
                                         DEBUG'''
                                       type: object
+                                      x-kubernetes-map-type: granular
                                   type: object
                                 type: array
                               mainPythonFileUri:
@@ -413,6 +424,7 @@ spec:
                                   that conflict with values set by the Dataproc API
                                   may be overwritten.
                                 type: object
+                                x-kubernetes-map-type: granular
                               pythonFileUris:
                                 description: 'HCFS file URIs of Python files to pass
                                   to the PySpark framework. Supported file types:
@@ -487,6 +499,7 @@ spec:
                                         = FATAL'', ''root = INFO'', ''org.apache =
                                         DEBUG'''
                                       type: object
+                                      x-kubernetes-map-type: granular
                                   type: object
                                 type: array
                               mainClass:
@@ -506,6 +519,7 @@ spec:
                                   that conflict with values set by the Dataproc API
                                   may be overwritten.
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         sparkRJob:
@@ -547,6 +561,7 @@ spec:
                                         = FATAL'', ''root = INFO'', ''org.apache =
                                         DEBUG'''
                                       type: object
+                                      x-kubernetes-map-type: granular
                                   type: object
                                 type: array
                               mainRFileUri:
@@ -561,6 +576,7 @@ spec:
                                   that conflict with values set by the Dataproc API
                                   may be overwritten.
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         sparkSqlJob:
@@ -586,6 +602,7 @@ spec:
                                         = FATAL'', ''root = INFO'', ''org.apache =
                                         DEBUG'''
                                       type: object
+                                      x-kubernetes-map-type: granular
                                   type: object
                                 type: array
                               properties:
@@ -596,6 +613,7 @@ spec:
                                   that conflict with values set by the Dataproc API
                                   may be overwritten.
                                 type: object
+                                x-kubernetes-map-type: granular
                               queryFileUri:
                                 description: The HCFS URI of the script that contains
                                   SQL queries.
@@ -624,6 +642,7 @@ spec:
                                 description: 'Mapping of query variable names to values
                                   (equivalent to the Spark SQL command: SET name="value";).'
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         stepId:
@@ -645,6 +664,7 @@ spec:
                       to the following PCRE regular expression: {0,63} No more than
                       32 labels can be associated with a given cluster.'
                     type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: The location for the resource
                     type: string
@@ -726,6 +746,7 @@ spec:
                                 description: Required. The cluster labels. Cluster
                                   must have all labels to match.
                                 type: object
+                                x-kubernetes-map-type: granular
                               zone:
                                 description: 'The zone where the Compute Engine cluster
                                   will be located. On a create request, it is required
@@ -819,6 +840,7 @@ spec:
                                               entries to add to all instances (see
                                               (https://cloud.google.com/compute/docs/storing-retrieving-metadata#project_and_instance_metadata)).
                                             type: object
+                                            x-kubernetes-map-type: granular
                                           network:
                                             description: The Compute Engine network
                                               to be used for machine communications.
@@ -921,6 +943,7 @@ spec:
                                             items:
                                               type: string
                                             type: array
+                                            x-kubernetes-list-type: set
                                           zone:
                                             description: 'The zone where the Compute
                                               Engine cluster will be located. On a
@@ -1316,6 +1339,7 @@ spec:
                                               with values set by the Dataproc API
                                               may be overwritten.
                                             type: object
+                                            x-kubernetes-map-type: granular
                                         type: object
                                       type: array
                                     stagingBucket:
@@ -1447,6 +1471,7 @@ spec:
                                   {0,63} No more than 32 labels can be associated
                                   with a given cluster.'
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                       type: object
@@ -1540,6 +1565,7 @@ spec:
                                         = FATAL'', ''root = INFO'', ''org.apache =
                                         DEBUG'''
                                       type: object
+                                      x-kubernetes-map-type: granular
                                   type: object
                                 type: array
                               mainClass:
@@ -1559,6 +1585,7 @@ spec:
                                   that conflict with values set by the Dataproc API
                                   may be overwritten.
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         hiveJob:
@@ -1585,6 +1612,7 @@ spec:
                                   that conflict with values set by the Dataproc API
                                   may be overwritten.
                                 type: object
+                                x-kubernetes-map-type: granular
                               queryFileUri:
                                 description: The HCFS URI of the script that contains
                                   SQL queries.
@@ -1613,6 +1641,7 @@ spec:
                                 description: 'Mapping of query variable names to values
                                   (equivalent to the Spark SQL command: SET name="value";).'
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         labels:
@@ -1623,6 +1652,7 @@ spec:
                             conform to the following regular expression: {0,63} No
                             more than 32 labels can be associated with a given job.'
                           type: object
+                          x-kubernetes-map-type: granular
                         pigJob:
                           description: Job is a Pig job.
                           items:
@@ -1652,6 +1682,7 @@ spec:
                                         = FATAL'', ''root = INFO'', ''org.apache =
                                         DEBUG'''
                                       type: object
+                                      x-kubernetes-map-type: granular
                                   type: object
                                 type: array
                               properties:
@@ -1662,6 +1693,7 @@ spec:
                                   that conflict with values set by the Dataproc API
                                   may be overwritten.
                                 type: object
+                                x-kubernetes-map-type: granular
                               queryFileUri:
                                 description: The HCFS URI of the script that contains
                                   SQL queries.
@@ -1690,6 +1722,7 @@ spec:
                                 description: 'Mapping of query variable names to values
                                   (equivalent to the Spark SQL command: SET name="value";).'
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         prerequisiteStepIds:
@@ -1728,6 +1761,7 @@ spec:
                                         = FATAL'', ''root = INFO'', ''org.apache =
                                         DEBUG'''
                                       type: object
+                                      x-kubernetes-map-type: granular
                                   type: object
                                 type: array
                               outputFormat:
@@ -1743,6 +1777,7 @@ spec:
                                   that conflict with values set by the Dataproc API
                                   may be overwritten.
                                 type: object
+                                x-kubernetes-map-type: granular
                               queryFileUri:
                                 description: The HCFS URI of the script that contains
                                   SQL queries.
@@ -1812,6 +1847,7 @@ spec:
                                         = FATAL'', ''root = INFO'', ''org.apache =
                                         DEBUG'''
                                       type: object
+                                      x-kubernetes-map-type: granular
                                   type: object
                                 type: array
                               mainPythonFileUri:
@@ -1826,6 +1862,7 @@ spec:
                                   that conflict with values set by the Dataproc API
                                   may be overwritten.
                                 type: object
+                                x-kubernetes-map-type: granular
                               pythonFileUris:
                                 description: 'HCFS file URIs of Python files to pass
                                   to the PySpark framework. Supported file types:
@@ -1900,6 +1937,7 @@ spec:
                                         = FATAL'', ''root = INFO'', ''org.apache =
                                         DEBUG'''
                                       type: object
+                                      x-kubernetes-map-type: granular
                                   type: object
                                 type: array
                               mainClass:
@@ -1919,6 +1957,7 @@ spec:
                                   that conflict with values set by the Dataproc API
                                   may be overwritten.
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         sparkRJob:
@@ -1960,6 +1999,7 @@ spec:
                                         = FATAL'', ''root = INFO'', ''org.apache =
                                         DEBUG'''
                                       type: object
+                                      x-kubernetes-map-type: granular
                                   type: object
                                 type: array
                               mainRFileUri:
@@ -1974,6 +2014,7 @@ spec:
                                   that conflict with values set by the Dataproc API
                                   may be overwritten.
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         sparkSqlJob:
@@ -1999,6 +2040,7 @@ spec:
                                         = FATAL'', ''root = INFO'', ''org.apache =
                                         DEBUG'''
                                       type: object
+                                      x-kubernetes-map-type: granular
                                   type: object
                                 type: array
                               properties:
@@ -2009,6 +2051,7 @@ spec:
                                   that conflict with values set by the Dataproc API
                                   may be overwritten.
                                 type: object
+                                x-kubernetes-map-type: granular
                               queryFileUri:
                                 description: The HCFS URI of the script that contains
                                   SQL queries.
@@ -2037,6 +2080,7 @@ spec:
                                 description: 'Mapping of query variable names to values
                                   (equivalent to the Spark SQL command: SET name="value";).'
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         stepId:
@@ -2058,6 +2102,7 @@ spec:
                       to the following PCRE regular expression: {0,63} No more than
                       32 labels can be associated with a given cluster.'
                     type: object
+                    x-kubernetes-map-type: granular
                   parameters:
                     description: Template parameters whose values are substituted
                       into the template. Values for parameters must be provided when
@@ -2136,6 +2181,7 @@ spec:
                                 description: Required. The cluster labels. Cluster
                                   must have all labels to match.
                                 type: object
+                                x-kubernetes-map-type: granular
                               zone:
                                 description: 'The zone where the Compute Engine cluster
                                   will be located. On a create request, it is required
@@ -2229,6 +2275,7 @@ spec:
                                               entries to add to all instances (see
                                               (https://cloud.google.com/compute/docs/storing-retrieving-metadata#project_and_instance_metadata)).
                                             type: object
+                                            x-kubernetes-map-type: granular
                                           network:
                                             description: The Compute Engine network
                                               to be used for machine communications.
@@ -2331,6 +2378,7 @@ spec:
                                             items:
                                               type: string
                                             type: array
+                                            x-kubernetes-list-type: set
                                           zone:
                                             description: 'The zone where the Compute
                                               Engine cluster will be located. On a
@@ -2726,6 +2774,7 @@ spec:
                                               with values set by the Dataproc API
                                               may be overwritten.
                                             type: object
+                                            x-kubernetes-map-type: granular
                                         type: object
                                       type: array
                                     stagingBucket:
@@ -2857,6 +2906,7 @@ spec:
                                   {0,63} No more than 32 labels can be associated
                                   with a given cluster.'
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                       type: object
@@ -3116,6 +3166,7 @@ spec:
                                         = FATAL'', ''root = INFO'', ''org.apache =
                                         DEBUG'''
                                       type: object
+                                      x-kubernetes-map-type: granular
                                   type: object
                                 type: array
                               mainClass:
@@ -3135,6 +3186,7 @@ spec:
                                   that conflict with values set by the Dataproc API
                                   may be overwritten.
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         hiveJob:
@@ -3161,6 +3213,7 @@ spec:
                                   that conflict with values set by the Dataproc API
                                   may be overwritten.
                                 type: object
+                                x-kubernetes-map-type: granular
                               queryFileUri:
                                 description: The HCFS URI of the script that contains
                                   SQL queries.
@@ -3189,6 +3242,7 @@ spec:
                                 description: 'Mapping of query variable names to values
                                   (equivalent to the Spark SQL command: SET name="value";).'
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         labels:
@@ -3199,6 +3253,7 @@ spec:
                             conform to the following regular expression: {0,63} No
                             more than 32 labels can be associated with a given job.'
                           type: object
+                          x-kubernetes-map-type: granular
                         pigJob:
                           description: Job is a Pig job.
                           items:
@@ -3228,6 +3283,7 @@ spec:
                                         = FATAL'', ''root = INFO'', ''org.apache =
                                         DEBUG'''
                                       type: object
+                                      x-kubernetes-map-type: granular
                                   type: object
                                 type: array
                               properties:
@@ -3238,6 +3294,7 @@ spec:
                                   that conflict with values set by the Dataproc API
                                   may be overwritten.
                                 type: object
+                                x-kubernetes-map-type: granular
                               queryFileUri:
                                 description: The HCFS URI of the script that contains
                                   SQL queries.
@@ -3266,6 +3323,7 @@ spec:
                                 description: 'Mapping of query variable names to values
                                   (equivalent to the Spark SQL command: SET name="value";).'
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         prerequisiteStepIds:
@@ -3304,6 +3362,7 @@ spec:
                                         = FATAL'', ''root = INFO'', ''org.apache =
                                         DEBUG'''
                                       type: object
+                                      x-kubernetes-map-type: granular
                                   type: object
                                 type: array
                               outputFormat:
@@ -3319,6 +3378,7 @@ spec:
                                   that conflict with values set by the Dataproc API
                                   may be overwritten.
                                 type: object
+                                x-kubernetes-map-type: granular
                               queryFileUri:
                                 description: The HCFS URI of the script that contains
                                   SQL queries.
@@ -3388,6 +3448,7 @@ spec:
                                         = FATAL'', ''root = INFO'', ''org.apache =
                                         DEBUG'''
                                       type: object
+                                      x-kubernetes-map-type: granular
                                   type: object
                                 type: array
                               mainPythonFileUri:
@@ -3402,6 +3463,7 @@ spec:
                                   that conflict with values set by the Dataproc API
                                   may be overwritten.
                                 type: object
+                                x-kubernetes-map-type: granular
                               pythonFileUris:
                                 description: 'HCFS file URIs of Python files to pass
                                   to the PySpark framework. Supported file types:
@@ -3476,6 +3538,7 @@ spec:
                                         = FATAL'', ''root = INFO'', ''org.apache =
                                         DEBUG'''
                                       type: object
+                                      x-kubernetes-map-type: granular
                                   type: object
                                 type: array
                               mainClass:
@@ -3495,6 +3558,7 @@ spec:
                                   that conflict with values set by the Dataproc API
                                   may be overwritten.
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         sparkRJob:
@@ -3536,6 +3600,7 @@ spec:
                                         = FATAL'', ''root = INFO'', ''org.apache =
                                         DEBUG'''
                                       type: object
+                                      x-kubernetes-map-type: granular
                                   type: object
                                 type: array
                               mainRFileUri:
@@ -3550,6 +3615,7 @@ spec:
                                   that conflict with values set by the Dataproc API
                                   may be overwritten.
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         sparkSqlJob:
@@ -3575,6 +3641,7 @@ spec:
                                         = FATAL'', ''root = INFO'', ''org.apache =
                                         DEBUG'''
                                       type: object
+                                      x-kubernetes-map-type: granular
                                   type: object
                                 type: array
                               properties:
@@ -3585,6 +3652,7 @@ spec:
                                   that conflict with values set by the Dataproc API
                                   may be overwritten.
                                 type: object
+                                x-kubernetes-map-type: granular
                               queryFileUri:
                                 description: The HCFS URI of the script that contains
                                   SQL queries.
@@ -3613,6 +3681,7 @@ spec:
                                 description: 'Mapping of query variable names to values
                                   (equivalent to the Spark SQL command: SET name="value";).'
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         stepId:
@@ -3634,6 +3703,7 @@ spec:
                       to the following PCRE regular expression: {0,63} No more than
                       32 labels can be associated with a given cluster.'
                     type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: The location for the resource
                     type: string
@@ -3715,6 +3785,7 @@ spec:
                                 description: Required. The cluster labels. Cluster
                                   must have all labels to match.
                                 type: object
+                                x-kubernetes-map-type: granular
                               zone:
                                 description: 'The zone where the Compute Engine cluster
                                   will be located. On a create request, it is required
@@ -3788,6 +3859,7 @@ spec:
                                               descriptions to URLs. Will only be populated
                                               if enable_http_port_access is true.
                                             type: object
+                                            x-kubernetes-map-type: granular
                                         type: object
                                       type: array
                                     gceClusterConfig:
@@ -3815,6 +3887,7 @@ spec:
                                               entries to add to all instances (see
                                               (https://cloud.google.com/compute/docs/storing-retrieving-metadata#project_and_instance_metadata)).
                                             type: object
+                                            x-kubernetes-map-type: granular
                                           network:
                                             description: The Compute Engine network
                                               to be used for machine communications.
@@ -3917,6 +3990,7 @@ spec:
                                             items:
                                               type: string
                                             type: array
+                                            x-kubernetes-list-type: set
                                           zone:
                                             description: 'The zone where the Compute
                                               Engine cluster will be located. On a
@@ -4407,6 +4481,7 @@ spec:
                                               with values set by the Dataproc API
                                               may be overwritten.
                                             type: object
+                                            x-kubernetes-map-type: granular
                                         type: object
                                       type: array
                                     stagingBucket:
@@ -4582,6 +4657,7 @@ spec:
                                   {0,63} No more than 32 labels can be associated
                                   with a given cluster.'
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                       type: object

@@ -40,6 +40,7 @@ type DNSAuthorizationInitParameters struct {
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
 	// Set of label tags associated with the DNS Authorization resource.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -67,6 +68,7 @@ type DNSAuthorizationObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Set of label tags associated with the DNS Authorization resource.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -88,6 +90,7 @@ type DNSAuthorizationParameters struct {
 
 	// Set of label tags associated with the DNS Authorization resource.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.

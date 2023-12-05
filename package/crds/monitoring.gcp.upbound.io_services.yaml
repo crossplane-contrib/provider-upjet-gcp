@@ -82,6 +82,7 @@ spec:
                             the monitoring data which is used for SLO reporting of
                             this Service.
                           type: object
+                          x-kubernetes-map-type: granular
                         serviceType:
                           description: The type of service that this basic service
                             defines, e.g. APP_ENGINE service type
@@ -106,6 +107,7 @@ spec:
                       may be stored. For labels which do not have a semantic value,
                       the empty string may be supplied for the label value.
                     type: object
+                    x-kubernetes-map-type: granular
                 type: object
               initProvider:
                 description: THIS IS A BETA FIELD. It will be honored unless the Management
@@ -133,6 +135,7 @@ spec:
                             the monitoring data which is used for SLO reporting of
                             this Service.
                           type: object
+                          x-kubernetes-map-type: granular
                         serviceType:
                           description: The type of service that this basic service
                             defines, e.g. APP_ENGINE service type
@@ -157,6 +160,7 @@ spec:
                       may be stored. For labels which do not have a semantic value,
                       the empty string may be supplied for the label value.
                     type: object
+                    x-kubernetes-map-type: granular
                 type: object
               managementPolicies:
                 default:
@@ -337,6 +341,7 @@ spec:
                             the monitoring data which is used for SLO reporting of
                             this Service.
                           type: object
+                          x-kubernetes-map-type: granular
                         serviceType:
                           description: The type of service that this basic service
                             defines, e.g. APP_ENGINE service type
@@ -379,6 +384,7 @@ spec:
                       may be stored. For labels which do not have a semantic value,
                       the empty string may be supplied for the label value.
                     type: object
+                    x-kubernetes-map-type: granular
                 type: object
               conditions:
                 description: Conditions of the resource.

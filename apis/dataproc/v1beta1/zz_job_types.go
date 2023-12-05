@@ -52,6 +52,7 @@ type HadoopConfigInitParameters struct {
 	MainJarFileURI *string `json:"mainJarFileUri,omitempty" tf:"main_jar_file_uri,omitempty"`
 
 	// A mapping of property names to values, used to configure Hadoop. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/hadoop/conf/*-site and classes in user code..
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
@@ -78,6 +79,7 @@ type HadoopConfigObservation struct {
 	MainJarFileURI *string `json:"mainJarFileUri,omitempty" tf:"main_jar_file_uri,omitempty"`
 
 	// A mapping of property names to values, used to configure Hadoop. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/hadoop/conf/*-site and classes in user code..
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
@@ -112,6 +114,7 @@ type HadoopConfigParameters struct {
 
 	// A mapping of property names to values, used to configure Hadoop. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/hadoop/conf/*-site and classes in user code..
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
@@ -124,6 +127,7 @@ type HiveConfigInitParameters struct {
 	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
 
 	// A mapping of property names and values, used to configure Hive. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/hadoop/conf/*-site.xml, /etc/hive/conf/hive-site.xml, and classes in user code..
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// HCFS URI of file containing Hive script to execute as the job.
@@ -135,6 +139,7 @@ type HiveConfigInitParameters struct {
 	QueryList []*string `json:"queryList,omitempty" tf:"query_list,omitempty"`
 
 	// Mapping of query variable names to values (equivalent to the Hive command: SET name="value";).
+	// +mapType=granular
 	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
 }
 
@@ -147,6 +152,7 @@ type HiveConfigObservation struct {
 	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
 
 	// A mapping of property names and values, used to configure Hive. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/hadoop/conf/*-site.xml, /etc/hive/conf/hive-site.xml, and classes in user code..
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// HCFS URI of file containing Hive script to execute as the job.
@@ -158,6 +164,7 @@ type HiveConfigObservation struct {
 	QueryList []*string `json:"queryList,omitempty" tf:"query_list,omitempty"`
 
 	// Mapping of query variable names to values (equivalent to the Hive command: SET name="value";).
+	// +mapType=granular
 	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
 }
 
@@ -173,6 +180,7 @@ type HiveConfigParameters struct {
 
 	// A mapping of property names and values, used to configure Hive. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/hadoop/conf/*-site.xml, /etc/hive/conf/hive-site.xml, and classes in user code..
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// HCFS URI of file containing Hive script to execute as the job.
@@ -187,6 +195,7 @@ type HiveConfigParameters struct {
 
 	// Mapping of query variable names to values (equivalent to the Hive command: SET name="value";).
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
 }
 
@@ -202,6 +211,7 @@ type JobInitParameters struct {
 	HiveConfig []HiveConfigInitParameters `json:"hiveConfig,omitempty" tf:"hive_config,omitempty"`
 
 	// The list of labels (key/value pairs) to add to the job.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	PigConfig []PigConfigInitParameters `json:"pigConfig,omitempty" tf:"pig_config,omitempty"`
@@ -245,6 +255,7 @@ type JobObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The list of labels (key/value pairs) to add to the job.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	PigConfig []PigConfigObservation `json:"pigConfig,omitempty" tf:"pig_config,omitempty"`
@@ -290,6 +301,7 @@ type JobParameters struct {
 
 	// The list of labels (key/value pairs) to add to the job.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -340,12 +352,14 @@ type JobParameters struct {
 type LoggingConfigInitParameters struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type LoggingConfigObservation struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -353,6 +367,7 @@ type LoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels" tf:"driver_log_levels,omitempty"`
 }
 
@@ -367,6 +382,7 @@ type PigConfigInitParameters struct {
 	LoggingConfig []PigConfigLoggingConfigInitParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
 
 	// A mapping of property names to values, used to configure Pig. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/hadoop/conf/*-site.xml, /etc/pig/conf/pig.properties, and classes in user code.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// HCFS URI of file containing Hive script to execute as the job.
@@ -378,18 +394,21 @@ type PigConfigInitParameters struct {
 	QueryList []*string `json:"queryList,omitempty" tf:"query_list,omitempty"`
 
 	// Mapping of query variable names to values (equivalent to the Pig command: name=[value]).
+	// +mapType=granular
 	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
 }
 
 type PigConfigLoggingConfigInitParameters struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type PigConfigLoggingConfigObservation struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -397,6 +416,7 @@ type PigConfigLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels" tf:"driver_log_levels,omitempty"`
 }
 
@@ -411,6 +431,7 @@ type PigConfigObservation struct {
 	LoggingConfig []PigConfigLoggingConfigObservation `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
 
 	// A mapping of property names to values, used to configure Pig. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/hadoop/conf/*-site.xml, /etc/pig/conf/pig.properties, and classes in user code.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// HCFS URI of file containing Hive script to execute as the job.
@@ -422,6 +443,7 @@ type PigConfigObservation struct {
 	QueryList []*string `json:"queryList,omitempty" tf:"query_list,omitempty"`
 
 	// Mapping of query variable names to values (equivalent to the Pig command: name=[value]).
+	// +mapType=granular
 	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
 }
 
@@ -440,6 +462,7 @@ type PigConfigParameters struct {
 
 	// A mapping of property names to values, used to configure Pig. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/hadoop/conf/*-site.xml, /etc/pig/conf/pig.properties, and classes in user code.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// HCFS URI of file containing Hive script to execute as the job.
@@ -454,6 +477,7 @@ type PigConfigParameters struct {
 
 	// Mapping of query variable names to values (equivalent to the Pig command: name=[value]).
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
 }
 
@@ -502,6 +526,7 @@ type PrestoConfigInitParameters struct {
 	OutputFormat *string `json:"outputFormat,omitempty" tf:"output_format,omitempty"`
 
 	// A mapping of property names to values. Used to set Presto session properties Equivalent to using the --session flag in the Presto CLI.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// The HCFS URI of the script that contains SQL queries.
@@ -516,12 +541,14 @@ type PrestoConfigInitParameters struct {
 type PrestoConfigLoggingConfigInitParameters struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type PrestoConfigLoggingConfigObservation struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -529,6 +556,7 @@ type PrestoConfigLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels" tf:"driver_log_levels,omitempty"`
 }
 
@@ -546,6 +574,7 @@ type PrestoConfigObservation struct {
 	OutputFormat *string `json:"outputFormat,omitempty" tf:"output_format,omitempty"`
 
 	// A mapping of property names to values. Used to set Presto session properties Equivalent to using the --session flag in the Presto CLI.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// The HCFS URI of the script that contains SQL queries.
@@ -576,6 +605,7 @@ type PrestoConfigParameters struct {
 
 	// A mapping of property names to values. Used to set Presto session properties Equivalent to using the --session flag in the Presto CLI.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// The HCFS URI of the script that contains SQL queries.
@@ -609,6 +639,7 @@ type PysparkConfigInitParameters struct {
 	MainPythonFileURI *string `json:"mainPythonFileUri,omitempty" tf:"main_python_file_uri,omitempty"`
 
 	// A mapping of property names to values, used to configure PySpark. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/spark/conf/spark-defaults.conf and classes in user code.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// HCFS file URIs of Python files to pass to the PySpark framework. Supported file types: .py, .egg, and .zip.
@@ -618,12 +649,14 @@ type PysparkConfigInitParameters struct {
 type PysparkConfigLoggingConfigInitParameters struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type PysparkConfigLoggingConfigObservation struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -631,6 +664,7 @@ type PysparkConfigLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels" tf:"driver_log_levels,omitempty"`
 }
 
@@ -654,6 +688,7 @@ type PysparkConfigObservation struct {
 	MainPythonFileURI *string `json:"mainPythonFileUri,omitempty" tf:"main_python_file_uri,omitempty"`
 
 	// A mapping of property names to values, used to configure PySpark. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/spark/conf/spark-defaults.conf and classes in user code.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// HCFS file URIs of Python files to pass to the PySpark framework. Supported file types: .py, .egg, and .zip.
@@ -687,6 +722,7 @@ type PysparkConfigParameters struct {
 
 	// A mapping of property names to values, used to configure PySpark. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/spark/conf/spark-defaults.conf and classes in user code.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// HCFS file URIs of Python files to pass to the PySpark framework. Supported file types: .py, .egg, and .zip.
@@ -762,18 +798,21 @@ type SparkConfigInitParameters struct {
 	MainJarFileURI *string `json:"mainJarFileUri,omitempty" tf:"main_jar_file_uri,omitempty"`
 
 	// A mapping of property names to values, used to configure Spark. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/spark/conf/spark-defaults.conf and classes in user code.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
 type SparkConfigLoggingConfigInitParameters struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type SparkConfigLoggingConfigObservation struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -781,6 +820,7 @@ type SparkConfigLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels" tf:"driver_log_levels,omitempty"`
 }
 
@@ -809,6 +849,7 @@ type SparkConfigObservation struct {
 	MainJarFileURI *string `json:"mainJarFileUri,omitempty" tf:"main_jar_file_uri,omitempty"`
 
 	// A mapping of property names to values, used to configure Spark. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/spark/conf/spark-defaults.conf and classes in user code.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
@@ -845,6 +886,7 @@ type SparkConfigParameters struct {
 
 	// A mapping of property names to values, used to configure Spark. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/spark/conf/spark-defaults.conf and classes in user code.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
@@ -856,6 +898,7 @@ type SparksqlConfigInitParameters struct {
 	LoggingConfig []SparksqlConfigLoggingConfigInitParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Cloud Dataproc API may be overwritten.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// The HCFS URI of the script that contains SQL queries.
@@ -867,18 +910,21 @@ type SparksqlConfigInitParameters struct {
 	QueryList []*string `json:"queryList,omitempty" tf:"query_list,omitempty"`
 
 	// Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";).
+	// +mapType=granular
 	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
 }
 
 type SparksqlConfigLoggingConfigInitParameters struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type SparksqlConfigLoggingConfigObservation struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -886,6 +932,7 @@ type SparksqlConfigLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels" tf:"driver_log_levels,omitempty"`
 }
 
@@ -897,6 +944,7 @@ type SparksqlConfigObservation struct {
 	LoggingConfig []SparksqlConfigLoggingConfigObservation `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Cloud Dataproc API may be overwritten.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// The HCFS URI of the script that contains SQL queries.
@@ -908,6 +956,7 @@ type SparksqlConfigObservation struct {
 	QueryList []*string `json:"queryList,omitempty" tf:"query_list,omitempty"`
 
 	// Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";).
+	// +mapType=granular
 	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
 }
 
@@ -922,6 +971,7 @@ type SparksqlConfigParameters struct {
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Cloud Dataproc API may be overwritten.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// The HCFS URI of the script that contains SQL queries.
@@ -936,6 +986,7 @@ type SparksqlConfigParameters struct {
 
 	// Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";).
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
 }
 

@@ -104,6 +104,7 @@ type DeviceInitParameters struct {
 	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
 
 	// The metadata key-value pairs assigned to the device.
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 }
 
@@ -154,6 +155,7 @@ type DeviceObservation struct {
 	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
 
 	// The metadata key-value pairs assigned to the device.
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// A server-defined unique numeric ID for the device.
@@ -191,6 +193,7 @@ type DeviceParameters struct {
 
 	// The metadata key-value pairs assigned to the device.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The name of the device registry where this device should be created.

@@ -272,6 +272,7 @@ type ManagedZoneInitParameters struct {
 	ForwardingConfig []ForwardingConfigInitParameters `json:"forwardingConfig,omitempty" tf:"forwarding_config,omitempty"`
 
 	// A set of key/value label pairs to assign to this ManagedZone.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The presence of this field indicates that DNS Peering is enabled for this
@@ -328,6 +329,7 @@ type ManagedZoneObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// A set of key/value label pairs to assign to this ManagedZone.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Unique identifier for the resource; defined by the server.
@@ -391,6 +393,7 @@ type ManagedZoneParameters struct {
 
 	// A set of key/value label pairs to assign to this ManagedZone.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The presence of this field indicates that DNS Peering is enabled for this

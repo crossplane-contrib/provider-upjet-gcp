@@ -62,6 +62,7 @@ type TableIAMBindingInitParameters struct {
 
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
+	// +listType=set
 	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
 
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -76,6 +77,7 @@ type TableIAMBindingObservation struct {
 
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
+	// +listType=set
 	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
 
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -94,6 +96,7 @@ type TableIAMBindingParameters struct {
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
 
 	// +kubebuilder:validation:Optional

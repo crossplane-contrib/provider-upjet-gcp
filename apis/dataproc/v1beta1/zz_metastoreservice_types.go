@@ -69,6 +69,7 @@ type HiveMetastoreConfigInitParameters struct {
 
 	// A mapping of Hive metastore configuration key-value pairs to apply to the Hive metastore (configured in hive-site.xml).
 	// The mappings override system defaults (some keys cannot be overridden)
+	// +mapType=granular
 	ConfigOverrides map[string]*string `json:"configOverrides,omitempty" tf:"config_overrides,omitempty"`
 
 	// Information used to configure the Hive metastore service as a service principal in a Kerberos realm.
@@ -125,6 +126,7 @@ type HiveMetastoreConfigObservation struct {
 
 	// A mapping of Hive metastore configuration key-value pairs to apply to the Hive metastore (configured in hive-site.xml).
 	// The mappings override system defaults (some keys cannot be overridden)
+	// +mapType=granular
 	ConfigOverrides map[string]*string `json:"configOverrides,omitempty" tf:"config_overrides,omitempty"`
 
 	// Information used to configure the Hive metastore service as a service principal in a Kerberos realm.
@@ -140,6 +142,7 @@ type HiveMetastoreConfigParameters struct {
 	// A mapping of Hive metastore configuration key-value pairs to apply to the Hive metastore (configured in hive-site.xml).
 	// The mappings override system defaults (some keys cannot be overridden)
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	ConfigOverrides map[string]*string `json:"configOverrides,omitempty" tf:"config_overrides,omitempty"`
 
 	// Information used to configure the Hive metastore service as a service principal in a Kerberos realm.
@@ -251,6 +254,7 @@ type MetastoreServiceInitParameters struct {
 	HiveMetastoreConfig []HiveMetastoreConfigInitParameters `json:"hiveMetastoreConfig,omitempty" tf:"hive_metastore_config,omitempty"`
 
 	// User-defined labels for the metastore service.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The one hour maintenance window of the metastore service.
@@ -314,6 +318,7 @@ type MetastoreServiceObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// User-defined labels for the metastore service.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location where the metastore service should reside.
@@ -388,6 +393,7 @@ type MetastoreServiceParameters struct {
 
 	// User-defined labels for the metastore service.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location where the metastore service should reside.

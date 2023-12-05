@@ -91,6 +91,7 @@ type RegionInstanceGroupManagerInitParameters struct {
 
 	// The distribution policy for this managed instance
 	// group. You can specify one or more values. For more information, see the official documentation.
+	// +listType=set
 	DistributionPolicyZones []*string `json:"distributionPolicyZones,omitempty" tf:"distribution_policy_zones,omitempty"`
 
 	InstanceLifecyclePolicy []RegionInstanceGroupManagerInstanceLifecyclePolicyInitParameters `json:"instanceLifecyclePolicy,omitempty" tf:"instance_lifecycle_policy,omitempty"`
@@ -218,6 +219,7 @@ type RegionInstanceGroupManagerObservation struct {
 
 	// The distribution policy for this managed instance
 	// group. You can specify one or more values. For more information, see the official documentation.
+	// +listType=set
 	DistributionPolicyZones []*string `json:"distributionPolicyZones,omitempty" tf:"distribution_policy_zones,omitempty"`
 
 	// The fingerprint of the instance group manager.
@@ -267,6 +269,7 @@ type RegionInstanceGroupManagerObservation struct {
 	// The full URL of all target pools to which new
 	// instances in the group are added. Updating the target pools attribute does
 	// not affect existing instances.
+	// +listType=set
 	TargetPools []*string `json:"targetPools,omitempty" tf:"target_pools,omitempty"`
 
 	// The target number of running instances for this managed
@@ -321,6 +324,7 @@ type RegionInstanceGroupManagerParameters struct {
 	// The distribution policy for this managed instance
 	// group. You can specify one or more values. For more information, see the official documentation.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	DistributionPolicyZones []*string `json:"distributionPolicyZones,omitempty" tf:"distribution_policy_zones,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -366,6 +370,7 @@ type RegionInstanceGroupManagerParameters struct {
 	// +crossplane:generate:reference:type=TargetPool
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	TargetPools []*string `json:"targetPools,omitempty" tf:"target_pools,omitempty"`
 
 	// References to TargetPool to populate targetPools.

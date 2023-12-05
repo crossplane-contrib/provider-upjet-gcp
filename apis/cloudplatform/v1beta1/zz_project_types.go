@@ -45,6 +45,7 @@ type ProjectInitParameters struct {
 	BillingAccount *string `json:"billingAccount,omitempty" tf:"billing_account,omitempty"`
 
 	// A set of key/value label pairs to assign to the project.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The display name of the project.
@@ -91,6 +92,7 @@ type ProjectObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// A set of key/value label pairs to assign to the project.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The display name of the project.
@@ -151,6 +153,7 @@ type ProjectParameters struct {
 
 	// A set of key/value label pairs to assign to the project.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The display name of the project.

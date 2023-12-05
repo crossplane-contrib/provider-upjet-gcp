@@ -647,6 +647,7 @@ spec:
                     description: The labels associated with this job. You can use
                       these to organize and group your jobs.
                     type: object
+                    x-kubernetes-map-type: granular
                   load:
                     description: Configures a load job. Structure is documented below.
                     items:
@@ -1673,6 +1674,7 @@ spec:
                     description: The labels associated with this job. You can use
                       these to organize and group your jobs.
                     type: object
+                    x-kubernetes-map-type: granular
                   load:
                     description: Configures a load job. Structure is documented below.
                     items:
@@ -2472,6 +2474,7 @@ spec:
                     description: The labels associated with this job. You can use
                       these to organize and group your jobs.
                     type: object
+                    x-kubernetes-map-type: granular
                   load:
                     description: Configures a load job. Structure is documented below.
                     items:

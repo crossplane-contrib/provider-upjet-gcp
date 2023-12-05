@@ -219,6 +219,7 @@ type InstanceGroupManagerObservation struct {
 	// The full URL of all target pools to which new
 	// instances in the group are added. Updating the target pools attribute does
 	// not affect existing instances.
+	// +listType=set
 	TargetPools []*string `json:"targetPools,omitempty" tf:"target_pools,omitempty"`
 
 	// The target number of running instances for this managed
@@ -302,6 +303,7 @@ type InstanceGroupManagerParameters struct {
 	// +crossplane:generate:reference:type=TargetPool
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	TargetPools []*string `json:"targetPools,omitempty" tf:"target_pools,omitempty"`
 
 	// References to TargetPool to populate targetPools.

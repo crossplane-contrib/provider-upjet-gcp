@@ -74,6 +74,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   enableDynamicPortAllocation:
                     description: Enable Dynamic Port Allocation. If minPortsPerVm
                       is set, minPortsPerVm must be set to a power of two greater
@@ -129,6 +130,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
@@ -231,6 +233,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                               sourceNatDrainIps:
                                 description: A list of URLs of the IP resources to
                                   be drained. These IPs must be valid static external
@@ -240,6 +243,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                             type: object
                           type: array
                         description:
@@ -369,6 +373,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                         sourceIpRangesToNat:
                           description: 'List of options for which source IPs in the
                             subnetwork should have NAT enabled. Supported values include:
@@ -376,6 +381,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                       type: object
                     type: array
                   tcpEstablishedIdleTimeoutSec:
@@ -416,6 +422,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   enableDynamicPortAllocation:
                     description: Enable Dynamic Port Allocation. If minPortsPerVm
                       is set, minPortsPerVm must be set to a power of two greater
@@ -471,6 +478,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
@@ -493,6 +501,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                               sourceNatDrainIps:
                                 description: A list of URLs of the IP resources to
                                   be drained. These IPs must be valid static external
@@ -502,6 +511,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                             type: object
                           type: array
                         description:
@@ -552,6 +562,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                         sourceIpRangesToNat:
                           description: 'List of options for which source IPs in the
                             subnetwork should have NAT enabled. Supported values include:
@@ -559,6 +570,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                       type: object
                     type: array
                   tcpEstablishedIdleTimeoutSec:
@@ -760,6 +772,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   enableDynamicPortAllocation:
                     description: Enable Dynamic Port Allocation. If minPortsPerVm
                       is set, minPortsPerVm must be set to a power of two greater
@@ -818,6 +831,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
@@ -847,6 +861,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                               sourceNatDrainIps:
                                 description: A list of URLs of the IP resources to
                                   be drained. These IPs must be valid static external
@@ -856,6 +871,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                             type: object
                           type: array
                         description:
@@ -909,6 +925,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                         sourceIpRangesToNat:
                           description: 'List of options for which source IPs in the
                             subnetwork should have NAT enabled. Supported values include:
@@ -916,6 +933,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                       type: object
                     type: array
                   tcpEstablishedIdleTimeoutSec:

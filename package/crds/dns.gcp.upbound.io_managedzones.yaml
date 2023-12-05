@@ -175,6 +175,7 @@ spec:
                     description: A set of key/value label pairs to assign to this
                       ManagedZone.
                     type: object
+                    x-kubernetes-map-type: granular
                   peeringConfig:
                     description: The presence of this field indicates that DNS Peering
                       is enabled for this zone. The value of this field contains the
@@ -604,6 +605,7 @@ spec:
                     description: A set of key/value label pairs to assign to this
                       ManagedZone.
                     type: object
+                    x-kubernetes-map-type: granular
                   peeringConfig:
                     description: The presence of this field indicates that DNS Peering
                       is enabled for this zone. The value of this field contains the
@@ -938,6 +940,7 @@ spec:
                     description: A set of key/value label pairs to assign to this
                       ManagedZone.
                     type: object
+                    x-kubernetes-map-type: granular
                   managedZoneId:
                     description: Unique identifier for the resource; defined by the
                       server.

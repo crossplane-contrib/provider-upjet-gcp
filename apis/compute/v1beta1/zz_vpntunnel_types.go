@@ -43,6 +43,7 @@ type VPNTunnelInitParameters struct {
 	// peer VPN gateway. The value should be a CIDR formatted string,
 	// for example 192.168.0.0/16. The ranges should be disjoint.
 	// Only IPv4 is supported.
+	// +listType=set
 	LocalTrafficSelector []*string `json:"localTrafficSelector,omitempty" tf:"local_traffic_selector,omitempty"`
 
 	// The interface ID of the external VPN gateway to which this VPN tunnel is connected.
@@ -65,6 +66,7 @@ type VPNTunnelInitParameters struct {
 	// peer VPN gateway. The value should be a CIDR formatted string,
 	// for example 192.168.0.0/16. The ranges should be disjoint.
 	// Only IPv4 is supported.
+	// +listType=set
 	RemoteTrafficSelector []*string `json:"remoteTrafficSelector,omitempty" tf:"remote_traffic_selector,omitempty"`
 
 	// The interface ID of the VPN gateway with which this VPN tunnel is associated.
@@ -94,6 +96,7 @@ type VPNTunnelObservation struct {
 	// peer VPN gateway. The value should be a CIDR formatted string,
 	// for example 192.168.0.0/16. The ranges should be disjoint.
 	// Only IPv4 is supported.
+	// +listType=set
 	LocalTrafficSelector []*string `json:"localTrafficSelector,omitempty" tf:"local_traffic_selector,omitempty"`
 
 	// URL of the peer side external VPN gateway to which this VPN tunnel is connected.
@@ -122,6 +125,7 @@ type VPNTunnelObservation struct {
 	// peer VPN gateway. The value should be a CIDR formatted string,
 	// for example 192.168.0.0/16. The ranges should be disjoint.
 	// Only IPv4 is supported.
+	// +listType=set
 	RemoteTrafficSelector []*string `json:"remoteTrafficSelector,omitempty" tf:"remote_traffic_selector,omitempty"`
 
 	// URL of router resource to be used for dynamic routing.
@@ -166,6 +170,7 @@ type VPNTunnelParameters struct {
 	// for example 192.168.0.0/16. The ranges should be disjoint.
 	// Only IPv4 is supported.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	LocalTrafficSelector []*string `json:"localTrafficSelector,omitempty" tf:"local_traffic_selector,omitempty"`
 
 	// URL of the peer side external VPN gateway to which this VPN tunnel is connected.
@@ -210,6 +215,7 @@ type VPNTunnelParameters struct {
 	// for example 192.168.0.0/16. The ranges should be disjoint.
 	// Only IPv4 is supported.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	RemoteTrafficSelector []*string `json:"remoteTrafficSelector,omitempty" tf:"remote_traffic_selector,omitempty"`
 
 	// URL of router resource to be used for dynamic routing.

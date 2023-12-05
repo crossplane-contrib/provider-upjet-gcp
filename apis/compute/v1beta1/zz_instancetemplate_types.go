@@ -223,6 +223,7 @@ type InstanceTemplateDiskInitParameters struct {
 
 	// A set of ket/value label pairs to assign to disk created from
 	// this template
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The mode in which to attach this disk, either READ_WRITE
@@ -299,6 +300,7 @@ type InstanceTemplateDiskObservation struct {
 
 	// A set of ket/value label pairs to assign to disk created from
 	// this template
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The mode in which to attach this disk, either READ_WRITE
@@ -389,6 +391,7 @@ type InstanceTemplateDiskParameters struct {
 	// A set of ket/value label pairs to assign to disk created from
 	// this template
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The mode in which to attach this disk, either READ_WRITE
@@ -507,6 +510,7 @@ type InstanceTemplateInitParameters struct {
 
 	// A set of key/value label pairs to assign to instances
 	// created from this template.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The machine type to create.
@@ -573,6 +577,7 @@ type InstanceTemplateInitParameters struct {
 	ShieldedInstanceConfig []InstanceTemplateShieldedInstanceConfigInitParameters `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
 
 	// Tags to attach to the instance.
+	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
@@ -901,6 +906,7 @@ type InstanceTemplateObservation struct {
 
 	// A set of key/value label pairs to assign to instances
 	// created from this template.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The machine type to create.
@@ -977,6 +983,7 @@ type InstanceTemplateObservation struct {
 	ShieldedInstanceConfig []InstanceTemplateShieldedInstanceConfigObservation `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
 
 	// Tags to attach to the instance.
+	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The unique fingerprint of the tags.
@@ -1020,6 +1027,7 @@ type InstanceTemplateParameters struct {
 	// A set of key/value label pairs to assign to instances
 	// created from this template.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The machine type to create.
@@ -1102,6 +1110,7 @@ type InstanceTemplateParameters struct {
 
 	// Tags to attach to the instance.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
@@ -1259,6 +1268,7 @@ type InstanceTemplateSchedulingNodeAffinitiesInitParameters struct {
 	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 
 	// Corresponds to the label values of a reservation resource.
+	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
@@ -1272,6 +1282,7 @@ type InstanceTemplateSchedulingNodeAffinitiesObservation struct {
 	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 
 	// Corresponds to the label values of a reservation resource.
+	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
@@ -1288,6 +1299,7 @@ type InstanceTemplateSchedulingNodeAffinitiesParameters struct {
 
 	// Corresponds to the label values of a reservation resource.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Values []*string `json:"values" tf:"values,omitempty"`
 }
 
@@ -1382,6 +1394,7 @@ type InstanceTemplateServiceAccountInitParameters struct {
 	// A list of service scopes. Both OAuth2 URLs and gcloud
 	// short names are supported. To allow full access to all Cloud APIs, use the
 	// cloud-platform scope. See a complete list of scopes here.
+	// +listType=set
 	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
 }
 
@@ -1394,6 +1407,7 @@ type InstanceTemplateServiceAccountObservation struct {
 	// A list of service scopes. Both OAuth2 URLs and gcloud
 	// short names are supported. To allow full access to all Cloud APIs, use the
 	// cloud-platform scope. See a complete list of scopes here.
+	// +listType=set
 	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
 }
 
@@ -1418,6 +1432,7 @@ type InstanceTemplateServiceAccountParameters struct {
 	// short names are supported. To allow full access to all Cloud APIs, use the
 	// cloud-platform scope. See a complete list of scopes here.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Scopes []*string `json:"scopes" tf:"scopes,omitempty"`
 }
 

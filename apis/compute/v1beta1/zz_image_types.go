@@ -118,6 +118,7 @@ type ImageInitParameters struct {
 	ImageEncryptionKey []ImageEncryptionKeyInitParameters `json:"imageEncryptionKey,omitempty" tf:"image_encryption_key,omitempty"`
 
 	// Labels to apply to this Image.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Any applicable license URI.
@@ -193,6 +194,7 @@ type ImageObservation struct {
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
 
 	// Labels to apply to this Image.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Any applicable license URI.
@@ -263,6 +265,7 @@ type ImageParameters struct {
 
 	// Labels to apply to this Image.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Any applicable license URI.

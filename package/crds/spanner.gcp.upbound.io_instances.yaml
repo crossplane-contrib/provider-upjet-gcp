@@ -92,6 +92,7 @@ spec:
                     description: 'An object containing a list of "key": value pairs.
                       Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.'
                     type: object
+                    x-kubernetes-map-type: granular
                   numNodes:
                     description: The number of nodes allocated to this instance.
                     type: number
@@ -141,6 +142,7 @@ spec:
                     description: 'An object containing a list of "key": value pairs.
                       Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.'
                     type: object
+                    x-kubernetes-map-type: granular
                   numNodes:
                     description: The number of nodes allocated to this instance.
                     type: number
@@ -355,6 +357,7 @@ spec:
                     description: 'An object containing a list of "key": value pairs.
                       Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.'
                     type: object
+                    x-kubernetes-map-type: granular
                   numNodes:
                     description: The number of nodes allocated to this instance.
                     type: number

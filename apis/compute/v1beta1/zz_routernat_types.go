@@ -34,12 +34,14 @@ type ActionInitParameters struct {
 	// A list of URLs of the IP resources used for this NAT rule.
 	// These IP addresses must be valid static external IP addresses assigned to the project.
 	// This field is used for public NAT.
+	// +listType=set
 	SourceNATActiveIps []*string `json:"sourceNatActiveIps,omitempty" tf:"source_nat_active_ips,omitempty"`
 
 	// A list of URLs of the IP resources to be drained.
 	// These IPs must be valid static external IPs that have been assigned to the NAT.
 	// These IPs should be used for updating/patching a NAT rule only.
 	// This field is used for public NAT.
+	// +listType=set
 	SourceNATDrainIps []*string `json:"sourceNatDrainIps,omitempty" tf:"source_nat_drain_ips,omitempty"`
 }
 
@@ -48,12 +50,14 @@ type ActionObservation struct {
 	// A list of URLs of the IP resources used for this NAT rule.
 	// These IP addresses must be valid static external IP addresses assigned to the project.
 	// This field is used for public NAT.
+	// +listType=set
 	SourceNATActiveIps []*string `json:"sourceNatActiveIps,omitempty" tf:"source_nat_active_ips,omitempty"`
 
 	// A list of URLs of the IP resources to be drained.
 	// These IPs must be valid static external IPs that have been assigned to the NAT.
 	// These IPs should be used for updating/patching a NAT rule only.
 	// This field is used for public NAT.
+	// +listType=set
 	SourceNATDrainIps []*string `json:"sourceNatDrainIps,omitempty" tf:"source_nat_drain_ips,omitempty"`
 }
 
@@ -63,6 +67,7 @@ type ActionParameters struct {
 	// These IP addresses must be valid static external IP addresses assigned to the project.
 	// This field is used for public NAT.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	SourceNATActiveIps []*string `json:"sourceNatActiveIps,omitempty" tf:"source_nat_active_ips,omitempty"`
 
 	// A list of URLs of the IP resources to be drained.
@@ -70,6 +75,7 @@ type ActionParameters struct {
 	// These IPs should be used for updating/patching a NAT rule only.
 	// This field is used for public NAT.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	SourceNATDrainIps []*string `json:"sourceNatDrainIps,omitempty" tf:"source_nat_drain_ips,omitempty"`
 }
 
@@ -77,6 +83,7 @@ type RouterNATInitParameters struct {
 
 	// A list of URLs of the IP resources to be drained. These IPs must be
 	// valid static external IPs that have been assigned to the NAT.
+	// +listType=set
 	DrainNATIps []*string `json:"drainNatIps,omitempty" tf:"drain_nat_ips,omitempty"`
 
 	// Enable Dynamic Port Allocation.
@@ -113,6 +120,7 @@ type RouterNATInitParameters struct {
 
 	// Self-links of NAT IPs. Only valid if natIpAllocateOption
 	// is set to MANUAL_ONLY.
+	// +listType=set
 	NATIps []*string `json:"natIps,omitempty" tf:"nat_ips,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -193,6 +201,7 @@ type RouterNATObservation struct {
 
 	// A list of URLs of the IP resources to be drained. These IPs must be
 	// valid static external IPs that have been assigned to the NAT.
+	// +listType=set
 	DrainNATIps []*string `json:"drainNatIps,omitempty" tf:"drain_nat_ips,omitempty"`
 
 	// Enable Dynamic Port Allocation.
@@ -232,6 +241,7 @@ type RouterNATObservation struct {
 
 	// Self-links of NAT IPs. Only valid if natIpAllocateOption
 	// is set to MANUAL_ONLY.
+	// +listType=set
 	NATIps []*string `json:"natIps,omitempty" tf:"nat_ips,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -287,6 +297,7 @@ type RouterNATParameters struct {
 	// A list of URLs of the IP resources to be drained. These IPs must be
 	// valid static external IPs that have been assigned to the NAT.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	DrainNATIps []*string `json:"drainNatIps,omitempty" tf:"drain_nat_ips,omitempty"`
 
 	// Enable Dynamic Port Allocation.
@@ -331,6 +342,7 @@ type RouterNATParameters struct {
 	// Self-links of NAT IPs. Only valid if natIpAllocateOption
 	// is set to MANUAL_ONLY.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	NATIps []*string `json:"natIps,omitempty" tf:"nat_ips,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -479,12 +491,14 @@ type SubnetworkInitParameters struct {
 	// to use NAT. This can be populated only if
 	// LIST_OF_SECONDARY_IP_RANGES is one of the values in
 	// sourceIpRangesToNat
+	// +listType=set
 	SecondaryIPRangeNames []*string `json:"secondaryIpRangeNames,omitempty" tf:"secondary_ip_range_names,omitempty"`
 
 	// List of options for which source IPs in the subnetwork
 	// should have NAT enabled. Supported values include:
 	// ALL_IP_RANGES, LIST_OF_SECONDARY_IP_RANGES,
 	// PRIMARY_IP_RANGE.
+	// +listType=set
 	SourceIPRangesToNAT []*string `json:"sourceIpRangesToNat,omitempty" tf:"source_ip_ranges_to_nat,omitempty"`
 }
 
@@ -497,12 +511,14 @@ type SubnetworkObservation struct {
 	// to use NAT. This can be populated only if
 	// LIST_OF_SECONDARY_IP_RANGES is one of the values in
 	// sourceIpRangesToNat
+	// +listType=set
 	SecondaryIPRangeNames []*string `json:"secondaryIpRangeNames,omitempty" tf:"secondary_ip_range_names,omitempty"`
 
 	// List of options for which source IPs in the subnetwork
 	// should have NAT enabled. Supported values include:
 	// ALL_IP_RANGES, LIST_OF_SECONDARY_IP_RANGES,
 	// PRIMARY_IP_RANGE.
+	// +listType=set
 	SourceIPRangesToNAT []*string `json:"sourceIpRangesToNat,omitempty" tf:"source_ip_ranges_to_nat,omitempty"`
 }
 
@@ -526,6 +542,7 @@ type SubnetworkParameters struct {
 	// LIST_OF_SECONDARY_IP_RANGES is one of the values in
 	// sourceIpRangesToNat
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	SecondaryIPRangeNames []*string `json:"secondaryIpRangeNames,omitempty" tf:"secondary_ip_range_names,omitempty"`
 
 	// List of options for which source IPs in the subnetwork
@@ -533,6 +550,7 @@ type SubnetworkParameters struct {
 	// ALL_IP_RANGES, LIST_OF_SECONDARY_IP_RANGES,
 	// PRIMARY_IP_RANGE.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	SourceIPRangesToNAT []*string `json:"sourceIpRangesToNat" tf:"source_ip_ranges_to_nat,omitempty"`
 }
 

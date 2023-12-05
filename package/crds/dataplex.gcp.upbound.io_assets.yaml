@@ -235,6 +235,7 @@ spec:
                       type: string
                     description: Optional. User defined labels for the asset.
                     type: object
+                    x-kubernetes-map-type: granular
                   lake:
                     description: The lake for the resource
                     type: string
@@ -442,6 +443,7 @@ spec:
                       type: string
                     description: Optional. User defined labels for the asset.
                     type: object
+                    x-kubernetes-map-type: granular
                   project:
                     description: The project for the resource
                     type: string
@@ -774,6 +776,7 @@ spec:
                       type: string
                     description: Optional. User defined labels for the asset.
                     type: object
+                    x-kubernetes-map-type: granular
                   lake:
                     description: The lake for the resource
                     type: string

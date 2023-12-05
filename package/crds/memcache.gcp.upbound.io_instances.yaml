@@ -154,6 +154,7 @@ spec:
                       type: string
                     description: Resource labels to represent user-provided metadata.
                     type: object
+                    x-kubernetes-map-type: granular
                   maintenancePolicy:
                     description: Maintenance policy for an instance. Structure is
                       documented below.
@@ -222,6 +223,7 @@ spec:
                           description: User-defined set of parameters to use in the
                             memcache process.
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   memcacheVersion:
@@ -266,6 +268,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                 type: object
               initProvider:
                 description: THIS IS A BETA FIELD. It will be honored unless the Management
@@ -287,6 +290,7 @@ spec:
                       type: string
                     description: Resource labels to represent user-provided metadata.
                     type: object
+                    x-kubernetes-map-type: granular
                   maintenancePolicy:
                     description: Maintenance policy for an instance. Structure is
                       documented below.
@@ -355,6 +359,7 @@ spec:
                           description: User-defined set of parameters to use in the
                             memcache process.
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   memcacheVersion:
@@ -399,6 +404,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                 type: object
               managementPolicies:
                 default:
@@ -599,6 +605,7 @@ spec:
                       type: string
                     description: Resource labels to represent user-provided metadata.
                     type: object
+                    x-kubernetes-map-type: granular
                   maintenancePolicy:
                     description: Maintenance policy for an instance. Structure is
                       documented below.
@@ -738,6 +745,7 @@ spec:
                           description: User-defined set of parameters to use in the
                             memcache process.
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   memcacheVersion:
@@ -782,6 +790,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                 type: object
               conditions:
                 description: Conditions of the resource.

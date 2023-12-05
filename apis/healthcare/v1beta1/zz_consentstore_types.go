@@ -46,6 +46,7 @@ type ConsentStoreInitParameters struct {
 	// No more than 64 labels can be associated with a given store.
 	// An object containing a list of "key": value pairs.
 	// Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of this ConsentStore, for example:
@@ -77,6 +78,7 @@ type ConsentStoreObservation struct {
 	// No more than 64 labels can be associated with a given store.
 	// An object containing a list of "key": value pairs.
 	// Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of this ConsentStore, for example:
@@ -119,6 +121,7 @@ type ConsentStoreParameters struct {
 	// An object containing a list of "key": value pairs.
 	// Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of this ConsentStore, for example:

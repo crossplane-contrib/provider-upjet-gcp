@@ -35,6 +35,7 @@ type SnapshotInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Resource labels to represent user-provided metadata.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -60,6 +61,7 @@ type SnapshotObservation struct {
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	// Resource labels to represent user-provided metadata.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of the location of the instance. This can be a region for ENTERPRISE tier instances.
@@ -94,6 +96,7 @@ type SnapshotParameters struct {
 
 	// Resource labels to represent user-provided metadata.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of the location of the instance. This can be a region for ENTERPRISE tier instances.

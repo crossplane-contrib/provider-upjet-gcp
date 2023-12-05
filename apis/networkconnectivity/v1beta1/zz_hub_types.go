@@ -35,6 +35,7 @@ type HubInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Immutable. The name of the hub. Hub names must be unique. They use the following form: projects/{project_number}/locations/global/hubs/{hub_id}
@@ -56,6 +57,7 @@ type HubObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Immutable. The name of the hub. Hub names must be unique. They use the following form: projects/{project_number}/locations/global/hubs/{hub_id}
@@ -85,6 +87,7 @@ type HubParameters struct {
 
 	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Immutable. The name of the hub. Hub names must be unique. They use the following form: projects/{project_number}/locations/global/hubs/{hub_id}

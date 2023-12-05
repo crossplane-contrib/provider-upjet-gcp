@@ -292,6 +292,7 @@ type DatasetInitParameters struct {
 
 	// The labels associated with this dataset. You can use these to
 	// organize and group your datasets
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The geographic location where the dataset should reside.
@@ -365,6 +366,7 @@ type DatasetObservation struct {
 
 	// The labels associated with this dataset. You can use these to
 	// organize and group your datasets
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The date when this dataset or any of its tables was last modified, in
@@ -449,6 +451,7 @@ type DatasetParameters struct {
 	// The labels associated with this dataset. You can use these to
 	// organize and group your datasets
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The geographic location where the dataset should reside.

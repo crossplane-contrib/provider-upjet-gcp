@@ -242,6 +242,7 @@ type RegionPerInstanceConfigPreservedStateInitParameters struct {
 	Disk []RegionPerInstanceConfigPreservedStateDiskInitParameters `json:"disk,omitempty" tf:"disk,omitempty"`
 
 	// Preserved metadata defined for this instance. This is a list of key->value pairs.
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 }
 
@@ -252,6 +253,7 @@ type RegionPerInstanceConfigPreservedStateObservation struct {
 	Disk []RegionPerInstanceConfigPreservedStateDiskObservation `json:"disk,omitempty" tf:"disk,omitempty"`
 
 	// Preserved metadata defined for this instance. This is a list of key->value pairs.
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 }
 
@@ -264,6 +266,7 @@ type RegionPerInstanceConfigPreservedStateParameters struct {
 
 	// Preserved metadata defined for this instance. This is a list of key->value pairs.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 }
 

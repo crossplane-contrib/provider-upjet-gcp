@@ -64,6 +64,7 @@ type BasicSliInitParameters struct {
 	// locations in which the Service has activity. For service types
 	// that don't support breaking down by location, setting this
 	// field will result in an error.
+	// +listType=set
 	Location []*string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// An optional set of RPCs to which this SLI is relevant.
@@ -72,6 +73,7 @@ type BasicSliInitParameters struct {
 	// the Service's methods. For service types that don't support
 	// breaking down by method, setting this field will result in an
 	// error.
+	// +listType=set
 	Method []*string `json:"method,omitempty" tf:"method,omitempty"`
 
 	// The set of API versions to which this SLI is relevant.
@@ -80,6 +82,7 @@ type BasicSliInitParameters struct {
 	// this SLI applies to all API versions. For service types
 	// that don't support breaking down by version, setting this
 	// field will result in an error.
+	// +listType=set
 	Version []*string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
@@ -99,6 +102,7 @@ type BasicSliObservation struct {
 	// locations in which the Service has activity. For service types
 	// that don't support breaking down by location, setting this
 	// field will result in an error.
+	// +listType=set
 	Location []*string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// An optional set of RPCs to which this SLI is relevant.
@@ -107,6 +111,7 @@ type BasicSliObservation struct {
 	// the Service's methods. For service types that don't support
 	// breaking down by method, setting this field will result in an
 	// error.
+	// +listType=set
 	Method []*string `json:"method,omitempty" tf:"method,omitempty"`
 
 	// The set of API versions to which this SLI is relevant.
@@ -115,6 +120,7 @@ type BasicSliObservation struct {
 	// this SLI applies to all API versions. For service types
 	// that don't support breaking down by version, setting this
 	// field will result in an error.
+	// +listType=set
 	Version []*string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
@@ -137,6 +143,7 @@ type BasicSliParameters struct {
 	// that don't support breaking down by location, setting this
 	// field will result in an error.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Location []*string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// An optional set of RPCs to which this SLI is relevant.
@@ -146,6 +153,7 @@ type BasicSliParameters struct {
 	// breaking down by method, setting this field will result in an
 	// error.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Method []*string `json:"method,omitempty" tf:"method,omitempty"`
 
 	// The set of API versions to which this SLI is relevant.
@@ -155,6 +163,7 @@ type BasicSliParameters struct {
 	// that don't support breaking down by version, setting this
 	// field will result in an error.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Version []*string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
@@ -193,6 +202,7 @@ type BasicSliPerformanceInitParameters struct {
 	// locations in which the Service has activity. For service types
 	// that don't support breaking down by location, setting this
 	// field will result in an error.
+	// +listType=set
 	Location []*string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// An optional set of RPCs to which this SLI is relevant.
@@ -201,6 +211,7 @@ type BasicSliPerformanceInitParameters struct {
 	// the Service's methods. For service types that don't support
 	// breaking down by method, setting this field will result in an
 	// error.
+	// +listType=set
 	Method []*string `json:"method,omitempty" tf:"method,omitempty"`
 
 	// The set of API versions to which this SLI is relevant.
@@ -209,6 +220,7 @@ type BasicSliPerformanceInitParameters struct {
 	// this SLI applies to all API versions. For service types
 	// that don't support breaking down by version, setting this
 	// field will result in an error.
+	// +listType=set
 	Version []*string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
@@ -253,6 +265,7 @@ type BasicSliPerformanceObservation struct {
 	// locations in which the Service has activity. For service types
 	// that don't support breaking down by location, setting this
 	// field will result in an error.
+	// +listType=set
 	Location []*string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// An optional set of RPCs to which this SLI is relevant.
@@ -261,6 +274,7 @@ type BasicSliPerformanceObservation struct {
 	// the Service's methods. For service types that don't support
 	// breaking down by method, setting this field will result in an
 	// error.
+	// +listType=set
 	Method []*string `json:"method,omitempty" tf:"method,omitempty"`
 
 	// The set of API versions to which this SLI is relevant.
@@ -269,6 +283,7 @@ type BasicSliPerformanceObservation struct {
 	// this SLI applies to all API versions. For service types
 	// that don't support breaking down by version, setting this
 	// field will result in an error.
+	// +listType=set
 	Version []*string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
@@ -291,6 +306,7 @@ type BasicSliPerformanceParameters struct {
 	// that don't support breaking down by location, setting this
 	// field will result in an error.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Location []*string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// An optional set of RPCs to which this SLI is relevant.
@@ -300,6 +316,7 @@ type BasicSliPerformanceParameters struct {
 	// breaking down by method, setting this field will result in an
 	// error.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Method []*string `json:"method,omitempty" tf:"method,omitempty"`
 
 	// The set of API versions to which this SLI is relevant.
@@ -309,6 +326,7 @@ type BasicSliPerformanceParameters struct {
 	// that don't support breaking down by version, setting this
 	// field will result in an error.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Version []*string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
@@ -1129,6 +1147,7 @@ type SLOInitParameters struct {
 	// to 63 Unicode characters or 128 bytes, whichever is smaller. Labels and values
 	// can contain only lowercase letters, numerals, underscores, and dashes. Keys
 	// must begin with a letter.
+	// +mapType=granular
 	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
 
 	// A windows-based SLI defines the criteria for time windows.
@@ -1202,6 +1221,7 @@ type SLOObservation struct {
 	// to 63 Unicode characters or 128 bytes, whichever is smaller. Labels and values
 	// can contain only lowercase letters, numerals, underscores, and dashes. Keys
 	// must begin with a letter.
+	// +mapType=granular
 	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
 
 	// A windows-based SLI defines the criteria for time windows.
@@ -1288,6 +1308,7 @@ type SLOParameters struct {
 	// can contain only lowercase letters, numerals, underscores, and dashes. Keys
 	// must begin with a letter.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
 
 	// A windows-based SLI defines the criteria for time windows.

@@ -93,6 +93,7 @@ spec:
                                   in this map. A VM should contain all the key/value
                                   pairs specified in this map to be selected.
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         inclusionLabels:
@@ -109,6 +110,7 @@ spec:
                                   in this map. A VM should contain all the key/value
                                   pairs specified in this map to be selected.
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         inventories:
@@ -1000,6 +1002,7 @@ spec:
                                   in this map. A VM should contain all the key/value
                                   pairs specified in this map to be selected.
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         inclusionLabels:
@@ -1016,6 +1019,7 @@ spec:
                                   in this map. A VM should contain all the key/value
                                   pairs specified in this map to be selected.
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         inventories:
@@ -2085,6 +2089,7 @@ spec:
                                   in this map. A VM should contain all the key/value
                                   pairs specified in this map to be selected.
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         inclusionLabels:
@@ -2101,6 +2106,7 @@ spec:
                                   in this map. A VM should contain all the key/value
                                   pairs specified in this map to be selected.
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         inventories:

@@ -55,6 +55,7 @@ type AppGatewayInitParameters struct {
 	HostType *string `json:"hostType,omitempty" tf:"host_type,omitempty"`
 
 	// Resource labels to represent user provided metadata.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -85,6 +86,7 @@ type AppGatewayObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Resource labels to represent user provided metadata.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -120,6 +122,7 @@ type AppGatewayParameters struct {
 
 	// Resource labels to represent user provided metadata.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.

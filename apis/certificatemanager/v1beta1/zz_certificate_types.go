@@ -62,6 +62,7 @@ type CertificateInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Set of label tags associated with the Certificate resource.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Configuration and state of a Managed Certificate.
@@ -98,6 +99,7 @@ type CertificateObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Set of label tags associated with the Certificate resource.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The Certificate Manager location. If not specified, "global" is used.
@@ -136,6 +138,7 @@ type CertificateParameters struct {
 
 	// Set of label tags associated with the Certificate resource.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The Certificate Manager location. If not specified, "global" is used.

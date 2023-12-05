@@ -76,6 +76,7 @@ spec:
                     description: Optional labels in key:value format. For more information
                       about labels, see Requirements for labels.
                     type: object
+                    x-kubernetes-map-type: granular
                   name:
                     description: 'Immutable. The name of the hub. Hub names must be
                       unique. They use the following form: projects/{project_number}/locations/global/hubs/{hub_id}'
@@ -105,6 +106,7 @@ spec:
                     description: Optional labels in key:value format. For more information
                       about labels, see Requirements for labels.
                     type: object
+                    x-kubernetes-map-type: granular
                   name:
                     description: 'Immutable. The name of the hub. Hub names must be
                       unique. They use the following form: projects/{project_number}/locations/global/hubs/{hub_id}'
@@ -298,6 +300,7 @@ spec:
                     description: Optional labels in key:value format. For more information
                       about labels, see Requirements for labels.
                     type: object
+                    x-kubernetes-map-type: granular
                   name:
                     description: 'Immutable. The name of the hub. Hub names must be
                       unique. They use the following form: projects/{project_number}/locations/global/hubs/{hub_id}'

@@ -78,6 +78,7 @@ spec:
                       or less, begin and end with alphanumerics, with dashes (-),
                       underscores (_), dots (.), and alphanumerics between.'
                     type: object
+                    x-kubernetes-map-type: granular
                   authorization:
                     description: Configuration related to the cluster RBAC settings.
                     items:
@@ -229,6 +230,7 @@ spec:
                           description: Optional. A set of tags to apply to all underlying
                             control plane Azure resources.
                           type: object
+                          x-kubernetes-map-type: granular
                         version:
                           description: The Kubernetes version to run on control plane
                             replicas (e.g. 1.19.10-gke.1000). You can list all supported
@@ -322,6 +324,7 @@ spec:
                       or less, begin and end with alphanumerics, with dashes (-),
                       underscores (_), dots (.), and alphanumerics between.'
                     type: object
+                    x-kubernetes-map-type: granular
                   authorization:
                     description: Configuration related to the cluster RBAC settings.
                     items:
@@ -473,6 +476,7 @@ spec:
                           description: Optional. A set of tags to apply to all underlying
                             control plane Azure resources.
                           type: object
+                          x-kubernetes-map-type: granular
                         version:
                           description: The Kubernetes version to run on control plane
                             replicas (e.g. 1.19.10-gke.1000). You can list all supported
@@ -739,6 +743,7 @@ spec:
                       or less, begin and end with alphanumerics, with dashes (-),
                       underscores (_), dots (.), and alphanumerics between.'
                     type: object
+                    x-kubernetes-map-type: granular
                   authorization:
                     description: Configuration related to the cluster RBAC settings.
                     items:
@@ -890,6 +895,7 @@ spec:
                           description: Optional. A set of tags to apply to all underlying
                             control plane Azure resources.
                           type: object
+                          x-kubernetes-map-type: granular
                         version:
                           description: The Kubernetes version to run on control plane
                             replicas (e.g. 1.19.10-gke.1000). You can list all supported

@@ -58,6 +58,7 @@ type FeaturestoreInitParameters struct {
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
 
 	// A set of key/value label pairs to assign to this Featurestore.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of the Featurestore. This value may be up to 60 characters, and valid characters are [a-z0-9_]. The first character cannot be a number.
@@ -94,6 +95,7 @@ type FeaturestoreObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// A set of key/value label pairs to assign to this Featurestore.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of the Featurestore. This value may be up to 60 characters, and valid characters are [a-z0-9_]. The first character cannot be a number.
@@ -127,6 +129,7 @@ type FeaturestoreParameters struct {
 
 	// A set of key/value label pairs to assign to this Featurestore.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of the Featurestore. This value may be up to 60 characters, and valid characters are [a-z0-9_]. The first character cannot be a number.

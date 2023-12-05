@@ -700,6 +700,7 @@ type ResourcesInitParameters struct {
 	// Limits describes the maximum amount of compute resources allowed.
 	// The values of the map is string form of the 'quantity' k8s type:
 	// https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
+	// +mapType=granular
 	Limits map[string]*string `json:"limits,omitempty" tf:"limits,omitempty"`
 
 	// Requests describes the minimum amount of compute resources required.
@@ -707,6 +708,7 @@ type ResourcesInitParameters struct {
 	// explicitly specified, otherwise to an implementation-defined value.
 	// The values of the map is string form of the 'quantity' k8s type:
 	// https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
+	// +mapType=granular
 	Requests map[string]*string `json:"requests,omitempty" tf:"requests,omitempty"`
 }
 
@@ -715,6 +717,7 @@ type ResourcesObservation struct {
 	// Limits describes the maximum amount of compute resources allowed.
 	// The values of the map is string form of the 'quantity' k8s type:
 	// https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
+	// +mapType=granular
 	Limits map[string]*string `json:"limits,omitempty" tf:"limits,omitempty"`
 
 	// Requests describes the minimum amount of compute resources required.
@@ -722,6 +725,7 @@ type ResourcesObservation struct {
 	// explicitly specified, otherwise to an implementation-defined value.
 	// The values of the map is string form of the 'quantity' k8s type:
 	// https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
+	// +mapType=granular
 	Requests map[string]*string `json:"requests,omitempty" tf:"requests,omitempty"`
 }
 
@@ -731,6 +735,7 @@ type ResourcesParameters struct {
 	// The values of the map is string form of the 'quantity' k8s type:
 	// https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Limits map[string]*string `json:"limits,omitempty" tf:"limits,omitempty"`
 
 	// Requests describes the minimum amount of compute resources required.
@@ -739,6 +744,7 @@ type ResourcesParameters struct {
 	// The values of the map is string form of the 'quantity' k8s type:
 	// https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Requests map[string]*string `json:"requests,omitempty" tf:"requests,omitempty"`
 }
 
@@ -966,10 +972,12 @@ type ServiceMetadataInitParameters struct {
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
 	// keys to configure features on a Revision template:
+	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Map of string keys and values that can be used to organize and categorize
 	// (scope and select) objects.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
 
@@ -981,6 +989,7 @@ type ServiceMetadataObservation struct {
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
 	// keys to configure features on a Revision template:
+	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// (Output)
@@ -989,6 +998,7 @@ type ServiceMetadataObservation struct {
 
 	// Map of string keys and values that can be used to organize and categorize
 	// (scope and select) objects.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// In Cloud Run the namespace must be equal to either the
@@ -1022,11 +1032,13 @@ type ServiceMetadataParameters struct {
 	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
 	// keys to configure features on a Revision template:
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Map of string keys and values that can be used to organize and categorize
 	// (scope and select) objects.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// In Cloud Run the namespace must be equal to either the
@@ -1526,10 +1538,12 @@ type TemplateMetadataInitParameters struct {
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
 	// keys to configure features on a Revision template:
+	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Map of string keys and values that can be used to organize and categorize
 	// (scope and select) objects.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Volume's name.
@@ -1548,6 +1562,7 @@ type TemplateMetadataObservation struct {
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
 	// keys to configure features on a Revision template:
+	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// (Output)
@@ -1556,6 +1571,7 @@ type TemplateMetadataObservation struct {
 
 	// Map of string keys and values that can be used to organize and categorize
 	// (scope and select) objects.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Volume's name.
@@ -1592,11 +1608,13 @@ type TemplateMetadataParameters struct {
 	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
 	// keys to configure features on a Revision template:
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Map of string keys and values that can be used to organize and categorize
 	// (scope and select) objects.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Volume's name.

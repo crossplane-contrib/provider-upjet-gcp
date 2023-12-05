@@ -287,6 +287,7 @@ spec:
                                   on whether a resource has a specific tag. This value
                                   is not returned by the API.
                                 type: object
+                                x-kubernetes-map-type: granular
                               size:
                                 description: The size of the image in gigabytes. If
                                   not specified, it will inherit the size of its base
@@ -386,6 +387,7 @@ spec:
                       type: string
                     description: A map of key/value label pairs to assign to the instance.
                     type: object
+                    x-kubernetes-map-type: granular
                   machineType:
                     description: The machine type to create.
                     type: string
@@ -398,6 +400,7 @@ spec:
                       to your instance. A list of default metadata values (e.g. ssh-keys)
                       can be found here
                     type: object
+                    x-kubernetes-map-type: granular
                   metadataStartupScript:
                     description: An alternative to using the startup-script metadata
                       key, except this one forces the instance to be recreated (thus
@@ -730,6 +733,7 @@ spec:
                             allow or deny policies based on whether a resource has
                             a specific tag. This value is not returned by the API.
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   project:
@@ -842,6 +846,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                             type: object
                           type: array
                         onHostMaintenance:
@@ -979,6 +984,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                       type: object
                     type: array
                   shieldedInstanceConfig:
@@ -1022,6 +1028,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   zone:
                     description: The zone that the machine should be created in. If
                       it is not provided, the provider zone is used.
@@ -1128,6 +1135,7 @@ spec:
                                   on whether a resource has a specific tag. This value
                                   is not returned by the API.
                                 type: object
+                                x-kubernetes-map-type: granular
                               size:
                                 description: The size of the image in gigabytes. If
                                   not specified, it will inherit the size of its base
@@ -1227,6 +1235,7 @@ spec:
                       type: string
                     description: A map of key/value label pairs to assign to the instance.
                     type: object
+                    x-kubernetes-map-type: granular
                   machineType:
                     description: The machine type to create.
                     type: string
@@ -1239,6 +1248,7 @@ spec:
                       to your instance. A list of default metadata values (e.g. ssh-keys)
                       can be found here
                     type: object
+                    x-kubernetes-map-type: granular
                   metadataStartupScript:
                     description: An alternative to using the startup-script metadata
                       key, except this one forces the instance to be recreated (thus
@@ -1402,6 +1412,7 @@ spec:
                             allow or deny policies based on whether a resource has
                             a specific tag. This value is not returned by the API.
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   project:
@@ -1514,6 +1525,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                             type: object
                           type: array
                         onHostMaintenance:
@@ -1567,6 +1579,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                       type: object
                     type: array
                   shieldedInstanceConfig:
@@ -1610,6 +1623,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                 type: object
               managementPolicies:
                 default:
@@ -1899,6 +1913,7 @@ spec:
                                   on whether a resource has a specific tag. This value
                                   is not returned by the API.
                                 type: object
+                                x-kubernetes-map-type: granular
                               size:
                                 description: The size of the image in gigabytes. If
                                   not specified, it will inherit the size of its base
@@ -2017,6 +2032,7 @@ spec:
                       type: string
                     description: A map of key/value label pairs to assign to the instance.
                     type: object
+                    x-kubernetes-map-type: granular
                   machineType:
                     description: The machine type to create.
                     type: string
@@ -2029,6 +2045,7 @@ spec:
                       to your instance. A list of default metadata values (e.g. ssh-keys)
                       can be found here
                     type: object
+                    x-kubernetes-map-type: granular
                   metadataFingerprint:
                     description: The unique fingerprint of the metadata.
                     type: string
@@ -2221,6 +2238,7 @@ spec:
                             allow or deny policies based on whether a resource has
                             a specific tag. This value is not returned by the API.
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   project:
@@ -2333,6 +2351,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                             type: object
                           type: array
                         onHostMaintenance:
@@ -2395,6 +2414,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                       type: object
                     type: array
                   shieldedInstanceConfig:
@@ -2438,6 +2458,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   tagsFingerprint:
                     description: The unique fingerprint of the tags.
                     type: string

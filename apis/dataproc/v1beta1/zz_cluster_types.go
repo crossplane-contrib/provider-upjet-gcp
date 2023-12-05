@@ -514,6 +514,7 @@ type ClusterInitParameters struct {
 	// The list of labels (key/value pairs) to be applied to
 	// instances in the cluster. GCP generates some itself including goog-dataproc-cluster-name
 	// which is the name of the cluster.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of the cluster, unique within the project and
@@ -553,6 +554,7 @@ type ClusterObservation struct {
 	// The list of labels (key/value pairs) to be applied to
 	// instances in the cluster. GCP generates some itself including goog-dataproc-cluster-name
 	// which is the name of the cluster.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of the cluster, unique within the project and
@@ -593,6 +595,7 @@ type ClusterParameters struct {
 	// instances in the cluster. GCP generates some itself including goog-dataproc-cluster-name
 	// which is the name of the cluster.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of the cluster, unique within the project and
@@ -803,6 +806,7 @@ type EndpointConfigObservation struct {
 
 	// The map of port descriptions to URLs. Will only be populated if
 	// enable_http_port_access is true.
+	// +mapType=granular
 	HTTPPorts map[string]*string `json:"httpPorts,omitempty" tf:"http_ports,omitempty"`
 }
 
@@ -825,6 +829,7 @@ type GceClusterConfigInitParameters struct {
 
 	// A map of the Compute Engine metadata entries to add to all instances
 	// (see Project and instance metadata).
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The name or self_link of the Google Compute Engine
@@ -843,6 +848,7 @@ type GceClusterConfigInitParameters struct {
 	// specified. Both OAuth2 URLs and gcloud
 	// short names are supported. To allow full access to all Cloud APIs, use the
 	// cloud-platform scope. See a complete list of scopes here.
+	// +listType=set
 	ServiceAccountScopes []*string `json:"serviceAccountScopes,omitempty" tf:"service_account_scopes,omitempty"`
 
 	// Shielded Instance Config for clusters using Compute Engine Shielded VMs.
@@ -854,6 +860,7 @@ type GceClusterConfigInitParameters struct {
 
 	// The list of instance tags applied to instances in the cluster.
 	// Tags are used to identify valid sources or targets for network firewalls.
+	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The GCP zone where your data is stored and used (i.e. where
@@ -877,6 +884,7 @@ type GceClusterConfigObservation struct {
 
 	// A map of the Compute Engine metadata entries to add to all instances
 	// (see Project and instance metadata).
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The name or self_link of the Google Compute Engine
@@ -899,6 +907,7 @@ type GceClusterConfigObservation struct {
 	// specified. Both OAuth2 URLs and gcloud
 	// short names are supported. To allow full access to all Cloud APIs, use the
 	// cloud-platform scope. See a complete list of scopes here.
+	// +listType=set
 	ServiceAccountScopes []*string `json:"serviceAccountScopes,omitempty" tf:"service_account_scopes,omitempty"`
 
 	// Shielded Instance Config for clusters using Compute Engine Shielded VMs.
@@ -910,6 +919,7 @@ type GceClusterConfigObservation struct {
 
 	// The list of instance tags applied to instances in the cluster.
 	// Tags are used to identify valid sources or targets for network firewalls.
+	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The GCP zone where your data is stored and used (i.e. where
@@ -935,6 +945,7 @@ type GceClusterConfigParameters struct {
 	// A map of the Compute Engine metadata entries to add to all instances
 	// (see Project and instance metadata).
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The name or self_link of the Google Compute Engine
@@ -968,6 +979,7 @@ type GceClusterConfigParameters struct {
 	// short names are supported. To allow full access to all Cloud APIs, use the
 	// cloud-platform scope. See a complete list of scopes here.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	ServiceAccountScopes []*string `json:"serviceAccountScopes,omitempty" tf:"service_account_scopes,omitempty"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
@@ -986,6 +998,7 @@ type GceClusterConfigParameters struct {
 	// The list of instance tags applied to instances in the cluster.
 	// Tags are used to identify valid sources or targets for network firewalls.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The GCP zone where your data is stored and used (i.e. where
@@ -1334,10 +1347,12 @@ type KubernetesSoftwareConfigInitParameters struct {
 
 	// The components that should be installed in this Dataproc cluster. The key must be a string from the
 	// KubernetesComponent enumeration. The value is the version of the software to be installed. At least one entry must be specified.
+	// +mapType=granular
 	ComponentVersion map[string]*string `json:"componentVersion,omitempty" tf:"component_version,omitempty"`
 
 	// The properties to set on daemon config files. Property keys are specified in prefix:property format,
 	// for example spark:spark.kubernetes.container.image.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
@@ -1345,10 +1360,12 @@ type KubernetesSoftwareConfigObservation struct {
 
 	// The components that should be installed in this Dataproc cluster. The key must be a string from the
 	// KubernetesComponent enumeration. The value is the version of the software to be installed. At least one entry must be specified.
+	// +mapType=granular
 	ComponentVersion map[string]*string `json:"componentVersion,omitempty" tf:"component_version,omitempty"`
 
 	// The properties to set on daemon config files. Property keys are specified in prefix:property format,
 	// for example spark:spark.kubernetes.container.image.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
@@ -1357,11 +1374,13 @@ type KubernetesSoftwareConfigParameters struct {
 	// The components that should be installed in this Dataproc cluster. The key must be a string from the
 	// KubernetesComponent enumeration. The value is the version of the software to be installed. At least one entry must be specified.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	ComponentVersion map[string]*string `json:"componentVersion" tf:"component_version,omitempty"`
 
 	// The properties to set on daemon config files. Property keys are specified in prefix:property format,
 	// for example spark:spark.kubernetes.container.image.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
@@ -1523,6 +1542,7 @@ type MetastoreConfigParameters struct {
 type MetricsInitParameters struct {
 
 	// One or more [available OSS metrics] (https://cloud.google.com/dataproc/docs/guides/monitoring#available_oss_metrics) to collect for the metric course.
+	// +listType=set
 	MetricOverrides []*string `json:"metricOverrides,omitempty" tf:"metric_overrides,omitempty"`
 
 	// A source for the collection of Dataproc OSS metrics (see available OSS metrics).
@@ -1532,6 +1552,7 @@ type MetricsInitParameters struct {
 type MetricsObservation struct {
 
 	// One or more [available OSS metrics] (https://cloud.google.com/dataproc/docs/guides/monitoring#available_oss_metrics) to collect for the metric course.
+	// +listType=set
 	MetricOverrides []*string `json:"metricOverrides,omitempty" tf:"metric_overrides,omitempty"`
 
 	// A source for the collection of Dataproc OSS metrics (see available OSS metrics).
@@ -1542,6 +1563,7 @@ type MetricsParameters struct {
 
 	// One or more [available OSS metrics] (https://cloud.google.com/dataproc/docs/guides/monitoring#available_oss_metrics) to collect for the metric course.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	MetricOverrides []*string `json:"metricOverrides,omitempty" tf:"metric_overrides,omitempty"`
 
 	// A source for the collection of Dataproc OSS metrics (see available OSS metrics).
@@ -1579,6 +1601,7 @@ type NodePoolConfigInitParameters struct {
 
 	// The list of Compute Engine zones where node pool nodes associated
 	// with a Dataproc on GKE virtual cluster will be located.
+	// +listType=set
 	Locations []*string `json:"locations,omitempty" tf:"locations,omitempty"`
 }
 
@@ -1593,6 +1616,7 @@ type NodePoolConfigObservation struct {
 
 	// The list of Compute Engine zones where node pool nodes associated
 	// with a Dataproc on GKE virtual cluster will be located.
+	// +listType=set
 	Locations []*string `json:"locations,omitempty" tf:"locations,omitempty"`
 }
 
@@ -1610,6 +1634,7 @@ type NodePoolConfigParameters struct {
 	// The list of Compute Engine zones where node pool nodes associated
 	// with a Dataproc on GKE virtual cluster will be located.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Locations []*string `json:"locations" tf:"locations,omitempty"`
 }
 
@@ -1626,6 +1651,7 @@ type NodePoolTargetInitParameters struct {
 
 	// The roles associated with the GKE node pool.
 	// One of "DEFAULT", "CONTROLLER", "SPARK_DRIVER" or "SPARK_EXECUTOR".
+	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 }
 
@@ -1642,6 +1668,7 @@ type NodePoolTargetObservation struct {
 
 	// The roles associated with the GKE node pool.
 	// One of "DEFAULT", "CONTROLLER", "SPARK_DRIVER" or "SPARK_EXECUTOR".
+	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 }
 
@@ -1661,6 +1688,7 @@ type NodePoolTargetParameters struct {
 	// The roles associated with the GKE node pool.
 	// One of "DEFAULT", "CONTROLLER", "SPARK_DRIVER" or "SPARK_EXECUTOR".
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Roles []*string `json:"roles" tf:"roles,omitempty"`
 }
 
@@ -1779,6 +1807,7 @@ type ReservationAffinityInitParameters struct {
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// Corresponds to the label values of reservation resource.
+	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
@@ -1791,6 +1820,7 @@ type ReservationAffinityObservation struct {
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// Corresponds to the label values of reservation resource.
+	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
@@ -1806,6 +1836,7 @@ type ReservationAffinityParameters struct {
 
 	// Corresponds to the label values of reservation resource.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
@@ -1877,12 +1908,14 @@ type SoftwareConfigInitParameters struct {
 	ImageVersion *string `json:"imageVersion,omitempty" tf:"image_version,omitempty"`
 
 	// The set of optional components to activate on the cluster. See Available Optional Components.
+	// +listType=set
 	OptionalComponents []*string `json:"optionalComponents,omitempty" tf:"optional_components,omitempty"`
 
 	// A list of override and additional properties (key/value pairs)
 	// used to modify various aspects of the common configuration files used when creating
 	// a cluster. For a list of valid properties please see
 	// Cluster properties
+	// +mapType=granular
 	OverrideProperties map[string]*string `json:"overrideProperties,omitempty" tf:"override_properties,omitempty"`
 }
 
@@ -1896,12 +1929,14 @@ type SoftwareConfigObservation struct {
 	ImageVersion *string `json:"imageVersion,omitempty" tf:"image_version,omitempty"`
 
 	// The set of optional components to activate on the cluster. See Available Optional Components.
+	// +listType=set
 	OptionalComponents []*string `json:"optionalComponents,omitempty" tf:"optional_components,omitempty"`
 
 	// A list of override and additional properties (key/value pairs)
 	// used to modify various aspects of the common configuration files used when creating
 	// a cluster. For a list of valid properties please see
 	// Cluster properties
+	// +mapType=granular
 	OverrideProperties map[string]*string `json:"overrideProperties,omitempty" tf:"override_properties,omitempty"`
 
 	// The properties to set on daemon config files. Property keys are specified in prefix:property format,
@@ -1921,6 +1956,7 @@ type SoftwareConfigParameters struct {
 
 	// The set of optional components to activate on the cluster. See Available Optional Components.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	OptionalComponents []*string `json:"optionalComponents,omitempty" tf:"optional_components,omitempty"`
 
 	// A list of override and additional properties (key/value pairs)
@@ -1928,6 +1964,7 @@ type SoftwareConfigParameters struct {
 	// a cluster. For a list of valid properties please see
 	// Cluster properties
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	OverrideProperties map[string]*string `json:"overrideProperties,omitempty" tf:"override_properties,omitempty"`
 }
 

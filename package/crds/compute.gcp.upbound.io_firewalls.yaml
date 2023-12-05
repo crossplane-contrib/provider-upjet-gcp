@@ -129,6 +129,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   direction:
                     description: 'Direction of traffic to which this firewall applies;
                       default is INGRESS. Note: For INGRESS traffic, one of source_ranges,
@@ -264,6 +265,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   sourceServiceAccounts:
                     description: If source service accounts are specified, the firewall
                       will apply only to traffic originating from an instance with
@@ -282,6 +284,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   sourceTags:
                     description: If source tags are specified, the firewall will apply
                       only to traffic with source IP that belongs to a tag listed
@@ -297,6 +300,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   targetServiceAccounts:
                     description: A list of service accounts indicating sets of instances
                       located in the network that may make network connections as
@@ -307,6 +311,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   targetTags:
                     description: A list of instance tags indicating sets of instances
                       located in the network that may make network connections as
@@ -315,6 +320,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                 type: object
               initProvider:
                 description: THIS IS A BETA FIELD. It will be honored unless the Management
@@ -390,6 +396,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   direction:
                     description: 'Direction of traffic to which this firewall applies;
                       default is INGRESS. Note: For INGRESS traffic, one of source_ranges,
@@ -448,6 +455,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   sourceServiceAccounts:
                     description: If source service accounts are specified, the firewall
                       will apply only to traffic originating from an instance with
@@ -466,6 +474,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   sourceTags:
                     description: If source tags are specified, the firewall will apply
                       only to traffic with source IP that belongs to a tag listed
@@ -481,6 +490,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   targetServiceAccounts:
                     description: A list of service accounts indicating sets of instances
                       located in the network that may make network connections as
@@ -491,6 +501,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   targetTags:
                     description: A list of instance tags indicating sets of instances
                       located in the network that may make network connections as
@@ -499,6 +510,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                 type: object
               managementPolicies:
                 default:
@@ -730,6 +742,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   direction:
                     description: 'Direction of traffic to which this firewall applies;
                       default is INGRESS. Note: For INGRESS traffic, one of source_ranges,
@@ -798,6 +811,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   sourceServiceAccounts:
                     description: If source service accounts are specified, the firewall
                       will apply only to traffic originating from an instance with
@@ -816,6 +830,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   sourceTags:
                     description: If source tags are specified, the firewall will apply
                       only to traffic with source IP that belongs to a tag listed
@@ -831,6 +846,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   targetServiceAccounts:
                     description: A list of service accounts indicating sets of instances
                       located in the network that may make network connections as
@@ -841,6 +857,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   targetTags:
                     description: A list of instance tags indicating sets of instances
                       located in the network that may make network connections as
@@ -849,6 +866,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                 type: object
               conditions:
                 description: Conditions of the resource.

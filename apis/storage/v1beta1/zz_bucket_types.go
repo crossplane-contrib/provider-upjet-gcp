@@ -99,6 +99,7 @@ type BucketInitParameters struct {
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
 
 	// A map of key/value label pairs to assign to the bucket.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The bucket's Lifecycle Rules configuration. Multiple blocks of this type are permitted. Structure is documented below.
@@ -160,6 +161,7 @@ type BucketObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// A map of key/value label pairs to assign to the bucket.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The bucket's Lifecycle Rules configuration. Multiple blocks of this type are permitted. Structure is documented below.
@@ -232,6 +234,7 @@ type BucketParameters struct {
 
 	// A map of key/value label pairs to assign to the bucket.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The bucket's Lifecycle Rules configuration. Multiple blocks of this type are permitted. Structure is documented below.
@@ -451,12 +454,14 @@ type CorsParameters struct {
 type CustomPlacementConfigInitParameters struct {
 
 	// The list of individual regions that comprise a dual-region bucket. See Cloud Storage bucket locations for a list of acceptable regions. Note: If any of the data_locations changes, it will recreate the bucket.
+	// +listType=set
 	DataLocations []*string `json:"dataLocations,omitempty" tf:"data_locations,omitempty"`
 }
 
 type CustomPlacementConfigObservation struct {
 
 	// The list of individual regions that comprise a dual-region bucket. See Cloud Storage bucket locations for a list of acceptable regions. Note: If any of the data_locations changes, it will recreate the bucket.
+	// +listType=set
 	DataLocations []*string `json:"dataLocations,omitempty" tf:"data_locations,omitempty"`
 }
 
@@ -464,6 +469,7 @@ type CustomPlacementConfigParameters struct {
 
 	// The list of individual regions that comprise a dual-region bucket. See Cloud Storage bucket locations for a list of acceptable regions. Note: If any of the data_locations changes, it will recreate the bucket.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	DataLocations []*string `json:"dataLocations" tf:"data_locations,omitempty"`
 }
 

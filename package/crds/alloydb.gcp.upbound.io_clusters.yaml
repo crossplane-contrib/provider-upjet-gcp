@@ -104,6 +104,7 @@ spec:
                           description: Labels to apply to backups created using this
                             configuration.
                           type: object
+                          x-kubernetes-map-type: granular
                         location:
                           description: The location where the backup will be stored.
                             Currently, the only supported option is to store the backup
@@ -263,6 +264,7 @@ spec:
                       type: string
                     description: User-defined labels for the alloydb cluster.
                     type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: The location where the alloydb cluster should reside.
                     type: string
@@ -400,6 +402,7 @@ spec:
                           description: Labels to apply to backups created using this
                             configuration.
                           type: object
+                          x-kubernetes-map-type: granular
                         quantityBasedRetention:
                           description: Quantity-based Backup retention policy to retain
                             recent backups. Conflicts with 'time_based_retention',
@@ -533,6 +536,7 @@ spec:
                       type: string
                     description: User-defined labels for the alloydb cluster.
                     type: object
+                    x-kubernetes-map-type: granular
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
@@ -740,6 +744,7 @@ spec:
                           description: Labels to apply to backups created using this
                             configuration.
                           type: object
+                          x-kubernetes-map-type: granular
                         location:
                           description: The location where the backup will be stored.
                             Currently, the only supported option is to store the backup
@@ -952,6 +957,7 @@ spec:
                       type: string
                     description: User-defined labels for the alloydb cluster.
                     type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: The location where the alloydb cluster should reside.
                     type: string

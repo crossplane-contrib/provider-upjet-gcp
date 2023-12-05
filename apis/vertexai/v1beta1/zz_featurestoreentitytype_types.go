@@ -54,6 +54,7 @@ type FeaturestoreEntitytypeInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// A set of key/value label pairs to assign to this EntityType.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The default monitoring configuration for all Features under this EntityType.
@@ -83,6 +84,7 @@ type FeaturestoreEntitytypeObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// A set of key/value label pairs to assign to this EntityType.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The default monitoring configuration for all Features under this EntityType.
@@ -121,6 +123,7 @@ type FeaturestoreEntitytypeParameters struct {
 
 	// A set of key/value label pairs to assign to this EntityType.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The default monitoring configuration for all Features under this EntityType.

@@ -141,6 +141,7 @@ spec:
                                 additionalProperties:
                                   type: string
                                 type: object
+                                x-kubernetes-map-type: granular
                               size:
                                 type: number
                               type:
@@ -189,6 +190,7 @@ spec:
                     additionalProperties:
                       type: string
                     type: object
+                    x-kubernetes-map-type: granular
                   machineType:
                     type: string
                   metadata:
@@ -435,6 +437,7 @@ spec:
                           additionalProperties:
                             type: string
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   project:
@@ -490,6 +493,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                             type: object
                           type: array
                         onHostMaintenance:
@@ -518,6 +522,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                       type: object
                     type: array
                   shieldedInstanceConfig:
@@ -613,6 +618,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   zone:
                     description: The zone that the machine should be created in. If
                       not set, the provider zone is used.
@@ -686,6 +692,7 @@ spec:
                                 additionalProperties:
                                   type: string
                                 type: object
+                                x-kubernetes-map-type: granular
                               size:
                                 type: number
                               type:
@@ -734,6 +741,7 @@ spec:
                     additionalProperties:
                       type: string
                     type: object
+                    x-kubernetes-map-type: granular
                   machineType:
                     type: string
                   metadata:
@@ -824,6 +832,7 @@ spec:
                           additionalProperties:
                             type: string
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   project:
@@ -879,6 +888,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                             type: object
                           type: array
                         onHostMaintenance:
@@ -907,6 +917,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                       type: object
                     type: array
                   shieldedInstanceConfig:
@@ -924,6 +935,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   zone:
                     description: The zone that the machine should be created in. If
                       not set, the provider zone is used.
@@ -1158,6 +1170,7 @@ spec:
                                 additionalProperties:
                                   type: string
                                 type: object
+                                x-kubernetes-map-type: granular
                               size:
                                 type: number
                               type:
@@ -1216,6 +1229,7 @@ spec:
                     additionalProperties:
                       type: string
                     type: object
+                    x-kubernetes-map-type: granular
                   machineType:
                     type: string
                   metadata:
@@ -1318,6 +1332,7 @@ spec:
                           additionalProperties:
                             type: string
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   project:
@@ -1373,6 +1388,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                             type: object
                           type: array
                         onHostMaintenance:
@@ -1403,6 +1419,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                       type: object
                     type: array
                   shieldedInstanceConfig:
@@ -1425,6 +1442,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   tagsFingerprint:
                     type: string
                   zone:

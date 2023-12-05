@@ -52,6 +52,7 @@ type CustomServiceInitParameters struct {
 	// length of 63 characters, and must be less than 128 bytes in size. Up to 64
 	// label entries may be stored. For labels which do not have a semantic value,
 	// the empty string may be supplied for the label value.
+	// +mapType=granular
 	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
 }
 
@@ -85,6 +86,7 @@ type CustomServiceObservation struct {
 	// length of 63 characters, and must be less than 128 bytes in size. Up to 64
 	// label entries may be stored. For labels which do not have a semantic value,
 	// the empty string may be supplied for the label value.
+	// +mapType=granular
 	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
 }
 
@@ -116,6 +118,7 @@ type CustomServiceParameters struct {
 	// label entries may be stored. For labels which do not have a semantic value,
 	// the empty string may be supplied for the label value.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
 }
 

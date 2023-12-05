@@ -36,6 +36,7 @@ type ObjectACLInitParameters struct {
 
 	// List of role/entity pairs in the form ROLE:entity. See GCS Object ACL documentation for more details.
 	// Must be set if predefined_acl is not.
+	// +listType=set
 	RoleEntity []*string `json:"roleEntity,omitempty" tf:"role_entity,omitempty"`
 }
 
@@ -54,6 +55,7 @@ type ObjectACLObservation struct {
 
 	// List of role/entity pairs in the form ROLE:entity. See GCS Object ACL documentation for more details.
 	// Must be set if predefined_acl is not.
+	// +listType=set
 	RoleEntity []*string `json:"roleEntity,omitempty" tf:"role_entity,omitempty"`
 }
 
@@ -93,6 +95,7 @@ type ObjectACLParameters struct {
 	// List of role/entity pairs in the form ROLE:entity. See GCS Object ACL documentation for more details.
 	// Must be set if predefined_acl is not.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	RoleEntity []*string `json:"roleEntity,omitempty" tf:"role_entity,omitempty"`
 }
 

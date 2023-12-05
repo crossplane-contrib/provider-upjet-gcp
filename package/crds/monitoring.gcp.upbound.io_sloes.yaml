@@ -112,6 +112,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                         method:
                           description: An optional set of RPCs to which this SLI is
                             relevant. Telemetry from other methods will not be used
@@ -122,6 +123,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                         version:
                           description: The set of API versions to which this SLI is
                             relevant. Telemetry from other API versions will not be
@@ -132,6 +134,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                       type: object
                     type: array
                   calendarPeriod:
@@ -335,6 +338,7 @@ spec:
                       can contain only lowercase letters, numerals, underscores, and
                       dashes. Keys must begin with a letter.
                     type: object
+                    x-kubernetes-map-type: granular
                   windowsBasedSli:
                     description: 'A windows-based SLI defines the criteria for time
                       windows. good_service is defined based off the count of these
@@ -405,6 +409,7 @@ spec:
                                       items:
                                         type: string
                                       type: array
+                                      x-kubernetes-list-type: set
                                     method:
                                       description: An optional set of RPCs to which
                                         this SLI is relevant. Telemetry from other
@@ -417,6 +422,7 @@ spec:
                                       items:
                                         type: string
                                       type: array
+                                      x-kubernetes-list-type: set
                                     version:
                                       description: The set of API versions to which
                                         this SLI is relevant. Telemetry from other
@@ -429,6 +435,7 @@ spec:
                                       items:
                                         type: string
                                       type: array
+                                      x-kubernetes-list-type: set
                                   type: object
                                 type: array
                               performance:
@@ -677,6 +684,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                         method:
                           description: An optional set of RPCs to which this SLI is
                             relevant. Telemetry from other methods will not be used
@@ -687,6 +695,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                         version:
                           description: The set of API versions to which this SLI is
                             relevant. Telemetry from other API versions will not be
@@ -697,6 +706,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                       type: object
                     type: array
                   calendarPeriod:
@@ -822,6 +832,7 @@ spec:
                       can contain only lowercase letters, numerals, underscores, and
                       dashes. Keys must begin with a letter.
                     type: object
+                    x-kubernetes-map-type: granular
                   windowsBasedSli:
                     description: 'A windows-based SLI defines the criteria for time
                       windows. good_service is defined based off the count of these
@@ -892,6 +903,7 @@ spec:
                                       items:
                                         type: string
                                       type: array
+                                      x-kubernetes-list-type: set
                                     method:
                                       description: An optional set of RPCs to which
                                         this SLI is relevant. Telemetry from other
@@ -904,6 +916,7 @@ spec:
                                       items:
                                         type: string
                                       type: array
+                                      x-kubernetes-list-type: set
                                     version:
                                       description: The set of API versions to which
                                         this SLI is relevant. Telemetry from other
@@ -916,6 +929,7 @@ spec:
                                       items:
                                         type: string
                                       type: array
+                                      x-kubernetes-list-type: set
                                   type: object
                                 type: array
                               performance:
@@ -1322,6 +1336,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                         method:
                           description: An optional set of RPCs to which this SLI is
                             relevant. Telemetry from other methods will not be used
@@ -1332,6 +1347,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                         version:
                           description: The set of API versions to which this SLI is
                             relevant. Telemetry from other API versions will not be
@@ -1342,6 +1358,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                       type: object
                     type: array
                   calendarPeriod:
@@ -1477,6 +1494,7 @@ spec:
                       can contain only lowercase letters, numerals, underscores, and
                       dashes. Keys must begin with a letter.
                     type: object
+                    x-kubernetes-map-type: granular
                   windowsBasedSli:
                     description: 'A windows-based SLI defines the criteria for time
                       windows. good_service is defined based off the count of these
@@ -1547,6 +1565,7 @@ spec:
                                       items:
                                         type: string
                                       type: array
+                                      x-kubernetes-list-type: set
                                     method:
                                       description: An optional set of RPCs to which
                                         this SLI is relevant. Telemetry from other
@@ -1559,6 +1578,7 @@ spec:
                                       items:
                                         type: string
                                       type: array
+                                      x-kubernetes-list-type: set
                                     version:
                                       description: The set of API versions to which
                                         this SLI is relevant. Telemetry from other
@@ -1571,6 +1591,7 @@ spec:
                                       items:
                                         type: string
                                       type: array
+                                      x-kubernetes-list-type: set
                                   type: object
                                 type: array
                               performance:

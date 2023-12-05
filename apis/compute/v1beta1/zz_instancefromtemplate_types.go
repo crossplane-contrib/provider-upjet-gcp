@@ -34,6 +34,7 @@ type BootDiskInitializeParamsInitParameters struct {
 
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
@@ -46,6 +47,7 @@ type BootDiskInitializeParamsObservation struct {
 
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
@@ -62,6 +64,7 @@ type BootDiskInitializeParamsParameters struct {
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -284,6 +287,7 @@ type InstanceFromTemplateInitParameters struct {
 	// Changing this forces a new resource to be created.
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
@@ -318,6 +322,7 @@ type InstanceFromTemplateInitParameters struct {
 
 	ShieldedInstanceConfig []InstanceFromTemplateShieldedInstanceConfigInitParameters `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
 
+	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The zone that the machine should be created in. If not
@@ -474,6 +479,7 @@ type InstanceFromTemplateObservation struct {
 
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
 
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
@@ -517,6 +523,7 @@ type InstanceFromTemplateObservation struct {
 	// instance templates through their unique id (self_link_unique attribute).
 	SourceInstanceTemplate *string `json:"sourceInstanceTemplate,omitempty" tf:"source_instance_template,omitempty"`
 
+	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	TagsFingerprint *string `json:"tagsFingerprint,omitempty" tf:"tags_fingerprint,omitempty"`
@@ -568,6 +575,7 @@ type InstanceFromTemplateParameters struct {
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -634,6 +642,7 @@ type InstanceFromTemplateParameters struct {
 	SourceInstanceTemplateSelector *v1.Selector `json:"sourceInstanceTemplateSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The zone that the machine should be created in. If not
@@ -643,16 +652,21 @@ type InstanceFromTemplateParameters struct {
 }
 
 type InstanceFromTemplateParamsInitParameters struct {
+
+	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 type InstanceFromTemplateParamsObservation struct {
+
+	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 type InstanceFromTemplateParamsParameters struct {
 
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
@@ -764,12 +778,14 @@ type InstanceFromTemplateScratchDiskParameters struct {
 type InstanceFromTemplateServiceAccountInitParameters struct {
 	Email *string `json:"email,omitempty" tf:"email"`
 
+	// +listType=set
 	Scopes []*string `json:"scopes,omitempty" tf:"scopes"`
 }
 
 type InstanceFromTemplateServiceAccountObservation struct {
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`
 
+	// +listType=set
 	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
 }
 
@@ -779,6 +795,7 @@ type InstanceFromTemplateServiceAccountParameters struct {
 	Email *string `json:"email,omitempty" tf:"email"`
 
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Scopes []*string `json:"scopes,omitempty" tf:"scopes"`
 }
 
@@ -972,6 +989,7 @@ type SchedulingNodeAffinitiesInitParameters struct {
 
 	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 
+	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
@@ -980,6 +998,7 @@ type SchedulingNodeAffinitiesObservation struct {
 
 	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 
+	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
@@ -992,6 +1011,7 @@ type SchedulingNodeAffinitiesParameters struct {
 	Operator *string `json:"operator" tf:"operator,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Values []*string `json:"values" tf:"values,omitempty"`
 }
 

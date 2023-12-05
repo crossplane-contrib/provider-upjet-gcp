@@ -73,6 +73,7 @@ spec:
                     description: Annotations to allow client tools to store small
                       amount of arbitrary data. This is distinct from labels.
                     type: object
+                    x-kubernetes-map-type: granular
                   availabilityType:
                     description: '''Availability type of an Instance. Defaults to
                       REGIONAL for both primary and read instances. Note that primary
@@ -171,6 +172,7 @@ spec:
                       for reads, e.g. for enabling columnar cache on a read instance.
                       Flags set on read instance may or may not be present on primary.
                     type: object
+                    x-kubernetes-map-type: granular
                   displayName:
                     description: User-settable and human-readable display name for
                       the Instance.
@@ -193,6 +195,7 @@ spec:
                       type: string
                     description: User-defined labels for the alloydb instance.
                     type: object
+                    x-kubernetes-map-type: granular
                   machineConfig:
                     description: Configurations for the machines that host the underlying
                       database engine. Structure is documented below.
@@ -233,6 +236,7 @@ spec:
                     description: Annotations to allow client tools to store small
                       amount of arbitrary data. This is distinct from labels.
                     type: object
+                    x-kubernetes-map-type: granular
                   availabilityType:
                     description: '''Availability type of an Instance. Defaults to
                       REGIONAL for both primary and read instances. Note that primary
@@ -254,6 +258,7 @@ spec:
                       for reads, e.g. for enabling columnar cache on a read instance.
                       Flags set on read instance may or may not be present on primary.
                     type: object
+                    x-kubernetes-map-type: granular
                   displayName:
                     description: User-settable and human-readable display name for
                       the Instance.
@@ -276,6 +281,7 @@ spec:
                       type: string
                     description: User-defined labels for the alloydb instance.
                     type: object
+                    x-kubernetes-map-type: granular
                   machineConfig:
                     description: Configurations for the machines that host the underlying
                       database engine. Structure is documented below.
@@ -474,6 +480,7 @@ spec:
                     description: Annotations to allow client tools to store small
                       amount of arbitrary data. This is distinct from labels.
                     type: object
+                    x-kubernetes-map-type: granular
                   availabilityType:
                     description: '''Availability type of an Instance. Defaults to
                       REGIONAL for both primary and read instances. Note that primary
@@ -502,6 +509,7 @@ spec:
                       for reads, e.g. for enabling columnar cache on a read instance.
                       Flags set on read instance may or may not be present on primary.
                     type: object
+                    x-kubernetes-map-type: granular
                   displayName:
                     description: User-settable and human-readable display name for
                       the Instance.
@@ -531,6 +539,7 @@ spec:
                       type: string
                     description: User-defined labels for the alloydb instance.
                     type: object
+                    x-kubernetes-map-type: granular
                   machineConfig:
                     description: Configurations for the machines that host the underlying
                       database engine. Structure is documented below.

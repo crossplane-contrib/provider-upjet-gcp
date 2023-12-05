@@ -296,6 +296,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                               queryStringWhitelist:
                                 description: Names of query string parameters to include
                                   in cache keys. All other parameters will be excluded.
@@ -305,6 +306,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                             type: object
                           type: array
                         cacheMode:
@@ -523,6 +525,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   healthChecksRefs:
                     description: References to RegionHealthCheck to populate healthChecks.
                     items:
@@ -955,6 +958,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                               queryStringWhitelist:
                                 description: Names of query string parameters to include
                                   in cache keys. All other parameters will be excluded.
@@ -964,6 +968,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                             type: object
                           type: array
                         cacheMode:
@@ -1673,6 +1678,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                               queryStringWhitelist:
                                 description: Names of query string parameters to include
                                   in cache keys. All other parameters will be excluded.
@@ -1682,6 +1688,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                             type: object
                           type: array
                         cacheMode:
@@ -1907,6 +1914,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   iap:
                     description: Settings for enabling Cloud Identity Aware Proxy
                       Structure is documented below.

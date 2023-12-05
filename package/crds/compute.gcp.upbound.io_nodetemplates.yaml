@@ -80,6 +80,7 @@ spec:
                     description: Labels to use for node affinity, which will be used
                       in instance scheduling.
                     type: object
+                    x-kubernetes-map-type: granular
                   nodeType:
                     description: Node type to use for nodes group that are created
                       from this template. Only one of nodeTypeFlexibility and nodeType
@@ -159,6 +160,7 @@ spec:
                     description: Labels to use for node affinity, which will be used
                       in instance scheduling.
                     type: object
+                    x-kubernetes-map-type: granular
                   nodeType:
                     description: Node type to use for nodes group that are created
                       from this template. Only one of nodeTypeFlexibility and nodeType
@@ -391,6 +393,7 @@ spec:
                     description: Labels to use for node affinity, which will be used
                       in instance scheduling.
                     type: object
+                    x-kubernetes-map-type: granular
                   nodeType:
                     description: Node type to use for nodes group that are created
                       from this template. Only one of nodeTypeFlexibility and nodeType

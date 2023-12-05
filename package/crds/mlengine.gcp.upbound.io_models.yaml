@@ -89,6 +89,7 @@ spec:
                     description: One or more labels that you can add, to organize
                       your models.
                     type: object
+                    x-kubernetes-map-type: granular
                   name:
                     description: The name specified for the model.
                     type: string
@@ -145,6 +146,7 @@ spec:
                     description: One or more labels that you can add, to organize
                       your models.
                     type: object
+                    x-kubernetes-map-type: granular
                   name:
                     description: The name specified for the model.
                     type: string
@@ -362,6 +364,7 @@ spec:
                     description: One or more labels that you can add, to organize
                       your models.
                     type: object
+                    x-kubernetes-map-type: granular
                   name:
                     description: The name specified for the model.
                     type: string

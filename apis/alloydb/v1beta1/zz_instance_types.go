@@ -32,6 +32,7 @@ import (
 type InstanceInitParameters struct {
 
 	// Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels.
+	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// 'Availability type of an Instance. Defaults to REGIONAL for both primary and read instances.
@@ -44,6 +45,7 @@ type InstanceInitParameters struct {
 	AvailabilityType *string `json:"availabilityType,omitempty" tf:"availability_type,omitempty"`
 
 	// Database flags. Set at instance level. * They are copied from primary instance on read instance creation. * Read instances can set new or override existing flags that are relevant for reads, e.g. for enabling columnar cache on a read instance. Flags set on read instance may or may not be present on primary.
+	// +mapType=granular
 	DatabaseFlags map[string]*string `json:"databaseFlags,omitempty" tf:"database_flags,omitempty"`
 
 	// User-settable and human-readable display name for the Instance.
@@ -57,6 +59,7 @@ type InstanceInitParameters struct {
 	InstanceType *string `json:"instanceType,omitempty" tf:"instance_type,omitempty"`
 
 	// User-defined labels for the alloydb instance.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Configurations for the machines that host the underlying database engine.
@@ -71,6 +74,7 @@ type InstanceInitParameters struct {
 type InstanceObservation struct {
 
 	// Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels.
+	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// 'Availability type of an Instance. Defaults to REGIONAL for both primary and read instances.
@@ -90,6 +94,7 @@ type InstanceObservation struct {
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
 	// Database flags. Set at instance level. * They are copied from primary instance on read instance creation. * Read instances can set new or override existing flags that are relevant for reads, e.g. for enabling columnar cache on a read instance. Flags set on read instance may or may not be present on primary.
+	// +mapType=granular
 	DatabaseFlags map[string]*string `json:"databaseFlags,omitempty" tf:"database_flags,omitempty"`
 
 	// User-settable and human-readable display name for the Instance.
@@ -109,6 +114,7 @@ type InstanceObservation struct {
 	InstanceType *string `json:"instanceType,omitempty" tf:"instance_type,omitempty"`
 
 	// User-defined labels for the alloydb instance.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Configurations for the machines that host the underlying database engine.
@@ -139,6 +145,7 @@ type InstanceParameters struct {
 
 	// Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// 'Availability type of an Instance. Defaults to REGIONAL for both primary and read instances.
@@ -168,6 +175,7 @@ type InstanceParameters struct {
 
 	// Database flags. Set at instance level. * They are copied from primary instance on read instance creation. * Read instances can set new or override existing flags that are relevant for reads, e.g. for enabling columnar cache on a read instance. Flags set on read instance may or may not be present on primary.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DatabaseFlags map[string]*string `json:"databaseFlags,omitempty" tf:"database_flags,omitempty"`
 
 	// User-settable and human-readable display name for the Instance.
@@ -185,6 +193,7 @@ type InstanceParameters struct {
 
 	// User-defined labels for the alloydb instance.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Configurations for the machines that host the underlying database engine.

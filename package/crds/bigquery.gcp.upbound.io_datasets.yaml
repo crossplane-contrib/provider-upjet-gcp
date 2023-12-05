@@ -716,6 +716,7 @@ spec:
                     description: The labels associated with this dataset. You can
                       use these to organize and group your datasets
                     type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: The geographic location where the dataset should
                       reside. See official docs.
@@ -887,6 +888,7 @@ spec:
                     description: The labels associated with this dataset. You can
                       use these to organize and group your datasets
                     type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: The geographic location where the dataset should
                       reside. See official docs.
@@ -1246,6 +1248,7 @@ spec:
                     description: The labels associated with this dataset. You can
                       use these to organize and group your datasets
                     type: object
+                    x-kubernetes-map-type: granular
                   lastModifiedTime:
                     description: The date when this dataset or any of its tables was
                       last modified, in milliseconds since the epoch.

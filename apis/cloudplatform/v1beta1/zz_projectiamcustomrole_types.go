@@ -35,6 +35,7 @@ type ProjectIAMCustomRoleInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The names of the permissions this role grants when bound in an IAM policy. At least one permission must be specified.
+	// +listType=set
 	Permissions []*string `json:"permissions,omitempty" tf:"permissions,omitempty"`
 
 	// The project that the service account will be created in.
@@ -65,6 +66,7 @@ type ProjectIAMCustomRoleObservation struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The names of the permissions this role grants when bound in an IAM policy. At least one permission must be specified.
+	// +listType=set
 	Permissions []*string `json:"permissions,omitempty" tf:"permissions,omitempty"`
 
 	// The project that the service account will be created in.
@@ -88,6 +90,7 @@ type ProjectIAMCustomRoleParameters struct {
 
 	// The names of the permissions this role grants when bound in an IAM policy. At least one permission must be specified.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Permissions []*string `json:"permissions,omitempty" tf:"permissions,omitempty"`
 
 	// The project that the service account will be created in.

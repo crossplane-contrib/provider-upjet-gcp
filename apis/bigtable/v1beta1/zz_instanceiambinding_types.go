@@ -60,6 +60,7 @@ type ConditionParameters struct {
 type InstanceIAMBindingInitParameters struct {
 	Condition []ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
+	// +listType=set
 	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
 
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -74,6 +75,7 @@ type InstanceIAMBindingObservation struct {
 
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
+	// +listType=set
 	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
 
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -90,6 +92,7 @@ type InstanceIAMBindingParameters struct {
 	Instance *string `json:"instance" tf:"instance,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
 
 	// +kubebuilder:validation:Optional

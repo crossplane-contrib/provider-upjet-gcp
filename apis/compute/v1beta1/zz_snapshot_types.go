@@ -86,6 +86,7 @@ type SnapshotInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Labels to apply to this Snapshot.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -145,6 +146,7 @@ type SnapshotObservation struct {
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
 
 	// Labels to apply to this Snapshot.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// A list of public visible licenses that apply to this snapshot. This
@@ -214,6 +216,7 @@ type SnapshotParameters struct {
 
 	// Labels to apply to this Snapshot.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.

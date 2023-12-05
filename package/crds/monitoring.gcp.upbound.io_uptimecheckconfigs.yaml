@@ -203,6 +203,7 @@ spec:
                             by the second. The maximum number of headers allowed is
                             100.
                           type: object
+                          x-kubernetes-map-type: granular
                         maskHeaders:
                           description: Boolean specifying whether to encrypt the header
                             information. Encryption should be specified for any headers
@@ -260,6 +261,7 @@ spec:
                             Compute Engine VM instances use the labels "project_id",
                             "instance_id", and "zone".
                           type: object
+                          x-kubernetes-map-type: granular
                         type:
                           description: The monitored resource type. This field must
                             match the type field of a MonitoredResourceDescriptor
@@ -529,6 +531,7 @@ spec:
                             by the second. The maximum number of headers allowed is
                             100.
                           type: object
+                          x-kubernetes-map-type: granular
                         maskHeaders:
                           description: Boolean specifying whether to encrypt the header
                             information. Encryption should be specified for any headers
@@ -586,6 +589,7 @@ spec:
                             Compute Engine VM instances use the labels "project_id",
                             "instance_id", and "zone".
                           type: object
+                          x-kubernetes-map-type: granular
                         type:
                           description: The monitored resource type. This field must
                             match the type field of a MonitoredResourceDescriptor
@@ -935,6 +939,7 @@ spec:
                             by the second. The maximum number of headers allowed is
                             100.
                           type: object
+                          x-kubernetes-map-type: granular
                         maskHeaders:
                           description: Boolean specifying whether to encrypt the header
                             information. Encryption should be specified for any headers
@@ -995,6 +1000,7 @@ spec:
                             Compute Engine VM instances use the labels "project_id",
                             "instance_id", and "zone".
                           type: object
+                          x-kubernetes-map-type: granular
                         type:
                           description: The monitored resource type. This field must
                             match the type field of a MonitoredResourceDescriptor

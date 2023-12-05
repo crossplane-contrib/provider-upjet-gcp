@@ -164,6 +164,7 @@ spec:
                           description: A set of ket/value label pairs to assign to
                             disk created from this template
                           type: object
+                          x-kubernetes-map-type: granular
                         mode:
                           description: The mode in which to attach this disk, either
                             READ_WRITE or READ_ONLY. If you are attaching or creating
@@ -341,6 +342,7 @@ spec:
                     description: A set of key/value label pairs to assign to instances
                       created from this template.
                     type: object
+                    x-kubernetes-map-type: granular
                   machineType:
                     description: The machine type to create.
                     type: string
@@ -750,6 +752,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                             type: object
                           type: array
                         onHostMaintenance:
@@ -864,6 +867,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                       type: object
                     type: array
                   shieldedInstanceConfig:
@@ -897,6 +901,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                 type: object
               initProvider:
                 description: THIS IS A BETA FIELD. It will be honored unless the Management
@@ -1007,6 +1012,7 @@ spec:
                           description: A set of ket/value label pairs to assign to
                             disk created from this template
                           type: object
+                          x-kubernetes-map-type: granular
                         mode:
                           description: The mode in which to attach this disk, either
                             READ_WRITE or READ_ONLY. If you are attaching or creating
@@ -1099,6 +1105,7 @@ spec:
                     description: A set of key/value label pairs to assign to instances
                       created from this template.
                     type: object
+                    x-kubernetes-map-type: granular
                   machineType:
                     description: The machine type to create.
                     type: string
@@ -1344,6 +1351,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                             type: object
                           type: array
                         onHostMaintenance:
@@ -1375,6 +1383,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                       type: object
                     type: array
                   shieldedInstanceConfig:
@@ -1408,6 +1417,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                 type: object
               managementPolicies:
                 default:
@@ -1680,6 +1690,7 @@ spec:
                           description: A set of ket/value label pairs to assign to
                             disk created from this template
                           type: object
+                          x-kubernetes-map-type: granular
                         mode:
                           description: The mode in which to attach this disk, either
                             READ_WRITE or READ_ONLY. If you are attaching or creating
@@ -1782,6 +1793,7 @@ spec:
                     description: A set of key/value label pairs to assign to instances
                       created from this template.
                     type: object
+                    x-kubernetes-map-type: granular
                   machineType:
                     description: The machine type to create.
                     type: string
@@ -2060,6 +2072,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                             type: object
                           type: array
                         onHostMaintenance:
@@ -2107,6 +2120,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                       type: object
                     type: array
                   shieldedInstanceConfig:
@@ -2140,6 +2154,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   tagsFingerprint:
                     description: The unique fingerprint of the tags.
                     type: string

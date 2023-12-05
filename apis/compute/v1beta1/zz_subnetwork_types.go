@@ -178,6 +178,7 @@ type SubnetworkLogConfigInitParameters struct {
 
 	// List of metadata fields that should be added to reported logs.
 	// Can only be specified if VPC flow logs for this subnetwork is enabled and "metadata" is set to CUSTOM_METADATA.
+	// +listType=set
 	MetadataFields []*string `json:"metadataFields,omitempty" tf:"metadata_fields,omitempty"`
 }
 
@@ -212,6 +213,7 @@ type SubnetworkLogConfigObservation struct {
 
 	// List of metadata fields that should be added to reported logs.
 	// Can only be specified if VPC flow logs for this subnetwork is enabled and "metadata" is set to CUSTOM_METADATA.
+	// +listType=set
 	MetadataFields []*string `json:"metadataFields,omitempty" tf:"metadata_fields,omitempty"`
 }
 
@@ -251,6 +253,7 @@ type SubnetworkLogConfigParameters struct {
 	// List of metadata fields that should be added to reported logs.
 	// Can only be specified if VPC flow logs for this subnetwork is enabled and "metadata" is set to CUSTOM_METADATA.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	MetadataFields []*string `json:"metadataFields,omitempty" tf:"metadata_fields,omitempty"`
 }
 

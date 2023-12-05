@@ -35,6 +35,7 @@ type AppConnectorInitParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Resource labels to represent user provided metadata.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Principal information about the Identity of the AppConnector.
@@ -55,6 +56,7 @@ type AppConnectorObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Resource labels to represent user provided metadata.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Principal information about the Identity of the AppConnector.
@@ -80,6 +82,7 @@ type AppConnectorParameters struct {
 
 	// Resource labels to represent user provided metadata.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Principal information about the Identity of the AppConnector.

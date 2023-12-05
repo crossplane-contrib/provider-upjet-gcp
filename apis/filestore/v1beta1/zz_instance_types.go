@@ -91,6 +91,7 @@ type InstanceInitParameters struct {
 	FileShares []FileSharesInitParameters `json:"fileShares,omitempty" tf:"file_shares,omitempty"`
 
 	// Resource labels to represent user-provided metadata.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// VPC networks to which the instance is connected. For this version,
@@ -134,6 +135,7 @@ type InstanceObservation struct {
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// Resource labels to represent user-provided metadata.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of the location of the instance. This can be a region for ENTERPRISE tier instances.
@@ -184,6 +186,7 @@ type InstanceParameters struct {
 
 	// Resource labels to represent user-provided metadata.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of the location of the instance. This can be a region for ENTERPRISE tier instances.

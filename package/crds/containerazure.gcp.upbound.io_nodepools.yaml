@@ -78,6 +78,7 @@ spec:
                       or less, begin and end with alphanumerics, with dashes (-),
                       underscores (_), dots (.), and alphanumerics between.'
                     type: object
+                    x-kubernetes-map-type: granular
                   autoscaling:
                     description: Autoscaler configuration for this node pool.
                     items:
@@ -227,6 +228,7 @@ spec:
                             Keys can be up to 127 Unicode characters. Values can be
                             up to 255 Unicode characters.
                           type: object
+                          x-kubernetes-map-type: granular
                         vmSize:
                           description: 'Optional. The Azure VM size name. Example:
                             Standard_DS2_v2. See (/anthos/clusters/docs/azure/reference/supported-vms)
@@ -286,6 +288,7 @@ spec:
                       or less, begin and end with alphanumerics, with dashes (-),
                       underscores (_), dots (.), and alphanumerics between.'
                     type: object
+                    x-kubernetes-map-type: granular
                   autoscaling:
                     description: Autoscaler configuration for this node pool.
                     items:
@@ -359,6 +362,7 @@ spec:
                             Keys can be up to 127 Unicode characters. Values can be
                             up to 255 Unicode characters.
                           type: object
+                          x-kubernetes-map-type: granular
                         vmSize:
                           description: 'Optional. The Azure VM size name. Example:
                             Standard_DS2_v2. See (/anthos/clusters/docs/azure/reference/supported-vms)
@@ -587,6 +591,7 @@ spec:
                       or less, begin and end with alphanumerics, with dashes (-),
                       underscores (_), dots (.), and alphanumerics between.'
                     type: object
+                    x-kubernetes-map-type: granular
                   autoscaling:
                     description: Autoscaler configuration for this node pool.
                     items:
@@ -663,6 +668,7 @@ spec:
                             Keys can be up to 127 Unicode characters. Values can be
                             up to 255 Unicode characters.
                           type: object
+                          x-kubernetes-map-type: granular
                         vmSize:
                           description: 'Optional. The Azure VM size name. Example:
                             Standard_DS2_v2. See (/anthos/clusters/docs/azure/reference/supported-vms)

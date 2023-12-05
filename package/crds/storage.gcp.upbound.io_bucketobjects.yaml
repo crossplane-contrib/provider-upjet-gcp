@@ -218,6 +218,7 @@ spec:
                       type: string
                     description: User-provided metadata, in key/value pairs.
                     type: object
+                    x-kubernetes-map-type: granular
                   name:
                     description: The name of the object. If you're interpolating the
                       name of this object, see output_name instead.
@@ -305,6 +306,7 @@ spec:
                       type: string
                     description: User-provided metadata, in key/value pairs.
                     type: object
+                    x-kubernetes-map-type: granular
                   name:
                     description: The name of the object. If you're interpolating the
                       name of this object, see output_name instead.
@@ -564,6 +566,7 @@ spec:
                       type: string
                     description: User-provided metadata, in key/value pairs.
                     type: object
+                    x-kubernetes-map-type: granular
                   name:
                     description: The name of the object. If you're interpolating the
                       name of this object, see output_name instead.

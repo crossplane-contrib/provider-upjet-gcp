@@ -170,6 +170,7 @@ spec:
                     description: Labels to apply to this forwarding rule.  A list
                       of key->value pairs.
                     type: object
+                    x-kubernetes-map-type: granular
                   loadBalancingScheme:
                     description: 'Specifies the forwarding rule type. For more information
                       about forwarding rules, refer to Forwarding rule concepts. Default
@@ -528,6 +529,7 @@ spec:
                     description: Labels to apply to this forwarding rule.  A list
                       of key->value pairs.
                     type: object
+                    x-kubernetes-map-type: granular
                   loadBalancingScheme:
                     description: 'Specifies the forwarding rule type. For more information
                       about forwarding rules, refer to Forwarding rule concepts. Default
@@ -819,6 +821,7 @@ spec:
                     description: Labels to apply to this forwarding rule.  A list
                       of key->value pairs.
                     type: object
+                    x-kubernetes-map-type: granular
                   loadBalancingScheme:
                     description: 'Specifies the forwarding rule type. For more information
                       about forwarding rules, refer to Forwarding rule concepts. Default

@@ -150,6 +150,7 @@ type InstanceInitParameters struct {
 
 	// Labels to apply to this instance. These can be later modified by the setLabels method.
 	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// A reference to a machine type which defines VM kind.
@@ -157,6 +158,7 @@ type InstanceInitParameters struct {
 
 	// Custom metadata to apply to this instance.
 	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The name of the VPC that this instance is in.
@@ -280,6 +282,7 @@ type InstanceObservation struct {
 
 	// Labels to apply to this instance. These can be later modified by the setLabels method.
 	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// A reference to the zone where the machine resides.
@@ -290,6 +293,7 @@ type InstanceObservation struct {
 
 	// Custom metadata to apply to this instance.
 	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The name of the VPC that this instance is in.
@@ -429,6 +433,7 @@ type InstanceParameters struct {
 	// Labels to apply to this instance. These can be later modified by the setLabels method.
 	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// A reference to the zone where the machine resides.
@@ -442,6 +447,7 @@ type InstanceParameters struct {
 	// Custom metadata to apply to this instance.
 	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The name of the VPC that this instance is in.

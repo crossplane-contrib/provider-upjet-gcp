@@ -233,6 +233,7 @@ spec:
                     description: Optional. User labels attached to the triggers that
                       can be used to group resources.
                     type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: The location for the resource
                     type: string
@@ -394,6 +395,7 @@ spec:
                     description: Optional. User labels attached to the triggers that
                       can be used to group resources.
                     type: object
+                    x-kubernetes-map-type: granular
                   matchingCriteria:
                     description: Required. null The list of filters that applies to
                       event attributes. Only events that match all the provided filters
@@ -646,6 +648,7 @@ spec:
                     description: Output only. The reason(s) why a trigger is in FAILED
                       state.
                     type: object
+                    x-kubernetes-map-type: granular
                   createTime:
                     description: Output only. The creation time.
                     type: string
@@ -736,6 +739,7 @@ spec:
                     description: Optional. User labels attached to the triggers that
                       can be used to group resources.
                     type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: The location for the resource
                     type: string

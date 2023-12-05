@@ -64,6 +64,7 @@ type DataTransferConfigInitParameters struct {
 	// section for each data source. For example the parameters for Cloud Storage transfers are listed here:
 	// https://cloud.google.com/bigquery-transfer/docs/cloud-storage-transfer#bq
 	// NOTE : If you are attempting to update a parameter that cannot be updated (due to api limitations) please force recreation of the resource.
+	// +mapType=granular
 	Params map[string]*string `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -146,6 +147,7 @@ type DataTransferConfigObservation struct {
 	// section for each data source. For example the parameters for Cloud Storage transfers are listed here:
 	// https://cloud.google.com/bigquery-transfer/docs/cloud-storage-transfer#bq
 	// NOTE : If you are attempting to update a parameter that cannot be updated (due to api limitations) please force recreation of the resource.
+	// +mapType=granular
 	Params map[string]*string `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -237,6 +239,7 @@ type DataTransferConfigParameters struct {
 	// https://cloud.google.com/bigquery-transfer/docs/cloud-storage-transfer#bq
 	// NOTE : If you are attempting to update a parameter that cannot be updated (due to api limitations) please force recreation of the resource.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Params map[string]*string `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs.

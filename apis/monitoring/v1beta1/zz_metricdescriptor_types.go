@@ -186,6 +186,7 @@ type MetricDescriptorObservation struct {
 	MetricKind *string `json:"metricKind,omitempty" tf:"metric_kind,omitempty"`
 
 	// If present, then a time series, which is identified partially by a metric type and a MonitoredResourceDescriptor, that is associated with this metric type can only be associated with one of the monitored resource types listed here. This field allows time series to be associated with the intersection of this metric type and the monitored resource types in this list.
+	// +listType=set
 	MonitoredResourceTypes []*string `json:"monitoredResourceTypes,omitempty" tf:"monitored_resource_types,omitempty"`
 
 	// The resource name of the metric descriptor.

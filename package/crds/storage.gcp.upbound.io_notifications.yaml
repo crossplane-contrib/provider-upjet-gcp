@@ -149,6 +149,7 @@ spec:
                     description: A set of key/value attribute pairs to attach to each
                       Cloud PubSub message published for this notification subscription
                     type: object
+                    x-kubernetes-map-type: granular
                   eventTypes:
                     description: 'List of event type filters for this notification
                       config. If not specified, Cloud Storage will send notifications
@@ -157,6 +158,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   objectNamePrefix:
                     description: Specifies a prefix path filter for this notification
                       config. Cloud Storage will only send notifications for objects
@@ -266,6 +268,7 @@ spec:
                     description: A set of key/value attribute pairs to attach to each
                       Cloud PubSub message published for this notification subscription
                     type: object
+                    x-kubernetes-map-type: granular
                   eventTypes:
                     description: 'List of event type filters for this notification
                       config. If not specified, Cloud Storage will send notifications
@@ -274,6 +277,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   objectNamePrefix:
                     description: Specifies a prefix path filter for this notification
                       config. Cloud Storage will only send notifications for objects
@@ -463,6 +467,7 @@ spec:
                     description: A set of key/value attribute pairs to attach to each
                       Cloud PubSub message published for this notification subscription
                     type: object
+                    x-kubernetes-map-type: granular
                   eventTypes:
                     description: 'List of event type filters for this notification
                       config. If not specified, Cloud Storage will send notifications
@@ -471,6 +476,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   id:
                     type: string
                   notificationId:

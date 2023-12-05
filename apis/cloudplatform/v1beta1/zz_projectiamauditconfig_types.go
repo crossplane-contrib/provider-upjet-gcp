@@ -30,12 +30,16 @@ import (
 )
 
 type ProjectIAMAuditConfigAuditLogConfigInitParameters struct {
+
+	// +listType=set
 	ExemptedMembers []*string `json:"exemptedMembers,omitempty" tf:"exempted_members,omitempty"`
 
 	LogType *string `json:"logType,omitempty" tf:"log_type,omitempty"`
 }
 
 type ProjectIAMAuditConfigAuditLogConfigObservation struct {
+
+	// +listType=set
 	ExemptedMembers []*string `json:"exemptedMembers,omitempty" tf:"exempted_members,omitempty"`
 
 	LogType *string `json:"logType,omitempty" tf:"log_type,omitempty"`
@@ -44,6 +48,7 @@ type ProjectIAMAuditConfigAuditLogConfigObservation struct {
 type ProjectIAMAuditConfigAuditLogConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	ExemptedMembers []*string `json:"exemptedMembers,omitempty" tf:"exempted_members,omitempty"`
 
 	// +kubebuilder:validation:Optional

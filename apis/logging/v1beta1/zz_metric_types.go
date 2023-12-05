@@ -351,6 +351,7 @@ type MetricInitParameters struct {
 	// entry field and assign as the label value. Each label key specified in the LabelDescriptor must
 	// have an associated extractor expression in this map. The syntax of the extractor expression is
 	// the same as for the valueExtractor field.
+	// +mapType=granular
 	LabelExtractors map[string]*string `json:"labelExtractors,omitempty" tf:"label_extractors,omitempty"`
 
 	// The optional metric descriptor associated with the logs-based metric.
@@ -403,6 +404,7 @@ type MetricObservation struct {
 	// entry field and assign as the label value. Each label key specified in the LabelDescriptor must
 	// have an associated extractor expression in this map. The syntax of the extractor expression is
 	// the same as for the valueExtractor field.
+	// +mapType=granular
 	LabelExtractors map[string]*string `json:"labelExtractors,omitempty" tf:"label_extractors,omitempty"`
 
 	// The optional metric descriptor associated with the logs-based metric.
@@ -468,6 +470,7 @@ type MetricParameters struct {
 	// have an associated extractor expression in this map. The syntax of the extractor expression is
 	// the same as for the valueExtractor field.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	LabelExtractors map[string]*string `json:"labelExtractors,omitempty" tf:"label_extractors,omitempty"`
 
 	// The optional metric descriptor associated with the logs-based metric.

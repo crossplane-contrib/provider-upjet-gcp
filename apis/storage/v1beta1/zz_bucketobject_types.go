@@ -64,6 +64,7 @@ type BucketObjectInitParameters struct {
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// User-provided metadata, in key/value pairs.
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The name of the object. If you're interpolating the name of this object, see output_name instead.
@@ -131,6 +132,7 @@ type BucketObjectObservation struct {
 	MediaLink *string `json:"mediaLink,omitempty" tf:"media_link,omitempty"`
 
 	// User-provided metadata, in key/value pairs.
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The name of the object. If you're interpolating the name of this object, see output_name instead.
@@ -215,6 +217,7 @@ type BucketObjectParameters struct {
 
 	// User-provided metadata, in key/value pairs.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The name of the object. If you're interpolating the name of this object, see output_name instead.

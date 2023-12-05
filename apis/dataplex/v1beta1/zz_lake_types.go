@@ -53,6 +53,7 @@ type LakeInitParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Optional. User-defined labels for the lake.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Optional. Settings to manage lake and Dataproc Metastore service instance association.
@@ -80,6 +81,7 @@ type LakeObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Optional. User-defined labels for the lake.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location for the resource
@@ -119,6 +121,7 @@ type LakeParameters struct {
 
 	// Optional. User-defined labels for the lake.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location for the resource

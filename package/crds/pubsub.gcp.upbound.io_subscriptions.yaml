@@ -275,6 +275,7 @@ spec:
                     description: A set of key/value label pairs to assign to this
                       Subscription.
                     type: object
+                    x-kubernetes-map-type: granular
                   messageRetentionDuration:
                     description: 'How long to retain unacknowledged messages in the
                       subscription''s backlog, from the moment a message is published.
@@ -316,6 +317,7 @@ spec:
                             subscription was created without this attribute. The possible
                             values for this attribute are:'
                           type: object
+                          x-kubernetes-map-type: granular
                         noWrapper:
                           description: When set, the payload to the push endpoint
                             is not wrapped.Sets the data field as the HTTP body for
@@ -602,6 +604,7 @@ spec:
                     description: A set of key/value label pairs to assign to this
                       Subscription.
                     type: object
+                    x-kubernetes-map-type: granular
                   messageRetentionDuration:
                     description: 'How long to retain unacknowledged messages in the
                       subscription''s backlog, from the moment a message is published.
@@ -643,6 +646,7 @@ spec:
                             subscription was created without this attribute. The possible
                             values for this attribute are:'
                           type: object
+                          x-kubernetes-map-type: granular
                         noWrapper:
                           description: When set, the payload to the push endpoint
                             is not wrapped.Sets the data field as the HTTP body for
@@ -1020,6 +1024,7 @@ spec:
                     description: A set of key/value label pairs to assign to this
                       Subscription.
                     type: object
+                    x-kubernetes-map-type: granular
                   messageRetentionDuration:
                     description: 'How long to retain unacknowledged messages in the
                       subscription''s backlog, from the moment a message is published.
@@ -1061,6 +1066,7 @@ spec:
                             subscription was created without this attribute. The possible
                             values for this attribute are:'
                           type: object
+                          x-kubernetes-map-type: granular
                         noWrapper:
                           description: When set, the payload to the push endpoint
                             is not wrapped.Sets the data field as the HTTP body for

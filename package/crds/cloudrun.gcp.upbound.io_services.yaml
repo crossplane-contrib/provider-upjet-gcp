@@ -101,12 +101,14 @@ spec:
                             Use the following annotation keys to configure features
                             on a Revision template:'
                           type: object
+                          x-kubernetes-map-type: granular
                         labels:
                           additionalProperties:
                             type: string
                           description: Map of string keys and values that can be used
                             to organize and categorize (scope and select) objects.
                           type: object
+                          x-kubernetes-map-type: granular
                         namespace:
                           description: In Cloud Run the namespace must be equal to
                             either the project ID or project number. It will default
@@ -234,6 +236,7 @@ spec:
                                   are restricted. Use the following annotation keys
                                   to configure features on a Revision template:'
                                 type: object
+                                x-kubernetes-map-type: granular
                               labels:
                                 additionalProperties:
                                   type: string
@@ -241,6 +244,7 @@ spec:
                                   be used to organize and categorize (scope and select)
                                   objects.
                                 type: object
+                                x-kubernetes-map-type: granular
                               name:
                                 description: Volume's name.
                                 type: string
@@ -632,6 +636,7 @@ spec:
                                               The values of the map is string form
                                               of the ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                             type: object
+                                            x-kubernetes-map-type: granular
                                           requests:
                                             additionalProperties:
                                               type: string
@@ -643,6 +648,7 @@ spec:
                                               value. The values of the map is string
                                               form of the ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                             type: object
+                                            x-kubernetes-map-type: granular
                                         type: object
                                       type: array
                                     startupProbe:
@@ -1043,12 +1049,14 @@ spec:
                             Use the following annotation keys to configure features
                             on a Revision template:'
                           type: object
+                          x-kubernetes-map-type: granular
                         labels:
                           additionalProperties:
                             type: string
                           description: Map of string keys and values that can be used
                             to organize and categorize (scope and select) objects.
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   project:
@@ -1093,6 +1101,7 @@ spec:
                                   are restricted. Use the following annotation keys
                                   to configure features on a Revision template:'
                                 type: object
+                                x-kubernetes-map-type: granular
                               labels:
                                 additionalProperties:
                                   type: string
@@ -1100,6 +1109,7 @@ spec:
                                   be used to organize and categorize (scope and select)
                                   objects.
                                 type: object
+                                x-kubernetes-map-type: granular
                               name:
                                 description: Volume's name.
                                 type: string
@@ -1374,6 +1384,7 @@ spec:
                                               The values of the map is string form
                                               of the ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                             type: object
+                                            x-kubernetes-map-type: granular
                                           requests:
                                             additionalProperties:
                                               type: string
@@ -1385,6 +1396,7 @@ spec:
                                               value. The values of the map is string
                                               form of the ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                             type: object
+                                            x-kubernetes-map-type: granular
                                         type: object
                                       type: array
                                     startupProbe:
@@ -1840,6 +1852,7 @@ spec:
                             Use the following annotation keys to configure features
                             on a Revision template:'
                           type: object
+                          x-kubernetes-map-type: granular
                         generation:
                           description: (Output) A sequence number representing a specific
                             generation of the desired state.
@@ -1850,6 +1863,7 @@ spec:
                           description: Map of string keys and values that can be used
                             to organize and categorize (scope and select) objects.
                           type: object
+                          x-kubernetes-map-type: granular
                         namespace:
                           description: In Cloud Run the namespace must be equal to
                             either the project ID or project number. It will default
@@ -2005,6 +2019,7 @@ spec:
                                   are restricted. Use the following annotation keys
                                   to configure features on a Revision template:'
                                 type: object
+                                x-kubernetes-map-type: granular
                               generation:
                                 description: (Output) A sequence number representing
                                   a specific generation of the desired state.
@@ -2016,6 +2031,7 @@ spec:
                                   be used to organize and categorize (scope and select)
                                   objects.
                                 type: object
+                                x-kubernetes-map-type: granular
                               name:
                                 description: Volume's name.
                                 type: string
@@ -2311,6 +2327,7 @@ spec:
                                               The values of the map is string form
                                               of the ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                             type: object
+                                            x-kubernetes-map-type: granular
                                           requests:
                                             additionalProperties:
                                               type: string
@@ -2322,6 +2339,7 @@ spec:
                                               value. The values of the map is string
                                               form of the ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                             type: object
+                                            x-kubernetes-map-type: granular
                                         type: object
                                       type: array
                                     startupProbe:

@@ -80,6 +80,7 @@ spec:
                       have a corresponding field in v2 RevisionTemplate. This field
                       follows Kubernetes annotations' namespacing, limits, and rules.
                     type: object
+                    x-kubernetes-map-type: granular
                   binaryAuthorization:
                     description: Settings for the Binary Authorization feature. Structure
                       is documented below.
@@ -128,6 +129,7 @@ spec:
                       namespaces, and they will be rejected. All system labels in
                       v1 now have a corresponding field in v2 RevisionTemplate.
                     type: object
+                    x-kubernetes-map-type: granular
                   launchStage:
                     description: 'The launch stage as defined by Google Cloud Platform
                       Launch Stages. Cloud Run supports ALPHA, BETA, and GA. If no
@@ -164,6 +166,7 @@ spec:
                             field in v2 RevisionTemplate. This field follows Kubernetes
                             annotations' namespacing, limits, and rules.
                           type: object
+                          x-kubernetes-map-type: granular
                         containers:
                           description: Holds the containers that define the unit of
                             execution for this Service. Structure is documented below.
@@ -489,6 +492,7 @@ spec:
                                         of the map is string form of the ''quantity''
                                         k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                       type: object
+                                      x-kubernetes-map-type: granular
                                     startupCpuBoost:
                                       description: Determines whether CPU should be
                                         boosted on startup of a new container instance
@@ -655,6 +659,7 @@ spec:
                             namespaces, and they will be rejected. All system labels
                             in v1 now have a corresponding field in v2 RevisionTemplate.
                           type: object
+                          x-kubernetes-map-type: granular
                         maxInstanceRequestConcurrency:
                           description: Sets the maximum number of requests that each
                             serving instance can receive.
@@ -926,6 +931,7 @@ spec:
                       have a corresponding field in v2 RevisionTemplate. This field
                       follows Kubernetes annotations' namespacing, limits, and rules.
                     type: object
+                    x-kubernetes-map-type: granular
                   binaryAuthorization:
                     description: Settings for the Binary Authorization feature. Structure
                       is documented below.
@@ -974,6 +980,7 @@ spec:
                       namespaces, and they will be rejected. All system labels in
                       v1 now have a corresponding field in v2 RevisionTemplate.
                     type: object
+                    x-kubernetes-map-type: granular
                   launchStage:
                     description: 'The launch stage as defined by Google Cloud Platform
                       Launch Stages. Cloud Run supports ALPHA, BETA, and GA. If no
@@ -1007,6 +1014,7 @@ spec:
                             field in v2 RevisionTemplate. This field follows Kubernetes
                             annotations' namespacing, limits, and rules.
                           type: object
+                          x-kubernetes-map-type: granular
                         containers:
                           description: Holds the containers that define the unit of
                             execution for this Service. Structure is documented below.
@@ -1226,6 +1234,7 @@ spec:
                                         of the map is string form of the ''quantity''
                                         k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                       type: object
+                                      x-kubernetes-map-type: granular
                                     startupCpuBoost:
                                       description: Determines whether CPU should be
                                         boosted on startup of a new container instance
@@ -1392,6 +1401,7 @@ spec:
                             namespaces, and they will be rejected. All system labels
                             in v1 now have a corresponding field in v2 RevisionTemplate.
                           type: object
+                          x-kubernetes-map-type: granular
                         maxInstanceRequestConcurrency:
                           description: Sets the maximum number of requests that each
                             serving instance can receive.
@@ -1732,6 +1742,7 @@ spec:
                       have a corresponding field in v2 RevisionTemplate. This field
                       follows Kubernetes annotations' namespacing, limits, and rules.
                     type: object
+                    x-kubernetes-map-type: granular
                   binaryAuthorization:
                     description: Settings for the Binary Authorization feature. Structure
                       is documented below.
@@ -1838,6 +1849,7 @@ spec:
                       namespaces, and they will be rejected. All system labels in
                       v1 now have a corresponding field in v2 RevisionTemplate.
                     type: object
+                    x-kubernetes-map-type: granular
                   latestCreatedRevision:
                     description: Name of the last created revision. See comments in
                       reconciling for additional information on reconciliation process
@@ -1911,6 +1923,7 @@ spec:
                             field in v2 RevisionTemplate. This field follows Kubernetes
                             annotations' namespacing, limits, and rules.
                           type: object
+                          x-kubernetes-map-type: granular
                         containers:
                           description: Holds the containers that define the unit of
                             execution for this Service. Structure is documented below.
@@ -2136,6 +2149,7 @@ spec:
                                         of the map is string form of the ''quantity''
                                         k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                       type: object
+                                      x-kubernetes-map-type: granular
                                     startupCpuBoost:
                                       description: Determines whether CPU should be
                                         boosted on startup of a new container instance
@@ -2302,6 +2316,7 @@ spec:
                             namespaces, and they will be rejected. All system labels
                             in v1 now have a corresponding field in v2 RevisionTemplate.
                           type: object
+                          x-kubernetes-map-type: granular
                         maxInstanceRequestConcurrency:
                           description: Sets the maximum number of requests that each
                             serving instance can receive.

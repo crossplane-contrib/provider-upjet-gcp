@@ -101,6 +101,7 @@ spec:
                       may be stored. For labels which do not have a semantic value,
                       the empty string may be supplied for the label value.
                     type: object
+                    x-kubernetes-map-type: granular
                 type: object
               initProvider:
                 description: THIS IS A BETA FIELD. It will be honored unless the Management
@@ -147,6 +148,7 @@ spec:
                       may be stored. For labels which do not have a semantic value,
                       the empty string may be supplied for the label value.
                     type: object
+                    x-kubernetes-map-type: granular
                 type: object
               managementPolicies:
                 default:
@@ -353,6 +355,7 @@ spec:
                       may be stored. For labels which do not have a semantic value,
                       the empty string may be supplied for the label value.
                     type: object
+                    x-kubernetes-map-type: granular
                 type: object
               conditions:
                 description: Conditions of the resource.

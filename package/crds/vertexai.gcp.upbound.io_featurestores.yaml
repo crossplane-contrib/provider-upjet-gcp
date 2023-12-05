@@ -91,6 +91,7 @@ spec:
                     description: A set of key/value label pairs to assign to this
                       Featurestore.
                     type: object
+                    x-kubernetes-map-type: granular
                   name:
                     description: The name of the Featurestore. This value may be up
                       to 60 characters, and valid characters are [a-z0-9_]. The first
@@ -169,6 +170,7 @@ spec:
                     description: A set of key/value label pairs to assign to this
                       Featurestore.
                     type: object
+                    x-kubernetes-map-type: granular
                   name:
                     description: The name of the Featurestore. This value may be up
                       to 60 characters, and valid characters are [a-z0-9_]. The first
@@ -411,6 +413,7 @@ spec:
                     description: A set of key/value label pairs to assign to this
                       Featurestore.
                     type: object
+                    x-kubernetes-map-type: granular
                   name:
                     description: The name of the Featurestore. This value may be up
                       to 60 characters, and valid characters are [a-z0-9_]. The first

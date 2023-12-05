@@ -35,6 +35,7 @@ type CertificateMapInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Set of labels associated with a Certificate Map resource.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -60,6 +61,7 @@ type CertificateMapObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Set of labels associated with a Certificate Map resource.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -80,6 +82,7 @@ type CertificateMapParameters struct {
 
 	// Set of labels associated with a Certificate Map resource.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.

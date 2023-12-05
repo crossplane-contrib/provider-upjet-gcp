@@ -78,6 +78,7 @@ type ClusterAdmissionRulesInitParameters struct {
 	// request must be able to read the attestor resource.
 	// Note: this field must be non-empty when the evaluation_mode field
 	// specifies REQUIRE_ATTESTATION, otherwise it must be empty.
+	// +listType=set
 	RequireAttestationsBy []*string `json:"requireAttestationsBy,omitempty" tf:"require_attestations_by,omitempty"`
 }
 
@@ -102,6 +103,7 @@ type ClusterAdmissionRulesObservation struct {
 	// request must be able to read the attestor resource.
 	// Note: this field must be non-empty when the evaluation_mode field
 	// specifies REQUIRE_ATTESTATION, otherwise it must be empty.
+	// +listType=set
 	RequireAttestationsBy []*string `json:"requireAttestationsBy,omitempty" tf:"require_attestations_by,omitempty"`
 }
 
@@ -130,6 +132,7 @@ type ClusterAdmissionRulesParameters struct {
 	// Note: this field must be non-empty when the evaluation_mode field
 	// specifies REQUIRE_ATTESTATION, otherwise it must be empty.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	RequireAttestationsBy []*string `json:"requireAttestationsBy,omitempty" tf:"require_attestations_by,omitempty"`
 }
 
@@ -151,6 +154,7 @@ type DefaultAdmissionRuleInitParameters struct {
 	// request must be able to read the attestor resource.
 	// Note: this field must be non-empty when the evaluation_mode field
 	// specifies REQUIRE_ATTESTATION, otherwise it must be empty.
+	// +listType=set
 	RequireAttestationsBy []*string `json:"requireAttestationsBy,omitempty" tf:"require_attestations_by,omitempty"`
 }
 
@@ -172,6 +176,7 @@ type DefaultAdmissionRuleObservation struct {
 	// request must be able to read the attestor resource.
 	// Note: this field must be non-empty when the evaluation_mode field
 	// specifies REQUIRE_ATTESTATION, otherwise it must be empty.
+	// +listType=set
 	RequireAttestationsBy []*string `json:"requireAttestationsBy,omitempty" tf:"require_attestations_by,omitempty"`
 }
 
@@ -196,6 +201,7 @@ type DefaultAdmissionRuleParameters struct {
 	// Note: this field must be non-empty when the evaluation_mode field
 	// specifies REQUIRE_ATTESTATION, otherwise it must be empty.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	RequireAttestationsBy []*string `json:"requireAttestationsBy,omitempty" tf:"require_attestations_by,omitempty"`
 }
 

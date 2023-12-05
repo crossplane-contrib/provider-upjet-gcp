@@ -105,6 +105,8 @@ type WorkerConfigParameters struct {
 }
 
 type WorkerPoolInitParameters struct {
+
+	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// User-defined name of the WorkerPool.
@@ -121,6 +123,8 @@ type WorkerPoolInitParameters struct {
 }
 
 type WorkerPoolObservation struct {
+
+	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Output only. Time at which the request to create the WorkerPool was received.
@@ -160,6 +164,7 @@ type WorkerPoolObservation struct {
 type WorkerPoolParameters struct {
 
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// User-defined name of the WorkerPool.

@@ -32,6 +32,7 @@ import (
 type ClusterSelectorInitParameters struct {
 
 	// Required. The cluster labels. Cluster must have all labels to match.
+	// +mapType=granular
 	ClusterLabels map[string]*string `json:"clusterLabels,omitempty" tf:"cluster_labels,omitempty"`
 
 	// The zone where the Compute Engine cluster will be located. On a create request, it is required in the "global" region. If omitted in a non-global Dataproc region, the service will pick a zone in the corresponding Compute Engine region. On a get request, zone will always be present. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/ * us-central1-f
@@ -41,6 +42,7 @@ type ClusterSelectorInitParameters struct {
 type ClusterSelectorObservation struct {
 
 	// Required. The cluster labels. Cluster must have all labels to match.
+	// +mapType=granular
 	ClusterLabels map[string]*string `json:"clusterLabels,omitempty" tf:"cluster_labels,omitempty"`
 
 	// The zone where the Compute Engine cluster will be located. On a create request, it is required in the "global" region. If omitted in a non-global Dataproc region, the service will pick a zone in the corresponding Compute Engine region. On a get request, zone will always be present. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/ * us-central1-f
@@ -51,6 +53,7 @@ type ClusterSelectorParameters struct {
 
 	// Required. The cluster labels. Cluster must have all labels to match.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	ClusterLabels map[string]*string `json:"clusterLabels" tf:"cluster_labels,omitempty"`
 
 	// The zone where the Compute Engine cluster will be located. On a create request, it is required in the "global" region. If omitted in a non-global Dataproc region, the service will pick a zone in the corresponding Compute Engine region. On a get request, zone will always be present. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/ * us-central1-f
@@ -108,6 +111,7 @@ type ConfigEndpointConfigObservation struct {
 	EnableHTTPPortAccess *bool `json:"enableHttpPortAccess,omitempty" tf:"enable_http_port_access,omitempty"`
 
 	// Output only. The map of port descriptions to URLs. Will only be populated if enable_http_port_access is true.
+	// +mapType=granular
 	HTTPPorts map[string]*string `json:"httpPorts,omitempty" tf:"http_ports,omitempty"`
 }
 
@@ -124,6 +128,7 @@ type ConfigGceClusterConfigInitParameters struct {
 	InternalIPOnly *bool `json:"internalIpOnly,omitempty" tf:"internal_ip_only,omitempty"`
 
 	// The Compute Engine metadata entries to add to all instances (see (https://cloud.google.com/compute/docs/storing-retrieving-metadata#project_and_instance_metadata)).
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The Compute Engine network to be used for machine communications. Cannot be specified with subnetwork_uri. If neither network_uri nor subnetwork_uri is specified, the "default" network of the project is used, if it exists. Cannot be a "Custom Subnet Network" (see /regions/global/default*default`
@@ -151,6 +156,7 @@ type ConfigGceClusterConfigInitParameters struct {
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// The Compute Engine tags to add to all instances (see (https://cloud.google.com/compute/docs/label-or-tag-resources#tags)).
+	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The zone where the Compute Engine cluster will be located. On a create request, it is required in the "global" region. If omitted in a non-global Dataproc region, the service will pick a zone in the corresponding Compute Engine region. On a get request, zone will always be present. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/ * us-central1-f
@@ -163,6 +169,7 @@ type ConfigGceClusterConfigObservation struct {
 	InternalIPOnly *bool `json:"internalIpOnly,omitempty" tf:"internal_ip_only,omitempty"`
 
 	// The Compute Engine metadata entries to add to all instances (see (https://cloud.google.com/compute/docs/storing-retrieving-metadata#project_and_instance_metadata)).
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The Compute Engine network to be used for machine communications. Cannot be specified with subnetwork_uri. If neither network_uri nor subnetwork_uri is specified, the "default" network of the project is used, if it exists. Cannot be a "Custom Subnet Network" (see /regions/global/default*default`
@@ -190,6 +197,7 @@ type ConfigGceClusterConfigObservation struct {
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// The Compute Engine tags to add to all instances (see (https://cloud.google.com/compute/docs/label-or-tag-resources#tags)).
+	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The zone where the Compute Engine cluster will be located. On a create request, it is required in the "global" region. If omitted in a non-global Dataproc region, the service will pick a zone in the corresponding Compute Engine region. On a get request, zone will always be present. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/ * us-central1-f
@@ -204,6 +212,7 @@ type ConfigGceClusterConfigParameters struct {
 
 	// The Compute Engine metadata entries to add to all instances (see (https://cloud.google.com/compute/docs/storing-retrieving-metadata#project_and_instance_metadata)).
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The Compute Engine network to be used for machine communications. Cannot be specified with subnetwork_uri. If neither network_uri nor subnetwork_uri is specified, the "default" network of the project is used, if it exists. Cannot be a "Custom Subnet Network" (see /regions/global/default*default`
@@ -240,6 +249,7 @@ type ConfigGceClusterConfigParameters struct {
 
 	// The Compute Engine tags to add to all instances (see (https://cloud.google.com/compute/docs/label-or-tag-resources#tags)).
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The zone where the Compute Engine cluster will be located. On a create request, it is required in the "global" region. If omitted in a non-global Dataproc region, the service will pick a zone in the corresponding Compute Engine region. On a get request, zone will always be present. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/ * us-central1-f
@@ -493,6 +503,7 @@ type ConfigSoftwareConfigInitParameters struct {
 	OptionalComponents []*string `json:"optionalComponents,omitempty" tf:"optional_components,omitempty"`
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
@@ -505,6 +516,7 @@ type ConfigSoftwareConfigObservation struct {
 	OptionalComponents []*string `json:"optionalComponents,omitempty" tf:"optional_components,omitempty"`
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
@@ -520,6 +532,7 @@ type ConfigSoftwareConfigParameters struct {
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
@@ -800,18 +813,21 @@ type HadoopJobInitParameters struct {
 	MainJarFileURI *string `json:"mainJarFileUri,omitempty" tf:"main_jar_file_uri,omitempty"`
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
 type HadoopJobLoggingConfigInitParameters struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type HadoopJobLoggingConfigObservation struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -819,6 +835,7 @@ type HadoopJobLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -846,6 +863,7 @@ type HadoopJobObservation struct {
 	MainJarFileURI *string `json:"mainJarFileUri,omitempty" tf:"main_jar_file_uri,omitempty"`
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
@@ -881,6 +899,7 @@ type HadoopJobParameters struct {
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
@@ -893,6 +912,7 @@ type HiveJobInitParameters struct {
 	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// The HCFS URI of the script that contains SQL queries.
@@ -902,6 +922,7 @@ type HiveJobInitParameters struct {
 	QueryList []QueryListInitParameters `json:"queryList,omitempty" tf:"query_list,omitempty"`
 
 	// Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";).
+	// +mapType=granular
 	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
 }
 
@@ -914,6 +935,7 @@ type HiveJobObservation struct {
 	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// The HCFS URI of the script that contains SQL queries.
@@ -923,6 +945,7 @@ type HiveJobObservation struct {
 	QueryList []QueryListObservation `json:"queryList,omitempty" tf:"query_list,omitempty"`
 
 	// Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";).
+	// +mapType=granular
 	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
 }
 
@@ -938,6 +961,7 @@ type HiveJobParameters struct {
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// The HCFS URI of the script that contains SQL queries.
@@ -950,6 +974,7 @@ type HiveJobParameters struct {
 
 	// Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";).
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
 }
 
@@ -991,6 +1016,7 @@ type JobsInitParameters struct {
 	HiveJob []HiveJobInitParameters `json:"hiveJob,omitempty" tf:"hive_job,omitempty"`
 
 	// The labels to associate with this job. Label keys must be between 1 and 63 characters long, and must conform to the following regular expression: {0,63} No more than 32 labels can be associated with a given job.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Job is a Pig job.
@@ -1030,6 +1056,7 @@ type JobsObservation struct {
 	HiveJob []HiveJobObservation `json:"hiveJob,omitempty" tf:"hive_job,omitempty"`
 
 	// The labels to associate with this job. Label keys must be between 1 and 63 characters long, and must conform to the following regular expression: {0,63} No more than 32 labels can be associated with a given job.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Job is a Pig job.
@@ -1072,6 +1099,7 @@ type JobsParameters struct {
 
 	// The labels to associate with this job. Label keys must be between 1 and 63 characters long, and must conform to the following regular expression: {0,63} No more than 32 labels can be associated with a given job.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Job is a Pig job.
@@ -1288,6 +1316,7 @@ type ManagedClusterInitParameters struct {
 	Config []ManagedClusterConfigInitParameters `json:"config,omitempty" tf:"config,omitempty"`
 
 	// The labels to associate with this cluster. Label keys must be between 1 and 63 characters long, and must conform to the following PCRE regular expression: {0,63} No more than 32 labels can be associated with a given cluster.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
 
@@ -1300,6 +1329,7 @@ type ManagedClusterObservation struct {
 	Config []ManagedClusterConfigObservation `json:"config,omitempty" tf:"config,omitempty"`
 
 	// The labels to associate with this cluster. Label keys must be between 1 and 63 characters long, and must conform to the following PCRE regular expression: {0,63} No more than 32 labels can be associated with a given cluster.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
 
@@ -1315,6 +1345,7 @@ type ManagedClusterParameters struct {
 
 	// The labels to associate with this cluster. Label keys must be between 1 and 63 characters long, and must conform to the following PCRE regular expression: {0,63} No more than 32 labels can be associated with a given cluster.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
 
@@ -1462,6 +1493,7 @@ type PigJobInitParameters struct {
 	LoggingConfig []PigJobLoggingConfigInitParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// The HCFS URI of the script that contains SQL queries.
@@ -1471,18 +1503,21 @@ type PigJobInitParameters struct {
 	QueryList []PigJobQueryListInitParameters `json:"queryList,omitempty" tf:"query_list,omitempty"`
 
 	// Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";).
+	// +mapType=granular
 	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
 }
 
 type PigJobLoggingConfigInitParameters struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type PigJobLoggingConfigObservation struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -1490,6 +1525,7 @@ type PigJobLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -1505,6 +1541,7 @@ type PigJobObservation struct {
 	LoggingConfig []PigJobLoggingConfigObservation `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// The HCFS URI of the script that contains SQL queries.
@@ -1514,6 +1551,7 @@ type PigJobObservation struct {
 	QueryList []PigJobQueryListObservation `json:"queryList,omitempty" tf:"query_list,omitempty"`
 
 	// Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";).
+	// +mapType=granular
 	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
 }
 
@@ -1533,6 +1571,7 @@ type PigJobParameters struct {
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// The HCFS URI of the script that contains SQL queries.
@@ -1545,6 +1584,7 @@ type PigJobParameters struct {
 
 	// Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";).
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
 }
 
@@ -1582,6 +1622,7 @@ type PrestoJobInitParameters struct {
 	OutputFormat *string `json:"outputFormat,omitempty" tf:"output_format,omitempty"`
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// The HCFS URI of the script that contains SQL queries.
@@ -1594,12 +1635,14 @@ type PrestoJobInitParameters struct {
 type PrestoJobLoggingConfigInitParameters struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type PrestoJobLoggingConfigObservation struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -1607,6 +1650,7 @@ type PrestoJobLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -1625,6 +1669,7 @@ type PrestoJobObservation struct {
 	OutputFormat *string `json:"outputFormat,omitempty" tf:"output_format,omitempty"`
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// The HCFS URI of the script that contains SQL queries.
@@ -1654,6 +1699,7 @@ type PrestoJobParameters struct {
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// The HCFS URI of the script that contains SQL queries.
@@ -1705,6 +1751,7 @@ type PysparkJobInitParameters struct {
 	MainPythonFileURI *string `json:"mainPythonFileUri,omitempty" tf:"main_python_file_uri,omitempty"`
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// HCFS file URIs of Python files to pass to the PySpark framework. Supported file types: .py, .egg, and .zip.
@@ -1714,12 +1761,14 @@ type PysparkJobInitParameters struct {
 type PysparkJobLoggingConfigInitParameters struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type PysparkJobLoggingConfigObservation struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -1727,6 +1776,7 @@ type PysparkJobLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -1751,6 +1801,7 @@ type PysparkJobObservation struct {
 	MainPythonFileURI *string `json:"mainPythonFileUri,omitempty" tf:"main_python_file_uri,omitempty"`
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// HCFS file URIs of Python files to pass to the PySpark framework. Supported file types: .py, .egg, and .zip.
@@ -1785,6 +1836,7 @@ type PysparkJobParameters struct {
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// HCFS file URIs of Python files to pass to the PySpark framework. Supported file types: .py, .egg, and .zip.
@@ -2096,18 +2148,21 @@ type SparkJobInitParameters struct {
 	MainJarFileURI *string `json:"mainJarFileUri,omitempty" tf:"main_jar_file_uri,omitempty"`
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
 type SparkJobLoggingConfigInitParameters struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type SparkJobLoggingConfigObservation struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -2115,6 +2170,7 @@ type SparkJobLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -2142,6 +2198,7 @@ type SparkJobObservation struct {
 	MainJarFileURI *string `json:"mainJarFileUri,omitempty" tf:"main_jar_file_uri,omitempty"`
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
@@ -2177,6 +2234,7 @@ type SparkJobParameters struct {
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
@@ -2198,18 +2256,21 @@ type SparkRJobInitParameters struct {
 	MainRFileURI *string `json:"mainRFileUri,omitempty" tf:"main_r_file_uri,omitempty"`
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
 type SparkRJobLoggingConfigInitParameters struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type SparkRJobLoggingConfigObservation struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -2217,6 +2278,7 @@ type SparkRJobLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -2238,6 +2300,7 @@ type SparkRJobObservation struct {
 	MainRFileURI *string `json:"mainRFileUri,omitempty" tf:"main_r_file_uri,omitempty"`
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
@@ -2265,6 +2328,7 @@ type SparkRJobParameters struct {
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
@@ -2277,6 +2341,7 @@ type SparkSQLJobInitParameters struct {
 	LoggingConfig []SparkSQLJobLoggingConfigInitParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// The HCFS URI of the script that contains SQL queries.
@@ -2286,18 +2351,21 @@ type SparkSQLJobInitParameters struct {
 	QueryList []SparkSQLJobQueryListInitParameters `json:"queryList,omitempty" tf:"query_list,omitempty"`
 
 	// Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";).
+	// +mapType=granular
 	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
 }
 
 type SparkSQLJobLoggingConfigInitParameters struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type SparkSQLJobLoggingConfigObservation struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -2305,6 +2373,7 @@ type SparkSQLJobLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -2317,6 +2386,7 @@ type SparkSQLJobObservation struct {
 	LoggingConfig []SparkSQLJobLoggingConfigObservation `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// The HCFS URI of the script that contains SQL queries.
@@ -2326,6 +2396,7 @@ type SparkSQLJobObservation struct {
 	QueryList []SparkSQLJobQueryListObservation `json:"queryList,omitempty" tf:"query_list,omitempty"`
 
 	// Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";).
+	// +mapType=granular
 	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
 }
 
@@ -2341,6 +2412,7 @@ type SparkSQLJobParameters struct {
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// The HCFS URI of the script that contains SQL queries.
@@ -2353,6 +2425,7 @@ type SparkSQLJobParameters struct {
 
 	// Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";).
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
 }
 
@@ -2447,6 +2520,7 @@ type WorkflowTemplateInitParameters struct {
 	Jobs []JobsInitParameters `json:"jobs,omitempty" tf:"jobs,omitempty"`
 
 	// The labels to associate with this cluster. Label keys must be between 1 and 63 characters long, and must conform to the following PCRE regular expression: {0,63} No more than 32 labels can be associated with a given cluster.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Template parameters whose values are substituted into the template. Values for parameters must be provided when the template is instantiated.
@@ -2477,6 +2551,7 @@ type WorkflowTemplateObservation struct {
 	Jobs []JobsObservation `json:"jobs,omitempty" tf:"jobs,omitempty"`
 
 	// The labels to associate with this cluster. Label keys must be between 1 and 63 characters long, and must conform to the following PCRE regular expression: {0,63} No more than 32 labels can be associated with a given cluster.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location for the resource
@@ -2510,6 +2585,7 @@ type WorkflowTemplateParameters struct {
 
 	// The labels to associate with this cluster. Label keys must be between 1 and 63 characters long, and must conform to the following PCRE regular expression: {0,63} No more than 32 labels can be associated with a given cluster.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location for the resource

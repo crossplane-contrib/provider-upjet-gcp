@@ -224,6 +224,7 @@ type NodePoolInitParameters_2 struct {
 	// be in the region of their regional cluster or in the same region as their
 	// cluster's zone for zonal clusters. If unspecified, the cluster-level
 	// node_locations will be used.
+	// +listType=set
 	NodeLocations []*string `json:"nodeLocations,omitempty" tf:"node_locations,omitempty"`
 
 	// Specifies a custom placement policy for the
@@ -487,6 +488,7 @@ type NodePoolNodeConfigInitParameters_2 struct {
 
 	KubeletConfig []NodePoolNodeConfigKubeletConfigInitParameters `json:"kubeletConfig,omitempty" tf:"kubelet_config,omitempty"`
 
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Parameters used in creating the node pool. See
@@ -501,18 +503,21 @@ type NodePoolNodeConfigInitParameters_2 struct {
 
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
 	NodeGroup *string `json:"nodeGroup,omitempty" tf:"node_group,omitempty"`
 
+	// +listType=set
 	OAuthScopes []*string `json:"oauthScopes,omitempty" tf:"oauth_scopes,omitempty"`
 
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
 	ReservationAffinity []NodePoolNodeConfigReservationAffinityInitParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
+	// +mapType=granular
 	ResourceLabels map[string]*string `json:"resourceLabels,omitempty" tf:"resource_labels,omitempty"`
 
 	ShieldedInstanceConfig []NodePoolNodeConfigShieldedInstanceConfigInitParameters_2 `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
@@ -564,16 +569,21 @@ type NodePoolNodeConfigKubeletConfigParameters struct {
 }
 
 type NodePoolNodeConfigLinuxNodeConfigInitParameters struct {
+
+	// +mapType=granular
 	Sysctls map[string]*string `json:"sysctls,omitempty" tf:"sysctls,omitempty"`
 }
 
 type NodePoolNodeConfigLinuxNodeConfigObservation struct {
+
+	// +mapType=granular
 	Sysctls map[string]*string `json:"sysctls,omitempty" tf:"sysctls,omitempty"`
 }
 
 type NodePoolNodeConfigLinuxNodeConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Sysctls map[string]*string `json:"sysctls" tf:"sysctls,omitempty"`
 }
 
@@ -614,6 +624,7 @@ type NodePoolNodeConfigObservation_2 struct {
 
 	KubeletConfig []NodePoolNodeConfigKubeletConfigObservation `json:"kubeletConfig,omitempty" tf:"kubelet_config,omitempty"`
 
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Parameters used in creating the node pool. See
@@ -628,18 +639,21 @@ type NodePoolNodeConfigObservation_2 struct {
 
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
 	NodeGroup *string `json:"nodeGroup,omitempty" tf:"node_group,omitempty"`
 
+	// +listType=set
 	OAuthScopes []*string `json:"oauthScopes,omitempty" tf:"oauth_scopes,omitempty"`
 
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
 	ReservationAffinity []NodePoolNodeConfigReservationAffinityObservation `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
+	// +mapType=granular
 	ResourceLabels map[string]*string `json:"resourceLabels,omitempty" tf:"resource_labels,omitempty"`
 
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
@@ -693,6 +707,7 @@ type NodePoolNodeConfigParameters_2 struct {
 	KubeletConfig []NodePoolNodeConfigKubeletConfigParameters `json:"kubeletConfig,omitempty" tf:"kubelet_config,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Parameters used in creating the node pool. See
@@ -713,6 +728,7 @@ type NodePoolNodeConfigParameters_2 struct {
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -722,6 +738,7 @@ type NodePoolNodeConfigParameters_2 struct {
 	NodeGroup *string `json:"nodeGroup,omitempty" tf:"node_group,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	OAuthScopes []*string `json:"oauthScopes,omitempty" tf:"oauth_scopes,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -731,6 +748,7 @@ type NodePoolNodeConfigParameters_2 struct {
 	ReservationAffinity []NodePoolNodeConfigReservationAffinityParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	ResourceLabels map[string]*string `json:"resourceLabels,omitempty" tf:"resource_labels,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
@@ -770,6 +788,7 @@ type NodePoolNodeConfigReservationAffinityInitParameters struct {
 
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
+	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
@@ -778,6 +797,7 @@ type NodePoolNodeConfigReservationAffinityObservation struct {
 
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
+	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
@@ -790,6 +810,7 @@ type NodePoolNodeConfigReservationAffinityParameters struct {
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
@@ -926,6 +947,7 @@ type NodePoolObservation_2 struct {
 	// be in the region of their regional cluster or in the same region as their
 	// cluster's zone for zonal clusters. If unspecified, the cluster-level
 	// node_locations will be used.
+	// +listType=set
 	NodeLocations []*string `json:"nodeLocations,omitempty" tf:"node_locations,omitempty"`
 
 	Operation *string `json:"operation,omitempty" tf:"operation,omitempty"`
@@ -1015,6 +1037,7 @@ type NodePoolParameters_2 struct {
 	// cluster's zone for zonal clusters. If unspecified, the cluster-level
 	// node_locations will be used.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	NodeLocations []*string `json:"nodeLocations,omitempty" tf:"node_locations,omitempty"`
 
 	// Specifies a custom placement policy for the

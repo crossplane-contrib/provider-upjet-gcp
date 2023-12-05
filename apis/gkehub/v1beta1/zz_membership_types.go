@@ -118,6 +118,7 @@ type MembershipInitParameters struct {
 	Endpoint []EndpointInitParameters `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
 
 	// Labels to apply to this membership.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -141,6 +142,7 @@ type MembershipObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Labels to apply to this membership.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The unique identifier of the membership.
@@ -167,6 +169,7 @@ type MembershipParameters struct {
 
 	// Labels to apply to this membership.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.

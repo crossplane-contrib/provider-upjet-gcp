@@ -743,6 +743,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                         pathMatcher:
                           description: The name of the PathMatcher to use to match
                             the path portion of the URL if the hostRule matches the
@@ -922,6 +923,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                               routeAction:
                                 description: In response to a matching matchRule,
                                   the load balancer performs advanced routing actions
@@ -3016,6 +3018,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                         pathMatcher:
                           description: The name of the PathMatcher to use to match
                             the path portion of the URL if the hostRule matches the
@@ -3112,6 +3115,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                               routeAction:
                                 description: In response to a matching matchRule,
                                   the load balancer performs advanced routing actions
@@ -4940,6 +4944,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                         pathMatcher:
                           description: The name of the PathMatcher to use to match
                             the path portion of the URL if the hostRule matches the
@@ -5047,6 +5052,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                               routeAction:
                                 description: In response to a matching matchRule,
                                   the load balancer performs advanced routing actions

@@ -1042,6 +1042,7 @@ type HybridOptionsInitParameters struct {
 	// Label values must be between 0 and 63 characters long and must conform to the regular expression ([a-z]([-a-z0-9]*[a-z0-9])?)?.
 	// No more than 10 labels can be associated with a given finding.
 	// Examples:
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// These are labels that each inspection request must include within their 'finding_labels' map. Request
@@ -1065,6 +1066,7 @@ type HybridOptionsObservation struct {
 	// Label values must be between 0 and 63 characters long and must conform to the regular expression ([a-z]([-a-z0-9]*[a-z0-9])?)?.
 	// No more than 10 labels can be associated with a given finding.
 	// Examples:
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// These are labels that each inspection request must include within their 'finding_labels' map. Request
@@ -1090,6 +1092,7 @@ type HybridOptionsParameters struct {
 	// No more than 10 labels can be associated with a given finding.
 	// Examples:
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// These are labels that each inspection request must include within their 'finding_labels' map. Request

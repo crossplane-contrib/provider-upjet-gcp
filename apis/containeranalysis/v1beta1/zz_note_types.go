@@ -119,6 +119,7 @@ type NoteInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Names of other notes related to this note.
+	// +listType=set
 	RelatedNoteNames []*string `json:"relatedNoteNames,omitempty" tf:"related_note_names,omitempty"`
 
 	// URLs associated with this note and related metadata.
@@ -163,6 +164,7 @@ type NoteObservation struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Names of other notes related to this note.
+	// +listType=set
 	RelatedNoteNames []*string `json:"relatedNoteNames,omitempty" tf:"related_note_names,omitempty"`
 
 	// URLs associated with this note and related metadata.
@@ -206,6 +208,7 @@ type NoteParameters struct {
 
 	// Names of other notes related to this note.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	RelatedNoteNames []*string `json:"relatedNoteNames,omitempty" tf:"related_note_names,omitempty"`
 
 	// URLs associated with this note and related metadata.

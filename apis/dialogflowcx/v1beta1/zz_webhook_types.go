@@ -35,6 +35,7 @@ type GenericWebServiceInitParameters struct {
 	AllowedCACerts []*string `json:"allowedCaCerts,omitempty" tf:"allowed_ca_certs,omitempty"`
 
 	// The HTTP request headers to send together with webhook requests.
+	// +mapType=granular
 	RequestHeaders map[string]*string `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
 
 	// Whether to use speech adaptation for speech recognition.
@@ -47,6 +48,7 @@ type GenericWebServiceObservation struct {
 	AllowedCACerts []*string `json:"allowedCaCerts,omitempty" tf:"allowed_ca_certs,omitempty"`
 
 	// The HTTP request headers to send together with webhook requests.
+	// +mapType=granular
 	RequestHeaders map[string]*string `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
 
 	// Whether to use speech adaptation for speech recognition.
@@ -61,6 +63,7 @@ type GenericWebServiceParameters struct {
 
 	// The HTTP request headers to send together with webhook requests.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	RequestHeaders map[string]*string `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
 
 	// Whether to use speech adaptation for speech recognition.
@@ -74,6 +77,7 @@ type ServiceDirectoryGenericWebServiceInitParameters struct {
 	AllowedCACerts []*string `json:"allowedCaCerts,omitempty" tf:"allowed_ca_certs,omitempty"`
 
 	// The HTTP request headers to send together with webhook requests.
+	// +mapType=granular
 	RequestHeaders map[string]*string `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
 
 	// Whether to use speech adaptation for speech recognition.
@@ -86,6 +90,7 @@ type ServiceDirectoryGenericWebServiceObservation struct {
 	AllowedCACerts []*string `json:"allowedCaCerts,omitempty" tf:"allowed_ca_certs,omitempty"`
 
 	// The HTTP request headers to send together with webhook requests.
+	// +mapType=granular
 	RequestHeaders map[string]*string `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
 
 	// Whether to use speech adaptation for speech recognition.
@@ -100,6 +105,7 @@ type ServiceDirectoryGenericWebServiceParameters struct {
 
 	// The HTTP request headers to send together with webhook requests.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	RequestHeaders map[string]*string `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
 
 	// Whether to use speech adaptation for speech recognition.

@@ -160,6 +160,7 @@ spec:
                     description: A set of key/value label pairs to assign to the resource.
                       Label keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
                     type: object
+                    x-kubernetes-map-type: granular
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
@@ -270,6 +271,7 @@ spec:
                     description: A set of key/value label pairs to assign to the resource.
                       Label keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
                     type: object
+                    x-kubernetes-map-type: granular
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
@@ -536,6 +538,7 @@ spec:
                     description: A set of key/value label pairs to assign to the resource.
                       Label keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
                     type: object
+                    x-kubernetes-map-type: granular
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.

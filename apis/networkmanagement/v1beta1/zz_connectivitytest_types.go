@@ -53,6 +53,7 @@ type ConnectivityTestInitParameters struct {
 	Destination []DestinationInitParameters `json:"destination,omitempty" tf:"destination,omitempty"`
 
 	// Resource labels to represent user-provided metadata.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Unique name for the connectivity test.
@@ -119,6 +120,7 @@ type ConnectivityTestObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Resource labels to represent user-provided metadata.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Unique name for the connectivity test.
@@ -185,6 +187,7 @@ type ConnectivityTestParameters struct {
 
 	// Resource labels to represent user-provided metadata.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Unique name for the connectivity test.

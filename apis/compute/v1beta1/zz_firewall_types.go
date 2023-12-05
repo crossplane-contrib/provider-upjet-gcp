@@ -155,6 +155,7 @@ type FirewallInitParameters struct {
 	// If destination ranges are specified, the firewall will apply only to
 	// traffic that has destination IP address in these ranges. These ranges
 	// must be expressed in CIDR format. IPv4 or IPv6 ranges are supported.
+	// +listType=set
 	DestinationRanges []*string `json:"destinationRanges,omitempty" tf:"destination_ranges,omitempty"`
 
 	// Direction of traffic to which this firewall applies; default is
@@ -199,6 +200,7 @@ type FirewallInitParameters struct {
 	// connection does not need to match both properties for the firewall to
 	// apply. IPv4 or IPv6 ranges are supported. For INGRESS traffic, one of
 	// source_ranges, source_tags or source_service_accounts is required.
+	// +listType=set
 	SourceRanges []*string `json:"sourceRanges,omitempty" tf:"source_ranges,omitempty"`
 
 	// If source service accounts are specified, the firewall will apply only
@@ -213,6 +215,7 @@ type FirewallInitParameters struct {
 	// properties for the firewall to apply. sourceServiceAccounts cannot be
 	// used at the same time as sourceTags or targetTags. For INGRESS traffic,
 	// one of source_ranges, source_tags or source_service_accounts is required.
+	// +listType=set
 	SourceServiceAccounts []*string `json:"sourceServiceAccounts,omitempty" tf:"source_service_accounts,omitempty"`
 
 	// If source tags are specified, the firewall will apply only to traffic
@@ -225,6 +228,7 @@ type FirewallInitParameters struct {
 	// a tag listed in the sourceTags property. The connection does not need
 	// to match both properties for the firewall to apply. For INGRESS traffic,
 	// one of source_ranges, source_tags or source_service_accounts is required.
+	// +listType=set
 	SourceTags []*string `json:"sourceTags,omitempty" tf:"source_tags,omitempty"`
 
 	// A list of service accounts indicating sets of instances located in the
@@ -233,12 +237,14 @@ type FirewallInitParameters struct {
 	// sourceTags. If neither targetServiceAccounts nor targetTags are
 	// specified, the firewall rule applies to all instances on the specified
 	// network.
+	// +listType=set
 	TargetServiceAccounts []*string `json:"targetServiceAccounts,omitempty" tf:"target_service_accounts,omitempty"`
 
 	// A list of instance tags indicating sets of instances located in the
 	// network that may make network connections as specified in allowed[].
 	// If no targetTags are specified, the firewall rule applies to all
 	// instances on the specified network.
+	// +listType=set
 	TargetTags []*string `json:"targetTags,omitempty" tf:"target_tags,omitempty"`
 }
 
@@ -287,6 +293,7 @@ type FirewallObservation struct {
 	// If destination ranges are specified, the firewall will apply only to
 	// traffic that has destination IP address in these ranges. These ranges
 	// must be expressed in CIDR format. IPv4 or IPv6 ranges are supported.
+	// +listType=set
 	DestinationRanges []*string `json:"destinationRanges,omitempty" tf:"destination_ranges,omitempty"`
 
 	// Direction of traffic to which this firewall applies; default is
@@ -340,6 +347,7 @@ type FirewallObservation struct {
 	// connection does not need to match both properties for the firewall to
 	// apply. IPv4 or IPv6 ranges are supported. For INGRESS traffic, one of
 	// source_ranges, source_tags or source_service_accounts is required.
+	// +listType=set
 	SourceRanges []*string `json:"sourceRanges,omitempty" tf:"source_ranges,omitempty"`
 
 	// If source service accounts are specified, the firewall will apply only
@@ -354,6 +362,7 @@ type FirewallObservation struct {
 	// properties for the firewall to apply. sourceServiceAccounts cannot be
 	// used at the same time as sourceTags or targetTags. For INGRESS traffic,
 	// one of source_ranges, source_tags or source_service_accounts is required.
+	// +listType=set
 	SourceServiceAccounts []*string `json:"sourceServiceAccounts,omitempty" tf:"source_service_accounts,omitempty"`
 
 	// If source tags are specified, the firewall will apply only to traffic
@@ -366,6 +375,7 @@ type FirewallObservation struct {
 	// a tag listed in the sourceTags property. The connection does not need
 	// to match both properties for the firewall to apply. For INGRESS traffic,
 	// one of source_ranges, source_tags or source_service_accounts is required.
+	// +listType=set
 	SourceTags []*string `json:"sourceTags,omitempty" tf:"source_tags,omitempty"`
 
 	// A list of service accounts indicating sets of instances located in the
@@ -374,12 +384,14 @@ type FirewallObservation struct {
 	// sourceTags. If neither targetServiceAccounts nor targetTags are
 	// specified, the firewall rule applies to all instances on the specified
 	// network.
+	// +listType=set
 	TargetServiceAccounts []*string `json:"targetServiceAccounts,omitempty" tf:"target_service_accounts,omitempty"`
 
 	// A list of instance tags indicating sets of instances located in the
 	// network that may make network connections as specified in allowed[].
 	// If no targetTags are specified, the firewall rule applies to all
 	// instances on the specified network.
+	// +listType=set
 	TargetTags []*string `json:"targetTags,omitempty" tf:"target_tags,omitempty"`
 }
 
@@ -407,6 +419,7 @@ type FirewallParameters struct {
 	// traffic that has destination IP address in these ranges. These ranges
 	// must be expressed in CIDR format. IPv4 or IPv6 ranges are supported.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	DestinationRanges []*string `json:"destinationRanges,omitempty" tf:"destination_ranges,omitempty"`
 
 	// Direction of traffic to which this firewall applies; default is
@@ -472,6 +485,7 @@ type FirewallParameters struct {
 	// apply. IPv4 or IPv6 ranges are supported. For INGRESS traffic, one of
 	// source_ranges, source_tags or source_service_accounts is required.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	SourceRanges []*string `json:"sourceRanges,omitempty" tf:"source_ranges,omitempty"`
 
 	// If source service accounts are specified, the firewall will apply only
@@ -487,6 +501,7 @@ type FirewallParameters struct {
 	// used at the same time as sourceTags or targetTags. For INGRESS traffic,
 	// one of source_ranges, source_tags or source_service_accounts is required.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	SourceServiceAccounts []*string `json:"sourceServiceAccounts,omitempty" tf:"source_service_accounts,omitempty"`
 
 	// If source tags are specified, the firewall will apply only to traffic
@@ -500,6 +515,7 @@ type FirewallParameters struct {
 	// to match both properties for the firewall to apply. For INGRESS traffic,
 	// one of source_ranges, source_tags or source_service_accounts is required.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	SourceTags []*string `json:"sourceTags,omitempty" tf:"source_tags,omitempty"`
 
 	// A list of service accounts indicating sets of instances located in the
@@ -509,6 +525,7 @@ type FirewallParameters struct {
 	// specified, the firewall rule applies to all instances on the specified
 	// network.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	TargetServiceAccounts []*string `json:"targetServiceAccounts,omitempty" tf:"target_service_accounts,omitempty"`
 
 	// A list of instance tags indicating sets of instances located in the
@@ -516,6 +533,7 @@ type FirewallParameters struct {
 	// If no targetTags are specified, the firewall rule applies to all
 	// instances on the specified network.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	TargetTags []*string `json:"targetTags,omitempty" tf:"target_tags,omitempty"`
 }
 

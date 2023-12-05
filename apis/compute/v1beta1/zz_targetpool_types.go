@@ -44,6 +44,7 @@ type TargetPoolInitParameters struct {
 
 	// List of instances in the pool. They can be given as
 	// URLs, or in the form of "zone/name".
+	// +listType=set
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
@@ -78,6 +79,7 @@ type TargetPoolObservation struct {
 
 	// List of instances in the pool. They can be given as
 	// URLs, or in the form of "zone/name".
+	// +listType=set
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
@@ -130,6 +132,7 @@ type TargetPoolParameters struct {
 	// List of instances in the pool. They can be given as
 	// URLs, or in the form of "zone/name".
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it

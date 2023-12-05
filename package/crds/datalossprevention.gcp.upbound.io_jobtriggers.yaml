@@ -1519,6 +1519,7 @@ spec:
                                         No more than 10 labels can be associated with
                                         a given finding. Examples:'
                                       type: object
+                                      x-kubernetes-map-type: granular
                                     requiredFindingLabelKeys:
                                       description: 'These are labels that each inspection
                                         request must include within their ''finding_labels''
@@ -2928,6 +2929,7 @@ spec:
                                         No more than 10 labels can be associated with
                                         a given finding. Examples:'
                                       type: object
+                                      x-kubernetes-map-type: granular
                                     requiredFindingLabelKeys:
                                       description: 'These are labels that each inspection
                                         request must include within their ''finding_labels''
@@ -4521,6 +4523,7 @@ spec:
                                         No more than 10 labels can be associated with
                                         a given finding. Examples:'
                                       type: object
+                                      x-kubernetes-map-type: granular
                                     requiredFindingLabelKeys:
                                       description: 'These are labels that each inspection
                                         request must include within their ''finding_labels''
