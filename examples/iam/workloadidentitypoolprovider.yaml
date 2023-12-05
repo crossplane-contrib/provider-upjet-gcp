@@ -21,7 +21,7 @@ kind: WorkloadIdentityPool
 metadata:
   annotations:
     meta.upbound.io/example-id: iam/v1beta1/workloadidentitypoolprovider
-    upjet.upbound.io/manual-ntervention: "Needs permissions for Pool creation"
+    upjet.upbound.io/manual-intervention: "Needs permissions for Pool creation"
   labels:
     testing.upbound.io/example-name: identity-pool
   name: identity-pool
