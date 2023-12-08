@@ -22,7 +22,7 @@ metadata:
     meta.upbound.io/example-id: cloudplatform/v1beta1/projectusageexportbucket
   labels:
     testing.upbound.io/example-name: project-usage-tracking-bucket
-  name: project-usage-tracking-bucket
+  name: project-${Rand.RFC1123Subdomain}
 spec:
   forProvider:
     location: US
