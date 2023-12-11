@@ -2,6 +2,7 @@ package cloudrun
 
 import (
 	"github.com/crossplane/upjet/pkg/config"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
 // Configure configures individual resources by adding custom
@@ -58,6 +59,18 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_cloud_run_v2_job", func(r *config.Resource) {
 		// This prevents an import cycle not allowed error
 		delete(r.References, "template.template.vpc_access.connector")
+		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, _ *terraform.InstanceState, _ *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
+			if diff != nil {
+				// The Terraform registry docs state that when
+				// the `launch_stage` configuration argument
+				// is set, the attribute may differ from it.
+				// Thus, the provided example manifests
+				// ignore changes to this argument using
+				// the`ignore_changes` lifecycle meta-argument.
+				delete(diff.Attributes, "launch_stage")
+			}
+			return diff, nil
+		}
 	})
 	p.AddResourceConfigurator("google_cloud_run_v2_service", func(r *config.Resource) {
 		// This prevents an import cycle not allowed error
