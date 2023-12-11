@@ -6,6 +6,7 @@ import (
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane/upjet/pkg/config"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/upbound/provider-gcp/config/common"
 )
@@ -382,6 +383,12 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 
 	p.AddResourceConfigurator("google_compute_reservation", func(r *config.Resource) {
 		config.MarkAsRequired(r.TerraformResource, "zone")
+		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, _ *terraform.InstanceState, _ *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
+			if diff != nil {
+				delete(diff.Attributes, "share_settings.#")
+			}
+			return diff, nil
+		}
 	})
 
 	p.AddResourceConfigurator("google_compute_firewall_policy_association", func(r *config.Resource) {
