@@ -2,6 +2,7 @@ package container
 
 import (
 	"encoding/base64"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"net/url"
 
 	"github.com/crossplane/upjet/pkg/config"
@@ -127,6 +128,19 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		r.References["cluster"] = config.Reference{
 			Type:      "Cluster",
 			Extractor: common.ExtractResourceIDFuncPath,
+		}
+
+		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, _ *terraform.InstanceState, _ *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
+			if diff == nil || diff.Destroy {
+				return diff, nil
+			}
+			if ppDiff, ok := diff.Attributes["placement_policy.#"]; ok && ppDiff.Old == "" && ppDiff.New == "" {
+				delete(diff.Attributes, "placement_policy.#")
+			}
+			if asDiff, ok := diff.Attributes["autoscaling.#"]; ok && asDiff.Old == "" && asDiff.New == "" {
+				delete(diff.Attributes, "autoscaling.#")
+			}
+			return diff, nil
 		}
 	})
 }
