@@ -131,6 +131,16 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		r.References["network_interface.subnetwork"] = config.Reference{
 			Type: "Subnetwork",
 		}
+
+		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, _ *terraform.InstanceState, _ *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
+			if diff == nil || diff.Destroy {
+				return diff, nil
+			}
+			if cicDiff, ok := diff.Attributes["confidential_instance_config.#"]; ok && cicDiff.Old == "" && cicDiff.New == "" {
+				delete(diff.Attributes, "confidential_instance_config.#")
+			}
+			return diff, nil
+		}
 	})
 
 	p.AddResourceConfigurator("google_compute_instance", func(r *config.Resource) {
