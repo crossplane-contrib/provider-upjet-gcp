@@ -190,6 +190,15 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		r.References["network_interface.subnetwork"] = config.Reference{
 			Type: "Subnetwork",
 		}
+		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, _ *terraform.InstanceState, _ *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
+			if diff == nil || diff.Destroy {
+				return diff, nil
+			}
+			if paramsDiff, ok := diff.Attributes["params.#"]; ok && paramsDiff.Old == "" && paramsDiff.New == "" {
+				delete(diff.Attributes, "params.#")
+			}
+			return diff, nil
+		}
 	})
 
 	p.AddResourceConfigurator("google_compute_instance_group", func(r *config.Resource) {
