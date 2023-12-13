@@ -212,6 +212,8 @@ var noForkExternalNameConfigs = map[string]config.ExternalName{
 	"google_compute_region_instance_group_manager": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/targetHttpProxies/{{name}}
 	"google_compute_region_target_http_proxy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/targetHttpProxies/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/targetTcpProxies/{{name}}
+	"google_compute_region_target_tcp_proxy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/targetTcpProxies/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/urlMaps/{{name}}
 	"google_compute_region_url_map": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/urlMaps/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/instanceGroupManagers/{{instance_group_manager}}/{{name}}

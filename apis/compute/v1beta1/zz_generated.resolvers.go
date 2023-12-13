@@ -2050,6 +2050,32 @@ func (mg *RegionTargetHTTPSProxy) ResolveReferences(ctx context.Context, c clien
 	return nil
 }
 
+// ResolveReferences of this RegionTargetTCPProxy.
+func (mg *RegionTargetTCPProxy) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BackendService),
+		Extract:      common.SelfLinkExtractor(),
+		Reference:    mg.Spec.ForProvider.BackendServiceRef,
+		Selector:     mg.Spec.ForProvider.BackendServiceSelector,
+		To: reference.To{
+			List:    &RegionBackendServiceList{},
+			Managed: &RegionBackendService{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.BackendService")
+	}
+	mg.Spec.ForProvider.BackendService = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.BackendServiceRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this RegionURLMap.
 func (mg *RegionURLMap) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
