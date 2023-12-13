@@ -211,6 +211,7 @@ spec:
                       type: string
                     description: Environment variables available to the application.
                     type: object
+                    x-kubernetes-map-type: granular
                   handlers:
                     description: An ordered list of URL-matching patterns that should
                       be applied to incoming requests. The first matching URL handles
@@ -281,6 +282,7 @@ spec:
                                   from these URLs. An object containing a list of
                                   "key:value" value pairs.".
                                 type: object
+                                x-kubernetes-map-type: granular
                               mimeType:
                                 description: MIME type used to serve all files served
                                   by this handler. Defaults to file-specific MIME
@@ -324,6 +326,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   instanceClass:
                     description: 'Instance class that is used to run this version.
                       Valid values are AutomaticScaling: F1, F2, F4, F4_1G BasicScaling
@@ -638,6 +641,7 @@ spec:
                       type: string
                     description: Environment variables available to the application.
                     type: object
+                    x-kubernetes-map-type: granular
                   handlers:
                     description: An ordered list of URL-matching patterns that should
                       be applied to incoming requests. The first matching URL handles
@@ -708,6 +712,7 @@ spec:
                                   from these URLs. An object containing a list of
                                   "key:value" value pairs.".
                                 type: object
+                                x-kubernetes-map-type: granular
                               mimeType:
                                 description: MIME type used to serve all files served
                                   by this handler. Defaults to file-specific MIME
@@ -751,6 +756,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   instanceClass:
                     description: 'Instance class that is used to run this version.
                       Valid values are AutomaticScaling: F1, F2, F4, F4_1G BasicScaling
@@ -1145,6 +1151,7 @@ spec:
                       type: string
                     description: Environment variables available to the application.
                     type: object
+                    x-kubernetes-map-type: granular
                   handlers:
                     description: An ordered list of URL-matching patterns that should
                       be applied to incoming requests. The first matching URL handles
@@ -1215,6 +1222,7 @@ spec:
                                   from these URLs. An object containing a list of
                                   "key:value" value pairs.".
                                 type: object
+                                x-kubernetes-map-type: granular
                               mimeType:
                                 description: MIME type used to serve all files served
                                   by this handler. Defaults to file-specific MIME
@@ -1261,6 +1269,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   instanceClass:
                     description: 'Instance class that is used to run this version.
                       Valid values are AutomaticScaling: F1, F2, F4, F4_1G BasicScaling

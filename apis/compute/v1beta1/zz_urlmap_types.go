@@ -1976,6 +1976,7 @@ type PathMatcherPathRuleInitParameters struct {
 	// * is allowed is at the end following a /. The string fed to the path matcher
 	// does not include any text after the first ? or #, and those chars are not
 	// allowed here.
+	// +listType=set
 	Paths []*string `json:"paths,omitempty" tf:"paths,omitempty"`
 
 	// In response to a matching matchRule, the load balancer performs advanced routing
@@ -2000,6 +2001,7 @@ type PathMatcherPathRuleObservation struct {
 	// * is allowed is at the end following a /. The string fed to the path matcher
 	// does not include any text after the first ? or #, and those chars are not
 	// allowed here.
+	// +listType=set
 	Paths []*string `json:"paths,omitempty" tf:"paths,omitempty"`
 
 	// In response to a matching matchRule, the load balancer performs advanced routing
@@ -2028,6 +2030,7 @@ type PathMatcherPathRuleParameters struct {
 	// does not include any text after the first ? or #, and those chars are not
 	// allowed here.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Paths []*string `json:"paths" tf:"paths,omitempty"`
 
 	// In response to a matching matchRule, the load balancer performs advanced routing
@@ -4978,6 +4981,7 @@ type URLMapHostRuleInitParameters struct {
 	// The list of host patterns to match. They must be valid hostnames, except * will
 	// match any string of ([a-z0-9-.]*). In that case, * must be the first character
 	// and must be followed in the pattern by either - or ..
+	// +listType=set
 	Hosts []*string `json:"hosts,omitempty" tf:"hosts,omitempty"`
 
 	// The name of the PathMatcher to use to match the path portion of the URL if the
@@ -4994,6 +4998,7 @@ type URLMapHostRuleObservation struct {
 	// The list of host patterns to match. They must be valid hostnames, except * will
 	// match any string of ([a-z0-9-.]*). In that case, * must be the first character
 	// and must be followed in the pattern by either - or ..
+	// +listType=set
 	Hosts []*string `json:"hosts,omitempty" tf:"hosts,omitempty"`
 
 	// The name of the PathMatcher to use to match the path portion of the URL if the
@@ -5012,6 +5017,7 @@ type URLMapHostRuleParameters struct {
 	// match any string of ([a-z0-9-.]*). In that case, * must be the first character
 	// and must be followed in the pattern by either - or ..
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Hosts []*string `json:"hosts" tf:"hosts,omitempty"`
 
 	// The name of the PathMatcher to use to match the path portion of the URL if the

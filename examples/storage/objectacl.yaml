@@ -44,7 +44,7 @@ spec:
           - '*'
     forceDestroy: true
     location: US
-    uniformBucketLevelAccess: true
+    uniformBucketLevelAccess: false
     website:
       - mainPageSuffix: index.html
         notFoundPage: 404.html

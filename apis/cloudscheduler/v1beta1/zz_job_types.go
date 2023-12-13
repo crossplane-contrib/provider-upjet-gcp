@@ -47,6 +47,7 @@ type AppEngineHTTPTargetInitParameters struct {
 	// HTTP request headers.
 	// This map contains the header field names and values.
 	// Headers can be set when the job is created.
+	// +mapType=granular
 	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
 
 	// The relative URI.
@@ -75,6 +76,7 @@ type AppEngineHTTPTargetObservation struct {
 	// HTTP request headers.
 	// This map contains the header field names and values.
 	// Headers can be set when the job is created.
+	// +mapType=granular
 	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
 
 	// The relative URI.
@@ -107,6 +109,7 @@ type AppEngineHTTPTargetParameters struct {
 	// This map contains the header field names and values.
 	// Headers can be set when the job is created.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
 
 	// The relative URI.
@@ -179,6 +182,7 @@ type HTTPTargetInitParameters struct {
 
 	// This map contains the header field names and values.
 	// Repeated headers are not supported, but a header value can contain commas.
+	// +mapType=granular
 	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
 
 	// Contains information needed for generating an OAuth token.
@@ -208,6 +212,7 @@ type HTTPTargetObservation struct {
 
 	// This map contains the header field names and values.
 	// Repeated headers are not supported, but a header value can contain commas.
+	// +mapType=granular
 	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
 
 	// Contains information needed for generating an OAuth token.
@@ -240,6 +245,7 @@ type HTTPTargetParameters struct {
 	// This map contains the header field names and values.
 	// Repeated headers are not supported, but a header value can contain commas.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
 
 	// Contains information needed for generating an OAuth token.
@@ -509,6 +515,7 @@ type PubsubTargetInitParameters struct {
 
 	// Attributes for PubsubMessage.
 	// Pubsub message must contain either non-empty data, or at least one attribute.
+	// +mapType=granular
 	Attributes map[string]*string `json:"attributes,omitempty" tf:"attributes,omitempty"`
 
 	// The message payload for PubsubMessage.
@@ -521,6 +528,7 @@ type PubsubTargetObservation struct {
 
 	// Attributes for PubsubMessage.
 	// Pubsub message must contain either non-empty data, or at least one attribute.
+	// +mapType=granular
 	Attributes map[string]*string `json:"attributes,omitempty" tf:"attributes,omitempty"`
 
 	// The message payload for PubsubMessage.
@@ -540,6 +548,7 @@ type PubsubTargetParameters struct {
 	// Attributes for PubsubMessage.
 	// Pubsub message must contain either non-empty data, or at least one attribute.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Attributes map[string]*string `json:"attributes,omitempty" tf:"attributes,omitempty"`
 
 	// The message payload for PubsubMessage.

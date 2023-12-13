@@ -110,6 +110,7 @@ type SchemaSettingsParameters struct {
 type TopicInitParameters struct {
 
 	// A set of key/value label pairs to assign to this Topic.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Indicates the minimum duration to retain a message after it is published
@@ -149,6 +150,7 @@ type TopicObservation struct {
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// A set of key/value label pairs to assign to this Topic.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Indicates the minimum duration to retain a message after it is published
@@ -197,6 +199,7 @@ type TopicParameters struct {
 
 	// A set of key/value label pairs to assign to this Topic.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Indicates the minimum duration to retain a message after it is published

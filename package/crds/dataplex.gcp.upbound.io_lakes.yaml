@@ -77,6 +77,7 @@ spec:
                       type: string
                     description: Optional. User-defined labels for the lake.
                     type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: The location for the resource
                     type: string
@@ -121,6 +122,7 @@ spec:
                       type: string
                     description: Optional. User-defined labels for the lake.
                     type: object
+                    x-kubernetes-map-type: granular
                   metastore:
                     description: Optional. Settings to manage lake and Dataproc Metastore
                       service instance association.
@@ -334,6 +336,7 @@ spec:
                       type: string
                     description: Optional. User-defined labels for the lake.
                     type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: The location for the resource
                     type: string

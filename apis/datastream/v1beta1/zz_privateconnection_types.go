@@ -35,6 +35,7 @@ type ErrorInitParameters struct {
 type ErrorObservation struct {
 
 	// A list of messages that carry the error details.
+	// +mapType=granular
 	Details map[string]*string `json:"details,omitempty" tf:"details,omitempty"`
 
 	// A message containing more information about the error that occurred.
@@ -50,6 +51,7 @@ type PrivateConnectionInitParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Labels.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -75,6 +77,7 @@ type PrivateConnectionObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Labels.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of the location this private connection is located in.
@@ -104,6 +107,7 @@ type PrivateConnectionParameters struct {
 
 	// Labels.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of the location this private connection is located in.

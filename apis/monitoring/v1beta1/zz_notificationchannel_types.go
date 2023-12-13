@@ -51,6 +51,7 @@ type NotificationChannelInitParameters struct {
 	// permissible and required labels are specified in the
 	// NotificationChannelDescriptor corresponding to the type field. They can also be configured via
 	// the sensitive_labels block, but cannot be configured in both places.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -70,6 +71,7 @@ type NotificationChannelInitParameters struct {
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// User-supplied key/value data that does not need to conform to the corresponding NotificationChannelDescriptor's schema, unlike the labels field. This field is intended to be used for organizing and identifying the NotificationChannel objects.The field can contain up to 64 entries. Each key and value is limited to 63 Unicode characters or 128 bytes, whichever is smaller. Labels and values can contain only lowercase letters, numerals, underscores, and dashes. Keys must begin with a letter.
+	// +mapType=granular
 	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
 }
 
@@ -98,6 +100,7 @@ type NotificationChannelObservation struct {
 	// permissible and required labels are specified in the
 	// NotificationChannelDescriptor corresponding to the type field. They can also be configured via
 	// the sensitive_labels block, but cannot be configured in both places.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The full REST resource name for this channel. The syntax is:
@@ -122,6 +125,7 @@ type NotificationChannelObservation struct {
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// User-supplied key/value data that does not need to conform to the corresponding NotificationChannelDescriptor's schema, unlike the labels field. This field is intended to be used for organizing and identifying the NotificationChannel objects.The field can contain up to 64 entries. Each key and value is limited to 63 Unicode characters or 128 bytes, whichever is smaller. Labels and values can contain only lowercase letters, numerals, underscores, and dashes. Keys must begin with a letter.
+	// +mapType=granular
 	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
 
 	// Indicates whether this channel has been verified or not. On a ListNotificationChannels or GetNotificationChannel operation, this field is expected to be populated.If the value is UNVERIFIED, then it indicates that the channel is non-functioning (it both requires verification and lacks verification); otherwise, it is assumed that the channel works.If the channel is neither VERIFIED nor UNVERIFIED, it implies that the channel is of a type that does not require verification or that this specific channel has been exempted from verification because it was created prior to verification being required for channels of this type.This field cannot be modified using a standard UpdateNotificationChannel operation. To change the value of this field, you must call VerifyNotificationChannel.
@@ -155,6 +159,7 @@ type NotificationChannelParameters struct {
 	// NotificationChannelDescriptor corresponding to the type field. They can also be configured via
 	// the sensitive_labels block, but cannot be configured in both places.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -178,6 +183,7 @@ type NotificationChannelParameters struct {
 
 	// User-supplied key/value data that does not need to conform to the corresponding NotificationChannelDescriptor's schema, unlike the labels field. This field is intended to be used for organizing and identifying the NotificationChannel objects.The field can contain up to 64 entries. Each key and value is limited to 63 Unicode characters or 128 bytes, whichever is smaller. Labels and values can contain only lowercase letters, numerals, underscores, and dashes. Keys must begin with a letter.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
 }
 

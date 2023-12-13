@@ -34,6 +34,7 @@ type DefaultObjectACLInitParameters struct {
 	// List of role/entity pairs in the form ROLE:entity.
 	// See GCS Object ACL documentation for more details.
 	// Omitting the field is the same as providing an empty list.
+	// +listType=set
 	RoleEntity []*string `json:"roleEntity,omitempty" tf:"role_entity,omitempty"`
 }
 
@@ -47,6 +48,7 @@ type DefaultObjectACLObservation struct {
 	// List of role/entity pairs in the form ROLE:entity.
 	// See GCS Object ACL documentation for more details.
 	// Omitting the field is the same as providing an empty list.
+	// +listType=set
 	RoleEntity []*string `json:"roleEntity,omitempty" tf:"role_entity,omitempty"`
 }
 
@@ -69,6 +71,7 @@ type DefaultObjectACLParameters struct {
 	// See GCS Object ACL documentation for more details.
 	// Omitting the field is the same as providing an empty list.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	RoleEntity []*string `json:"roleEntity,omitempty" tf:"role_entity,omitempty"`
 }
 

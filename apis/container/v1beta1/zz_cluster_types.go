@@ -817,6 +817,7 @@ type ClusterInitParameters struct {
 	// are located. Nodes must be in the region of their regional cluster or in the
 	// same region as their cluster's zone for zonal clusters. If this is specified for
 	// a zonal cluster, omit the cluster's zone.
+	// +listType=set
 	NodeLocations []*string `json:"nodeLocations,omitempty" tf:"node_locations,omitempty"`
 
 	// Default NodePool settings for the entire cluster. These settings are overridden if specified on the specific NodePool object. Structure is documented below.
@@ -859,6 +860,7 @@ type ClusterInitParameters struct {
 	RemoveDefaultNodePool *bool `json:"removeDefaultNodePool,omitempty" tf:"remove_default_node_pool,omitempty"`
 
 	// The GCE resource labels (a map of key/value pairs) to be applied to the cluster.
+	// +mapType=granular
 	ResourceLabels map[string]*string `json:"resourceLabels,omitempty" tf:"resource_labels,omitempty"`
 
 	// Configuration for the
@@ -1097,6 +1099,7 @@ type ClusterObservation struct {
 	// are located. Nodes must be in the region of their regional cluster or in the
 	// same region as their cluster's zone for zonal clusters. If this is specified for
 	// a zonal cluster, omit the cluster's zone.
+	// +listType=set
 	NodeLocations []*string `json:"nodeLocations,omitempty" tf:"node_locations,omitempty"`
 
 	// List of node pools associated with this cluster.
@@ -1149,6 +1152,7 @@ type ClusterObservation struct {
 	RemoveDefaultNodePool *bool `json:"removeDefaultNodePool,omitempty" tf:"remove_default_node_pool,omitempty"`
 
 	// The GCE resource labels (a map of key/value pairs) to be applied to the cluster.
+	// +mapType=granular
 	ResourceLabels map[string]*string `json:"resourceLabels,omitempty" tf:"resource_labels,omitempty"`
 
 	// Configuration for the
@@ -1442,6 +1446,7 @@ type ClusterParameters struct {
 	// same region as their cluster's zone for zonal clusters. If this is specified for
 	// a zonal cluster, omit the cluster's zone.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	NodeLocations []*string `json:"nodeLocations,omitempty" tf:"node_locations,omitempty"`
 
 	// Default NodePool settings for the entire cluster. These settings are overridden if specified on the specific NodePool object. Structure is documented below.
@@ -1493,6 +1498,7 @@ type ClusterParameters struct {
 
 	// The GCE resource labels (a map of key/value pairs) to be applied to the cluster.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	ResourceLabels map[string]*string `json:"resourceLabels,omitempty" tf:"resource_labels,omitempty"`
 
 	// Configuration for the
@@ -1722,12 +1728,14 @@ type DefaultSnatStatusParameters struct {
 type EnableK8SBetaApisInitParameters struct {
 
 	// Enabled Kubernetes Beta APIs. To list a Beta API resource, use the representation {group}/{version}/{resource}. The version must be a Beta version. Note that you cannot disable beta APIs that are already enabled on a cluster without recreating it. See the Configure beta APIs for more information.
+	// +listType=set
 	EnabledApis []*string `json:"enabledApis,omitempty" tf:"enabled_apis,omitempty"`
 }
 
 type EnableK8SBetaApisObservation struct {
 
 	// Enabled Kubernetes Beta APIs. To list a Beta API resource, use the representation {group}/{version}/{resource}. The version must be a Beta version. Note that you cannot disable beta APIs that are already enabled on a cluster without recreating it. See the Configure beta APIs for more information.
+	// +listType=set
 	EnabledApis []*string `json:"enabledApis,omitempty" tf:"enabled_apis,omitempty"`
 }
 
@@ -1735,6 +1743,7 @@ type EnableK8SBetaApisParameters struct {
 
 	// Enabled Kubernetes Beta APIs. To list a Beta API resource, use the representation {group}/{version}/{resource}. The version must be a Beta version. Note that you cannot disable beta APIs that are already enabled on a cluster without recreating it. See the Configure beta APIs for more information.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	EnabledApis []*string `json:"enabledApis" tf:"enabled_apis,omitempty"`
 }
 
@@ -2314,6 +2323,7 @@ type LinuxNodeConfigInitParameters struct {
 	// The Linux kernel parameters to be applied to the nodes
 	// and all pods running on the nodes. Specified as a map from the key, such as
 	// net.core.wmem_max, to a string value.
+	// +mapType=granular
 	Sysctls map[string]*string `json:"sysctls,omitempty" tf:"sysctls,omitempty"`
 }
 
@@ -2322,6 +2332,7 @@ type LinuxNodeConfigObservation struct {
 	// The Linux kernel parameters to be applied to the nodes
 	// and all pods running on the nodes. Specified as a map from the key, such as
 	// net.core.wmem_max, to a string value.
+	// +mapType=granular
 	Sysctls map[string]*string `json:"sysctls,omitempty" tf:"sysctls,omitempty"`
 }
 
@@ -2331,6 +2342,7 @@ type LinuxNodeConfigParameters struct {
 	// and all pods running on the nodes. Specified as a map from the key, such as
 	// net.core.wmem_max, to a string value.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Sysctls map[string]*string `json:"sysctls" tf:"sysctls,omitempty"`
 }
 
@@ -2925,6 +2937,7 @@ type NodeConfigInitParameters struct {
 
 	// The Kubernetes labels (key/value pairs) to be applied to each node. The kubernetes.io/ and k8s.io/ prefixes are
 	// reserved by Kubernetes Core components and cannot be specified.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Linux node configuration, currently supported attributes can be found here.
@@ -2950,6 +2963,7 @@ type NodeConfigInitParameters struct {
 	// The metadata key/value pairs assigned to instances in
 	// the cluster. From GKE 1. To avoid this, set the
 	// value in your config.
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// Minimum CPU platform to be used by this instance.
@@ -2965,6 +2979,7 @@ type NodeConfigInitParameters struct {
 	// The set of Google API scopes to be made available
 	// on all of the node VMs under the "default" service account.
 	// Use the "https://www.googleapis.com/auth/cloud-platform" scope to grant access to all APIs. It is recommended that you set service_account to a non-default service account and grant IAM roles to that service account for only the resources that it needs.
+	// +listType=set
 	OAuthScopes []*string `json:"oauthScopes,omitempty" tf:"oauth_scopes,omitempty"`
 
 	// A boolean that represents whether or not the underlying node VMs
@@ -2977,6 +2992,7 @@ type NodeConfigInitParameters struct {
 
 	// The GCP labels (key/value pairs) to be applied to each node. Refer here
 	// for how these labels are applied to clusters, node pools and nodes.
+	// +mapType=granular
 	ResourceLabels map[string]*string `json:"resourceLabels,omitempty" tf:"resource_labels,omitempty"`
 
 	// Shielded Instance options. Structure is documented below.
@@ -3043,6 +3059,7 @@ type NodeConfigLinuxNodeConfigObservation struct {
 	// The Linux kernel parameters to be applied to the nodes
 	// and all pods running on the nodes. Specified as a map from the key, such as
 	// net.core.wmem_max, to a string value.
+	// +mapType=granular
 	Sysctls map[string]*string `json:"sysctls,omitempty" tf:"sysctls,omitempty"`
 }
 
@@ -3116,6 +3133,7 @@ type NodeConfigObservation struct {
 
 	// The Kubernetes labels (key/value pairs) to be applied to each node. The kubernetes.io/ and k8s.io/ prefixes are
 	// reserved by Kubernetes Core components and cannot be specified.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Linux node configuration, currently supported attributes can be found here.
@@ -3141,6 +3159,7 @@ type NodeConfigObservation struct {
 	// The metadata key/value pairs assigned to instances in
 	// the cluster. From GKE 1. To avoid this, set the
 	// value in your config.
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// Minimum CPU platform to be used by this instance.
@@ -3156,6 +3175,7 @@ type NodeConfigObservation struct {
 	// The set of Google API scopes to be made available
 	// on all of the node VMs under the "default" service account.
 	// Use the "https://www.googleapis.com/auth/cloud-platform" scope to grant access to all APIs. It is recommended that you set service_account to a non-default service account and grant IAM roles to that service account for only the resources that it needs.
+	// +listType=set
 	OAuthScopes []*string `json:"oauthScopes,omitempty" tf:"oauth_scopes,omitempty"`
 
 	// A boolean that represents whether or not the underlying node VMs
@@ -3168,6 +3188,7 @@ type NodeConfigObservation struct {
 
 	// The GCP labels (key/value pairs) to be applied to each node. Refer here
 	// for how these labels are applied to clusters, node pools and nodes.
+	// +mapType=granular
 	ResourceLabels map[string]*string `json:"resourceLabels,omitempty" tf:"resource_labels,omitempty"`
 
 	// The service account to be used by the Node VMs.
@@ -3269,6 +3290,7 @@ type NodeConfigParameters struct {
 	// The Kubernetes labels (key/value pairs) to be applied to each node. The kubernetes.io/ and k8s.io/ prefixes are
 	// reserved by Kubernetes Core components and cannot be specified.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Linux node configuration, currently supported attributes can be found here.
@@ -3300,6 +3322,7 @@ type NodeConfigParameters struct {
 	// the cluster. From GKE 1. To avoid this, set the
 	// value in your config.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// Minimum CPU platform to be used by this instance.
@@ -3318,6 +3341,7 @@ type NodeConfigParameters struct {
 	// on all of the node VMs under the "default" service account.
 	// Use the "https://www.googleapis.com/auth/cloud-platform" scope to grant access to all APIs. It is recommended that you set service_account to a non-default service account and grant IAM roles to that service account for only the resources that it needs.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	OAuthScopes []*string `json:"oauthScopes,omitempty" tf:"oauth_scopes,omitempty"`
 
 	// A boolean that represents whether or not the underlying node VMs
@@ -3333,6 +3357,7 @@ type NodeConfigParameters struct {
 	// The GCP labels (key/value pairs) to be applied to each node. Refer here
 	// for how these labels are applied to clusters, node pools and nodes.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	ResourceLabels map[string]*string `json:"resourceLabels,omitempty" tf:"resource_labels,omitempty"`
 
 	// The service account to be used by the Node VMs.
@@ -3398,6 +3423,7 @@ type NodeConfigReservationAffinityObservation struct {
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// name"
+	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
@@ -3563,6 +3589,7 @@ type NodePoolNodeConfigObservation struct {
 
 	// The Kubernetes labels (key/value pairs) to be applied to each node. The kubernetes.io/ and k8s.io/ prefixes are
 	// reserved by Kubernetes Core components and cannot be specified.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Linux node configuration, currently supported attributes can be found here.
@@ -3588,6 +3615,7 @@ type NodePoolNodeConfigObservation struct {
 	// The metadata key/value pairs assigned to instances in
 	// the cluster. From GKE 1. To avoid this, set the
 	// value in your config.
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// Minimum CPU platform to be used by this instance.
@@ -3603,6 +3631,7 @@ type NodePoolNodeConfigObservation struct {
 	// The set of Google API scopes to be made available
 	// on all of the node VMs under the "default" service account.
 	// Use the "https://www.googleapis.com/auth/cloud-platform" scope to grant access to all APIs. It is recommended that you set service_account to a non-default service account and grant IAM roles to that service account for only the resources that it needs.
+	// +listType=set
 	OAuthScopes []*string `json:"oauthScopes,omitempty" tf:"oauth_scopes,omitempty"`
 
 	// A boolean that represents whether or not the underlying node VMs
@@ -3614,6 +3643,7 @@ type NodePoolNodeConfigObservation struct {
 	ReservationAffinity []NodeConfigReservationAffinityObservation `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
 	// The GCE resource labels (a map of key/value pairs) to be applied to the cluster.
+	// +mapType=granular
 	ResourceLabels map[string]*string `json:"resourceLabels,omitempty" tf:"resource_labels,omitempty"`
 
 	// The service account to be used by the Node VMs.
@@ -3703,6 +3733,7 @@ type NodePoolObservation struct {
 	// are located. Nodes must be in the region of their regional cluster or in the
 	// same region as their cluster's zone for zonal clusters. If this is specified for
 	// a zonal cluster, omit the cluster's zone.
+	// +listType=set
 	NodeLocations []*string `json:"nodeLocations,omitempty" tf:"node_locations,omitempty"`
 
 	PlacementPolicy []PlacementPolicyObservation `json:"placementPolicy,omitempty" tf:"placement_policy,omitempty"`
@@ -4000,6 +4031,7 @@ type ReservationAffinityInitParameters struct {
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// name"
+	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
@@ -4013,6 +4045,7 @@ type ReservationAffinityObservation struct {
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// name"
+	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
@@ -4029,6 +4062,7 @@ type ReservationAffinityParameters struct {
 
 	// name"
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 

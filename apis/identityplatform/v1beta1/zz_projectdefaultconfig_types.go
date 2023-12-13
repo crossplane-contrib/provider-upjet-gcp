@@ -118,6 +118,7 @@ type PhoneNumberInitParameters struct {
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// A map of <test phone number, fake code> that can be used for phone auth testing.
+	// +mapType=granular
 	TestPhoneNumbers map[string]*string `json:"testPhoneNumbers,omitempty" tf:"test_phone_numbers,omitempty"`
 }
 
@@ -127,6 +128,7 @@ type PhoneNumberObservation struct {
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// A map of <test phone number, fake code> that can be used for phone auth testing.
+	// +mapType=granular
 	TestPhoneNumbers map[string]*string `json:"testPhoneNumbers,omitempty" tf:"test_phone_numbers,omitempty"`
 }
 
@@ -138,6 +140,7 @@ type PhoneNumberParameters struct {
 
 	// A map of <test phone number, fake code> that can be used for phone auth testing.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	TestPhoneNumbers map[string]*string `json:"testPhoneNumbers,omitempty" tf:"test_phone_numbers,omitempty"`
 }
 

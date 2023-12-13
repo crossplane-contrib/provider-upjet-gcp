@@ -133,6 +133,7 @@ type WorkloadIdentityPoolProviderInitParameters struct {
 	// to Google Cloud attributes, such as subject and segment.
 	// Each key must be a string specifying the Google Cloud IAM attribute to map to.
 	// The following keys are supported:
+	// +mapType=granular
 	AttributeMapping map[string]*string `json:"attributeMapping,omitempty" tf:"attribute_mapping,omitempty"`
 
 	// An Amazon Web Services identity provider. Not compatible with the property oidc.
@@ -171,6 +172,7 @@ type WorkloadIdentityPoolProviderObservation struct {
 	// to Google Cloud attributes, such as subject and segment.
 	// Each key must be a string specifying the Google Cloud IAM attribute to map to.
 	// The following keys are supported:
+	// +mapType=granular
 	AttributeMapping map[string]*string `json:"attributeMapping,omitempty" tf:"attribute_mapping,omitempty"`
 
 	// An Amazon Web Services identity provider. Not compatible with the property oidc.
@@ -226,6 +228,7 @@ type WorkloadIdentityPoolProviderParameters struct {
 	// Each key must be a string specifying the Google Cloud IAM attribute to map to.
 	// The following keys are supported:
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	AttributeMapping map[string]*string `json:"attributeMapping,omitempty" tf:"attribute_mapping,omitempty"`
 
 	// An Amazon Web Services identity provider. Not compatible with the property oidc.

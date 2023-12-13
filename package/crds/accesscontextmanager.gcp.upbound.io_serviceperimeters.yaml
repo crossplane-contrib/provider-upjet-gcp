@@ -913,6 +913,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                         vpcAccessibleServices:
                           description: Specifies how APIs are allowed to communicate
                             within the Service Perimeter. Structure is documented
@@ -926,6 +927,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                               enableRestriction:
                                 description: Whether to restrict API calls within
                                   the Service Perimeter to the list of APIs specified
@@ -1515,6 +1517,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                         vpcAccessibleServices:
                           description: Specifies how APIs are allowed to communicate
                             within the Service Perimeter. Structure is documented
@@ -1528,6 +1531,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                               enableRestriction:
                                 description: Whether to restrict API calls within
                                   the Service Perimeter to the list of APIs specified
@@ -2330,6 +2334,7 @@ spec:
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: set
                         vpcAccessibleServices:
                           description: Specifies how APIs are allowed to communicate
                             within the Service Perimeter. Structure is documented
@@ -2343,6 +2348,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                               enableRestriction:
                                 description: Whether to restrict API calls within
                                   the Service Perimeter to the list of APIs specified

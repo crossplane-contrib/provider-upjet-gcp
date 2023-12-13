@@ -126,6 +126,7 @@ spec:
                       type: string
                     description: Optional. Labels with user-defined metadata.
                     type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: The location for the resource
                     type: string
@@ -416,6 +417,7 @@ spec:
                       type: string
                     description: Optional. Labels with user-defined metadata.
                     type: object
+                    x-kubernetes-map-type: granular
                   passthroughExtensions:
                     description: Optional. Describes the set of X.509 extensions that
                       may appear in a Certificate issued using this CertificateTemplate.
@@ -864,6 +866,7 @@ spec:
                       type: string
                     description: Optional. Labels with user-defined metadata.
                     type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: The location for the resource
                     type: string

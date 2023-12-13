@@ -90,6 +90,7 @@ spec:
                       type: string
                     description: Resource labels to represent user provided metadata.
                     type: object
+                    x-kubernetes-map-type: granular
                   network:
                     description: The name of a network to peer the TPU node to. It
                       must be a preexisting Compute Engine network inside of the project
@@ -239,6 +240,7 @@ spec:
                       type: string
                     description: Resource labels to represent user provided metadata.
                     type: object
+                    x-kubernetes-map-type: granular
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
@@ -466,6 +468,7 @@ spec:
                       type: string
                     description: Resource labels to represent user provided metadata.
                     type: object
+                    x-kubernetes-map-type: granular
                   network:
                     description: The name of a network to peer the TPU node to. It
                       must be a preexisting Compute Engine network inside of the project

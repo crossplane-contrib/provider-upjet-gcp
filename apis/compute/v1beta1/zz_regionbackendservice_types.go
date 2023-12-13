@@ -627,6 +627,7 @@ type RegionBackendServiceCdnPolicyCacheKeyPolicyInitParameters struct {
 	// query_string_whitelist or query_string_blacklist, not both.
 	// '&' and '=' will be percent encoded and not treated as
 	// delimiters.
+	// +listType=set
 	QueryStringBlacklist []*string `json:"queryStringBlacklist,omitempty" tf:"query_string_blacklist,omitempty"`
 
 	// Names of query string parameters to include in cache keys.
@@ -634,6 +635,7 @@ type RegionBackendServiceCdnPolicyCacheKeyPolicyInitParameters struct {
 	// query_string_whitelist or query_string_blacklist, not both.
 	// '&' and '=' will be percent encoded and not treated as
 	// delimiters.
+	// +listType=set
 	QueryStringWhitelist []*string `json:"queryStringWhitelist,omitempty" tf:"query_string_whitelist,omitempty"`
 }
 
@@ -661,6 +663,7 @@ type RegionBackendServiceCdnPolicyCacheKeyPolicyObservation struct {
 	// query_string_whitelist or query_string_blacklist, not both.
 	// '&' and '=' will be percent encoded and not treated as
 	// delimiters.
+	// +listType=set
 	QueryStringBlacklist []*string `json:"queryStringBlacklist,omitempty" tf:"query_string_blacklist,omitempty"`
 
 	// Names of query string parameters to include in cache keys.
@@ -668,6 +671,7 @@ type RegionBackendServiceCdnPolicyCacheKeyPolicyObservation struct {
 	// query_string_whitelist or query_string_blacklist, not both.
 	// '&' and '=' will be percent encoded and not treated as
 	// delimiters.
+	// +listType=set
 	QueryStringWhitelist []*string `json:"queryStringWhitelist,omitempty" tf:"query_string_whitelist,omitempty"`
 }
 
@@ -700,6 +704,7 @@ type RegionBackendServiceCdnPolicyCacheKeyPolicyParameters struct {
 	// '&' and '=' will be percent encoded and not treated as
 	// delimiters.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	QueryStringBlacklist []*string `json:"queryStringBlacklist,omitempty" tf:"query_string_blacklist,omitempty"`
 
 	// Names of query string parameters to include in cache keys.
@@ -708,6 +713,7 @@ type RegionBackendServiceCdnPolicyCacheKeyPolicyParameters struct {
 	// '&' and '=' will be percent encoded and not treated as
 	// delimiters.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	QueryStringWhitelist []*string `json:"queryStringWhitelist,omitempty" tf:"query_string_whitelist,omitempty"`
 }
 
@@ -1241,6 +1247,7 @@ type RegionBackendServiceObservation struct {
 	// check can be specified.
 	// A health check must be specified unless the backend service uses an internet
 	// or serverless NEG as a backend.
+	// +listType=set
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/backendServices/{{name}}
@@ -1571,6 +1578,7 @@ type RegionBackendServiceParameters struct {
 	// +crossplane:generate:reference:type=RegionHealthCheck
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
 
 	// References to RegionHealthCheck to populate healthChecks.

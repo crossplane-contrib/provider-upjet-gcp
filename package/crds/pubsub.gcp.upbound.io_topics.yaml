@@ -153,6 +153,7 @@ spec:
                     description: A set of key/value label pairs to assign to this
                       Topic.
                     type: object
+                    x-kubernetes-map-type: granular
                   messageRetentionDuration:
                     description: Indicates the minimum duration to retain a message
                       after it is published to the topic. If this field is set, messages
@@ -224,6 +225,7 @@ spec:
                     description: A set of key/value label pairs to assign to this
                       Topic.
                     type: object
+                    x-kubernetes-map-type: granular
                   messageRetentionDuration:
                     description: Indicates the minimum duration to retain a message
                       after it is published to the topic. If this field is set, messages
@@ -458,6 +460,7 @@ spec:
                     description: A set of key/value label pairs to assign to this
                       Topic.
                     type: object
+                    x-kubernetes-map-type: granular
                   messageRetentionDuration:
                     description: Indicates the minimum duration to retain a message
                       after it is published to the topic. If this field is set, messages

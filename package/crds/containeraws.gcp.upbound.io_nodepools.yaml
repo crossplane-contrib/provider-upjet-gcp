@@ -78,6 +78,7 @@ spec:
                       or less, begin and end with alphanumerics, with dashes (-),
                       underscores (_), dots (.), and alphanumerics between.'
                     type: object
+                    x-kubernetes-map-type: granular
                   autoscaling:
                     description: Autoscaler configuration for this node pool.
                     items:
@@ -223,6 +224,7 @@ spec:
                             value pairs. Example: { "name": "wrench", "mass": "1.3kg",
                             "count": "3" }.'
                           type: object
+                          x-kubernetes-map-type: granular
                         proxyConfig:
                           description: Proxy configuration for outbound HTTP(S) traffic.
                           items:
@@ -300,6 +302,7 @@ spec:
                             be up to 127 Unicode characters. Values can be up to 255
                             Unicode characters.
                           type: object
+                          x-kubernetes-map-type: granular
                         taints:
                           description: Optional. The initial taints assigned to nodes
                             of this node pool.
@@ -370,6 +373,7 @@ spec:
                       or less, begin and end with alphanumerics, with dashes (-),
                       underscores (_), dots (.), and alphanumerics between.'
                     type: object
+                    x-kubernetes-map-type: granular
                   autoscaling:
                     description: Autoscaler configuration for this node pool.
                     items:
@@ -439,6 +443,7 @@ spec:
                             value pairs. Example: { "name": "wrench", "mass": "1.3kg",
                             "count": "3" }.'
                           type: object
+                          x-kubernetes-map-type: granular
                         proxyConfig:
                           description: Proxy configuration for outbound HTTP(S) traffic.
                           items:
@@ -516,6 +521,7 @@ spec:
                             be up to 127 Unicode characters. Values can be up to 255
                             Unicode characters.
                           type: object
+                          x-kubernetes-map-type: granular
                         taints:
                           description: Optional. The initial taints assigned to nodes
                             of this node pool.
@@ -755,6 +761,7 @@ spec:
                       or less, begin and end with alphanumerics, with dashes (-),
                       underscores (_), dots (.), and alphanumerics between.'
                     type: object
+                    x-kubernetes-map-type: granular
                   autoscaling:
                     description: Autoscaler configuration for this node pool.
                     items:
@@ -827,6 +834,7 @@ spec:
                             value pairs. Example: { "name": "wrench", "mass": "1.3kg",
                             "count": "3" }.'
                           type: object
+                          x-kubernetes-map-type: granular
                         proxyConfig:
                           description: Proxy configuration for outbound HTTP(S) traffic.
                           items:
@@ -904,6 +912,7 @@ spec:
                             be up to 127 Unicode characters. Values can be up to 255
                             Unicode characters.
                           type: object
+                          x-kubernetes-map-type: granular
                         taints:
                           description: Optional. The initial taints assigned to nodes
                             of this node pool.

@@ -135,12 +135,14 @@ type MetadataInitParameters struct {
 	// may be set by external tools to store and retrieve arbitrary metadata. More
 	// info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
+	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Map of string keys and values that can be used to organize and categorize
 	// (scope and select) objects. May match selectors of replication controllers
 	// and routes.
 	// More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
 
@@ -150,6 +152,7 @@ type MetadataObservation struct {
 	// may be set by external tools to store and retrieve arbitrary metadata. More
 	// info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
+	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// (Output)
@@ -160,6 +163,7 @@ type MetadataObservation struct {
 	// (scope and select) objects. May match selectors of replication controllers
 	// and routes.
 	// More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// In Cloud Run the namespace must be equal to either the
@@ -194,6 +198,7 @@ type MetadataParameters struct {
 	// info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Map of string keys and values that can be used to organize and categorize
@@ -201,6 +206,7 @@ type MetadataParameters struct {
 	// and routes.
 	// More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// In Cloud Run the namespace must be equal to either the

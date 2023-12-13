@@ -70,6 +70,7 @@ type ForwardingRuleInitParameters struct {
 	IsMirroringCollector *bool `json:"isMirroringCollector,omitempty" tf:"is_mirroring_collector,omitempty"`
 
 	// Labels to apply to this forwarding rule.  A list of key->value pairs.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Specifies the forwarding rule type.
@@ -104,6 +105,7 @@ type ForwardingRuleInitParameters struct {
 	// For internal forwarding rules within the same VPC network, two or more
 	// forwarding rules cannot use the same [IPAddress, IPProtocol]
 	// pair, and cannot have overlapping portRanges.
+	// +listType=set
 	Ports []*string `json:"ports,omitempty" tf:"ports,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -197,6 +199,7 @@ type ForwardingRuleObservation struct {
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
 
 	// Labels to apply to this forwarding rule.  A list of key->value pairs.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Specifies the forwarding rule type.
@@ -241,6 +244,7 @@ type ForwardingRuleObservation struct {
 	// For internal forwarding rules within the same VPC network, two or more
 	// forwarding rules cannot use the same [IPAddress, IPProtocol]
 	// pair, and cannot have overlapping portRanges.
+	// +listType=set
 	Ports []*string `json:"ports,omitempty" tf:"ports,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -380,6 +384,7 @@ type ForwardingRuleParameters struct {
 
 	// Labels to apply to this forwarding rule.  A list of key->value pairs.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Specifies the forwarding rule type.
@@ -440,6 +445,7 @@ type ForwardingRuleParameters struct {
 	// forwarding rules cannot use the same [IPAddress, IPProtocol]
 	// pair, and cannot have overlapping portRanges.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Ports []*string `json:"ports,omitempty" tf:"ports,omitempty"`
 
 	// The ID of the project in which the resource belongs.

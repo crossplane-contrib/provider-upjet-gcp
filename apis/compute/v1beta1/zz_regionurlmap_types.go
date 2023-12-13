@@ -997,6 +997,7 @@ type HostRuleInitParameters struct {
 	// hostnames, except * will match any string of ([a-z0-9-.]*). In
 	// that case, * must be the first character and must be followed in
 	// the pattern by either - or ..
+	// +listType=set
 	Hosts []*string `json:"hosts,omitempty" tf:"hosts,omitempty"`
 
 	// The name of the PathMatcher to use to match the path portion of
@@ -1014,6 +1015,7 @@ type HostRuleObservation struct {
 	// hostnames, except * will match any string of ([a-z0-9-.]*). In
 	// that case, * must be the first character and must be followed in
 	// the pattern by either - or ..
+	// +listType=set
 	Hosts []*string `json:"hosts,omitempty" tf:"hosts,omitempty"`
 
 	// The name of the PathMatcher to use to match the path portion of
@@ -1033,6 +1035,7 @@ type HostRuleParameters struct {
 	// that case, * must be the first character and must be followed in
 	// the pattern by either - or ..
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Hosts []*string `json:"hosts" tf:"hosts,omitempty"`
 
 	// The name of the PathMatcher to use to match the path portion of
@@ -1525,6 +1528,7 @@ type PathRuleInitParameters struct {
 	// * is allowed is at the end following a /. The string fed to the path matcher
 	// does not include any text after the first ? or #, and those chars are not
 	// allowed here.
+	// +listType=set
 	Paths []*string `json:"paths,omitempty" tf:"paths,omitempty"`
 
 	// In response to a matching matchRule, the load balancer performs advanced routing
@@ -1549,6 +1553,7 @@ type PathRuleObservation struct {
 	// * is allowed is at the end following a /. The string fed to the path matcher
 	// does not include any text after the first ? or #, and those chars are not
 	// allowed here.
+	// +listType=set
 	Paths []*string `json:"paths,omitempty" tf:"paths,omitempty"`
 
 	// In response to a matching matchRule, the load balancer performs advanced routing
@@ -1577,6 +1582,7 @@ type PathRuleParameters struct {
 	// does not include any text after the first ? or #, and those chars are not
 	// allowed here.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Paths []*string `json:"paths" tf:"paths,omitempty"`
 
 	// In response to a matching matchRule, the load balancer performs advanced routing

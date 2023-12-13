@@ -439,6 +439,7 @@ type StandardAppVersionInitParameters struct {
 	Entrypoint []EntrypointInitParameters `json:"entrypoint,omitempty" tf:"entrypoint,omitempty"`
 
 	// Environment variables available to the application.
+	// +mapType=granular
 	EnvVariables map[string]*string `json:"envVariables,omitempty" tf:"env_variables,omitempty"`
 
 	// An ordered list of URL-matching patterns that should be applied to incoming requests.
@@ -448,6 +449,7 @@ type StandardAppVersionInitParameters struct {
 
 	// A list of the types of messages that this application is able to receive.
 	// Each value may be one of: INBOUND_SERVICE_MAIL, INBOUND_SERVICE_MAIL_BOUNCE, INBOUND_SERVICE_XMPP_ERROR, INBOUND_SERVICE_XMPP_MESSAGE, INBOUND_SERVICE_XMPP_SUBSCRIBE, INBOUND_SERVICE_XMPP_PRESENCE, INBOUND_SERVICE_CHANNEL_PRESENCE, INBOUND_SERVICE_WARMUP.
+	// +listType=set
 	InboundServices []*string `json:"inboundServices,omitempty" tf:"inbound_services,omitempty"`
 
 	// Instance class that is used to run this version. Valid values are
@@ -512,6 +514,7 @@ type StandardAppVersionObservation struct {
 	Entrypoint []EntrypointObservation `json:"entrypoint,omitempty" tf:"entrypoint,omitempty"`
 
 	// Environment variables available to the application.
+	// +mapType=granular
 	EnvVariables map[string]*string `json:"envVariables,omitempty" tf:"env_variables,omitempty"`
 
 	// An ordered list of URL-matching patterns that should be applied to incoming requests.
@@ -524,6 +527,7 @@ type StandardAppVersionObservation struct {
 
 	// A list of the types of messages that this application is able to receive.
 	// Each value may be one of: INBOUND_SERVICE_MAIL, INBOUND_SERVICE_MAIL_BOUNCE, INBOUND_SERVICE_XMPP_ERROR, INBOUND_SERVICE_XMPP_MESSAGE, INBOUND_SERVICE_XMPP_SUBSCRIBE, INBOUND_SERVICE_XMPP_PRESENCE, INBOUND_SERVICE_CHANNEL_PRESENCE, INBOUND_SERVICE_WARMUP.
+	// +listType=set
 	InboundServices []*string `json:"inboundServices,omitempty" tf:"inbound_services,omitempty"`
 
 	// Instance class that is used to run this version. Valid values are
@@ -604,6 +608,7 @@ type StandardAppVersionParameters struct {
 
 	// Environment variables available to the application.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	EnvVariables map[string]*string `json:"envVariables,omitempty" tf:"env_variables,omitempty"`
 
 	// An ordered list of URL-matching patterns that should be applied to incoming requests.
@@ -615,6 +620,7 @@ type StandardAppVersionParameters struct {
 	// A list of the types of messages that this application is able to receive.
 	// Each value may be one of: INBOUND_SERVICE_MAIL, INBOUND_SERVICE_MAIL_BOUNCE, INBOUND_SERVICE_XMPP_ERROR, INBOUND_SERVICE_XMPP_MESSAGE, INBOUND_SERVICE_XMPP_SUBSCRIBE, INBOUND_SERVICE_XMPP_PRESENCE, INBOUND_SERVICE_CHANNEL_PRESENCE, INBOUND_SERVICE_WARMUP.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	InboundServices []*string `json:"inboundServices,omitempty" tf:"inbound_services,omitempty"`
 
 	// Instance class that is used to run this version. Valid values are
@@ -743,6 +749,7 @@ type StaticFilesInitParameters struct {
 
 	// HTTP headers to use for all responses from these URLs.
 	// An object containing a list of "key:value" value pairs.".
+	// +mapType=granular
 	HTTPHeaders map[string]*string `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
 
 	// MIME type used to serve all files served by this handler.
@@ -772,6 +779,7 @@ type StaticFilesObservation struct {
 
 	// HTTP headers to use for all responses from these URLs.
 	// An object containing a list of "key:value" value pairs.".
+	// +mapType=granular
 	HTTPHeaders map[string]*string `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
 
 	// MIME type used to serve all files served by this handler.
@@ -804,6 +812,7 @@ type StaticFilesParameters struct {
 	// HTTP headers to use for all responses from these URLs.
 	// An object containing a list of "key:value" value pairs.".
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	HTTPHeaders map[string]*string `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
 
 	// MIME type used to serve all files served by this handler.

@@ -92,6 +92,7 @@ spec:
                           description: User-provided build-time environment variables
                             for the function.
                           type: object
+                          x-kubernetes-map-type: granular
                         runtime:
                           description: The runtime in which to run the function. Required
                             when deploying a new function, optional when updating
@@ -720,6 +721,7 @@ spec:
                     description: A set of key/value label pairs associated with this
                       Cloud Function.
                     type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: The location of this cloud function.
                     type: string
@@ -751,6 +753,7 @@ spec:
                           description: Environment variables that shall be available
                             during function execution.
                           type: object
+                          x-kubernetes-map-type: granular
                         ingressSettings:
                           description: 'Available ingress settings. Defaults to "ALLOW_ALL"
                             if unspecified. Default value is ALLOW_ALL. Possible values
@@ -1147,6 +1150,7 @@ spec:
                           description: User-provided build-time environment variables
                             for the function.
                           type: object
+                          x-kubernetes-map-type: granular
                         runtime:
                           description: The runtime in which to run the function. Required
                             when deploying a new function, optional when updating
@@ -1267,6 +1271,7 @@ spec:
                     description: A set of key/value label pairs associated with this
                       Cloud Function.
                     type: object
+                    x-kubernetes-map-type: granular
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
@@ -1295,6 +1300,7 @@ spec:
                           description: Environment variables that shall be available
                             during function execution.
                           type: object
+                          x-kubernetes-map-type: granular
                         ingressSettings:
                           description: 'Available ingress settings. Defaults to "ALLOW_ALL"
                             if unspecified. Default value is ALLOW_ALL. Possible values
@@ -1599,6 +1605,7 @@ spec:
                           description: User-provided build-time environment variables
                             for the function.
                           type: object
+                          x-kubernetes-map-type: granular
                         runtime:
                           description: The runtime in which to run the function. Required
                             when deploying a new function, optional when updating
@@ -1755,6 +1762,7 @@ spec:
                     description: A set of key/value label pairs associated with this
                       Cloud Function.
                     type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: The location of this cloud function.
                     type: string
@@ -1786,6 +1794,7 @@ spec:
                           description: Environment variables that shall be available
                             during function execution.
                           type: object
+                          x-kubernetes-map-type: granular
                         gcfUri:
                           description: (Output) URIs of the Service deployed
                           type: string

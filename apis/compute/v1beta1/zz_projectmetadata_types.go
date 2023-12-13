@@ -32,6 +32,7 @@ import (
 type ProjectMetadataInitParameters struct {
 
 	// A series of key value pairs.
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
@@ -45,6 +46,7 @@ type ProjectMetadataObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// A series of key value pairs.
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
@@ -56,6 +58,7 @@ type ProjectMetadataParameters struct {
 
 	// A series of key value pairs.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it

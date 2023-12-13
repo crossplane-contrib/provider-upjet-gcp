@@ -104,6 +104,7 @@ spec:
                       and may only contain lowercase letters, numeric characters,
                       underscores, and dashes.
                     type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: The name of the location this repository is located
                       in.
@@ -348,6 +349,7 @@ spec:
                       and may only contain lowercase letters, numeric characters,
                       underscores, and dashes.
                     type: object
+                    x-kubernetes-map-type: granular
                   mavenConfig:
                     description: MavenRepositoryConfig is maven related repository
                       details. Provides additional configuration details for repositories
@@ -668,6 +670,7 @@ spec:
                       and may only contain lowercase letters, numeric characters,
                       underscores, and dashes.
                     type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: The name of the location this repository is located
                       in.

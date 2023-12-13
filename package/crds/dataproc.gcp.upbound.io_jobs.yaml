@@ -113,6 +113,7 @@ spec:
                                   rootLogger. Examples: ''com.google = FATAL'', ''root
                                   = INFO'', ''org.apache = DEBUG'''
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         mainClass:
@@ -135,6 +136,7 @@ spec:
                             include properties set in /etc/hadoop/conf/*-site and
                             classes in user code..
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   hiveConfig:
@@ -162,6 +164,7 @@ spec:
                             include properties set in /etc/hadoop/conf/*-site.xml,
                             /etc/hive/conf/hive-site.xml, and classes in user code..
                           type: object
+                          x-kubernetes-map-type: granular
                         queryFileUri:
                           description: HCFS URI of file containing Hive script to
                             execute as the job. Conflicts with query_list
@@ -178,6 +181,7 @@ spec:
                           description: 'Mapping of query variable names to values
                             (equivalent to the Hive command: SET name="value";).'
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   labels:
@@ -186,6 +190,7 @@ spec:
                     description: The list of labels (key/value pairs) to add to the
                       job.
                     type: object
+                    x-kubernetes-map-type: granular
                   pigConfig:
                     items:
                       properties:
@@ -213,6 +218,7 @@ spec:
                                   rootLogger. Examples: ''com.google = FATAL'', ''root
                                   = INFO'', ''org.apache = DEBUG'''
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         properties:
@@ -224,6 +230,7 @@ spec:
                             include properties set in /etc/hadoop/conf/*-site.xml,
                             /etc/pig/conf/pig.properties, and classes in user code.
                           type: object
+                          x-kubernetes-map-type: granular
                         queryFileUri:
                           description: HCFS URI of file containing Hive script to
                             execute as the job. Conflicts with query_list
@@ -240,6 +247,7 @@ spec:
                           description: 'Mapping of query variable names to values
                             (equivalent to the Pig command: name=[value]).'
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   placement:
@@ -353,6 +361,7 @@ spec:
                                   rootLogger. Examples: ''com.google = FATAL'', ''root
                                   = INFO'', ''org.apache = DEBUG'''
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         outputFormat:
@@ -366,6 +375,7 @@ spec:
                             to set Presto session properties Equivalent to using the
                             --session flag in the Presto CLI.
                           type: object
+                          x-kubernetes-map-type: granular
                         queryFileUri:
                           description: The HCFS URI of the script that contains SQL
                             queries. Conflicts with query_list
@@ -421,6 +431,7 @@ spec:
                                   rootLogger. Examples: ''com.google = FATAL'', ''root
                                   = INFO'', ''org.apache = DEBUG'''
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         mainPythonFileUri:
@@ -436,6 +447,7 @@ spec:
                             include properties set in /etc/spark/conf/spark-defaults.conf
                             and classes in user code.
                           type: object
+                          x-kubernetes-map-type: granular
                         pythonFileUris:
                           description: 'HCFS file URIs of Python files to pass to
                             the PySpark framework. Supported file types: .py, .egg,
@@ -583,6 +595,7 @@ spec:
                                   rootLogger. Examples: ''com.google = FATAL'', ''root
                                   = INFO'', ''org.apache = DEBUG'''
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         mainClass:
@@ -603,6 +616,7 @@ spec:
                             include properties set in /etc/spark/conf/spark-defaults.conf
                             and classes in user code.
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   sparksqlConfig:
@@ -625,6 +639,7 @@ spec:
                                   rootLogger. Examples: ''com.google = FATAL'', ''root
                                   = INFO'', ''org.apache = DEBUG'''
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         properties:
@@ -634,6 +649,7 @@ spec:
                             to configure Spark SQL's SparkConf. Properties that conflict
                             with values set by the Cloud Dataproc API may be overwritten.
                           type: object
+                          x-kubernetes-map-type: granular
                         queryFileUri:
                           description: The HCFS URI of the script that contains SQL
                             queries. Conflicts with query_list
@@ -650,6 +666,7 @@ spec:
                           description: 'Mapping of query variable names to values
                             (equivalent to the Spark SQL command: SET name="value";).'
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                 type: object
@@ -711,6 +728,7 @@ spec:
                                   rootLogger. Examples: ''com.google = FATAL'', ''root
                                   = INFO'', ''org.apache = DEBUG'''
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         mainClass:
@@ -733,6 +751,7 @@ spec:
                             include properties set in /etc/hadoop/conf/*-site and
                             classes in user code..
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   hiveConfig:
@@ -760,6 +779,7 @@ spec:
                             include properties set in /etc/hadoop/conf/*-site.xml,
                             /etc/hive/conf/hive-site.xml, and classes in user code..
                           type: object
+                          x-kubernetes-map-type: granular
                         queryFileUri:
                           description: HCFS URI of file containing Hive script to
                             execute as the job. Conflicts with query_list
@@ -776,6 +796,7 @@ spec:
                           description: 'Mapping of query variable names to values
                             (equivalent to the Hive command: SET name="value";).'
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   labels:
@@ -784,6 +805,7 @@ spec:
                     description: The list of labels (key/value pairs) to add to the
                       job.
                     type: object
+                    x-kubernetes-map-type: granular
                   pigConfig:
                     items:
                       properties:
@@ -811,6 +833,7 @@ spec:
                                   rootLogger. Examples: ''com.google = FATAL'', ''root
                                   = INFO'', ''org.apache = DEBUG'''
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         properties:
@@ -822,6 +845,7 @@ spec:
                             include properties set in /etc/hadoop/conf/*-site.xml,
                             /etc/pig/conf/pig.properties, and classes in user code.
                           type: object
+                          x-kubernetes-map-type: granular
                         queryFileUri:
                           description: HCFS URI of file containing Hive script to
                             execute as the job. Conflicts with query_list
@@ -838,6 +862,7 @@ spec:
                           description: 'Mapping of query variable names to values
                             (equivalent to the Pig command: name=[value]).'
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   placement:
@@ -868,6 +893,7 @@ spec:
                                   rootLogger. Examples: ''com.google = FATAL'', ''root
                                   = INFO'', ''org.apache = DEBUG'''
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         outputFormat:
@@ -881,6 +907,7 @@ spec:
                             to set Presto session properties Equivalent to using the
                             --session flag in the Presto CLI.
                           type: object
+                          x-kubernetes-map-type: granular
                         queryFileUri:
                           description: The HCFS URI of the script that contains SQL
                             queries. Conflicts with query_list
@@ -936,6 +963,7 @@ spec:
                                   rootLogger. Examples: ''com.google = FATAL'', ''root
                                   = INFO'', ''org.apache = DEBUG'''
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         mainPythonFileUri:
@@ -951,6 +979,7 @@ spec:
                             include properties set in /etc/spark/conf/spark-defaults.conf
                             and classes in user code.
                           type: object
+                          x-kubernetes-map-type: granular
                         pythonFileUris:
                           description: 'HCFS file URIs of Python files to pass to
                             the PySpark framework. Supported file types: .py, .egg,
@@ -1020,6 +1049,7 @@ spec:
                                   rootLogger. Examples: ''com.google = FATAL'', ''root
                                   = INFO'', ''org.apache = DEBUG'''
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         mainClass:
@@ -1040,6 +1070,7 @@ spec:
                             include properties set in /etc/spark/conf/spark-defaults.conf
                             and classes in user code.
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   sparksqlConfig:
@@ -1062,6 +1093,7 @@ spec:
                                   rootLogger. Examples: ''com.google = FATAL'', ''root
                                   = INFO'', ''org.apache = DEBUG'''
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         properties:
@@ -1071,6 +1103,7 @@ spec:
                             to configure Spark SQL's SparkConf. Properties that conflict
                             with values set by the Cloud Dataproc API may be overwritten.
                           type: object
+                          x-kubernetes-map-type: granular
                         queryFileUri:
                           description: The HCFS URI of the script that contains SQL
                             queries. Conflicts with query_list
@@ -1087,6 +1120,7 @@ spec:
                           description: 'Mapping of query variable names to values
                             (equivalent to the Spark SQL command: SET name="value";).'
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                 type: object
@@ -1316,6 +1350,7 @@ spec:
                                   rootLogger. Examples: ''com.google = FATAL'', ''root
                                   = INFO'', ''org.apache = DEBUG'''
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         mainClass:
@@ -1338,6 +1373,7 @@ spec:
                             include properties set in /etc/hadoop/conf/*-site and
                             classes in user code..
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   hiveConfig:
@@ -1365,6 +1401,7 @@ spec:
                             include properties set in /etc/hadoop/conf/*-site.xml,
                             /etc/hive/conf/hive-site.xml, and classes in user code..
                           type: object
+                          x-kubernetes-map-type: granular
                         queryFileUri:
                           description: HCFS URI of file containing Hive script to
                             execute as the job. Conflicts with query_list
@@ -1381,6 +1418,7 @@ spec:
                           description: 'Mapping of query variable names to values
                             (equivalent to the Hive command: SET name="value";).'
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   id:
@@ -1391,6 +1429,7 @@ spec:
                     description: The list of labels (key/value pairs) to add to the
                       job.
                     type: object
+                    x-kubernetes-map-type: granular
                   pigConfig:
                     items:
                       properties:
@@ -1418,6 +1457,7 @@ spec:
                                   rootLogger. Examples: ''com.google = FATAL'', ''root
                                   = INFO'', ''org.apache = DEBUG'''
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         properties:
@@ -1429,6 +1469,7 @@ spec:
                             include properties set in /etc/hadoop/conf/*-site.xml,
                             /etc/pig/conf/pig.properties, and classes in user code.
                           type: object
+                          x-kubernetes-map-type: granular
                         queryFileUri:
                           description: HCFS URI of file containing Hive script to
                             execute as the job. Conflicts with query_list
@@ -1445,6 +1486,7 @@ spec:
                           description: 'Mapping of query variable names to values
                             (equivalent to the Pig command: name=[value]).'
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   placement:
@@ -1484,6 +1526,7 @@ spec:
                                   rootLogger. Examples: ''com.google = FATAL'', ''root
                                   = INFO'', ''org.apache = DEBUG'''
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         outputFormat:
@@ -1497,6 +1540,7 @@ spec:
                             to set Presto session properties Equivalent to using the
                             --session flag in the Presto CLI.
                           type: object
+                          x-kubernetes-map-type: granular
                         queryFileUri:
                           description: The HCFS URI of the script that contains SQL
                             queries. Conflicts with query_list
@@ -1552,6 +1596,7 @@ spec:
                                   rootLogger. Examples: ''com.google = FATAL'', ''root
                                   = INFO'', ''org.apache = DEBUG'''
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         mainPythonFileUri:
@@ -1567,6 +1612,7 @@ spec:
                             include properties set in /etc/spark/conf/spark-defaults.conf
                             and classes in user code.
                           type: object
+                          x-kubernetes-map-type: granular
                         pythonFileUris:
                           description: 'HCFS file URIs of Python files to pass to
                             the PySpark framework. Supported file types: .py, .egg,
@@ -1641,6 +1687,7 @@ spec:
                                   rootLogger. Examples: ''com.google = FATAL'', ''root
                                   = INFO'', ''org.apache = DEBUG'''
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         mainClass:
@@ -1661,6 +1708,7 @@ spec:
                             include properties set in /etc/spark/conf/spark-defaults.conf
                             and classes in user code.
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   sparksqlConfig:
@@ -1683,6 +1731,7 @@ spec:
                                   rootLogger. Examples: ''com.google = FATAL'', ''root
                                   = INFO'', ''org.apache = DEBUG'''
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         properties:
@@ -1692,6 +1741,7 @@ spec:
                             to configure Spark SQL's SparkConf. Properties that conflict
                             with values set by the Cloud Dataproc API may be overwritten.
                           type: object
+                          x-kubernetes-map-type: granular
                         queryFileUri:
                           description: The HCFS URI of the script that contains SQL
                             queries. Conflicts with query_list
@@ -1708,6 +1758,7 @@ spec:
                           description: 'Mapping of query variable names to values
                             (equivalent to the Spark SQL command: SET name="value";).'
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   status:

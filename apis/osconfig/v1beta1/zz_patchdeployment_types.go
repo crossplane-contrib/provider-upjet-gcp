@@ -71,12 +71,14 @@ type GcsObjectParameters struct {
 type GroupLabelsInitParameters struct {
 
 	// Compute Engine instance labels that must be present for a VM instance to be targeted by this filter
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
 
 type GroupLabelsObservation struct {
 
 	// Compute Engine instance labels that must be present for a VM instance to be targeted by this filter
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
 
@@ -84,6 +86,7 @@ type GroupLabelsParameters struct {
 
 	// Compute Engine instance labels that must be present for a VM instance to be targeted by this filter
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels" tf:"labels,omitempty"`
 }
 

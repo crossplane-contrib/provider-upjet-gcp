@@ -397,6 +397,7 @@ type InitializeParamsInitParameters struct {
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
+	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// The size of the image in gigabytes. If not specified, it
@@ -424,6 +425,7 @@ type InitializeParamsObservation struct {
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
+	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// The size of the image in gigabytes. If not specified, it
@@ -463,6 +465,7 @@ type InitializeParamsParameters struct {
 
 	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// The size of the image in gigabytes. If not specified, it
@@ -607,6 +610,7 @@ type InstanceInitParameters struct {
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
 	// A map of key/value label pairs to assign to the instance.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The machine type to create.
@@ -616,6 +620,7 @@ type InstanceInitParameters struct {
 	// within the instance. Ssh keys attached in the Cloud Console will be removed.
 	// Add them to your config in order to keep them attached to your instance. A
 	// list of default metadata values (e.g. ssh-keys) can be found here
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// An alternative to using the
@@ -676,6 +681,7 @@ type InstanceInitParameters struct {
 	ShieldedInstanceConfig []ShieldedInstanceConfigInitParameters `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
 
 	// A list of network tags to attach to the instance.
+	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
@@ -747,6 +753,7 @@ type InstanceObservation struct {
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
 
 	// A map of key/value label pairs to assign to the instance.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The machine type to create.
@@ -756,6 +763,7 @@ type InstanceObservation struct {
 	// within the instance. Ssh keys attached in the Cloud Console will be removed.
 	// Add them to your config in order to keep them attached to your instance. A
 	// list of default metadata values (e.g. ssh-keys) can be found here
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The unique fingerprint of the metadata.
@@ -822,6 +830,7 @@ type InstanceObservation struct {
 	ShieldedInstanceConfig []ShieldedInstanceConfigObservation `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
 
 	// A list of network tags to attach to the instance.
+	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The unique fingerprint of the tags.
@@ -897,6 +906,7 @@ type InstanceParameters struct {
 
 	// A map of key/value label pairs to assign to the instance.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The machine type to create.
@@ -908,6 +918,7 @@ type InstanceParameters struct {
 	// Add them to your config in order to keep them attached to your instance. A
 	// list of default metadata values (e.g. ssh-keys) can be found here
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// An alternative to using the
@@ -981,6 +992,7 @@ type InstanceParameters struct {
 
 	// A list of network tags to attach to the instance.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The zone that the machine should be created in. If it is not provided, the provider zone is used.
@@ -1247,6 +1259,7 @@ type NodeAffinitiesInitParameters struct {
 	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 
 	// Corresponds to the label values of a reservation resource.
+	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
@@ -1260,6 +1273,7 @@ type NodeAffinitiesObservation struct {
 	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 
 	// Corresponds to the label values of a reservation resource.
+	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
@@ -1276,18 +1290,21 @@ type NodeAffinitiesParameters struct {
 
 	// Corresponds to the label values of a reservation resource.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Values []*string `json:"values" tf:"values,omitempty"`
 }
 
 type ParamsInitParameters struct {
 
 	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
+	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 type ParamsObservation struct {
 
 	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
+	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
@@ -1295,6 +1312,7 @@ type ParamsParameters struct {
 
 	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
@@ -1499,6 +1517,7 @@ type ServiceAccountInitParameters struct {
 	// short names are supported. To allow full access to all Cloud APIs, use the
 	// cloud-platform scope. See a complete list of scopes here.
 	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
+	// +listType=set
 	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
 }
 
@@ -1512,6 +1531,7 @@ type ServiceAccountObservation struct {
 	// short names are supported. To allow full access to all Cloud APIs, use the
 	// cloud-platform scope. See a complete list of scopes here.
 	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
+	// +listType=set
 	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
 }
 
@@ -1537,6 +1557,7 @@ type ServiceAccountParameters struct {
 	// cloud-platform scope. See a complete list of scopes here.
 	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Scopes []*string `json:"scopes" tf:"scopes,omitempty"`
 }
 

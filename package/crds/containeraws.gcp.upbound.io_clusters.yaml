@@ -78,6 +78,7 @@ spec:
                       or less, begin and end with alphanumerics, with dashes (-),
                       underscores (_), dots (.), and alphanumerics between.'
                     type: object
+                    x-kubernetes-map-type: granular
                   authorization:
                     description: Configuration related to the cluster RBAC settings.
                     items:
@@ -282,6 +283,7 @@ spec:
                             (.+-=_:@/). Keys can be up to 127 Unicode characters.
                             Values can be up to 255 Unicode characters.
                           type: object
+                          x-kubernetes-map-type: granular
                         version:
                           description: The Kubernetes version to run on control plane
                             replicas (e.g. 1.19.10-gke.1000). You can list all supported
@@ -369,6 +371,7 @@ spec:
                       or less, begin and end with alphanumerics, with dashes (-),
                       underscores (_), dots (.), and alphanumerics between.'
                     type: object
+                    x-kubernetes-map-type: granular
                   authorization:
                     description: Configuration related to the cluster RBAC settings.
                     items:
@@ -573,6 +576,7 @@ spec:
                             (.+-=_:@/). Keys can be up to 127 Unicode characters.
                             Values can be up to 255 Unicode characters.
                           type: object
+                          x-kubernetes-map-type: granular
                         version:
                           description: The Kubernetes version to run on control plane
                             replicas (e.g. 1.19.10-gke.1000). You can list all supported
@@ -829,6 +833,7 @@ spec:
                       or less, begin and end with alphanumerics, with dashes (-),
                       underscores (_), dots (.), and alphanumerics between.'
                     type: object
+                    x-kubernetes-map-type: granular
                   authorization:
                     description: Configuration related to the cluster RBAC settings.
                     items:
@@ -1033,6 +1038,7 @@ spec:
                             (.+-=_:@/). Keys can be up to 127 Unicode characters.
                             Values can be up to 255 Unicode characters.
                           type: object
+                          x-kubernetes-map-type: granular
                         version:
                           description: The Kubernetes version to run on control plane
                             replicas (e.g. 1.19.10-gke.1000). You can list all supported

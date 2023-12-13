@@ -495,10 +495,12 @@ type BackendServiceInitParameters struct {
 
 	// Headers that the HTTP/S load balancer should add to proxied
 	// requests.
+	// +listType=set
 	CustomRequestHeaders []*string `json:"customRequestHeaders,omitempty" tf:"custom_request_headers,omitempty"`
 
 	// Headers that the HTTP/S load balancer should add to proxied
 	// responses.
+	// +listType=set
 	CustomResponseHeaders []*string `json:"customResponseHeaders,omitempty" tf:"custom_response_headers,omitempty"`
 
 	// An optional description of this resource.
@@ -627,10 +629,12 @@ type BackendServiceObservation struct {
 
 	// Headers that the HTTP/S load balancer should add to proxied
 	// requests.
+	// +listType=set
 	CustomRequestHeaders []*string `json:"customRequestHeaders,omitempty" tf:"custom_request_headers,omitempty"`
 
 	// Headers that the HTTP/S load balancer should add to proxied
 	// responses.
+	// +listType=set
 	CustomResponseHeaders []*string `json:"customResponseHeaders,omitempty" tf:"custom_response_headers,omitempty"`
 
 	// An optional description of this resource.
@@ -655,6 +659,7 @@ type BackendServiceObservation struct {
 	// A health check must be specified unless the backend service uses an internet
 	// or serverless NEG as a backend.
 	// For internal load balancing, a URL to a HealthCheck resource must be specified instead.
+	// +listType=set
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/global/backendServices/{{name}}
@@ -785,11 +790,13 @@ type BackendServiceParameters struct {
 	// Headers that the HTTP/S load balancer should add to proxied
 	// requests.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	CustomRequestHeaders []*string `json:"customRequestHeaders,omitempty" tf:"custom_request_headers,omitempty"`
 
 	// Headers that the HTTP/S load balancer should add to proxied
 	// responses.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	CustomResponseHeaders []*string `json:"customResponseHeaders,omitempty" tf:"custom_response_headers,omitempty"`
 
 	// An optional description of this resource.
@@ -813,6 +820,7 @@ type BackendServiceParameters struct {
 	// +crossplane:generate:reference:type=HealthCheck
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
 
 	// References to HealthCheck to populate healthChecks.
@@ -995,6 +1003,7 @@ type CdnPolicyCacheKeyPolicyInitParameters struct {
 	// query_string_whitelist or query_string_blacklist, not both.
 	// '&' and '=' will be percent encoded and not treated as
 	// delimiters.
+	// +listType=set
 	QueryStringBlacklist []*string `json:"queryStringBlacklist,omitempty" tf:"query_string_blacklist,omitempty"`
 
 	// Names of query string parameters to include in cache keys.
@@ -1002,6 +1011,7 @@ type CdnPolicyCacheKeyPolicyInitParameters struct {
 	// query_string_whitelist or query_string_blacklist, not both.
 	// '&' and '=' will be percent encoded and not treated as
 	// delimiters.
+	// +listType=set
 	QueryStringWhitelist []*string `json:"queryStringWhitelist,omitempty" tf:"query_string_whitelist,omitempty"`
 }
 
@@ -1033,6 +1043,7 @@ type CdnPolicyCacheKeyPolicyObservation struct {
 	// query_string_whitelist or query_string_blacklist, not both.
 	// '&' and '=' will be percent encoded and not treated as
 	// delimiters.
+	// +listType=set
 	QueryStringBlacklist []*string `json:"queryStringBlacklist,omitempty" tf:"query_string_blacklist,omitempty"`
 
 	// Names of query string parameters to include in cache keys.
@@ -1040,6 +1051,7 @@ type CdnPolicyCacheKeyPolicyObservation struct {
 	// query_string_whitelist or query_string_blacklist, not both.
 	// '&' and '=' will be percent encoded and not treated as
 	// delimiters.
+	// +listType=set
 	QueryStringWhitelist []*string `json:"queryStringWhitelist,omitempty" tf:"query_string_whitelist,omitempty"`
 }
 
@@ -1077,6 +1089,7 @@ type CdnPolicyCacheKeyPolicyParameters struct {
 	// '&' and '=' will be percent encoded and not treated as
 	// delimiters.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	QueryStringBlacklist []*string `json:"queryStringBlacklist,omitempty" tf:"query_string_blacklist,omitempty"`
 
 	// Names of query string parameters to include in cache keys.
@@ -1085,6 +1098,7 @@ type CdnPolicyCacheKeyPolicyParameters struct {
 	// '&' and '=' will be percent encoded and not treated as
 	// delimiters.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	QueryStringWhitelist []*string `json:"queryStringWhitelist,omitempty" tf:"query_string_whitelist,omitempty"`
 }
 

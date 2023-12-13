@@ -162,6 +162,7 @@ type InstanceInitParameters struct {
 
 	// The resource labels for instance to use to annotate any related underlying resources,
 	// such as Compute Engine VMs.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Network configuration options. These are required when a private Data Fusion instance is to be created.
@@ -169,6 +170,7 @@ type InstanceInitParameters struct {
 	NetworkConfig []NetworkConfigInitParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
 
 	// Map of additional options used to configure the behavior of Data Fusion instance.
+	// +mapType=granular
 	Options map[string]*string `json:"options,omitempty" tf:"options,omitempty"`
 
 	// Specifies whether the Data Fusion instance should be private. If set to
@@ -239,6 +241,7 @@ type InstanceObservation struct {
 
 	// The resource labels for instance to use to annotate any related underlying resources,
 	// such as Compute Engine VMs.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Network configuration options. These are required when a private Data Fusion instance is to be created.
@@ -246,6 +249,7 @@ type InstanceObservation struct {
 	NetworkConfig []NetworkConfigObservation `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
 
 	// Map of additional options used to configure the behavior of Data Fusion instance.
+	// +mapType=granular
 	Options map[string]*string `json:"options,omitempty" tf:"options,omitempty"`
 
 	// P4 service account for the customer project.
@@ -335,6 +339,7 @@ type InstanceParameters struct {
 	// The resource labels for instance to use to annotate any related underlying resources,
 	// such as Compute Engine VMs.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Network configuration options. These are required when a private Data Fusion instance is to be created.
@@ -344,6 +349,7 @@ type InstanceParameters struct {
 
 	// Map of additional options used to configure the behavior of Data Fusion instance.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Options map[string]*string `json:"options,omitempty" tf:"options,omitempty"`
 
 	// Specifies whether the Data Fusion instance should be private. If set to

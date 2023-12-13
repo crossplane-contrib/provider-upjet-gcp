@@ -59,6 +59,7 @@ type ModelInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// One or more labels that you can add, to organize your models.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name specified for the model.
@@ -93,6 +94,7 @@ type ModelObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// One or more labels that you can add, to organize your models.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name specified for the model.
@@ -127,6 +129,7 @@ type ModelParameters struct {
 
 	// One or more labels that you can add, to organize your models.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name specified for the model.

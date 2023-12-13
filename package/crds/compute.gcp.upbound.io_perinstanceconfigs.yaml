@@ -282,6 +282,7 @@ spec:
                           description: Preserved metadata defined for this instance.
                             This is a list of key->value pairs.
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   project:
@@ -437,6 +438,7 @@ spec:
                           description: Preserved metadata defined for this instance.
                             This is a list of key->value pairs.
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   project:
@@ -683,6 +685,7 @@ spec:
                           description: Preserved metadata defined for this instance.
                             This is a list of key->value pairs.
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   project:

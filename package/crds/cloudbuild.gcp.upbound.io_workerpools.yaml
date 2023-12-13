@@ -71,6 +71,7 @@ spec:
                     additionalProperties:
                       type: string
                     type: object
+                    x-kubernetes-map-type: granular
                   displayName:
                     description: User-defined name of the WorkerPool.
                     type: string
@@ -226,6 +227,7 @@ spec:
                     additionalProperties:
                       type: string
                     type: object
+                    x-kubernetes-map-type: granular
                   displayName:
                     description: User-defined name of the WorkerPool.
                     type: string
@@ -442,6 +444,7 @@ spec:
                     additionalProperties:
                       type: string
                     type: object
+                    x-kubernetes-map-type: granular
                   createTime:
                     description: Output only. Time at which the request to create
                       the WorkerPool was received.

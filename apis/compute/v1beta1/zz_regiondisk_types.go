@@ -135,6 +135,7 @@ type RegionDiskInitParameters struct {
 	GuestOsFeatures []RegionDiskGuestOsFeaturesInitParameters `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
 
 	// Labels to apply to this disk.  A list of key->value pairs.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Any applicable license URI.
@@ -216,6 +217,7 @@ type RegionDiskObservation struct {
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
 
 	// Labels to apply to this disk.  A list of key->value pairs.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Last attach timestamp in RFC3339 text format.
@@ -326,6 +328,7 @@ type RegionDiskParameters struct {
 
 	// Labels to apply to this disk.  A list of key->value pairs.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Any applicable license URI.

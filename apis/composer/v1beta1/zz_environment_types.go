@@ -368,6 +368,7 @@ type EnvironmentInitParameters struct {
 	// conform to the regular expression ([a-z]([-a-z0-9]*[a-z0-9])?)?.
 	// No more than 64 labels can be associated with a given environment.
 	// Both keys and values must be <= 128 bytes in size.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
 
@@ -388,6 +389,7 @@ type EnvironmentObservation struct {
 	// conform to the regular expression ([a-z]([-a-z0-9]*[a-z0-9])?)?.
 	// No more than 64 labels can be associated with a given environment.
 	// Both keys and values must be <= 128 bytes in size.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -414,6 +416,7 @@ type EnvironmentParameters struct {
 	// No more than 64 labels can be associated with a given environment.
 	// Both keys and values must be <= 128 bytes in size.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -648,12 +651,14 @@ type NodeConfigInitParameters struct {
 	// The set of Google API scopes to be made available on all node
 	// VMs. Cannot be updated. If empty, defaults to
 	// ["https://www.googleapis.com/auth/cloud-platform"].
+	// +listType=set
 	OAuthScopes []*string `json:"oauthScopes,omitempty" tf:"oauth_scopes,omitempty"`
 
 	// The list of instance tags applied to all node VMs. Tags are
 	// used to identify valid sources or targets for network
 	// firewalls. Each tag within the list must comply with RFC1035.
 	// Cannot be updated.
+	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The Compute Engine zone in which to deploy the VMs running the
@@ -694,6 +699,7 @@ type NodeConfigObservation struct {
 	// The set of Google API scopes to be made available on all node
 	// VMs. Cannot be updated. If empty, defaults to
 	// ["https://www.googleapis.com/auth/cloud-platform"].
+	// +listType=set
 	OAuthScopes []*string `json:"oauthScopes,omitempty" tf:"oauth_scopes,omitempty"`
 
 	// The Google Cloud Platform Service Account to be used by the
@@ -713,6 +719,7 @@ type NodeConfigObservation struct {
 	// used to identify valid sources or targets for network
 	// firewalls. Each tag within the list must comply with RFC1035.
 	// Cannot be updated.
+	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The Compute Engine zone in which to deploy the VMs running the
@@ -769,6 +776,7 @@ type NodeConfigParameters struct {
 	// VMs. Cannot be updated. If empty, defaults to
 	// ["https://www.googleapis.com/auth/cloud-platform"].
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	OAuthScopes []*string `json:"oauthScopes,omitempty" tf:"oauth_scopes,omitempty"`
 
 	// The Google Cloud Platform Service Account to be used by the
@@ -811,6 +819,7 @@ type NodeConfigParameters struct {
 	// firewalls. Each tag within the list must comply with RFC1035.
 	// Cannot be updated.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The Compute Engine zone in which to deploy the VMs running the
@@ -1048,12 +1057,14 @@ type SoftwareConfigInitParameters struct {
 
 	// Apache Airflow configuration properties to override. Property keys contain the section and property names,
 	// separated by a hyphen, for example "core-dags_are_paused_at_creation".
+	// +mapType=granular
 	AirflowConfigOverrides map[string]*string `json:"airflowConfigOverrides,omitempty" tf:"airflow_config_overrides,omitempty"`
 
 	// Additional environment variables to provide to the Apache Airflow scheduler, worker, and webserver processes.
 	// Environment variable names must match the regular expression [a-zA-Z_][a-zA-Z0-9_]*.
 	// They cannot specify Apache Airflow software configuration overrides (they cannot match the regular expression
 	// AIRFLOW__[A-Z0-9_]+__[A-Z0-9_]+), and they cannot match any of the following reserved names:
+	// +mapType=granular
 	EnvVariables map[string]*string `json:"envVariables,omitempty" tf:"env_variables,omitempty"`
 
 	ImageVersion *string `json:"imageVersion,omitempty" tf:"image_version,omitempty"`
@@ -1062,6 +1073,7 @@ type SoftwareConfigInitParameters struct {
 	// in the environment. Keys refer to the lowercase package name (e.g. "numpy"). Values are the lowercase extras and
 	// version specifier (e.g. "==1.12.0", "[devel,gcp_api]", "[devel]>=1.8.2, <1.9.2"). To specify a package without
 	// pinning it to a version specifier, use the empty string as the value.
+	// +mapType=granular
 	PypiPackages map[string]*string `json:"pypiPackages,omitempty" tf:"pypi_packages,omitempty"`
 
 	// The major version of Python used to run the Apache Airflow scheduler, worker, and webserver processes.
@@ -1076,12 +1088,14 @@ type SoftwareConfigObservation struct {
 
 	// Apache Airflow configuration properties to override. Property keys contain the section and property names,
 	// separated by a hyphen, for example "core-dags_are_paused_at_creation".
+	// +mapType=granular
 	AirflowConfigOverrides map[string]*string `json:"airflowConfigOverrides,omitempty" tf:"airflow_config_overrides,omitempty"`
 
 	// Additional environment variables to provide to the Apache Airflow scheduler, worker, and webserver processes.
 	// Environment variable names must match the regular expression [a-zA-Z_][a-zA-Z0-9_]*.
 	// They cannot specify Apache Airflow software configuration overrides (they cannot match the regular expression
 	// AIRFLOW__[A-Z0-9_]+__[A-Z0-9_]+), and they cannot match any of the following reserved names:
+	// +mapType=granular
 	EnvVariables map[string]*string `json:"envVariables,omitempty" tf:"env_variables,omitempty"`
 
 	ImageVersion *string `json:"imageVersion,omitempty" tf:"image_version,omitempty"`
@@ -1090,6 +1104,7 @@ type SoftwareConfigObservation struct {
 	// in the environment. Keys refer to the lowercase package name (e.g. "numpy"). Values are the lowercase extras and
 	// version specifier (e.g. "==1.12.0", "[devel,gcp_api]", "[devel]>=1.8.2, <1.9.2"). To specify a package without
 	// pinning it to a version specifier, use the empty string as the value.
+	// +mapType=granular
 	PypiPackages map[string]*string `json:"pypiPackages,omitempty" tf:"pypi_packages,omitempty"`
 
 	// The major version of Python used to run the Apache Airflow scheduler, worker, and webserver processes.
@@ -1105,6 +1120,7 @@ type SoftwareConfigParameters struct {
 	// Apache Airflow configuration properties to override. Property keys contain the section and property names,
 	// separated by a hyphen, for example "core-dags_are_paused_at_creation".
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	AirflowConfigOverrides map[string]*string `json:"airflowConfigOverrides,omitempty" tf:"airflow_config_overrides,omitempty"`
 
 	// Additional environment variables to provide to the Apache Airflow scheduler, worker, and webserver processes.
@@ -1112,6 +1128,7 @@ type SoftwareConfigParameters struct {
 	// They cannot specify Apache Airflow software configuration overrides (they cannot match the regular expression
 	// AIRFLOW__[A-Z0-9_]+__[A-Z0-9_]+), and they cannot match any of the following reserved names:
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	EnvVariables map[string]*string `json:"envVariables,omitempty" tf:"env_variables,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -1122,6 +1139,7 @@ type SoftwareConfigParameters struct {
 	// version specifier (e.g. "==1.12.0", "[devel,gcp_api]", "[devel]>=1.8.2, <1.9.2"). To specify a package without
 	// pinning it to a version specifier, use the empty string as the value.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	PypiPackages map[string]*string `json:"pypiPackages,omitempty" tf:"pypi_packages,omitempty"`
 
 	// The major version of Python used to run the Apache Airflow scheduler, worker, and webserver processes.

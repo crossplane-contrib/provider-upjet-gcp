@@ -32,9 +32,11 @@ import (
 type NotificationInitParameters struct {
 
 	// A set of key/value attribute pairs to attach to each Cloud PubSub message published for this notification subscription
+	// +mapType=granular
 	CustomAttributes map[string]*string `json:"customAttributes,omitempty" tf:"custom_attributes,omitempty"`
 
 	// List of event type filters for this notification config. If not specified, Cloud Storage will send notifications for all event types. The valid types are: "OBJECT_FINALIZE", "OBJECT_METADATA_UPDATE", "OBJECT_DELETE", "OBJECT_ARCHIVE"
+	// +listType=set
 	EventTypes []*string `json:"eventTypes,omitempty" tf:"event_types,omitempty"`
 
 	// Specifies a prefix path filter for this notification config. Cloud Storage will only send notifications for objects in this bucket whose names begin with the specified prefix.
@@ -50,9 +52,11 @@ type NotificationObservation struct {
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// A set of key/value attribute pairs to attach to each Cloud PubSub message published for this notification subscription
+	// +mapType=granular
 	CustomAttributes map[string]*string `json:"customAttributes,omitempty" tf:"custom_attributes,omitempty"`
 
 	// List of event type filters for this notification config. If not specified, Cloud Storage will send notifications for all event types. The valid types are: "OBJECT_FINALIZE", "OBJECT_METADATA_UPDATE", "OBJECT_DELETE", "OBJECT_ARCHIVE"
+	// +listType=set
 	EventTypes []*string `json:"eventTypes,omitempty" tf:"event_types,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -93,10 +97,12 @@ type NotificationParameters struct {
 
 	// A set of key/value attribute pairs to attach to each Cloud PubSub message published for this notification subscription
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	CustomAttributes map[string]*string `json:"customAttributes,omitempty" tf:"custom_attributes,omitempty"`
 
 	// List of event type filters for this notification config. If not specified, Cloud Storage will send notifications for all event types. The valid types are: "OBJECT_FINALIZE", "OBJECT_METADATA_UPDATE", "OBJECT_DELETE", "OBJECT_ARCHIVE"
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	EventTypes []*string `json:"eventTypes,omitempty" tf:"event_types,omitempty"`
 
 	// Specifies a prefix path filter for this notification config. Cloud Storage will only send notifications for objects in this bucket whose names begin with the specified prefix.

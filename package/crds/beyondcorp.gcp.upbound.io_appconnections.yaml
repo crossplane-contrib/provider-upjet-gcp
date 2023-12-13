@@ -189,6 +189,7 @@ spec:
                       type: string
                     description: Resource labels to represent user provided metadata.
                     type: object
+                    x-kubernetes-map-type: granular
                   name:
                     description: ID of the AppConnection.
                     type: string
@@ -257,6 +258,7 @@ spec:
                       type: string
                     description: Resource labels to represent user provided metadata.
                     type: object
+                    x-kubernetes-map-type: granular
                   name:
                     description: ID of the AppConnection.
                     type: string
@@ -505,6 +507,7 @@ spec:
                       type: string
                     description: Resource labels to represent user provided metadata.
                     type: object
+                    x-kubernetes-map-type: granular
                   name:
                     description: ID of the AppConnection.
                     type: string

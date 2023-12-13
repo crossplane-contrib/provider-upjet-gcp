@@ -66,6 +66,7 @@ type RouteInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// A list of instance tags to which this route applies.
+	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
@@ -129,6 +130,7 @@ type RouteObservation struct {
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
 	// A list of instance tags to which this route applies.
+	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
@@ -223,6 +225,7 @@ type RouteParameters struct {
 
 	// A list of instance tags to which this route applies.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 

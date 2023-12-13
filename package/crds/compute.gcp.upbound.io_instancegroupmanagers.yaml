@@ -238,6 +238,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   targetPoolsRefs:
                     description: References to TargetPool to populate targetPools.
                     items:
@@ -1083,6 +1084,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   targetSize:
                     description: The target number of running instances for this managed
                       instance group. This value should always be explicitly set unless

@@ -106,6 +106,7 @@ spec:
                       field. They can also be configured via the sensitive_labels
                       block, but cannot be configured in both places.
                     type: object
+                    x-kubernetes-map-type: granular
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
@@ -203,6 +204,7 @@ spec:
                       is smaller. Labels and values can contain only lowercase letters,
                       numerals, underscores, and dashes. Keys must begin with a letter.
                     type: object
+                    x-kubernetes-map-type: granular
                 type: object
               initProvider:
                 description: THIS IS A BETA FIELD. It will be honored unless the Management
@@ -254,6 +256,7 @@ spec:
                       field. They can also be configured via the sensitive_labels
                       block, but cannot be configured in both places.
                     type: object
+                    x-kubernetes-map-type: granular
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
@@ -290,6 +293,7 @@ spec:
                       is smaller. Labels and values can contain only lowercase letters,
                       numerals, underscores, and dashes. Keys must begin with a letter.
                     type: object
+                    x-kubernetes-map-type: granular
                 type: object
               managementPolicies:
                 default:
@@ -502,6 +506,7 @@ spec:
                       field. They can also be configured via the sensitive_labels
                       block, but cannot be configured in both places.
                     type: object
+                    x-kubernetes-map-type: granular
                   name:
                     description: 'The full REST resource name for this channel. The
                       syntax is: projects/[PROJECT_ID]/notificationChannels/[CHANNEL_ID]
@@ -605,6 +610,7 @@ spec:
                       is smaller. Labels and values can contain only lowercase letters,
                       numerals, underscores, and dashes. Keys must begin with a letter.
                     type: object
+                    x-kubernetes-map-type: granular
                   verificationStatus:
                     description: Indicates whether this channel has been verified
                       or not. On a ListNotificationChannels or GetNotificationChannel

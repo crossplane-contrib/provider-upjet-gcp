@@ -243,6 +243,7 @@ spec:
                                               must conform to RFC 1035. No more than
                                               32 labels can be associated with a cluster.
                                             type: object
+                                            x-kubernetes-map-type: granular
                                         type: object
                                       type: array
                                     interface:
@@ -308,6 +309,7 @@ spec:
                                   RFC 1035. No more than 32 labels can be associated
                                   with a cluster.
                                 type: object
+                                x-kubernetes-map-type: granular
                               machineType:
                                 description: The Compute Engine machine type used
                                   for runtimes.
@@ -320,6 +322,7 @@ spec:
                                   metadata](https://cloud.google.com /compute/docs/storing-retrieving-metadata#project_and_instance
                                   _metadata)).
                                 type: object
+                                x-kubernetes-map-type: granular
                               network:
                                 description: 'The Compute Engine network to be used
                                   for machine communications. Cannot be specified
@@ -573,6 +576,7 @@ spec:
                                               must conform to RFC 1035. No more than
                                               32 labels can be associated with a cluster.
                                             type: object
+                                            x-kubernetes-map-type: granular
                                         type: object
                                       type: array
                                     interface:
@@ -638,6 +642,7 @@ spec:
                                   RFC 1035. No more than 32 labels can be associated
                                   with a cluster.
                                 type: object
+                                x-kubernetes-map-type: granular
                               machineType:
                                 description: The Compute Engine machine type used
                                   for runtimes.
@@ -650,6 +655,7 @@ spec:
                                   metadata](https://cloud.google.com /compute/docs/storing-retrieving-metadata#project_and_instance
                                   _metadata)).
                                 type: object
+                                x-kubernetes-map-type: granular
                               network:
                                 description: 'The Compute Engine network to be used
                                   for machine communications. Cannot be specified
@@ -924,6 +930,7 @@ spec:
                           description: (Output) Contains runtime daemon metrics, such
                             as OS and kernels and sessions stats.
                           type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   project:
@@ -1140,6 +1147,7 @@ spec:
                                               must conform to RFC 1035. No more than
                                               32 labels can be associated with a cluster.
                                             type: object
+                                            x-kubernetes-map-type: granular
                                         type: object
                                       type: array
                                     interface:
@@ -1201,6 +1209,7 @@ spec:
                                   (see [Project and instance guest attributes](https://cloud.google.com/compute/docs/
                                   storing-retrieving-metadata#guest_attributes)).
                                 type: object
+                                x-kubernetes-map-type: granular
                               internalIpOnly:
                                 description: If true, runtime will only have internal
                                   IP addresses. By default, runtimes are not restricted
@@ -1222,6 +1231,7 @@ spec:
                                   RFC 1035. No more than 32 labels can be associated
                                   with a cluster.
                                 type: object
+                                x-kubernetes-map-type: granular
                               machineType:
                                 description: The Compute Engine machine type used
                                   for runtimes.
@@ -1234,6 +1244,7 @@ spec:
                                   metadata](https://cloud.google.com /compute/docs/storing-retrieving-metadata#project_and_instance
                                   _metadata)).
                                 type: object
+                                x-kubernetes-map-type: granular
                               network:
                                 description: 'The Compute Engine network to be used
                                   for machine communications. Cannot be specified

@@ -113,6 +113,7 @@ type GlobalForwardingRuleInitParameters struct {
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
 	// Labels to apply to this forwarding rule.  A list of key->value pairs.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Specifies the forwarding rule type.
@@ -188,6 +189,7 @@ type GlobalForwardingRuleObservation struct {
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
 
 	// Labels to apply to this forwarding rule.  A list of key->value pairs.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Specifies the forwarding rule type.
@@ -298,6 +300,7 @@ type GlobalForwardingRuleParameters struct {
 
 	// Labels to apply to this forwarding rule.  A list of key->value pairs.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Specifies the forwarding rule type.

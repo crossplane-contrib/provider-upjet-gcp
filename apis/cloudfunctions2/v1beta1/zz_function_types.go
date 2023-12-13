@@ -42,6 +42,7 @@ type BuildConfigInitParameters struct {
 	EntryPoint *string `json:"entryPoint,omitempty" tf:"entry_point,omitempty"`
 
 	// User-provided build-time environment variables for the function.
+	// +mapType=granular
 	EnvironmentVariables map[string]*string `json:"environmentVariables,omitempty" tf:"environment_variables,omitempty"`
 
 	// The runtime in which to run the function. Required when deploying a new
@@ -71,6 +72,7 @@ type BuildConfigObservation struct {
 	EntryPoint *string `json:"entryPoint,omitempty" tf:"entry_point,omitempty"`
 
 	// User-provided build-time environment variables for the function.
+	// +mapType=granular
 	EnvironmentVariables map[string]*string `json:"environmentVariables,omitempty" tf:"environment_variables,omitempty"`
 
 	// The runtime in which to run the function. Required when deploying a new
@@ -101,6 +103,7 @@ type BuildConfigParameters struct {
 
 	// User-provided build-time environment variables for the function.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	EnvironmentVariables map[string]*string `json:"environmentVariables,omitempty" tf:"environment_variables,omitempty"`
 
 	// The runtime in which to run the function. Required when deploying a new
@@ -316,6 +319,7 @@ type FunctionInitParameters struct {
 	EventTrigger []EventTriggerInitParameters `json:"eventTrigger,omitempty" tf:"event_trigger,omitempty"`
 
 	// A set of key/value label pairs associated with this Cloud Function.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -349,6 +353,7 @@ type FunctionObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// A set of key/value label pairs associated with this Cloud Function.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location of this cloud function.
@@ -392,6 +397,7 @@ type FunctionParameters struct {
 
 	// A set of key/value label pairs associated with this Cloud Function.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location of this cloud function.
@@ -618,6 +624,7 @@ type ServiceConfigInitParameters struct {
 	AvailableMemory *string `json:"availableMemory,omitempty" tf:"available_memory,omitempty"`
 
 	// Environment variables that shall be available during function execution.
+	// +mapType=granular
 	EnvironmentVariables map[string]*string `json:"environmentVariables,omitempty" tf:"environment_variables,omitempty"`
 
 	// Available ingress settings. Defaults to "ALLOW_ALL" if unspecified.
@@ -674,6 +681,7 @@ type ServiceConfigObservation struct {
 	AvailableMemory *string `json:"availableMemory,omitempty" tf:"available_memory,omitempty"`
 
 	// Environment variables that shall be available during function execution.
+	// +mapType=granular
 	EnvironmentVariables map[string]*string `json:"environmentVariables,omitempty" tf:"environment_variables,omitempty"`
 
 	// (Output)
@@ -745,6 +753,7 @@ type ServiceConfigParameters struct {
 
 	// Environment variables that shall be available during function execution.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	EnvironmentVariables map[string]*string `json:"environmentVariables,omitempty" tf:"environment_variables,omitempty"`
 
 	// Available ingress settings. Defaults to "ALLOW_ALL" if unspecified.

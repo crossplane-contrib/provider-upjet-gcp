@@ -489,6 +489,7 @@ spec:
                       a list of "key": value pairs. Example: { "name": "wrench", "mass":
                       "1.3kg", "count": "3" }.'
                     type: object
+                    x-kubernetes-map-type: granular
                   lifetime:
                     description: 'The desired lifetime of the CA certificate. Used
                       to create the "notBeforeTime" and "notAfterTime" fields inside
@@ -1142,6 +1143,7 @@ spec:
                       a list of "key": value pairs. Example: { "name": "wrench", "mass":
                       "1.3kg", "count": "3" }.'
                     type: object
+                    x-kubernetes-map-type: granular
                   lifetime:
                     description: 'The desired lifetime of the CA certificate. Used
                       to create the "notBeforeTime" and "notAfterTime" fields inside
@@ -1819,6 +1821,7 @@ spec:
                       a list of "key": value pairs. Example: { "name": "wrench", "mass":
                       "1.3kg", "count": "3" }.'
                     type: object
+                    x-kubernetes-map-type: granular
                   lifetime:
                     description: 'The desired lifetime of the CA certificate. Used
                       to create the "notBeforeTime" and "notAfterTime" fields inside

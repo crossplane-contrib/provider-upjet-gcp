@@ -35,6 +35,7 @@ type InstanceInitParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Resource labels to represent user-provided metadata.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Maintenance policy for an instance.
@@ -71,6 +72,7 @@ type InstanceInitParameters struct {
 
 	// Zones where memcache nodes should be provisioned.  If not
 	// provided, all zones will be used.
+	// +listType=set
 	Zones []*string `json:"zones,omitempty" tf:"zones,omitempty"`
 }
 
@@ -93,6 +95,7 @@ type InstanceObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Resource labels to represent user-provided metadata.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Maintenance policy for an instance.
@@ -140,6 +143,7 @@ type InstanceObservation struct {
 
 	// Zones where memcache nodes should be provisioned.  If not
 	// provided, all zones will be used.
+	// +listType=set
 	Zones []*string `json:"zones,omitempty" tf:"zones,omitempty"`
 }
 
@@ -166,6 +170,7 @@ type InstanceParameters struct {
 
 	// Resource labels to represent user-provided metadata.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Maintenance policy for an instance.
@@ -211,6 +216,7 @@ type InstanceParameters struct {
 	// Zones where memcache nodes should be provisioned.  If not
 	// provided, all zones will be used.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Zones []*string `json:"zones,omitempty" tf:"zones,omitempty"`
 }
 
@@ -330,6 +336,7 @@ type MemcacheNodesParameters struct {
 type MemcacheParametersInitParameters struct {
 
 	// User-defined set of parameters to use in the memcache process.
+	// +mapType=granular
 	Params map[string]*string `json:"params,omitempty" tf:"params,omitempty"`
 }
 
@@ -340,6 +347,7 @@ type MemcacheParametersObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// User-defined set of parameters to use in the memcache process.
+	// +mapType=granular
 	Params map[string]*string `json:"params,omitempty" tf:"params,omitempty"`
 }
 
@@ -347,6 +355,7 @@ type MemcacheParametersParameters struct {
 
 	// User-defined set of parameters to use in the memcache process.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Params map[string]*string `json:"params,omitempty" tf:"params,omitempty"`
 }
 

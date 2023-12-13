@@ -40,6 +40,7 @@ type SSLPolicyInitParameters struct {
 	// for which ciphers are available to use. Note: this argument
 	// must be present when using the CUSTOM profile. This argument
 	// must not be present when using any other profile.
+	// +listType=set
 	CustomFeatures []*string `json:"customFeatures,omitempty" tf:"custom_features,omitempty"`
 
 	// An optional description of this resource.
@@ -81,12 +82,14 @@ type SSLPolicyObservation struct {
 	// for which ciphers are available to use. Note: this argument
 	// must be present when using the CUSTOM profile. This argument
 	// must not be present when using any other profile.
+	// +listType=set
 	CustomFeatures []*string `json:"customFeatures,omitempty" tf:"custom_features,omitempty"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The list of features enabled in the SSL policy.
+	// +listType=set
 	EnabledFeatures []*string `json:"enabledFeatures,omitempty" tf:"enabled_features,omitempty"`
 
 	// Fingerprint of this resource. A hash of the contents stored in this
@@ -133,6 +136,7 @@ type SSLPolicyParameters struct {
 	// must be present when using the CUSTOM profile. This argument
 	// must not be present when using any other profile.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	CustomFeatures []*string `json:"customFeatures,omitempty" tf:"custom_features,omitempty"`
 
 	// An optional description of this resource.

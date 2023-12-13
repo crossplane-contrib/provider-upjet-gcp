@@ -63,6 +63,7 @@ type AutomatedBackupPolicyInitParameters struct {
 	EncryptionConfig []AutomatedBackupPolicyEncryptionConfigInitParameters `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
 	// Labels to apply to backups created using this configuration.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Quantity-based Backup retention policy to retain recent backups. Conflicts with 'time_based_retention', both can't be set together.
@@ -93,6 +94,7 @@ type AutomatedBackupPolicyObservation struct {
 	EncryptionConfig []AutomatedBackupPolicyEncryptionConfigObservation `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
 	// Labels to apply to backups created using this configuration.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location where the backup will be stored. Currently, the only supported option is to store the backup in the same region as the cluster.
@@ -130,6 +132,7 @@ type AutomatedBackupPolicyParameters struct {
 
 	// Labels to apply to backups created using this configuration.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location where the backup will be stored. Currently, the only supported option is to store the backup in the same region as the cluster.
@@ -223,6 +226,7 @@ type ClusterInitParameters struct {
 	InitialUser []InitialUserInitParameters `json:"initialUser,omitempty" tf:"initial_user,omitempty"`
 
 	// User-defined labels for the alloydb cluster.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -271,6 +275,7 @@ type ClusterObservation struct {
 	InitialUser []InitialUserObservation `json:"initialUser,omitempty" tf:"initial_user,omitempty"`
 
 	// User-defined labels for the alloydb cluster.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location where the alloydb cluster should reside.
@@ -324,6 +329,7 @@ type ClusterParameters struct {
 
 	// User-defined labels for the alloydb cluster.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location where the alloydb cluster should reside.

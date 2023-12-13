@@ -238,6 +238,7 @@ type BuildInitParameters struct {
 	Step []StepInitParameters `json:"step,omitempty" tf:"step,omitempty"`
 
 	// Substitutions data for Build resource.
+	// +mapType=granular
 	Substitutions map[string]*string `json:"substitutions,omitempty" tf:"substitutions,omitempty"`
 
 	// Tags for annotation of a Build. These are not docker tags.
@@ -295,6 +296,7 @@ type BuildObservation struct {
 	Step []StepObservation `json:"step,omitempty" tf:"step,omitempty"`
 
 	// Substitutions data for Build resource.
+	// +mapType=granular
 	Substitutions map[string]*string `json:"substitutions,omitempty" tf:"substitutions,omitempty"`
 
 	// Tags for annotation of a Build. These are not docker tags.
@@ -362,6 +364,7 @@ type BuildParameters struct {
 
 	// Substitutions data for Build resource.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Substitutions map[string]*string `json:"substitutions,omitempty" tf:"substitutions,omitempty"`
 
 	// Tags for annotation of a Build. These are not docker tags.
@@ -1053,6 +1056,7 @@ type RepoSourceInitParameters struct {
 	RepoName *string `json:"repoName,omitempty" tf:"repo_name,omitempty"`
 
 	// Substitutions data for Build resource.
+	// +mapType=granular
 	Substitutions map[string]*string `json:"substitutions,omitempty" tf:"substitutions,omitempty"`
 
 	// Name of the tag to build. Exactly one of a branch name, tag, or commit SHA must be provided.
@@ -1086,6 +1090,7 @@ type RepoSourceObservation struct {
 	RepoName *string `json:"repoName,omitempty" tf:"repo_name,omitempty"`
 
 	// Substitutions data for Build resource.
+	// +mapType=granular
 	Substitutions map[string]*string `json:"substitutions,omitempty" tf:"substitutions,omitempty"`
 
 	// Name of the tag to build. Exactly one of a branch name, tag, or commit SHA must be provided.
@@ -1126,6 +1131,7 @@ type RepoSourceParameters struct {
 
 	// Substitutions data for Build resource.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Substitutions map[string]*string `json:"substitutions,omitempty" tf:"substitutions,omitempty"`
 
 	// Name of the tag to build. Exactly one of a branch name, tag, or commit SHA must be provided.
@@ -1287,6 +1293,7 @@ type SecretInitParameters struct {
 	// a Cloud Key
 	// Management Service crypto key. These values must be specified in
 	// the build's Secret.
+	// +mapType=granular
 	SecretEnv map[string]*string `json:"secretEnv,omitempty" tf:"secret_env,omitempty"`
 }
 
@@ -1337,6 +1344,7 @@ type SecretObservation struct {
 	// a Cloud Key
 	// Management Service crypto key. These values must be specified in
 	// the build's Secret.
+	// +mapType=granular
 	SecretEnv map[string]*string `json:"secretEnv,omitempty" tf:"secret_env,omitempty"`
 }
 
@@ -1351,6 +1359,7 @@ type SecretParameters struct {
 	// Management Service crypto key. These values must be specified in
 	// the build's Secret.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	SecretEnv map[string]*string `json:"secretEnv,omitempty" tf:"secret_env,omitempty"`
 }
 
@@ -1926,6 +1935,7 @@ type TriggerInitParameters struct {
 	SourceToBuild []SourceToBuildInitParameters `json:"sourceToBuild,omitempty" tf:"source_to_build,omitempty"`
 
 	// Substitutions data for Build resource.
+	// +mapType=granular
 	Substitutions map[string]*string `json:"substitutions,omitempty" tf:"substitutions,omitempty"`
 
 	// Tags for annotation of a BuildTrigger
@@ -2054,6 +2064,7 @@ type TriggerObservation struct {
 	SourceToBuild []SourceToBuildObservation `json:"sourceToBuild,omitempty" tf:"source_to_build,omitempty"`
 
 	// Substitutions data for Build resource.
+	// +mapType=granular
 	Substitutions map[string]*string `json:"substitutions,omitempty" tf:"substitutions,omitempty"`
 
 	// Tags for annotation of a BuildTrigger
@@ -2209,6 +2220,7 @@ type TriggerParameters struct {
 
 	// Substitutions data for Build resource.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Substitutions map[string]*string `json:"substitutions,omitempty" tf:"substitutions,omitempty"`
 
 	// Tags for annotation of a BuildTrigger

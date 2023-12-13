@@ -177,6 +177,7 @@ spec:
                             The mappings override system defaults (some keys cannot
                             be overridden)
                           type: object
+                          x-kubernetes-map-type: granular
                         kerberosConfig:
                           description: Information used to configure the Hive metastore
                             service as a service principal in a Kerberos realm. Structure
@@ -221,6 +222,7 @@ spec:
                       type: string
                     description: User-defined labels for the metastore service.
                     type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: The location where the metastore service should reside.
                       The default value is global.
@@ -423,6 +425,7 @@ spec:
                             The mappings override system defaults (some keys cannot
                             be overridden)
                           type: object
+                          x-kubernetes-map-type: granular
                         kerberosConfig:
                           description: Information used to configure the Hive metastore
                             service as a service principal in a Kerberos realm. Structure
@@ -467,6 +470,7 @@ spec:
                       type: string
                     description: User-defined labels for the metastore service.
                     type: object
+                    x-kubernetes-map-type: granular
                   maintenanceWindow:
                     description: The one hour maintenance window of the metastore
                       service. This specifies when the service can be restarted for
@@ -741,6 +745,7 @@ spec:
                             The mappings override system defaults (some keys cannot
                             be overridden)
                           type: object
+                          x-kubernetes-map-type: granular
                         kerberosConfig:
                           description: Information used to configure the Hive metastore
                             service as a service principal in a Kerberos realm. Structure
@@ -788,6 +793,7 @@ spec:
                       type: string
                     description: User-defined labels for the metastore service.
                     type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: The location where the metastore service should reside.
                       The default value is global.

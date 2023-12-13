@@ -415,6 +415,7 @@ type JobInitParameters struct {
 	JobTimeoutMs *string `json:"jobTimeoutMs,omitempty" tf:"job_timeout_ms,omitempty"`
 
 	// The labels associated with this job. You can use these to organize and group your jobs.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Configures a load job.
@@ -457,6 +458,7 @@ type JobObservation struct {
 	JobType *string `json:"jobType,omitempty" tf:"job_type,omitempty"`
 
 	// The labels associated with this job. You can use these to organize and group your jobs.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Configures a load job.
@@ -504,6 +506,7 @@ type JobParameters struct {
 
 	// The labels associated with this job. You can use these to organize and group your jobs.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Configures a load job.

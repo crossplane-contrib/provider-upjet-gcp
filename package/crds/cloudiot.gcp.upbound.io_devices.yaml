@@ -121,6 +121,7 @@ spec:
                       type: string
                     description: The metadata key-value pairs assigned to the device.
                     type: object
+                    x-kubernetes-map-type: granular
                   registry:
                     description: The name of the device registry where this device
                       should be created.
@@ -265,6 +266,7 @@ spec:
                       type: string
                     description: The metadata key-value pairs assigned to the device.
                     type: object
+                    x-kubernetes-map-type: granular
                 type: object
               managementPolicies:
                 default:
@@ -561,6 +563,7 @@ spec:
                       type: string
                     description: The metadata key-value pairs assigned to the device.
                     type: object
+                    x-kubernetes-map-type: granular
                   numId:
                     description: A server-defined unique numeric ID for the device.
                       This is a more compact way to identify devices, and it is globally

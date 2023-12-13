@@ -284,6 +284,7 @@ type PushConfigInitParameters struct {
 	// calls will always return a valid version, even if the
 	// subscription was created without this attribute.
 	// The possible values for this attribute are:
+	// +mapType=granular
 	Attributes map[string]*string `json:"attributes,omitempty" tf:"attributes,omitempty"`
 
 	// When set, the payload to the push endpoint is not wrapped.Sets the
@@ -320,6 +321,7 @@ type PushConfigObservation struct {
 	// calls will always return a valid version, even if the
 	// subscription was created without this attribute.
 	// The possible values for this attribute are:
+	// +mapType=granular
 	Attributes map[string]*string `json:"attributes,omitempty" tf:"attributes,omitempty"`
 
 	// When set, the payload to the push endpoint is not wrapped.Sets the
@@ -357,6 +359,7 @@ type PushConfigParameters struct {
 	// subscription was created without this attribute.
 	// The possible values for this attribute are:
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Attributes map[string]*string `json:"attributes,omitempty" tf:"attributes,omitempty"`
 
 	// When set, the payload to the push endpoint is not wrapped.Sets the
@@ -474,6 +477,7 @@ type SubscriptionInitParameters struct {
 	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
 
 	// A set of key/value label pairs to assign to this Subscription.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// How long to retain unacknowledged messages in the subscription's
@@ -573,6 +577,7 @@ type SubscriptionObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// A set of key/value label pairs to assign to this Subscription.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// How long to retain unacknowledged messages in the subscription's
@@ -680,6 +685,7 @@ type SubscriptionParameters struct {
 
 	// A set of key/value label pairs to assign to this Subscription.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// How long to retain unacknowledged messages in the subscription's

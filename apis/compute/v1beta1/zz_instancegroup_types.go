@@ -37,6 +37,7 @@ type InstanceGroupInitParameters struct {
 
 	// The list of instances in the group, in self_link format.
 	// When adding instances they must all be in the same network and zone as the instance group.
+	// +listType=set
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
 
 	// The named port configuration. See the section below
@@ -59,6 +60,7 @@ type InstanceGroupObservation struct {
 
 	// The list of instances in the group, in self_link format.
 	// When adding instances they must all be in the same network and zone as the instance group.
+	// +listType=set
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
 
 	// The named port configuration. See the section below
@@ -95,6 +97,7 @@ type InstanceGroupParameters struct {
 	// The list of instances in the group, in self_link format.
 	// When adding instances they must all be in the same network and zone as the instance group.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
 
 	// The named port configuration. See the section below

@@ -61,6 +61,7 @@ type TensorboardInitParameters struct {
 	EncryptionSpec []TensorboardEncryptionSpecInitParameters `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
 
 	// The labels with user-defined metadata to organize your Tensorboards.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -87,6 +88,7 @@ type TensorboardObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The labels with user-defined metadata to organize your Tensorboards.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Name of the Tensorboard.
@@ -119,6 +121,7 @@ type TensorboardParameters struct {
 
 	// The labels with user-defined metadata to organize your Tensorboards.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.

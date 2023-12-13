@@ -146,6 +146,7 @@ spec:
                       type: string
                     description: Labels.
                     type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: The name of the location this connection profile
                       is located in.
@@ -266,6 +267,7 @@ spec:
                             type: string
                           description: Connection string attributes
                           type: object
+                          x-kubernetes-map-type: granular
                         databaseService:
                           description: Database for the Oracle connection.
                           type: string
@@ -722,6 +724,7 @@ spec:
                       type: string
                     description: Labels.
                     type: object
+                    x-kubernetes-map-type: granular
                   mysqlProfile:
                     description: MySQL database profile. Structure is documented below.
                     items:
@@ -753,6 +756,7 @@ spec:
                             type: string
                           description: Connection string attributes
                           type: object
+                          x-kubernetes-map-type: granular
                         databaseService:
                           description: Database for the Oracle connection.
                           type: string
@@ -1002,6 +1006,7 @@ spec:
                       type: string
                     description: Labels.
                     type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: The name of the location this connection profile
                       is located in.
@@ -1053,6 +1058,7 @@ spec:
                             type: string
                           description: Connection string attributes
                           type: object
+                          x-kubernetes-map-type: granular
                         databaseService:
                           description: Database for the Oracle connection.
                           type: string

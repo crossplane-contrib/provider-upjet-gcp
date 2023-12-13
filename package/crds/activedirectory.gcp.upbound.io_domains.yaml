@@ -80,6 +80,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   domainName:
                     description: The fully qualified domain name. e.g. mydomain.myorganization.com,
                       with the restrictions, https://cloud.google.com/managed-microsoft-ad/reference/rest/v1/projects.locations.global.domains.
@@ -89,6 +90,7 @@ spec:
                       type: string
                     description: Resource labels that can contain user-provided metadata
                     type: object
+                    x-kubernetes-map-type: granular
                   locations:
                     description: Locations where domain needs to be provisioned. [regions][compute/docs/regions-zones/]
                       e.g. us-west1 or us-east4 Service supports up to 4 locations
@@ -132,6 +134,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   domainName:
                     description: The fully qualified domain name. e.g. mydomain.myorganization.com,
                       with the restrictions, https://cloud.google.com/managed-microsoft-ad/reference/rest/v1/projects.locations.global.domains.
@@ -141,6 +144,7 @@ spec:
                       type: string
                     description: Resource labels that can contain user-provided metadata
                     type: object
+                    x-kubernetes-map-type: granular
                   locations:
                     description: Locations where domain needs to be provisioned. [regions][compute/docs/regions-zones/]
                       e.g. us-west1 or us-east4 Service supports up to 4 locations
@@ -350,6 +354,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   domainName:
                     description: The fully qualified domain name. e.g. mydomain.myorganization.com,
                       with the restrictions, https://cloud.google.com/managed-microsoft-ad/reference/rest/v1/projects.locations.global.domains.
@@ -367,6 +372,7 @@ spec:
                       type: string
                     description: Resource labels that can contain user-provided metadata
                     type: object
+                    x-kubernetes-map-type: granular
                   locations:
                     description: Locations where domain needs to be provisioned. [regions][compute/docs/regions-zones/]
                       e.g. us-west1 or us-east4 Service supports up to 4 locations

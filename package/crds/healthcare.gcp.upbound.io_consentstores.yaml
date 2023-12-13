@@ -172,6 +172,7 @@ spec:
                       An object containing a list of "key": value pairs. Example:
                       { "name": "wrench", "mass": "1.3kg", "count": "3" }.'
                     type: object
+                    x-kubernetes-map-type: granular
                   name:
                     description: 'The name of this ConsentStore, for example: "consent1"'
                     type: string
@@ -213,6 +214,7 @@ spec:
                       An object containing a list of "key": value pairs. Example:
                       { "name": "wrench", "mass": "1.3kg", "count": "3" }.'
                     type: object
+                    x-kubernetes-map-type: granular
                   name:
                     description: 'The name of this ConsentStore, for example: "consent1"'
                     type: string
@@ -419,6 +421,7 @@ spec:
                       An object containing a list of "key": value pairs. Example:
                       { "name": "wrench", "mass": "1.3kg", "count": "3" }.'
                     type: object
+                    x-kubernetes-map-type: granular
                   name:
                     description: 'The name of this ConsentStore, for example: "consent1"'
                     type: string

@@ -306,6 +306,7 @@ type InitializeParamsInitParameters struct {
 	// empty, but, if present, must contain 1 to 63 characters, and must
 	// conform to RFC 1035. No
 	// more than 32 labels can be associated with a cluster.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
 
@@ -337,6 +338,7 @@ type InitializeParamsObservation struct {
 	// empty, but, if present, must contain 1 to 63 characters, and must
 	// conform to RFC 1035. No
 	// more than 32 labels can be associated with a cluster.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
 
@@ -373,6 +375,7 @@ type InitializeParamsParameters struct {
 	// conform to RFC 1035. No
 	// more than 32 labels can be associated with a cluster.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
 
@@ -416,6 +419,7 @@ type MetricsObservation struct {
 	// (Output)
 	// Contains runtime daemon metrics, such as OS and kernels and
 	// sessions stats.
+	// +mapType=granular
 	SystemMetrics map[string]*string `json:"systemMetrics,omitempty" tf:"system_metrics,omitempty"`
 }
 
@@ -696,6 +700,7 @@ type VirtualMachineConfigInitParameters struct {
 	// empty, but, if present, must contain 1 to 63 characters, and must
 	// conform to RFC 1035. No
 	// more than 32 labels can be associated with a cluster.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The Compute Engine machine type used for runtimes.
@@ -705,6 +710,7 @@ type VirtualMachineConfigInitParameters struct {
 	// (see [Project and instance metadata](https://cloud.google.com
 	// /compute/docs/storing-retrieving-metadata#project_and_instance
 	// _metadata)).
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The Compute Engine network to be used for machine communications.
@@ -759,6 +765,7 @@ type VirtualMachineConfigObservation struct {
 	// The Compute Engine guest attributes. (see [Project and instance
 	// guest attributes](https://cloud.google.com/compute/docs/
 	// storing-retrieving-metadata#guest_attributes)).
+	// +mapType=granular
 	GuestAttributes map[string]*string `json:"guestAttributes,omitempty" tf:"guest_attributes,omitempty"`
 
 	// If true, runtime will only have internal IP addresses. By default,
@@ -775,6 +782,7 @@ type VirtualMachineConfigObservation struct {
 	// empty, but, if present, must contain 1 to 63 characters, and must
 	// conform to RFC 1035. No
 	// more than 32 labels can be associated with a cluster.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The Compute Engine machine type used for runtimes.
@@ -784,6 +792,7 @@ type VirtualMachineConfigObservation struct {
 	// (see [Project and instance metadata](https://cloud.google.com
 	// /compute/docs/storing-retrieving-metadata#project_and_instance
 	// _metadata)).
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The Compute Engine network to be used for machine communications.
@@ -858,6 +867,7 @@ type VirtualMachineConfigParameters struct {
 	// conform to RFC 1035. No
 	// more than 32 labels can be associated with a cluster.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The Compute Engine machine type used for runtimes.
@@ -869,6 +879,7 @@ type VirtualMachineConfigParameters struct {
 	// /compute/docs/storing-retrieving-metadata#project_and_instance
 	// _metadata)).
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The Compute Engine network to be used for machine communications.

@@ -161,6 +161,7 @@ type SecretInitParameters struct {
 	// No more than 64 labels can be assigned to a given resource.
 	// An object containing a list of "key": value pairs. Example:
 	// { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -205,6 +206,7 @@ type SecretObservation struct {
 	// No more than 64 labels can be assigned to a given resource.
 	// An object containing a list of "key": value pairs. Example:
 	// { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The resource name of the Secret. Format:
@@ -249,6 +251,7 @@ type SecretParameters struct {
 	// An object containing a list of "key": value pairs. Example:
 	// { "name": "wrench", "mass": "1.3kg", "count": "3" }.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.

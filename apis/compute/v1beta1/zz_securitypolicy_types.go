@@ -122,12 +122,14 @@ type BanThresholdParameters struct {
 type ConfigInitParameters struct {
 
 	// field in config.
+	// +listType=set
 	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
 }
 
 type ConfigObservation struct {
 
 	// field in config.
+	// +listType=set
 	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
 }
 
@@ -135,6 +137,7 @@ type ConfigParameters struct {
 
 	// field in config.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	SrcIPRanges []*string `json:"srcIpRanges" tf:"src_ip_ranges,omitempty"`
 }
 
@@ -195,6 +198,7 @@ type JSONCustomConfigInitParameters struct {
 	// format of the Content-Type header values is defined in
 	// RFC 1341. When configuring a custom Content-Type header
 	// value, only the type/subtype needs to be specified, and the parameters should be excluded.
+	// +listType=set
 	ContentTypes []*string `json:"contentTypes,omitempty" tf:"content_types,omitempty"`
 }
 
@@ -204,6 +208,7 @@ type JSONCustomConfigObservation struct {
 	// format of the Content-Type header values is defined in
 	// RFC 1341. When configuring a custom Content-Type header
 	// value, only the type/subtype needs to be specified, and the parameters should be excluded.
+	// +listType=set
 	ContentTypes []*string `json:"contentTypes,omitempty" tf:"content_types,omitempty"`
 }
 
@@ -214,6 +219,7 @@ type JSONCustomConfigParameters struct {
 	// RFC 1341. When configuring a custom Content-Type header
 	// value, only the type/subtype needs to be specified, and the parameters should be excluded.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	ContentTypes []*string `json:"contentTypes" tf:"content_types,omitempty"`
 }
 

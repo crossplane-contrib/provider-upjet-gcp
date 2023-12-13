@@ -270,6 +270,7 @@ type TriggerInitParameters struct {
 	EventDataContentType *string `json:"eventDataContentType,omitempty" tf:"event_data_content_type,omitempty"`
 
 	// Optional. User labels attached to the triggers that can be used to group resources.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Required. null The list of filters that applies to event attributes. Only events that match all the provided filters will be sent to the destination.
@@ -291,6 +292,7 @@ type TriggerObservation struct {
 	Channel *string `json:"channel,omitempty" tf:"channel,omitempty"`
 
 	// Output only. The reason(s) why a trigger is in FAILED state.
+	// +mapType=granular
 	Conditions map[string]*string `json:"conditions,omitempty" tf:"conditions,omitempty"`
 
 	// Output only. The creation time.
@@ -308,6 +310,7 @@ type TriggerObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Optional. User labels attached to the triggers that can be used to group resources.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location for the resource
@@ -347,6 +350,7 @@ type TriggerParameters struct {
 
 	// Optional. User labels attached to the triggers that can be used to group resources.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location for the resource

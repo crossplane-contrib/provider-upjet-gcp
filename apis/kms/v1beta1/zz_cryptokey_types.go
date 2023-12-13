@@ -39,6 +39,7 @@ type CryptoKeyInitParameters struct {
 	ImportOnly *bool `json:"importOnly,omitempty" tf:"import_only,omitempty"`
 
 	// Labels with user-defined metadata to apply to this resource.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The immutable purpose of this CryptoKey. See the
@@ -79,6 +80,7 @@ type CryptoKeyObservation struct {
 	KeyRing *string `json:"keyRing,omitempty" tf:"key_ring,omitempty"`
 
 	// Labels with user-defined metadata to apply to this resource.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The immutable purpose of this CryptoKey. See the
@@ -130,6 +132,7 @@ type CryptoKeyParameters struct {
 
 	// Labels with user-defined metadata to apply to this resource.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The immutable purpose of this CryptoKey. See the

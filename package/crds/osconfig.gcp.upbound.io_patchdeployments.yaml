@@ -98,6 +98,7 @@ spec:
                                   be present for a VM instance to be targeted by this
                                   filter
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         instanceNamePrefixes:
@@ -697,6 +698,7 @@ spec:
                                   be present for a VM instance to be targeted by this
                                   filter
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         instanceNamePrefixes:
@@ -1462,6 +1464,7 @@ spec:
                                   be present for a VM instance to be targeted by this
                                   filter
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         instanceNamePrefixes:

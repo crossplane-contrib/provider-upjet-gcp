@@ -156,6 +156,7 @@ spec:
                     description: A set of key/value label pairs to assign to this
                       EntityType.
                     type: object
+                    x-kubernetes-map-type: granular
                   monitoringConfig:
                     description: The default monitoring configuration for all Features
                       under this EntityType. If this is populated with [FeaturestoreMonitoringConfig.monitoring_interval]
@@ -279,6 +280,7 @@ spec:
                     description: A set of key/value label pairs to assign to this
                       EntityType.
                     type: object
+                    x-kubernetes-map-type: granular
                   monitoringConfig:
                     description: The default monitoring configuration for all Features
                       under this EntityType. If this is populated with [FeaturestoreMonitoringConfig.monitoring_interval]
@@ -571,6 +573,7 @@ spec:
                     description: A set of key/value label pairs to assign to this
                       EntityType.
                     type: object
+                    x-kubernetes-map-type: granular
                   monitoringConfig:
                     description: The default monitoring configuration for all Features
                       under this EntityType. If this is populated with [FeaturestoreMonitoringConfig.monitoring_interval]

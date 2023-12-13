@@ -39,6 +39,7 @@ type BackupInitParameters struct {
 	EncryptionConfig []EncryptionConfigInitParameters `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
 	// User-defined labels for the alloydb backup.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -72,6 +73,7 @@ type BackupObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// User-defined labels for the alloydb backup.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location where the alloydb backup should reside.
@@ -124,6 +126,7 @@ type BackupParameters struct {
 
 	// User-defined labels for the alloydb backup.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location where the alloydb backup should reside.

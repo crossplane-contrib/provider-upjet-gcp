@@ -102,6 +102,7 @@ spec:
                                       items:
                                         type: string
                                       type: array
+                                      x-kubernetes-list-type: set
                                     metricSource:
                                       description: A source for the collection of
                                         Dataproc OSS metrics (see available OSS metrics).
@@ -156,6 +157,7 @@ spec:
                                   entries to add to all instances (see Project and
                                   instance metadata).
                                 type: object
+                                x-kubernetes-map-type: granular
                               network:
                                 description: The name or self_link of the Google Compute
                                   Engine network to the cluster will be part of. Conflicts
@@ -192,6 +194,7 @@ spec:
                                       items:
                                         type: string
                                       type: array
+                                      x-kubernetes-list-type: set
                                   type: object
                                 type: array
                               serviceAccount:
@@ -246,6 +249,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                               serviceAccountSelector:
                                 description: Selector for a ServiceAccount in cloudplatform
                                   to populate serviceAccount.
@@ -320,6 +324,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                               zone:
                                 description: 'The GCP zone where your data is stored
                                   and used (i.e. where the master and the worker nodes
@@ -610,6 +615,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                               overrideProperties:
                                 additionalProperties:
                                   type: string
@@ -619,6 +625,7 @@ spec:
                                   a cluster. For a list of valid properties please
                                   see Cluster properties
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         stagingBucket:
@@ -735,6 +742,7 @@ spec:
                       to instances in the cluster. GCP generates some itself including
                       goog-dataproc-cluster-name which is the name of the cluster.
                     type: object
+                    x-kubernetes-map-type: granular
                   name:
                     description: The name of the cluster, unique within the project
                       and zone.
@@ -896,6 +904,7 @@ spec:
                                                   items:
                                                     type: string
                                                   type: array
+                                                  x-kubernetes-list-type: set
                                               type: object
                                             type: array
                                           roles:
@@ -905,6 +914,7 @@ spec:
                                             items:
                                               type: string
                                             type: array
+                                            x-kubernetes-list-type: set
                                         type: object
                                       type: array
                                   type: object
@@ -931,6 +941,7 @@ spec:
                                         The value is the version of the software to
                                         be installed. At least one entry must be specified.
                                       type: object
+                                      x-kubernetes-map-type: granular
                                     properties:
                                       additionalProperties:
                                         type: string
@@ -938,6 +949,7 @@ spec:
                                         config files. Property keys are specified
                                         in prefix:property format, for example spark:spark.kubernetes.container.image.
                                       type: object
+                                      x-kubernetes-map-type: granular
                                   type: object
                                 type: array
                             type: object
@@ -1002,6 +1014,7 @@ spec:
                                       items:
                                         type: string
                                       type: array
+                                      x-kubernetes-list-type: set
                                     metricSource:
                                       description: A source for the collection of
                                         Dataproc OSS metrics (see available OSS metrics).
@@ -1056,6 +1069,7 @@ spec:
                                   entries to add to all instances (see Project and
                                   instance metadata).
                                 type: object
+                                x-kubernetes-map-type: granular
                               network:
                                 description: The name or self_link of the Google Compute
                                   Engine network to the cluster will be part of. Conflicts
@@ -1092,6 +1106,7 @@ spec:
                                       items:
                                         type: string
                                       type: array
+                                      x-kubernetes-list-type: set
                                   type: object
                                 type: array
                               serviceAccountScopes:
@@ -1104,6 +1119,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                               shieldedInstanceConfig:
                                 description: Shielded Instance Config for clusters
                                   using Compute Engine Shielded VMs.
@@ -1135,6 +1151,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                               zone:
                                 description: 'The GCP zone where your data is stored
                                   and used (i.e. where the master and the worker nodes
@@ -1425,6 +1442,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                               overrideProperties:
                                 additionalProperties:
                                   type: string
@@ -1434,6 +1452,7 @@ spec:
                                   a cluster. For a list of valid properties please
                                   see Cluster properties
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         stagingBucket:
@@ -1550,6 +1569,7 @@ spec:
                       to instances in the cluster. GCP generates some itself including
                       goog-dataproc-cluster-name which is the name of the cluster.
                     type: object
+                    x-kubernetes-map-type: granular
                   name:
                     description: The name of the cluster, unique within the project
                       and zone.
@@ -1711,6 +1731,7 @@ spec:
                                                   items:
                                                     type: string
                                                   type: array
+                                                  x-kubernetes-list-type: set
                                               type: object
                                             type: array
                                           roles:
@@ -1720,6 +1741,7 @@ spec:
                                             items:
                                               type: string
                                             type: array
+                                            x-kubernetes-list-type: set
                                         type: object
                                       type: array
                                   type: object
@@ -1746,6 +1768,7 @@ spec:
                                         The value is the version of the software to
                                         be installed. At least one entry must be specified.
                                       type: object
+                                      x-kubernetes-map-type: granular
                                     properties:
                                       additionalProperties:
                                         type: string
@@ -1753,6 +1776,7 @@ spec:
                                         config files. Property keys are specified
                                         in prefix:property format, for example spark:spark.kubernetes.container.image.
                                       type: object
+                                      x-kubernetes-map-type: granular
                                   type: object
                                 type: array
                             type: object
@@ -1981,6 +2005,7 @@ spec:
                                       items:
                                         type: string
                                       type: array
+                                      x-kubernetes-list-type: set
                                     metricSource:
                                       description: A source for the collection of
                                         Dataproc OSS metrics (see available OSS metrics).
@@ -2017,6 +2042,7 @@ spec:
                                   Will only be populated if enable_http_port_access
                                   is true.
                                 type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           type: array
                         gceClusterConfig:
@@ -2042,6 +2068,7 @@ spec:
                                   entries to add to all instances (see Project and
                                   instance metadata).
                                 type: object
+                                x-kubernetes-map-type: granular
                               network:
                                 description: The name or self_link of the Google Compute
                                   Engine network to the cluster will be part of. Conflicts
@@ -2078,6 +2105,7 @@ spec:
                                       items:
                                         type: string
                                       type: array
+                                      x-kubernetes-list-type: set
                                   type: object
                                 type: array
                               serviceAccount:
@@ -2095,6 +2123,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                               shieldedInstanceConfig:
                                 description: Shielded Instance Config for clusters
                                   using Compute Engine Shielded VMs.
@@ -2126,6 +2155,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                               zone:
                                 description: 'The GCP zone where your data is stored
                                   and used (i.e. where the master and the worker nodes
@@ -2433,6 +2463,7 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                                x-kubernetes-list-type: set
                               overrideProperties:
                                 additionalProperties:
                                   type: string
@@ -2442,6 +2473,7 @@ spec:
                                   a cluster. For a list of valid properties please
                                   see Cluster properties
                                 type: object
+                                x-kubernetes-map-type: granular
                               properties:
                                 additionalProperties:
                                   type: string
@@ -2573,6 +2605,7 @@ spec:
                       to instances in the cluster. GCP generates some itself including
                       goog-dataproc-cluster-name which is the name of the cluster.
                     type: object
+                    x-kubernetes-map-type: granular
                   name:
                     description: The name of the cluster, unique within the project
                       and zone.
@@ -2734,6 +2767,7 @@ spec:
                                                   items:
                                                     type: string
                                                   type: array
+                                                  x-kubernetes-list-type: set
                                               type: object
                                             type: array
                                           roles:
@@ -2743,6 +2777,7 @@ spec:
                                             items:
                                               type: string
                                             type: array
+                                            x-kubernetes-list-type: set
                                         type: object
                                       type: array
                                   type: object
@@ -2769,6 +2804,7 @@ spec:
                                         The value is the version of the software to
                                         be installed. At least one entry must be specified.
                                       type: object
+                                      x-kubernetes-map-type: granular
                                     properties:
                                       additionalProperties:
                                         type: string
@@ -2776,6 +2812,7 @@ spec:
                                         config files. Property keys are specified
                                         in prefix:property format, for example spark:spark.kubernetes.container.image.
                                       type: object
+                                      x-kubernetes-map-type: granular
                                   type: object
                                 type: array
                             type: object

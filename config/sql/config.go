@@ -115,23 +115,6 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		}
 	})
 	p.AddResourceConfigurator("google_sql_ssl_cert", func(r *config.Resource) {
-		r.ExternalName = config.IdentifierFromProvider
-		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-			if externalName == "" {
-				return "", nil
-			}
-			project, err := common.GetField(providerConfig, common.KeyProject)
-			if err != nil {
-				return "", err
-			}
-			instance, err := common.GetField(parameters, "instance")
-			if err != nil {
-				return "", err
-			}
-			return fmt.Sprintf("projects/%s/instances/%s/sslCerts/%s", project, instance, externalName), nil
-		}
-
 		r.References["instance"] = config.Reference{
 			Type: "DatabaseInstance",
 		}

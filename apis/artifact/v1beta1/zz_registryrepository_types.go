@@ -212,6 +212,7 @@ type RegistryRepositoryInitParameters struct {
 	// longer than 63 characters. Label keys must begin with a lowercase letter
 	// and may only contain lowercase letters, numeric characters, underscores,
 	// and dashes.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// MavenRepositoryConfig is maven related repository details.
@@ -270,6 +271,7 @@ type RegistryRepositoryObservation struct {
 	// longer than 63 characters. Label keys must begin with a lowercase letter
 	// and may only contain lowercase letters, numeric characters, underscores,
 	// and dashes.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of the location this repository is located in.
@@ -337,6 +339,7 @@ type RegistryRepositoryParameters struct {
 	// and may only contain lowercase letters, numeric characters, underscores,
 	// and dashes.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of the location this repository is located in.

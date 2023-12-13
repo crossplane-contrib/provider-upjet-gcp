@@ -769,6 +769,7 @@ type TableInitParameters struct {
 	FriendlyName *string `json:"friendlyName,omitempty" tf:"friendly_name,omitempty"`
 
 	// A mapping of labels to assign to the resource.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// If specified, configures this table as a materialized view.
@@ -837,6 +838,7 @@ type TableObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// A mapping of labels to assign to the resource.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The time when this table was last modified, in milliseconds since the epoch.
@@ -939,6 +941,7 @@ type TableParameters struct {
 
 	// A mapping of labels to assign to the resource.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// If specified, configures this table as a materialized view.

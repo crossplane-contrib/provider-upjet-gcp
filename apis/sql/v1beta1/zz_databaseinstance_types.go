@@ -1246,6 +1246,7 @@ type SettingsInitParameters struct {
 	TimeZone *string `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
 
 	// A set of key/value user label pairs to assign to the instance.
+	// +mapType=granular
 	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
 }
 
@@ -1323,6 +1324,7 @@ type SettingsObservation struct {
 	TimeZone *string `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
 
 	// A set of key/value user label pairs to assign to the instance.
+	// +mapType=granular
 	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
 
 	// Used to make sure changes to the settings block are
@@ -1430,6 +1432,7 @@ type SettingsParameters struct {
 
 	// A set of key/value user label pairs to assign to the instance.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
 }
 

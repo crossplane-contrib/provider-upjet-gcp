@@ -73,6 +73,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   enableStreamingEngine:
                     description: Enable/disable the use of Streaming Engine for the
                       job. Note that Streaming Engine is enabled by default for pipelines
@@ -177,6 +178,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   enableStreamingEngine:
                     description: Enable/disable the use of Streaming Engine for the
                       job. Note that Streaming Engine is enabled by default for pipelines
@@ -447,6 +449,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   enableStreamingEngine:
                     description: Enable/disable the use of Streaming Engine for the
                       job. Note that Streaming Engine is enabled by default for pipelines

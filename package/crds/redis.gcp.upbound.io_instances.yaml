@@ -175,6 +175,7 @@ spec:
                       type: string
                     description: Resource labels to represent user provided metadata.
                     type: object
+                    x-kubernetes-map-type: granular
                   locationId:
                     description: The zone where the instance will be provisioned.
                       If not provided, the service will choose a zone for the instance.
@@ -275,6 +276,7 @@ spec:
                       Please check Memorystore documentation for the list of supported
                       parameters: https://cloud.google.com/memorystore/docs/redis/reference/rest/v1/projects.locations.instances#Instance.FIELDS.redis_configs'
                     type: object
+                    x-kubernetes-map-type: granular
                   redisVersion:
                     description: The version of Redis software. If not provided, latest
                       supported version will be used. Please check the API documentation
@@ -359,6 +361,7 @@ spec:
                       type: string
                     description: Resource labels to represent user provided metadata.
                     type: object
+                    x-kubernetes-map-type: granular
                   locationId:
                     description: The zone where the instance will be provisioned.
                       If not provided, the service will choose a zone for the instance.
@@ -459,6 +462,7 @@ spec:
                       Please check Memorystore documentation for the list of supported
                       parameters: https://cloud.google.com/memorystore/docs/redis/reference/rest/v1/projects.locations.instances#Instance.FIELDS.redis_configs'
                     type: object
+                    x-kubernetes-map-type: granular
                   redisVersion:
                     description: The version of Redis software. If not provided, latest
                       supported version will be used. Please check the API documentation
@@ -719,6 +723,7 @@ spec:
                       type: string
                     description: Resource labels to represent user provided metadata.
                     type: object
+                    x-kubernetes-map-type: granular
                   locationId:
                     description: The zone where the instance will be provisioned.
                       If not provided, the service will choose a zone for the instance.
@@ -903,6 +908,7 @@ spec:
                       Please check Memorystore documentation for the list of supported
                       parameters: https://cloud.google.com/memorystore/docs/redis/reference/rest/v1/projects.locations.instances#Instance.FIELDS.redis_configs'
                     type: object
+                    x-kubernetes-map-type: granular
                   redisVersion:
                     description: The version of Redis software. If not provided, latest
                       supported version will be used. Please check the API documentation

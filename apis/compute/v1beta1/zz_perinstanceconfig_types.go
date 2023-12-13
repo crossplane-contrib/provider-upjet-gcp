@@ -241,6 +241,7 @@ type PreservedStateInitParameters struct {
 	Disk []PreservedStateDiskInitParameters `json:"disk,omitempty" tf:"disk,omitempty"`
 
 	// Preserved metadata defined for this instance. This is a list of key->value pairs.
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 }
 
@@ -251,6 +252,7 @@ type PreservedStateObservation struct {
 	Disk []PreservedStateDiskObservation `json:"disk,omitempty" tf:"disk,omitempty"`
 
 	// Preserved metadata defined for this instance. This is a list of key->value pairs.
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 }
 
@@ -263,6 +265,7 @@ type PreservedStateParameters struct {
 
 	// Preserved metadata defined for this instance. This is a list of key->value pairs.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 }
 

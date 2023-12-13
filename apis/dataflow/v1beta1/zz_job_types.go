@@ -32,6 +32,7 @@ import (
 type JobInitParameters struct {
 
 	// List of experiments that should be used by the job. An example value is ["enable_stackdriver_agent_metrics"].
+	// +listType=set
 	AdditionalExperiments []*string `json:"additionalExperiments,omitempty" tf:"additional_experiments,omitempty"`
 
 	// Enable/disable the use of Streaming Engine for the job. Note that Streaming Engine is enabled by default for pipelines developed against the Beam SDK for Python v2.21.0 or later when using Python 3.
@@ -98,6 +99,7 @@ type JobInitParameters struct {
 type JobObservation struct {
 
 	// List of experiments that should be used by the job. An example value is ["enable_stackdriver_agent_metrics"].
+	// +listType=set
 	AdditionalExperiments []*string `json:"additionalExperiments,omitempty" tf:"additional_experiments,omitempty"`
 
 	// Enable/disable the use of Streaming Engine for the job. Note that Streaming Engine is enabled by default for pipelines developed against the Beam SDK for Python v2.21.0 or later when using Python 3.
@@ -176,6 +178,7 @@ type JobParameters struct {
 
 	// List of experiments that should be used by the job. An example value is ["enable_stackdriver_agent_metrics"].
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	AdditionalExperiments []*string `json:"additionalExperiments,omitempty" tf:"additional_experiments,omitempty"`
 
 	// Enable/disable the use of Streaming Engine for the job. Note that Streaming Engine is enabled by default for pipelines developed against the Beam SDK for Python v2.21.0 or later when using Python 3.

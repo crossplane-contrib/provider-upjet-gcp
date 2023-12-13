@@ -206,6 +206,7 @@ type ExclusionLabelsInitParameters struct {
 	// Labels are identified by key/value pairs in this map.
 	// A VM should contain all the key/value pairs specified in this map to be
 	// selected.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
 
@@ -214,6 +215,7 @@ type ExclusionLabelsObservation struct {
 	// Labels are identified by key/value pairs in this map.
 	// A VM should contain all the key/value pairs specified in this map to be
 	// selected.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
 
@@ -223,6 +225,7 @@ type ExclusionLabelsParameters struct {
 	// A VM should contain all the key/value pairs specified in this map to be
 	// selected.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
 
@@ -632,6 +635,7 @@ type InclusionLabelsInitParameters struct {
 	// Labels are identified by key/value pairs in this map.
 	// A VM should contain all the key/value pairs specified in this map to be
 	// selected.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
 
@@ -640,6 +644,7 @@ type InclusionLabelsObservation struct {
 	// Labels are identified by key/value pairs in this map.
 	// A VM should contain all the key/value pairs specified in this map to be
 	// selected.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
 
@@ -649,6 +654,7 @@ type InclusionLabelsParameters struct {
 	// A VM should contain all the key/value pairs specified in this map to be
 	// selected.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
 

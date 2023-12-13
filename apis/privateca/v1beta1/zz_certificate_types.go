@@ -126,6 +126,7 @@ type CertificateInitParameters struct {
 	Config []ConfigInitParameters `json:"config,omitempty" tf:"config,omitempty"`
 
 	// Labels with user-defined metadata to apply to this resource.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The desired lifetime of the CA certificate. Used to create the "notBeforeTime" and
@@ -175,6 +176,7 @@ type CertificateObservation struct {
 	IssuerCertificateAuthority *string `json:"issuerCertificateAuthority,omitempty" tf:"issuer_certificate_authority,omitempty"`
 
 	// Labels with user-defined metadata to apply to this resource.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The desired lifetime of the CA certificate. Used to create the "notBeforeTime" and
@@ -259,6 +261,7 @@ type CertificateParameters struct {
 
 	// Labels with user-defined metadata to apply to this resource.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The desired lifetime of the CA certificate. Used to create the "notBeforeTime" and

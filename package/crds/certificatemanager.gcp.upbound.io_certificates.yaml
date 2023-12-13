@@ -76,6 +76,7 @@ spec:
                     description: Set of label tags associated with the Certificate
                       resource.
                     type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: The Certificate Manager location. If not specified,
                       "global" is used.
@@ -218,6 +219,7 @@ spec:
                     description: Set of label tags associated with the Certificate
                       resource.
                     type: object
+                    x-kubernetes-map-type: granular
                   managed:
                     description: Configuration and state of a Managed Certificate.
                       Certificate Manager provisions and renews Managed Certificates
@@ -454,6 +456,7 @@ spec:
                     description: Set of label tags associated with the Certificate
                       resource.
                     type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: The Certificate Manager location. If not specified,
                       "global" is used.

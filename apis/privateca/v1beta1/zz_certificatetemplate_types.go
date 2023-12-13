@@ -77,6 +77,7 @@ type CertificateTemplateInitParameters struct {
 	IdentityConstraints []CertificateTemplateIdentityConstraintsInitParameters `json:"identityConstraints,omitempty" tf:"identity_constraints,omitempty"`
 
 	// Optional. Labels with user-defined metadata.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Optional. Describes the set of X.509 extensions that may appear in a Certificate issued using this CertificateTemplate. If a certificate request sets extensions that don't appear in the passthrough_extensions, those extensions will be dropped. If the issuing CaPool's IssuancePolicy defines baseline_values that don't appear here, the certificate issuance request will fail. If this is omitted, then this template will not add restrictions on a certificate's X.509 extensions. These constraints do not apply to X.509 extensions set in this CertificateTemplate's predefined_values.
@@ -104,6 +105,7 @@ type CertificateTemplateObservation struct {
 	IdentityConstraints []CertificateTemplateIdentityConstraintsObservation `json:"identityConstraints,omitempty" tf:"identity_constraints,omitempty"`
 
 	// Optional. Labels with user-defined metadata.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location for the resource
@@ -134,6 +136,7 @@ type CertificateTemplateParameters struct {
 
 	// Optional. Labels with user-defined metadata.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location for the resource

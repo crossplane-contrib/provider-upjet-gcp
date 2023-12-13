@@ -229,6 +229,7 @@ spec:
                       syntax of the extractor expression is the same as for the valueExtractor
                       field.
                     type: object
+                    x-kubernetes-map-type: granular
                   metricDescriptor:
                     description: The optional metric descriptor associated with the
                       logs-based metric. If unspecified, it uses a default metric
@@ -405,6 +406,7 @@ spec:
                       syntax of the extractor expression is the same as for the valueExtractor
                       field.
                     type: object
+                    x-kubernetes-map-type: granular
                   metricDescriptor:
                     description: The optional metric descriptor associated with the
                       logs-based metric. If unspecified, it uses a default metric
@@ -747,6 +749,7 @@ spec:
                       syntax of the extractor expression is the same as for the valueExtractor
                       field.
                     type: object
+                    x-kubernetes-map-type: granular
                   metricDescriptor:
                     description: The optional metric descriptor associated with the
                       logs-based metric. If unspecified, it uses a default metric

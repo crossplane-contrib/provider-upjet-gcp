@@ -469,10 +469,12 @@ type SnapshotPropertiesInitParameters struct {
 	GuestFlush *bool `json:"guestFlush,omitempty" tf:"guest_flush,omitempty"`
 
 	// A set of key-value pairs.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Cloud Storage bucket location to store the auto snapshot
 	// (regional or multi-regional)
+	// +listType=set
 	StorageLocations []*string `json:"storageLocations,omitempty" tf:"storage_locations,omitempty"`
 }
 
@@ -487,10 +489,12 @@ type SnapshotPropertiesObservation struct {
 	GuestFlush *bool `json:"guestFlush,omitempty" tf:"guest_flush,omitempty"`
 
 	// A set of key-value pairs.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Cloud Storage bucket location to store the auto snapshot
 	// (regional or multi-regional)
+	// +listType=set
 	StorageLocations []*string `json:"storageLocations,omitempty" tf:"storage_locations,omitempty"`
 }
 
@@ -508,11 +512,13 @@ type SnapshotPropertiesParameters struct {
 
 	// A set of key-value pairs.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Cloud Storage bucket location to store the auto snapshot
 	// (regional or multi-regional)
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	StorageLocations []*string `json:"storageLocations,omitempty" tf:"storage_locations,omitempty"`
 }
 

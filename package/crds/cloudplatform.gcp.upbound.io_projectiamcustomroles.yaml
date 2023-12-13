@@ -76,6 +76,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   project:
                     description: The project that the service account will be created
                       in. Defaults to the provider project configuration.
@@ -109,6 +110,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   project:
                     description: The project that the service account will be created
                       in. Defaults to the provider project configuration.
@@ -316,6 +318,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   project:
                     description: The project that the service account will be created
                       in. Defaults to the provider project configuration.

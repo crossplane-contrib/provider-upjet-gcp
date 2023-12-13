@@ -1420,6 +1420,7 @@ type StatusInitParameters struct {
 	// storage.googleapis.com is specified, access to the storage
 	// buckets inside the perimeter must meet the perimeter's access
 	// restrictions.
+	// +listType=set
 	RestrictedServices []*string `json:"restrictedServices,omitempty" tf:"restricted_services,omitempty"`
 
 	// Specifies how APIs are allowed to communicate within the Service
@@ -1465,6 +1466,7 @@ type StatusObservation struct {
 	// storage.googleapis.com is specified, access to the storage
 	// buckets inside the perimeter must meet the perimeter's access
 	// restrictions.
+	// +listType=set
 	RestrictedServices []*string `json:"restrictedServices,omitempty" tf:"restricted_services,omitempty"`
 
 	// Specifies how APIs are allowed to communicate within the Service
@@ -1524,6 +1526,7 @@ type StatusParameters struct {
 	// buckets inside the perimeter must meet the perimeter's access
 	// restrictions.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	RestrictedServices []*string `json:"restrictedServices,omitempty" tf:"restricted_services,omitempty"`
 
 	// Specifies how APIs are allowed to communicate within the Service
@@ -1537,6 +1540,7 @@ type StatusVPCAccessibleServicesInitParameters struct {
 
 	// The list of APIs usable within the Service Perimeter.
 	// Must be empty unless enableRestriction is True.
+	// +listType=set
 	AllowedServices []*string `json:"allowedServices,omitempty" tf:"allowed_services,omitempty"`
 
 	// Whether to restrict API calls within the Service Perimeter to the
@@ -1548,6 +1552,7 @@ type StatusVPCAccessibleServicesObservation struct {
 
 	// The list of APIs usable within the Service Perimeter.
 	// Must be empty unless enableRestriction is True.
+	// +listType=set
 	AllowedServices []*string `json:"allowedServices,omitempty" tf:"allowed_services,omitempty"`
 
 	// Whether to restrict API calls within the Service Perimeter to the
@@ -1560,6 +1565,7 @@ type StatusVPCAccessibleServicesParameters struct {
 	// The list of APIs usable within the Service Perimeter.
 	// Must be empty unless enableRestriction is True.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	AllowedServices []*string `json:"allowedServices,omitempty" tf:"allowed_services,omitempty"`
 
 	// Whether to restrict API calls within the Service Perimeter to the

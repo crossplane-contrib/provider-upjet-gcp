@@ -84,6 +84,7 @@ spec:
                       the Google Cloud IAM attribute to map to. The following keys
                       are supported:'
                     type: object
+                    x-kubernetes-map-type: granular
                   aws:
                     description: An Amazon Web Services identity provider. Not compatible
                       with the property oidc. Structure is documented below.
@@ -252,6 +253,7 @@ spec:
                       the Google Cloud IAM attribute to map to. The following keys
                       are supported:'
                     type: object
+                    x-kubernetes-map-type: granular
                   aws:
                     description: An Amazon Web Services identity provider. Not compatible
                       with the property oidc. Structure is documented below.
@@ -493,6 +495,7 @@ spec:
                       the Google Cloud IAM attribute to map to. The following keys
                       are supported:'
                     type: object
+                    x-kubernetes-map-type: granular
                   aws:
                     description: An Amazon Web Services identity provider. Not compatible
                       with the property oidc. Structure is documented below.

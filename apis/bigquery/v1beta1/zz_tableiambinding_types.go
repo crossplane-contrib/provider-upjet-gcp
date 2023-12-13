@@ -60,6 +60,7 @@ type TableIAMBindingConditionParameters struct {
 type TableIAMBindingInitParameters struct {
 	Condition []TableIAMBindingConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
+	// +listType=set
 	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
 
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -76,6 +77,7 @@ type TableIAMBindingObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// +listType=set
 	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
 
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -103,6 +105,7 @@ type TableIAMBindingParameters struct {
 	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
 
 	// +kubebuilder:validation:Optional

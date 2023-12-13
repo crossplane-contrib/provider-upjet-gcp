@@ -157,6 +157,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   project:
                     type: string
                   role:
@@ -264,6 +265,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   project:
                     type: string
                   role:
@@ -464,6 +466,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   project:
                     type: string
                   role:

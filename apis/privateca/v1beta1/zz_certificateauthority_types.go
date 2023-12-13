@@ -114,6 +114,7 @@ type CertificateAuthorityInitParameters struct {
 	// Labels with user-defined metadata.
 	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass":
 	// "1.3kg", "count": "3" }.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The desired lifetime of the CA certificate. Used to create the "notBeforeTime" and
@@ -190,6 +191,7 @@ type CertificateAuthorityObservation struct {
 	// Labels with user-defined metadata.
 	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass":
 	// "1.3kg", "count": "3" }.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The desired lifetime of the CA certificate. Used to create the "notBeforeTime" and
@@ -286,6 +288,7 @@ type CertificateAuthorityParameters struct {
 	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass":
 	// "1.3kg", "count": "3" }.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The desired lifetime of the CA certificate. Used to create the "notBeforeTime" and

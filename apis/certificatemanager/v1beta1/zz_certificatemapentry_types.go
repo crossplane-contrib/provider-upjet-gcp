@@ -47,6 +47,7 @@ type CertificateMapEntryInitParameters struct {
 	// Set of labels associated with a Certificate Map Entry.
 	// An object containing a list of "key": value pairs.
 	// Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// A predefined matcher for particular cases, other than SNI selection
@@ -83,6 +84,7 @@ type CertificateMapEntryObservation struct {
 	// Set of labels associated with a Certificate Map Entry.
 	// An object containing a list of "key": value pairs.
 	// Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// A map entry that is inputted into the cetrificate map
@@ -126,6 +128,7 @@ type CertificateMapEntryParameters struct {
 	// An object containing a list of "key": value pairs.
 	// Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// A map entry that is inputted into the cetrificate map

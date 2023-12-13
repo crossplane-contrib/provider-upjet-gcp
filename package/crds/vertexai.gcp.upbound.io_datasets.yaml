@@ -93,6 +93,7 @@ spec:
                     description: A set of key/value label pairs to assign to this
                       Workflow.
                     type: object
+                    x-kubernetes-map-type: granular
                   metadataSchemaUri:
                     description: Points to a YAML file stored on Google Cloud Storage
                       describing additional information about the Dataset. The schema
@@ -145,6 +146,7 @@ spec:
                     description: A set of key/value label pairs to assign to this
                       Workflow.
                     type: object
+                    x-kubernetes-map-type: granular
                   metadataSchemaUri:
                     description: Points to a YAML file stored on Google Cloud Storage
                       describing additional information about the Dataset. The schema
@@ -367,6 +369,7 @@ spec:
                     description: A set of key/value label pairs to assign to this
                       Workflow.
                     type: object
+                    x-kubernetes-map-type: granular
                   metadataSchemaUri:
                     description: Points to a YAML file stored on Google Cloud Storage
                       describing additional information about the Dataset. The schema

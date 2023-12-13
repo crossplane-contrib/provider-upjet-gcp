@@ -46,6 +46,7 @@ type AppConnectionInitParameters struct {
 	Gateway []GatewayInitParameters `json:"gateway,omitempty" tf:"gateway,omitempty"`
 
 	// Resource labels to represent user provided metadata.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// ID of the AppConnection.
@@ -84,6 +85,7 @@ type AppConnectionObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Resource labels to represent user provided metadata.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// ID of the AppConnection.
@@ -124,6 +126,7 @@ type AppConnectionParameters struct {
 
 	// Resource labels to represent user provided metadata.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// ID of the AppConnection.

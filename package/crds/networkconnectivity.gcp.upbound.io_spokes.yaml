@@ -155,6 +155,7 @@ spec:
                     description: Optional labels in key:value format. For more information
                       about labels, see Requirements for labels.
                     type: object
+                    x-kubernetes-map-type: granular
                   linkedInterconnectAttachments:
                     description: A collection of VLAN attachment resources. These
                       resources should be redundant attachments that all advertise
@@ -327,6 +328,7 @@ spec:
                     description: Optional labels in key:value format. For more information
                       about labels, see Requirements for labels.
                     type: object
+                    x-kubernetes-map-type: granular
                   linkedInterconnectAttachments:
                     description: A collection of VLAN attachment resources. These
                       resources should be redundant attachments that all advertise
@@ -588,6 +590,7 @@ spec:
                     description: Optional labels in key:value format. For more information
                       about labels, see Requirements for labels.
                     type: object
+                    x-kubernetes-map-type: granular
                   linkedInterconnectAttachments:
                     description: A collection of VLAN attachment resources. These
                       resources should be redundant attachments that all advertise

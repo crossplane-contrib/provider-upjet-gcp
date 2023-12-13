@@ -37,6 +37,7 @@ type DomainInitParameters struct {
 
 	// The full names of the Google Compute Engine networks the domain instance is connected to. The domain is only available on networks listed in authorizedNetworks.
 	// If CIDR subnets overlap between networks, domain creation will fail.
+	// +listType=set
 	AuthorizedNetworks []*string `json:"authorizedNetworks,omitempty" tf:"authorized_networks,omitempty"`
 
 	// The fully qualified domain name. e.g. mydomain.myorganization.com, with the restrictions,
@@ -44,6 +45,7 @@ type DomainInitParameters struct {
 	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
 
 	// Resource labels that can contain user-provided metadata
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Locations where domain needs to be provisioned. [regions][compute/docs/regions-zones/]
@@ -67,6 +69,7 @@ type DomainObservation struct {
 
 	// The full names of the Google Compute Engine networks the domain instance is connected to. The domain is only available on networks listed in authorizedNetworks.
 	// If CIDR subnets overlap between networks, domain creation will fail.
+	// +listType=set
 	AuthorizedNetworks []*string `json:"authorizedNetworks,omitempty" tf:"authorized_networks,omitempty"`
 
 	// The fully qualified domain name. e.g. mydomain.myorganization.com, with the restrictions,
@@ -81,6 +84,7 @@ type DomainObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Resource labels that can contain user-provided metadata
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Locations where domain needs to be provisioned. [regions][compute/docs/regions-zones/]
@@ -109,6 +113,7 @@ type DomainParameters struct {
 	// The full names of the Google Compute Engine networks the domain instance is connected to. The domain is only available on networks listed in authorizedNetworks.
 	// If CIDR subnets overlap between networks, domain creation will fail.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	AuthorizedNetworks []*string `json:"authorizedNetworks,omitempty" tf:"authorized_networks,omitempty"`
 
 	// The fully qualified domain name. e.g. mydomain.myorganization.com, with the restrictions,
@@ -118,6 +123,7 @@ type DomainParameters struct {
 
 	// Resource labels that can contain user-provided metadata
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Locations where domain needs to be provisioned. [regions][compute/docs/regions-zones/]

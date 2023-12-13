@@ -56,6 +56,7 @@ type InstanceInitParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Resource labels to represent user provided metadata.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The zone where the instance will be provisioned. If not provided,
@@ -87,6 +88,7 @@ type InstanceInitParameters struct {
 	// Redis configuration parameters, according to http://redis.io/topics/config.
 	// Please check Memorystore documentation for the list of supported parameters:
 	// https://cloud.google.com/memorystore/docs/redis/reference/rest/v1/projects.locations.instances#Instance.FIELDS.redis_configs
+	// +mapType=granular
 	RedisConfigs map[string]*string `json:"redisConfigs,omitempty" tf:"redis_configs,omitempty"`
 
 	// The version of Redis software. If not provided, latest supported
@@ -169,6 +171,7 @@ type InstanceObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Resource labels to represent user provided metadata.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The zone where the instance will be provisioned. If not provided,
@@ -226,6 +229,7 @@ type InstanceObservation struct {
 	// Redis configuration parameters, according to http://redis.io/topics/config.
 	// Please check Memorystore documentation for the list of supported parameters:
 	// https://cloud.google.com/memorystore/docs/redis/reference/rest/v1/projects.locations.instances#Instance.FIELDS.redis_configs
+	// +mapType=granular
 	RedisConfigs map[string]*string `json:"redisConfigs,omitempty" tf:"redis_configs,omitempty"`
 
 	// The version of Redis software. If not provided, latest supported
@@ -314,6 +318,7 @@ type InstanceParameters struct {
 
 	// Resource labels to represent user provided metadata.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The zone where the instance will be provisioned. If not provided,
@@ -352,6 +357,7 @@ type InstanceParameters struct {
 	// Please check Memorystore documentation for the list of supported parameters:
 	// https://cloud.google.com/memorystore/docs/redis/reference/rest/v1/projects.locations.instances#Instance.FIELDS.redis_configs
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	RedisConfigs map[string]*string `json:"redisConfigs,omitempty" tf:"redis_configs,omitempty"`
 
 	// The version of Redis software. If not provided, latest supported

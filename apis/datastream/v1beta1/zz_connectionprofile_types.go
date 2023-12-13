@@ -55,6 +55,7 @@ type ConnectionProfileInitParameters struct {
 	GcsProfile []GcsProfileInitParameters `json:"gcsProfile,omitempty" tf:"gcs_profile,omitempty"`
 
 	// Labels.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// MySQL database profile.
@@ -98,6 +99,7 @@ type ConnectionProfileObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Labels.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of the location this connection profile is located in.
@@ -149,6 +151,7 @@ type ConnectionProfileParameters struct {
 
 	// Labels.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of the location this connection profile is located in.
@@ -319,6 +322,7 @@ type MySQLProfileParameters struct {
 type OracleProfileInitParameters struct {
 
 	// Connection string attributes
+	// +mapType=granular
 	ConnectionAttributes map[string]*string `json:"connectionAttributes,omitempty" tf:"connection_attributes,omitempty"`
 
 	// Database for the Oracle connection.
@@ -337,6 +341,7 @@ type OracleProfileInitParameters struct {
 type OracleProfileObservation struct {
 
 	// Connection string attributes
+	// +mapType=granular
 	ConnectionAttributes map[string]*string `json:"connectionAttributes,omitempty" tf:"connection_attributes,omitempty"`
 
 	// Database for the Oracle connection.
@@ -356,6 +361,7 @@ type OracleProfileParameters struct {
 
 	// Connection string attributes
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	ConnectionAttributes map[string]*string `json:"connectionAttributes,omitempty" tf:"connection_attributes,omitempty"`
 
 	// Database for the Oracle connection.

@@ -556,6 +556,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   name:
                     description: The resource name of the metric descriptor.
                     type: string

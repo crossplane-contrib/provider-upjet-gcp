@@ -51,6 +51,7 @@ type BackupBackupPlanInitParameters struct {
 	// Description: A set of custom labels supplied by the user.
 	// A list of key->value pairs.
 	// Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -98,6 +99,7 @@ type BackupBackupPlanObservation struct {
 	// Description: A set of custom labels supplied by the user.
 	// A list of key->value pairs.
 	// Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The region of the Backup Plan.
@@ -165,6 +167,7 @@ type BackupBackupPlanParameters struct {
 	// A list of key->value pairs.
 	// Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The region of the Backup Plan.

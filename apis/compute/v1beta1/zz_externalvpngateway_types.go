@@ -39,6 +39,7 @@ type ExternalVPNGatewayInitParameters struct {
 	Interface []InterfaceInitParameters `json:"interface,omitempty" tf:"interface,omitempty"`
 
 	// Labels for the external VPN gateway resource.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -67,6 +68,7 @@ type ExternalVPNGatewayObservation struct {
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
 
 	// Labels for the external VPN gateway resource.
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -94,6 +96,7 @@ type ExternalVPNGatewayParameters struct {
 
 	// Labels for the external VPN gateway resource.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.

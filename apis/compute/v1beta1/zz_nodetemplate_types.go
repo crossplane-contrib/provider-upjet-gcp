@@ -41,6 +41,7 @@ type NodeTemplateInitParameters struct {
 
 	// Labels to use for node affinity, which will be used in
 	// instance scheduling.
+	// +mapType=granular
 	NodeAffinityLabels map[string]*string `json:"nodeAffinityLabels,omitempty" tf:"node_affinity_labels,omitempty"`
 
 	// Node type to use for nodes group that are created from this template.
@@ -82,6 +83,7 @@ type NodeTemplateObservation struct {
 
 	// Labels to use for node affinity, which will be used in
 	// instance scheduling.
+	// +mapType=granular
 	NodeAffinityLabels map[string]*string `json:"nodeAffinityLabels,omitempty" tf:"node_affinity_labels,omitempty"`
 
 	// Node type to use for nodes group that are created from this template.
@@ -127,6 +129,7 @@ type NodeTemplateParameters struct {
 	// Labels to use for node affinity, which will be used in
 	// instance scheduling.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	NodeAffinityLabels map[string]*string `json:"nodeAffinityLabels,omitempty" tf:"node_affinity_labels,omitempty"`
 
 	// Node type to use for nodes group that are created from this template.
