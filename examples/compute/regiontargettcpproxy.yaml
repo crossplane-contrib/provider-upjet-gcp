@@ -47,5 +47,5 @@ spec:
     checkIntervalSec: 1
     region: europe-west4
     tcpHealthCheck:
-    - port: "80"
+    - port: 80
     timeoutSec: 1
