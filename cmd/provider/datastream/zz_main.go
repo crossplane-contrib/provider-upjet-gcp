@@ -18,7 +18,6 @@ package main
 
 import (
 	"context"
-	"math/rand"
 	"os"
 	"path/filepath"
 	"time"
@@ -170,7 +169,6 @@ func main() {
 		})), "cannot create default store config")
 	}
 
-	rand.Seed(time.Now().UnixNano())
 	kingpin.FatalIfError(controller.Setup_datastream(mgr, o), "Cannot setup GCP controllers")
 	kingpin.FatalIfError(mgr.Start(ctrl.SetupSignalHandler()), "Cannot start controller manager")
 }
