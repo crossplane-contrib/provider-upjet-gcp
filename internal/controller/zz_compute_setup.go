@@ -72,6 +72,7 @@ import (
 	regionsslcertificate "github.com/upbound/provider-gcp/internal/controller/compute/regionsslcertificate"
 	regiontargethttpproxy "github.com/upbound/provider-gcp/internal/controller/compute/regiontargethttpproxy"
 	regiontargethttpsproxy "github.com/upbound/provider-gcp/internal/controller/compute/regiontargethttpsproxy"
+	regiontargettcpproxy "github.com/upbound/provider-gcp/internal/controller/compute/regiontargettcpproxy"
 	regionurlmap "github.com/upbound/provider-gcp/internal/controller/compute/regionurlmap"
 	reservation "github.com/upbound/provider-gcp/internal/controller/compute/reservation"
 	resourcepolicy "github.com/upbound/provider-gcp/internal/controller/compute/resourcepolicy"
@@ -169,6 +170,7 @@ func Setup_compute(mgr ctrl.Manager, o controller.Options) error {
 		regionsslcertificate.Setup,
 		regiontargethttpproxy.Setup,
 		regiontargethttpsproxy.Setup,
+		regiontargettcpproxy.Setup,
 		regionurlmap.Setup,
 		reservation.Setup,
 		resourcepolicy.Setup,
