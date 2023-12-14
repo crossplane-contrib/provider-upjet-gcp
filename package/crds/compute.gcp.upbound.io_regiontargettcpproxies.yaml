@@ -73,7 +73,8 @@ spec:
                     description: A reference to the BackendService resource.
                     type: string
                   backendServiceRef:
-                    description: Reference to a RegionBackendService to populate backendService.
+                    description: Reference to a RegionBackendService in compute to
+                      populate backendService.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -107,7 +108,8 @@ spec:
                     - name
                     type: object
                   backendServiceSelector:
-                    description: Selector for a RegionBackendService to populate backendService.
+                    description: Selector for a RegionBackendService in compute to
+                      populate backendService.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

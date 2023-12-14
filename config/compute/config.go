@@ -364,8 +364,8 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		config.MarkAsRequired(r.TerraformResource, "region")
 
 		r.References["backend_service"] = config.Reference{
-			Type:      "RegionBackendService",
-			Extractor: common.PathSelfLinkExtractor,
+			TerraformName: "google_compute_region_backend_service",
+			Extractor:     common.PathSelfLinkExtractor,
 		}
 
 	})
