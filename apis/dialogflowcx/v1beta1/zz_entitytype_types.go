@@ -97,6 +97,20 @@ type EntityTypeInitParameters struct {
 	// If not specified, the agent's default language is used. Many languages are supported. Note: languages must be enabled in the agent before they can be used.
 	LanguageCode *string `json:"languageCode,omitempty" tf:"language_code,omitempty"`
 
+	// The agent to create a entity type for.
+	// Format: projects//locations//agents/.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dialogflowcx/v1beta1.Agent
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
+
+	// Reference to a Agent in dialogflowcx to populate parent.
+	// +kubebuilder:validation:Optional
+	ParentRef *v1.Reference `json:"parentRef,omitempty" tf:"-"`
+
+	// Selector for a Agent in dialogflowcx to populate parent.
+	// +kubebuilder:validation:Optional
+	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
+
 	// Indicates whether parameters of the entity type should be redacted in log. If redaction is enabled, page parameters and intent parameters referring to the entity type will be replaced by parameter name when logging.
 	Redact *bool `json:"redact,omitempty" tf:"redact,omitempty"`
 }

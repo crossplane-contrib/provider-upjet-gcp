@@ -300,6 +300,100 @@ spec:
                       by updating the log bucket. Changing the KMS key is allowed.
                       Structure is documented below.
                     items:
+                      properties:
+                        kmsKeyName:
+                          description: 'The resource name for the configured Cloud
+                            KMS key. KMS key name format: ''projects/[PROJECT_ID]/locations/[LOCATION]/keyRings/[KEYRING]/cryptoKeys/[KEY]''
+                            To enable CMEK for the bucket, set this field to a valid
+                            kmsKeyName for which the associated service account has
+                            the required cloudkms.cryptoKeyEncrypterDecrypter roles
+                            assigned for the key. The Cloud KMS key used by the bucket
+                            can be updated by changing the kmsKeyName to a new valid
+                            key name. Encryption operations that are in progress will
+                            be completed with the key that was in use when they started.
+                            Decryption operations will be completed using the key
+                            that was used at the time of encryption unless access
+                            to that key has been revoked. See Enabling CMEK for Logging
+                            Buckets for more information.'
+                          type: string
+                        kmsKeyNameRef:
+                          description: Reference to a CryptoKey in kms to populate
+                            kmsKeyName.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        kmsKeyNameSelector:
+                          description: Selector for a CryptoKey in kms to populate
+                            kmsKeyName.
+                          properties:
+                            matchControllerRef:
+                              description: MatchControllerRef ensures an object with
+                                the same controller reference as the selecting object
+                                is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
                       type: object
                     type: array
                   description:

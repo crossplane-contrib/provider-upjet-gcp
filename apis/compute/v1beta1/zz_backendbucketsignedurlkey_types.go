@@ -31,6 +31,18 @@ import (
 
 type BackendBucketSignedURLKeyInitParameters struct {
 
+	// The backend bucket this signed URL key belongs.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.BackendBucket
+	BackendBucket *string `json:"backendBucket,omitempty" tf:"backend_bucket,omitempty"`
+
+	// Reference to a BackendBucket in compute to populate backendBucket.
+	// +kubebuilder:validation:Optional
+	BackendBucketRef *v1.Reference `json:"backendBucketRef,omitempty" tf:"-"`
+
+	// Selector for a BackendBucket in compute to populate backendBucket.
+	// +kubebuilder:validation:Optional
+	BackendBucketSelector *v1.Selector `json:"backendBucketSelector,omitempty" tf:"-"`
+
 	// Name of the signed URL key.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 

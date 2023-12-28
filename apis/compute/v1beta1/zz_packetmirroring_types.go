@@ -30,6 +30,19 @@ import (
 )
 
 type CollectorIlbInitParameters struct {
+
+	// The URL of the forwarding rule.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.ForwardingRule
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	URL *string `json:"url,omitempty" tf:"url,omitempty"`
+
+	// Reference to a ForwardingRule in compute to populate url.
+	// +kubebuilder:validation:Optional
+	URLRef *v1.Reference `json:"urlRef,omitempty" tf:"-"`
+
+	// Selector for a ForwardingRule in compute to populate url.
+	// +kubebuilder:validation:Optional
+	URLSelector *v1.Selector `json:"urlSelector,omitempty" tf:"-"`
 }
 
 type CollectorIlbObservation struct {
@@ -104,6 +117,19 @@ type FilterParameters struct {
 }
 
 type InstancesInitParameters struct {
+
+	// The URL of the subnetwork where this rule should be active.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Instance
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	URL *string `json:"url,omitempty" tf:"url,omitempty"`
+
+	// Reference to a Instance in compute to populate url.
+	// +kubebuilder:validation:Optional
+	URLRef *v1.Reference `json:"urlRef,omitempty" tf:"-"`
+
+	// Selector for a Instance in compute to populate url.
+	// +kubebuilder:validation:Optional
+	URLSelector *v1.Selector `json:"urlSelector,omitempty" tf:"-"`
 }
 
 type InstancesObservation struct {
@@ -211,6 +237,19 @@ type PacketMirroringInitParameters struct {
 }
 
 type PacketMirroringNetworkInitParameters struct {
+
+	// The full self_link URL of the network where this rule is active.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	URL *string `json:"url,omitempty" tf:"url,omitempty"`
+
+	// Reference to a Network in compute to populate url.
+	// +kubebuilder:validation:Optional
+	URLRef *v1.Reference `json:"urlRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate url.
+	// +kubebuilder:validation:Optional
+	URLSelector *v1.Selector `json:"urlSelector,omitempty" tf:"-"`
 }
 
 type PacketMirroringNetworkObservation struct {

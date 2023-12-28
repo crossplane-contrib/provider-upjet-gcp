@@ -74,6 +74,22 @@ type EndpointParameters struct {
 }
 
 type GkeClusterInitParameters struct {
+
+	// Self-link of the GCP resource for the GKE cluster.
+	// For example: //container.googleapis.com/projects/my-project/zones/us-west1-a/clusters/my-cluster.
+	// It can be at the most 1000 characters in length.googleapis.com/${google_container_cluster.my-cluster.id}" or
+	// google_container_cluster.my-cluster.id.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/container/v1beta1.Cluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	ResourceLink *string `json:"resourceLink,omitempty" tf:"resource_link,omitempty"`
+
+	// Reference to a Cluster in container to populate resourceLink.
+	// +kubebuilder:validation:Optional
+	ResourceLinkRef *v1.Reference `json:"resourceLinkRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in container to populate resourceLink.
+	// +kubebuilder:validation:Optional
+	ResourceLinkSelector *v1.Selector `json:"resourceLinkSelector,omitempty" tf:"-"`
 }
 
 type GkeClusterObservation struct {

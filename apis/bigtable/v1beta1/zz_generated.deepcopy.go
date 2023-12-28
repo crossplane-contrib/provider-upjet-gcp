@@ -749,6 +749,21 @@ func (in *GarbageCollectionPolicyInitParameters) DeepCopyInto(out *GarbageCollec
 		*out = new(string)
 		**out = **in
 	}
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
+		*out = new(string)
+		**out = **in
+	}
+	if in.InstanceNameRef != nil {
+		in, out := &in.InstanceNameRef, &out.InstanceNameRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.InstanceNameSelector != nil {
+		in, out := &in.InstanceNameSelector, &out.InstanceNameSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.MaxAge != nil {
 		in, out := &in.MaxAge, &out.MaxAge
 		*out = make([]MaxAgeInitParameters, len(*in))
@@ -772,6 +787,21 @@ func (in *GarbageCollectionPolicyInitParameters) DeepCopyInto(out *GarbageCollec
 		in, out := &in.Project, &out.Project
 		*out = new(string)
 		**out = **in
+	}
+	if in.Table != nil {
+		in, out := &in.Table, &out.Table
+		*out = new(string)
+		**out = **in
+	}
+	if in.TableRef != nil {
+		in, out := &in.TableRef, &out.TableRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.TableSelector != nil {
+		in, out := &in.TableSelector, &out.TableSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 

@@ -36,6 +36,32 @@ type NetworkEndpointInitParameters struct {
 	// range).
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// The name for a specific VM instance that the IP address belongs to.
+	// This is required for network endpoints of type GCE_VM_IP_PORT.
+	// The instance must be in the same zone of network endpoint group.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Instance
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
+	// Reference to a Instance in compute to populate instance.
+	// +kubebuilder:validation:Optional
+	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+
+	// Selector for a Instance in compute to populate instance.
+	// +kubebuilder:validation:Optional
+	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+
+	// The network endpoint group this endpoint is part of.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.NetworkEndpointGroup
+	NetworkEndpointGroup *string `json:"networkEndpointGroup,omitempty" tf:"network_endpoint_group,omitempty"`
+
+	// Reference to a NetworkEndpointGroup in compute to populate networkEndpointGroup.
+	// +kubebuilder:validation:Optional
+	NetworkEndpointGroupRef *v1.Reference `json:"networkEndpointGroupRef,omitempty" tf:"-"`
+
+	// Selector for a NetworkEndpointGroup in compute to populate networkEndpointGroup.
+	// +kubebuilder:validation:Optional
+	NetworkEndpointGroupSelector *v1.Selector `json:"networkEndpointGroupSelector,omitempty" tf:"-"`
+
 	// Port number of network endpoint.
 	// Note port is required unless the Network Endpoint Group is created
 	// with the type of GCE_VM_IP

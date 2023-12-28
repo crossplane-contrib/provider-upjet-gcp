@@ -31,6 +31,20 @@ import (
 
 type SecretCiphertextInitParameters struct {
 
+	// The full name of the CryptoKey that will be used to encrypt the provided plaintext.
+	// Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}/cryptoKeys/{{cryptoKey}}'
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	CryptoKey *string `json:"cryptoKey,omitempty" tf:"crypto_key,omitempty"`
+
+	// Reference to a CryptoKey in kms to populate cryptoKey.
+	// +kubebuilder:validation:Optional
+	CryptoKeyRef *v1.Reference `json:"cryptoKeyRef,omitempty" tf:"-"`
+
+	// Selector for a CryptoKey in kms to populate cryptoKey.
+	// +kubebuilder:validation:Optional
+	CryptoKeySelector *v1.Selector `json:"cryptoKeySelector,omitempty" tf:"-"`
+
 	// The plaintext to be encrypted.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	Plaintext *string `json:"plaintext,omitempty" tf:"plaintext,omitempty"`

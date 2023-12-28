@@ -48,6 +48,22 @@ func (mg *Group) ResolveReferences(ctx context.Context, c client.Reader) error {
 	mg.Spec.ForProvider.ParentName = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ParentNameRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ParentName),
+		Extract:      resource.ExtractParamPath("name", true),
+		Reference:    mg.Spec.InitProvider.ParentNameRef,
+		Selector:     mg.Spec.InitProvider.ParentNameSelector,
+		To: reference.To{
+			List:    &GroupList{},
+			Managed: &Group{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ParentName")
+	}
+	mg.Spec.InitProvider.ParentName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ParentNameRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -73,6 +89,22 @@ func (mg *SLO) ResolveReferences(ctx context.Context, c client.Reader) error {
 	}
 	mg.Spec.ForProvider.Service = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ServiceRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Service),
+		Extract:      resource.ExtractParamPath("service_id", false),
+		Reference:    mg.Spec.InitProvider.ServiceRef,
+		Selector:     mg.Spec.InitProvider.ServiceSelector,
+		To: reference.To{
+			List:    &CustomServiceList{},
+			Managed: &CustomService{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Service")
+	}
+	mg.Spec.InitProvider.Service = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ServiceRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -100,6 +132,24 @@ func (mg *UptimeCheckConfig) ResolveReferences(ctx context.Context, c client.Rea
 		}
 		mg.Spec.ForProvider.ResourceGroup[i3].GroupID = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.ForProvider.ResourceGroup[i3].GroupIDRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.ResourceGroup); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ResourceGroup[i3].GroupID),
+			Extract:      resource.ExtractParamPath("name", true),
+			Reference:    mg.Spec.InitProvider.ResourceGroup[i3].GroupIDRef,
+			Selector:     mg.Spec.InitProvider.ResourceGroup[i3].GroupIDSelector,
+			To: reference.To{
+				List:    &GroupList{},
+				Managed: &Group{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.ResourceGroup[i3].GroupID")
+		}
+		mg.Spec.InitProvider.ResourceGroup[i3].GroupID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.ResourceGroup[i3].GroupIDRef = rsp.ResolvedReference
 
 	}
 

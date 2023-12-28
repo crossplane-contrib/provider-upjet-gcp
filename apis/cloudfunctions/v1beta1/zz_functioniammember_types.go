@@ -58,6 +58,18 @@ type ConditionParameters struct {
 }
 
 type FunctionIAMMemberInitParameters struct {
+
+	// +crossplane:generate:reference:type=Function
+	CloudFunction *string `json:"cloudFunction,omitempty" tf:"cloud_function,omitempty"`
+
+	// Reference to a Function to populate cloudFunction.
+	// +kubebuilder:validation:Optional
+	CloudFunctionRef *v1.Reference `json:"cloudFunctionRef,omitempty" tf:"-"`
+
+	// Selector for a Function to populate cloudFunction.
+	// +kubebuilder:validation:Optional
+	CloudFunctionSelector *v1.Selector `json:"cloudFunctionSelector,omitempty" tf:"-"`
+
 	Condition []ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`

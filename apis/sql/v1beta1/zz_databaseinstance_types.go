@@ -636,6 +636,23 @@ type IPConfigurationInitParameters struct {
 	// private_network must be configured.
 	IPv4Enabled *bool `json:"ipv4Enabled,omitempty" tf:"ipv4_enabled,omitempty"`
 
+	// The VPC network from which the Cloud SQL
+	// instance is accessible for private IP. For example, projects/myProject/global/networks/default.
+	// Specifying a network enables private IP.
+	// At least ipv4_enabled must be enabled or a private_network must be configured.
+	// This setting can be updated, but it cannot be removed after it is set.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	PrivateNetwork *string `json:"privateNetwork,omitempty" tf:"private_network,omitempty"`
+
+	// Reference to a Network in compute to populate privateNetwork.
+	// +kubebuilder:validation:Optional
+	PrivateNetworkRef *v1.Reference `json:"privateNetworkRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate privateNetwork.
+	// +kubebuilder:validation:Optional
+	PrivateNetworkSelector *v1.Selector `json:"privateNetworkSelector,omitempty" tf:"-"`
+
 	// Whether SSL connections over IP are enforced or not.
 	RequireSSL *bool `json:"requireSsl,omitempty" tf:"require_ssl,omitempty"`
 }

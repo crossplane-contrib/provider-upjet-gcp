@@ -32,6 +32,17 @@ import (
 type AnalyticsHubDataExchangeIAMMemberInitParameters struct {
 	Condition []ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.AnalyticsHubDataExchange
+	DataExchangeID *string `json:"dataExchangeId,omitempty" tf:"data_exchange_id,omitempty"`
+
+	// Reference to a AnalyticsHubDataExchange in bigquery to populate dataExchangeId.
+	// +kubebuilder:validation:Optional
+	DataExchangeIDRef *v1.Reference `json:"dataExchangeIdRef,omitempty" tf:"-"`
+
+	// Selector for a AnalyticsHubDataExchange in bigquery to populate dataExchangeId.
+	// +kubebuilder:validation:Optional
+	DataExchangeIDSelector *v1.Selector `json:"dataExchangeIdSelector,omitempty" tf:"-"`
+
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`

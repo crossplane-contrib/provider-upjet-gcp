@@ -163,6 +163,20 @@ type WebhookInitParameters struct {
 	// Structure is documented below.
 	GenericWebService []GenericWebServiceInitParameters `json:"genericWebService,omitempty" tf:"generic_web_service,omitempty"`
 
+	// The agent to create a webhook for.
+	// Format: projects//locations//agents/.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dialogflowcx/v1beta1.Agent
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
+
+	// Reference to a Agent in dialogflowcx to populate parent.
+	// +kubebuilder:validation:Optional
+	ParentRef *v1.Reference `json:"parentRef,omitempty" tf:"-"`
+
+	// Selector for a Agent in dialogflowcx to populate parent.
+	// +kubebuilder:validation:Optional
+	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
+
 	// Name of the SecuritySettings reference for the agent. Format: projects//locations//securitySettings/.
 	SecuritySettings *string `json:"securitySettings,omitempty" tf:"security_settings,omitempty"`
 

@@ -58,6 +58,19 @@ type CertificateTemplateIAMMemberConditionParameters struct {
 }
 
 type CertificateTemplateIAMMemberInitParameters struct {
+
+	// +crossplane:generate:reference:type=CertificateTemplate
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
+	CertificateTemplate *string `json:"certificateTemplate,omitempty" tf:"certificate_template,omitempty"`
+
+	// Reference to a CertificateTemplate to populate certificateTemplate.
+	// +kubebuilder:validation:Optional
+	CertificateTemplateRef *v1.Reference `json:"certificateTemplateRef,omitempty" tf:"-"`
+
+	// Selector for a CertificateTemplate to populate certificateTemplate.
+	// +kubebuilder:validation:Optional
+	CertificateTemplateSelector *v1.Selector `json:"certificateTemplateSelector,omitempty" tf:"-"`
+
 	Condition []CertificateTemplateIAMMemberConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`

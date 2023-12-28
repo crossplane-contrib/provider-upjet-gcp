@@ -60,6 +60,18 @@ type ConditionParameters struct {
 type CryptoKeyIAMMemberInitParameters struct {
 	Condition []ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
+	// +crossplane:generate:reference:type=CryptoKey
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
+	CryptoKeyID *string `json:"cryptoKeyId,omitempty" tf:"crypto_key_id,omitempty"`
+
+	// Reference to a CryptoKey to populate cryptoKeyId.
+	// +kubebuilder:validation:Optional
+	CryptoKeyIDRef *v1.Reference `json:"cryptoKeyIdRef,omitempty" tf:"-"`
+
+	// Selector for a CryptoKey to populate cryptoKeyId.
+	// +kubebuilder:validation:Optional
+	CryptoKeyIDSelector *v1.Selector `json:"cryptoKeyIdSelector,omitempty" tf:"-"`
+
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`

@@ -75,6 +75,21 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.CustomerManagedKey != nil {
+		in, out := &in.CustomerManagedKey, &out.CustomerManagedKey
+		*out = new(string)
+		**out = **in
+	}
+	if in.CustomerManagedKeyRef != nil {
+		in, out := &in.CustomerManagedKeyRef, &out.CustomerManagedKeyRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.CustomerManagedKeySelector != nil {
+		in, out := &in.CustomerManagedKeySelector, &out.CustomerManagedKeySelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
 		*out = new(string)

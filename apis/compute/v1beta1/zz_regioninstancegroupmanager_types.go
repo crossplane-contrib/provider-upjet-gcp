@@ -31,6 +31,19 @@ import (
 
 type RegionInstanceGroupManagerAutoHealingPoliciesInitParameters struct {
 
+	// The health check resource that signals autohealing.
+	// +crossplane:generate:reference:type=HealthCheck
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
+	HealthCheck *string `json:"healthCheck,omitempty" tf:"health_check,omitempty"`
+
+	// Reference to a HealthCheck to populate healthCheck.
+	// +kubebuilder:validation:Optional
+	HealthCheckRef *v1.Reference `json:"healthCheckRef,omitempty" tf:"-"`
+
+	// Selector for a HealthCheck to populate healthCheck.
+	// +kubebuilder:validation:Optional
+	HealthCheckSelector *v1.Selector `json:"healthCheckSelector,omitempty" tf:"-"`
+
 	// The number of seconds that the managed instance group waits before
 	// it applies autohealing policies to new instances or recently recreated instances. Between 0 and 3600.
 	InitialDelaySec *float64 `json:"initialDelaySec,omitempty" tf:"initial_delay_sec,omitempty"`
@@ -123,6 +136,22 @@ type RegionInstanceGroupManagerInitParameters struct {
 
 	// Disks created on the instances that will be preserved on instance delete, update, etc. Structure is documented below. For more information see the official documentation. Proactive cross zone instance redistribution must be disabled before you can update stateful disks on existing instance group managers. This can be controlled via the update_policy.
 	StatefulDisk []RegionInstanceGroupManagerStatefulDiskInitParameters `json:"statefulDisk,omitempty" tf:"stateful_disk,omitempty"`
+
+	// The full URL of all target pools to which new
+	// instances in the group are added. Updating the target pools attribute does
+	// not affect existing instances.
+	// +crossplane:generate:reference:type=TargetPool
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
+	// +listType=set
+	TargetPools []*string `json:"targetPools,omitempty" tf:"target_pools,omitempty"`
+
+	// References to TargetPool to populate targetPools.
+	// +kubebuilder:validation:Optional
+	TargetPoolsRefs []v1.Reference `json:"targetPoolsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of TargetPool to populate targetPools.
+	// +kubebuilder:validation:Optional
+	TargetPoolsSelector *v1.Selector `json:"targetPoolsSelector,omitempty" tf:"-"`
 
 	// The target number of running instances for this managed
 	// instance group. This value should always be explicitly set unless this resource is attached to
@@ -557,6 +586,19 @@ type RegionInstanceGroupManagerUpdatePolicyParameters struct {
 }
 
 type RegionInstanceGroupManagerVersionInitParameters struct {
+
+	// - The full URL to an instance template from which all new instances of this version will be created.
+	// +crossplane:generate:reference:type=InstanceTemplate
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
+	InstanceTemplate *string `json:"instanceTemplate,omitempty" tf:"instance_template,omitempty"`
+
+	// Reference to a InstanceTemplate to populate instanceTemplate.
+	// +kubebuilder:validation:Optional
+	InstanceTemplateRef *v1.Reference `json:"instanceTemplateRef,omitempty" tf:"-"`
+
+	// Selector for a InstanceTemplate to populate instanceTemplate.
+	// +kubebuilder:validation:Optional
+	InstanceTemplateSelector *v1.Selector `json:"instanceTemplateSelector,omitempty" tf:"-"`
 
 	// - Version name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`

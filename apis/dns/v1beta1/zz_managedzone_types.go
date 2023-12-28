@@ -217,6 +217,21 @@ type ForwardingConfigParameters struct {
 }
 
 type GkeClustersInitParameters struct {
+
+	// The resource name of the cluster to bind this ManagedZone to.
+	// This should be specified in the format like
+	// projects/*/locations/*/clusters/*
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/container/v1beta1.Cluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	GkeClusterName *string `json:"gkeClusterName,omitempty" tf:"gke_cluster_name,omitempty"`
+
+	// Reference to a Cluster in container to populate gkeClusterName.
+	// +kubebuilder:validation:Optional
+	GkeClusterNameRef *v1.Reference `json:"gkeClusterNameRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in container to populate gkeClusterName.
+	// +kubebuilder:validation:Optional
+	GkeClusterNameSelector *v1.Selector `json:"gkeClusterNameSelector,omitempty" tf:"-"`
 }
 
 type GkeClustersObservation struct {
@@ -422,6 +437,21 @@ type ManagedZoneParameters struct {
 }
 
 type NetworksInitParameters struct {
+
+	// The id or fully qualified URL of the VPC network to forward queries to.
+	// This should be formatted like projects/{project}/global/networks/{network} or
+	// https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
+	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
+
+	// Reference to a Network in compute to populate networkUrl.
+	// +kubebuilder:validation:Optional
+	NetworkURLRef *v1.Reference `json:"networkUrlRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate networkUrl.
+	// +kubebuilder:validation:Optional
+	NetworkURLSelector *v1.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
 }
 
 type NetworksObservation struct {
@@ -553,6 +583,21 @@ type TargetNameServersParameters struct {
 }
 
 type TargetNetworkInitParameters struct {
+
+	// The id or fully qualified URL of the VPC network to forward queries to.
+	// This should be formatted like projects/{project}/global/networks/{network} or
+	// https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
+	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
+
+	// Reference to a Network in compute to populate networkUrl.
+	// +kubebuilder:validation:Optional
+	NetworkURLRef *v1.Reference `json:"networkUrlRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate networkUrl.
+	// +kubebuilder:validation:Optional
+	NetworkURLSelector *v1.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
 }
 
 type TargetNetworkObservation struct {

@@ -370,6 +370,19 @@ type EnvironmentInitParameters struct {
 	// Both keys and values must be <= 128 bytes in size.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Reference to a Project in cloudplatform to populate project.
+	// +kubebuilder:validation:Optional
+	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+
+	// Selector for a Project in cloudplatform to populate project.
+	// +kubebuilder:validation:Optional
+	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 }
 
 type EnvironmentObservation struct {
@@ -648,11 +661,59 @@ type NodeConfigInitParameters struct {
 	// manually changed to a non-standard values.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
+	// The Compute Engine network to be used for machine
+	// communications, specified as a self-link, relative resource name
+	// (for example "projects/{project}/global/networks/{network}"), by name.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Reference to a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+
 	// The set of Google API scopes to be made available on all node
 	// VMs. Cannot be updated. If empty, defaults to
 	// ["https://www.googleapis.com/auth/cloud-platform"].
 	// +listType=set
 	OAuthScopes []*string `json:"oauthScopes,omitempty" tf:"oauth_scopes,omitempty"`
+
+	// The Google Cloud Platform Service Account to be used by the
+	// node VMs. If a service account is not specified, the "default"
+	// Compute Engine service account is used. Cannot be updated. If given,
+	// note that the service account must have roles/composer.worker
+	// for any GCP resources created under the Cloud Composer Environment.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
+
+	// The Compute Engine subnetwork to be used for machine
+	// communications, specified as a self-link, relative resource name (for example,
+	// "projects/{project}/regions/{region}/subnetworks/{subnetwork}"), or by name. If subnetwork is provided,
+	// network must also be provided and the subnetwork must belong to the enclosing environment's project and region.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+
+	// Reference to a Subnetwork in compute to populate subnetwork.
+	// +kubebuilder:validation:Optional
+	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+
+	// Selector for a Subnetwork in compute to populate subnetwork.
+	// +kubebuilder:validation:Optional
+	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 
 	// The list of instance tags applied to all node VMs. Tags are
 	// used to identify valid sources or targets for network

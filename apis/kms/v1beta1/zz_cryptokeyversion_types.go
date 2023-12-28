@@ -74,6 +74,20 @@ type CertChainsParameters struct {
 
 type CryptoKeyVersionInitParameters struct {
 
+	// The name of the cryptoKey associated with the CryptoKeyVersions.
+	// Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyring}}/cryptoKeys/{{cryptoKey}}'
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	CryptoKey *string `json:"cryptoKey,omitempty" tf:"crypto_key,omitempty"`
+
+	// Reference to a CryptoKey in kms to populate cryptoKey.
+	// +kubebuilder:validation:Optional
+	CryptoKeyRef *v1.Reference `json:"cryptoKeyRef,omitempty" tf:"-"`
+
+	// Selector for a CryptoKey in kms to populate cryptoKey.
+	// +kubebuilder:validation:Optional
+	CryptoKeySelector *v1.Selector `json:"cryptoKeySelector,omitempty" tf:"-"`
+
 	// The current state of the CryptoKeyVersion.
 	// Possible values are: PENDING_GENERATION, ENABLED, DISABLED, DESTROYED, DESTROY_SCHEDULED, PENDING_IMPORT, IMPORT_FAILED.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`

@@ -202,6 +202,19 @@ type RouterInitParameters struct {
 	// attachments (interconnectAttachments).
 	EncryptedInterconnectRouter *bool `json:"encryptedInterconnectRouter,omitempty" tf:"encrypted_interconnect_router,omitempty"`
 
+	// A reference to the network to which this router belongs.
+	// +crossplane:generate:reference:type=Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Reference to a Network to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`

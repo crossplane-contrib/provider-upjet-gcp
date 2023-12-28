@@ -179,6 +179,19 @@ type FirewallInitParameters struct {
 	// Structure is documented below.
 	LogConfig []FirewallLogConfigInitParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
 
+	// The name or self_link of the network to attach this firewall to.
+	// +crossplane:generate:reference:type=Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Reference to a Network to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+
 	// Priority for this rule. This is an integer between 0 and 65535, both
 	// inclusive. When not specified, the value assumed is 1000. Relative
 	// priorities determine precedence of conflicting rules. Lower value of

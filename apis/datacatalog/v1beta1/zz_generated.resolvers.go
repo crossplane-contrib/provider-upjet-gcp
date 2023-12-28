@@ -48,6 +48,22 @@ func (mg *Entry) ResolveReferences(ctx context.Context, c client.Reader) error {
 	mg.Spec.ForProvider.EntryGroup = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.EntryGroupRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EntryGroup),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.EntryGroupRef,
+		Selector:     mg.Spec.InitProvider.EntryGroupSelector,
+		To: reference.To{
+			List:    &EntryGroupList{},
+			Managed: &EntryGroup{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.EntryGroup")
+	}
+	mg.Spec.InitProvider.EntryGroup = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.EntryGroupRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -89,6 +105,38 @@ func (mg *Tag) ResolveReferences(ctx context.Context, c client.Reader) error {
 	}
 	mg.Spec.ForProvider.Template = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TemplateRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Parent),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.ParentRef,
+		Selector:     mg.Spec.InitProvider.ParentSelector,
+		To: reference.To{
+			List:    &EntryList{},
+			Managed: &Entry{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Parent")
+	}
+	mg.Spec.InitProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ParentRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Template),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.TemplateRef,
+		Selector:     mg.Spec.InitProvider.TemplateSelector,
+		To: reference.To{
+			List:    &TagTemplateList{},
+			Managed: &TagTemplate{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Template")
+	}
+	mg.Spec.InitProvider.Template = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.TemplateRef = rsp.ResolvedReference
 
 	return nil
 }

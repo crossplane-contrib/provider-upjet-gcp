@@ -34,6 +34,18 @@ type ProjectDefaultServiceAccountsInitParameters struct {
 	// The action to be performed in the default service accounts. Valid values are: DEPRIVILEGE, DELETE, DISABLE. Note that DEPRIVILEGE action will ignore the REVERT configuration in the restore_policy
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
+	// The project ID where service accounts are created.
+	// +crossplane:generate:reference:type=Project
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Reference to a Project to populate project.
+	// +kubebuilder:validation:Optional
+	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+
+	// Selector for a Project to populate project.
+	// +kubebuilder:validation:Optional
+	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+
 	// The action to be performed in the default service accounts on the resource destroy.
 	// Valid values are NONE, REVERT and REVERT_AND_IGNORE_FAILURE. It is applied for any action but in the DEPRIVILEGE.
 	// If set to REVERT it attempts to restore all default SAs but the DEPRIVILEGE action.

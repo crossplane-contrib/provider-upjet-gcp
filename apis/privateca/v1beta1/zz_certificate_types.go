@@ -121,6 +121,38 @@ type CertificateDescriptionParameters struct {
 
 type CertificateInitParameters struct {
 
+	// The Certificate Authority ID that should issue the certificate. For example, to issue a Certificate from
+	// a Certificate Authority with resource name projects/my-project/locations/us-central1/caPools/my-pool/certificateAuthorities/my-ca,
+	// argument pool should be set to projects/my-project/locations/us-central1/caPools/my-pool, argument certificate_authority
+	// should be set to my-ca.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/privateca/v1beta1.CertificateAuthority
+	CertificateAuthority *string `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
+
+	// Reference to a CertificateAuthority in privateca to populate certificateAuthority.
+	// +kubebuilder:validation:Optional
+	CertificateAuthorityRef *v1.Reference `json:"certificateAuthorityRef,omitempty" tf:"-"`
+
+	// Selector for a CertificateAuthority in privateca to populate certificateAuthority.
+	// +kubebuilder:validation:Optional
+	CertificateAuthoritySelector *v1.Selector `json:"certificateAuthoritySelector,omitempty" tf:"-"`
+
+	// The resource name for a CertificateTemplate used to issue this certificate,
+	// in the format projects/*/locations/*/certificateTemplates/*. If this is specified,
+	// the caller must have the necessary permission to use this template. If this is
+	// omitted, no template will be used. This template must be in the same location
+	// as the Certificate.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/privateca/v1beta1.CertificateTemplate
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	CertificateTemplate *string `json:"certificateTemplate,omitempty" tf:"certificate_template,omitempty"`
+
+	// Reference to a CertificateTemplate in privateca to populate certificateTemplate.
+	// +kubebuilder:validation:Optional
+	CertificateTemplateRef *v1.Reference `json:"certificateTemplateRef,omitempty" tf:"-"`
+
+	// Selector for a CertificateTemplate in privateca to populate certificateTemplate.
+	// +kubebuilder:validation:Optional
+	CertificateTemplateSelector *v1.Selector `json:"certificateTemplateSelector,omitempty" tf:"-"`
+
 	// The config used to create a self-signed X.509 certificate or CSR.
 	// Structure is documented below.
 	Config []ConfigInitParameters `json:"config,omitempty" tf:"config,omitempty"`

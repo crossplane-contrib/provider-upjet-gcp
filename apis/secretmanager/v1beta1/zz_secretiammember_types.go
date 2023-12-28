@@ -65,6 +65,18 @@ type SecretIAMMemberInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+
+	// +crossplane:generate:reference:type=Secret
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
+	SecretID *string `json:"secretId,omitempty" tf:"secret_id,omitempty"`
+
+	// Reference to a Secret to populate secretId.
+	// +kubebuilder:validation:Optional
+	SecretIDRef *v1.Reference `json:"secretIdRef,omitempty" tf:"-"`
+
+	// Selector for a Secret to populate secretId.
+	// +kubebuilder:validation:Optional
+	SecretIDSelector *v1.Selector `json:"secretIdSelector,omitempty" tf:"-"`
 }
 
 type SecretIAMMemberObservation struct {

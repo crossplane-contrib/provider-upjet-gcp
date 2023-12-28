@@ -203,9 +203,36 @@ type RouterPeerInitParameters struct {
 	// assigns unused addresses from the 2600:2d00:0:2::/64 or 2600:2d00:0:3::/64 range for you.
 	IPv6NexthopAddress *string `json:"ipv6NexthopAddress,omitempty" tf:"ipv6_nexthop_address,omitempty"`
 
+	// Name of the interface the BGP peer is associated with.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RouterInterface
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
+
+	// Reference to a RouterInterface in compute to populate interface.
+	// +kubebuilder:validation:Optional
+	InterfaceRef *v1.Reference `json:"interfaceRef,omitempty" tf:"-"`
+
+	// Selector for a RouterInterface in compute to populate interface.
+	// +kubebuilder:validation:Optional
+	InterfaceSelector *v1.Selector `json:"interfaceSelector,omitempty" tf:"-"`
+
 	// Peer BGP Autonomous System Number (ASN).
 	// Each BGP interface may use a different value.
 	PeerAsn *float64 `json:"peerAsn,omitempty" tf:"peer_asn,omitempty"`
+
+	// IP address of the BGP interface outside Google Cloud Platform.
+	// Only IPv4 is supported. Required if ip_address is set.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Address
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("address",false)
+	PeerIPAddress *string `json:"peerIpAddress,omitempty" tf:"peer_ip_address,omitempty"`
+
+	// Reference to a Address in compute to populate peerIpAddress.
+	// +kubebuilder:validation:Optional
+	PeerIPAddressRef *v1.Reference `json:"peerIpAddressRef,omitempty" tf:"-"`
+
+	// Selector for a Address in compute to populate peerIpAddress.
+	// +kubebuilder:validation:Optional
+	PeerIPAddressSelector *v1.Selector `json:"peerIpAddressSelector,omitempty" tf:"-"`
 
 	// IPv6 address of the BGP interface outside Google Cloud Platform.
 	// The address must be in the range 2600:2d00:0:2::/64 or 2600:2d00:0:3::/64.
@@ -216,6 +243,36 @@ type RouterPeerInitParameters struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Region where the router and BgpPeer reside.
+	// If it is not provided, the provider region is used.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Router
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("region",false)
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// Reference to a Router in compute to populate region.
+	// +kubebuilder:validation:Optional
+	RegionRef *v1.Reference `json:"regionRef,omitempty" tf:"-"`
+
+	// Selector for a Router in compute to populate region.
+	// +kubebuilder:validation:Optional
+	RegionSelector *v1.Selector `json:"regionSelector,omitempty" tf:"-"`
+
+	// The URI of the VM instance that is used as third-party router appliances
+	// such as Next Gen Firewalls, Virtual Routers, or Router Appliances.
+	// The VM instance must be located in zones contained in the same region as
+	// this Cloud Router. The VM instance is the peer side of the BGP session.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Instance
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	RouterApplianceInstance *string `json:"routerApplianceInstance,omitempty" tf:"router_appliance_instance,omitempty"`
+
+	// Reference to a Instance in compute to populate routerApplianceInstance.
+	// +kubebuilder:validation:Optional
+	RouterApplianceInstanceRef *v1.Reference `json:"routerApplianceInstanceRef,omitempty" tf:"-"`
+
+	// Selector for a Instance in compute to populate routerApplianceInstance.
+	// +kubebuilder:validation:Optional
+	RouterApplianceInstanceSelector *v1.Selector `json:"routerApplianceInstanceSelector,omitempty" tf:"-"`
 }
 
 type RouterPeerObservation struct {

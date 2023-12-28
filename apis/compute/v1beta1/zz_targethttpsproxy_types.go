@@ -63,10 +63,37 @@ type TargetHTTPSProxyInitParameters struct {
 	// Possible values are: NONE, ENABLE, DISABLE.
 	QuicOverride *string `json:"quicOverride,omitempty" tf:"quic_override,omitempty"`
 
+	// A list of SslCertificate resource URLs or Certificate Manager certificate URLs that are used to authenticate
+	// connections between users and the load balancer. At least one resource must be specified.
+	// +crossplane:generate:reference:type=SSLCertificate
+	SSLCertificates []*string `json:"sslCertificates,omitempty" tf:"ssl_certificates,omitempty"`
+
+	// References to SSLCertificate to populate sslCertificates.
+	// +kubebuilder:validation:Optional
+	SSLCertificatesRefs []v1.Reference `json:"sslCertificatesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of SSLCertificate to populate sslCertificates.
+	// +kubebuilder:validation:Optional
+	SSLCertificatesSelector *v1.Selector `json:"sslCertificatesSelector,omitempty" tf:"-"`
+
 	// A reference to the SslPolicy resource that will be associated with
 	// the TargetHttpsProxy resource. If not set, the TargetHttpsProxy
 	// resource will not have any SSL policy configured.
 	SSLPolicy *string `json:"sslPolicy,omitempty" tf:"ssl_policy,omitempty"`
+
+	// A reference to the UrlMap resource that defines the mapping from URL
+	// to the BackendService.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.URLMap
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	URLMap *string `json:"urlMap,omitempty" tf:"url_map,omitempty"`
+
+	// Reference to a URLMap in compute to populate urlMap.
+	// +kubebuilder:validation:Optional
+	URLMapRef *v1.Reference `json:"urlMapRef,omitempty" tf:"-"`
+
+	// Selector for a URLMap in compute to populate urlMap.
+	// +kubebuilder:validation:Optional
+	URLMapSelector *v1.Selector `json:"urlMapSelector,omitempty" tf:"-"`
 }
 
 type TargetHTTPSProxyObservation struct {

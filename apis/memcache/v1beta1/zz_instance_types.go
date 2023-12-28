@@ -31,6 +31,20 @@ import (
 
 type InstanceInitParameters struct {
 
+	// The full name of the GCE network to connect the instance to.  If not provided,
+	// 'default' will be used.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/servicenetworking/v1beta1.Connection
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("network",false)
+	AuthorizedNetwork *string `json:"authorizedNetwork,omitempty" tf:"authorized_network,omitempty"`
+
+	// Reference to a Connection in servicenetworking to populate authorizedNetwork.
+	// +kubebuilder:validation:Optional
+	AuthorizedNetworkRef *v1.Reference `json:"authorizedNetworkRef,omitempty" tf:"-"`
+
+	// Selector for a Connection in servicenetworking to populate authorizedNetwork.
+	// +kubebuilder:validation:Optional
+	AuthorizedNetworkSelector *v1.Selector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
+
 	// A user-visible name for the instance.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 

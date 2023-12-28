@@ -1526,6 +1526,21 @@ func (in *IPConfigurationInitParameters) DeepCopyInto(out *IPConfigurationInitPa
 		*out = new(bool)
 		**out = **in
 	}
+	if in.PrivateNetwork != nil {
+		in, out := &in.PrivateNetwork, &out.PrivateNetwork
+		*out = new(string)
+		**out = **in
+	}
+	if in.PrivateNetworkRef != nil {
+		in, out := &in.PrivateNetworkRef, &out.PrivateNetworkRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.PrivateNetworkSelector != nil {
+		in, out := &in.PrivateNetworkSelector, &out.PrivateNetworkSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.RequireSSL != nil {
 		in, out := &in.RequireSSL, &out.RequireSSL
 		*out = new(bool)
@@ -2669,6 +2684,21 @@ func (in *SSLCertInitParameters) DeepCopyInto(out *SSLCertInitParameters) {
 		in, out := &in.CommonName, &out.CommonName
 		*out = new(string)
 		**out = **in
+	}
+	if in.Instance != nil {
+		in, out := &in.Instance, &out.Instance
+		*out = new(string)
+		**out = **in
+	}
+	if in.InstanceRef != nil {
+		in, out := &in.InstanceRef, &out.InstanceRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.InstanceSelector != nil {
+		in, out := &in.InstanceSelector, &out.InstanceSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
@@ -3867,6 +3897,21 @@ func (in *UserInitParameters) DeepCopyInto(out *UserInitParameters) {
 		in, out := &in.Host, &out.Host
 		*out = new(string)
 		**out = **in
+	}
+	if in.Instance != nil {
+		in, out := &in.Instance, &out.Instance
+		*out = new(string)
+		**out = **in
+	}
+	if in.InstanceRef != nil {
+		in, out := &in.InstanceRef, &out.InstanceRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.InstanceSelector != nil {
+		in, out := &in.InstanceSelector, &out.InstanceSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.PasswordPolicy != nil {
 		in, out := &in.PasswordPolicy, &out.PasswordPolicy

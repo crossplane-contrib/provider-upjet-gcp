@@ -56,6 +56,20 @@ type IntentInitParameters struct {
 	// Structure is documented below.
 	Parameters []ParametersInitParameters `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
+	// The agent to create an intent for.
+	// Format: projects//locations//agents/.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dialogflowcx/v1beta1.Agent
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
+
+	// Reference to a Agent in dialogflowcx to populate parent.
+	// +kubebuilder:validation:Optional
+	ParentRef *v1.Reference `json:"parentRef,omitempty" tf:"-"`
+
+	// Selector for a Agent in dialogflowcx to populate parent.
+	// +kubebuilder:validation:Optional
+	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
+
 	// The priority of this intent. Higher numbers represent higher priorities.
 	// If the supplied value is unspecified or 0, the service translates the value to 500,000, which corresponds to the Normal priority in the console.
 	// If the supplied value is negative, the intent is ignored in runtime detect intent requests.

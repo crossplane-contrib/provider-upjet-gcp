@@ -177,6 +177,150 @@ func (mg *ConnectivityTest) ResolveReferences(ctx context.Context, c client.Read
 		mg.Spec.ForProvider.Source[i3].ProjectIDRef = rsp.ResolvedReference
 
 	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Destination); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Destination[i3].IPAddress),
+			Extract:      resource.ExtractParamPath("address", false),
+			Reference:    mg.Spec.InitProvider.Destination[i3].IPAddressRef,
+			Selector:     mg.Spec.InitProvider.Destination[i3].IPAddressSelector,
+			To: reference.To{
+				List:    &v1beta1.AddressList{},
+				Managed: &v1beta1.Address{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Destination[i3].IPAddress")
+		}
+		mg.Spec.InitProvider.Destination[i3].IPAddress = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Destination[i3].IPAddressRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Destination); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Destination[i3].Instance),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.Destination[i3].InstanceRef,
+			Selector:     mg.Spec.InitProvider.Destination[i3].InstanceSelector,
+			To: reference.To{
+				List:    &v1beta1.InstanceList{},
+				Managed: &v1beta1.Instance{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Destination[i3].Instance")
+		}
+		mg.Spec.InitProvider.Destination[i3].Instance = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Destination[i3].InstanceRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Destination); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Destination[i3].Network),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.Destination[i3].NetworkRef,
+			Selector:     mg.Spec.InitProvider.Destination[i3].NetworkSelector,
+			To: reference.To{
+				List:    &v1beta1.NetworkList{},
+				Managed: &v1beta1.Network{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Destination[i3].Network")
+		}
+		mg.Spec.InitProvider.Destination[i3].Network = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Destination[i3].NetworkRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Destination); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Destination[i3].ProjectID),
+			Extract:      resource.ExtractParamPath("project", false),
+			Reference:    mg.Spec.InitProvider.Destination[i3].ProjectIDRef,
+			Selector:     mg.Spec.InitProvider.Destination[i3].ProjectIDSelector,
+			To: reference.To{
+				List:    &v1beta1.AddressList{},
+				Managed: &v1beta1.Address{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Destination[i3].ProjectID")
+		}
+		mg.Spec.InitProvider.Destination[i3].ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Destination[i3].ProjectIDRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Source); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Source[i3].IPAddress),
+			Extract:      resource.ExtractParamPath("address", false),
+			Reference:    mg.Spec.InitProvider.Source[i3].IPAddressRef,
+			Selector:     mg.Spec.InitProvider.Source[i3].IPAddressSelector,
+			To: reference.To{
+				List:    &v1beta1.AddressList{},
+				Managed: &v1beta1.Address{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Source[i3].IPAddress")
+		}
+		mg.Spec.InitProvider.Source[i3].IPAddress = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Source[i3].IPAddressRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Source); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Source[i3].Instance),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.Source[i3].InstanceRef,
+			Selector:     mg.Spec.InitProvider.Source[i3].InstanceSelector,
+			To: reference.To{
+				List:    &v1beta1.InstanceList{},
+				Managed: &v1beta1.Instance{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Source[i3].Instance")
+		}
+		mg.Spec.InitProvider.Source[i3].Instance = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Source[i3].InstanceRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Source); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Source[i3].Network),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.Source[i3].NetworkRef,
+			Selector:     mg.Spec.InitProvider.Source[i3].NetworkSelector,
+			To: reference.To{
+				List:    &v1beta1.NetworkList{},
+				Managed: &v1beta1.Network{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Source[i3].Network")
+		}
+		mg.Spec.InitProvider.Source[i3].Network = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Source[i3].NetworkRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Source); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Source[i3].ProjectID),
+			Extract:      resource.ExtractParamPath("project", false),
+			Reference:    mg.Spec.InitProvider.Source[i3].ProjectIDRef,
+			Selector:     mg.Spec.InitProvider.Source[i3].ProjectIDSelector,
+			To: reference.To{
+				List:    &v1beta1.AddressList{},
+				Managed: &v1beta1.Address{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Source[i3].ProjectID")
+		}
+		mg.Spec.InitProvider.Source[i3].ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Source[i3].ProjectIDRef = rsp.ResolvedReference
+
+	}
 
 	return nil
 }

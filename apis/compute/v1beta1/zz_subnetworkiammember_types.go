@@ -67,6 +67,17 @@ type SubnetworkIAMMemberInitParameters struct {
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+
+	// +crossplane:generate:reference:type=Subnetwork
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+
+	// Reference to a Subnetwork to populate subnetwork.
+	// +kubebuilder:validation:Optional
+	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+
+	// Selector for a Subnetwork to populate subnetwork.
+	// +kubebuilder:validation:Optional
+	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
 
 type SubnetworkIAMMemberObservation struct {

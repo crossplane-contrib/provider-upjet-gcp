@@ -39,6 +39,12 @@ type NetworkEndpointGroupInitParameters struct {
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The network to which all network endpoints in the NEG belong.
+	// Uses "default" project network if unspecified.
+	// +crossplane:generate:reference:type=Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
 	// Type of network endpoints in this network endpoint group.
 	// NON_GCP_PRIVATE_IP_PORT is used for hybrid connectivity network
 	// endpoint groups (see https://cloud.google.com/load-balancing/docs/hybrid).
@@ -51,9 +57,30 @@ type NetworkEndpointGroupInitParameters struct {
 	// Possible values are: GCE_VM_IP, GCE_VM_IP_PORT, NON_GCP_PRIVATE_IP_PORT.
 	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
 
+	// Reference to a Network to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Optional subnetwork to which all network endpoints in the NEG belong.
+	// +crossplane:generate:reference:type=Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+
+	// Reference to a Subnetwork to populate subnetwork.
+	// +kubebuilder:validation:Optional
+	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+
+	// Selector for a Subnetwork to populate subnetwork.
+	// +kubebuilder:validation:Optional
+	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
 
 type NetworkEndpointGroupObservation struct {

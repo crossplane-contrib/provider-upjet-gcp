@@ -40,6 +40,20 @@ type InstanceInitParameters struct {
 	// Description of the instance.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Customer Managed Encryption Key (CMEK) used for disk and volume encryption. Required for Apigee paid subscriptions only.
+	// Use the following format: projects/([^/]+)/locations/([^/]+)/keyRings/([^/]+)/cryptoKeys/([^/]+)
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	DiskEncryptionKeyName *string `json:"diskEncryptionKeyName,omitempty" tf:"disk_encryption_key_name,omitempty"`
+
+	// Reference to a CryptoKey in kms to populate diskEncryptionKeyName.
+	// +kubebuilder:validation:Optional
+	DiskEncryptionKeyNameRef *v1.Reference `json:"diskEncryptionKeyNameRef,omitempty" tf:"-"`
+
+	// Selector for a CryptoKey in kms to populate diskEncryptionKeyName.
+	// +kubebuilder:validation:Optional
+	DiskEncryptionKeyNameSelector *v1.Selector `json:"diskEncryptionKeyNameSelector,omitempty" tf:"-"`
+
 	// Display name of the instance.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 

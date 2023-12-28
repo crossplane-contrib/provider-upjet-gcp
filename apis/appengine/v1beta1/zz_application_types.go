@@ -52,6 +52,21 @@ type ApplicationInitParameters struct {
 	// to serve the app from.
 	LocationID *string `json:"locationId,omitempty" tf:"location_id,omitempty"`
 
+	// The project ID to create the application under.
+	// ~>NOTE: GCP only accepts project ID, not project number. If you are using number,
+	// you may get a "Permission denied" error.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("project_id",false)
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Reference to a Project in cloudplatform to populate project.
+	// +kubebuilder:validation:Optional
+	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+
+	// Selector for a Project in cloudplatform to populate project.
+	// +kubebuilder:validation:Optional
+	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+
 	// The serving status of the app.
 	ServingStatus *string `json:"servingStatus,omitempty" tf:"serving_status,omitempty"`
 }

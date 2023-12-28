@@ -234,6 +234,12 @@ type InstanceTemplateDiskInitParameters struct {
 	// - A list (short name or id) of resource policies to attach to this disk for automatic snapshot creations. Currently a max of 1 resource policy is supported.
 	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
 
+	// The name (not self_link)
+	// of the disk (such as those managed by google_compute_disk) to attach.
+	// ~> Note: Either source, source_image, or source_snapshot is required in a disk block unless the disk type is local-ssd. Check the API docs for details.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Disk
+	Source *string `json:"source,omitempty" tf:"source,omitempty"`
+
 	// The image from which to
 	// initialize this disk. This can be one of: the image's self_link,
 	// projects/{project}/global/images/{image},
@@ -247,6 +253,14 @@ type InstanceTemplateDiskInitParameters struct {
 	// key of the source image. Required if the source image is protected by a
 	// customer-supplied encryption key.
 	SourceImageEncryptionKey []DiskSourceImageEncryptionKeyInitParameters `json:"sourceImageEncryptionKey,omitempty" tf:"source_image_encryption_key,omitempty"`
+
+	// Reference to a Disk in compute to populate source.
+	// +kubebuilder:validation:Optional
+	SourceRef *v1.Reference `json:"sourceRef,omitempty" tf:"-"`
+
+	// Selector for a Disk in compute to populate source.
+	// +kubebuilder:validation:Optional
+	SourceSelector *v1.Selector `json:"sourceSelector,omitempty" tf:"-"`
 
 	// The source snapshot to create this disk.
 	// ~> Note: Either source, source_image, or source_snapshot is required in a disk block unless the disk type is local-ssd. Check the API docs for details.
@@ -714,9 +728,23 @@ type InstanceTemplateNetworkInterfaceInitParameters struct {
 	// specified, then this instance will have no external IPv6 Internet access. Structure documented below.
 	IPv6AccessConfig []InstanceTemplateNetworkInterfaceIPv6AccessConfigInitParameters `json:"ipv6AccessConfig,omitempty" tf:"ipv6_access_config,omitempty"`
 
+	// The name or self_link of the network to attach this interface to.
+	// Use network attribute for Legacy or Auto subnetted networks and
+	// subnetwork for custom subnetted networks.
+	// +crossplane:generate:reference:type=Network
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
 	// The private IP address to assign to the instance. If
 	// empty, the address will be automatically assigned.
 	NetworkIP *string `json:"networkIp,omitempty" tf:"network_ip,omitempty"`
+
+	// Reference to a Network to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET.
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
@@ -727,9 +755,23 @@ type InstanceTemplateNetworkInterfaceInitParameters struct {
 	// The stack type for this network interface to identify whether the IPv6 feature is enabled or not. Values are IPV4_IPV6 or IPV4_ONLY. If not specified, IPV4_ONLY will be used.
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
 
+	// the name of the subnetwork to attach this interface
+	// to. The subnetwork must exist in the same region this instance will be
+	// created in. Either network or subnetwork must be provided.
+	// +crossplane:generate:reference:type=Subnetwork
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+
 	// The ID of the project in which the subnetwork belongs.
 	// If it is not provided, the provider project is used.
 	SubnetworkProject *string `json:"subnetworkProject,omitempty" tf:"subnetwork_project,omitempty"`
+
+	// Reference to a Subnetwork to populate subnetwork.
+	// +kubebuilder:validation:Optional
+	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+
+	// Selector for a Subnetwork to populate subnetwork.
+	// +kubebuilder:validation:Optional
+	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
 
 type InstanceTemplateNetworkInterfaceObservation struct {
@@ -1390,6 +1432,20 @@ type InstanceTemplateSchedulingParameters struct {
 }
 
 type InstanceTemplateServiceAccountInitParameters struct {
+
+	// The service account e-mail address. If not given, the
+	// default Google Compute Engine service account is used.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
+	Email *string `json:"email,omitempty" tf:"email,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate email.
+	// +kubebuilder:validation:Optional
+	EmailRef *v1.Reference `json:"emailRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate email.
+	// +kubebuilder:validation:Optional
+	EmailSelector *v1.Selector `json:"emailSelector,omitempty" tf:"-"`
 
 	// A list of service scopes. Both OAuth2 URLs and gcloud
 	// short names are supported. To allow full access to all Cloud APIs, use the

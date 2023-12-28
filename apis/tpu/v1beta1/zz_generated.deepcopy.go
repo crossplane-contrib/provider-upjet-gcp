@@ -141,6 +141,21 @@ func (in *NodeInitParameters) DeepCopyInto(out *NodeInitParameters) {
 			(*out)[key] = outVal
 		}
 	}
+	if in.Network != nil {
+		in, out := &in.Network, &out.Network
+		*out = new(string)
+		**out = **in
+	}
+	if in.NetworkRef != nil {
+		in, out := &in.NetworkRef, &out.NetworkRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NetworkSelector != nil {
+		in, out := &in.NetworkSelector, &out.NetworkSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)

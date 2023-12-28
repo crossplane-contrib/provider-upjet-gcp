@@ -179,6 +179,36 @@ func (in *DatabaseIAMMemberInitParameters) DeepCopyInto(out *DatabaseIAMMemberIn
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.Database != nil {
+		in, out := &in.Database, &out.Database
+		*out = new(string)
+		**out = **in
+	}
+	if in.DatabaseRef != nil {
+		in, out := &in.DatabaseRef, &out.DatabaseRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.DatabaseSelector != nil {
+		in, out := &in.DatabaseSelector, &out.DatabaseSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Instance != nil {
+		in, out := &in.Instance, &out.Instance
+		*out = new(string)
+		**out = **in
+	}
+	if in.InstanceRef != nil {
+		in, out := &in.InstanceRef, &out.InstanceRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.InstanceSelector != nil {
+		in, out := &in.InstanceSelector, &out.InstanceSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Member != nil {
 		in, out := &in.Member, &out.Member
 		*out = new(string)
@@ -881,6 +911,21 @@ func (in *InstanceIAMMemberInitParameters) DeepCopyInto(out *InstanceIAMMemberIn
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.Instance != nil {
+		in, out := &in.Instance, &out.Instance
+		*out = new(string)
+		**out = **in
+	}
+	if in.InstanceRef != nil {
+		in, out := &in.InstanceRef, &out.InstanceRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.InstanceSelector != nil {
+		in, out := &in.InstanceSelector, &out.InstanceSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Member != nil {
 		in, out := &in.Member, &out.Member

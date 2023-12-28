@@ -39,6 +39,18 @@ type RouteInitParameters struct {
 	// Only IPv4 is supported.
 	DestRange *string `json:"destRange,omitempty" tf:"dest_range,omitempty"`
 
+	// The network that this route applies to.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Reference to a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+
 	// URL to a gateway that should handle matching packets.
 	// Currently, you can only specify the internet gateway, using a full or
 	// partial valid URL:
@@ -47,12 +59,42 @@ type RouteInitParameters struct {
 	// Network IP address of an instance that should handle matching packets.
 	NextHopIP *string `json:"nextHopIp,omitempty" tf:"next_hop_ip,omitempty"`
 
+	// The IP address or URL to a forwarding rule of type
+	// loadBalancingScheme=INTERNAL that should handle matching
+	// packets.
+	// With the GA provider you can only specify the forwarding
+	// rule as a partial or full URL. For example, the following
+	// are all valid values:
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.ForwardingRule
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	NextHopIlb *string `json:"nextHopIlb,omitempty" tf:"next_hop_ilb,omitempty"`
+
+	// Reference to a ForwardingRule in compute to populate nextHopIlb.
+	// +kubebuilder:validation:Optional
+	NextHopIlbRef *v1.Reference `json:"nextHopIlbRef,omitempty" tf:"-"`
+
+	// Selector for a ForwardingRule in compute to populate nextHopIlb.
+	// +kubebuilder:validation:Optional
+	NextHopIlbSelector *v1.Selector `json:"nextHopIlbSelector,omitempty" tf:"-"`
+
 	// URL to an instance that should handle matching packets.
 	// You can specify this as a full or partial URL. For example:
 	NextHopInstance *string `json:"nextHopInstance,omitempty" tf:"next_hop_instance,omitempty"`
 
 	// .
 	NextHopInstanceZone *string `json:"nextHopInstanceZone,omitempty" tf:"next_hop_instance_zone,omitempty"`
+
+	// URL to a VpnTunnel that should handle matching packets.
+	// +crossplane:generate:reference:type=VPNTunnel
+	NextHopVPNTunnel *string `json:"nextHopVpnTunnel,omitempty" tf:"next_hop_vpn_tunnel,omitempty"`
+
+	// Reference to a VPNTunnel to populate nextHopVpnTunnel.
+	// +kubebuilder:validation:Optional
+	NextHopVPNTunnelRef *v1.Reference `json:"nextHopVpnTunnelRef,omitempty" tf:"-"`
+
+	// Selector for a VPNTunnel to populate nextHopVpnTunnel.
+	// +kubebuilder:validation:Optional
+	NextHopVPNTunnelSelector *v1.Selector `json:"nextHopVpnTunnelSelector,omitempty" tf:"-"`
 
 	// The priority of this route. Priority is used to break ties in cases
 	// where there is more than one matching route of equal prefix length.

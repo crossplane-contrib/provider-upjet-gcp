@@ -126,6 +126,23 @@ type PolicyInitParameters struct {
 }
 
 type PolicyNetworksInitParameters struct {
+
+	// Reference to a Network in compute to populate networkUrl.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate networkUrl.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+
+	// The id or fully qualified URL of the VPC network to forward queries to.
+	// This should be formatted like projects/{project}/global/networks/{network} or
+	// https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
+	// +crossplane:generate:reference:refFieldName=NetworkRef
+	// +crossplane:generate:reference:selectorFieldName=NetworkSelector
+	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
 }
 
 type PolicyNetworksObservation struct {

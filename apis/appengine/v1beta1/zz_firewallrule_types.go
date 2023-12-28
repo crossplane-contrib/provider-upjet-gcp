@@ -45,6 +45,20 @@ type FirewallRuleInitParameters struct {
 	// this rule can be modified by the user.
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/appengine/v1beta1.Application
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("project",false)
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Reference to a Application in appengine to populate project.
+	// +kubebuilder:validation:Optional
+	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+
+	// Selector for a Application in appengine to populate project.
+	// +kubebuilder:validation:Optional
+	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+
 	// IP address or range, defined using CIDR notation, of requests that this rule applies to.
 	SourceRange *string `json:"sourceRange,omitempty" tf:"source_range,omitempty"`
 }

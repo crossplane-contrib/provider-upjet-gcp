@@ -155,6 +155,22 @@ func (mg *Metric) ResolveReferences(ctx context.Context, c client.Reader) error 
 	mg.Spec.ForProvider.BucketName = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.BucketNameRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BucketName),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.BucketNameRef,
+		Selector:     mg.Spec.InitProvider.BucketNameSelector,
+		To: reference.To{
+			List:    &ProjectBucketConfigList{},
+			Managed: &ProjectBucketConfig{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.BucketName")
+	}
+	mg.Spec.InitProvider.BucketName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.BucketNameRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -198,6 +214,25 @@ func (mg *ProjectBucketConfig) ResolveReferences(ctx context.Context, c client.R
 	}
 	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.CmekSettings); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CmekSettings[i3].KMSKeyName),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.CmekSettings[i3].KMSKeyNameRef,
+			Selector:     mg.Spec.InitProvider.CmekSettings[i3].KMSKeyNameSelector,
+			To: reference.To{
+				List:    &v1beta11.CryptoKeyList{},
+				Managed: &v1beta11.CryptoKey{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.CmekSettings[i3].KMSKeyName")
+		}
+		mg.Spec.InitProvider.CmekSettings[i3].KMSKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.CmekSettings[i3].KMSKeyNameRef = rsp.ResolvedReference
+
+	}
 
 	return nil
 }

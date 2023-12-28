@@ -34,6 +34,21 @@ type OrganizationInitParameters struct {
 	// Primary GCP region for analytics data storage. For valid values, see Create an Apigee organization.
 	AnalyticsRegion *string `json:"analyticsRegion,omitempty" tf:"analytics_region,omitempty"`
 
+	// Compute Engine network used for Service Networking to be peered with Apigee runtime instances.
+	// See Getting started with the Service Networking API.
+	// Valid only when RuntimeType is set to CLOUD. The value can be updated only when there are no runtime instances. For example: "default".
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	AuthorizedNetwork *string `json:"authorizedNetwork,omitempty" tf:"authorized_network,omitempty"`
+
+	// Reference to a Network in compute to populate authorizedNetwork.
+	// +kubebuilder:validation:Optional
+	AuthorizedNetworkRef *v1.Reference `json:"authorizedNetworkRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate authorizedNetwork.
+	// +kubebuilder:validation:Optional
+	AuthorizedNetworkSelector *v1.Selector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
+
 	// Billing type of the Apigee organization. See Apigee pricing.
 	BillingType *string `json:"billingType,omitempty" tf:"billing_type,omitempty"`
 
@@ -64,6 +79,22 @@ type OrganizationInitParameters struct {
 	// Default value is DELETION_RETENTION_UNSPECIFIED.
 	// Possible values are: DELETION_RETENTION_UNSPECIFIED, MINIMUM.
 	Retention *string `json:"retention,omitempty" tf:"retention,omitempty"`
+
+	// Cloud KMS key name used for encrypting the data that is stored and replicated across runtime instances.
+	// Update is not allowed after the organization is created.
+	// If not specified, a Google-Managed encryption key will be used.
+	// Valid only when RuntimeType is CLOUD. For example: projects/foo/locations/us/keyRings/bar/cryptoKeys/baz.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	RuntimeDatabaseEncryptionKeyName *string `json:"runtimeDatabaseEncryptionKeyName,omitempty" tf:"runtime_database_encryption_key_name,omitempty"`
+
+	// Reference to a CryptoKey in kms to populate runtimeDatabaseEncryptionKeyName.
+	// +kubebuilder:validation:Optional
+	RuntimeDatabaseEncryptionKeyNameRef *v1.Reference `json:"runtimeDatabaseEncryptionKeyNameRef,omitempty" tf:"-"`
+
+	// Selector for a CryptoKey in kms to populate runtimeDatabaseEncryptionKeyName.
+	// +kubebuilder:validation:Optional
+	RuntimeDatabaseEncryptionKeyNameSelector *v1.Selector `json:"runtimeDatabaseEncryptionKeyNameSelector,omitempty" tf:"-"`
 
 	// Runtime type of the Apigee organization based on the Apigee subscription purchased.
 	// Default value is CLOUD.

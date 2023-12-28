@@ -41,6 +41,18 @@ type DataTransferConfigInitParameters struct {
 	// The data source id. Cannot be changed once the transfer config is created.
 	DataSourceID *string `json:"dataSourceId,omitempty" tf:"data_source_id,omitempty"`
 
+	// The BigQuery target dataset id.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset
+	DestinationDatasetID *string `json:"destinationDatasetId,omitempty" tf:"destination_dataset_id,omitempty"`
+
+	// Reference to a Dataset in bigquery to populate destinationDatasetId.
+	// +kubebuilder:validation:Optional
+	DestinationDatasetIDRef *v1.Reference `json:"destinationDatasetIdRef,omitempty" tf:"-"`
+
+	// Selector for a Dataset in bigquery to populate destinationDatasetId.
+	// +kubebuilder:validation:Optional
+	DestinationDatasetIDSelector *v1.Selector `json:"destinationDatasetIdSelector,omitempty" tf:"-"`
+
 	// When set to true, no runs are scheduled for a given transfer.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 

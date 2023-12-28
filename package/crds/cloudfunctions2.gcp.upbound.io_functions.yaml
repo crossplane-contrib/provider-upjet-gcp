@@ -1203,15 +1203,273 @@ spec:
                                   below.
                                 items:
                                   properties:
+                                    bucket:
+                                      description: Google Cloud Storage bucket containing
+                                        the source
+                                      type: string
+                                    bucketRef:
+                                      description: Reference to a Bucket in storage
+                                        to populate bucket.
+                                      properties:
+                                        name:
+                                          description: Name of the referenced object.
+                                          type: string
+                                        policy:
+                                          description: Policies for referencing.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: Resolution specifies whether
+                                                resolution of this reference is required.
+                                                The default is 'Required', which means
+                                                the reconcile will fail if the reference
+                                                cannot be resolved. 'Optional' means
+                                                this reference will be a no-op if
+                                                it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: Resolve specifies when
+                                                this reference should be resolved.
+                                                The default is 'IfNotPresent', which
+                                                will attempt to resolve the reference
+                                                only when the corresponding field
+                                                is not present. Use 'Always' to resolve
+                                                the reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      required:
+                                      - name
+                                      type: object
+                                    bucketSelector:
+                                      description: Selector for a Bucket in storage
+                                        to populate bucket.
+                                      properties:
+                                        matchControllerRef:
+                                          description: MatchControllerRef ensures
+                                            an object with the same controller reference
+                                            as the selecting object is selected.
+                                          type: boolean
+                                        matchLabels:
+                                          additionalProperties:
+                                            type: string
+                                          description: MatchLabels ensures an object
+                                            with matching labels is selected.
+                                          type: object
+                                        policy:
+                                          description: Policies for selection.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: Resolution specifies whether
+                                                resolution of this reference is required.
+                                                The default is 'Required', which means
+                                                the reconcile will fail if the reference
+                                                cannot be resolved. 'Optional' means
+                                                this reference will be a no-op if
+                                                it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: Resolve specifies when
+                                                this reference should be resolved.
+                                                The default is 'IfNotPresent', which
+                                                will attempt to resolve the reference
+                                                only when the corresponding field
+                                                is not present. Use 'Always' to resolve
+                                                the reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      type: object
                                     generation:
                                       description: Google Cloud Storage generation
                                         for the object. If the generation is omitted,
                                         the latest generation will be used.
                                       type: number
+                                    object:
+                                      description: Google Cloud Storage object containing
+                                        the source.
+                                      type: string
+                                    objectRef:
+                                      description: Reference to a BucketObject in
+                                        storage to populate object.
+                                      properties:
+                                        name:
+                                          description: Name of the referenced object.
+                                          type: string
+                                        policy:
+                                          description: Policies for referencing.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: Resolution specifies whether
+                                                resolution of this reference is required.
+                                                The default is 'Required', which means
+                                                the reconcile will fail if the reference
+                                                cannot be resolved. 'Optional' means
+                                                this reference will be a no-op if
+                                                it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: Resolve specifies when
+                                                this reference should be resolved.
+                                                The default is 'IfNotPresent', which
+                                                will attempt to resolve the reference
+                                                only when the corresponding field
+                                                is not present. Use 'Always' to resolve
+                                                the reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      required:
+                                      - name
+                                      type: object
+                                    objectSelector:
+                                      description: Selector for a BucketObject in
+                                        storage to populate object.
+                                      properties:
+                                        matchControllerRef:
+                                          description: MatchControllerRef ensures
+                                            an object with the same controller reference
+                                            as the selecting object is selected.
+                                          type: boolean
+                                        matchLabels:
+                                          additionalProperties:
+                                            type: string
+                                          description: MatchLabels ensures an object
+                                            with matching labels is selected.
+                                          type: object
+                                        policy:
+                                          description: Policies for selection.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: Resolution specifies whether
+                                                resolution of this reference is required.
+                                                The default is 'Required', which means
+                                                the reconcile will fail if the reference
+                                                cannot be resolved. 'Optional' means
+                                                this reference will be a no-op if
+                                                it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: Resolve specifies when
+                                                this reference should be resolved.
+                                                The default is 'IfNotPresent', which
+                                                will attempt to resolve the reference
+                                                only when the corresponding field
+                                                is not present. Use 'Always' to resolve
+                                                the reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      type: object
                                   type: object
                                 type: array
                             type: object
                           type: array
+                        workerPool:
+                          description: Name of the Cloud Build Custom Worker Pool
+                            that should be used to build the function.
+                          type: string
+                        workerPoolRef:
+                          description: Reference to a WorkerPool in cloudbuild to
+                            populate workerPool.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        workerPoolSelector:
+                          description: Selector for a WorkerPool in cloudbuild to
+                            populate workerPool.
+                          properties:
+                            matchControllerRef:
+                              description: MatchControllerRef ensures an object with
+                                the same controller reference as the selecting object
+                                is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
                       type: object
                     type: array
                   description:
@@ -1245,17 +1503,267 @@ spec:
                                   allowed value is match-path-pattern. See documentation
                                   on path patterns here'
                                 type: string
+                              value:
+                                description: Required. The value for the attribute.
+                                  If the operator field is set as match-path-pattern,
+                                  this value can be a path pattern instead of an exact
+                                  value.
+                                type: string
+                              valueRef:
+                                description: Reference to a Bucket in storage to populate
+                                  value.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: Resolution specifies whether
+                                          resolution of this reference is required.
+                                          The default is 'Required', which means the
+                                          reconcile will fail if the reference cannot
+                                          be resolved. 'Optional' means this reference
+                                          will be a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: Resolve specifies when this reference
+                                          should be resolved. The default is 'IfNotPresent',
+                                          which will attempt to resolve the reference
+                                          only when the corresponding field is not
+                                          present. Use 'Always' to resolve the reference
+                                          on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              valueSelector:
+                                description: Selector for a Bucket in storage to populate
+                                  value.
+                                properties:
+                                  matchControllerRef:
+                                    description: MatchControllerRef ensures an object
+                                      with the same controller reference as the selecting
+                                      object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: Resolution specifies whether
+                                          resolution of this reference is required.
+                                          The default is 'Required', which means the
+                                          reconcile will fail if the reference cannot
+                                          be resolved. 'Optional' means this reference
+                                          will be a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: Resolve specifies when this reference
+                                          should be resolved. The default is 'IfNotPresent',
+                                          which will attempt to resolve the reference
+                                          only when the corresponding field is not
+                                          present. Use 'Always' to resolve the reference
+                                          on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
                             type: object
                           type: array
                         eventType:
                           description: Required. The type of event to observe.
                           type: string
+                        pubsubTopic:
+                          description: The name of a Pub/Sub topic in the same project
+                            that will be used as the transport topic for the event
+                            delivery.
+                          type: string
+                        pubsubTopicRef:
+                          description: Reference to a Topic in pubsub to populate
+                            pubsubTopic.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        pubsubTopicSelector:
+                          description: Selector for a Topic in pubsub to populate
+                            pubsubTopic.
+                          properties:
+                            matchControllerRef:
+                              description: MatchControllerRef ensures an object with
+                                the same controller reference as the selecting object
+                                is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
                         retryPolicy:
                           description: 'Describes the retry policy in case of function''s
                             execution failure. Retried execution is charged as any
                             other execution. Possible values are: RETRY_POLICY_UNSPECIFIED,
                             RETRY_POLICY_DO_NOT_RETRY, RETRY_POLICY_RETRY.'
                           type: string
+                        serviceAccountEmail:
+                          description: The email of the service account for this function.
+                          type: string
+                        serviceAccountEmailRef:
+                          description: Reference to a ServiceAccount in cloudplatform
+                            to populate serviceAccountEmail.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        serviceAccountEmailSelector:
+                          description: Selector for a ServiceAccount in cloudplatform
+                            to populate serviceAccountEmail.
+                          properties:
+                            matchControllerRef:
+                              description: MatchControllerRef ensures an object with
+                                the same controller reference as the selecting object
+                                is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
                         triggerRegion:
                           description: The region that the trigger will be in. The
                             trigger will only receive events originating in this region.
@@ -1334,6 +1842,90 @@ spec:
                                   the secret exists in the same project as of the
                                   function.
                                 type: string
+                              secret:
+                                description: Name of the secret in secret manager
+                                  (not the full resource name).
+                                type: string
+                              secretRef:
+                                description: Reference to a Secret in secretmanager
+                                  to populate secret.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: Resolution specifies whether
+                                          resolution of this reference is required.
+                                          The default is 'Required', which means the
+                                          reconcile will fail if the reference cannot
+                                          be resolved. 'Optional' means this reference
+                                          will be a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: Resolve specifies when this reference
+                                          should be resolved. The default is 'IfNotPresent',
+                                          which will attempt to resolve the reference
+                                          only when the corresponding field is not
+                                          present. Use 'Always' to resolve the reference
+                                          on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              secretSelector:
+                                description: Selector for a Secret in secretmanager
+                                  to populate secret.
+                                properties:
+                                  matchControllerRef:
+                                    description: MatchControllerRef ensures an object
+                                      with the same controller reference as the selecting
+                                      object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: Resolution specifies whether
+                                          resolution of this reference is required.
+                                          The default is 'Required', which means the
+                                          reconcile will fail if the reference cannot
+                                          be resolved. 'Optional' means this reference
+                                          will be a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: Resolve specifies when this reference
+                                          should be resolved. The default is 'IfNotPresent',
+                                          which will attempt to resolve the reference
+                                          only when the corresponding field is not
+                                          present. Use 'Always' to resolve the reference
+                                          on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
                               version:
                                 description: Version of the secret (version number
                                   or the string 'latest'). It is preferable to use
@@ -1364,6 +1956,90 @@ spec:
                                   the secret exists in the same project as of the
                                   function.
                                 type: string
+                              secret:
+                                description: Name of the secret in secret manager
+                                  (not the full resource name).
+                                type: string
+                              secretRef:
+                                description: Reference to a Secret in secretmanager
+                                  to populate secret.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: Resolution specifies whether
+                                          resolution of this reference is required.
+                                          The default is 'Required', which means the
+                                          reconcile will fail if the reference cannot
+                                          be resolved. 'Optional' means this reference
+                                          will be a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: Resolve specifies when this reference
+                                          should be resolved. The default is 'IfNotPresent',
+                                          which will attempt to resolve the reference
+                                          only when the corresponding field is not
+                                          present. Use 'Always' to resolve the reference
+                                          on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              secretSelector:
+                                description: Selector for a Secret in secretmanager
+                                  to populate secret.
+                                properties:
+                                  matchControllerRef:
+                                    description: MatchControllerRef ensures an object
+                                      with the same controller reference as the selecting
+                                      object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: Resolution specifies whether
+                                          resolution of this reference is required.
+                                          The default is 'Required', which means the
+                                          reconcile will fail if the reference cannot
+                                          be resolved. 'Optional' means this reference
+                                          will be a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: Resolve specifies when this reference
+                                          should be resolved. The default is 'IfNotPresent',
+                                          which will attempt to resolve the reference
+                                          only when the corresponding field is not
+                                          present. Use 'Always' to resolve the reference
+                                          on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
                               versions:
                                 description: List of secret versions to mount for
                                   this secret. If empty, the latest version of the
@@ -1393,6 +2069,87 @@ spec:
                         service:
                           description: Name of the service associated with a Function.
                           type: string
+                        serviceAccountEmail:
+                          description: The email of the service account for this function.
+                          type: string
+                        serviceAccountEmailRef:
+                          description: Reference to a ServiceAccount in cloudplatform
+                            to populate serviceAccountEmail.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        serviceAccountEmailSelector:
+                          description: Selector for a ServiceAccount in cloudplatform
+                            to populate serviceAccountEmail.
+                          properties:
+                            matchControllerRef:
+                              description: MatchControllerRef ensures an object with
+                                the same controller reference as the selecting object
+                                is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
                         timeoutSeconds:
                           description: The function execution timeout. Execution is
                             considered failed and can be terminated if the function

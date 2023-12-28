@@ -63,6 +63,19 @@ type ServiceNetworkSettingsInitParameters struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The name of the service these settings apply to.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/appengine/v1beta1.StandardAppVersion
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("service",false)
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+
+	// Reference to a StandardAppVersion in appengine to populate service.
+	// +kubebuilder:validation:Optional
+	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
+
+	// Selector for a StandardAppVersion in appengine to populate service.
+	// +kubebuilder:validation:Optional
+	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
 }
 
 type ServiceNetworkSettingsObservation struct {

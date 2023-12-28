@@ -106,11 +106,24 @@ type SnapshotInitParameters struct {
 	// Structure is documented below.
 	SnapshotEncryptionKey []SnapshotEncryptionKeyInitParameters `json:"snapshotEncryptionKey,omitempty" tf:"snapshot_encryption_key,omitempty"`
 
+	// A reference to the disk used to create this snapshot.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Disk
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	SourceDisk *string `json:"sourceDisk,omitempty" tf:"source_disk,omitempty"`
+
 	// The customer-supplied encryption key of the source snapshot. Required
 	// if the source snapshot is protected by a customer-supplied encryption
 	// key.
 	// Structure is documented below.
 	SourceDiskEncryptionKey []SourceDiskEncryptionKeyInitParameters `json:"sourceDiskEncryptionKey,omitempty" tf:"source_disk_encryption_key,omitempty"`
+
+	// Reference to a Disk in compute to populate sourceDisk.
+	// +kubebuilder:validation:Optional
+	SourceDiskRef *v1.Reference `json:"sourceDiskRef,omitempty" tf:"-"`
+
+	// Selector for a Disk in compute to populate sourceDisk.
+	// +kubebuilder:validation:Optional
+	SourceDiskSelector *v1.Selector `json:"sourceDiskSelector,omitempty" tf:"-"`
 
 	// Cloud Storage bucket storage location of the snapshot (regional or multi-regional).
 	StorageLocations []*string `json:"storageLocations,omitempty" tf:"storage_locations,omitempty"`

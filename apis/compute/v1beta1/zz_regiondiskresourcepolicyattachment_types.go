@@ -31,6 +31,31 @@ import (
 
 type RegionDiskResourcePolicyAttachmentInitParameters struct {
 
+	// The name of the regional disk in which the resource policies are attached to.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionDisk
+	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
+
+	// Reference to a RegionDisk in compute to populate disk.
+	// +kubebuilder:validation:Optional
+	DiskRef *v1.Reference `json:"diskRef,omitempty" tf:"-"`
+
+	// Selector for a RegionDisk in compute to populate disk.
+	// +kubebuilder:validation:Optional
+	DiskSelector *v1.Selector `json:"diskSelector,omitempty" tf:"-"`
+
+	// The resource policy to be attached to the disk for scheduling snapshot
+	// creation. Do not specify the self link.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.ResourcePolicy
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Reference to a ResourcePolicy in compute to populate name.
+	// +kubebuilder:validation:Optional
+	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+
+	// Selector for a ResourcePolicy in compute to populate name.
+	// +kubebuilder:validation:Optional
+	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`

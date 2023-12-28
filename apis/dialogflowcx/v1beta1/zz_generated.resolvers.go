@@ -48,6 +48,22 @@ func (mg *EntityType) ResolveReferences(ctx context.Context, c client.Reader) er
 	mg.Spec.ForProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ParentRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Parent),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.ParentRef,
+		Selector:     mg.Spec.InitProvider.ParentSelector,
+		To: reference.To{
+			List:    &AgentList{},
+			Managed: &Agent{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Parent")
+	}
+	mg.Spec.InitProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ParentRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -92,6 +108,40 @@ func (mg *Environment) ResolveReferences(ctx context.Context, c client.Reader) e
 		mg.Spec.ForProvider.VersionConfigs[i3].VersionRef = rsp.ResolvedReference
 
 	}
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Parent),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.ParentRef,
+		Selector:     mg.Spec.InitProvider.ParentSelector,
+		To: reference.To{
+			List:    &AgentList{},
+			Managed: &Agent{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Parent")
+	}
+	mg.Spec.InitProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ParentRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.VersionConfigs); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VersionConfigs[i3].Version),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.VersionConfigs[i3].VersionRef,
+			Selector:     mg.Spec.InitProvider.VersionConfigs[i3].VersionSelector,
+			To: reference.To{
+				List:    &VersionList{},
+				Managed: &Version{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.VersionConfigs[i3].Version")
+		}
+		mg.Spec.InitProvider.VersionConfigs[i3].Version = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.VersionConfigs[i3].VersionRef = rsp.ResolvedReference
+
+	}
 
 	return nil
 }
@@ -119,6 +169,22 @@ func (mg *Flow) ResolveReferences(ctx context.Context, c client.Reader) error {
 	mg.Spec.ForProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ParentRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Parent),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.ParentRef,
+		Selector:     mg.Spec.InitProvider.ParentSelector,
+		To: reference.To{
+			List:    &AgentList{},
+			Managed: &Agent{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Parent")
+	}
+	mg.Spec.InitProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ParentRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -144,6 +210,22 @@ func (mg *Intent) ResolveReferences(ctx context.Context, c client.Reader) error 
 	}
 	mg.Spec.ForProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ParentRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Parent),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.ParentRef,
+		Selector:     mg.Spec.InitProvider.ParentSelector,
+		To: reference.To{
+			List:    &AgentList{},
+			Managed: &Agent{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Parent")
+	}
+	mg.Spec.InitProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ParentRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -189,6 +271,40 @@ func (mg *Page) ResolveReferences(ctx context.Context, c client.Reader) error {
 		mg.Spec.ForProvider.TransitionRoutes[i3].TargetPageRef = rsp.ResolvedReference
 
 	}
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Parent),
+		Extract:      resource.ExtractParamPath("start_flow", true),
+		Reference:    mg.Spec.InitProvider.ParentRef,
+		Selector:     mg.Spec.InitProvider.ParentSelector,
+		To: reference.To{
+			List:    &AgentList{},
+			Managed: &Agent{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Parent")
+	}
+	mg.Spec.InitProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ParentRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.TransitionRoutes); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.TransitionRoutes[i3].TargetPage),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.TransitionRoutes[i3].TargetPageRef,
+			Selector:     mg.Spec.InitProvider.TransitionRoutes[i3].TargetPageSelector,
+			To: reference.To{
+				List:    &PageList{},
+				Managed: &Page{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.TransitionRoutes[i3].TargetPage")
+		}
+		mg.Spec.InitProvider.TransitionRoutes[i3].TargetPage = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.TransitionRoutes[i3].TargetPageRef = rsp.ResolvedReference
+
+	}
 
 	return nil
 }
@@ -216,6 +332,22 @@ func (mg *Version) ResolveReferences(ctx context.Context, c client.Reader) error
 	mg.Spec.ForProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ParentRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Parent),
+		Extract:      resource.ExtractParamPath("start_flow", true),
+		Reference:    mg.Spec.InitProvider.ParentRef,
+		Selector:     mg.Spec.InitProvider.ParentSelector,
+		To: reference.To{
+			List:    &AgentList{},
+			Managed: &Agent{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Parent")
+	}
+	mg.Spec.InitProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ParentRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -241,6 +373,22 @@ func (mg *Webhook) ResolveReferences(ctx context.Context, c client.Reader) error
 	}
 	mg.Spec.ForProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ParentRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Parent),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.ParentRef,
+		Selector:     mg.Spec.InitProvider.ParentSelector,
+		To: reference.To{
+			List:    &AgentList{},
+			Managed: &Agent{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Parent")
+	}
+	mg.Spec.InitProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ParentRef = rsp.ResolvedReference
 
 	return nil
 }

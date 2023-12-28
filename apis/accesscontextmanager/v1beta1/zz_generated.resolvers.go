@@ -48,6 +48,22 @@ func (mg *AccessLevelCondition) ResolveReferences(ctx context.Context, c client.
 	mg.Spec.ForProvider.AccessLevel = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.AccessLevelRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AccessLevel),
+		Extract:      resource.ExtractParamPath("name", false),
+		Reference:    mg.Spec.InitProvider.AccessLevelRef,
+		Selector:     mg.Spec.InitProvider.AccessLevelSelector,
+		To: reference.To{
+			List:    &AccessLevelList{},
+			Managed: &AccessLevel{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.AccessLevel")
+	}
+	mg.Spec.InitProvider.AccessLevel = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.AccessLevelRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -119,6 +135,66 @@ func (mg *ServicePerimeter) ResolveReferences(ctx context.Context, c client.Read
 			}
 		}
 	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Spec); i3++ {
+		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+			CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Spec[i3].AccessLevels),
+			Extract:       reference.ExternalName(),
+			References:    mg.Spec.InitProvider.Spec[i3].AccessLevelsRefs,
+			Selector:      mg.Spec.InitProvider.Spec[i3].AccessLevelsSelector,
+			To: reference.To{
+				List:    &AccessLevelList{},
+				Managed: &AccessLevel{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Spec[i3].AccessLevels")
+		}
+		mg.Spec.InitProvider.Spec[i3].AccessLevels = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.InitProvider.Spec[i3].AccessLevelsRefs = mrsp.ResolvedReferences
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Status); i3++ {
+		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+			CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Status[i3].AccessLevels),
+			Extract:       reference.ExternalName(),
+			References:    mg.Spec.InitProvider.Status[i3].AccessLevelsRefs,
+			Selector:      mg.Spec.InitProvider.Status[i3].AccessLevelsSelector,
+			To: reference.To{
+				List:    &AccessLevelList{},
+				Managed: &AccessLevel{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Status[i3].AccessLevels")
+		}
+		mg.Spec.InitProvider.Status[i3].AccessLevels = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.InitProvider.Status[i3].AccessLevelsRefs = mrsp.ResolvedReferences
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Status); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Status[i3].IngressPolicies); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.InitProvider.Status[i3].IngressPolicies[i4].IngressFrom); i5++ {
+				for i6 := 0; i6 < len(mg.Spec.InitProvider.Status[i3].IngressPolicies[i4].IngressFrom[i5].Sources); i6++ {
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Status[i3].IngressPolicies[i4].IngressFrom[i5].Sources[i6].AccessLevel),
+						Extract:      resource.ExtractParamPath("name", false),
+						Reference:    mg.Spec.InitProvider.Status[i3].IngressPolicies[i4].IngressFrom[i5].Sources[i6].AccessLevelRef,
+						Selector:     mg.Spec.InitProvider.Status[i3].IngressPolicies[i4].IngressFrom[i5].Sources[i6].AccessLevelSelector,
+						To: reference.To{
+							List:    &AccessLevelList{},
+							Managed: &AccessLevel{},
+						},
+					})
+					if err != nil {
+						return errors.Wrap(err, "mg.Spec.InitProvider.Status[i3].IngressPolicies[i4].IngressFrom[i5].Sources[i6].AccessLevel")
+					}
+					mg.Spec.InitProvider.Status[i3].IngressPolicies[i4].IngressFrom[i5].Sources[i6].AccessLevel = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.InitProvider.Status[i3].IngressPolicies[i4].IngressFrom[i5].Sources[i6].AccessLevelRef = rsp.ResolvedReference
+
+				}
+			}
+		}
+	}
 
 	return nil
 }
@@ -145,6 +221,22 @@ func (mg *ServicePerimeterResource) ResolveReferences(ctx context.Context, c cli
 	}
 	mg.Spec.ForProvider.PerimeterName = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.PerimeterNameRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PerimeterName),
+		Extract:      resource.ExtractParamPath("name", false),
+		Reference:    mg.Spec.InitProvider.PerimeterNameRef,
+		Selector:     mg.Spec.InitProvider.PerimeterNameSelector,
+		To: reference.To{
+			List:    &ServicePerimeterList{},
+			Managed: &ServicePerimeter{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.PerimeterName")
+	}
+	mg.Spec.InitProvider.PerimeterName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.PerimeterNameRef = rsp.ResolvedReference
 
 	return nil
 }

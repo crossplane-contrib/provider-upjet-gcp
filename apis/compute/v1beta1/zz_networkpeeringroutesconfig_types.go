@@ -37,6 +37,30 @@ type NetworkPeeringRoutesConfigInitParameters struct {
 	// Whether to import the custom routes to the peer network.
 	ImportCustomRoutes *bool `json:"importCustomRoutes,omitempty" tf:"import_custom_routes,omitempty"`
 
+	// The name of the primary network for the peering.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Reference to a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+
+	// Name of the peering.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.NetworkPeering
+	Peering *string `json:"peering,omitempty" tf:"peering,omitempty"`
+
+	// Reference to a NetworkPeering in compute to populate peering.
+	// +kubebuilder:validation:Optional
+	PeeringRef *v1.Reference `json:"peeringRef,omitempty" tf:"-"`
+
+	// Selector for a NetworkPeering in compute to populate peering.
+	// +kubebuilder:validation:Optional
+	PeeringSelector *v1.Selector `json:"peeringSelector,omitempty" tf:"-"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`

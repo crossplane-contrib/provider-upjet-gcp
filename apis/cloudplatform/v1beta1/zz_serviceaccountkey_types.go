@@ -48,6 +48,24 @@ type ServiceAccountKeyInitParameters struct {
 
 	// The output format of the public key requested. TYPE_X509_PEM_FILE is the default output format.
 	PublicKeyType *string `json:"publicKeyType,omitempty" tf:"public_key_type,omitempty"`
+
+	// The Service account id of the Key. This can be a string in the format
+	// {ACCOUNT} or projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}. If the {ACCOUNT}-only syntax is used, either
+	// the full email address of the service account or its name can be specified as a value, in which case the project will
+	// automatically be inferred from the account. Otherwise, if the projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}
+	// syntax is used, the {ACCOUNT} specified can be the full email address of the service account or the service account's
+	// unique id. Substituting - as a wildcard for the {PROJECT_ID} will infer the project from the account.
+	// +crossplane:generate:reference:type=ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
+	ServiceAccountID *string `json:"serviceAccountId,omitempty" tf:"service_account_id,omitempty"`
+
+	// Reference to a ServiceAccount to populate serviceAccountId.
+	// +kubebuilder:validation:Optional
+	ServiceAccountIDRef *v1.Reference `json:"serviceAccountIdRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount to populate serviceAccountId.
+	// +kubebuilder:validation:Optional
+	ServiceAccountIDSelector *v1.Selector `json:"serviceAccountIdSelector,omitempty" tf:"-"`
 }
 
 type ServiceAccountKeyObservation struct {

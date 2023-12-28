@@ -833,6 +833,21 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DiskEncryptionKeyName != nil {
+		in, out := &in.DiskEncryptionKeyName, &out.DiskEncryptionKeyName
+		*out = new(string)
+		**out = **in
+	}
+	if in.DiskEncryptionKeyNameRef != nil {
+		in, out := &in.DiskEncryptionKeyNameRef, &out.DiskEncryptionKeyNameRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.DiskEncryptionKeyNameSelector != nil {
+		in, out := &in.DiskEncryptionKeyNameSelector, &out.DiskEncryptionKeyNameSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
 		*out = new(string)
@@ -1383,6 +1398,21 @@ func (in *OrganizationInitParameters) DeepCopyInto(out *OrganizationInitParamete
 		*out = new(string)
 		**out = **in
 	}
+	if in.AuthorizedNetwork != nil {
+		in, out := &in.AuthorizedNetwork, &out.AuthorizedNetwork
+		*out = new(string)
+		**out = **in
+	}
+	if in.AuthorizedNetworkRef != nil {
+		in, out := &in.AuthorizedNetworkRef, &out.AuthorizedNetworkRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.AuthorizedNetworkSelector != nil {
+		in, out := &in.AuthorizedNetworkSelector, &out.AuthorizedNetworkSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.BillingType != nil {
 		in, out := &in.BillingType, &out.BillingType
 		*out = new(string)
@@ -1419,6 +1449,21 @@ func (in *OrganizationInitParameters) DeepCopyInto(out *OrganizationInitParamete
 		in, out := &in.Retention, &out.Retention
 		*out = new(string)
 		**out = **in
+	}
+	if in.RuntimeDatabaseEncryptionKeyName != nil {
+		in, out := &in.RuntimeDatabaseEncryptionKeyName, &out.RuntimeDatabaseEncryptionKeyName
+		*out = new(string)
+		**out = **in
+	}
+	if in.RuntimeDatabaseEncryptionKeyNameRef != nil {
+		in, out := &in.RuntimeDatabaseEncryptionKeyNameRef, &out.RuntimeDatabaseEncryptionKeyNameRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.RuntimeDatabaseEncryptionKeyNameSelector != nil {
+		in, out := &in.RuntimeDatabaseEncryptionKeyNameSelector, &out.RuntimeDatabaseEncryptionKeyNameSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.RuntimeType != nil {
 		in, out := &in.RuntimeType, &out.RuntimeType

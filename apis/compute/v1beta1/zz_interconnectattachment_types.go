@@ -98,6 +98,22 @@ type InterconnectAttachmentInitParameters struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// URL of the cloud router to be used for dynamic routing. This router must be in
+	// the same region as this InterconnectAttachment. The InterconnectAttachment will
+	// automatically connect the Interconnect to the network & region within which the
+	// Cloud Router is configured.
+	// +crossplane:generate:reference:type=Router
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
+	Router *string `json:"router,omitempty" tf:"router,omitempty"`
+
+	// Reference to a Router to populate router.
+	// +kubebuilder:validation:Optional
+	RouterRef *v1.Reference `json:"routerRef,omitempty" tf:"-"`
+
+	// Selector for a Router to populate router.
+	// +kubebuilder:validation:Optional
+	RouterSelector *v1.Selector `json:"routerSelector,omitempty" tf:"-"`
+
 	// The type of InterconnectAttachment you wish to create. Defaults to
 	// DEDICATED.
 	// Possible values are: DEDICATED, PARTNER, PARTNER_PROVIDER.

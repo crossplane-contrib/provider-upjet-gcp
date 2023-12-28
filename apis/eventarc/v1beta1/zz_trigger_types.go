@@ -36,6 +36,18 @@ type CloudRunServiceInitParameters struct {
 
 	// Required. The region the Cloud Run service is deployed in.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// Required. Name of the GKE service.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudrun/v1beta1.Service
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+
+	// Reference to a Service in cloudrun to populate service.
+	// +kubebuilder:validation:Optional
+	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
+
+	// Selector for a Service in cloudrun to populate service.
+	// +kubebuilder:validation:Optional
+	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
 }
 
 type CloudRunServiceObservation struct {

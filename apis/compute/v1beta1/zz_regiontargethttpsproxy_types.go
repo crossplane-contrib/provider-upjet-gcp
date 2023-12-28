@@ -37,6 +37,34 @@ type RegionTargetHTTPSProxyInitParameters struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// A list of RegionSslCertificate resources that are used to authenticate
+	// connections between users and the load balancer. Currently, exactly
+	// one SSL certificate must be specified.
+	// +crossplane:generate:reference:type=RegionSSLCertificate
+	SSLCertificates []*string `json:"sslCertificates,omitempty" tf:"ssl_certificates,omitempty"`
+
+	// References to RegionSSLCertificate to populate sslCertificates.
+	// +kubebuilder:validation:Optional
+	SSLCertificatesRefs []v1.Reference `json:"sslCertificatesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of RegionSSLCertificate to populate sslCertificates.
+	// +kubebuilder:validation:Optional
+	SSLCertificatesSelector *v1.Selector `json:"sslCertificatesSelector,omitempty" tf:"-"`
+
+	// A reference to the RegionUrlMap resource that defines the mapping from URL
+	// to the RegionBackendService.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionURLMap
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	URLMap *string `json:"urlMap,omitempty" tf:"url_map,omitempty"`
+
+	// Reference to a RegionURLMap in compute to populate urlMap.
+	// +kubebuilder:validation:Optional
+	URLMapRef *v1.Reference `json:"urlMapRef,omitempty" tf:"-"`
+
+	// Selector for a RegionURLMap in compute to populate urlMap.
+	// +kubebuilder:validation:Optional
+	URLMapSelector *v1.Selector `json:"urlMapSelector,omitempty" tf:"-"`
 }
 
 type RegionTargetHTTPSProxyObservation struct {

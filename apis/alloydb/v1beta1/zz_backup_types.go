@@ -31,6 +31,19 @@ import (
 
 type BackupInitParameters struct {
 
+	// The full resource name of the backup source cluster (e.g., projects/{project}/locations/{location}/clusters/{clusterId}).
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/alloydb/v1beta1.Cluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	// Reference to a Cluster in alloydb to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameRef *v1.Reference `json:"clusterNameRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in alloydb to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameSelector *v1.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
+
 	// User-provided description of the backup.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

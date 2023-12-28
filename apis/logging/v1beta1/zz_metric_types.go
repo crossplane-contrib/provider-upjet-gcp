@@ -331,6 +331,20 @@ type MetricDescriptorParameters struct {
 
 type MetricInitParameters struct {
 
+	// The resource name of the Log Bucket that owns the Log Metric. Only Log Buckets in projects
+	// are supported. The bucket has to be in the same project as the metric.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/logging/v1beta1.ProjectBucketConfig
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
+
+	// Reference to a ProjectBucketConfig in logging to populate bucketName.
+	// +kubebuilder:validation:Optional
+	BucketNameRef *v1.Reference `json:"bucketNameRef,omitempty" tf:"-"`
+
+	// Selector for a ProjectBucketConfig in logging to populate bucketName.
+	// +kubebuilder:validation:Optional
+	BucketNameSelector *v1.Selector `json:"bucketNameSelector,omitempty" tf:"-"`
+
 	// The bucketOptions are required when the logs-based metric is using a DISTRIBUTION value type and it
 	// describes the bucket boundaries used to create a histogram of the extracted values.
 	// Structure is documented below.

@@ -35,6 +35,18 @@ type GlobalNetworkEndpointInitParameters struct {
 	// This can only be specified when network_endpoint_type of the NEG is INTERNET_FQDN_PORT.
 	Fqdn *string `json:"fqdn,omitempty" tf:"fqdn,omitempty"`
 
+	// The global network endpoint group this endpoint is part of.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.GlobalNetworkEndpointGroup
+	GlobalNetworkEndpointGroup *string `json:"globalNetworkEndpointGroup,omitempty" tf:"global_network_endpoint_group,omitempty"`
+
+	// Reference to a GlobalNetworkEndpointGroup in compute to populate globalNetworkEndpointGroup.
+	// +kubebuilder:validation:Optional
+	GlobalNetworkEndpointGroupRef *v1.Reference `json:"globalNetworkEndpointGroupRef,omitempty" tf:"-"`
+
+	// Selector for a GlobalNetworkEndpointGroup in compute to populate globalNetworkEndpointGroup.
+	// +kubebuilder:validation:Optional
+	GlobalNetworkEndpointGroupSelector *v1.Selector `json:"globalNetworkEndpointGroupSelector,omitempty" tf:"-"`
+
 	// IPv4 address external endpoint.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 

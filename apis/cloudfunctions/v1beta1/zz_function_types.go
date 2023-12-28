@@ -162,6 +162,31 @@ type FunctionInitParameters struct {
 	// If provided, the self-provided service account to run the function with.
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
+	// The GCS bucket containing the zip archive which contains the function.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta1.Bucket
+	SourceArchiveBucket *string `json:"sourceArchiveBucket,omitempty" tf:"source_archive_bucket,omitempty"`
+
+	// Reference to a Bucket in storage to populate sourceArchiveBucket.
+	// +kubebuilder:validation:Optional
+	SourceArchiveBucketRef *v1.Reference `json:"sourceArchiveBucketRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in storage to populate sourceArchiveBucket.
+	// +kubebuilder:validation:Optional
+	SourceArchiveBucketSelector *v1.Selector `json:"sourceArchiveBucketSelector,omitempty" tf:"-"`
+
+	// The source archive object (file) in archive bucket.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta1.BucketObject
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	SourceArchiveObject *string `json:"sourceArchiveObject,omitempty" tf:"source_archive_object,omitempty"`
+
+	// Reference to a BucketObject in storage to populate sourceArchiveObject.
+	// +kubebuilder:validation:Optional
+	SourceArchiveObjectRef *v1.Reference `json:"sourceArchiveObjectRef,omitempty" tf:"-"`
+
+	// Selector for a BucketObject in storage to populate sourceArchiveObject.
+	// +kubebuilder:validation:Optional
+	SourceArchiveObjectSelector *v1.Selector `json:"sourceArchiveObjectSelector,omitempty" tf:"-"`
+
 	// Represents parameters related to source repository where a function is hosted.
 	// Cannot be set alongside source_archive_bucket or source_archive_object. Structure is documented below. It must match the pattern projects/{project}/locations/{location}/repositories/{repository}.*
 	SourceRepository []SourceRepositoryInitParameters `json:"sourceRepository,omitempty" tf:"source_repository,omitempty"`

@@ -1142,6 +1142,19 @@ type SLOInitParameters struct {
 	// The id to use for this ServiceLevelObjective. If omitted, an id will be generated instead.
 	SLOID *string `json:"sloId,omitempty" tf:"slo_id,omitempty"`
 
+	// ID of the service to which this SLO belongs.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/monitoring/v1beta1.CustomService
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("service_id",false)
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+
+	// Reference to a CustomService in monitoring to populate service.
+	// +kubebuilder:validation:Optional
+	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
+
+	// Selector for a CustomService in monitoring to populate service.
+	// +kubebuilder:validation:Optional
+	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
+
 	// This field is intended to be used for organizing and identifying the AlertPolicy
 	// objects.The field can contain up to 64 entries. Each key and value is limited
 	// to 63 Unicode characters or 128 bytes, whichever is smaller. Labels and values

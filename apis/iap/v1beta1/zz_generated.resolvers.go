@@ -49,6 +49,22 @@ func (mg *WebBackendServiceIAMMember) ResolveReferences(ctx context.Context, c c
 	mg.Spec.ForProvider.WebBackendService = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.WebBackendServiceRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.WebBackendService),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.WebBackendServiceRef,
+		Selector:     mg.Spec.InitProvider.WebBackendServiceSelector,
+		To: reference.To{
+			List:    &v1beta1.BackendServiceList{},
+			Managed: &v1beta1.BackendService{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.WebBackendService")
+	}
+	mg.Spec.InitProvider.WebBackendService = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.WebBackendServiceRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -74,6 +90,22 @@ func (mg *WebTypeAppEngineIAMMember) ResolveReferences(ctx context.Context, c cl
 	}
 	mg.Spec.ForProvider.AppID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.AppIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AppID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.AppIDRef,
+		Selector:     mg.Spec.InitProvider.AppIDSelector,
+		To: reference.To{
+			List:    &v1beta11.ApplicationList{},
+			Managed: &v1beta11.Application{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.AppID")
+	}
+	mg.Spec.InitProvider.AppID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.AppIDRef = rsp.ResolvedReference
 
 	return nil
 }

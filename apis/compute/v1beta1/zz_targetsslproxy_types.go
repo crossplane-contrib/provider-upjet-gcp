@@ -31,6 +31,19 @@ import (
 
 type TargetSSLProxyInitParameters struct {
 
+	// A reference to the BackendService resource.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.BackendService
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
+
+	// Reference to a BackendService in compute to populate backendService.
+	// +kubebuilder:validation:Optional
+	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
+
+	// Selector for a BackendService in compute to populate backendService.
+	// +kubebuilder:validation:Optional
+	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
+
 	// A reference to the CertificateMap resource uri that identifies a certificate map
 	// associated with the given target proxy. This field can only be set for global target proxies.
 	// Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificateMaps/{resourceName}.
@@ -48,6 +61,20 @@ type TargetSSLProxyInitParameters struct {
 	// Default value is NONE.
 	// Possible values are: NONE, PROXY_V1.
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
+
+	// A list of SslCertificate resources that are used to authenticate
+	// connections between users and the load balancer. At least one
+	// SSL certificate must be specified.
+	// +crossplane:generate:reference:type=SSLCertificate
+	SSLCertificates []*string `json:"sslCertificates,omitempty" tf:"ssl_certificates,omitempty"`
+
+	// References to SSLCertificate to populate sslCertificates.
+	// +kubebuilder:validation:Optional
+	SSLCertificatesRefs []v1.Reference `json:"sslCertificatesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of SSLCertificate to populate sslCertificates.
+	// +kubebuilder:validation:Optional
+	SSLCertificatesSelector *v1.Selector `json:"sslCertificatesSelector,omitempty" tf:"-"`
 
 	// A reference to the SslPolicy resource that will be associated with
 	// the TargetSslProxy resource. If not set, the TargetSslProxy

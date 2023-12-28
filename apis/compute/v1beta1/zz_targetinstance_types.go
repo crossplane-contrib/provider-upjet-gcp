@@ -34,6 +34,24 @@ type TargetInstanceInitParameters struct {
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The Compute instance VM handling traffic for this target instance.
+	// Accepts the instance self-link, relative path
+	// (e.g. projects/project/zones/zone/instances/instance) or name. If
+	// name is given, the zone will default to the given zone or
+	// the provider-default zone and the project will default to the
+	// provider-level project.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Instance
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
+	// Reference to a Instance in compute to populate instance.
+	// +kubebuilder:validation:Optional
+	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+
+	// Selector for a Instance in compute to populate instance.
+	// +kubebuilder:validation:Optional
+	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+
 	// NAT option controlling how IPs are NAT'ed to the instance.
 	// Currently only NO_NAT (default value) is supported.
 	// Default value is NO_NAT.

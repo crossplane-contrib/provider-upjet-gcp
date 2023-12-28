@@ -44,6 +44,21 @@ type GroupInitParameters struct {
 	// groups that are clusters.
 	IsCluster *bool `json:"isCluster,omitempty" tf:"is_cluster,omitempty"`
 
+	// The name of the group's parent, if it has one. The format is
+	// "projects/{project_id_or_number}/groups/{group_id}". For
+	// groups with no parent, parentName is the empty string, "".
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/monitoring/v1beta1.Group
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	ParentName *string `json:"parentName,omitempty" tf:"parent_name,omitempty"`
+
+	// Reference to a Group in monitoring to populate parentName.
+	// +kubebuilder:validation:Optional
+	ParentNameRef *v1.Reference `json:"parentNameRef,omitempty" tf:"-"`
+
+	// Selector for a Group in monitoring to populate parentName.
+	// +kubebuilder:validation:Optional
+	ParentNameSelector *v1.Selector `json:"parentNameSelector,omitempty" tf:"-"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`

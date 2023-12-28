@@ -33,6 +33,19 @@ type SecretVersionInitParameters struct {
 
 	// The current state of the SecretVersion.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// Secret Manager secret resource
+	// +crossplane:generate:reference:type=Secret
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
+	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
+
+	// Reference to a Secret to populate secret.
+	// +kubebuilder:validation:Optional
+	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
+
+	// Selector for a Secret to populate secret.
+	// +kubebuilder:validation:Optional
+	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
 }
 
 type SecretVersionObservation struct {

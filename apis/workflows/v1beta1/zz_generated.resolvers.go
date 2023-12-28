@@ -49,5 +49,21 @@ func (mg *Workflow) ResolveReferences(ctx context.Context, c client.Reader) erro
 	mg.Spec.ForProvider.ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ServiceAccountRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceAccount),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.ServiceAccountRef,
+		Selector:     mg.Spec.InitProvider.ServiceAccountSelector,
+		To: reference.To{
+			List:    &v1beta1.ServiceAccountList{},
+			Managed: &v1beta1.ServiceAccount{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ServiceAccount")
+	}
+	mg.Spec.InitProvider.ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ServiceAccountRef = rsp.ResolvedReference
+
 	return nil
 }

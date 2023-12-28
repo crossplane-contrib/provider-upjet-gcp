@@ -75,6 +75,22 @@ func (mg *CryptoKeyIAMMember) ResolveReferences(ctx context.Context, c client.Re
 	mg.Spec.ForProvider.CryptoKeyID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CryptoKeyIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CryptoKeyID),
+		Extract:      common.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.CryptoKeyIDRef,
+		Selector:     mg.Spec.InitProvider.CryptoKeyIDSelector,
+		To: reference.To{
+			List:    &CryptoKeyList{},
+			Managed: &CryptoKey{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CryptoKeyID")
+	}
+	mg.Spec.InitProvider.CryptoKeyID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CryptoKeyIDRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -101,6 +117,22 @@ func (mg *CryptoKeyVersion) ResolveReferences(ctx context.Context, c client.Read
 	mg.Spec.ForProvider.CryptoKey = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CryptoKeyRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CryptoKey),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.CryptoKeyRef,
+		Selector:     mg.Spec.InitProvider.CryptoKeySelector,
+		To: reference.To{
+			List:    &CryptoKeyList{},
+			Managed: &CryptoKey{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CryptoKey")
+	}
+	mg.Spec.InitProvider.CryptoKey = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CryptoKeyRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -126,6 +158,22 @@ func (mg *KeyRingIAMMember) ResolveReferences(ctx context.Context, c client.Read
 	}
 	mg.Spec.ForProvider.KeyRingID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.KeyRingIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.KeyRingID),
+		Extract:      common.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.KeyRingIDRef,
+		Selector:     mg.Spec.InitProvider.KeyRingIDSelector,
+		To: reference.To{
+			List:    &KeyRingList{},
+			Managed: &KeyRing{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.KeyRingID")
+	}
+	mg.Spec.InitProvider.KeyRingID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.KeyRingIDRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -178,6 +226,22 @@ func (mg *SecretCiphertext) ResolveReferences(ctx context.Context, c client.Read
 	}
 	mg.Spec.ForProvider.CryptoKey = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CryptoKeyRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CryptoKey),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.CryptoKeyRef,
+		Selector:     mg.Spec.InitProvider.CryptoKeySelector,
+		To: reference.To{
+			List:    &CryptoKeyList{},
+			Managed: &CryptoKey{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CryptoKey")
+	}
+	mg.Spec.InitProvider.CryptoKey = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CryptoKeyRef = rsp.ResolvedReference
 
 	return nil
 }

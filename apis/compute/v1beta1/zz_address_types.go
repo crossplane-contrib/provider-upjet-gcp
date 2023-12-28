@@ -55,6 +55,21 @@ type AddressInitParameters struct {
 	// Possible values are: VM, NETLB.
 	IPv6EndpointType *string `json:"ipv6EndpointType,omitempty" tf:"ipv6_endpoint_type,omitempty"`
 
+	// The URL of the network in which to reserve the address. This field
+	// can only be used with INTERNAL type with the VPC_PEERING and
+	// IPSEC_INTERCONNECT purposes.
+	// +crossplane:generate:reference:type=Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Reference to a Network to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+
 	// The networking tier used for configuring this address. If this field is not
 	// specified, it is assumed to be PREMIUM.
 	// This argument should not be used when configuring Internal addresses, because network tier cannot be set for internal traffic; it's always Premium.
@@ -70,6 +85,22 @@ type AddressInitParameters struct {
 
 	// The purpose of this resource, which can be one of the following values.
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
+
+	// The URL of the subnetwork in which to reserve the address. If an IP
+	// address is specified, it must be within the subnetwork's IP range.
+	// This field can only be used with INTERNAL type with
+	// GCE_ENDPOINT/DNS_RESOLVER purposes.
+	// +crossplane:generate:reference:type=Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+
+	// Reference to a Subnetwork to populate subnetwork.
+	// +kubebuilder:validation:Optional
+	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+
+	// Selector for a Subnetwork to populate subnetwork.
+	// +kubebuilder:validation:Optional
+	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
 
 type AddressObservation struct {

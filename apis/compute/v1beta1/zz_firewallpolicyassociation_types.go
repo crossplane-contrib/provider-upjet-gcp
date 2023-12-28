@@ -31,6 +31,32 @@ import (
 
 type FirewallPolicyAssociationInitParameters struct {
 
+	// The target that the firewall policy is attached to.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Folder
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	AttachmentTarget *string `json:"attachmentTarget,omitempty" tf:"attachment_target,omitempty"`
+
+	// Reference to a Folder in cloudplatform to populate attachmentTarget.
+	// +kubebuilder:validation:Optional
+	AttachmentTargetRef *v1.Reference `json:"attachmentTargetRef,omitempty" tf:"-"`
+
+	// Selector for a Folder in cloudplatform to populate attachmentTarget.
+	// +kubebuilder:validation:Optional
+	AttachmentTargetSelector *v1.Selector `json:"attachmentTargetSelector,omitempty" tf:"-"`
+
+	// The firewall policy ID of the association.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.FirewallPolicy
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	FirewallPolicy *string `json:"firewallPolicy,omitempty" tf:"firewall_policy,omitempty"`
+
+	// Reference to a FirewallPolicy in compute to populate firewallPolicy.
+	// +kubebuilder:validation:Optional
+	FirewallPolicyRef *v1.Reference `json:"firewallPolicyRef,omitempty" tf:"-"`
+
+	// Selector for a FirewallPolicy in compute to populate firewallPolicy.
+	// +kubebuilder:validation:Optional
+	FirewallPolicySelector *v1.Selector `json:"firewallPolicySelector,omitempty" tf:"-"`
+
 	// The name for an association.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }

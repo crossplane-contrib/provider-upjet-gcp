@@ -522,6 +522,21 @@ type PubsubTargetInitParameters struct {
 	// Pubsub message must contain either non-empty data, or at least one attribute.
 	// A base64-encoded string.
 	Data *string `json:"data,omitempty" tf:"data,omitempty"`
+
+	// The full resource name for the Cloud Pub/Sub topic to which
+	// messages will be published when a job is delivered. ~>NOTE:
+	// The topic name must be in the same format as required by PubSub's
+	// PublishRequest.name, e.g. projects/my-project/topics/my-topic.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta1.Topic
+	TopicName *string `json:"topicName,omitempty" tf:"topic_name,omitempty"`
+
+	// Reference to a Topic in pubsub to populate topicName.
+	// +kubebuilder:validation:Optional
+	TopicNameRef *v1.Reference `json:"topicNameRef,omitempty" tf:"-"`
+
+	// Selector for a Topic in pubsub to populate topicName.
+	// +kubebuilder:validation:Optional
+	TopicNameSelector *v1.Selector `json:"topicNameSelector,omitempty" tf:"-"`
 }
 
 type PubsubTargetObservation struct {

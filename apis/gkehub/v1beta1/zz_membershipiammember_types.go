@@ -62,6 +62,17 @@ type MembershipIAMMemberInitParameters struct {
 
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/gkehub/v1beta1.Membership
+	MembershipID *string `json:"membershipId,omitempty" tf:"membership_id,omitempty"`
+
+	// Reference to a Membership in gkehub to populate membershipId.
+	// +kubebuilder:validation:Optional
+	MembershipIDRef *v1.Reference `json:"membershipIdRef,omitempty" tf:"-"`
+
+	// Selector for a Membership in gkehub to populate membershipId.
+	// +kubebuilder:validation:Optional
+	MembershipIDSelector *v1.Selector `json:"membershipIdSelector,omitempty" tf:"-"`
+
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`

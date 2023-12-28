@@ -393,6 +393,26 @@ type IPv6AccessConfigParameters struct {
 
 type InitializeParamsInitParameters struct {
 
+	// The image from which to initialize this disk. This can be
+	// one of: the image's self_link, projects/{project}/global/images/{image},
+	// projects/{project}/global/images/family/{family}, global/images/{image},
+	// global/images/family/{family}, family/{family}, {project}/{family},
+	// {project}/{image}, {family}, or {image}. If referred by family, the
+	// images names must include the family name. If they don't, use the
+	// google_compute_image data source.
+	// For instance, the image centos-6-v20180104 includes its family name centos-6.
+	// These images can be referred by family name here.
+	// +crossplane:generate:reference:type=Image
+	Image *string `json:"image,omitempty" tf:"image,omitempty"`
+
+	// Reference to a Image to populate image.
+	// +kubebuilder:validation:Optional
+	ImageRef *v1.Reference `json:"imageRef,omitempty" tf:"-"`
+
+	// Selector for a Image to populate image.
+	// +kubebuilder:validation:Optional
+	ImageSelector *v1.Selector `json:"imageSelector,omitempty" tf:"-"`
+
 	// A map of key/value label pairs to assign to the instance.
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -1063,9 +1083,24 @@ type NetworkInterfaceInitParameters struct {
 	// specified, then this instance will have no external IPv6 Internet access. Structure documented below.
 	IPv6AccessConfig []IPv6AccessConfigInitParameters `json:"ipv6AccessConfig,omitempty" tf:"ipv6_access_config,omitempty"`
 
+	// The name or self_link of the network to attach this interface to.
+	// Either network or subnetwork must be provided. If network isn't provided it will
+	// be inferred from the subnetwork.
+	// +crossplane:generate:reference:type=Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
 	// The private IP address to assign to the instance. If
 	// empty, the address will be automatically assigned.
 	NetworkIP *string `json:"networkIp,omitempty" tf:"network_ip,omitempty"`
+
+	// Reference to a Network to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET.
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
@@ -1076,11 +1111,30 @@ type NetworkInterfaceInitParameters struct {
 	// The stack type for this network interface to identify whether the IPv6 feature is enabled or not. Values are IPV4_IPV6 or IPV4_ONLY. If not specified, IPV4_ONLY will be used.
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
 
+	// The name or self_link of the subnetwork to attach this
+	// interface to. Either network or subnetwork must be provided. If network isn't provided
+	// it will be inferred from the subnetwork. The subnetwork must exist in the same region this
+	// instance will be created in. If the network resource is in
+	// legacy mode, do not specify this field. If the
+	// network is in auto subnet mode, specifying the subnetwork is optional. If the network is
+	// in custom subnet mode, specifying the subnetwork is required.
+	// +crossplane:generate:reference:type=Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+
 	// The project in which the subnetwork belongs.
 	// If the subnetwork is a self_link, this field is ignored in favor of the project
 	// defined in the subnetwork self_link. If the subnetwork is a name and this
 	// field is not provided, the provider project is used.
 	SubnetworkProject *string `json:"subnetworkProject,omitempty" tf:"subnetwork_project,omitempty"`
+
+	// Reference to a Subnetwork to populate subnetwork.
+	// +kubebuilder:validation:Optional
+	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+
+	// Selector for a Subnetwork to populate subnetwork.
+	// +kubebuilder:validation:Optional
+	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
 
 type NetworkInterfaceObservation struct {
@@ -1512,6 +1566,20 @@ type ScratchDiskParameters struct {
 }
 
 type ServiceAccountInitParameters struct {
+
+	// The service account e-mail address.
+	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
+	Email *string `json:"email,omitempty" tf:"email,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate email.
+	// +kubebuilder:validation:Optional
+	EmailRef *v1.Reference `json:"emailRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate email.
+	// +kubebuilder:validation:Optional
+	EmailSelector *v1.Selector `json:"emailSelector,omitempty" tf:"-"`
 
 	// A list of service scopes. Both OAuth2 URLs and gcloud
 	// short names are supported. To allow full access to all Cloud APIs, use the

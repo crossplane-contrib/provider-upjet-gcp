@@ -68,6 +68,22 @@ type NodeInitParameters struct {
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// The name of a network to peer the TPU node to. It must be a
+	// preexisting Compute Engine network inside of the project on which
+	// this API has been activated. If none is provided, "default" will be
+	// used.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/servicenetworking/v1beta1.Connection
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("network",false)
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Reference to a Connection in servicenetworking to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Connection in servicenetworking to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`

@@ -44,6 +44,19 @@ type BackupInitParameters struct {
 
 	// Name of the file share in the source Cloud Filestore instance that the backup is created from.
 	SourceFileShare *string `json:"sourceFileShare,omitempty" tf:"source_file_share,omitempty"`
+
+	// The resource name of the source Cloud Filestore instance, in the format projects/{projectId}/locations/{locationId}/instances/{instanceId}, used to create this backup.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/filestore/v1beta1.Instance
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	SourceInstance *string `json:"sourceInstance,omitempty" tf:"source_instance,omitempty"`
+
+	// Reference to a Instance in filestore to populate sourceInstance.
+	// +kubebuilder:validation:Optional
+	SourceInstanceRef *v1.Reference `json:"sourceInstanceRef,omitempty" tf:"-"`
+
+	// Selector for a Instance in filestore to populate sourceInstance.
+	// +kubebuilder:validation:Optional
+	SourceInstanceSelector *v1.Selector `json:"sourceInstanceSelector,omitempty" tf:"-"`
 }
 
 type BackupObservation struct {

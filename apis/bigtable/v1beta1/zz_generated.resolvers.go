@@ -89,6 +89,38 @@ func (mg *GarbageCollectionPolicy) ResolveReferences(ctx context.Context, c clie
 	mg.Spec.ForProvider.Table = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TableRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.InstanceName),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.InstanceNameRef,
+		Selector:     mg.Spec.InitProvider.InstanceNameSelector,
+		To: reference.To{
+			List:    &InstanceList{},
+			Managed: &Instance{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.InstanceName")
+	}
+	mg.Spec.InitProvider.InstanceName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.InstanceNameRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Table),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.TableRef,
+		Selector:     mg.Spec.InitProvider.TableSelector,
+		To: reference.To{
+			List:    &TableList{},
+			Managed: &Table{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Table")
+	}
+	mg.Spec.InitProvider.Table = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.TableRef = rsp.ResolvedReference
+
 	return nil
 }
 

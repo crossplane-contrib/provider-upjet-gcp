@@ -100,6 +100,20 @@ type AppEngineParameters struct {
 
 type CloudFunctionInitParameters struct {
 
+	// A user-defined name of the Cloud Function.
+	// The function name is case-sensitive and must be 1-63 characters long.
+	// Example value: "func1".
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudfunctions/v1beta1.Function
+	Function *string `json:"function,omitempty" tf:"function,omitempty"`
+
+	// Reference to a Function in cloudfunctions to populate function.
+	// +kubebuilder:validation:Optional
+	FunctionRef *v1.Reference `json:"functionRef,omitempty" tf:"-"`
+
+	// Selector for a Function in cloudfunctions to populate function.
+	// +kubebuilder:validation:Optional
+	FunctionSelector *v1.Selector `json:"functionSelector,omitempty" tf:"-"`
+
 	// A template to parse function field from a request URL. URL mask allows
 	// for routing to multiple Cloud Functions without having to create
 	// multiple Network Endpoint Groups and backend services.
@@ -153,6 +167,20 @@ type CloudFunctionParameters struct {
 }
 
 type CloudRunInitParameters struct {
+
+	// Cloud Run service is the main resource of Cloud Run.
+	// The service must be 1-63 characters long, and comply with RFC1035.
+	// Example value: "run-service".
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudrun/v1beta1.Service
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+
+	// Reference to a Service in cloudrun to populate service.
+	// +kubebuilder:validation:Optional
+	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
+
+	// Selector for a Service in cloudrun to populate service.
+	// +kubebuilder:validation:Optional
+	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
 
 	// Cloud Run tag represents the "named-revision" to provide
 	// additional fine-grained traffic routing information.
@@ -249,14 +277,57 @@ type RegionNetworkEndpointGroupInitParameters struct {
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// This field is only used for PSC.
+	// The URL of the network to which all network endpoints in the NEG belong. Uses
+	// "default" project network if unspecified.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
 	// Type of network endpoints in this network endpoint group. Defaults to SERVERLESS
 	// Default value is SERVERLESS.
 	// Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT.
 	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
 
+	// Reference to a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The target service url used to set up private service connection to
+	// a Google API or a PSC Producer Service Attachment.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.ServiceAttachment
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	PscTargetService *string `json:"pscTargetService,omitempty" tf:"psc_target_service,omitempty"`
+
+	// Reference to a ServiceAttachment in compute to populate pscTargetService.
+	// +kubebuilder:validation:Optional
+	PscTargetServiceRef *v1.Reference `json:"pscTargetServiceRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAttachment in compute to populate pscTargetService.
+	// +kubebuilder:validation:Optional
+	PscTargetServiceSelector *v1.Selector `json:"pscTargetServiceSelector,omitempty" tf:"-"`
+
+	// This field is only used for PSC.
+	// Optional URL of the subnetwork to which all network endpoints in the NEG belong.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+
+	// Reference to a Subnetwork in compute to populate subnetwork.
+	// +kubebuilder:validation:Optional
+	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+
+	// Selector for a Subnetwork in compute to populate subnetwork.
+	// +kubebuilder:validation:Optional
+	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
 
 type RegionNetworkEndpointGroupObservation struct {

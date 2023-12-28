@@ -51,6 +51,24 @@ func (mg *AppConnection) ResolveReferences(ctx context.Context, c client.Reader)
 		mg.Spec.ForProvider.Gateway[i3].AppGatewayRef = rsp.ResolvedReference
 
 	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Gateway); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Gateway[i3].AppGateway),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.Gateway[i3].AppGatewayRef,
+			Selector:     mg.Spec.InitProvider.Gateway[i3].AppGatewaySelector,
+			To: reference.To{
+				List:    &AppGatewayList{},
+				Managed: &AppGateway{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Gateway[i3].AppGateway")
+		}
+		mg.Spec.InitProvider.Gateway[i3].AppGateway = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Gateway[i3].AppGatewayRef = rsp.ResolvedReference
+
+	}
 
 	return nil
 }
@@ -79,6 +97,26 @@ func (mg *AppConnector) ResolveReferences(ctx context.Context, c client.Reader) 
 			}
 			mg.Spec.ForProvider.PrincipalInfo[i3].ServiceAccount[i4].Email = reference.ToPtrValue(rsp.ResolvedValue)
 			mg.Spec.ForProvider.PrincipalInfo[i3].ServiceAccount[i4].EmailRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.PrincipalInfo); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.PrincipalInfo[i3].ServiceAccount); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PrincipalInfo[i3].ServiceAccount[i4].Email),
+				Extract:      resource.ExtractParamPath("email", true),
+				Reference:    mg.Spec.InitProvider.PrincipalInfo[i3].ServiceAccount[i4].EmailRef,
+				Selector:     mg.Spec.InitProvider.PrincipalInfo[i3].ServiceAccount[i4].EmailSelector,
+				To: reference.To{
+					List:    &v1beta1.ServiceAccountList{},
+					Managed: &v1beta1.ServiceAccount{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.PrincipalInfo[i3].ServiceAccount[i4].Email")
+			}
+			mg.Spec.InitProvider.PrincipalInfo[i3].ServiceAccount[i4].Email = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.PrincipalInfo[i3].ServiceAccount[i4].EmailRef = rsp.ResolvedReference
 
 		}
 	}

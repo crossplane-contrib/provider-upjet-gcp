@@ -120,6 +120,35 @@ type TagInitParameters struct {
 	// Valid field IDs are defined by the tag's template. A tag must have at least 1 field and at most 500 fields.
 	// Structure is documented below.
 	Fields []FieldsInitParameters `json:"fields,omitempty" tf:"fields,omitempty"`
+
+	// The name of the parent this tag is attached to. This can be the name of an entry or an entry group. If an entry group, the tag will be attached to
+	// all entries in that group.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/datacatalog/v1beta1.Entry
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
+
+	// Reference to a Entry in datacatalog to populate parent.
+	// +kubebuilder:validation:Optional
+	ParentRef *v1.Reference `json:"parentRef,omitempty" tf:"-"`
+
+	// Selector for a Entry in datacatalog to populate parent.
+	// +kubebuilder:validation:Optional
+	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
+
+	// The resource name of the tag template that this tag uses. Example:
+	// projects/{project_id}/locations/{location}/tagTemplates/{tagTemplateId}
+	// This field cannot be modified after creation.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/datacatalog/v1beta1.TagTemplate
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Template *string `json:"template,omitempty" tf:"template,omitempty"`
+
+	// Reference to a TagTemplate in datacatalog to populate template.
+	// +kubebuilder:validation:Optional
+	TemplateRef *v1.Reference `json:"templateRef,omitempty" tf:"-"`
+
+	// Selector for a TagTemplate in datacatalog to populate template.
+	// +kubebuilder:validation:Optional
+	TemplateSelector *v1.Selector `json:"templateSelector,omitempty" tf:"-"`
 }
 
 type TagObservation struct {

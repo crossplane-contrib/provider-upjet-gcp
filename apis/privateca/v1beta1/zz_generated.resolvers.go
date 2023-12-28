@@ -49,6 +49,22 @@ func (mg *CAPoolIAMMember) ResolveReferences(ctx context.Context, c client.Reade
 	mg.Spec.ForProvider.CAPool = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CAPoolRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CAPool),
+		Extract:      common.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.CAPoolRef,
+		Selector:     mg.Spec.InitProvider.CAPoolSelector,
+		To: reference.To{
+			List:    &CAPoolList{},
+			Managed: &CAPool{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CAPool")
+	}
+	mg.Spec.InitProvider.CAPool = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CAPoolRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -107,6 +123,38 @@ func (mg *Certificate) ResolveReferences(ctx context.Context, c client.Reader) e
 	mg.Spec.ForProvider.Pool = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.PoolRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CertificateAuthority),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.CertificateAuthorityRef,
+		Selector:     mg.Spec.InitProvider.CertificateAuthoritySelector,
+		To: reference.To{
+			List:    &CertificateAuthorityList{},
+			Managed: &CertificateAuthority{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CertificateAuthority")
+	}
+	mg.Spec.InitProvider.CertificateAuthority = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CertificateAuthorityRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CertificateTemplate),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.CertificateTemplateRef,
+		Selector:     mg.Spec.InitProvider.CertificateTemplateSelector,
+		To: reference.To{
+			List:    &CertificateTemplateList{},
+			Managed: &CertificateTemplate{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CertificateTemplate")
+	}
+	mg.Spec.InitProvider.CertificateTemplate = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CertificateTemplateRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -151,6 +199,24 @@ func (mg *CertificateAuthority) ResolveReferences(ctx context.Context, c client.
 		mg.Spec.ForProvider.SubordinateConfig[i3].CertificateAuthorityRef = rsp.ResolvedReference
 
 	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.SubordinateConfig); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SubordinateConfig[i3].CertificateAuthority),
+			Extract:      resource.ExtractParamPath("name", true),
+			Reference:    mg.Spec.InitProvider.SubordinateConfig[i3].CertificateAuthorityRef,
+			Selector:     mg.Spec.InitProvider.SubordinateConfig[i3].CertificateAuthoritySelector,
+			To: reference.To{
+				List:    &CertificateAuthorityList{},
+				Managed: &CertificateAuthority{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.SubordinateConfig[i3].CertificateAuthority")
+		}
+		mg.Spec.InitProvider.SubordinateConfig[i3].CertificateAuthority = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.SubordinateConfig[i3].CertificateAuthorityRef = rsp.ResolvedReference
+
+	}
 
 	return nil
 }
@@ -177,6 +243,22 @@ func (mg *CertificateTemplateIAMMember) ResolveReferences(ctx context.Context, c
 	}
 	mg.Spec.ForProvider.CertificateTemplate = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CertificateTemplateRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CertificateTemplate),
+		Extract:      common.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.CertificateTemplateRef,
+		Selector:     mg.Spec.InitProvider.CertificateTemplateSelector,
+		To: reference.To{
+			List:    &CertificateTemplateList{},
+			Managed: &CertificateTemplate{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CertificateTemplate")
+	}
+	mg.Spec.InitProvider.CertificateTemplate = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CertificateTemplateRef = rsp.ResolvedReference
 
 	return nil
 }

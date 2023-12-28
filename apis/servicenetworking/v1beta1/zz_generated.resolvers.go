@@ -66,5 +66,37 @@ func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) er
 	mg.Spec.ForProvider.ReservedPeeringRanges = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.ForProvider.ReservedPeeringRangesRefs = mrsp.ResolvedReferences
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Network),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.NetworkRef,
+		Selector:     mg.Spec.InitProvider.NetworkSelector,
+		To: reference.To{
+			List:    &v1beta1.NetworkList{},
+			Managed: &v1beta1.Network{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Network")
+	}
+	mg.Spec.InitProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.NetworkRef = rsp.ResolvedReference
+
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.ReservedPeeringRanges),
+		Extract:       reference.ExternalName(),
+		References:    mg.Spec.InitProvider.ReservedPeeringRangesRefs,
+		Selector:      mg.Spec.InitProvider.ReservedPeeringRangesSelector,
+		To: reference.To{
+			List:    &v1beta1.GlobalAddressList{},
+			Managed: &v1beta1.GlobalAddress{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ReservedPeeringRanges")
+	}
+	mg.Spec.InitProvider.ReservedPeeringRanges = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.ReservedPeeringRangesRefs = mrsp.ResolvedReferences
+
 	return nil
 }

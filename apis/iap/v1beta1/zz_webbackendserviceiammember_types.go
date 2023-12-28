@@ -65,6 +65,17 @@ type WebBackendServiceIAMMemberInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.BackendService
+	WebBackendService *string `json:"webBackendService,omitempty" tf:"web_backend_service,omitempty"`
+
+	// Reference to a BackendService in compute to populate webBackendService.
+	// +kubebuilder:validation:Optional
+	WebBackendServiceRef *v1.Reference `json:"webBackendServiceRef,omitempty" tf:"-"`
+
+	// Selector for a BackendService in compute to populate webBackendService.
+	// +kubebuilder:validation:Optional
+	WebBackendServiceSelector *v1.Selector `json:"webBackendServiceSelector,omitempty" tf:"-"`
 }
 
 type WebBackendServiceIAMMemberObservation struct {

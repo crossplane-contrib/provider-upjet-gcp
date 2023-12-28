@@ -52,6 +52,20 @@ type InstanceInitParameters struct {
 	// Possible values are: DIRECT_PEERING, PRIVATE_SERVICE_ACCESS.
 	ConnectMode *string `json:"connectMode,omitempty" tf:"connect_mode,omitempty"`
 
+	// Optional. The KMS key reference that you want to use to encrypt the data at rest for this Redis
+	// instance. If this is provided, CMEK is enabled.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	CustomerManagedKey *string `json:"customerManagedKey,omitempty" tf:"customer_managed_key,omitempty"`
+
+	// Reference to a CryptoKey in kms to populate customerManagedKey.
+	// +kubebuilder:validation:Optional
+	CustomerManagedKeyRef *v1.Reference `json:"customerManagedKeyRef,omitempty" tf:"-"`
+
+	// Selector for a CryptoKey in kms to populate customerManagedKey.
+	// +kubebuilder:validation:Optional
+	CustomerManagedKeySelector *v1.Selector `json:"customerManagedKeySelector,omitempty" tf:"-"`
+
 	// An arbitrary and optional user-provided name for the instance.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 

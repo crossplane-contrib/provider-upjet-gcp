@@ -453,6 +453,20 @@ type UpstreamPoliciesInitParameters struct {
 
 	// Entries with a greater priority value take precedence in the pull order.
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
+
+	// A reference to the repository resource, for example:
+	// "projects/p1/locations/us-central1/repository/repo1".
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/artifact/v1beta1.RegistryRepository
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
+
+	// Reference to a RegistryRepository in artifact to populate repository.
+	// +kubebuilder:validation:Optional
+	RepositoryRef *v1.Reference `json:"repositoryRef,omitempty" tf:"-"`
+
+	// Selector for a RegistryRepository in artifact to populate repository.
+	// +kubebuilder:validation:Optional
+	RepositorySelector *v1.Selector `json:"repositorySelector,omitempty" tf:"-"`
 }
 
 type UpstreamPoliciesObservation struct {

@@ -213,6 +213,182 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		mg.Spec.ForProvider.ServiceConfig[i3].ServiceAccountEmailRef = rsp.ResolvedReference
 
 	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.BuildConfig); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.BuildConfig[i3].Source); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource); i5++ {
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Bucket),
+					Extract:      reference.ExternalName(),
+					Reference:    mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].BucketRef,
+					Selector:     mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].BucketSelector,
+					To: reference.To{
+						List:    &v1beta1.BucketList{},
+						Managed: &v1beta1.Bucket{},
+					},
+				})
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Bucket")
+				}
+				mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].BucketRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.BuildConfig); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.BuildConfig[i3].Source); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource); i5++ {
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Object),
+					Extract:      resource.ExtractParamPath("name", false),
+					Reference:    mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].ObjectRef,
+					Selector:     mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].ObjectSelector,
+					To: reference.To{
+						List:    &v1beta1.BucketObjectList{},
+						Managed: &v1beta1.BucketObject{},
+					},
+				})
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Object")
+				}
+				mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].Object = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.BuildConfig[i3].Source[i4].StorageSource[i5].ObjectRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.BuildConfig); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BuildConfig[i3].WorkerPool),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.BuildConfig[i3].WorkerPoolRef,
+			Selector:     mg.Spec.InitProvider.BuildConfig[i3].WorkerPoolSelector,
+			To: reference.To{
+				List:    &v1beta11.WorkerPoolList{},
+				Managed: &v1beta11.WorkerPool{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.BuildConfig[i3].WorkerPool")
+		}
+		mg.Spec.InitProvider.BuildConfig[i3].WorkerPool = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.BuildConfig[i3].WorkerPoolRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.EventTrigger); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.EventTrigger[i3].EventFilters); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EventTrigger[i3].EventFilters[i4].Value),
+				Extract:      reference.ExternalName(),
+				Reference:    mg.Spec.InitProvider.EventTrigger[i3].EventFilters[i4].ValueRef,
+				Selector:     mg.Spec.InitProvider.EventTrigger[i3].EventFilters[i4].ValueSelector,
+				To: reference.To{
+					List:    &v1beta1.BucketList{},
+					Managed: &v1beta1.Bucket{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.EventTrigger[i3].EventFilters[i4].Value")
+			}
+			mg.Spec.InitProvider.EventTrigger[i3].EventFilters[i4].Value = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.EventTrigger[i3].EventFilters[i4].ValueRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.EventTrigger); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EventTrigger[i3].PubsubTopic),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.EventTrigger[i3].PubsubTopicRef,
+			Selector:     mg.Spec.InitProvider.EventTrigger[i3].PubsubTopicSelector,
+			To: reference.To{
+				List:    &v1beta12.TopicList{},
+				Managed: &v1beta12.Topic{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.EventTrigger[i3].PubsubTopic")
+		}
+		mg.Spec.InitProvider.EventTrigger[i3].PubsubTopic = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.EventTrigger[i3].PubsubTopicRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.EventTrigger); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EventTrigger[i3].ServiceAccountEmail),
+			Extract:      resource.ExtractParamPath("email", true),
+			Reference:    mg.Spec.InitProvider.EventTrigger[i3].ServiceAccountEmailRef,
+			Selector:     mg.Spec.InitProvider.EventTrigger[i3].ServiceAccountEmailSelector,
+			To: reference.To{
+				List:    &v1beta13.ServiceAccountList{},
+				Managed: &v1beta13.ServiceAccount{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.EventTrigger[i3].ServiceAccountEmail")
+		}
+		mg.Spec.InitProvider.EventTrigger[i3].ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.EventTrigger[i3].ServiceAccountEmailRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.ServiceConfig); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.ServiceConfig[i3].SecretEnvironmentVariables); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].Secret),
+				Extract:      reference.ExternalName(),
+				Reference:    mg.Spec.InitProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].SecretRef,
+				Selector:     mg.Spec.InitProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].SecretSelector,
+				To: reference.To{
+					List:    &v1beta14.SecretList{},
+					Managed: &v1beta14.Secret{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].Secret")
+			}
+			mg.Spec.InitProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].Secret = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.ServiceConfig[i3].SecretEnvironmentVariables[i4].SecretRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.ServiceConfig); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.ServiceConfig[i3].SecretVolumes); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceConfig[i3].SecretVolumes[i4].Secret),
+				Extract:      reference.ExternalName(),
+				Reference:    mg.Spec.InitProvider.ServiceConfig[i3].SecretVolumes[i4].SecretRef,
+				Selector:     mg.Spec.InitProvider.ServiceConfig[i3].SecretVolumes[i4].SecretSelector,
+				To: reference.To{
+					List:    &v1beta14.SecretList{},
+					Managed: &v1beta14.Secret{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.ServiceConfig[i3].SecretVolumes[i4].Secret")
+			}
+			mg.Spec.InitProvider.ServiceConfig[i3].SecretVolumes[i4].Secret = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.ServiceConfig[i3].SecretVolumes[i4].SecretRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.ServiceConfig); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceConfig[i3].ServiceAccountEmail),
+			Extract:      resource.ExtractParamPath("email", true),
+			Reference:    mg.Spec.InitProvider.ServiceConfig[i3].ServiceAccountEmailRef,
+			Selector:     mg.Spec.InitProvider.ServiceConfig[i3].ServiceAccountEmailSelector,
+			To: reference.To{
+				List:    &v1beta13.ServiceAccountList{},
+				Managed: &v1beta13.ServiceAccount{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.ServiceConfig[i3].ServiceAccountEmail")
+		}
+		mg.Spec.InitProvider.ServiceConfig[i3].ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.ServiceConfig[i3].ServiceAccountEmailRef = rsp.ResolvedReference
+
+	}
 
 	return nil
 }

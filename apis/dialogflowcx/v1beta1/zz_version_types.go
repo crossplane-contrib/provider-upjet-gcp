@@ -36,6 +36,20 @@ type VersionInitParameters struct {
 
 	// The human-readable name of the version. Limit of 64 characters.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The Flow to create an Version for.
+	// Format: projects//locations//agents//flows/.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dialogflowcx/v1beta1.Agent
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("start_flow",true)
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
+
+	// Reference to a Agent in dialogflowcx to populate parent.
+	// +kubebuilder:validation:Optional
+	ParentRef *v1.Reference `json:"parentRef,omitempty" tf:"-"`
+
+	// Selector for a Agent in dialogflowcx to populate parent.
+	// +kubebuilder:validation:Optional
+	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
 }
 
 type VersionNluSettingsInitParameters struct {

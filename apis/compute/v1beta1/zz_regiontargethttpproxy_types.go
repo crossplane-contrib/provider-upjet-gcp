@@ -37,6 +37,20 @@ type RegionTargetHTTPProxyInitParameters struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// A reference to the RegionUrlMap resource that defines the mapping from URL
+	// to the BackendService.
+	// +crossplane:generate:reference:type=RegionURLMap
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
+	URLMap *string `json:"urlMap,omitempty" tf:"url_map,omitempty"`
+
+	// Reference to a RegionURLMap to populate urlMap.
+	// +kubebuilder:validation:Optional
+	URLMapRef *v1.Reference `json:"urlMapRef,omitempty" tf:"-"`
+
+	// Selector for a RegionURLMap to populate urlMap.
+	// +kubebuilder:validation:Optional
+	URLMapSelector *v1.Selector `json:"urlMapSelector,omitempty" tf:"-"`
 }
 
 type RegionTargetHTTPProxyObservation struct {

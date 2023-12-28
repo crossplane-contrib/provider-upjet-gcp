@@ -86,6 +86,27 @@ type BigqueryConfigParameters struct {
 
 type DeadLetterPolicyInitParameters struct {
 
+	// The name of the topic to which dead letter messages should be published.
+	// Format is projects/{project}/topics/{topic}.
+	// The Cloud Pub/Sub service account associated with the enclosing subscription's
+	// parent project (i.e.,
+	// service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have
+	// permission to Publish() to this topic.
+	// The operation will fail if the topic does not exist.
+	// Users should ensure that there is a subscription attached to this topic
+	// since messages published to a topic with no subscriptions are lost.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	DeadLetterTopic *string `json:"deadLetterTopic,omitempty" tf:"dead_letter_topic,omitempty"`
+
+	// Reference to a Topic in pubsub to populate deadLetterTopic.
+	// +kubebuilder:validation:Optional
+	DeadLetterTopicRef *v1.Reference `json:"deadLetterTopicRef,omitempty" tf:"-"`
+
+	// Selector for a Topic in pubsub to populate deadLetterTopic.
+	// +kubebuilder:validation:Optional
+	DeadLetterTopicSelector *v1.Selector `json:"deadLetterTopicSelector,omitempty" tf:"-"`
+
 	// The maximum number of delivery attempts for any message. The value must be
 	// between 5 and 100.
 	// The number of delivery attempts is defined as 1 + (the sum of number of
@@ -511,6 +532,18 @@ type SubscriptionInitParameters struct {
 	// RetryPolicy will be triggered on NACKs or acknowledgement deadline exceeded events for a given message
 	// Structure is documented below.
 	RetryPolicy []RetryPolicyInitParameters `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
+
+	// A reference to a Topic resource.
+	// +crossplane:generate:reference:type=Topic
+	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
+
+	// Reference to a Topic to populate topic.
+	// +kubebuilder:validation:Optional
+	TopicRef *v1.Reference `json:"topicRef,omitempty" tf:"-"`
+
+	// Selector for a Topic to populate topic.
+	// +kubebuilder:validation:Optional
+	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type SubscriptionObservation struct {

@@ -70,5 +70,41 @@ func (mg *BackupBackupPlan) ResolveReferences(ctx context.Context, c client.Read
 	mg.Spec.ForProvider.Cluster = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ClusterRef = rsp.ResolvedReference
 
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.BackupConfig); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.BackupConfig[i3].EncryptionKey); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BackupConfig[i3].EncryptionKey[i4].GCPKMSEncryptionKey),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.BackupConfig[i3].EncryptionKey[i4].GCPKMSEncryptionKeyRef,
+				Selector:     mg.Spec.InitProvider.BackupConfig[i3].EncryptionKey[i4].GCPKMSEncryptionKeySelector,
+				To: reference.To{
+					List:    &v1beta1.CryptoKeyList{},
+					Managed: &v1beta1.CryptoKey{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.BackupConfig[i3].EncryptionKey[i4].GCPKMSEncryptionKey")
+			}
+			mg.Spec.InitProvider.BackupConfig[i3].EncryptionKey[i4].GCPKMSEncryptionKey = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.BackupConfig[i3].EncryptionKey[i4].GCPKMSEncryptionKeyRef = rsp.ResolvedReference
+
+		}
+	}
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Cluster),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.ClusterRef,
+		Selector:     mg.Spec.InitProvider.ClusterSelector,
+		To: reference.To{
+			List:    &v1beta11.ClusterList{},
+			Managed: &v1beta11.Cluster{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Cluster")
+	}
+	mg.Spec.InitProvider.Cluster = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ClusterRef = rsp.ResolvedReference
+
 	return nil
 }

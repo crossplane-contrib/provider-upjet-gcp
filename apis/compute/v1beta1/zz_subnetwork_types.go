@@ -101,6 +101,19 @@ type SubnetworkInitParameters_2 struct {
 	// Structure is documented below.
 	LogConfig []SubnetworkLogConfigInitParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
 
+	// The network this subnet belongs to.
+	// Only networks that are in the distributed mode can have subnetworks.
+	// +crossplane:generate:reference:type=Network
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Reference to a Network to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+
 	// When enabled, VMs in this subnetwork without external IP addresses can
 	// access Google APIs and services by using Private Google Access.
 	PrivateIPGoogleAccess *bool `json:"privateIpGoogleAccess,omitempty" tf:"private_ip_google_access,omitempty"`

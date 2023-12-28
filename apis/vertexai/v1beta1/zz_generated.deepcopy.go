@@ -555,6 +555,21 @@ func (in *FeaturestoreEntitytypeInitParameters) DeepCopyInto(out *FeaturestoreEn
 		*out = new(string)
 		**out = **in
 	}
+	if in.Featurestore != nil {
+		in, out := &in.Featurestore, &out.Featurestore
+		*out = new(string)
+		**out = **in
+	}
+	if in.FeaturestoreRef != nil {
+		in, out := &in.FeaturestoreRef, &out.FeaturestoreRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.FeaturestoreSelector != nil {
+		in, out := &in.FeaturestoreSelector, &out.FeaturestoreSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Labels != nil {
 		in, out := &in.Labels, &out.Labels
 		*out = make(map[string]*string, len(*in))

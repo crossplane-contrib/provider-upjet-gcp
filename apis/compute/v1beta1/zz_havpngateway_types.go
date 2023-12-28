@@ -34,6 +34,19 @@ type HaVPNGatewayInitParameters struct {
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The network this VPN gateway is accepting traffic for.
+	// +crossplane:generate:reference:type=Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Reference to a Network to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -127,6 +140,24 @@ type VPNInterfacesInitParameters struct {
 
 	// The numeric ID of this VPN gateway interface.
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// URL of the interconnect attachment resource. When the value
+	// of this field is present, the VPN Gateway will be used for
+	// IPsec-encrypted Cloud Interconnect; all Egress or Ingress
+	// traffic for this VPN Gateway interface will go through the
+	// specified interconnect attachment resource.
+	// Not currently available publicly.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.InterconnectAttachment
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	InterconnectAttachment *string `json:"interconnectAttachment,omitempty" tf:"interconnect_attachment,omitempty"`
+
+	// Reference to a InterconnectAttachment in compute to populate interconnectAttachment.
+	// +kubebuilder:validation:Optional
+	InterconnectAttachmentRef *v1.Reference `json:"interconnectAttachmentRef,omitempty" tf:"-"`
+
+	// Selector for a InterconnectAttachment in compute to populate interconnectAttachment.
+	// +kubebuilder:validation:Optional
+	InterconnectAttachmentSelector *v1.Selector `json:"interconnectAttachmentSelector,omitempty" tf:"-"`
 }
 
 type VPNInterfacesObservation struct {

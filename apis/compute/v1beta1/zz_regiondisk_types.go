@@ -30,6 +30,19 @@ import (
 )
 
 type RegionDiskAsyncPrimaryDiskInitParameters struct {
+
+	// Primary disk for asynchronous disk replication.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionDisk
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
+
+	// Reference to a RegionDisk in compute to populate disk.
+	// +kubebuilder:validation:Optional
+	DiskRef *v1.Reference `json:"diskRef,omitempty" tf:"-"`
+
+	// Selector for a RegionDisk in compute to populate disk.
+	// +kubebuilder:validation:Optional
+	DiskSelector *v1.Selector `json:"diskSelector,omitempty" tf:"-"`
 }
 
 type RegionDiskAsyncPrimaryDiskObservation struct {
@@ -163,6 +176,21 @@ type RegionDiskInitParameters struct {
 	// the value of sizeGb must not be less than the size of the sourceImage
 	// or the size of the snapshot.
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
+
+	// The source snapshot used to create this disk. You can provide this as
+	// a partial or full URL to the resource. For example, the following are
+	// valid values:
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Snapshot
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Snapshot *string `json:"snapshot,omitempty" tf:"snapshot,omitempty"`
+
+	// Reference to a Snapshot in compute to populate snapshot.
+	// +kubebuilder:validation:Optional
+	SnapshotRef *v1.Reference `json:"snapshotRef,omitempty" tf:"-"`
+
+	// Selector for a Snapshot in compute to populate snapshot.
+	// +kubebuilder:validation:Optional
+	SnapshotSelector *v1.Selector `json:"snapshotSelector,omitempty" tf:"-"`
 
 	// The source disk used to create this disk. You can provide this as a partial or full URL to the resource.
 	// For example, the following are valid values:

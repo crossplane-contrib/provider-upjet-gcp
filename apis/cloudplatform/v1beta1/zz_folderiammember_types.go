@@ -60,6 +60,18 @@ type ConditionParameters struct {
 type FolderIAMMemberInitParameters struct {
 	Condition []ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
+	// +crossplane:generate:reference:type=Folder
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
+	Folder *string `json:"folder,omitempty" tf:"folder,omitempty"`
+
+	// Reference to a Folder to populate folder.
+	// +kubebuilder:validation:Optional
+	FolderRef *v1.Reference `json:"folderRef,omitempty" tf:"-"`
+
+	// Selector for a Folder to populate folder.
+	// +kubebuilder:validation:Optional
+	FolderSelector *v1.Selector `json:"folderSelector,omitempty" tf:"-"`
+
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`

@@ -38,6 +38,35 @@ type AttachedDiskInitParameters struct {
 	// the instance.
 	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
+	// name or self_link of the disk that will be attached.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Disk
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
+
+	// Reference to a Disk in compute to populate disk.
+	// +kubebuilder:validation:Optional
+	DiskRef *v1.Reference `json:"diskRef,omitempty" tf:"-"`
+
+	// Selector for a Disk in compute to populate disk.
+	// +kubebuilder:validation:Optional
+	DiskSelector *v1.Selector `json:"diskSelector,omitempty" tf:"-"`
+
+	// name or self_link of the compute instance that the disk will be attached to.
+	// If the self_link is provided then zone and project are extracted from the
+	// self link. If only the name is used then zone and project must be defined
+	// as properties on the resource or provider.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Instance
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
+	// Reference to a Instance in compute to populate instance.
+	// +kubebuilder:validation:Optional
+	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+
+	// Selector for a Instance in compute to populate instance.
+	// +kubebuilder:validation:Optional
+	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+
 	// The mode in which to attach this disk, either READ_WRITE or
 	// READ_ONLY. If not specified, the default is to attach the disk in
 	// READ_WRITE mode.

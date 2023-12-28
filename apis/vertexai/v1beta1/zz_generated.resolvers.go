@@ -48,5 +48,21 @@ func (mg *FeaturestoreEntitytype) ResolveReferences(ctx context.Context, c clien
 	mg.Spec.ForProvider.Featurestore = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.FeaturestoreRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Featurestore),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.FeaturestoreRef,
+		Selector:     mg.Spec.InitProvider.FeaturestoreSelector,
+		To: reference.To{
+			List:    &FeaturestoreList{},
+			Managed: &Featurestore{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Featurestore")
+	}
+	mg.Spec.InitProvider.Featurestore = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.FeaturestoreRef = rsp.ResolvedReference
+
 	return nil
 }

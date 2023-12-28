@@ -52,6 +52,19 @@ type BuildConfigInitParameters struct {
 	// The location of the function source code.
 	// Structure is documented below.
 	Source []SourceInitParameters `json:"source,omitempty" tf:"source,omitempty"`
+
+	// Name of the Cloud Build Custom Worker Pool that should be used to build the function.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudbuild/v1beta1.WorkerPool
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	WorkerPool *string `json:"workerPool,omitempty" tf:"worker_pool,omitempty"`
+
+	// Reference to a WorkerPool in cloudbuild to populate workerPool.
+	// +kubebuilder:validation:Optional
+	WorkerPoolRef *v1.Reference `json:"workerPoolRef,omitempty" tf:"-"`
+
+	// Selector for a WorkerPool in cloudbuild to populate workerPool.
+	// +kubebuilder:validation:Optional
+	WorkerPoolSelector *v1.Selector `json:"workerPoolSelector,omitempty" tf:"-"`
 }
 
 type BuildConfigObservation struct {
@@ -144,6 +157,19 @@ type EventFiltersInitParameters struct {
 	// The only allowed value is match-path-pattern.
 	// See documentation on path patterns here'
 	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// Required. The value for the attribute.
+	// If the operator field is set as match-path-pattern, this value can be a path pattern instead of an exact value.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta1.Bucket
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+
+	// Reference to a Bucket in storage to populate value.
+	// +kubebuilder:validation:Optional
+	ValueRef *v1.Reference `json:"valueRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in storage to populate value.
+	// +kubebuilder:validation:Optional
+	ValueSelector *v1.Selector `json:"valueSelector,omitempty" tf:"-"`
 }
 
 type EventFiltersObservation struct {
@@ -205,10 +231,37 @@ type EventTriggerInitParameters struct {
 	// Required. The type of event to observe.
 	EventType *string `json:"eventType,omitempty" tf:"event_type,omitempty"`
 
+	// The name of a Pub/Sub topic in the same project that will be used
+	// as the transport topic for the event delivery.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	PubsubTopic *string `json:"pubsubTopic,omitempty" tf:"pubsub_topic,omitempty"`
+
+	// Reference to a Topic in pubsub to populate pubsubTopic.
+	// +kubebuilder:validation:Optional
+	PubsubTopicRef *v1.Reference `json:"pubsubTopicRef,omitempty" tf:"-"`
+
+	// Selector for a Topic in pubsub to populate pubsubTopic.
+	// +kubebuilder:validation:Optional
+	PubsubTopicSelector *v1.Selector `json:"pubsubTopicSelector,omitempty" tf:"-"`
+
 	// Describes the retry policy in case of function's execution failure.
 	// Retried execution is charged as any other execution.
 	// Possible values are: RETRY_POLICY_UNSPECIFIED, RETRY_POLICY_DO_NOT_RETRY, RETRY_POLICY_RETRY.
 	RetryPolicy *string `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
+
+	// The email of the service account for this function.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 
 	// The region that the trigger will be in. The trigger will only receive
 	// events originating in this region. It can be the same
@@ -505,6 +558,18 @@ type SecretEnvironmentVariablesInitParameters struct {
 	// Project identifier (preferrably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// Name of the secret in secret manager (not the full resource name).
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/secretmanager/v1beta1.Secret
+	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
+
+	// Reference to a Secret in secretmanager to populate secret.
+	// +kubebuilder:validation:Optional
+	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
+
+	// Selector for a Secret in secretmanager to populate secret.
+	// +kubebuilder:validation:Optional
+	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
+
 	// Version of the secret (version number or the string 'latest'). It is preferable to use latest version with secret volumes as secret value changes are reflected immediately.
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
@@ -559,6 +624,18 @@ type SecretVolumesInitParameters struct {
 
 	// Project identifier (preferrably project number but can also be the project ID) of the project that contains the secret. If not set, it will be populated with the function's project assuming that the secret exists in the same project as of the function.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Name of the secret in secret manager (not the full resource name).
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/secretmanager/v1beta1.Secret
+	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
+
+	// Reference to a Secret in secretmanager to populate secret.
+	// +kubebuilder:validation:Optional
+	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
+
+	// Selector for a Secret in secretmanager to populate secret.
+	// +kubebuilder:validation:Optional
+	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
 
 	// List of secret versions to mount for this secret. If empty, the latest version of the secret will be made available in a file named after the secret under the mount point.'
 	// Structure is documented below.
@@ -653,6 +730,19 @@ type ServiceConfigInitParameters struct {
 
 	// Name of the service associated with a Function.
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+
+	// The email of the service account for this function.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 
 	// The function execution timeout. Execution is considered failed and
 	// can be terminated if the function is not completed at the end of the
@@ -857,9 +947,34 @@ type SourceParameters struct {
 
 type StorageSourceInitParameters struct {
 
+	// Google Cloud Storage bucket containing the source
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta1.Bucket
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// Reference to a Bucket in storage to populate bucket.
+	// +kubebuilder:validation:Optional
+	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in storage to populate bucket.
+	// +kubebuilder:validation:Optional
+	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+
 	// Google Cloud Storage generation for the object. If the generation
 	// is omitted, the latest generation will be used.
 	Generation *float64 `json:"generation,omitempty" tf:"generation,omitempty"`
+
+	// Google Cloud Storage object containing the source.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta1.BucketObject
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+
+	// Reference to a BucketObject in storage to populate object.
+	// +kubebuilder:validation:Optional
+	ObjectRef *v1.Reference `json:"objectRef,omitempty" tf:"-"`
+
+	// Selector for a BucketObject in storage to populate object.
+	// +kubebuilder:validation:Optional
+	ObjectSelector *v1.Selector `json:"objectSelector,omitempty" tf:"-"`
 }
 
 type StorageSourceObservation struct {

@@ -33,6 +33,32 @@ type SharedVPCServiceProjectInitParameters struct {
 
 	// The deletion policy for the shared VPC service. Setting ABANDON allows the resource to be abandoned rather than deleted. Possible values are: "ABANDON".
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
+	// The ID of a host project to associate.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractProjectID()
+	HostProject *string `json:"hostProject,omitempty" tf:"host_project,omitempty"`
+
+	// Reference to a Project in cloudplatform to populate hostProject.
+	// +kubebuilder:validation:Optional
+	HostProjectRef *v1.Reference `json:"hostProjectRef,omitempty" tf:"-"`
+
+	// Selector for a Project in cloudplatform to populate hostProject.
+	// +kubebuilder:validation:Optional
+	HostProjectSelector *v1.Selector `json:"hostProjectSelector,omitempty" tf:"-"`
+
+	// The ID of the project that will serve as a Shared VPC service project.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractProjectID()
+	ServiceProject *string `json:"serviceProject,omitempty" tf:"service_project,omitempty"`
+
+	// Reference to a Project in cloudplatform to populate serviceProject.
+	// +kubebuilder:validation:Optional
+	ServiceProjectRef *v1.Reference `json:"serviceProjectRef,omitempty" tf:"-"`
+
+	// Selector for a Project in cloudplatform to populate serviceProject.
+	// +kubebuilder:validation:Optional
+	ServiceProjectSelector *v1.Selector `json:"serviceProjectSelector,omitempty" tf:"-"`
 }
 
 type SharedVPCServiceProjectObservation struct {

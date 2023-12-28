@@ -118,6 +118,22 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	mg.Spec.ForProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.OrgIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DiskEncryptionKeyName),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.DiskEncryptionKeyNameRef,
+		Selector:     mg.Spec.InitProvider.DiskEncryptionKeyNameSelector,
+		To: reference.To{
+			List:    &v1beta1.CryptoKeyList{},
+			Managed: &v1beta1.CryptoKey{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.DiskEncryptionKeyName")
+	}
+	mg.Spec.InitProvider.DiskEncryptionKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.DiskEncryptionKeyNameRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -185,6 +201,38 @@ func (mg *Organization) ResolveReferences(ctx context.Context, c client.Reader) 
 	}
 	mg.Spec.ForProvider.RuntimeDatabaseEncryptionKeyName = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.RuntimeDatabaseEncryptionKeyNameRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AuthorizedNetwork),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.AuthorizedNetworkRef,
+		Selector:     mg.Spec.InitProvider.AuthorizedNetworkSelector,
+		To: reference.To{
+			List:    &v1beta11.NetworkList{},
+			Managed: &v1beta11.Network{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.AuthorizedNetwork")
+	}
+	mg.Spec.InitProvider.AuthorizedNetwork = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.AuthorizedNetworkRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyName),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyNameRef,
+		Selector:     mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyNameSelector,
+		To: reference.To{
+			List:    &v1beta1.CryptoKeyList{},
+			Managed: &v1beta1.CryptoKey{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyName")
+	}
+	mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.RuntimeDatabaseEncryptionKeyNameRef = rsp.ResolvedReference
 
 	return nil
 }

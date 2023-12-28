@@ -51,6 +51,22 @@ func (mg *AnalyticsHubDataExchangeIAMMember) ResolveReferences(ctx context.Conte
 	mg.Spec.ForProvider.DataExchangeID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DataExchangeIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DataExchangeID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.DataExchangeIDRef,
+		Selector:     mg.Spec.InitProvider.DataExchangeIDSelector,
+		To: reference.To{
+			List:    &AnalyticsHubDataExchangeList{},
+			Managed: &AnalyticsHubDataExchange{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.DataExchangeID")
+	}
+	mg.Spec.InitProvider.DataExchangeID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.DataExchangeIDRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -94,6 +110,25 @@ func (mg *AnalyticsHubListing) ResolveReferences(ctx context.Context, c client.R
 	}
 	mg.Spec.ForProvider.DataExchangeID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DataExchangeIDRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.BigqueryDataset); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BigqueryDataset[i3].Dataset),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.BigqueryDataset[i3].DatasetRef,
+			Selector:     mg.Spec.InitProvider.BigqueryDataset[i3].DatasetSelector,
+			To: reference.To{
+				List:    &DatasetList{},
+				Managed: &Dataset{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.BigqueryDataset[i3].Dataset")
+		}
+		mg.Spec.InitProvider.BigqueryDataset[i3].Dataset = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.BigqueryDataset[i3].DatasetRef = rsp.ResolvedReference
+
+	}
 
 	return nil
 }
@@ -161,6 +196,62 @@ func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) er
 		mg.Spec.ForProvider.CloudSQL[i3].InstanceIDRef = rsp.ResolvedReference
 
 	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.CloudSQL); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.CloudSQL[i3].Credential); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CloudSQL[i3].Credential[i4].Username),
+				Extract:      reference.ExternalName(),
+				Reference:    mg.Spec.InitProvider.CloudSQL[i3].Credential[i4].UsernameRef,
+				Selector:     mg.Spec.InitProvider.CloudSQL[i3].Credential[i4].UsernameSelector,
+				To: reference.To{
+					List:    &v1beta1.UserList{},
+					Managed: &v1beta1.User{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.CloudSQL[i3].Credential[i4].Username")
+			}
+			mg.Spec.InitProvider.CloudSQL[i3].Credential[i4].Username = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.CloudSQL[i3].Credential[i4].UsernameRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.CloudSQL); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CloudSQL[i3].Database),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.InitProvider.CloudSQL[i3].DatabaseRef,
+			Selector:     mg.Spec.InitProvider.CloudSQL[i3].DatabaseSelector,
+			To: reference.To{
+				List:    &v1beta1.DatabaseList{},
+				Managed: &v1beta1.Database{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.CloudSQL[i3].Database")
+		}
+		mg.Spec.InitProvider.CloudSQL[i3].Database = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.CloudSQL[i3].DatabaseRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.CloudSQL); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CloudSQL[i3].InstanceID),
+			Extract:      resource.ExtractParamPath("connection_name", true),
+			Reference:    mg.Spec.InitProvider.CloudSQL[i3].InstanceIDRef,
+			Selector:     mg.Spec.InitProvider.CloudSQL[i3].InstanceIDSelector,
+			To: reference.To{
+				List:    &v1beta1.DatabaseInstanceList{},
+				Managed: &v1beta1.DatabaseInstance{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.CloudSQL[i3].InstanceID")
+		}
+		mg.Spec.InitProvider.CloudSQL[i3].InstanceID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.CloudSQL[i3].InstanceIDRef = rsp.ResolvedReference
+
+	}
 
 	return nil
 }
@@ -187,6 +278,22 @@ func (mg *DataTransferConfig) ResolveReferences(ctx context.Context, c client.Re
 	}
 	mg.Spec.ForProvider.DestinationDatasetID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DestinationDatasetIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DestinationDatasetID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.DestinationDatasetIDRef,
+		Selector:     mg.Spec.InitProvider.DestinationDatasetIDSelector,
+		To: reference.To{
+			List:    &DatasetList{},
+			Managed: &Dataset{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.DestinationDatasetID")
+	}
+	mg.Spec.InitProvider.DestinationDatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.DestinationDatasetIDRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -314,6 +421,124 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 		}
 		mg.Spec.ForProvider.DefaultEncryptionConfiguration[i3].KMSKeyName = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.ForProvider.DefaultEncryptionConfiguration[i3].KMSKeyNameRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Access); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Access[i3].Dataset); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.InitProvider.Access[i3].Dataset[i4].Dataset); i5++ {
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Access[i3].Dataset[i4].Dataset[i5].DatasetID),
+					Extract:      reference.ExternalName(),
+					Reference:    mg.Spec.InitProvider.Access[i3].Dataset[i4].Dataset[i5].DatasetIDRef,
+					Selector:     mg.Spec.InitProvider.Access[i3].Dataset[i4].Dataset[i5].DatasetIDSelector,
+					To: reference.To{
+						List:    &DatasetList{},
+						Managed: &Dataset{},
+					},
+				})
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.InitProvider.Access[i3].Dataset[i4].Dataset[i5].DatasetID")
+				}
+				mg.Spec.InitProvider.Access[i3].Dataset[i4].Dataset[i5].DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.Access[i3].Dataset[i4].Dataset[i5].DatasetIDRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Access); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Access[i3].Routine); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Access[i3].Routine[i4].DatasetID),
+				Extract:      resource.ExtractParamPath("dataset_id", false),
+				Reference:    mg.Spec.InitProvider.Access[i3].Routine[i4].DatasetIDRef,
+				Selector:     mg.Spec.InitProvider.Access[i3].Routine[i4].DatasetIDSelector,
+				To: reference.To{
+					List:    &RoutineList{},
+					Managed: &Routine{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Access[i3].Routine[i4].DatasetID")
+			}
+			mg.Spec.InitProvider.Access[i3].Routine[i4].DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Access[i3].Routine[i4].DatasetIDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Access); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Access[i3].Routine); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Access[i3].Routine[i4].ProjectID),
+				Extract:      resource.ExtractParamPath("project", false),
+				Reference:    mg.Spec.InitProvider.Access[i3].Routine[i4].ProjectIDRef,
+				Selector:     mg.Spec.InitProvider.Access[i3].Routine[i4].ProjectIDSelector,
+				To: reference.To{
+					List:    &RoutineList{},
+					Managed: &Routine{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Access[i3].Routine[i4].ProjectID")
+			}
+			mg.Spec.InitProvider.Access[i3].Routine[i4].ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Access[i3].Routine[i4].ProjectIDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Access); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Access[i3].Routine); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Access[i3].Routine[i4].RoutineID),
+				Extract:      reference.ExternalName(),
+				Reference:    mg.Spec.InitProvider.Access[i3].Routine[i4].RoutineIDRef,
+				Selector:     mg.Spec.InitProvider.Access[i3].Routine[i4].RoutineIDSelector,
+				To: reference.To{
+					List:    &RoutineList{},
+					Managed: &Routine{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Access[i3].Routine[i4].RoutineID")
+			}
+			mg.Spec.InitProvider.Access[i3].Routine[i4].RoutineID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Access[i3].Routine[i4].RoutineIDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Access); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Access[i3].UserByEmail),
+			Extract:      resource.ExtractParamPath("email", true),
+			Reference:    mg.Spec.InitProvider.Access[i3].UserByEmailRef,
+			Selector:     mg.Spec.InitProvider.Access[i3].UserByEmailSelector,
+			To: reference.To{
+				List:    &v1beta11.ServiceAccountList{},
+				Managed: &v1beta11.ServiceAccount{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Access[i3].UserByEmail")
+		}
+		mg.Spec.InitProvider.Access[i3].UserByEmail = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Access[i3].UserByEmailRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.DefaultEncryptionConfiguration); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DefaultEncryptionConfiguration[i3].KMSKeyName),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.DefaultEncryptionConfiguration[i3].KMSKeyNameRef,
+			Selector:     mg.Spec.InitProvider.DefaultEncryptionConfiguration[i3].KMSKeyNameSelector,
+			To: reference.To{
+				List:    &v1beta12.CryptoKeyList{},
+				Managed: &v1beta12.CryptoKey{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.DefaultEncryptionConfiguration[i3].KMSKeyName")
+		}
+		mg.Spec.InitProvider.DefaultEncryptionConfiguration[i3].KMSKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.DefaultEncryptionConfiguration[i3].KMSKeyNameRef = rsp.ResolvedReference
 
 	}
 
@@ -467,6 +692,148 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 		}
 		mg.Spec.ForProvider.View[i3].TableID = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.ForProvider.View[i3].TableIDRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Dataset); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Dataset[i3].Dataset); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Dataset[i3].Dataset[i4].DatasetID),
+				Extract:      reference.ExternalName(),
+				Reference:    mg.Spec.InitProvider.Dataset[i3].Dataset[i4].DatasetIDRef,
+				Selector:     mg.Spec.InitProvider.Dataset[i3].Dataset[i4].DatasetIDSelector,
+				To: reference.To{
+					List:    &DatasetList{},
+					Managed: &Dataset{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Dataset[i3].Dataset[i4].DatasetID")
+			}
+			mg.Spec.InitProvider.Dataset[i3].Dataset[i4].DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Dataset[i3].Dataset[i4].DatasetIDRef = rsp.ResolvedReference
+
+		}
+	}
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DatasetID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.DatasetIDRef,
+		Selector:     mg.Spec.InitProvider.DatasetIDSelector,
+		To: reference.To{
+			List:    &DatasetList{},
+			Managed: &Dataset{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.DatasetID")
+	}
+	mg.Spec.InitProvider.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.DatasetIDRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Routine); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Routine[i3].DatasetID),
+			Extract:      resource.ExtractParamPath("dataset_id", false),
+			Reference:    mg.Spec.InitProvider.Routine[i3].DatasetIDRef,
+			Selector:     mg.Spec.InitProvider.Routine[i3].DatasetIDSelector,
+			To: reference.To{
+				List:    &RoutineList{},
+				Managed: &Routine{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Routine[i3].DatasetID")
+		}
+		mg.Spec.InitProvider.Routine[i3].DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Routine[i3].DatasetIDRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Routine); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Routine[i3].ProjectID),
+			Extract:      resource.ExtractParamPath("project", false),
+			Reference:    mg.Spec.InitProvider.Routine[i3].ProjectIDRef,
+			Selector:     mg.Spec.InitProvider.Routine[i3].ProjectIDSelector,
+			To: reference.To{
+				List:    &RoutineList{},
+				Managed: &Routine{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Routine[i3].ProjectID")
+		}
+		mg.Spec.InitProvider.Routine[i3].ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Routine[i3].ProjectIDRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Routine); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Routine[i3].RoutineID),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.InitProvider.Routine[i3].RoutineIDRef,
+			Selector:     mg.Spec.InitProvider.Routine[i3].RoutineIDSelector,
+			To: reference.To{
+				List:    &RoutineList{},
+				Managed: &Routine{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Routine[i3].RoutineID")
+		}
+		mg.Spec.InitProvider.Routine[i3].RoutineID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Routine[i3].RoutineIDRef = rsp.ResolvedReference
+
+	}
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.UserByEmail),
+		Extract:      resource.ExtractParamPath("email", true),
+		Reference:    mg.Spec.InitProvider.UserByEmailRef,
+		Selector:     mg.Spec.InitProvider.UserByEmailSelector,
+		To: reference.To{
+			List:    &v1beta11.ServiceAccountList{},
+			Managed: &v1beta11.ServiceAccount{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.UserByEmail")
+	}
+	mg.Spec.InitProvider.UserByEmail = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.UserByEmailRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.View); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.View[i3].DatasetID),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.InitProvider.View[i3].DatasetIDRef,
+			Selector:     mg.Spec.InitProvider.View[i3].DatasetIDSelector,
+			To: reference.To{
+				List:    &DatasetList{},
+				Managed: &Dataset{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.View[i3].DatasetID")
+		}
+		mg.Spec.InitProvider.View[i3].DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.View[i3].DatasetIDRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.View); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.View[i3].TableID),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.InitProvider.View[i3].TableIDRef,
+			Selector:     mg.Spec.InitProvider.View[i3].TableIDSelector,
+			To: reference.To{
+				List:    &TableList{},
+				Managed: &Table{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.View[i3].TableID")
+		}
+		mg.Spec.InitProvider.View[i3].TableID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.View[i3].TableIDRef = rsp.ResolvedReference
 
 	}
 
@@ -758,6 +1125,206 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 
 		}
 	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Copy); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Copy[i3].DestinationEncryptionConfiguration); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Copy[i3].DestinationEncryptionConfiguration[i4].KMSKeyName),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.Copy[i3].DestinationEncryptionConfiguration[i4].KMSKeyNameRef,
+				Selector:     mg.Spec.InitProvider.Copy[i3].DestinationEncryptionConfiguration[i4].KMSKeyNameSelector,
+				To: reference.To{
+					List:    &v1beta12.CryptoKeyList{},
+					Managed: &v1beta12.CryptoKey{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Copy[i3].DestinationEncryptionConfiguration[i4].KMSKeyName")
+			}
+			mg.Spec.InitProvider.Copy[i3].DestinationEncryptionConfiguration[i4].KMSKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Copy[i3].DestinationEncryptionConfiguration[i4].KMSKeyNameRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Copy); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Copy[i3].DestinationTable); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Copy[i3].DestinationTable[i4].DatasetID),
+				Extract:      reference.ExternalName(),
+				Reference:    mg.Spec.InitProvider.Copy[i3].DestinationTable[i4].DatasetIDRef,
+				Selector:     mg.Spec.InitProvider.Copy[i3].DestinationTable[i4].DatasetIDSelector,
+				To: reference.To{
+					List:    &DatasetList{},
+					Managed: &Dataset{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Copy[i3].DestinationTable[i4].DatasetID")
+			}
+			mg.Spec.InitProvider.Copy[i3].DestinationTable[i4].DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Copy[i3].DestinationTable[i4].DatasetIDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Copy); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Copy[i3].DestinationTable); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Copy[i3].DestinationTable[i4].TableID),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.Copy[i3].DestinationTable[i4].TableIDRef,
+				Selector:     mg.Spec.InitProvider.Copy[i3].DestinationTable[i4].TableIDSelector,
+				To: reference.To{
+					List:    &TableList{},
+					Managed: &Table{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Copy[i3].DestinationTable[i4].TableID")
+			}
+			mg.Spec.InitProvider.Copy[i3].DestinationTable[i4].TableID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Copy[i3].DestinationTable[i4].TableIDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Extract); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Extract[i3].SourceTable); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Extract[i3].SourceTable[i4].DatasetID),
+				Extract:      reference.ExternalName(),
+				Reference:    mg.Spec.InitProvider.Extract[i3].SourceTable[i4].DatasetIDRef,
+				Selector:     mg.Spec.InitProvider.Extract[i3].SourceTable[i4].DatasetIDSelector,
+				To: reference.To{
+					List:    &DatasetList{},
+					Managed: &Dataset{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Extract[i3].SourceTable[i4].DatasetID")
+			}
+			mg.Spec.InitProvider.Extract[i3].SourceTable[i4].DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Extract[i3].SourceTable[i4].DatasetIDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Extract); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Extract[i3].SourceTable); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Extract[i3].SourceTable[i4].TableID),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.Extract[i3].SourceTable[i4].TableIDRef,
+				Selector:     mg.Spec.InitProvider.Extract[i3].SourceTable[i4].TableIDSelector,
+				To: reference.To{
+					List:    &TableList{},
+					Managed: &Table{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Extract[i3].SourceTable[i4].TableID")
+			}
+			mg.Spec.InitProvider.Extract[i3].SourceTable[i4].TableID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Extract[i3].SourceTable[i4].TableIDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Load); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Load[i3].DestinationTable); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Load[i3].DestinationTable[i4].DatasetID),
+				Extract:      reference.ExternalName(),
+				Reference:    mg.Spec.InitProvider.Load[i3].DestinationTable[i4].DatasetIDRef,
+				Selector:     mg.Spec.InitProvider.Load[i3].DestinationTable[i4].DatasetIDSelector,
+				To: reference.To{
+					List:    &DatasetList{},
+					Managed: &Dataset{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Load[i3].DestinationTable[i4].DatasetID")
+			}
+			mg.Spec.InitProvider.Load[i3].DestinationTable[i4].DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Load[i3].DestinationTable[i4].DatasetIDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Load); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Load[i3].DestinationTable); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Load[i3].DestinationTable[i4].TableID),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.Load[i3].DestinationTable[i4].TableIDRef,
+				Selector:     mg.Spec.InitProvider.Load[i3].DestinationTable[i4].TableIDSelector,
+				To: reference.To{
+					List:    &TableList{},
+					Managed: &Table{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Load[i3].DestinationTable[i4].TableID")
+			}
+			mg.Spec.InitProvider.Load[i3].DestinationTable[i4].TableID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Load[i3].DestinationTable[i4].TableIDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Query); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Query[i3].DefaultDataset); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Query[i3].DefaultDataset[i4].DatasetID),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.Query[i3].DefaultDataset[i4].DatasetIDRef,
+				Selector:     mg.Spec.InitProvider.Query[i3].DefaultDataset[i4].DatasetIDSelector,
+				To: reference.To{
+					List:    &DatasetList{},
+					Managed: &Dataset{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Query[i3].DefaultDataset[i4].DatasetID")
+			}
+			mg.Spec.InitProvider.Query[i3].DefaultDataset[i4].DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Query[i3].DefaultDataset[i4].DatasetIDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Query); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Query[i3].DestinationTable); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Query[i3].DestinationTable[i4].DatasetID),
+				Extract:      reference.ExternalName(),
+				Reference:    mg.Spec.InitProvider.Query[i3].DestinationTable[i4].DatasetIDRef,
+				Selector:     mg.Spec.InitProvider.Query[i3].DestinationTable[i4].DatasetIDSelector,
+				To: reference.To{
+					List:    &DatasetList{},
+					Managed: &Dataset{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Query[i3].DestinationTable[i4].DatasetID")
+			}
+			mg.Spec.InitProvider.Query[i3].DestinationTable[i4].DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Query[i3].DestinationTable[i4].DatasetIDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Query); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Query[i3].DestinationTable); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Query[i3].DestinationTable[i4].TableID),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.Query[i3].DestinationTable[i4].TableIDRef,
+				Selector:     mg.Spec.InitProvider.Query[i3].DestinationTable[i4].TableIDSelector,
+				To: reference.To{
+					List:    &TableList{},
+					Managed: &Table{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Query[i3].DestinationTable[i4].TableID")
+			}
+			mg.Spec.InitProvider.Query[i3].DestinationTable[i4].TableID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Query[i3].DestinationTable[i4].TableIDRef = rsp.ResolvedReference
+
+		}
+	}
 
 	return nil
 }
@@ -879,6 +1446,38 @@ func (mg *TableIAMBinding) ResolveReferences(ctx context.Context, c client.Reade
 	mg.Spec.ForProvider.TableID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TableIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DatasetID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.DatasetIDRef,
+		Selector:     mg.Spec.InitProvider.DatasetIDSelector,
+		To: reference.To{
+			List:    &DatasetList{},
+			Managed: &Dataset{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.DatasetID")
+	}
+	mg.Spec.InitProvider.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.DatasetIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.TableID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.TableIDRef,
+		Selector:     mg.Spec.InitProvider.TableIDSelector,
+		To: reference.To{
+			List:    &TableList{},
+			Managed: &Table{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.TableID")
+	}
+	mg.Spec.InitProvider.TableID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.TableIDRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -962,6 +1561,38 @@ func (mg *TableIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader
 	}
 	mg.Spec.ForProvider.TableID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TableIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DatasetID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.DatasetIDRef,
+		Selector:     mg.Spec.InitProvider.DatasetIDSelector,
+		To: reference.To{
+			List:    &DatasetList{},
+			Managed: &Dataset{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.DatasetID")
+	}
+	mg.Spec.InitProvider.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.DatasetIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.TableID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.TableIDRef,
+		Selector:     mg.Spec.InitProvider.TableIDSelector,
+		To: reference.To{
+			List:    &TableList{},
+			Managed: &Table{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.TableID")
+	}
+	mg.Spec.InitProvider.TableID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.TableIDRef = rsp.ResolvedReference
 
 	return nil
 }

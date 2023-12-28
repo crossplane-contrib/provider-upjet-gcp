@@ -70,6 +70,42 @@ func (mg *Repository) ResolveReferences(ctx context.Context, c client.Reader) er
 		mg.Spec.ForProvider.PubsubConfigs[i3].TopicRef = rsp.ResolvedReference
 
 	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.PubsubConfigs); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PubsubConfigs[i3].ServiceAccountEmail),
+			Extract:      resource.ExtractParamPath("email", true),
+			Reference:    mg.Spec.InitProvider.PubsubConfigs[i3].ServiceAccountEmailRef,
+			Selector:     mg.Spec.InitProvider.PubsubConfigs[i3].ServiceAccountEmailSelector,
+			To: reference.To{
+				List:    &v1beta1.ServiceAccountList{},
+				Managed: &v1beta1.ServiceAccount{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.PubsubConfigs[i3].ServiceAccountEmail")
+		}
+		mg.Spec.InitProvider.PubsubConfigs[i3].ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.PubsubConfigs[i3].ServiceAccountEmailRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.PubsubConfigs); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PubsubConfigs[i3].Topic),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.PubsubConfigs[i3].TopicRef,
+			Selector:     mg.Spec.InitProvider.PubsubConfigs[i3].TopicSelector,
+			To: reference.To{
+				List:    &v1beta11.TopicList{},
+				Managed: &v1beta11.Topic{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.PubsubConfigs[i3].Topic")
+		}
+		mg.Spec.InitProvider.PubsubConfigs[i3].Topic = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.PubsubConfigs[i3].TopicRef = rsp.ResolvedReference
+
+	}
 
 	return nil
 }
@@ -96,6 +132,22 @@ func (mg *RepositoryIAMMember) ResolveReferences(ctx context.Context, c client.R
 	}
 	mg.Spec.ForProvider.Repository = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.RepositoryRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Repository),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.RepositoryRef,
+		Selector:     mg.Spec.InitProvider.RepositorySelector,
+		To: reference.To{
+			List:    &RepositoryList{},
+			Managed: &Repository{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Repository")
+	}
+	mg.Spec.InitProvider.Repository = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.RepositoryRef = rsp.ResolvedReference
 
 	return nil
 }

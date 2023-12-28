@@ -46,9 +46,41 @@ type ForwardingRuleInitParameters struct {
 	// This is used in PSC consumer ForwardingRule to control whether the PSC endpoint can be accessed from another region.
 	AllowPscGlobalAccess *bool `json:"allowPscGlobalAccess,omitempty" tf:"allow_psc_global_access,omitempty"`
 
+	// Identifies the backend service to which the forwarding rule sends traffic.
+	// Required for Internal TCP/UDP Load Balancing and Network Load Balancing;
+	// must be omitted for all other load balancer types.
+	// +crossplane:generate:reference:type=RegionBackendService
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
+	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
+
+	// Reference to a RegionBackendService to populate backendService.
+	// +kubebuilder:validation:Optional
+	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
+
+	// Selector for a RegionBackendService to populate backendService.
+	// +kubebuilder:validation:Optional
+	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// IP address for which this forwarding rule accepts traffic. When a client
+	// sends traffic to this IP address, the forwarding rule directs the traffic
+	// to the referenced target or backendService.
+	// While creating a forwarding rule, specifying an IPAddress is
+	// required under the following circumstances:
+	// +crossplane:generate:reference:type=Address
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// Reference to a Address to populate ipAddress.
+	// +kubebuilder:validation:Optional
+	IPAddressRef *v1.Reference `json:"ipAddressRef,omitempty" tf:"-"`
+
+	// Selector for a Address to populate ipAddress.
+	// +kubebuilder:validation:Optional
+	IPAddressSelector *v1.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
 
 	// The IP protocol to which this rule applies.
 	// For protocol forwarding, valid
@@ -79,6 +111,26 @@ type ForwardingRuleInitParameters struct {
 	// Default value is EXTERNAL.
 	// Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL, INTERNAL_MANAGED.
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
+
+	// This field is not used for external load balancing.
+	// For Internal TCP/UDP Load Balancing, this field identifies the network that
+	// the load balanced IP should belong to for this Forwarding Rule.
+	// If the subnetwork is specified, the network of the subnetwork will be used.
+	// If neither subnetwork nor this field is specified, the default network will
+	// be used.
+	// For Private Service Connect forwarding rules that forward traffic to Google
+	// APIs, a network must be provided.
+	// +crossplane:generate:reference:type=Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Reference to a Network to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// This signifies the networking tier used for configuring
 	// this load balancer and can only take the following values:
@@ -131,6 +183,39 @@ type ForwardingRuleInitParameters struct {
 
 	// If not empty, this Forwarding Rule will only forward the traffic when the source IP address matches one of the IP addresses or CIDR ranges set here. Note that a Forwarding Rule can only have up to 64 source IP ranges, and this field can only be used with a regional Forwarding Rule whose scheme is EXTERNAL. Each sourceIpRange entry should be either an IP address (for example, 1.2.3.4) or a CIDR range (for example, 1.2.3.0/24).
 	SourceIPRanges []*string `json:"sourceIpRanges,omitempty" tf:"source_ip_ranges,omitempty"`
+
+	// This field identifies the subnetwork that the load balanced IP should
+	// belong to for this Forwarding Rule, used in internal load balancing and
+	// network load balancing with IPv6.
+	// If the network specified is in auto subnet mode, this field is optional.
+	// However, a subnetwork must be specified if the network is in custom subnet
+	// mode or when creating external forwarding rule with IPv6.
+	// +crossplane:generate:reference:type=Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+
+	// Reference to a Subnetwork to populate subnetwork.
+	// +kubebuilder:validation:Optional
+	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+
+	// Selector for a Subnetwork to populate subnetwork.
+	// +kubebuilder:validation:Optional
+	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
+
+	// is set to targetGrpcProxy and
+	// validateForProxyless is set to true, the
+	// IPAddress should be set to 0.0.0.0.
+	// +crossplane:generate:reference:type=RegionTargetHTTPProxy
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
+	Target *string `json:"target,omitempty" tf:"target,omitempty"`
+
+	// Reference to a RegionTargetHTTPProxy to populate target.
+	// +kubebuilder:validation:Optional
+	TargetRef *v1.Reference `json:"targetRef,omitempty" tf:"-"`
+
+	// Selector for a RegionTargetHTTPProxy to populate target.
+	// +kubebuilder:validation:Optional
+	TargetSelector *v1.Selector `json:"targetSelector,omitempty" tf:"-"`
 }
 
 type ForwardingRuleObservation struct {

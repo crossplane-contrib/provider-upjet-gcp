@@ -48,6 +48,22 @@ func (mg *SecretIAMMember) ResolveReferences(ctx context.Context, c client.Reade
 	mg.Spec.ForProvider.SecretID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SecretIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SecretID),
+		Extract:      common.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.SecretIDRef,
+		Selector:     mg.Spec.InitProvider.SecretIDSelector,
+		To: reference.To{
+			List:    &SecretList{},
+			Managed: &Secret{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.SecretID")
+	}
+	mg.Spec.InitProvider.SecretID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.SecretIDRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -73,6 +89,22 @@ func (mg *SecretVersion) ResolveReferences(ctx context.Context, c client.Reader)
 	}
 	mg.Spec.ForProvider.Secret = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SecretRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Secret),
+		Extract:      common.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.SecretRef,
+		Selector:     mg.Spec.InitProvider.SecretSelector,
+		To: reference.To{
+			List:    &SecretList{},
+			Managed: &Secret{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Secret")
+	}
+	mg.Spec.InitProvider.Secret = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.SecretRef = rsp.ResolvedReference
 
 	return nil
 }

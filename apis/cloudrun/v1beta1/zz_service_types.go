@@ -763,6 +763,26 @@ type SecretInitParameters struct {
 	// volume. When items are defined, they must specify a key and a path.
 	// Structure is documented below.
 	Items []ItemsInitParameters `json:"items,omitempty" tf:"items,omitempty"`
+
+	// The name of the secret in Cloud Secret Manager. By default, the secret
+	// is assumed to be in the same project.
+	// If the secret is in another project, you must define an alias.
+	// An alias definition has the form:
+	// {alias}:projects/{project-id|project-number}/secrets/{secret-name}.
+	// If multiple alias definitions are needed, they must be separated by
+	// commas.
+	// The alias definitions must be set on the run.googleapis.com/secrets
+	// annotation.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/secretmanager/v1beta1.Secret
+	SecretName *string `json:"secretName,omitempty" tf:"secret_name,omitempty"`
+
+	// Reference to a Secret in secretmanager to populate secretName.
+	// +kubebuilder:validation:Optional
+	SecretNameRef *v1.Reference `json:"secretNameRef,omitempty" tf:"-"`
+
+	// Selector for a Secret in secretmanager to populate secretName.
+	// +kubebuilder:validation:Optional
+	SecretNameSelector *v1.Selector `json:"secretNameSelector,omitempty" tf:"-"`
 }
 
 type SecretKeyRefInitParameters struct {
@@ -770,6 +790,18 @@ type SecretKeyRefInitParameters struct {
 	// A Cloud Secret Manager secret version. Must be 'latest' for the latest
 	// version or an integer for a specific version.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// Volume's name.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/secretmanager/v1beta1.Secret
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Reference to a Secret in secretmanager to populate name.
+	// +kubebuilder:validation:Optional
+	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+
+	// Selector for a Secret in secretmanager to populate name.
+	// +kubebuilder:validation:Optional
+	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
 }
 
 type SecretKeyRefObservation struct {
@@ -979,6 +1011,19 @@ type ServiceMetadataInitParameters struct {
 	// (scope and select) objects.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// In Cloud Run the namespace must be equal to either the
+	// project ID or project number. It will default to the resource's project.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// Reference to a Project in cloudplatform to populate namespace.
+	// +kubebuilder:validation:Optional
+	NamespaceRef *v1.Reference `json:"namespaceRef,omitempty" tf:"-"`
+
+	// Selector for a Project in cloudplatform to populate namespace.
+	// +kubebuilder:validation:Optional
+	NamespaceSelector *v1.Selector `json:"namespaceSelector,omitempty" tf:"-"`
 }
 
 type ServiceMetadataObservation struct {

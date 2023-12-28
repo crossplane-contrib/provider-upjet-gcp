@@ -46,8 +46,20 @@ type VPNTunnelInitParameters struct {
 	// +listType=set
 	LocalTrafficSelector []*string `json:"localTrafficSelector,omitempty" tf:"local_traffic_selector,omitempty"`
 
+	// URL of the peer side external VPN gateway to which this VPN tunnel is connected.
+	// +crossplane:generate:reference:type=ExternalVPNGateway
+	PeerExternalGateway *string `json:"peerExternalGateway,omitempty" tf:"peer_external_gateway,omitempty"`
+
 	// The interface ID of the external VPN gateway to which this VPN tunnel is connected.
 	PeerExternalGatewayInterface *float64 `json:"peerExternalGatewayInterface,omitempty" tf:"peer_external_gateway_interface,omitempty"`
+
+	// Reference to a ExternalVPNGateway to populate peerExternalGateway.
+	// +kubebuilder:validation:Optional
+	PeerExternalGatewayRef *v1.Reference `json:"peerExternalGatewayRef,omitempty" tf:"-"`
+
+	// Selector for a ExternalVPNGateway to populate peerExternalGateway.
+	// +kubebuilder:validation:Optional
+	PeerExternalGatewaySelector *v1.Selector `json:"peerExternalGatewaySelector,omitempty" tf:"-"`
 
 	// URL of the peer side HA GCP VPN gateway to which this VPN tunnel is connected.
 	// If provided, the VPN tunnel will automatically use the same vpn_gateway_interface
@@ -69,8 +81,48 @@ type VPNTunnelInitParameters struct {
 	// +listType=set
 	RemoteTrafficSelector []*string `json:"remoteTrafficSelector,omitempty" tf:"remote_traffic_selector,omitempty"`
 
+	// URL of router resource to be used for dynamic routing.
+	// +crossplane:generate:reference:type=Router
+	Router *string `json:"router,omitempty" tf:"router,omitempty"`
+
+	// Reference to a Router to populate router.
+	// +kubebuilder:validation:Optional
+	RouterRef *v1.Reference `json:"routerRef,omitempty" tf:"-"`
+
+	// Selector for a Router to populate router.
+	// +kubebuilder:validation:Optional
+	RouterSelector *v1.Selector `json:"routerSelector,omitempty" tf:"-"`
+
+	// URL of the Target VPN gateway with which this VPN tunnel is
+	// associated.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.VPNGateway
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	TargetVPNGateway *string `json:"targetVpnGateway,omitempty" tf:"target_vpn_gateway,omitempty"`
+
+	// Reference to a VPNGateway in compute to populate targetVpnGateway.
+	// +kubebuilder:validation:Optional
+	TargetVPNGatewayRef *v1.Reference `json:"targetVpnGatewayRef,omitempty" tf:"-"`
+
+	// Selector for a VPNGateway in compute to populate targetVpnGateway.
+	// +kubebuilder:validation:Optional
+	TargetVPNGatewaySelector *v1.Selector `json:"targetVpnGatewaySelector,omitempty" tf:"-"`
+
+	// URL of the VPN gateway with which this VPN tunnel is associated.
+	// This must be used if a High Availability VPN gateway resource is created.
+	// This field must reference a google_compute_ha_vpn_gateway resource.
+	// +crossplane:generate:reference:type=HaVPNGateway
+	VPNGateway *string `json:"vpnGateway,omitempty" tf:"vpn_gateway,omitempty"`
+
 	// The interface ID of the VPN gateway with which this VPN tunnel is associated.
 	VPNGatewayInterface *float64 `json:"vpnGatewayInterface,omitempty" tf:"vpn_gateway_interface,omitempty"`
+
+	// Reference to a HaVPNGateway to populate vpnGateway.
+	// +kubebuilder:validation:Optional
+	VPNGatewayRef *v1.Reference `json:"vpnGatewayRef,omitempty" tf:"-"`
+
+	// Selector for a HaVPNGateway to populate vpnGateway.
+	// +kubebuilder:validation:Optional
+	VPNGatewaySelector *v1.Selector `json:"vpnGatewaySelector,omitempty" tf:"-"`
 }
 
 type VPNTunnelObservation struct {

@@ -180,6 +180,19 @@ type ApplicationEndpointParameters struct {
 
 type GatewayInitParameters struct {
 
+	// AppGateway name in following format: projects/{project_id}/locations/{locationId}/appgateways/{gateway_id}.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/beyondcorp/v1beta1.AppGateway
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	AppGateway *string `json:"appGateway,omitempty" tf:"app_gateway,omitempty"`
+
+	// Reference to a AppGateway in beyondcorp to populate appGateway.
+	// +kubebuilder:validation:Optional
+	AppGatewayRef *v1.Reference `json:"appGatewayRef,omitempty" tf:"-"`
+
+	// Selector for a AppGateway in beyondcorp to populate appGateway.
+	// +kubebuilder:validation:Optional
+	AppGatewaySelector *v1.Selector `json:"appGatewaySelector,omitempty" tf:"-"`
+
 	// The type of hosting used by the gateway. Refer to
 	// https://cloud.google.com/beyondcorp/docs/reference/rest/v1/projects.locations.appConnections#Type_1
 	// for a list of possible values.

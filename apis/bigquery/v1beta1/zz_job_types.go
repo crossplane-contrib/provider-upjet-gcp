@@ -135,6 +135,19 @@ type CopyParameters struct {
 
 type DefaultDatasetInitParameters struct {
 
+	// The ID of the dataset containing this table.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// Reference to a Dataset in bigquery to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+
+	// Selector for a Dataset in bigquery to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+
 	// The ID of the project containing this table.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
@@ -170,6 +183,20 @@ type DefaultDatasetParameters struct {
 }
 
 type DestinationEncryptionConfigurationInitParameters struct {
+
+	// Describes the Cloud KMS encryption key that will be used to protect destination BigQuery table.
+	// The BigQuery Service Account associated with your project requires access to this encryption key.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// Reference to a CryptoKey in kms to populate kmsKeyName.
+	// +kubebuilder:validation:Optional
+	KMSKeyNameRef *v1.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+
+	// Selector for a CryptoKey in kms to populate kmsKeyName.
+	// +kubebuilder:validation:Optional
+	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 }
 
 type DestinationEncryptionConfigurationObservation struct {
@@ -203,8 +230,34 @@ type DestinationEncryptionConfigurationParameters struct {
 
 type DestinationTableInitParameters struct {
 
+	// The ID of the dataset containing this table.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// Reference to a Dataset in bigquery to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+
+	// Selector for a Dataset in bigquery to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+
 	// The ID of the project containing this table.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// The table. Can be specified {{table_id}} if project_id and dataset_id are also set,
+	// or of the form projects/{{project}}/datasets/{{dataset_id}}/tables/{{table_id}} if not.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Table
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
+
+	// Reference to a Table in bigquery to populate tableId.
+	// +kubebuilder:validation:Optional
+	TableIDRef *v1.Reference `json:"tableIdRef,omitempty" tf:"-"`
+
+	// Selector for a Table in bigquery to populate tableId.
+	// +kubebuilder:validation:Optional
+	TableIDSelector *v1.Selector `json:"tableIdSelector,omitempty" tf:"-"`
 }
 
 type DestinationTableObservation struct {
@@ -557,8 +610,34 @@ type LoadDestinationEncryptionConfigurationParameters struct {
 
 type LoadDestinationTableInitParameters struct {
 
+	// The ID of the dataset containing this table.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// Reference to a Dataset in bigquery to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+
+	// Selector for a Dataset in bigquery to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+
 	// The ID of the project containing this table.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// The table. Can be specified {{table_id}} if project_id and dataset_id are also set,
+	// or of the form projects/{{project}}/datasets/{{dataset_id}}/tables/{{table_id}} if not.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Table
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
+
+	// Reference to a Table in bigquery to populate tableId.
+	// +kubebuilder:validation:Optional
+	TableIDRef *v1.Reference `json:"tableIdRef,omitempty" tf:"-"`
+
+	// Selector for a Table in bigquery to populate tableId.
+	// +kubebuilder:validation:Optional
+	TableIDSelector *v1.Selector `json:"tableIdSelector,omitempty" tf:"-"`
 }
 
 type LoadDestinationTableObservation struct {
@@ -1068,8 +1147,34 @@ type QueryDestinationEncryptionConfigurationParameters struct {
 
 type QueryDestinationTableInitParameters struct {
 
+	// The ID of the dataset containing this table.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// Reference to a Dataset in bigquery to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+
+	// Selector for a Dataset in bigquery to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+
 	// The ID of the project containing this table.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// The table. Can be specified {{table_id}} if project_id and dataset_id are also set,
+	// or of the form projects/{{project}}/datasets/{{dataset_id}}/tables/{{table_id}} if not.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Table
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
+
+	// Reference to a Table in bigquery to populate tableId.
+	// +kubebuilder:validation:Optional
+	TableIDRef *v1.Reference `json:"tableIdRef,omitempty" tf:"-"`
+
+	// Selector for a Table in bigquery to populate tableId.
+	// +kubebuilder:validation:Optional
+	TableIDSelector *v1.Selector `json:"tableIdSelector,omitempty" tf:"-"`
 }
 
 type QueryDestinationTableObservation struct {
@@ -1496,8 +1601,34 @@ type SourceModelParameters struct {
 
 type SourceTableInitParameters struct {
 
+	// The ID of the dataset containing this table.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// Reference to a Dataset in bigquery to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+
+	// Selector for a Dataset in bigquery to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+
 	// The ID of the project containing this table.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// The table. Can be specified {{table_id}} if project_id and dataset_id are also set,
+	// or of the form projects/{{project}}/datasets/{{dataset_id}}/tables/{{table_id}} if not.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Table
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
+
+	// Reference to a Table in bigquery to populate tableId.
+	// +kubebuilder:validation:Optional
+	TableIDRef *v1.Reference `json:"tableIdRef,omitempty" tf:"-"`
+
+	// Selector for a Table in bigquery to populate tableId.
+	// +kubebuilder:validation:Optional
+	TableIDSelector *v1.Selector `json:"tableIdSelector,omitempty" tf:"-"`
 }
 
 type SourceTableObservation struct {

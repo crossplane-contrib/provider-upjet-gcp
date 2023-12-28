@@ -48,6 +48,22 @@ func (mg *ConsentStore) ResolveReferences(ctx context.Context, c client.Reader) 
 	mg.Spec.ForProvider.Dataset = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DatasetRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Dataset),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.DatasetRef,
+		Selector:     mg.Spec.InitProvider.DatasetSelector,
+		To: reference.To{
+			List:    &DatasetList{},
+			Managed: &Dataset{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Dataset")
+	}
+	mg.Spec.InitProvider.Dataset = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.DatasetRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -73,6 +89,22 @@ func (mg *DatasetIAMMember) ResolveReferences(ctx context.Context, c client.Read
 	}
 	mg.Spec.ForProvider.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DatasetIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DatasetID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.DatasetIDRef,
+		Selector:     mg.Spec.InitProvider.DatasetIDSelector,
+		To: reference.To{
+			List:    &DatasetList{},
+			Managed: &Dataset{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.DatasetID")
+	}
+	mg.Spec.InitProvider.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.DatasetIDRef = rsp.ResolvedReference
 
 	return nil
 }

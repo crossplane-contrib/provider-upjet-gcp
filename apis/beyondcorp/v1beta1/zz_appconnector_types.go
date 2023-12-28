@@ -123,6 +123,19 @@ type PrincipalInfoParameters struct {
 }
 
 type ServiceAccountInitParameters struct {
+
+	// Email address of the service account.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
+	Email *string `json:"email,omitempty" tf:"email,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate email.
+	// +kubebuilder:validation:Optional
+	EmailRef *v1.Reference `json:"emailRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate email.
+	// +kubebuilder:validation:Optional
+	EmailSelector *v1.Selector `json:"emailSelector,omitempty" tf:"-"`
 }
 
 type ServiceAccountObservation struct {

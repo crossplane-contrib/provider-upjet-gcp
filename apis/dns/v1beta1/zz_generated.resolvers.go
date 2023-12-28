@@ -95,6 +95,66 @@ func (mg *ManagedZone) ResolveReferences(ctx context.Context, c client.Reader) e
 
 		}
 	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.PeeringConfig); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.PeeringConfig[i3].TargetNetwork); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PeeringConfig[i3].TargetNetwork[i4].NetworkURL),
+				Extract:      common.SelfLinkExtractor(),
+				Reference:    mg.Spec.InitProvider.PeeringConfig[i3].TargetNetwork[i4].NetworkURLRef,
+				Selector:     mg.Spec.InitProvider.PeeringConfig[i3].TargetNetwork[i4].NetworkURLSelector,
+				To: reference.To{
+					List:    &v1beta1.NetworkList{},
+					Managed: &v1beta1.Network{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.PeeringConfig[i3].TargetNetwork[i4].NetworkURL")
+			}
+			mg.Spec.InitProvider.PeeringConfig[i3].TargetNetwork[i4].NetworkURL = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.PeeringConfig[i3].TargetNetwork[i4].NetworkURLRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.PrivateVisibilityConfig); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.PrivateVisibilityConfig[i3].GkeClusters); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PrivateVisibilityConfig[i3].GkeClusters[i4].GkeClusterName),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.PrivateVisibilityConfig[i3].GkeClusters[i4].GkeClusterNameRef,
+				Selector:     mg.Spec.InitProvider.PrivateVisibilityConfig[i3].GkeClusters[i4].GkeClusterNameSelector,
+				To: reference.To{
+					List:    &v1beta11.ClusterList{},
+					Managed: &v1beta11.Cluster{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.PrivateVisibilityConfig[i3].GkeClusters[i4].GkeClusterName")
+			}
+			mg.Spec.InitProvider.PrivateVisibilityConfig[i3].GkeClusters[i4].GkeClusterName = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.PrivateVisibilityConfig[i3].GkeClusters[i4].GkeClusterNameRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.PrivateVisibilityConfig); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.PrivateVisibilityConfig[i3].Networks); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PrivateVisibilityConfig[i3].Networks[i4].NetworkURL),
+				Extract:      common.SelfLinkExtractor(),
+				Reference:    mg.Spec.InitProvider.PrivateVisibilityConfig[i3].Networks[i4].NetworkURLRef,
+				Selector:     mg.Spec.InitProvider.PrivateVisibilityConfig[i3].Networks[i4].NetworkURLSelector,
+				To: reference.To{
+					List:    &v1beta1.NetworkList{},
+					Managed: &v1beta1.Network{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.PrivateVisibilityConfig[i3].Networks[i4].NetworkURL")
+			}
+			mg.Spec.InitProvider.PrivateVisibilityConfig[i3].Networks[i4].NetworkURL = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.PrivateVisibilityConfig[i3].Networks[i4].NetworkURLRef = rsp.ResolvedReference
+
+		}
+	}
 
 	return nil
 }
@@ -122,6 +182,24 @@ func (mg *Policy) ResolveReferences(ctx context.Context, c client.Reader) error 
 		}
 		mg.Spec.ForProvider.Networks[i3].NetworkURL = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.ForProvider.Networks[i3].NetworkRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Networks); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Networks[i3].NetworkURL),
+			Extract:      common.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.Networks[i3].NetworkRef,
+			Selector:     mg.Spec.InitProvider.Networks[i3].NetworkSelector,
+			To: reference.To{
+				List:    &v1beta1.NetworkList{},
+				Managed: &v1beta1.Network{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Networks[i3].NetworkURL")
+		}
+		mg.Spec.InitProvider.Networks[i3].NetworkURL = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Networks[i3].NetworkRef = rsp.ResolvedReference
 
 	}
 
@@ -242,6 +320,118 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 					}
 					mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].Region = reference.ToPtrValue(rsp.ResolvedValue)
 					mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].RegionRef = rsp.ResolvedReference
+
+				}
+			}
+		}
+	}
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ManagedZone),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.ManagedZoneRef,
+		Selector:     mg.Spec.InitProvider.ManagedZoneSelector,
+		To: reference.To{
+			List:    &ManagedZoneList{},
+			Managed: &ManagedZone{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ManagedZone")
+	}
+	mg.Spec.InitProvider.ManagedZone = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ManagedZoneRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.RoutingPolicy); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary); i5++ {
+				for i6 := 0; i6 < len(mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers); i6++ {
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].IPAddress),
+						Extract:      resource.ExtractParamPath("ip_address", false),
+						Reference:    mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].IPAddressRef,
+						Selector:     mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].IPAddressSelector,
+						To: reference.To{
+							List:    &v1beta1.ForwardingRuleList{},
+							Managed: &v1beta1.ForwardingRule{},
+						},
+					})
+					if err != nil {
+						return errors.Wrap(err, "mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].IPAddress")
+					}
+					mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].IPAddress = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].IPAddressRef = rsp.ResolvedReference
+
+				}
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.RoutingPolicy); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary); i5++ {
+				for i6 := 0; i6 < len(mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers); i6++ {
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].NetworkURL),
+						Extract:      resource.ExtractResourceID(),
+						Reference:    mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].NetworkURLRef,
+						Selector:     mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].NetworkURLSelector,
+						To: reference.To{
+							List:    &v1beta1.NetworkList{},
+							Managed: &v1beta1.Network{},
+						},
+					})
+					if err != nil {
+						return errors.Wrap(err, "mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].NetworkURL")
+					}
+					mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].NetworkURL = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].NetworkURLRef = rsp.ResolvedReference
+
+				}
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.RoutingPolicy); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary); i5++ {
+				for i6 := 0; i6 < len(mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers); i6++ {
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].Project),
+						Extract:      resource.ExtractParamPath("project", false),
+						Reference:    mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].ProjectRef,
+						Selector:     mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].ProjectSelector,
+						To: reference.To{
+							List:    &v1beta1.ForwardingRuleList{},
+							Managed: &v1beta1.ForwardingRule{},
+						},
+					})
+					if err != nil {
+						return errors.Wrap(err, "mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].Project")
+					}
+					mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].Project = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].ProjectRef = rsp.ResolvedReference
+
+				}
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.RoutingPolicy); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary); i5++ {
+				for i6 := 0; i6 < len(mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers); i6++ {
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].Region),
+						Extract:      resource.ExtractParamPath("region", false),
+						Reference:    mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].RegionRef,
+						Selector:     mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].RegionSelector,
+						To: reference.To{
+							List:    &v1beta1.ForwardingRuleList{},
+							Managed: &v1beta1.ForwardingRule{},
+						},
+					})
+					if err != nil {
+						return errors.Wrap(err, "mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].Region")
+					}
+					mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].Region = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.InitProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].RegionRef = rsp.ResolvedReference
 
 				}
 			}

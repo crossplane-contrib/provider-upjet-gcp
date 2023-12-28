@@ -1215,6 +1215,22 @@ type PemIssuerChainParameters struct {
 
 type SubordinateConfigInitParameters struct {
 
+	// This can refer to a CertificateAuthority that was used to create a
+	// subordinate CertificateAuthority. This field is used for information
+	// and usability purposes only. The resource name is in the format
+	// projects/*/locations/*/caPools/*/certificateAuthorities/*.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/privateca/v1beta1.CertificateAuthority
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	CertificateAuthority *string `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
+
+	// Reference to a CertificateAuthority in privateca to populate certificateAuthority.
+	// +kubebuilder:validation:Optional
+	CertificateAuthorityRef *v1.Reference `json:"certificateAuthorityRef,omitempty" tf:"-"`
+
+	// Selector for a CertificateAuthority in privateca to populate certificateAuthority.
+	// +kubebuilder:validation:Optional
+	CertificateAuthoritySelector *v1.Selector `json:"certificateAuthoritySelector,omitempty" tf:"-"`
+
 	// Contains the PEM certificate chain for the issuers of this CertificateAuthority,
 	// but not pem certificate for this CA itself.
 	// Structure is documented below.

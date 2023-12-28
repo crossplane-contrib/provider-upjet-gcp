@@ -50,6 +50,24 @@ func (mg *Attestor) ResolveReferences(ctx context.Context, c client.Reader) erro
 		mg.Spec.ForProvider.AttestationAuthorityNote[i3].NoteReferenceRef = rsp.ResolvedReference
 
 	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.AttestationAuthorityNote); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AttestationAuthorityNote[i3].NoteReference),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.InitProvider.AttestationAuthorityNote[i3].NoteReferenceRef,
+			Selector:     mg.Spec.InitProvider.AttestationAuthorityNote[i3].NoteReferenceSelector,
+			To: reference.To{
+				List:    &v1beta1.NoteList{},
+				Managed: &v1beta1.Note{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.AttestationAuthorityNote[i3].NoteReference")
+		}
+		mg.Spec.InitProvider.AttestationAuthorityNote[i3].NoteReference = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.AttestationAuthorityNote[i3].NoteReferenceRef = rsp.ResolvedReference
+
+	}
 
 	return nil
 }
