@@ -388,8 +388,45 @@ type OracleProfileParameters struct {
 
 type PostgresqlProfileInitParameters struct {
 
+	// Database for the PostgreSQL connection.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta1.Database
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+
+	// Reference to a Database in sql to populate database.
+	// +kubebuilder:validation:Optional
+	DatabaseRef *v1.Reference `json:"databaseRef,omitempty" tf:"-"`
+
+	// Selector for a Database in sql to populate database.
+	// +kubebuilder:validation:Optional
+	DatabaseSelector *v1.Selector `json:"databaseSelector,omitempty" tf:"-"`
+
+	// Hostname for the PostgreSQL connection.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta1.DatabaseInstance
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("public_ip_address",true)
+	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
+	// Reference to a DatabaseInstance in sql to populate hostname.
+	// +kubebuilder:validation:Optional
+	HostnameRef *v1.Reference `json:"hostnameRef,omitempty" tf:"-"`
+
+	// Selector for a DatabaseInstance in sql to populate hostname.
+	// +kubebuilder:validation:Optional
+	HostnameSelector *v1.Selector `json:"hostnameSelector,omitempty" tf:"-"`
+
 	// Port for the PostgreSQL connection.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// Username for the PostgreSQL connection.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta1.User
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+
+	// Reference to a User in sql to populate username.
+	// +kubebuilder:validation:Optional
+	UsernameRef *v1.Reference `json:"usernameRef,omitempty" tf:"-"`
+
+	// Selector for a User in sql to populate username.
+	// +kubebuilder:validation:Optional
+	UsernameSelector *v1.Selector `json:"usernameSelector,omitempty" tf:"-"`
 }
 
 type PostgresqlProfileObservation struct {
@@ -460,6 +497,19 @@ type PostgresqlProfileParameters struct {
 }
 
 type PrivateConnectivityInitParameters struct {
+
+	// A reference to a private connection resource. Format: projects/{project}/locations/{location}/privateConnections/{name}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/datastream/v1beta1.PrivateConnection
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	PrivateConnection *string `json:"privateConnection,omitempty" tf:"private_connection,omitempty"`
+
+	// Reference to a PrivateConnection in datastream to populate privateConnection.
+	// +kubebuilder:validation:Optional
+	PrivateConnectionRef *v1.Reference `json:"privateConnectionRef,omitempty" tf:"-"`
+
+	// Selector for a PrivateConnection in datastream to populate privateConnection.
+	// +kubebuilder:validation:Optional
+	PrivateConnectionSelector *v1.Selector `json:"privateConnectionSelector,omitempty" tf:"-"`
 }
 
 type PrivateConnectivityObservation struct {

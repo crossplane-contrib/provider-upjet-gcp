@@ -60,6 +60,17 @@ type ImageIAMMemberConditionParameters struct {
 type ImageIAMMemberInitParameters struct {
 	Condition []ImageIAMMemberConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
+	// +crossplane:generate:reference:type=Image
+	Image *string `json:"image,omitempty" tf:"image,omitempty"`
+
+	// Reference to a Image to populate image.
+	// +kubebuilder:validation:Optional
+	ImageRef *v1.Reference `json:"imageRef,omitempty" tf:"-"`
+
+	// Selector for a Image to populate image.
+	// +kubebuilder:validation:Optional
+	ImageSelector *v1.Selector `json:"imageSelector,omitempty" tf:"-"`
+
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`

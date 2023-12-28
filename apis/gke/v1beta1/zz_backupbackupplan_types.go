@@ -39,6 +39,19 @@ type BackupBackupPlanInitParameters struct {
 	// Structure is documented below.
 	BackupSchedule []BackupScheduleInitParameters `json:"backupSchedule,omitempty" tf:"backup_schedule,omitempty"`
 
+	// The source cluster from which Backups will be created via this BackupPlan.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/container/v1beta1.Cluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
+
+	// Reference to a Cluster in container to populate cluster.
+	// +kubebuilder:validation:Optional
+	ClusterRef *v1.Reference `json:"clusterRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in container to populate cluster.
+	// +kubebuilder:validation:Optional
+	ClusterSelector *v1.Selector `json:"clusterSelector,omitempty" tf:"-"`
+
 	// This flag indicates whether this BackupPlan has been deactivated.
 	// Setting this field to True locks the BackupPlan such that no further updates will be allowed
 	// (except deletes), including the deactivated field itself. It also prevents any new Backups
@@ -308,6 +321,19 @@ type BackupScheduleParameters struct {
 }
 
 type EncryptionKeyInitParameters struct {
+
+	// Google Cloud KMS encryption key. Format: projects//locations//keyRings//cryptoKeys/
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	GCPKMSEncryptionKey *string `json:"gcpKmsEncryptionKey,omitempty" tf:"gcp_kms_encryption_key,omitempty"`
+
+	// Reference to a CryptoKey in kms to populate gcpKmsEncryptionKey.
+	// +kubebuilder:validation:Optional
+	GCPKMSEncryptionKeyRef *v1.Reference `json:"gcpKmsEncryptionKeyRef,omitempty" tf:"-"`
+
+	// Selector for a CryptoKey in kms to populate gcpKmsEncryptionKey.
+	// +kubebuilder:validation:Optional
+	GCPKMSEncryptionKeySelector *v1.Selector `json:"gcpKmsEncryptionKeySelector,omitempty" tf:"-"`
 }
 
 type EncryptionKeyObservation struct {

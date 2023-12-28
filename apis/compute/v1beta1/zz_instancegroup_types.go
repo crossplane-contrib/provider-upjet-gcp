@@ -44,6 +44,22 @@ type InstanceGroupInitParameters struct {
 	// for details on configuration. Structure is documented below.
 	NamedPort []NamedPortInitParameters `json:"namedPort,omitempty" tf:"named_port,omitempty"`
 
+	// The URL of the network the instance group is in. If
+	// this is different from the network where the instances are in, the creation
+	// fails. Defaults to the network where the instances are in (if neither
+	// network nor instances is specified, this field will be blank).
+	// +crossplane:generate:reference:type=Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Reference to a Network to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`

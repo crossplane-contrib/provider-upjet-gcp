@@ -413,6 +413,26 @@ type IngressFromParameters struct {
 
 type IngressFromSourcesInitParameters struct {
 
+	// An AccessLevel resource name that allow resources within the
+	// ServicePerimeters to be accessed from the internet. AccessLevels listed
+	// must be in the same policy as this ServicePerimeter. Referencing a nonexistent
+	// AccessLevel will cause an error. If no AccessLevel names are listed,
+	// resources within the perimeter can only be accessed via Google Cloud calls
+	// with request origins within the perimeter.
+	// Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
+	// If * is specified, then all IngressSources will be allowed.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/accesscontextmanager/v1beta1.AccessLevel
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
+
+	// Reference to a AccessLevel in accesscontextmanager to populate accessLevel.
+	// +kubebuilder:validation:Optional
+	AccessLevelRef *v1.Reference `json:"accessLevelRef,omitempty" tf:"-"`
+
+	// Selector for a AccessLevel in accesscontextmanager to populate accessLevel.
+	// +kubebuilder:validation:Optional
+	AccessLevelSelector *v1.Selector `json:"accessLevelSelector,omitempty" tf:"-"`
+
 	// A Google Cloud resource that is allowed to ingress the perimeter.
 	// Requests from these resources will be allowed to access perimeter data.
 	// Currently only projects are allowed. Format projects/{project_number}
@@ -1178,6 +1198,26 @@ type SourcesParameters struct {
 
 type SpecInitParameters struct {
 
+	// A list of AccessLevel resource names that allow resources within
+	// the ServicePerimeter to be accessed from the internet.
+	// AccessLevels listed must be in the same policy as this
+	// ServicePerimeter. Referencing a nonexistent AccessLevel is a
+	// syntax error. If no AccessLevel names are listed, resources within
+	// the perimeter can only be accessed via GCP calls with request
+	// origins within the perimeter. For Service Perimeter Bridge, must
+	// be empty.
+	// Format: accessPolicies/{policy_id}/accessLevels/{access_level_name}
+	// +crossplane:generate:reference:type=AccessLevel
+	AccessLevels []*string `json:"accessLevels,omitempty" tf:"access_levels,omitempty"`
+
+	// References to AccessLevel to populate accessLevels.
+	// +kubebuilder:validation:Optional
+	AccessLevelsRefs []v1.Reference `json:"accessLevelsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of AccessLevel to populate accessLevels.
+	// +kubebuilder:validation:Optional
+	AccessLevelsSelector *v1.Selector `json:"accessLevelsSelector,omitempty" tf:"-"`
+
 	// List of EgressPolicies to apply to the perimeter. A perimeter may
 	// have multiple EgressPolicies, each of which is evaluated separately.
 	// Access is granted if any EgressPolicy grants it. Must be empty for
@@ -1395,6 +1435,26 @@ type StatusIngressPoliciesParameters struct {
 }
 
 type StatusInitParameters struct {
+
+	// A list of AccessLevel resource names that allow resources within
+	// the ServicePerimeter to be accessed from the internet.
+	// AccessLevels listed must be in the same policy as this
+	// ServicePerimeter. Referencing a nonexistent AccessLevel is a
+	// syntax error. If no AccessLevel names are listed, resources within
+	// the perimeter can only be accessed via GCP calls with request
+	// origins within the perimeter. For Service Perimeter Bridge, must
+	// be empty.
+	// Format: accessPolicies/{policy_id}/accessLevels/{access_level_name}
+	// +crossplane:generate:reference:type=AccessLevel
+	AccessLevels []*string `json:"accessLevels,omitempty" tf:"access_levels,omitempty"`
+
+	// References to AccessLevel to populate accessLevels.
+	// +kubebuilder:validation:Optional
+	AccessLevelsRefs []v1.Reference `json:"accessLevelsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of AccessLevel to populate accessLevels.
+	// +kubebuilder:validation:Optional
+	AccessLevelsSelector *v1.Selector `json:"accessLevelsSelector,omitempty" tf:"-"`
 
 	// List of EgressPolicies to apply to the perimeter. A perimeter may
 	// have multiple EgressPolicies, each of which is evaluated separately.

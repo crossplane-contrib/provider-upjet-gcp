@@ -31,6 +31,19 @@ import (
 
 type EventNotificationConfigsInitParameters struct {
 
+	// PubSub topic name to publish device events.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	PubsubTopicName *string `json:"pubsubTopicName,omitempty" tf:"pubsub_topic_name,omitempty"`
+
+	// Reference to a Topic in pubsub to populate pubsubTopicName.
+	// +kubebuilder:validation:Optional
+	PubsubTopicNameRef *v1.Reference `json:"pubsubTopicNameRef,omitempty" tf:"-"`
+
+	// Selector for a Topic in pubsub to populate pubsubTopicName.
+	// +kubebuilder:validation:Optional
+	PubsubTopicNameSelector *v1.Selector `json:"pubsubTopicNameSelector,omitempty" tf:"-"`
+
 	// If the subfolder name matches this string exactly, this
 	// configuration will be used. The string must not include the
 	// leading '/' character. If empty, all strings are matched. Empty

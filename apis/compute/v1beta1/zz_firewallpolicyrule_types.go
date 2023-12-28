@@ -46,6 +46,19 @@ type FirewallPolicyRuleInitParameters struct {
 	// Denotes whether to enable logging for a particular rule. If logging is enabled, logs will be exported to the configured export destination in Stackdriver. Logs may be exported to BigQuery or Pub/Sub. Note: you cannot enable logging on "goto_next" rules.
 	EnableLogging *bool `json:"enableLogging,omitempty" tf:"enable_logging,omitempty"`
 
+	// The firewall policy of the resource.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.FirewallPolicy
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	FirewallPolicy *string `json:"firewallPolicy,omitempty" tf:"firewall_policy,omitempty"`
+
+	// Reference to a FirewallPolicy in compute to populate firewallPolicy.
+	// +kubebuilder:validation:Optional
+	FirewallPolicyRef *v1.Reference `json:"firewallPolicyRef,omitempty" tf:"-"`
+
+	// Selector for a FirewallPolicy in compute to populate firewallPolicy.
+	// +kubebuilder:validation:Optional
+	FirewallPolicySelector *v1.Selector `json:"firewallPolicySelector,omitempty" tf:"-"`
+
 	// A match condition that incoming traffic is evaluated against. If it evaluates to true, the corresponding 'action' is enforced.
 	Match []MatchInitParameters `json:"match,omitempty" tf:"match,omitempty"`
 

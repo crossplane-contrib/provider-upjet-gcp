@@ -70,6 +70,42 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		mg.Spec.ForProvider.EventPublishConfig[i3].TopicRef = rsp.ResolvedReference
 
 	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.CryptoKeyConfig); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CryptoKeyConfig[i3].KeyReference),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.CryptoKeyConfig[i3].KeyReferenceRef,
+			Selector:     mg.Spec.InitProvider.CryptoKeyConfig[i3].KeyReferenceSelector,
+			To: reference.To{
+				List:    &v1beta1.CryptoKeyList{},
+				Managed: &v1beta1.CryptoKey{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.CryptoKeyConfig[i3].KeyReference")
+		}
+		mg.Spec.InitProvider.CryptoKeyConfig[i3].KeyReference = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.CryptoKeyConfig[i3].KeyReferenceRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.EventPublishConfig); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EventPublishConfig[i3].Topic),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.EventPublishConfig[i3].TopicRef,
+			Selector:     mg.Spec.InitProvider.EventPublishConfig[i3].TopicSelector,
+			To: reference.To{
+				List:    &v1beta11.TopicList{},
+				Managed: &v1beta11.Topic{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.EventPublishConfig[i3].Topic")
+		}
+		mg.Spec.InitProvider.EventPublishConfig[i3].Topic = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.EventPublishConfig[i3].TopicRef = rsp.ResolvedReference
+
+	}
 
 	return nil
 }

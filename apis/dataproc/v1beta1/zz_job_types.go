@@ -228,6 +228,20 @@ type JobInitParameters struct {
 
 	Reference []ReferenceInitParameters `json:"reference,omitempty" tf:"reference,omitempty"`
 
+	// The Cloud Dataproc region. This essentially determines which clusters are available
+	// for this job to be submitted to. If not specified, defaults to global.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dataproc/v1beta1.Cluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("region",false)
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// Reference to a Cluster in dataproc to populate region.
+	// +kubebuilder:validation:Optional
+	RegionRef *v1.Reference `json:"regionRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in dataproc to populate region.
+	// +kubebuilder:validation:Optional
+	RegionSelector *v1.Selector `json:"regionSelector,omitempty" tf:"-"`
+
 	Scheduling []SchedulingInitParameters `json:"scheduling,omitempty" tf:"scheduling,omitempty"`
 
 	SparkConfig []SparkConfigInitParameters `json:"sparkConfig,omitempty" tf:"spark_config,omitempty"`
@@ -482,6 +496,20 @@ type PigConfigParameters struct {
 }
 
 type PlacementInitParameters struct {
+
+	// The name of the cluster where the job
+	// will be submitted.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dataproc/v1beta1.Cluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	// Reference to a Cluster in dataproc to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameRef *v1.Reference `json:"clusterNameRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in dataproc to populate clusterName.
+	// +kubebuilder:validation:Optional
+	ClusterNameSelector *v1.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
 }
 
 type PlacementObservation struct {

@@ -88,6 +88,58 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 		mg.Spec.ForProvider.WebhookConfig[i3].SecretRef = rsp.ResolvedReference
 
 	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.PubsubConfig); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PubsubConfig[i3].Topic),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.PubsubConfig[i3].TopicRef,
+			Selector:     mg.Spec.InitProvider.PubsubConfig[i3].TopicSelector,
+			To: reference.To{
+				List:    &v1beta1.TopicList{},
+				Managed: &v1beta1.Topic{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.PubsubConfig[i3].Topic")
+		}
+		mg.Spec.InitProvider.PubsubConfig[i3].Topic = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.PubsubConfig[i3].TopicRef = rsp.ResolvedReference
+
+	}
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceAccount),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.ServiceAccountRef,
+		Selector:     mg.Spec.InitProvider.ServiceAccountSelector,
+		To: reference.To{
+			List:    &v1beta11.ServiceAccountList{},
+			Managed: &v1beta11.ServiceAccount{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ServiceAccount")
+	}
+	mg.Spec.InitProvider.ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ServiceAccountRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.WebhookConfig); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.WebhookConfig[i3].Secret),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.WebhookConfig[i3].SecretRef,
+			Selector:     mg.Spec.InitProvider.WebhookConfig[i3].SecretSelector,
+			To: reference.To{
+				List:    &v1beta12.SecretVersionList{},
+				Managed: &v1beta12.SecretVersion{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.WebhookConfig[i3].Secret")
+		}
+		mg.Spec.InitProvider.WebhookConfig[i3].Secret = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.WebhookConfig[i3].SecretRef = rsp.ResolvedReference
+
+	}
 
 	return nil
 }
@@ -115,6 +167,24 @@ func (mg *WorkerPool) ResolveReferences(ctx context.Context, c client.Reader) er
 		}
 		mg.Spec.ForProvider.NetworkConfig[i3].PeeredNetwork = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.ForProvider.NetworkConfig[i3].PeeredNetworkRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.NetworkConfig); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NetworkConfig[i3].PeeredNetwork),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.NetworkConfig[i3].PeeredNetworkRef,
+			Selector:     mg.Spec.InitProvider.NetworkConfig[i3].PeeredNetworkSelector,
+			To: reference.To{
+				List:    &v1beta13.NetworkList{},
+				Managed: &v1beta13.Network{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.NetworkConfig[i3].PeeredNetwork")
+		}
+		mg.Spec.InitProvider.NetworkConfig[i3].PeeredNetwork = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.NetworkConfig[i3].PeeredNetworkRef = rsp.ResolvedReference
 
 	}
 

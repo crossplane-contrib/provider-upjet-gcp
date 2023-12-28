@@ -60,6 +60,17 @@ type ConditionParameters struct {
 type DatasetIAMMemberInitParameters struct {
 	Condition []ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/healthcare/v1beta1.Dataset
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// Reference to a Dataset in healthcare to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+
+	// Selector for a Dataset in healthcare to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`

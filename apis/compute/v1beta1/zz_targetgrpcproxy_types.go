@@ -38,6 +38,21 @@ type TargetGRPCProxyInitParameters struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// URL to the UrlMap resource that defines the mapping from URL to
+	// the BackendService. The protocol field in the BackendService
+	// must be set to GRPC.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.URLMap
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	URLMap *string `json:"urlMap,omitempty" tf:"url_map,omitempty"`
+
+	// Reference to a URLMap in compute to populate urlMap.
+	// +kubebuilder:validation:Optional
+	URLMapRef *v1.Reference `json:"urlMapRef,omitempty" tf:"-"`
+
+	// Selector for a URLMap in compute to populate urlMap.
+	// +kubebuilder:validation:Optional
+	URLMapSelector *v1.Selector `json:"urlMapSelector,omitempty" tf:"-"`
+
 	// If true, indicates that the BackendServices referenced by
 	// the urlMap may be accessed by gRPC applications without using
 	// a sidecar proxy. This will enable configuration checks on urlMap

@@ -1530,12 +1530,27 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Network != nil {
+		in, out := &in.Network, &out.Network
+		*out = new(string)
+		**out = **in
+	}
 	if in.NetworkPolicy != nil {
 		in, out := &in.NetworkPolicy, &out.NetworkPolicy
 		*out = make([]NetworkPolicyInitParameters, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.NetworkRef != nil {
+		in, out := &in.NetworkRef, &out.NetworkRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NetworkSelector != nil {
+		in, out := &in.NetworkSelector, &out.NetworkSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkingMode != nil {
 		in, out := &in.NetworkingMode, &out.NetworkingMode
@@ -1644,6 +1659,21 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.Subnetwork != nil {
+		in, out := &in.Subnetwork, &out.Subnetwork
+		*out = new(string)
+		**out = **in
+	}
+	if in.SubnetworkRef != nil {
+		in, out := &in.SubnetworkRef, &out.SubnetworkRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SubnetworkSelector != nil {
+		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.VerticalPodAutoscaling != nil {
 		in, out := &in.VerticalPodAutoscaling, &out.VerticalPodAutoscaling
@@ -6603,6 +6633,21 @@ func (in *NodeConfigInitParameters) DeepCopyInto(out *NodeConfigInitParameters) 
 			(*out)[key] = outVal
 		}
 	}
+	if in.ServiceAccount != nil {
+		in, out := &in.ServiceAccount, &out.ServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.ServiceAccountRef != nil {
+		in, out := &in.ServiceAccountRef, &out.ServiceAccountRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServiceAccountSelector != nil {
+		in, out := &in.ServiceAccountSelector, &out.ServiceAccountSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ShieldedInstanceConfig != nil {
 		in, out := &in.ShieldedInstanceConfig, &out.ShieldedInstanceConfig
 		*out = make([]NodeConfigShieldedInstanceConfigInitParameters, len(*in))
@@ -9039,6 +9084,21 @@ func (in *NodePoolNodeConfigInitParameters_2) DeepCopyInto(out *NodePoolNodeConf
 			}
 			(*out)[key] = outVal
 		}
+	}
+	if in.ServiceAccount != nil {
+		in, out := &in.ServiceAccount, &out.ServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.ServiceAccountRef != nil {
+		in, out := &in.ServiceAccountRef, &out.ServiceAccountRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServiceAccountSelector != nil {
+		in, out := &in.ServiceAccountSelector, &out.ServiceAccountSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ShieldedInstanceConfig != nil {
 		in, out := &in.ShieldedInstanceConfig, &out.ShieldedInstanceConfig

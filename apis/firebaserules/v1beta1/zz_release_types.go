@@ -33,6 +33,18 @@ type ReleaseInitParameters struct {
 
 	// The project for the resource
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Name of the Ruleset referred to by this Release. The Ruleset must exist for the Release to be created.
+	// +crossplane:generate:reference:type=Ruleset
+	RulesetName *string `json:"rulesetName,omitempty" tf:"ruleset_name,omitempty"`
+
+	// Reference to a Ruleset to populate rulesetName.
+	// +kubebuilder:validation:Optional
+	RulesetNameRef *v1.Reference `json:"rulesetNameRef,omitempty" tf:"-"`
+
+	// Selector for a Ruleset to populate rulesetName.
+	// +kubebuilder:validation:Optional
+	RulesetNameSelector *v1.Selector `json:"rulesetNameSelector,omitempty" tf:"-"`
 }
 
 type ReleaseObservation struct {

@@ -142,6 +142,31 @@ type CloudSQLInitParameters struct {
 	// Structure is documented below.
 	Credential []CredentialInitParameters `json:"credential,omitempty" tf:"credential,omitempty"`
 
+	// Database name.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta1.Database
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+
+	// Reference to a Database in sql to populate database.
+	// +kubebuilder:validation:Optional
+	DatabaseRef *v1.Reference `json:"databaseRef,omitempty" tf:"-"`
+
+	// Selector for a Database in sql to populate database.
+	// +kubebuilder:validation:Optional
+	DatabaseSelector *v1.Selector `json:"databaseSelector,omitempty" tf:"-"`
+
+	// Cloud SQL instance ID in the form project:location:instance.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta1.DatabaseInstance
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("connection_name",true)
+	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
+
+	// Reference to a DatabaseInstance in sql to populate instanceId.
+	// +kubebuilder:validation:Optional
+	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+
+	// Selector for a DatabaseInstance in sql to populate instanceId.
+	// +kubebuilder:validation:Optional
+	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+
 	// Type of the Cloud SQL database.
 	// Possible values are: DATABASE_TYPE_UNSPECIFIED, POSTGRES, MYSQL.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
@@ -403,6 +428,18 @@ type ConnectionParameters struct {
 }
 
 type CredentialInitParameters struct {
+
+	// Username for database.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta1.User
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+
+	// Reference to a User in sql to populate username.
+	// +kubebuilder:validation:Optional
+	UsernameRef *v1.Reference `json:"usernameRef,omitempty" tf:"-"`
+
+	// Selector for a User in sql to populate username.
+	// +kubebuilder:validation:Optional
+	UsernameSelector *v1.Selector `json:"usernameSelector,omitempty" tf:"-"`
 }
 
 type CredentialObservation struct {

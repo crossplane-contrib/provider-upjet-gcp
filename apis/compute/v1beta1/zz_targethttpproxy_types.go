@@ -49,6 +49,20 @@ type TargetHTTPProxyInitParameters struct {
 	// This field only applies when the forwarding rule that references
 	// this target proxy has a loadBalancingScheme set to INTERNAL_SELF_MANAGED.
 	ProxyBind *bool `json:"proxyBind,omitempty" tf:"proxy_bind,omitempty"`
+
+	// A reference to the UrlMap resource that defines the mapping from URL
+	// to the BackendService.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.URLMap
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	URLMap *string `json:"urlMap,omitempty" tf:"url_map,omitempty"`
+
+	// Reference to a URLMap in compute to populate urlMap.
+	// +kubebuilder:validation:Optional
+	URLMapRef *v1.Reference `json:"urlMapRef,omitempty" tf:"-"`
+
+	// Selector for a URLMap in compute to populate urlMap.
+	// +kubebuilder:validation:Optional
+	URLMapSelector *v1.Selector `json:"urlMapSelector,omitempty" tf:"-"`
 }
 
 type TargetHTTPProxyObservation struct {

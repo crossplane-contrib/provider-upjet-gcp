@@ -487,6 +487,18 @@ type RulesParameters struct {
 
 type SubnetworkInitParameters struct {
 
+	// Self-link of subnetwork to NAT
+	// +crossplane:generate:reference:type=Subnetwork
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Reference to a Subnetwork to populate name.
+	// +kubebuilder:validation:Optional
+	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+
+	// Selector for a Subnetwork to populate name.
+	// +kubebuilder:validation:Optional
+	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
+
 	// List of the secondary ranges of the subnetwork that are allowed
 	// to use NAT. This can be populated only if
 	// LIST_OF_SECONDARY_IP_RANGES is one of the values in

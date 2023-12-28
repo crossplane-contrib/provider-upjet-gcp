@@ -60,12 +60,34 @@ type TableIAMBindingConditionParameters struct {
 type TableIAMBindingInitParameters struct {
 	Condition []TableIAMBindingConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// Reference to a Dataset in bigquery to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+
+	// Selector for a Dataset in bigquery to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+
 	// +listType=set
 	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
 
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Table
+	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
+
+	// Reference to a Table in bigquery to populate tableId.
+	// +kubebuilder:validation:Optional
+	TableIDRef *v1.Reference `json:"tableIdRef,omitempty" tf:"-"`
+
+	// Selector for a Table in bigquery to populate tableId.
+	// +kubebuilder:validation:Optional
+	TableIDSelector *v1.Selector `json:"tableIdSelector,omitempty" tf:"-"`
 }
 
 type TableIAMBindingObservation struct {

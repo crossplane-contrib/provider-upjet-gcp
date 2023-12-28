@@ -172,6 +172,18 @@ type PartitionConfigParameters struct {
 }
 
 type ReservationConfigInitParameters struct {
+
+	// The Reservation to use for this topic's throughput capacity.
+	// +crossplane:generate:reference:type=LiteReservation
+	ThroughputReservation *string `json:"throughputReservation,omitempty" tf:"throughput_reservation,omitempty"`
+
+	// Reference to a LiteReservation to populate throughputReservation.
+	// +kubebuilder:validation:Optional
+	ThroughputReservationRef *v1.Reference `json:"throughputReservationRef,omitempty" tf:"-"`
+
+	// Selector for a LiteReservation to populate throughputReservation.
+	// +kubebuilder:validation:Optional
+	ThroughputReservationSelector *v1.Selector `json:"throughputReservationSelector,omitempty" tf:"-"`
 }
 
 type ReservationConfigObservation struct {

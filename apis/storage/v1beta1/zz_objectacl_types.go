@@ -31,6 +31,31 @@ import (
 
 type ObjectACLInitParameters struct {
 
+	// The name of the bucket the object is stored in.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta1.Bucket
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// Reference to a Bucket in storage to populate bucket.
+	// +kubebuilder:validation:Optional
+	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in storage to populate bucket.
+	// +kubebuilder:validation:Optional
+	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+
+	// The name of the object to apply the acl to.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta1.BucketObject
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("output_name",true)
+	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+
+	// Reference to a BucketObject in storage to populate object.
+	// +kubebuilder:validation:Optional
+	ObjectRef *v1.Reference `json:"objectRef,omitempty" tf:"-"`
+
+	// Selector for a BucketObject in storage to populate object.
+	// +kubebuilder:validation:Optional
+	ObjectSelector *v1.Selector `json:"objectSelector,omitempty" tf:"-"`
+
 	// The "canned" predefined ACL to apply. Must be set if role_entity is not.
 	PredefinedACL *string `json:"predefinedAcl,omitempty" tf:"predefined_acl,omitempty"`
 

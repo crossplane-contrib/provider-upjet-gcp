@@ -84,6 +84,19 @@ type EntryInitParameters struct {
 	// for example, "Analytics Data - Jan 2011".
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// The name of the entry group this entry is in.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/datacatalog/v1beta1.EntryGroup
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	EntryGroup *string `json:"entryGroup,omitempty" tf:"entry_group,omitempty"`
+
+	// Reference to a EntryGroup in datacatalog to populate entryGroup.
+	// +kubebuilder:validation:Optional
+	EntryGroupRef *v1.Reference `json:"entryGroupRef,omitempty" tf:"-"`
+
+	// Selector for a EntryGroup in datacatalog to populate entryGroup.
+	// +kubebuilder:validation:Optional
+	EntryGroupSelector *v1.Selector `json:"entryGroupSelector,omitempty" tf:"-"`
+
 	// The id of the entry to create.
 	EntryID *string `json:"entryId,omitempty" tf:"entry_id,omitempty"`
 

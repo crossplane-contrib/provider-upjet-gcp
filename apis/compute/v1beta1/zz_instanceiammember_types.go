@@ -60,6 +60,17 @@ type InstanceIAMMemberConditionParameters struct {
 type InstanceIAMMemberInitParameters struct {
 	Condition []InstanceIAMMemberConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
+	// +crossplane:generate:reference:type=Instance
+	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
+
+	// Reference to a Instance to populate instanceName.
+	// +kubebuilder:validation:Optional
+	InstanceNameRef *v1.Reference `json:"instanceNameRef,omitempty" tf:"-"`
+
+	// Selector for a Instance to populate instanceName.
+	// +kubebuilder:validation:Optional
+	InstanceNameSelector *v1.Selector `json:"instanceNameSelector,omitempty" tf:"-"`
+
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`

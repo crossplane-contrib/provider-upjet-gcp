@@ -60,6 +60,18 @@ type KeyRingIAMMemberConditionParameters struct {
 type KeyRingIAMMemberInitParameters struct {
 	Condition []KeyRingIAMMemberConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
+	// +crossplane:generate:reference:type=KeyRing
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
+	KeyRingID *string `json:"keyRingId,omitempty" tf:"key_ring_id,omitempty"`
+
+	// Reference to a KeyRing to populate keyRingId.
+	// +kubebuilder:validation:Optional
+	KeyRingIDRef *v1.Reference `json:"keyRingIdRef,omitempty" tf:"-"`
+
+	// Selector for a KeyRing to populate keyRingId.
+	// +kubebuilder:validation:Optional
+	KeyRingIDSelector *v1.Selector `json:"keyRingIdSelector,omitempty" tf:"-"`
+
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`

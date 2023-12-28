@@ -385,14 +385,67 @@ type PrimaryInitParameters struct {
 
 type PrimaryInternalLoadBalancersInitParameters struct {
 
+	// The frontend IP address of the load balancer.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.ForwardingRule
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("ip_address",false)
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// Reference to a ForwardingRule in compute to populate ipAddress.
+	// +kubebuilder:validation:Optional
+	IPAddressRef *v1.Reference `json:"ipAddressRef,omitempty" tf:"-"`
+
+	// Selector for a ForwardingRule in compute to populate ipAddress.
+	// +kubebuilder:validation:Optional
+	IPAddressSelector *v1.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
+
 	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
 	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb"]
 	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
 
+	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
+
+	// Reference to a Network in compute to populate networkUrl.
+	// +kubebuilder:validation:Optional
+	NetworkURLRef *v1.Reference `json:"networkUrlRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate networkUrl.
+	// +kubebuilder:validation:Optional
+	NetworkURLSelector *v1.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
+
 	// The configured port of the load balancer.
 	Port *string `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.ForwardingRule
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("project",false)
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Reference to a ForwardingRule in compute to populate project.
+	// +kubebuilder:validation:Optional
+	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+
+	// Selector for a ForwardingRule in compute to populate project.
+	// +kubebuilder:validation:Optional
+	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+
+	// The region of the load balancer. Only needed for regional load balancers.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.ForwardingRule
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("region",false)
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// Reference to a ForwardingRule in compute to populate region.
+	// +kubebuilder:validation:Optional
+	RegionRef *v1.Reference `json:"regionRef,omitempty" tf:"-"`
+
+	// Selector for a ForwardingRule in compute to populate region.
+	// +kubebuilder:validation:Optional
+	RegionSelector *v1.Selector `json:"regionSelector,omitempty" tf:"-"`
 }
 
 type PrimaryInternalLoadBalancersObservation struct {
@@ -508,6 +561,19 @@ type PrimaryParameters struct {
 }
 
 type RecordSetInitParameters struct {
+
+	// The name of the zone in which this record set will
+	// reside.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dns/v1beta1.ManagedZone
+	ManagedZone *string `json:"managedZone,omitempty" tf:"managed_zone,omitempty"`
+
+	// Reference to a ManagedZone in dns to populate managedZone.
+	// +kubebuilder:validation:Optional
+	ManagedZoneRef *v1.Reference `json:"managedZoneRef,omitempty" tf:"-"`
+
+	// Selector for a ManagedZone in dns to populate managedZone.
+	// +kubebuilder:validation:Optional
+	ManagedZoneSelector *v1.Selector `json:"managedZoneSelector,omitempty" tf:"-"`
 
 	// The DNS name this record set will apply to.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`

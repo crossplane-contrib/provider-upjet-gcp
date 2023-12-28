@@ -49,6 +49,22 @@ func (mg *Application) ResolveReferences(ctx context.Context, c client.Reader) e
 	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Project),
+		Extract:      resource.ExtractParamPath("project_id", false),
+		Reference:    mg.Spec.InitProvider.ProjectRef,
+		Selector:     mg.Spec.InitProvider.ProjectSelector,
+		To: reference.To{
+			List:    &v1beta1.ProjectList{},
+			Managed: &v1beta1.Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Project")
+	}
+	mg.Spec.InitProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ProjectRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -75,6 +91,24 @@ func (mg *ApplicationURLDispatchRules) ResolveReferences(ctx context.Context, c 
 		}
 		mg.Spec.ForProvider.DispatchRules[i3].Service = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.ForProvider.DispatchRules[i3].ServiceRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.DispatchRules); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DispatchRules[i3].Service),
+			Extract:      resource.ExtractParamPath("service", false),
+			Reference:    mg.Spec.InitProvider.DispatchRules[i3].ServiceRef,
+			Selector:     mg.Spec.InitProvider.DispatchRules[i3].ServiceSelector,
+			To: reference.To{
+				List:    &StandardAppVersionList{},
+				Managed: &StandardAppVersion{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.DispatchRules[i3].Service")
+		}
+		mg.Spec.InitProvider.DispatchRules[i3].Service = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.DispatchRules[i3].ServiceRef = rsp.ResolvedReference
 
 	}
 
@@ -104,6 +138,22 @@ func (mg *FirewallRule) ResolveReferences(ctx context.Context, c client.Reader) 
 	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Project),
+		Extract:      resource.ExtractParamPath("project", false),
+		Reference:    mg.Spec.InitProvider.ProjectRef,
+		Selector:     mg.Spec.InitProvider.ProjectSelector,
+		To: reference.To{
+			List:    &ApplicationList{},
+			Managed: &Application{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Project")
+	}
+	mg.Spec.InitProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ProjectRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -130,6 +180,22 @@ func (mg *ServiceNetworkSettings) ResolveReferences(ctx context.Context, c clien
 	mg.Spec.ForProvider.Service = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ServiceRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Service),
+		Extract:      resource.ExtractParamPath("service", false),
+		Reference:    mg.Spec.InitProvider.ServiceRef,
+		Selector:     mg.Spec.InitProvider.ServiceSelector,
+		To: reference.To{
+			List:    &StandardAppVersionList{},
+			Managed: &StandardAppVersion{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Service")
+	}
+	mg.Spec.InitProvider.Service = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ServiceRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -155,6 +221,22 @@ func (mg *StandardAppVersion) ResolveReferences(ctx context.Context, c client.Re
 	}
 	mg.Spec.ForProvider.ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ServiceAccountRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceAccount),
+		Extract:      resource.ExtractParamPath("email", true),
+		Reference:    mg.Spec.InitProvider.ServiceAccountRef,
+		Selector:     mg.Spec.InitProvider.ServiceAccountSelector,
+		To: reference.To{
+			List:    &v1beta1.ServiceAccountList{},
+			Managed: &v1beta1.ServiceAccount{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ServiceAccount")
+	}
+	mg.Spec.InitProvider.ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ServiceAccountRef = rsp.ResolvedReference
 
 	return nil
 }

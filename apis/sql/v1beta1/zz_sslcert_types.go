@@ -35,6 +35,19 @@ type SSLCertInitParameters struct {
 	// client. Constrained to [a-zA-Z.-_ ]+. Changing this forces a new resource to be created.
 	CommonName *string `json:"commonName,omitempty" tf:"common_name,omitempty"`
 
+	// The name of the Cloud SQL instance. Changing this
+	// forces a new resource to be created.
+	// +crossplane:generate:reference:type=DatabaseInstance
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
+	// Reference to a DatabaseInstance to populate instance.
+	// +kubebuilder:validation:Optional
+	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+
+	// Selector for a DatabaseInstance to populate instance.
+	// +kubebuilder:validation:Optional
+	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`

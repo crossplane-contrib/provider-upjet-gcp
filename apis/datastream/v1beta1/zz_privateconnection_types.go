@@ -130,6 +130,20 @@ type VPCPeeringConfigInitParameters struct {
 
 	// A free subnet for peering. (CIDR of /29)
 	Subnet *string `json:"subnet,omitempty" tf:"subnet,omitempty"`
+
+	// Fully qualified name of the VPC that Datastream will peer to.
+	// Format: projects/{project}/global/{networks}/{name}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	VPC *string `json:"vpc,omitempty" tf:"vpc,omitempty"`
+
+	// Reference to a Network in compute to populate vpc.
+	// +kubebuilder:validation:Optional
+	VPCRef *v1.Reference `json:"vpcRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate vpc.
+	// +kubebuilder:validation:Optional
+	VPCSelector *v1.Selector `json:"vpcSelector,omitempty" tf:"-"`
 }
 
 type VPCPeeringConfigObservation struct {

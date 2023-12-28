@@ -30,6 +30,22 @@ import (
 )
 
 type ConsumersInitParameters struct {
+
+	// The subnetwork of the customer project from which an IP address is reserved and used as the Dataproc Metastore service's endpoint.
+	// It is accessible to hosts in the subnet and to all hosts in a subnet in the same region and same network.
+	// There must be at least one IP address available in the subnet's primary range. The subnet is specified in the following form:
+	// `projects/{projectNumber}/regions/{region_id}/subnetworks/{subnetwork_id}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+
+	// Reference to a Subnetwork in compute to populate subnetwork.
+	// +kubebuilder:validation:Optional
+	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+
+	// Selector for a Subnetwork in compute to populate subnetwork.
+	// +kubebuilder:validation:Optional
+	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
 
 type ConsumersObservation struct {
@@ -210,6 +226,20 @@ type MaintenanceWindowParameters struct {
 }
 
 type MetastoreServiceEncryptionConfigInitParameters struct {
+
+	// The fully qualified customer provided Cloud KMS key name to use for customer data encryption.
+	// Use the following format: projects/([^/]+)/locations/([^/]+)/keyRings/([^/]+)/cryptoKeys/([^/]+)
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
+
+	// Reference to a CryptoKey in kms to populate kmsKey.
+	// +kubebuilder:validation:Optional
+	KMSKeyRef *v1.Reference `json:"kmsKeyRef,omitempty" tf:"-"`
+
+	// Selector for a CryptoKey in kms to populate kmsKey.
+	// +kubebuilder:validation:Optional
+	KMSKeySelector *v1.Selector `json:"kmsKeySelector,omitempty" tf:"-"`
 }
 
 type MetastoreServiceEncryptionConfigObservation struct {

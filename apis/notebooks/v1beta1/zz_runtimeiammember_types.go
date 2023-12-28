@@ -67,6 +67,17 @@ type RuntimeIAMMemberInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+
+	// +crossplane:generate:reference:type=Runtime
+	RuntimeName *string `json:"runtimeName,omitempty" tf:"runtime_name,omitempty"`
+
+	// Reference to a Runtime to populate runtimeName.
+	// +kubebuilder:validation:Optional
+	RuntimeNameRef *v1.Reference `json:"runtimeNameRef,omitempty" tf:"-"`
+
+	// Selector for a Runtime to populate runtimeName.
+	// +kubebuilder:validation:Optional
+	RuntimeNameSelector *v1.Selector `json:"runtimeNameSelector,omitempty" tf:"-"`
 }
 
 type RuntimeIAMMemberObservation struct {

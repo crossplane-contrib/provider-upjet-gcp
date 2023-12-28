@@ -506,6 +506,20 @@ type PageInitParameters struct {
 	// If not specified, the agent's default language is used. Many languages are supported. Note: languages must be enabled in the agent before they can be used.
 	LanguageCode *string `json:"languageCode,omitempty" tf:"language_code,omitempty"`
 
+	// The flow to create a page for.
+	// Format: projects//locations//agents//flows/.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dialogflowcx/v1beta1.Agent
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("start_flow",true)
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
+
+	// Reference to a Agent in dialogflowcx to populate parent.
+	// +kubebuilder:validation:Optional
+	ParentRef *v1.Reference `json:"parentRef,omitempty" tf:"-"`
+
+	// Selector for a Agent in dialogflowcx to populate parent.
+	// +kubebuilder:validation:Optional
+	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
+
 	// Ordered list of TransitionRouteGroups associated with the page. Transition route groups must be unique within a page.
 	// If multiple transition routes within a page scope refer to the same intent, then the precedence order is: page's transition route -> page's transition route group -> flow's transition routes.
 	// If multiple transition route groups within a page contain the same intent, then the first group in the ordered list takes precedence.
@@ -668,6 +682,20 @@ type PageTransitionRoutesInitParameters struct {
 	// The target flow to transition to.
 	// Format: projects//locations//agents//flows/.
 	TargetFlow *string `json:"targetFlow,omitempty" tf:"target_flow,omitempty"`
+
+	// The target page to transition to.
+	// Format: projects//locations//agents//flows//pages/.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dialogflowcx/v1beta1.Page
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	TargetPage *string `json:"targetPage,omitempty" tf:"target_page,omitempty"`
+
+	// Reference to a Page in dialogflowcx to populate targetPage.
+	// +kubebuilder:validation:Optional
+	TargetPageRef *v1.Reference `json:"targetPageRef,omitempty" tf:"-"`
+
+	// Selector for a Page in dialogflowcx to populate targetPage.
+	// +kubebuilder:validation:Optional
+	TargetPageSelector *v1.Selector `json:"targetPageSelector,omitempty" tf:"-"`
 
 	// The fulfillment to call when the event occurs. Handling webhook errors with a fulfillment enabled with webhook could cause infinite loop. It is invalid to specify such fulfillment for a handler handling webhooks.
 	// Structure is documented below.

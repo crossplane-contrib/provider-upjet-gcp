@@ -101,6 +101,21 @@ func (in *WorkflowInitParameters) DeepCopyInto(out *WorkflowInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ServiceAccount != nil {
+		in, out := &in.ServiceAccount, &out.ServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.ServiceAccountRef != nil {
+		in, out := &in.ServiceAccountRef, &out.ServiceAccountRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServiceAccountSelector != nil {
+		in, out := &in.ServiceAccountSelector, &out.ServiceAccountSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SourceContents != nil {
 		in, out := &in.SourceContents, &out.SourceContents
 		*out = new(string)

@@ -52,6 +52,26 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 
 		}
 	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Destination); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Destination[i3].CloudRunService); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Destination[i3].CloudRunService[i4].Service),
+				Extract:      reference.ExternalName(),
+				Reference:    mg.Spec.InitProvider.Destination[i3].CloudRunService[i4].ServiceRef,
+				Selector:     mg.Spec.InitProvider.Destination[i3].CloudRunService[i4].ServiceSelector,
+				To: reference.To{
+					List:    &v1beta1.ServiceList{},
+					Managed: &v1beta1.Service{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Destination[i3].CloudRunService[i4].Service")
+			}
+			mg.Spec.InitProvider.Destination[i3].CloudRunService[i4].Service = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Destination[i3].CloudRunService[i4].ServiceRef = rsp.ResolvedReference
+
+		}
+	}
 
 	return nil
 }

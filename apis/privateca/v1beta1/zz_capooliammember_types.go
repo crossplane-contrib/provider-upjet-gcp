@@ -30,6 +30,19 @@ import (
 )
 
 type CAPoolIAMMemberInitParameters struct {
+
+	// +crossplane:generate:reference:type=CAPool
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
+	CAPool *string `json:"caPool,omitempty" tf:"ca_pool,omitempty"`
+
+	// Reference to a CAPool to populate caPool.
+	// +kubebuilder:validation:Optional
+	CAPoolRef *v1.Reference `json:"caPoolRef,omitempty" tf:"-"`
+
+	// Selector for a CAPool to populate caPool.
+	// +kubebuilder:validation:Optional
+	CAPoolSelector *v1.Selector `json:"caPoolSelector,omitempty" tf:"-"`
+
 	Condition []ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`

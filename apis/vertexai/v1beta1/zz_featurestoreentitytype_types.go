@@ -53,6 +53,19 @@ type FeaturestoreEntitytypeInitParameters struct {
 	// Optional. Description of the EntityType.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The name of the Featurestore to use, in the format projects/{project}/locations/{location}/featurestores/{featurestore}.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/vertexai/v1beta1.Featurestore
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Featurestore *string `json:"featurestore,omitempty" tf:"featurestore,omitempty"`
+
+	// Reference to a Featurestore in vertexai to populate featurestore.
+	// +kubebuilder:validation:Optional
+	FeaturestoreRef *v1.Reference `json:"featurestoreRef,omitempty" tf:"-"`
+
+	// Selector for a Featurestore in vertexai to populate featurestore.
+	// +kubebuilder:validation:Optional
+	FeaturestoreSelector *v1.Selector `json:"featurestoreSelector,omitempty" tf:"-"`
+
 	// A set of key/value label pairs to assign to this EntityType.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`

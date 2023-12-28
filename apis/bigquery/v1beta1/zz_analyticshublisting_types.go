@@ -191,6 +191,19 @@ type AnalyticsHubListingParameters struct {
 }
 
 type BigqueryDatasetInitParameters struct {
+
+	// Resource name of the dataset source for this listing. e.g. projects/myproject/datasets/123
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Dataset *string `json:"dataset,omitempty" tf:"dataset,omitempty"`
+
+	// Reference to a Dataset in bigquery to populate dataset.
+	// +kubebuilder:validation:Optional
+	DatasetRef *v1.Reference `json:"datasetRef,omitempty" tf:"-"`
+
+	// Selector for a Dataset in bigquery to populate dataset.
+	// +kubebuilder:validation:Optional
+	DatasetSelector *v1.Selector `json:"datasetSelector,omitempty" tf:"-"`
 }
 
 type BigqueryDatasetObservation struct {

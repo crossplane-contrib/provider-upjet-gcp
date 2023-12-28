@@ -77,6 +77,24 @@ func (mg *Registry) ResolveReferences(ctx context.Context, c client.Reader) erro
 		mg.Spec.ForProvider.EventNotificationConfigs[i3].PubsubTopicNameRef = rsp.ResolvedReference
 
 	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.EventNotificationConfigs); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EventNotificationConfigs[i3].PubsubTopicName),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.EventNotificationConfigs[i3].PubsubTopicNameRef,
+			Selector:     mg.Spec.InitProvider.EventNotificationConfigs[i3].PubsubTopicNameSelector,
+			To: reference.To{
+				List:    &v1beta1.TopicList{},
+				Managed: &v1beta1.Topic{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.EventNotificationConfigs[i3].PubsubTopicName")
+		}
+		mg.Spec.InitProvider.EventNotificationConfigs[i3].PubsubTopicName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.EventNotificationConfigs[i3].PubsubTopicNameRef = rsp.ResolvedReference
+
+	}
 
 	return nil
 }

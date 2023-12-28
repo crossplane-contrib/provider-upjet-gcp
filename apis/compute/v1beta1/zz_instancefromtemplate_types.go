@@ -322,6 +322,21 @@ type InstanceFromTemplateInitParameters struct {
 
 	ShieldedInstanceConfig []InstanceFromTemplateShieldedInstanceConfigInitParameters `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
 
+	// Name or self link of an instance
+	// template to create the instance based on. It is recommended to reference
+	// instance templates through their unique id (self_link_unique attribute).
+	// +crossplane:generate:reference:type=InstanceTemplate
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
+	SourceInstanceTemplate *string `json:"sourceInstanceTemplate,omitempty" tf:"source_instance_template,omitempty"`
+
+	// Reference to a InstanceTemplate to populate sourceInstanceTemplate.
+	// +kubebuilder:validation:Optional
+	SourceInstanceTemplateRef *v1.Reference `json:"sourceInstanceTemplateRef,omitempty" tf:"-"`
+
+	// Selector for a InstanceTemplate to populate sourceInstanceTemplate.
+	// +kubebuilder:validation:Optional
+	SourceInstanceTemplateSelector *v1.Selector `json:"sourceInstanceTemplateSelector,omitempty" tf:"-"`
+
 	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -337,7 +352,18 @@ type InstanceFromTemplateNetworkInterfaceInitParameters struct {
 
 	IPv6AccessConfig []NetworkInterfaceIPv6AccessConfigInitParameters `json:"ipv6AccessConfig,omitempty" tf:"ipv6_access_config,omitempty"`
 
+	// +crossplane:generate:reference:type=Network
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
 	NetworkIP *string `json:"networkIp,omitempty" tf:"network_ip,omitempty"`
+
+	// Reference to a Network to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
 
@@ -345,7 +371,18 @@ type InstanceFromTemplateNetworkInterfaceInitParameters struct {
 
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
 
+	// +crossplane:generate:reference:type=Subnetwork
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+
 	SubnetworkProject *string `json:"subnetworkProject,omitempty" tf:"subnetwork_project,omitempty"`
+
+	// Reference to a Subnetwork to populate subnetwork.
+	// +kubebuilder:validation:Optional
+	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+
+	// Selector for a Subnetwork to populate subnetwork.
+	// +kubebuilder:validation:Optional
+	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
 
 type InstanceFromTemplateNetworkInterfaceObservation struct {

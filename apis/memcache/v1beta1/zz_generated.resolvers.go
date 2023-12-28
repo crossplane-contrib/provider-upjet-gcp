@@ -49,5 +49,21 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	mg.Spec.ForProvider.AuthorizedNetwork = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.AuthorizedNetworkRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AuthorizedNetwork),
+		Extract:      resource.ExtractParamPath("network", false),
+		Reference:    mg.Spec.InitProvider.AuthorizedNetworkRef,
+		Selector:     mg.Spec.InitProvider.AuthorizedNetworkSelector,
+		To: reference.To{
+			List:    &v1beta1.ConnectionList{},
+			Managed: &v1beta1.Connection{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.AuthorizedNetwork")
+	}
+	mg.Spec.InitProvider.AuthorizedNetwork = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.AuthorizedNetworkRef = rsp.ResolvedReference
+
 	return nil
 }

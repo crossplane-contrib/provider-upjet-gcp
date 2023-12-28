@@ -31,6 +31,18 @@ import (
 
 type DefaultObjectACLInitParameters struct {
 
+	// The name of the bucket it applies to.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta1.Bucket
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// Reference to a Bucket in storage to populate bucket.
+	// +kubebuilder:validation:Optional
+	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in storage to populate bucket.
+	// +kubebuilder:validation:Optional
+	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+
 	// List of role/entity pairs in the form ROLE:entity.
 	// See GCS Object ACL documentation for more details.
 	// Omitting the field is the same as providing an empty list.

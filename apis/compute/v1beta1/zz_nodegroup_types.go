@@ -113,6 +113,19 @@ type NodeGroupInitParameters struct {
 	// Structure is documented below.
 	MaintenanceWindow []MaintenanceWindowInitParameters `json:"maintenanceWindow,omitempty" tf:"maintenance_window,omitempty"`
 
+	// The URL of the node template to which this node group belongs.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.NodeTemplate
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	NodeTemplate *string `json:"nodeTemplate,omitempty" tf:"node_template,omitempty"`
+
+	// Reference to a NodeTemplate in compute to populate nodeTemplate.
+	// +kubebuilder:validation:Optional
+	NodeTemplateRef *v1.Reference `json:"nodeTemplateRef,omitempty" tf:"-"`
+
+	// Selector for a NodeTemplate in compute to populate nodeTemplate.
+	// +kubebuilder:validation:Optional
+	NodeTemplateSelector *v1.Selector `json:"nodeTemplateSelector,omitempty" tf:"-"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -231,6 +244,32 @@ type NodeGroupParameters struct {
 }
 
 type ProjectMapInitParameters struct {
+
+	// The identifier for this object. Format specified above.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("project_id",false)
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a Project in cloudplatform to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a Project in cloudplatform to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
+
+	// The project id/number should be the same as the key of this project config in the project map.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("project_id",false)
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in cloudplatform to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in cloudplatform to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 }
 
 type ProjectMapObservation struct {

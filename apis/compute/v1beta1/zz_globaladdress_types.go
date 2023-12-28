@@ -46,6 +46,22 @@ type GlobalAddressInitParameters struct {
 	// Possible values are: IPV4, IPV6.
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
+	// The URL of the network in which to reserve the IP range. The IP range
+	// must be in RFC1918 space. The network cannot be deleted if there are
+	// any reserved IP ranges referring to it.
+	// This should only be set when using an Internal address.
+	// +crossplane:generate:reference:type=Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Reference to a Network to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+
 	// The prefix length of the IP range. If not present, it means the
 	// address field is a single IP address.
 	// This field is not applicable to addresses with addressType=INTERNAL

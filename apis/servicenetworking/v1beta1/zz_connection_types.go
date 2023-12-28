@@ -31,6 +31,33 @@ import (
 
 type ConnectionInitParameters struct {
 
+	// Name of VPC network connected with service producers using VPC peering.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Reference to a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+
+	// Named IP address range(s) of PEERING type reserved for
+	// this service provider. Note that invoking this method with a different range when connection
+	// is already established will not reallocate already provisioned service producer subnetworks.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.GlobalAddress
+	ReservedPeeringRanges []*string `json:"reservedPeeringRanges,omitempty" tf:"reserved_peering_ranges,omitempty"`
+
+	// References to GlobalAddress in compute to populate reservedPeeringRanges.
+	// +kubebuilder:validation:Optional
+	ReservedPeeringRangesRefs []v1.Reference `json:"reservedPeeringRangesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of GlobalAddress in compute to populate reservedPeeringRanges.
+	// +kubebuilder:validation:Optional
+	ReservedPeeringRangesSelector *v1.Selector `json:"reservedPeeringRangesSelector,omitempty" tf:"-"`
+
 	// Provider peering service that is managing peering connectivity for a
 	// service provider organization. For Google services that support this functionality it is
 	// 'servicenetworking.googleapis.com'.

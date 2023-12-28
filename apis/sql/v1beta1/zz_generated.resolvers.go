@@ -79,6 +79,26 @@ func (mg *DatabaseInstance) ResolveReferences(ctx context.Context, c client.Read
 
 		}
 	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Settings); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Settings[i3].IPConfiguration); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Settings[i3].IPConfiguration[i4].PrivateNetwork),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.Settings[i3].IPConfiguration[i4].PrivateNetworkRef,
+				Selector:     mg.Spec.InitProvider.Settings[i3].IPConfiguration[i4].PrivateNetworkSelector,
+				To: reference.To{
+					List:    &v1beta1.NetworkList{},
+					Managed: &v1beta1.Network{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Settings[i3].IPConfiguration[i4].PrivateNetwork")
+			}
+			mg.Spec.InitProvider.Settings[i3].IPConfiguration[i4].PrivateNetwork = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Settings[i3].IPConfiguration[i4].PrivateNetworkRef = rsp.ResolvedReference
+
+		}
+	}
 
 	return nil
 }
@@ -106,6 +126,22 @@ func (mg *SSLCert) ResolveReferences(ctx context.Context, c client.Reader) error
 	mg.Spec.ForProvider.Instance = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.InstanceRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Instance),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.InstanceRef,
+		Selector:     mg.Spec.InitProvider.InstanceSelector,
+		To: reference.To{
+			List:    &DatabaseInstanceList{},
+			Managed: &DatabaseInstance{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Instance")
+	}
+	mg.Spec.InitProvider.Instance = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.InstanceRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -131,6 +167,22 @@ func (mg *User) ResolveReferences(ctx context.Context, c client.Reader) error {
 	}
 	mg.Spec.ForProvider.Instance = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.InstanceRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Instance),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.InstanceRef,
+		Selector:     mg.Spec.InitProvider.InstanceSelector,
+		To: reference.To{
+			List:    &DatabaseInstanceList{},
+			Managed: &DatabaseInstance{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Instance")
+	}
+	mg.Spec.InitProvider.Instance = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.InstanceRef = rsp.ResolvedReference
 
 	return nil
 }

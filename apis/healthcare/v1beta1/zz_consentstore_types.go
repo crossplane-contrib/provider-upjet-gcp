@@ -31,6 +31,20 @@ import (
 
 type ConsentStoreInitParameters struct {
 
+	// Identifies the dataset addressed by this request. Must be in the format
+	// 'projects/{project}/locations/{location}/datasets/{dataset}'
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/healthcare/v1beta1.Dataset
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Dataset *string `json:"dataset,omitempty" tf:"dataset,omitempty"`
+
+	// Reference to a Dataset in healthcare to populate dataset.
+	// +kubebuilder:validation:Optional
+	DatasetRef *v1.Reference `json:"datasetRef,omitempty" tf:"-"`
+
+	// Selector for a Dataset in healthcare to populate dataset.
+	// +kubebuilder:validation:Optional
+	DatasetSelector *v1.Selector `json:"datasetSelector,omitempty" tf:"-"`
+
 	// Default time to live for consents in this store. Must be at least 24 hours. Updating this field will not affect the expiration time of existing consents.
 	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
 	DefaultConsentTTL *string `json:"defaultConsentTtl,omitempty" tf:"default_consent_ttl,omitempty"`

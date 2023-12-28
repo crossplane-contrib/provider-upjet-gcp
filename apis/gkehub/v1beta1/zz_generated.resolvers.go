@@ -53,6 +53,26 @@ func (mg *Membership) ResolveReferences(ctx context.Context, c client.Reader) er
 
 		}
 	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Endpoint); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Endpoint[i3].GkeCluster); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Endpoint[i3].GkeCluster[i4].ResourceLink),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.Endpoint[i3].GkeCluster[i4].ResourceLinkRef,
+				Selector:     mg.Spec.InitProvider.Endpoint[i3].GkeCluster[i4].ResourceLinkSelector,
+				To: reference.To{
+					List:    &v1beta1.ClusterList{},
+					Managed: &v1beta1.Cluster{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Endpoint[i3].GkeCluster[i4].ResourceLink")
+			}
+			mg.Spec.InitProvider.Endpoint[i3].GkeCluster[i4].ResourceLink = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Endpoint[i3].GkeCluster[i4].ResourceLinkRef = rsp.ResolvedReference
+
+		}
+	}
 
 	return nil
 }
@@ -79,6 +99,22 @@ func (mg *MembershipIAMMember) ResolveReferences(ctx context.Context, c client.R
 	}
 	mg.Spec.ForProvider.MembershipID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.MembershipIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.MembershipID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.MembershipIDRef,
+		Selector:     mg.Spec.InitProvider.MembershipIDSelector,
+		To: reference.To{
+			List:    &MembershipList{},
+			Managed: &Membership{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.MembershipID")
+	}
+	mg.Spec.InitProvider.MembershipID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.MembershipIDRef = rsp.ResolvedReference
 
 	return nil
 }

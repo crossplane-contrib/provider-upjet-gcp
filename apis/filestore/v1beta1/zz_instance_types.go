@@ -90,6 +90,19 @@ type InstanceInitParameters struct {
 	// Structure is documented below.
 	FileShares []FileSharesInitParameters `json:"fileShares,omitempty" tf:"file_shares,omitempty"`
 
+	// KMS key name used for data encryption.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// Reference to a CryptoKey in kms to populate kmsKeyName.
+	// +kubebuilder:validation:Optional
+	KMSKeyNameRef *v1.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+
+	// Selector for a CryptoKey in kms to populate kmsKeyName.
+	// +kubebuilder:validation:Optional
+	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+
 	// Resource labels to represent user-provided metadata.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`

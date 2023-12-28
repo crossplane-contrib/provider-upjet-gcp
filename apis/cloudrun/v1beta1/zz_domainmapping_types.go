@@ -144,6 +144,19 @@ type MetadataInitParameters struct {
 	// More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// In Cloud Run the namespace must be equal to either the
+	// project ID or project number.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// Reference to a Project in cloudplatform to populate namespace.
+	// +kubebuilder:validation:Optional
+	NamespaceRef *v1.Reference `json:"namespaceRef,omitempty" tf:"-"`
+
+	// Selector for a Project in cloudplatform to populate namespace.
+	// +kubebuilder:validation:Optional
+	NamespaceSelector *v1.Selector `json:"namespaceSelector,omitempty" tf:"-"`
 }
 
 type MetadataObservation struct {
@@ -259,6 +272,19 @@ type SpecInitParameters struct {
 	// warning about a potential conflict and only set it once the respective UI
 	// has given such a warning.
 	ForceOverride *bool `json:"forceOverride,omitempty" tf:"force_override,omitempty"`
+
+	// The name of the Cloud Run Service that this DomainMapping applies to.
+	// The route must exist.
+	// +crossplane:generate:reference:type=Service
+	RouteName *string `json:"routeName,omitempty" tf:"route_name,omitempty"`
+
+	// Reference to a Service to populate routeName.
+	// +kubebuilder:validation:Optional
+	RouteNameRef *v1.Reference `json:"routeNameRef,omitempty" tf:"-"`
+
+	// Selector for a Service to populate routeName.
+	// +kubebuilder:validation:Optional
+	RouteNameSelector *v1.Selector `json:"routeNameSelector,omitempty" tf:"-"`
 }
 
 type SpecObservation struct {

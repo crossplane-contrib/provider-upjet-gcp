@@ -31,6 +31,18 @@ import (
 
 type BackendBucketInitParameters struct {
 
+	// Cloud Storage bucket name.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta1.Bucket
+	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
+
+	// Reference to a Bucket in storage to populate bucketName.
+	// +kubebuilder:validation:Optional
+	BucketNameRef *v1.Reference `json:"bucketNameRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in storage to populate bucketName.
+	// +kubebuilder:validation:Optional
+	BucketNameSelector *v1.Selector `json:"bucketNameSelector,omitempty" tf:"-"`
+
 	// Cloud CDN configuration for this Backend Bucket.
 	// Structure is documented below.
 	CdnPolicy []CdnPolicyInitParameters `json:"cdnPolicy,omitempty" tf:"cdn_policy,omitempty"`
@@ -45,6 +57,19 @@ type BackendBucketInitParameters struct {
 	// An optional textual description of the resource; provided by the
 	// client when the resource is created.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The security policy associated with this backend bucket.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.SecurityPolicy
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	EdgeSecurityPolicy *string `json:"edgeSecurityPolicy,omitempty" tf:"edge_security_policy,omitempty"`
+
+	// Reference to a SecurityPolicy in compute to populate edgeSecurityPolicy.
+	// +kubebuilder:validation:Optional
+	EdgeSecurityPolicyRef *v1.Reference `json:"edgeSecurityPolicyRef,omitempty" tf:"-"`
+
+	// Selector for a SecurityPolicy in compute to populate edgeSecurityPolicy.
+	// +kubebuilder:validation:Optional
+	EdgeSecurityPolicySelector *v1.Selector `json:"edgeSecurityPolicySelector,omitempty" tf:"-"`
 
 	// If true, enable Cloud CDN for this BackendBucket.
 	EnableCdn *bool `json:"enableCdn,omitempty" tf:"enable_cdn,omitempty"`

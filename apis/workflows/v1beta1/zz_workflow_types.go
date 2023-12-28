@@ -56,6 +56,25 @@ type WorkflowInitParameters struct {
 	// The region of the workflow.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// Name of the service account associated with the latest workflow version. This service
+	// account represents the identity of the workflow and determines what permissions the workflow has.
+	// Format: projects/{project}/serviceAccounts/{account} or {account}.
+	// Using - as a wildcard for the {project} or not providing one at all will infer the project from the account.
+	// The {account} value can be the email address or the unique_id of the service account.
+	// If not provided, workflow will use the project's default service account.
+	// Modifying this field for an existing workflow results in a new workflow revision.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
+
 	// Workflow code to be executed. The size limit is 32KB.
 	SourceContents *string `json:"sourceContents,omitempty" tf:"source_contents,omitempty"`
 }

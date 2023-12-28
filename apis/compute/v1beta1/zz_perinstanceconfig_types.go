@@ -31,6 +31,18 @@ import (
 
 type PerInstanceConfigInitParameters struct {
 
+	// The instance group manager this instance config is part of.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.InstanceGroupManager
+	InstanceGroupManager *string `json:"instanceGroupManager,omitempty" tf:"instance_group_manager,omitempty"`
+
+	// Reference to a InstanceGroupManager in compute to populate instanceGroupManager.
+	// +kubebuilder:validation:Optional
+	InstanceGroupManagerRef *v1.Reference `json:"instanceGroupManagerRef,omitempty" tf:"-"`
+
+	// Selector for a InstanceGroupManager in compute to populate instanceGroupManager.
+	// +kubebuilder:validation:Optional
+	InstanceGroupManagerSelector *v1.Selector `json:"instanceGroupManagerSelector,omitempty" tf:"-"`
+
 	// The minimal action to perform on the instance during an update.
 	// Default is NONE. Possible values are:
 	MinimalAction *string `json:"minimalAction,omitempty" tf:"minimal_action,omitempty"`
@@ -54,6 +66,19 @@ type PerInstanceConfigInitParameters struct {
 	// When false, deleting this config will not immediately remove any state from the underlying instance.
 	// State will be removed on the next instance recreation or update.
 	RemoveInstanceStateOnDestroy *bool `json:"removeInstanceStateOnDestroy,omitempty" tf:"remove_instance_state_on_destroy,omitempty"`
+
+	// Zone where the containing instance group manager is located
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.InstanceGroupManager
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("zone",false)
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
+
+	// Reference to a InstanceGroupManager in compute to populate zone.
+	// +kubebuilder:validation:Optional
+	ZoneRef *v1.Reference `json:"zoneRef,omitempty" tf:"-"`
+
+	// Selector for a InstanceGroupManager in compute to populate zone.
+	// +kubebuilder:validation:Optional
+	ZoneSelector *v1.Selector `json:"zoneSelector,omitempty" tf:"-"`
 }
 
 type PerInstanceConfigObservation struct {
@@ -170,6 +195,20 @@ type PreservedStateDiskInitParameters struct {
 	// Default value is READ_WRITE.
 	// Possible values are: READ_ONLY, READ_WRITE.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// The URI of an existing persistent disk to attach under the specified device-name in the format
+	// projects/project-id/zones/zone/disks/disk-name.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Disk
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Source *string `json:"source,omitempty" tf:"source,omitempty"`
+
+	// Reference to a Disk in compute to populate source.
+	// +kubebuilder:validation:Optional
+	SourceRef *v1.Reference `json:"sourceRef,omitempty" tf:"-"`
+
+	// Selector for a Disk in compute to populate source.
+	// +kubebuilder:validation:Optional
+	SourceSelector *v1.Selector `json:"sourceSelector,omitempty" tf:"-"`
 }
 
 type PreservedStateDiskObservation struct {

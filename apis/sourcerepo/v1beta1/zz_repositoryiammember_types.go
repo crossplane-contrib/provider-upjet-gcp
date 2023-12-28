@@ -64,6 +64,17 @@ type RepositoryIAMMemberInitParameters struct {
 
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// +crossplane:generate:reference:type=Repository
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
+
+	// Reference to a Repository to populate repository.
+	// +kubebuilder:validation:Optional
+	RepositoryRef *v1.Reference `json:"repositoryRef,omitempty" tf:"-"`
+
+	// Selector for a Repository to populate repository.
+	// +kubebuilder:validation:Optional
+	RepositorySelector *v1.Selector `json:"repositorySelector,omitempty" tf:"-"`
+
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 

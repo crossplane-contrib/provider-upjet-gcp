@@ -49,5 +49,21 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	mg.Spec.ForProvider.CustomerManagedKey = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CustomerManagedKeyRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CustomerManagedKey),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.CustomerManagedKeyRef,
+		Selector:     mg.Spec.InitProvider.CustomerManagedKeySelector,
+		To: reference.To{
+			List:    &v1beta1.CryptoKeyList{},
+			Managed: &v1beta1.CryptoKey{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CustomerManagedKey")
+	}
+	mg.Spec.InitProvider.CustomerManagedKey = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CustomerManagedKeyRef = rsp.ResolvedReference
+
 	return nil
 }

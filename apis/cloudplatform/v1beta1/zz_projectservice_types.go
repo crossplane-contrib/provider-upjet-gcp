@@ -42,6 +42,19 @@ type ProjectServiceInitParameters struct {
 	// changes frequently.
 	DisableOnDestroy *bool `json:"disableOnDestroy,omitempty" tf:"disable_on_destroy,omitempty"`
 
+	// The project ID. If not provided, the provider project
+	// is used.
+	// +crossplane:generate:reference:type=Project
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Reference to a Project to populate project.
+	// +kubebuilder:validation:Optional
+	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+
+	// Selector for a Project to populate project.
+	// +kubebuilder:validation:Optional
+	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+
 	// The service to enable.
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }

@@ -1399,6 +1399,21 @@ type PathMatcherDefaultURLRedirectParameters struct {
 
 type PathMatcherInitParameters struct {
 
+	// A reference to a RegionBackendService resource. This will be used if
+	// none of the pathRules defined by this PathMatcher is matched by
+	// the URL's path portion.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionBackendService
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	DefaultService *string `json:"defaultService,omitempty" tf:"default_service,omitempty"`
+
+	// Reference to a RegionBackendService in compute to populate defaultService.
+	// +kubebuilder:validation:Optional
+	DefaultServiceRef *v1.Reference `json:"defaultServiceRef,omitempty" tf:"-"`
+
+	// Selector for a RegionBackendService in compute to populate defaultService.
+	// +kubebuilder:validation:Optional
+	DefaultServiceSelector *v1.Selector `json:"defaultServiceSelector,omitempty" tf:"-"`
+
 	// When none of the specified hostRules match, the request is redirected to a URL specified
 	// by defaultUrlRedirect. If defaultUrlRedirect is specified, defaultService or
 	// defaultRouteAction must not be set.
@@ -1539,6 +1554,19 @@ type PathRuleInitParameters struct {
 	// or urlRedirect must be set.
 	// Structure is documented below.
 	RouteAction []RouteActionInitParameters `json:"routeAction,omitempty" tf:"route_action,omitempty"`
+
+	// A reference to expected RegionBackendService resource the given URL should be mapped to.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionBackendService
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+
+	// Reference to a RegionBackendService in compute to populate service.
+	// +kubebuilder:validation:Optional
+	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
+
+	// Selector for a RegionBackendService in compute to populate service.
+	// +kubebuilder:validation:Optional
+	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
 
 	// When this rule is matched, the request is redirected to a URL specified by
 	// urlRedirect. If urlRedirect is specified, service or routeAction must not be
@@ -1766,6 +1794,25 @@ type RegionURLMapInitParameters struct {
 	// Structure is documented below.
 	DefaultRouteAction []DefaultRouteActionInitParameters `json:"defaultRouteAction,omitempty" tf:"default_route_action,omitempty"`
 
+	// The full or partial URL of the defaultService resource to which traffic is directed if
+	// none of the hostRules match. If defaultRouteAction is additionally specified, advanced
+	// routing actions like URL Rewrites, etc. take effect prior to sending the request to the
+	// backend. However, if defaultService is specified, defaultRouteAction cannot contain any
+	// weightedBackendServices. Conversely, if routeAction specifies any
+	// weightedBackendServices, service must not be specified.  Only one of defaultService,
+	// defaultUrlRedirect or defaultRouteAction.weightedBackendService must be set.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionBackendService
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	DefaultService *string `json:"defaultService,omitempty" tf:"default_service,omitempty"`
+
+	// Reference to a RegionBackendService in compute to populate defaultService.
+	// +kubebuilder:validation:Optional
+	DefaultServiceRef *v1.Reference `json:"defaultServiceRef,omitempty" tf:"-"`
+
+	// Selector for a RegionBackendService in compute to populate defaultService.
+	// +kubebuilder:validation:Optional
+	DefaultServiceSelector *v1.Selector `json:"defaultServiceSelector,omitempty" tf:"-"`
+
 	// When none of the specified hostRules match, the request is redirected to a URL specified
 	// by defaultUrlRedirect. If defaultUrlRedirect is specified, defaultService or
 	// defaultRouteAction must not be set.
@@ -1975,6 +2022,21 @@ type RequestHeadersToAddParameters struct {
 }
 
 type RequestMirrorPolicyInitParameters struct {
+
+	// The default RegionBackendService resource. Before
+	// forwarding the request to backendService, the loadbalancer applies any relevant
+	// headerActions specified as part of this backendServiceWeight.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionBackendService
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
+
+	// Reference to a RegionBackendService in compute to populate backendService.
+	// +kubebuilder:validation:Optional
+	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
+
+	// Selector for a RegionBackendService in compute to populate backendService.
+	// +kubebuilder:validation:Optional
+	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
 }
 
 type RequestMirrorPolicyObservation struct {
@@ -2520,6 +2582,21 @@ type RouteActionParameters struct {
 }
 
 type RouteActionRequestMirrorPolicyInitParameters struct {
+
+	// The default RegionBackendService resource. Before
+	// forwarding the request to backendService, the loadbalancer applies any relevant
+	// headerActions specified as part of this backendServiceWeight.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionBackendService
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
+
+	// Reference to a RegionBackendService in compute to populate backendService.
+	// +kubebuilder:validation:Optional
+	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
+
+	// Selector for a RegionBackendService in compute to populate backendService.
+	// +kubebuilder:validation:Optional
+	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
 }
 
 type RouteActionRequestMirrorPolicyObservation struct {
@@ -2773,6 +2850,21 @@ type RouteActionWeightedBackendServicesHeaderActionParameters struct {
 }
 
 type RouteActionWeightedBackendServicesInitParameters struct {
+
+	// The default RegionBackendService resource. Before
+	// forwarding the request to backendService, the loadbalancer applies any relevant
+	// headerActions specified as part of this backendServiceWeight.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionBackendService
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
+
+	// Reference to a RegionBackendService in compute to populate backendService.
+	// +kubebuilder:validation:Optional
+	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
+
+	// Selector for a RegionBackendService in compute to populate backendService.
+	// +kubebuilder:validation:Optional
+	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
 
 	// Specifies changes to request and response headers that need to take effect for
 	// the selected backendService. headerAction specified here take effect before
@@ -3035,6 +3127,19 @@ type RouteRulesInitParameters struct {
 	// or urlRedirect must be set.
 	// Structure is documented below.
 	RouteAction []RouteRulesRouteActionInitParameters `json:"routeAction,omitempty" tf:"route_action,omitempty"`
+
+	// A reference to expected RegionBackendService resource the given URL should be mapped to.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionBackendService
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+
+	// Reference to a RegionBackendService in compute to populate service.
+	// +kubebuilder:validation:Optional
+	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
+
+	// Selector for a RegionBackendService in compute to populate service.
+	// +kubebuilder:validation:Optional
+	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
 
 	// When this rule is matched, the request is redirected to a URL specified by
 	// urlRedirect. If urlRedirect is specified, service or routeAction must not be
@@ -3810,6 +3915,19 @@ type TestInitParameters struct {
 
 	// Path portion of the URL.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// A reference to expected RegionBackendService resource the given URL should be mapped to.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionBackendService
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+
+	// Reference to a RegionBackendService in compute to populate service.
+	// +kubebuilder:validation:Optional
+	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
+
+	// Selector for a RegionBackendService in compute to populate service.
+	// +kubebuilder:validation:Optional
+	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
 }
 
 type TestObservation struct {
@@ -4210,6 +4328,21 @@ type WeightedBackendServicesHeaderActionResponseHeadersToAddParameters struct {
 }
 
 type WeightedBackendServicesInitParameters struct {
+
+	// The default RegionBackendService resource. Before
+	// forwarding the request to backendService, the loadbalancer applies any relevant
+	// headerActions specified as part of this backendServiceWeight.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionBackendService
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
+
+	// Reference to a RegionBackendService in compute to populate backendService.
+	// +kubebuilder:validation:Optional
+	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
+
+	// Selector for a RegionBackendService in compute to populate backendService.
+	// +kubebuilder:validation:Optional
+	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
 
 	// Specifies changes to request and response headers that need to take effect for
 	// the selected backendService. headerAction specified here take effect before

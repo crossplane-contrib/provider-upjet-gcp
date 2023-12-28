@@ -118,6 +118,20 @@ type FlowInitParameters struct {
 	// Structure is documented below.
 	NluSettings []NluSettingsInitParameters `json:"nluSettings,omitempty" tf:"nlu_settings,omitempty"`
 
+	// The agent to create a flow for.
+	// Format: projects//locations//agents/.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dialogflowcx/v1beta1.Agent
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
+
+	// Reference to a Agent in dialogflowcx to populate parent.
+	// +kubebuilder:validation:Optional
+	ParentRef *v1.Reference `json:"parentRef,omitempty" tf:"-"`
+
+	// Selector for a Agent in dialogflowcx to populate parent.
+	// +kubebuilder:validation:Optional
+	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
+
 	// A flow's transition route group serve two purposes:
 	// They are responsible for matching the user's first utterances in the flow.
 	// They are inherited by every page's [transition route groups][Page.transition_route_groups]. Transition route groups defined in the page have higher priority than those defined in the flow.

@@ -50,6 +50,32 @@ type RegionPerInstanceConfigInitParameters struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Region where the containing instance group manager is located
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionInstanceGroupManager
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("region",false)
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The region instance group manager this instance config is part of.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionInstanceGroupManager
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	RegionInstanceGroupManager *string `json:"regionInstanceGroupManager,omitempty" tf:"region_instance_group_manager,omitempty"`
+
+	// Reference to a RegionInstanceGroupManager in compute to populate regionInstanceGroupManager.
+	// +kubebuilder:validation:Optional
+	RegionInstanceGroupManagerRef *v1.Reference `json:"regionInstanceGroupManagerRef,omitempty" tf:"-"`
+
+	// Selector for a RegionInstanceGroupManager in compute to populate regionInstanceGroupManager.
+	// +kubebuilder:validation:Optional
+	RegionInstanceGroupManagerSelector *v1.Selector `json:"regionInstanceGroupManagerSelector,omitempty" tf:"-"`
+
+	// Reference to a RegionInstanceGroupManager in compute to populate region.
+	// +kubebuilder:validation:Optional
+	RegionRef *v1.Reference `json:"regionRef,omitempty" tf:"-"`
+
+	// Selector for a RegionInstanceGroupManager in compute to populate region.
+	// +kubebuilder:validation:Optional
+	RegionSelector *v1.Selector `json:"regionSelector,omitempty" tf:"-"`
+
 	// When true, deleting this config will immediately remove any specified state from the underlying instance.
 	// When false, deleting this config will not immediately remove any state from the underlying instance.
 	// State will be removed on the next instance recreation or update.
@@ -171,6 +197,20 @@ type RegionPerInstanceConfigPreservedStateDiskInitParameters struct {
 	// Default value is READ_WRITE.
 	// Possible values are: READ_ONLY, READ_WRITE.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// The URI of an existing persistent disk to attach under the specified device-name in the format
+	// projects/project-id/zones/zone/disks/disk-name.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Disk
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Source *string `json:"source,omitempty" tf:"source,omitempty"`
+
+	// Reference to a Disk in compute to populate source.
+	// +kubebuilder:validation:Optional
+	SourceRef *v1.Reference `json:"sourceRef,omitempty" tf:"-"`
+
+	// Selector for a Disk in compute to populate source.
+	// +kubebuilder:validation:Optional
+	SourceSelector *v1.Selector `json:"sourceSelector,omitempty" tf:"-"`
 }
 
 type RegionPerInstanceConfigPreservedStateDiskObservation struct {

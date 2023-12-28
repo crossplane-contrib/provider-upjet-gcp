@@ -31,6 +31,24 @@ import (
 
 type AttestationAuthorityNoteInitParameters struct {
 
+	// The resource name of a ATTESTATION_AUTHORITY Note, created by the
+	// user. If the Note is in a different project from the Attestor, it
+	// should be specified in the format projects/*/notes/* (or the legacy
+	// providers/*/notes/*). This field may not be updated.
+	// An attestation by this attestor is stored as a Container Analysis
+	// ATTESTATION_AUTHORITY Occurrence that names a container image
+	// and that links to this Note.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/containeranalysis/v1beta1.Note
+	NoteReference *string `json:"noteReference,omitempty" tf:"note_reference,omitempty"`
+
+	// Reference to a Note in containeranalysis to populate noteReference.
+	// +kubebuilder:validation:Optional
+	NoteReferenceRef *v1.Reference `json:"noteReferenceRef,omitempty" tf:"-"`
+
+	// Selector for a Note in containeranalysis to populate noteReference.
+	// +kubebuilder:validation:Optional
+	NoteReferenceSelector *v1.Selector `json:"noteReferenceSelector,omitempty" tf:"-"`
+
 	// Public keys that verify attestations signed by this attestor. This
 	// field may be updated.
 	// If this field is non-empty, one of the specified public keys must

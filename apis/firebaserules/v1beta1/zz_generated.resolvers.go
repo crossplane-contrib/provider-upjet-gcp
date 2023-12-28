@@ -47,5 +47,21 @@ func (mg *Release) ResolveReferences(ctx context.Context, c client.Reader) error
 	mg.Spec.ForProvider.RulesetName = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.RulesetNameRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RulesetName),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.RulesetNameRef,
+		Selector:     mg.Spec.InitProvider.RulesetNameSelector,
+		To: reference.To{
+			List:    &RulesetList{},
+			Managed: &Ruleset{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.RulesetName")
+	}
+	mg.Spec.InitProvider.RulesetName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.RulesetNameRef = rsp.ResolvedReference
+
 	return nil
 }

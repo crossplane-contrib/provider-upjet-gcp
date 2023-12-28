@@ -50,6 +50,24 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 		mg.Spec.ForProvider.PubsubTarget[i3].TopicNameRef = rsp.ResolvedReference
 
 	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.PubsubTarget); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PubsubTarget[i3].TopicName),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.InitProvider.PubsubTarget[i3].TopicNameRef,
+			Selector:     mg.Spec.InitProvider.PubsubTarget[i3].TopicNameSelector,
+			To: reference.To{
+				List:    &v1beta1.TopicList{},
+				Managed: &v1beta1.Topic{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.PubsubTarget[i3].TopicName")
+		}
+		mg.Spec.InitProvider.PubsubTarget[i3].TopicName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.PubsubTarget[i3].TopicNameRef = rsp.ResolvedReference
+
+	}
 
 	return nil
 }

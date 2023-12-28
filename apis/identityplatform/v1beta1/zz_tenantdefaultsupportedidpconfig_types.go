@@ -40,6 +40,19 @@ type TenantDefaultSupportedIdPConfigInitParameters struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The name of the tenant where this DefaultSupportedIdpConfig resource exists
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/identityplatform/v1beta1.Tenant
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	Tenant *string `json:"tenant,omitempty" tf:"tenant,omitempty"`
+
+	// Reference to a Tenant in identityplatform to populate tenant.
+	// +kubebuilder:validation:Optional
+	TenantRef *v1.Reference `json:"tenantRef,omitempty" tf:"-"`
+
+	// Selector for a Tenant in identityplatform to populate tenant.
+	// +kubebuilder:validation:Optional
+	TenantSelector *v1.Selector `json:"tenantSelector,omitempty" tf:"-"`
 }
 
 type TenantDefaultSupportedIdPConfigObservation struct {

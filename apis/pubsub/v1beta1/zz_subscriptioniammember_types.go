@@ -65,6 +65,17 @@ type SubscriptionIAMMemberInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+
+	// +crossplane:generate:reference:type=Subscription
+	Subscription *string `json:"subscription,omitempty" tf:"subscription,omitempty"`
+
+	// Reference to a Subscription to populate subscription.
+	// +kubebuilder:validation:Optional
+	SubscriptionRef *v1.Reference `json:"subscriptionRef,omitempty" tf:"-"`
+
+	// Selector for a Subscription to populate subscription.
+	// +kubebuilder:validation:Optional
+	SubscriptionSelector *v1.Selector `json:"subscriptionSelector,omitempty" tf:"-"`
 }
 
 type SubscriptionIAMMemberObservation struct {

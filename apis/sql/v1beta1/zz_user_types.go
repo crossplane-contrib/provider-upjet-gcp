@@ -119,6 +119,19 @@ type UserInitParameters struct {
 	// Can be an IP address. Changing this forces a new resource to be created.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
+	// The name of the Cloud SQL instance. Changing this
+	// forces a new resource to be created.
+	// +crossplane:generate:reference:type=DatabaseInstance
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
+	// Reference to a DatabaseInstance to populate instance.
+	// +kubebuilder:validation:Optional
+	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+
+	// Selector for a DatabaseInstance to populate instance.
+	// +kubebuilder:validation:Optional
+	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+
 	PasswordPolicy []PasswordPolicyInitParameters `json:"passwordPolicy,omitempty" tf:"password_policy,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it

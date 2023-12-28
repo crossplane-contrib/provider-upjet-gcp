@@ -88,6 +88,19 @@ type QueueInitParameters struct {
 	// Structure is documented below.
 	AppEngineRoutingOverride []AppEngineRoutingOverrideInitParameters `json:"appEngineRoutingOverride,omitempty" tf:"app_engine_routing_override,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Reference to a Project in cloudplatform to populate project.
+	// +kubebuilder:validation:Optional
+	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+
+	// Selector for a Project in cloudplatform to populate project.
+	// +kubebuilder:validation:Optional
+	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+
 	// Rate limits for task dispatches.
 	// The queue's actual dispatch rate is the result of:
 	RateLimits []RateLimitsInitParameters `json:"rateLimits,omitempty" tf:"rate_limits,omitempty"`

@@ -47,6 +47,22 @@ func (mg *InstanceIAMMember) ResolveReferences(ctx context.Context, c client.Rea
 	mg.Spec.ForProvider.InstanceName = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.InstanceNameRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.InstanceName),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.InstanceNameRef,
+		Selector:     mg.Spec.InitProvider.InstanceNameSelector,
+		To: reference.To{
+			List:    &InstanceList{},
+			Managed: &Instance{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.InstanceName")
+	}
+	mg.Spec.InitProvider.InstanceName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.InstanceNameRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -72,6 +88,22 @@ func (mg *RuntimeIAMMember) ResolveReferences(ctx context.Context, c client.Read
 	}
 	mg.Spec.ForProvider.RuntimeName = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.RuntimeNameRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RuntimeName),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.RuntimeNameRef,
+		Selector:     mg.Spec.InitProvider.RuntimeNameSelector,
+		To: reference.To{
+			List:    &RuntimeList{},
+			Managed: &Runtime{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.RuntimeName")
+	}
+	mg.Spec.InitProvider.RuntimeName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.RuntimeNameRef = rsp.ResolvedReference
 
 	return nil
 }

@@ -109,6 +109,23 @@ type SchemaSettingsParameters struct {
 
 type TopicInitParameters struct {
 
+	// The resource name of the Cloud KMS CryptoKey to be used to protect access
+	// to messages published on this topic. Your project's PubSub service account
+	// (service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com) must have
+	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+	// The expected format is projects/*/locations/*/keyRings/*/cryptoKeys/*
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// Reference to a CryptoKey in kms to populate kmsKeyName.
+	// +kubebuilder:validation:Optional
+	KMSKeyNameRef *v1.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+
+	// Selector for a CryptoKey in kms to populate kmsKeyName.
+	// +kubebuilder:validation:Optional
+	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+
 	// A set of key/value label pairs to assign to this Topic.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`

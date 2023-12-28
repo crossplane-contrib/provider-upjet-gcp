@@ -33,6 +33,19 @@ type InstancesInitParameters struct {
 
 	// The IP address on the VM to use for peering.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// The URI of the virtual machine resource
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Instance
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	VirtualMachine *string `json:"virtualMachine,omitempty" tf:"virtual_machine,omitempty"`
+
+	// Reference to a Instance in compute to populate virtualMachine.
+	// +kubebuilder:validation:Optional
+	VirtualMachineRef *v1.Reference `json:"virtualMachineRef,omitempty" tf:"-"`
+
+	// Selector for a Instance in compute to populate virtualMachine.
+	// +kubebuilder:validation:Optional
+	VirtualMachineSelector *v1.Selector `json:"virtualMachineSelector,omitempty" tf:"-"`
 }
 
 type InstancesObservation struct {
@@ -156,6 +169,19 @@ type SpokeInitParameters struct {
 
 	// An optional description of the spoke.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Immutable. The URI of the hub that this spoke is attached to.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/networkconnectivity/v1beta1.Hub
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Hub *string `json:"hub,omitempty" tf:"hub,omitempty"`
+
+	// Reference to a Hub in networkconnectivity to populate hub.
+	// +kubebuilder:validation:Optional
+	HubRef *v1.Reference `json:"hubRef,omitempty" tf:"-"`
+
+	// Selector for a Hub in networkconnectivity to populate hub.
+	// +kubebuilder:validation:Optional
+	HubSelector *v1.Selector `json:"hubSelector,omitempty" tf:"-"`
 
 	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
 	// +mapType=granular

@@ -843,6 +843,16 @@ type GceClusterConfigInitParameters struct {
 	// Reservation Affinity for consuming zonal reservation.
 	ReservationAffinity []ReservationAffinityInitParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
+	// The service account to be used by the Node VMs.
+	// If not specified, the "default" service account is used.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+
 	// The set of Google API scopes
 	// to be made available on all of the node VMs under the service_account
 	// specified. Both OAuth2 URLs and gcloud
@@ -850,6 +860,10 @@ type GceClusterConfigInitParameters struct {
 	// cloud-platform scope. See a complete list of scopes here.
 	// +listType=set
 	ServiceAccountScopes []*string `json:"serviceAccountScopes,omitempty" tf:"service_account_scopes,omitempty"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// Shielded Instance Config for clusters using Compute Engine Shielded VMs.
 	ShieldedInstanceConfig []ShieldedInstanceConfigInitParameters `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`

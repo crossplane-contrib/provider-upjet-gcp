@@ -62,6 +62,17 @@ type RegionDiskIAMMemberInitParameters struct {
 
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
+	// +crossplane:generate:reference:type=RegionDisk
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Reference to a RegionDisk to populate name.
+	// +kubebuilder:validation:Optional
+	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+
+	// Selector for a RegionDisk to populate name.
+	// +kubebuilder:validation:Optional
+	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
+
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`

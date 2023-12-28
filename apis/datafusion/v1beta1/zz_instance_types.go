@@ -65,6 +65,19 @@ type AcceleratorsParameters struct {
 }
 
 type CryptoKeyConfigInitParameters struct {
+
+	// The name of the key which is used to encrypt/decrypt customer data. For key in Cloud KMS, the key should be in the format of projects//locations//keyRings//cryptoKeys/.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	KeyReference *string `json:"keyReference,omitempty" tf:"key_reference,omitempty"`
+
+	// Reference to a CryptoKey in kms to populate keyReference.
+	// +kubebuilder:validation:Optional
+	KeyReferenceRef *v1.Reference `json:"keyReferenceRef,omitempty" tf:"-"`
+
+	// Selector for a CryptoKey in kms to populate keyReference.
+	// +kubebuilder:validation:Optional
+	KeyReferenceSelector *v1.Selector `json:"keyReferenceSelector,omitempty" tf:"-"`
 }
 
 type CryptoKeyConfigObservation struct {
@@ -94,6 +107,19 @@ type EventPublishConfigInitParameters struct {
 
 	// Option to enable Event Publishing.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// The resource name of the Pub/Sub topic. Format: projects/{projectId}/topics/{topic_id}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
+
+	// Reference to a Topic in pubsub to populate topic.
+	// +kubebuilder:validation:Optional
+	TopicRef *v1.Reference `json:"topicRef,omitempty" tf:"-"`
+
+	// Selector for a Topic in pubsub to populate topic.
+	// +kubebuilder:validation:Optional
+	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type EventPublishConfigObservation struct {

@@ -53,6 +53,32 @@ type BackendInitParameters struct {
 	// Provide this property when you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The fully-qualified URL of an Instance Group or Network Endpoint
+	// Group resource. In case of instance group this defines the list
+	// of instances that serve traffic. Member virtual machine
+	// instances from each instance group must live in the same zone as
+	// the instance group itself. No two backends in a backend service
+	// are allowed to use same Instance Group resource.
+	// For Network Endpoint Groups this defines list of endpoints. All
+	// endpoints of Network Endpoint Group must be hosted on instances
+	// located in the same zone as the Network Endpoint Group.
+	// Backend services cannot mix Instance Group and
+	// Network Endpoint Group backends.
+	// Note that you must specify an Instance Group or Network Endpoint
+	// Group resource using the fully-qualified URL, rather than a
+	// partial URL.
+	// +crossplane:generate:reference:type=InstanceGroupManager
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/compute.InstanceGroupExtractor()
+	Group *string `json:"group,omitempty" tf:"group,omitempty"`
+
+	// Reference to a InstanceGroupManager to populate group.
+	// +kubebuilder:validation:Optional
+	GroupRef *v1.Reference `json:"groupRef,omitempty" tf:"-"`
+
+	// Selector for a InstanceGroupManager to populate group.
+	// +kubebuilder:validation:Optional
+	GroupSelector *v1.Selector `json:"groupSelector,omitempty" tf:"-"`
+
 	// The max number of simultaneous connections for the group. Can
 	// be used with either CONNECTION or UTILIZATION balancing modes.
 	// For CONNECTION mode, either maxConnections or one
@@ -511,6 +537,25 @@ type BackendServiceInitParameters struct {
 
 	// If true, enable Cloud CDN for this BackendService.
 	EnableCdn *bool `json:"enableCdn,omitempty" tf:"enable_cdn,omitempty"`
+
+	// The set of URLs to the HttpHealthCheck or HttpsHealthCheck resource
+	// for health checking this BackendService. Currently at most one health
+	// check can be specified.
+	// A health check must be specified unless the backend service uses an internet
+	// or serverless NEG as a backend.
+	// For internal load balancing, a URL to a HealthCheck resource must be specified instead.
+	// +crossplane:generate:reference:type=HealthCheck
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
+	// +listType=set
+	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
+
+	// References to HealthCheck to populate healthChecks.
+	// +kubebuilder:validation:Optional
+	HealthChecksRefs []v1.Reference `json:"healthChecksRefs,omitempty" tf:"-"`
+
+	// Selector for a list of HealthCheck to populate healthChecks.
+	// +kubebuilder:validation:Optional
+	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
 
 	// Settings for enabling Cloud Identity Aware Proxy
 	// Structure is documented below.

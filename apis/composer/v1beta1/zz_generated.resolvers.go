@@ -110,5 +110,81 @@ func (mg *Environment) ResolveReferences(ctx context.Context, c client.Reader) e
 	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
 
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Config); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Config[i3].NodeConfig); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Config[i3].NodeConfig[i4].Network),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.Config[i3].NodeConfig[i4].NetworkRef,
+				Selector:     mg.Spec.InitProvider.Config[i3].NodeConfig[i4].NetworkSelector,
+				To: reference.To{
+					List:    &v1beta1.NetworkList{},
+					Managed: &v1beta1.Network{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Config[i3].NodeConfig[i4].Network")
+			}
+			mg.Spec.InitProvider.Config[i3].NodeConfig[i4].Network = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Config[i3].NodeConfig[i4].NetworkRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Config); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Config[i3].NodeConfig); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Config[i3].NodeConfig[i4].ServiceAccount),
+				Extract:      resource.ExtractParamPath("name", true),
+				Reference:    mg.Spec.InitProvider.Config[i3].NodeConfig[i4].ServiceAccountRef,
+				Selector:     mg.Spec.InitProvider.Config[i3].NodeConfig[i4].ServiceAccountSelector,
+				To: reference.To{
+					List:    &v1beta11.ServiceAccountList{},
+					Managed: &v1beta11.ServiceAccount{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Config[i3].NodeConfig[i4].ServiceAccount")
+			}
+			mg.Spec.InitProvider.Config[i3].NodeConfig[i4].ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Config[i3].NodeConfig[i4].ServiceAccountRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Config); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Config[i3].NodeConfig); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Config[i3].NodeConfig[i4].Subnetwork),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.Config[i3].NodeConfig[i4].SubnetworkRef,
+				Selector:     mg.Spec.InitProvider.Config[i3].NodeConfig[i4].SubnetworkSelector,
+				To: reference.To{
+					List:    &v1beta1.SubnetworkList{},
+					Managed: &v1beta1.Subnetwork{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Config[i3].NodeConfig[i4].Subnetwork")
+			}
+			mg.Spec.InitProvider.Config[i3].NodeConfig[i4].Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Config[i3].NodeConfig[i4].SubnetworkRef = rsp.ResolvedReference
+
+		}
+	}
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Project),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.ProjectRef,
+		Selector:     mg.Spec.InitProvider.ProjectSelector,
+		To: reference.To{
+			List:    &v1beta11.ProjectList{},
+			Managed: &v1beta11.Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Project")
+	}
+	mg.Spec.InitProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ProjectRef = rsp.ResolvedReference
+
 	return nil
 }

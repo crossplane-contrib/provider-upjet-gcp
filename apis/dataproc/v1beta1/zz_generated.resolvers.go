@@ -55,6 +55,26 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 
 		}
 	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.ClusterConfig); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.ClusterConfig[i3].GceClusterConfig); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterConfig[i3].GceClusterConfig[i4].ServiceAccount),
+				Extract:      resource.ExtractParamPath("email", true),
+				Reference:    mg.Spec.InitProvider.ClusterConfig[i3].GceClusterConfig[i4].ServiceAccountRef,
+				Selector:     mg.Spec.InitProvider.ClusterConfig[i3].GceClusterConfig[i4].ServiceAccountSelector,
+				To: reference.To{
+					List:    &v1beta1.ServiceAccountList{},
+					Managed: &v1beta1.ServiceAccount{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.ClusterConfig[i3].GceClusterConfig[i4].ServiceAccount")
+			}
+			mg.Spec.InitProvider.ClusterConfig[i3].GceClusterConfig[i4].ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.ClusterConfig[i3].GceClusterConfig[i4].ServiceAccountRef = rsp.ResolvedReference
+
+		}
+	}
 
 	return nil
 }
@@ -99,6 +119,40 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 	}
 	mg.Spec.ForProvider.Region = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.RegionRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Placement); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Placement[i3].ClusterName),
+			Extract:      resource.ExtractParamPath("name", false),
+			Reference:    mg.Spec.InitProvider.Placement[i3].ClusterNameRef,
+			Selector:     mg.Spec.InitProvider.Placement[i3].ClusterNameSelector,
+			To: reference.To{
+				List:    &ClusterList{},
+				Managed: &Cluster{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Placement[i3].ClusterName")
+		}
+		mg.Spec.InitProvider.Placement[i3].ClusterName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Placement[i3].ClusterNameRef = rsp.ResolvedReference
+
+	}
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Region),
+		Extract:      resource.ExtractParamPath("region", false),
+		Reference:    mg.Spec.InitProvider.RegionRef,
+		Selector:     mg.Spec.InitProvider.RegionSelector,
+		To: reference.To{
+			List:    &ClusterList{},
+			Managed: &Cluster{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Region")
+	}
+	mg.Spec.InitProvider.Region = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.RegionRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -145,6 +199,44 @@ func (mg *MetastoreService) ResolveReferences(ctx context.Context, c client.Read
 			}
 			mg.Spec.ForProvider.NetworkConfig[i3].Consumers[i4].Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
 			mg.Spec.ForProvider.NetworkConfig[i3].Consumers[i4].SubnetworkRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.EncryptionConfig); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EncryptionConfig[i3].KMSKey),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.EncryptionConfig[i3].KMSKeyRef,
+			Selector:     mg.Spec.InitProvider.EncryptionConfig[i3].KMSKeySelector,
+			To: reference.To{
+				List:    &v1beta11.CryptoKeyList{},
+				Managed: &v1beta11.CryptoKey{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.EncryptionConfig[i3].KMSKey")
+		}
+		mg.Spec.InitProvider.EncryptionConfig[i3].KMSKey = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.EncryptionConfig[i3].KMSKeyRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.NetworkConfig); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.NetworkConfig[i3].Consumers); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NetworkConfig[i3].Consumers[i4].Subnetwork),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.NetworkConfig[i3].Consumers[i4].SubnetworkRef,
+				Selector:     mg.Spec.InitProvider.NetworkConfig[i3].Consumers[i4].SubnetworkSelector,
+				To: reference.To{
+					List:    &v1beta12.SubnetworkList{},
+					Managed: &v1beta12.Subnetwork{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.NetworkConfig[i3].Consumers[i4].Subnetwork")
+			}
+			mg.Spec.InitProvider.NetworkConfig[i3].Consumers[i4].Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.NetworkConfig[i3].Consumers[i4].SubnetworkRef = rsp.ResolvedReference
 
 		}
 	}

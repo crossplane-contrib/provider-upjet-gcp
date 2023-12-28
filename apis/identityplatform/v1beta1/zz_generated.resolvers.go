@@ -48,6 +48,22 @@ func (mg *TenantDefaultSupportedIdPConfig) ResolveReferences(ctx context.Context
 	mg.Spec.ForProvider.Tenant = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TenantRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Tenant),
+		Extract:      resource.ExtractParamPath("name", true),
+		Reference:    mg.Spec.InitProvider.TenantRef,
+		Selector:     mg.Spec.InitProvider.TenantSelector,
+		To: reference.To{
+			List:    &TenantList{},
+			Managed: &Tenant{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Tenant")
+	}
+	mg.Spec.InitProvider.Tenant = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.TenantRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -74,6 +90,22 @@ func (mg *TenantInboundSAMLConfig) ResolveReferences(ctx context.Context, c clie
 	mg.Spec.ForProvider.Tenant = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TenantRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Tenant),
+		Extract:      resource.ExtractParamPath("name", true),
+		Reference:    mg.Spec.InitProvider.TenantRef,
+		Selector:     mg.Spec.InitProvider.TenantSelector,
+		To: reference.To{
+			List:    &TenantList{},
+			Managed: &Tenant{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Tenant")
+	}
+	mg.Spec.InitProvider.Tenant = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.TenantRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -99,6 +131,22 @@ func (mg *TenantOAuthIdPConfig) ResolveReferences(ctx context.Context, c client.
 	}
 	mg.Spec.ForProvider.Tenant = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TenantRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Tenant),
+		Extract:      resource.ExtractParamPath("name", true),
+		Reference:    mg.Spec.InitProvider.TenantRef,
+		Selector:     mg.Spec.InitProvider.TenantSelector,
+		To: reference.To{
+			List:    &TenantList{},
+			Managed: &Tenant{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Tenant")
+	}
+	mg.Spec.InitProvider.Tenant = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.TenantRef = rsp.ResolvedReference
 
 	return nil
 }

@@ -49,5 +49,21 @@ func (mg *Node) ResolveReferences(ctx context.Context, c client.Reader) error {
 	mg.Spec.ForProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NetworkRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Network),
+		Extract:      resource.ExtractParamPath("network", false),
+		Reference:    mg.Spec.InitProvider.NetworkRef,
+		Selector:     mg.Spec.InitProvider.NetworkSelector,
+		To: reference.To{
+			List:    &v1beta1.ConnectionList{},
+			Managed: &v1beta1.Connection{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Network")
+	}
+	mg.Spec.InitProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.NetworkRef = rsp.ResolvedReference
+
 	return nil
 }

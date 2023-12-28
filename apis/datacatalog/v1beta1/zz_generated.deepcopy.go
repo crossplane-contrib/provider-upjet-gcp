@@ -473,6 +473,21 @@ func (in *EntryInitParameters) DeepCopyInto(out *EntryInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.EntryGroup != nil {
+		in, out := &in.EntryGroup, &out.EntryGroup
+		*out = new(string)
+		**out = **in
+	}
+	if in.EntryGroupRef != nil {
+		in, out := &in.EntryGroupRef, &out.EntryGroupRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.EntryGroupSelector != nil {
+		in, out := &in.EntryGroupSelector, &out.EntryGroupSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.EntryID != nil {
 		in, out := &in.EntryID, &out.EntryID
 		*out = new(string)
@@ -1204,6 +1219,36 @@ func (in *TagInitParameters) DeepCopyInto(out *TagInitParameters) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.Parent != nil {
+		in, out := &in.Parent, &out.Parent
+		*out = new(string)
+		**out = **in
+	}
+	if in.ParentRef != nil {
+		in, out := &in.ParentRef, &out.ParentRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ParentSelector != nil {
+		in, out := &in.ParentSelector, &out.ParentSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Template != nil {
+		in, out := &in.Template, &out.Template
+		*out = new(string)
+		**out = **in
+	}
+	if in.TemplateRef != nil {
+		in, out := &in.TemplateRef, &out.TemplateRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.TemplateSelector != nil {
+		in, out := &in.TemplateSelector, &out.TemplateSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 

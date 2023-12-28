@@ -108,6 +108,18 @@ type ServiceAttachmentInitParameters struct {
 	// destination servers.
 	EnableProxyProtocol *bool `json:"enableProxyProtocol,omitempty" tf:"enable_proxy_protocol,omitempty"`
 
+	// An array of subnets that is provided for NAT in this service attachment.
+	// +crossplane:generate:reference:type=Subnetwork
+	NATSubnets []*string `json:"natSubnets,omitempty" tf:"nat_subnets,omitempty"`
+
+	// References to Subnetwork to populate natSubnets.
+	// +kubebuilder:validation:Optional
+	NATSubnetsRefs []v1.Reference `json:"natSubnetsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Subnetwork to populate natSubnets.
+	// +kubebuilder:validation:Optional
+	NATSubnetsSelector *v1.Selector `json:"natSubnetsSelector,omitempty" tf:"-"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -117,6 +129,20 @@ type ServiceAttachmentInitParameters struct {
 	// If true, update will affect both PENDING and ACCEPTED/REJECTED PSC endpoints. For example, an ACCEPTED PSC endpoint will be moved to REJECTED if its project is added to the reject list.
 	// For newly created service attachment, this boolean defaults to true.
 	ReconcileConnections *bool `json:"reconcileConnections,omitempty" tf:"reconcile_connections,omitempty"`
+
+	// The URL of a forwarding rule that represents the service identified by
+	// this service attachment.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.ForwardingRule
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	TargetService *string `json:"targetService,omitempty" tf:"target_service,omitempty"`
+
+	// Reference to a ForwardingRule in compute to populate targetService.
+	// +kubebuilder:validation:Optional
+	TargetServiceRef *v1.Reference `json:"targetServiceRef,omitempty" tf:"-"`
+
+	// Selector for a ForwardingRule in compute to populate targetService.
+	// +kubebuilder:validation:Optional
+	TargetServiceSelector *v1.Selector `json:"targetServiceSelector,omitempty" tf:"-"`
 }
 
 type ServiceAttachmentObservation struct {

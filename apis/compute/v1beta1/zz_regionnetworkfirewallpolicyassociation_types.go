@@ -31,6 +31,19 @@ import (
 
 type RegionNetworkFirewallPolicyAssociationInitParameters struct {
 
+	// The target that the firewall policy is attached to.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	AttachmentTarget *string `json:"attachmentTarget,omitempty" tf:"attachment_target,omitempty"`
+
+	// Reference to a Network in compute to populate attachmentTarget.
+	// +kubebuilder:validation:Optional
+	AttachmentTargetRef *v1.Reference `json:"attachmentTargetRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate attachmentTarget.
+	// +kubebuilder:validation:Optional
+	AttachmentTargetSelector *v1.Selector `json:"attachmentTargetSelector,omitempty" tf:"-"`
+
 	// The project for the resource
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }

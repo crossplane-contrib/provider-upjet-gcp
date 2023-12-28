@@ -106,6 +106,78 @@ func (mg *ConnectionProfile) ResolveReferences(ctx context.Context, c client.Rea
 		mg.Spec.ForProvider.PrivateConnectivity[i3].PrivateConnectionRef = rsp.ResolvedReference
 
 	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.PostgresqlProfile); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PostgresqlProfile[i3].Database),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.InitProvider.PostgresqlProfile[i3].DatabaseRef,
+			Selector:     mg.Spec.InitProvider.PostgresqlProfile[i3].DatabaseSelector,
+			To: reference.To{
+				List:    &v1beta1.DatabaseList{},
+				Managed: &v1beta1.Database{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.PostgresqlProfile[i3].Database")
+		}
+		mg.Spec.InitProvider.PostgresqlProfile[i3].Database = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.PostgresqlProfile[i3].DatabaseRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.PostgresqlProfile); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PostgresqlProfile[i3].Hostname),
+			Extract:      resource.ExtractParamPath("public_ip_address", true),
+			Reference:    mg.Spec.InitProvider.PostgresqlProfile[i3].HostnameRef,
+			Selector:     mg.Spec.InitProvider.PostgresqlProfile[i3].HostnameSelector,
+			To: reference.To{
+				List:    &v1beta1.DatabaseInstanceList{},
+				Managed: &v1beta1.DatabaseInstance{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.PostgresqlProfile[i3].Hostname")
+		}
+		mg.Spec.InitProvider.PostgresqlProfile[i3].Hostname = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.PostgresqlProfile[i3].HostnameRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.PostgresqlProfile); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PostgresqlProfile[i3].Username),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.InitProvider.PostgresqlProfile[i3].UsernameRef,
+			Selector:     mg.Spec.InitProvider.PostgresqlProfile[i3].UsernameSelector,
+			To: reference.To{
+				List:    &v1beta1.UserList{},
+				Managed: &v1beta1.User{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.PostgresqlProfile[i3].Username")
+		}
+		mg.Spec.InitProvider.PostgresqlProfile[i3].Username = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.PostgresqlProfile[i3].UsernameRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.PrivateConnectivity); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PrivateConnectivity[i3].PrivateConnection),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.PrivateConnectivity[i3].PrivateConnectionRef,
+			Selector:     mg.Spec.InitProvider.PrivateConnectivity[i3].PrivateConnectionSelector,
+			To: reference.To{
+				List:    &PrivateConnectionList{},
+				Managed: &PrivateConnection{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.PrivateConnectivity[i3].PrivateConnection")
+		}
+		mg.Spec.InitProvider.PrivateConnectivity[i3].PrivateConnection = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.PrivateConnectivity[i3].PrivateConnectionRef = rsp.ResolvedReference
+
+	}
 
 	return nil
 }
@@ -133,6 +205,24 @@ func (mg *PrivateConnection) ResolveReferences(ctx context.Context, c client.Rea
 		}
 		mg.Spec.ForProvider.VPCPeeringConfig[i3].VPC = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.ForProvider.VPCPeeringConfig[i3].VPCRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.VPCPeeringConfig); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VPCPeeringConfig[i3].VPC),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.VPCPeeringConfig[i3].VPCRef,
+			Selector:     mg.Spec.InitProvider.VPCPeeringConfig[i3].VPCSelector,
+			To: reference.To{
+				List:    &v1beta11.NetworkList{},
+				Managed: &v1beta11.Network{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.VPCPeeringConfig[i3].VPC")
+		}
+		mg.Spec.InitProvider.VPCPeeringConfig[i3].VPC = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.VPCPeeringConfig[i3].VPCRef = rsp.ResolvedReference
 
 	}
 

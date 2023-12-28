@@ -52,6 +52,26 @@ func (mg *RegistryRepository) ResolveReferences(ctx context.Context, c client.Re
 
 		}
 	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.VirtualRepositoryConfig); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.VirtualRepositoryConfig[i3].UpstreamPolicies); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VirtualRepositoryConfig[i3].UpstreamPolicies[i4].Repository),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.VirtualRepositoryConfig[i3].UpstreamPolicies[i4].RepositoryRef,
+				Selector:     mg.Spec.InitProvider.VirtualRepositoryConfig[i3].UpstreamPolicies[i4].RepositorySelector,
+				To: reference.To{
+					List:    &RegistryRepositoryList{},
+					Managed: &RegistryRepository{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.VirtualRepositoryConfig[i3].UpstreamPolicies[i4].Repository")
+			}
+			mg.Spec.InitProvider.VirtualRepositoryConfig[i3].UpstreamPolicies[i4].Repository = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.VirtualRepositoryConfig[i3].UpstreamPolicies[i4].RepositoryRef = rsp.ResolvedReference
+
+		}
+	}
 
 	return nil
 }

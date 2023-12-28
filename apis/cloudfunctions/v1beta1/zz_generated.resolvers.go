@@ -65,6 +65,38 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 	mg.Spec.ForProvider.SourceArchiveObject = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SourceArchiveObjectRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SourceArchiveBucket),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.SourceArchiveBucketRef,
+		Selector:     mg.Spec.InitProvider.SourceArchiveBucketSelector,
+		To: reference.To{
+			List:    &v1beta1.BucketList{},
+			Managed: &v1beta1.Bucket{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.SourceArchiveBucket")
+	}
+	mg.Spec.InitProvider.SourceArchiveBucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.SourceArchiveBucketRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SourceArchiveObject),
+		Extract:      resource.ExtractParamPath("name", false),
+		Reference:    mg.Spec.InitProvider.SourceArchiveObjectRef,
+		Selector:     mg.Spec.InitProvider.SourceArchiveObjectSelector,
+		To: reference.To{
+			List:    &v1beta1.BucketObjectList{},
+			Managed: &v1beta1.BucketObject{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.SourceArchiveObject")
+	}
+	mg.Spec.InitProvider.SourceArchiveObject = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.SourceArchiveObjectRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -90,6 +122,22 @@ func (mg *FunctionIAMMember) ResolveReferences(ctx context.Context, c client.Rea
 	}
 	mg.Spec.ForProvider.CloudFunction = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CloudFunctionRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CloudFunction),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.CloudFunctionRef,
+		Selector:     mg.Spec.InitProvider.CloudFunctionSelector,
+		To: reference.To{
+			List:    &FunctionList{},
+			Managed: &Function{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CloudFunction")
+	}
+	mg.Spec.InitProvider.CloudFunction = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CloudFunctionRef = rsp.ResolvedReference
 
 	return nil
 }

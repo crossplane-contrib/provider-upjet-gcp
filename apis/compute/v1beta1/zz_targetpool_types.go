@@ -42,6 +42,19 @@ type TargetPoolInitParameters struct {
 	// backup pool (which must also be set).
 	FailoverRatio *float64 `json:"failoverRatio,omitempty" tf:"failover_ratio,omitempty"`
 
+	// List of zero or one health check name or self_link. Only
+	// legacy google_compute_http_health_check is supported.
+	// +crossplane:generate:reference:type=HTTPHealthCheck
+	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
+
+	// References to HTTPHealthCheck to populate healthChecks.
+	// +kubebuilder:validation:Optional
+	HealthChecksRefs []v1.Reference `json:"healthChecksRefs,omitempty" tf:"-"`
+
+	// Selector for a list of HTTPHealthCheck to populate healthChecks.
+	// +kubebuilder:validation:Optional
+	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
+
 	// List of instances in the pool. They can be given as
 	// URLs, or in the form of "zone/name".
 	// +listType=set

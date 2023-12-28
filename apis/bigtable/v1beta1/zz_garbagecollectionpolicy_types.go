@@ -41,6 +41,18 @@ type GarbageCollectionPolicyInitParameters struct {
 	// Serialized JSON object to represent a more complex GC policy. Conflicts with mode, max_age and max_version. Conflicts with mode, max_age and max_version.
 	GcRules *string `json:"gcRules,omitempty" tf:"gc_rules,omitempty"`
 
+	// The name of the Bigtable instance.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigtable/v1beta1.Instance
+	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
+
+	// Reference to a Instance in bigtable to populate instanceName.
+	// +kubebuilder:validation:Optional
+	InstanceNameRef *v1.Reference `json:"instanceNameRef,omitempty" tf:"-"`
+
+	// Selector for a Instance in bigtable to populate instanceName.
+	// +kubebuilder:validation:Optional
+	InstanceNameSelector *v1.Selector `json:"instanceNameSelector,omitempty" tf:"-"`
+
 	// GC policy that applies to all cells older than the given age.
 	MaxAge []MaxAgeInitParameters `json:"maxAge,omitempty" tf:"max_age,omitempty"`
 
@@ -52,6 +64,18 @@ type GarbageCollectionPolicyInitParameters struct {
 
 	// The ID of the project in which the resource belongs. If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The name of the table.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigtable/v1beta1.Table
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+
+	// Reference to a Table in bigtable to populate table.
+	// +kubebuilder:validation:Optional
+	TableRef *v1.Reference `json:"tableRef,omitempty" tf:"-"`
+
+	// Selector for a Table in bigtable to populate table.
+	// +kubebuilder:validation:Optional
+	TableSelector *v1.Selector `json:"tableSelector,omitempty" tf:"-"`
 }
 
 type GarbageCollectionPolicyObservation struct {

@@ -1206,6 +1206,21 @@ func (in *InstanceIAMMemberInitParameters) DeepCopyInto(out *InstanceIAMMemberIn
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
+		*out = new(string)
+		**out = **in
+	}
+	if in.InstanceNameRef != nil {
+		in, out := &in.InstanceNameRef, &out.InstanceNameRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.InstanceNameSelector != nil {
+		in, out := &in.InstanceNameSelector, &out.InstanceNameSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
 		*out = new(string)
@@ -2643,6 +2658,21 @@ func (in *RuntimeIAMMemberInitParameters) DeepCopyInto(out *RuntimeIAMMemberInit
 		in, out := &in.Role, &out.Role
 		*out = new(string)
 		**out = **in
+	}
+	if in.RuntimeName != nil {
+		in, out := &in.RuntimeName, &out.RuntimeName
+		*out = new(string)
+		**out = **in
+	}
+	if in.RuntimeNameRef != nil {
+		in, out := &in.RuntimeNameRef, &out.RuntimeNameRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.RuntimeNameSelector != nil {
+		in, out := &in.RuntimeNameSelector, &out.RuntimeNameSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 

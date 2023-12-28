@@ -121,6 +121,19 @@ type AccessLevelConditionDevicePolicyParameters struct {
 
 type AccessLevelConditionInitParameters struct {
 
+	// The name of the Access Level to add this condition to.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/accesscontextmanager/v1beta1.AccessLevel
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
+
+	// Reference to a AccessLevel in accesscontextmanager to populate accessLevel.
+	// +kubebuilder:validation:Optional
+	AccessLevelRef *v1.Reference `json:"accessLevelRef,omitempty" tf:"-"`
+
+	// Selector for a AccessLevel in accesscontextmanager to populate accessLevel.
+	// +kubebuilder:validation:Optional
+	AccessLevelSelector *v1.Selector `json:"accessLevelSelector,omitempty" tf:"-"`
+
 	// Device specific restrictions, all restrictions must hold for
 	// the Condition to be true. If not specified, all devices are
 	// allowed.

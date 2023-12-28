@@ -481,6 +481,19 @@ type StandardAppVersionInitParameters struct {
 	// Substitute <language> with python, java, php, ruby, go or nodejs.
 	RuntimeAPIVersion *string `json:"runtimeApiVersion,omitempty" tf:"runtime_api_version,omitempty"`
 
+	// The identity that the deployed version will run as. Admin API will use the App Engine Appspot service account as default if this field is neither provided in app.yaml file nor through CLI flag.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
+
 	// Whether multiple requests can be dispatched to this version at once.
 	Threadsafe *bool `json:"threadsafe,omitempty" tf:"threadsafe,omitempty"`
 

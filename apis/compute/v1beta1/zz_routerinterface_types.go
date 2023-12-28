@@ -60,9 +60,36 @@ type RouterInterfaceInitParameters struct {
 	// If not specified, the project region will be used. Changing this forces a new interface to be created.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// The name of the router this interface will be attached to.
+	// Changing this forces a new interface to be created.
+	// +crossplane:generate:reference:type=Router
+	Router *string `json:"router,omitempty" tf:"router,omitempty"`
+
+	// Reference to a Router to populate router.
+	// +kubebuilder:validation:Optional
+	RouterRef *v1.Reference `json:"routerRef,omitempty" tf:"-"`
+
+	// Selector for a Router to populate router.
+	// +kubebuilder:validation:Optional
+	RouterSelector *v1.Selector `json:"routerSelector,omitempty" tf:"-"`
+
 	// The URI of the subnetwork resource that this interface
 	// belongs to, which must be in the same region as the Cloud Router. When you establish a BGP session to a VM instance using this interface, the VM instance must belong to the same subnetwork as the subnetwork specified here. Changing this forces a new interface to be created. Only one of vpn_tunnel, interconnect_attachment or subnetwork can be specified.
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+
+	// The name or resource link to the VPN tunnel this
+	// interface will be linked to. Changing this forces a new interface to be created. Only
+	// one of vpn_tunnel, interconnect_attachment or subnetwork can be specified.
+	// +crossplane:generate:reference:type=VPNTunnel
+	VPNTunnel *string `json:"vpnTunnel,omitempty" tf:"vpn_tunnel,omitempty"`
+
+	// Reference to a VPNTunnel to populate vpnTunnel.
+	// +kubebuilder:validation:Optional
+	VPNTunnelRef *v1.Reference `json:"vpnTunnelRef,omitempty" tf:"-"`
+
+	// Selector for a VPNTunnel to populate vpnTunnel.
+	// +kubebuilder:validation:Optional
+	VPNTunnelSelector *v1.Selector `json:"vpnTunnelSelector,omitempty" tf:"-"`
 }
 
 type RouterInterfaceObservation struct {

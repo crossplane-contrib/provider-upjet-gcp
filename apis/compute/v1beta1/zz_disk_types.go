@@ -30,6 +30,19 @@ import (
 )
 
 type AsyncPrimaryDiskInitParameters struct {
+
+	// Primary disk for asynchronous disk replication.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Disk
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
+
+	// Reference to a Disk in compute to populate disk.
+	// +kubebuilder:validation:Optional
+	DiskRef *v1.Reference `json:"diskRef,omitempty" tf:"-"`
+
+	// Selector for a Disk in compute to populate disk.
+	// +kubebuilder:validation:Optional
+	DiskSelector *v1.Selector `json:"diskSelector,omitempty" tf:"-"`
 }
 
 type AsyncPrimaryDiskObservation struct {

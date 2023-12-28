@@ -58,6 +58,17 @@ type ProjectIAMAuditConfigAuditLogConfigParameters struct {
 type ProjectIAMAuditConfigInitParameters struct {
 	AuditLogConfig []ProjectIAMAuditConfigAuditLogConfigInitParameters `json:"auditLogConfig,omitempty" tf:"audit_log_config,omitempty"`
 
+	// +crossplane:generate:reference:type=Project
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Reference to a Project to populate project.
+	// +kubebuilder:validation:Optional
+	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+
+	// Selector for a Project to populate project.
+	// +kubebuilder:validation:Optional
+	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 

@@ -31,6 +31,18 @@ import (
 
 type DatasetAccessDatasetDatasetInitParameters struct {
 
+	// The ID of the dataset containing this table.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// Reference to a Dataset in bigquery to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+
+	// Selector for a Dataset in bigquery to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+
 	// The ID of the project containing this table.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
@@ -105,6 +117,20 @@ type DatasetAccessInitParameters struct {
 	// Structure is documented below.
 	Dataset []DatasetAccessDatasetInitParameters `json:"dataset,omitempty" tf:"dataset,omitempty"`
 
+	// A unique ID for this dataset, without the project name. The ID
+	// must contain only letters (a-z, A-Z), numbers (0-9), or
+	// underscores (_). The maximum length is 1,024 characters.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// Reference to a Dataset in bigquery to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+
+	// Selector for a Dataset in bigquery to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+
 	// A domain to grant access to. Any users signed in with the
 	// domain specified will be granted the specified access
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
@@ -138,6 +164,20 @@ type DatasetAccessInitParameters struct {
 
 	// A special group to grant access to. Possible values include:
 	SpecialGroup *string `json:"specialGroup,omitempty" tf:"special_group,omitempty"`
+
+	// An email address of a user to grant access to. For example:
+	// fred@example.com
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
+	UserByEmail *string `json:"userByEmail,omitempty" tf:"user_by_email,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate userByEmail.
+	// +kubebuilder:validation:Optional
+	UserByEmailRef *v1.Reference `json:"userByEmailRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate userByEmail.
+	// +kubebuilder:validation:Optional
+	UserByEmailSelector *v1.Selector `json:"userByEmailSelector,omitempty" tf:"-"`
 
 	// A view from a different dataset to grant access to. Queries
 	// executed against that view will have read access to tables in
@@ -299,6 +339,46 @@ type DatasetAccessParameters struct {
 }
 
 type DatasetAccessRoutineInitParameters struct {
+
+	// The ID of the dataset containing this table.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Routine
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("dataset_id",false)
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// Reference to a Routine in bigquery to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+
+	// Selector for a Routine in bigquery to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+
+	// The ID of the project containing this table.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Routine
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("project",false)
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Routine in bigquery to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Routine in bigquery to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+
+	// The ID of the routine. The ID must contain only letters (a-z,
+	// A-Z), numbers (0-9), or underscores (_). The maximum length
+	// is 256 characters.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Routine
+	RoutineID *string `json:"routineId,omitempty" tf:"routine_id,omitempty"`
+
+	// Reference to a Routine in bigquery to populate routineId.
+	// +kubebuilder:validation:Optional
+	RoutineIDRef *v1.Reference `json:"routineIdRef,omitempty" tf:"-"`
+
+	// Selector for a Routine in bigquery to populate routineId.
+	// +kubebuilder:validation:Optional
+	RoutineIDSelector *v1.Selector `json:"routineIdSelector,omitempty" tf:"-"`
 }
 
 type DatasetAccessRoutineObservation struct {
@@ -363,8 +443,34 @@ type DatasetAccessRoutineParameters struct {
 
 type DatasetAccessViewInitParameters struct {
 
+	// The ID of the dataset containing this table.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// Reference to a Dataset in bigquery to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+
+	// Selector for a Dataset in bigquery to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+
 	// The ID of the project containing this table.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// The ID of the table. The ID must contain only letters (a-z,
+	// A-Z), numbers (0-9), or underscores (_). The maximum length
+	// is 1,024 characters.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Table
+	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
+
+	// Reference to a Table in bigquery to populate tableId.
+	// +kubebuilder:validation:Optional
+	TableIDRef *v1.Reference `json:"tableIdRef,omitempty" tf:"-"`
+
+	// Selector for a Table in bigquery to populate tableId.
+	// +kubebuilder:validation:Optional
+	TableIDSelector *v1.Selector `json:"tableIdSelector,omitempty" tf:"-"`
 }
 
 type DatasetAccessViewObservation struct {

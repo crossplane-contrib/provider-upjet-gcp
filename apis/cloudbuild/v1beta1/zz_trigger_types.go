@@ -890,6 +890,19 @@ type PubsubConfigInitParameters struct {
 
 	// Service account that will make the push request.
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// The name of the topic from which this subscription is receiving messages.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
+
+	// Reference to a Topic in pubsub to populate topic.
+	// +kubebuilder:validation:Optional
+	TopicRef *v1.Reference `json:"topicRef,omitempty" tf:"-"`
+
+	// Selector for a Topic in pubsub to populate topic.
+	// +kubebuilder:validation:Optional
+	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type PubsubConfigObservation struct {
@@ -1926,6 +1939,23 @@ type TriggerInitParameters struct {
 	// Structure is documented below.
 	RepositoryEventConfig []RepositoryEventConfigInitParameters `json:"repositoryEventConfig,omitempty" tf:"repository_event_config,omitempty"`
 
+	// The service account used for all user-controlled operations including
+	// triggers.patch, triggers.run, builds.create, and builds.cancel.
+	// If no service account is set, then the standard Cloud Build service account
+	// ([PROJECT_NUM]@system.gserviceaccount.com) will be used instead.
+	// Format: projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT_ID_OR_EMAIL}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
+
 	// The repo and ref of the repository from which to build.
 	// This field is used only for those triggers that do not respond to SCM events.
 	// Triggers that respond to such events build source at whatever commit caused the event.
@@ -2383,6 +2413,19 @@ type VolumesParameters struct {
 }
 
 type WebhookConfigInitParameters struct {
+
+	// Resource name for the secret required as a URL parameter.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
+
+	// Reference to a SecretVersion in secretmanager to populate secret.
+	// +kubebuilder:validation:Optional
+	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
+
+	// Selector for a SecretVersion in secretmanager to populate secret.
+	// +kubebuilder:validation:Optional
+	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
 }
 
 type WebhookConfigObservation struct {

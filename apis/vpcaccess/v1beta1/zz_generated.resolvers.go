@@ -66,6 +66,40 @@ func (mg *Connector) ResolveReferences(ctx context.Context, c client.Reader) err
 		mg.Spec.ForProvider.Subnet[i3].NameRef = rsp.ResolvedReference
 
 	}
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Network),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.NetworkRef,
+		Selector:     mg.Spec.InitProvider.NetworkSelector,
+		To: reference.To{
+			List:    &v1beta1.NetworkList{},
+			Managed: &v1beta1.Network{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Network")
+	}
+	mg.Spec.InitProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.NetworkRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Subnet); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Subnet[i3].Name),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.InitProvider.Subnet[i3].NameRef,
+			Selector:     mg.Spec.InitProvider.Subnet[i3].NameSelector,
+			To: reference.To{
+				List:    &v1beta1.SubnetworkList{},
+				Managed: &v1beta1.Subnetwork{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Subnet[i3].Name")
+		}
+		mg.Spec.InitProvider.Subnet[i3].Name = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Subnet[i3].NameRef = rsp.ResolvedReference
+
+	}
 
 	return nil
 }
