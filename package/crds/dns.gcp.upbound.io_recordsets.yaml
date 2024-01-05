@@ -252,6 +252,96 @@ spec:
                                             description: The frontend IP address of
                                               the load balancer.
                                             type: string
+                                          ipAddressRef:
+                                            description: Reference to a ForwardingRule
+                                              in compute to populate ipAddress.
+                                            properties:
+                                              name:
+                                                description: Name of the referenced
+                                                  object.
+                                                type: string
+                                              policy:
+                                                description: Policies for referencing.
+                                                properties:
+                                                  resolution:
+                                                    default: Required
+                                                    description: Resolution specifies
+                                                      whether resolution of this reference
+                                                      is required. The default is
+                                                      'Required', which means the
+                                                      reconcile will fail if the reference
+                                                      cannot be resolved. 'Optional'
+                                                      means this reference will be
+                                                      a no-op if it cannot be resolved.
+                                                    enum:
+                                                    - Required
+                                                    - Optional
+                                                    type: string
+                                                  resolve:
+                                                    description: Resolve specifies
+                                                      when this reference should be
+                                                      resolved. The default is 'IfNotPresent',
+                                                      which will attempt to resolve
+                                                      the reference only when the
+                                                      corresponding field is not present.
+                                                      Use 'Always' to resolve the
+                                                      reference on every reconcile.
+                                                    enum:
+                                                    - Always
+                                                    - IfNotPresent
+                                                    type: string
+                                                type: object
+                                            required:
+                                            - name
+                                            type: object
+                                          ipAddressSelector:
+                                            description: Selector for a ForwardingRule
+                                              in compute to populate ipAddress.
+                                            properties:
+                                              matchControllerRef:
+                                                description: MatchControllerRef ensures
+                                                  an object with the same controller
+                                                  reference as the selecting object
+                                                  is selected.
+                                                type: boolean
+                                              matchLabels:
+                                                additionalProperties:
+                                                  type: string
+                                                description: MatchLabels ensures an
+                                                  object with matching labels is selected.
+                                                type: object
+                                              policy:
+                                                description: Policies for selection.
+                                                properties:
+                                                  resolution:
+                                                    default: Required
+                                                    description: Resolution specifies
+                                                      whether resolution of this reference
+                                                      is required. The default is
+                                                      'Required', which means the
+                                                      reconcile will fail if the reference
+                                                      cannot be resolved. 'Optional'
+                                                      means this reference will be
+                                                      a no-op if it cannot be resolved.
+                                                    enum:
+                                                    - Required
+                                                    - Optional
+                                                    type: string
+                                                  resolve:
+                                                    description: Resolve specifies
+                                                      when this reference should be
+                                                      resolved. The default is 'IfNotPresent',
+                                                      which will attempt to resolve
+                                                      the reference only when the
+                                                      corresponding field is not present.
+                                                      Use 'Always' to resolve the
+                                                      reference on every reconcile.
+                                                    enum:
+                                                    - Always
+                                                    - IfNotPresent
+                                                    type: string
+                                                type: object
+                                            type: object
                                           ipProtocol:
                                             description: 'The configured IP protocol
                                               of the load balancer. This value is
@@ -370,11 +460,104 @@ spec:
                                               not provided, the provider project is
                                               used.
                                             type: string
+                                          projectRef:
+                                            description: Reference to a ForwardingRule
+                                              in compute to populate project.
+                                            properties:
+                                              name:
+                                                description: Name of the referenced
+                                                  object.
+                                                type: string
+                                              policy:
+                                                description: Policies for referencing.
+                                                properties:
+                                                  resolution:
+                                                    default: Required
+                                                    description: Resolution specifies
+                                                      whether resolution of this reference
+                                                      is required. The default is
+                                                      'Required', which means the
+                                                      reconcile will fail if the reference
+                                                      cannot be resolved. 'Optional'
+                                                      means this reference will be
+                                                      a no-op if it cannot be resolved.
+                                                    enum:
+                                                    - Required
+                                                    - Optional
+                                                    type: string
+                                                  resolve:
+                                                    description: Resolve specifies
+                                                      when this reference should be
+                                                      resolved. The default is 'IfNotPresent',
+                                                      which will attempt to resolve
+                                                      the reference only when the
+                                                      corresponding field is not present.
+                                                      Use 'Always' to resolve the
+                                                      reference on every reconcile.
+                                                    enum:
+                                                    - Always
+                                                    - IfNotPresent
+                                                    type: string
+                                                type: object
+                                            required:
+                                            - name
+                                            type: object
+                                          projectSelector:
+                                            description: Selector for a ForwardingRule
+                                              in compute to populate project.
+                                            properties:
+                                              matchControllerRef:
+                                                description: MatchControllerRef ensures
+                                                  an object with the same controller
+                                                  reference as the selecting object
+                                                  is selected.
+                                                type: boolean
+                                              matchLabels:
+                                                additionalProperties:
+                                                  type: string
+                                                description: MatchLabels ensures an
+                                                  object with matching labels is selected.
+                                                type: object
+                                              policy:
+                                                description: Policies for selection.
+                                                properties:
+                                                  resolution:
+                                                    default: Required
+                                                    description: Resolution specifies
+                                                      whether resolution of this reference
+                                                      is required. The default is
+                                                      'Required', which means the
+                                                      reconcile will fail if the reference
+                                                      cannot be resolved. 'Optional'
+                                                      means this reference will be
+                                                      a no-op if it cannot be resolved.
+                                                    enum:
+                                                    - Required
+                                                    - Optional
+                                                    type: string
+                                                  resolve:
+                                                    description: Resolve specifies
+                                                      when this reference should be
+                                                      resolved. The default is 'IfNotPresent',
+                                                      which will attempt to resolve
+                                                      the reference only when the
+                                                      corresponding field is not present.
+                                                      Use 'Always' to resolve the
+                                                      reference on every reconcile.
+                                                    enum:
+                                                    - Always
+                                                    - IfNotPresent
+                                                    type: string
+                                                type: object
+                                            type: object
                                           region:
                                             description: The region of the load balancer.
                                               Only needed for regional load balancers.
                                             type: string
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 5366d83e (Enable the following resources:)
                                           regionRef:
                                             description: Reference to a ForwardingRule
                                               in compute to populate region.
@@ -465,14 +648,19 @@ spec:
                                                     type: string
                                                 type: object
                                             type: object
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 5366d83e (Enable the following resources:)
                                         required:
-                                        - ipAddress
                                         - ipProtocol
                                         - loadBalancerType
                                         - port
+<<<<<<< HEAD
                                         - project
 >>>>>>> a3be7bc6 (Remove unneeded resources)
+=======
+>>>>>>> 5366d83e (Enable the following resources:)
                                         type: object
                                       type: array
                                   type: object

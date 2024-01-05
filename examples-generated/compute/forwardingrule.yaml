@@ -27,6 +27,7 @@ spec:
 ---
 
 apiVersion: compute.gcp.upbound.io/v1beta1
+<<<<<<< HEAD
 kind: Firewall
 metadata:
   annotations:
@@ -107,6 +108,8 @@ spec:
 ---
 
 apiVersion: compute.gcp.upbound.io/v1beta1
+=======
+>>>>>>> 5366d83e (Enable the following resources:)
 kind: InstanceTemplate
 metadata:
   annotations:
@@ -311,3 +314,9 @@ spec:
     purpose: INTERNAL_HTTPS_LOAD_BALANCER
     region: europe-west1
     role: ACTIVE
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> 5366d83e (Enable the following resources:)

@@ -26,6 +26,9 @@ import (
 )
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 5366d83e (Enable the following resources:)
 // GetTerraformResourceType returns Terraform resource type for this Address
 func (mg *Address) GetTerraformResourceType() string {
 	return "google_compute_address"
@@ -82,6 +85,7 @@ func (tr *Address) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+<<<<<<< HEAD
 // GetInitParameters of this Address
 func (tr *Address) GetInitParameters() (map[string]any, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
@@ -92,6 +96,8 @@ func (tr *Address) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
+=======
+>>>>>>> 5366d83e (Enable the following resources:)
 // LateInitialize this Address using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *Address) LateInitialize(attrs []byte) (bool, error) {
@@ -110,6 +116,7 @@ func (tr *Address) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+<<<<<<< HEAD
 // GetTerraformResourceType returns Terraform resource type for this AttachedDisk
 func (mg *AttachedDisk) GetTerraformResourceType() string {
 	return "google_compute_attached_disk"
@@ -448,6 +455,8 @@ func (tr *BackendBucketSignedURLKey) GetTerraformSchemaVersion() int {
 
 =======
 >>>>>>> a3be7bc6 (Remove unneeded resources)
+=======
+>>>>>>> 5366d83e (Enable the following resources:)
 // GetTerraformResourceType returns Terraform resource type for this BackendService
 func (mg *BackendService) GetTerraformResourceType() string {
 	return "google_compute_backend_service"
@@ -532,6 +541,7 @@ func (tr *BackendService) GetTerraformSchemaVersion() int {
 	return 1
 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 // GetTerraformResourceType returns Terraform resource type for this BackendServiceSignedURLKey
 func (mg *BackendServiceSignedURLKey) GetTerraformResourceType() string {
@@ -1289,6 +1299,8 @@ func (tr *FirewallPolicyRule) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+=======
+>>>>>>> 5366d83e (Enable the following resources:)
 // GetTerraformResourceType returns Terraform resource type for this ForwardingRule
 func (mg *ForwardingRule) GetTerraformResourceType() string {
 	return "google_compute_forwarding_rule"
@@ -1345,6 +1357,7 @@ func (tr *ForwardingRule) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
+<<<<<<< HEAD
 // GetInitParameters of this ForwardingRule
 func (tr *ForwardingRule) GetInitParameters() (map[string]any, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
@@ -1355,6 +1368,8 @@ func (tr *ForwardingRule) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
+=======
+>>>>>>> 5366d83e (Enable the following resources:)
 // LateInitialize this ForwardingRule using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *ForwardingRule) LateInitialize(attrs []byte) (bool, error) {
@@ -1373,8 +1388,11 @@ func (tr *ForwardingRule) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+<<<<<<< HEAD
 =======
 >>>>>>> a3be7bc6 (Remove unneeded resources)
+=======
+>>>>>>> 5366d83e (Enable the following resources:)
 // GetTerraformResourceType returns Terraform resource type for this GlobalAddress
 func (mg *GlobalAddress) GetTerraformResourceType() string {
 	return "google_compute_global_address"

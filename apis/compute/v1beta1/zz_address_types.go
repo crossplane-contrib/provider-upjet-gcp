@@ -25,6 +25,7 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+<<<<<<< HEAD
 type AddressInitParameters struct {
 
 	// The static external IP address represented by this resource. Only
@@ -59,6 +60,8 @@ type AddressInitParameters struct {
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 }
 
+=======
+>>>>>>> 5366d83e (Enable the following resources:)
 type AddressObservation struct {
 
 	// The static external IP address represented by this resource. Only
@@ -203,6 +206,7 @@ type AddressParameters struct {
 type AddressSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     AddressParameters `json:"forProvider"`
+<<<<<<< HEAD
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
@@ -215,6 +219,8 @@ type AddressSpec struct {
 	// for example because of an external controller is managing them, like an
 	// autoscaler.
 	InitProvider AddressInitParameters `json:"initProvider,omitempty"`
+=======
+>>>>>>> 5366d83e (Enable the following resources:)
 }
 
 // AddressStatus defines the observed state of Address.

@@ -45,7 +45,9 @@ import (
 	serviceaccountiammember "github.com/upbound/provider-gcp/internal/controller/cloudplatform/serviceaccountiammember"
 	serviceaccountkey "github.com/upbound/provider-gcp/internal/controller/cloudplatform/serviceaccountkey"
 	servicenetworkingpeereddnsdomain "github.com/upbound/provider-gcp/internal/controller/cloudplatform/servicenetworkingpeereddnsdomain"
+	address "github.com/upbound/provider-gcp/internal/controller/compute/address"
 	backendservice "github.com/upbound/provider-gcp/internal/controller/compute/backendservice"
+	forwardingrule "github.com/upbound/provider-gcp/internal/controller/compute/forwardingrule"
 	globaladdress "github.com/upbound/provider-gcp/internal/controller/compute/globaladdress"
 	globalforwardingrule "github.com/upbound/provider-gcp/internal/controller/compute/globalforwardingrule"
 	healthcheck "github.com/upbound/provider-gcp/internal/controller/compute/healthcheck"
@@ -139,7 +141,9 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		serviceaccountiammember.Setup,
 		serviceaccountkey.Setup,
 		servicenetworkingpeereddnsdomain.Setup,
+		address.Setup,
 		backendservice.Setup,
+		forwardingrule.Setup,
 		globaladdress.Setup,
 		globalforwardingrule.Setup,
 		healthcheck.Setup,

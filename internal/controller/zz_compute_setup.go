@@ -9,7 +9,9 @@ import (
 
 	"github.com/upbound/upjet/pkg/controller"
 
+	address "github.com/upbound/provider-gcp/internal/controller/compute/address"
 	backendservice "github.com/upbound/provider-gcp/internal/controller/compute/backendservice"
+	forwardingrule "github.com/upbound/provider-gcp/internal/controller/compute/forwardingrule"
 	globaladdress "github.com/upbound/provider-gcp/internal/controller/compute/globaladdress"
 	globalforwardingrule "github.com/upbound/provider-gcp/internal/controller/compute/globalforwardingrule"
 	healthcheck "github.com/upbound/provider-gcp/internal/controller/compute/healthcheck"
@@ -52,7 +54,9 @@ import (
 // the supplied manager.
 func Setup_compute(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		address.Setup,
 		backendservice.Setup,
+		forwardingrule.Setup,
 		globaladdress.Setup,
 		globalforwardingrule.Setup,
 		healthcheck.Setup,

@@ -25,6 +25,7 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+<<<<<<< HEAD
 type ForwardingRuleInitParameters struct {
 
 	// This field can only be used:
@@ -121,6 +122,8 @@ type ForwardingRuleInitParameters struct {
 	SourceIPRanges []*string `json:"sourceIpRanges,omitempty" tf:"source_ip_ranges,omitempty"`
 }
 
+=======
+>>>>>>> 5366d83e (Enable the following resources:)
 type ForwardingRuleObservation struct {
 
 	// This field can only be used:
@@ -487,6 +490,7 @@ type ForwardingRuleParameters struct {
 	TargetSelector *v1.Selector `json:"targetSelector,omitempty" tf:"-"`
 }
 
+<<<<<<< HEAD
 type ServiceDirectoryRegistrationsInitParameters struct {
 
 	// Service Directory namespace to register the forwarding rule under.
@@ -496,6 +500,8 @@ type ServiceDirectoryRegistrationsInitParameters struct {
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 
+=======
+>>>>>>> 5366d83e (Enable the following resources:)
 type ServiceDirectoryRegistrationsObservation struct {
 
 	// Service Directory namespace to register the forwarding rule under.
@@ -520,6 +526,7 @@ type ServiceDirectoryRegistrationsParameters struct {
 type ForwardingRuleSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ForwardingRuleParameters `json:"forProvider"`
+<<<<<<< HEAD
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
@@ -532,6 +539,8 @@ type ForwardingRuleSpec struct {
 	// for example because of an external controller is managing them, like an
 	// autoscaler.
 	InitProvider ForwardingRuleInitParameters `json:"initProvider,omitempty"`
+=======
+>>>>>>> 5366d83e (Enable the following resources:)
 }
 
 // ForwardingRuleStatus defines the observed state of ForwardingRule.

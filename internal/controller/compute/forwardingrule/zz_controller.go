@@ -43,10 +43,16 @@ func Setup(mgr ctrl.Manager, o tjcontroller.Options) error {
 	if o.SecretStoreConfigGVK != nil {
 		cps = append(cps, connection.NewDetailsManager(mgr.GetClient(), *o.SecretStoreConfigGVK, connection.WithTLSConfig(o.ESSOptions.TLSConfig)))
 	}
+<<<<<<< HEAD
 	ac := tjcontroller.NewAPICallbacks(mgr, xpresource.ManagedKind(v1beta1.ForwardingRule_GroupVersionKind), tjcontroller.WithEventHandler(o.EventHandler))
 	opts := []managed.ReconcilerOption{
 		managed.WithExternalConnecter(tjcontroller.NewConnector(mgr.GetClient(), o.WorkspaceStore, o.SetupFn, o.Provider.Resources["google_compute_forwarding_rule"], tjcontroller.WithLogger(o.Logger), tjcontroller.WithConnectorEventHandler(o.EventHandler),
 			tjcontroller.WithCallbackProvider(ac),
+=======
+	opts := []managed.ReconcilerOption{
+		managed.WithExternalConnecter(tjcontroller.NewConnector(mgr.GetClient(), o.WorkspaceStore, o.SetupFn, o.Provider.Resources["google_compute_forwarding_rule"], tjcontroller.WithLogger(o.Logger),
+			tjcontroller.WithCallbackProvider(tjcontroller.NewAPICallbacks(mgr, xpresource.ManagedKind(v1beta1.ForwardingRule_GroupVersionKind))),
+>>>>>>> 5366d83e (Enable the following resources:)
 		)),
 		managed.WithLogger(o.Logger.WithValues("controller", name)),
 		managed.WithRecorder(event.NewAPIRecorder(mgr.GetEventRecorderFor(name))),
@@ -64,7 +70,11 @@ func Setup(mgr ctrl.Manager, o tjcontroller.Options) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		Named(name).
 		WithOptions(o.ForControllerRuntime()).
+<<<<<<< HEAD
 		WithEventFilter(xpresource.DesiredStateChanged()).
 		Watches(&v1beta1.ForwardingRule{}, o.EventHandler).
+=======
+		For(&v1beta1.ForwardingRule{}).
+>>>>>>> 5366d83e (Enable the following resources:)
 		Complete(ratelimiter.NewReconciler(name, r, o.GlobalRateLimiter))
 }

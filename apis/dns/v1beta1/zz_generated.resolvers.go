@@ -38,6 +38,30 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 			for i5 := 0; i5 < len(mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary); i5++ {
 				for i6 := 0; i6 < len(mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers); i6++ {
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].IPAddress),
+						Extract:      resource.ExtractParamPath("ip_address", false),
+						Reference:    mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].IPAddressRef,
+						Selector:     mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].IPAddressSelector,
+						To: reference.To{
+							List:    &v1beta1.ForwardingRuleList{},
+							Managed: &v1beta1.ForwardingRule{},
+						},
+					})
+					if err != nil {
+						return errors.Wrap(err, "mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].IPAddress")
+					}
+					mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].IPAddress = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].IPAddressRef = rsp.ResolvedReference
+
+				}
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.RoutingPolicy); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary); i5++ {
+				for i6 := 0; i6 < len(mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers); i6++ {
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].NetworkURL),
 						Extract:      resource.ExtractResourceID(),
 						Reference:    mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].NetworkURLRef,
@@ -52,6 +76,54 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 					}
 					mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].NetworkURL = reference.ToPtrValue(rsp.ResolvedValue)
 					mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].NetworkURLRef = rsp.ResolvedReference
+
+				}
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.RoutingPolicy); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary); i5++ {
+				for i6 := 0; i6 < len(mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers); i6++ {
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].Project),
+						Extract:      resource.ExtractParamPath("project", false),
+						Reference:    mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].ProjectRef,
+						Selector:     mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].ProjectSelector,
+						To: reference.To{
+							List:    &v1beta1.ForwardingRuleList{},
+							Managed: &v1beta1.ForwardingRule{},
+						},
+					})
+					if err != nil {
+						return errors.Wrap(err, "mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].Project")
+					}
+					mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].Project = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].ProjectRef = rsp.ResolvedReference
+
+				}
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.RoutingPolicy); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary); i5++ {
+				for i6 := 0; i6 < len(mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers); i6++ {
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].Region),
+						Extract:      resource.ExtractParamPath("region", false),
+						Reference:    mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].RegionRef,
+						Selector:     mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].RegionSelector,
+						To: reference.To{
+							List:    &v1beta1.ForwardingRuleList{},
+							Managed: &v1beta1.ForwardingRule{},
+						},
+					})
+					if err != nil {
+						return errors.Wrap(err, "mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].Region")
+					}
+					mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].Region = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.ForProvider.RoutingPolicy[i3].PrimaryBackup[i4].Primary[i5].InternalLoadBalancers[i6].RegionRef = rsp.ResolvedReference
 
 				}
 			}

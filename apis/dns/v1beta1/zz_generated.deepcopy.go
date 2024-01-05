@@ -2621,6 +2621,16 @@ func (in *PrimaryInternalLoadBalancersParameters) DeepCopyInto(out *PrimaryInter
 		*out = new(string)
 		**out = **in
 	}
+	if in.IPAddressRef != nil {
+		in, out := &in.IPAddressRef, &out.IPAddressRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.IPAddressSelector != nil {
+		in, out := &in.IPAddressSelector, &out.IPAddressSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.IPProtocol != nil {
 		in, out := &in.IPProtocol, &out.IPProtocol
 		*out = new(string)
@@ -2656,10 +2666,30 @@ func (in *PrimaryInternalLoadBalancersParameters) DeepCopyInto(out *PrimaryInter
 		*out = new(string)
 		**out = **in
 	}
+	if in.ProjectRef != nil {
+		in, out := &in.ProjectRef, &out.ProjectRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ProjectSelector != nil {
+		in, out := &in.ProjectSelector, &out.ProjectSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Region != nil {
 		in, out := &in.Region, &out.Region
 		*out = new(string)
 		**out = **in
+	}
+	if in.RegionRef != nil {
+		in, out := &in.RegionRef, &out.RegionRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.RegionSelector != nil {
+		in, out := &in.RegionSelector, &out.RegionSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 

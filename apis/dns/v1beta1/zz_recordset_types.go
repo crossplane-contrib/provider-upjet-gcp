@@ -419,8 +419,18 @@ type PrimaryInternalLoadBalancersObservation struct {
 type PrimaryInternalLoadBalancersParameters struct {
 
 	// The frontend IP address of the load balancer.
-	// +kubebuilder:validation:Required
-	IPAddress *string `json:"ipAddress" tf:"ip_address,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.ForwardingRule
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("ip_address",false)
+	// +kubebuilder:validation:Optional
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// Reference to a ForwardingRule in compute to populate ipAddress.
+	// +kubebuilder:validation:Optional
+	IPAddressRef *v1.Reference `json:"ipAddressRef,omitempty" tf:"-"`
+
+	// Selector for a ForwardingRule in compute to populate ipAddress.
+	// +kubebuilder:validation:Optional
+	IPAddressSelector *v1.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
 
 	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
 	// +kubebuilder:validation:Optional
@@ -450,12 +460,32 @@ type PrimaryInternalLoadBalancersParameters struct {
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
-	// +kubebuilder:validation:Required
-	Project *string `json:"project" tf:"project,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.ForwardingRule
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("project",false)
+	// +kubebuilder:validation:Optional
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Reference to a ForwardingRule in compute to populate project.
+	// +kubebuilder:validation:Optional
+	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+
+	// Selector for a ForwardingRule in compute to populate project.
+	// +kubebuilder:validation:Optional
+	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// The region of the load balancer. Only needed for regional load balancers.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.ForwardingRule
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("region",false)
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// Reference to a ForwardingRule in compute to populate region.
+	// +kubebuilder:validation:Optional
+	RegionRef *v1.Reference `json:"regionRef,omitempty" tf:"-"`
+
+	// Selector for a ForwardingRule in compute to populate region.
+	// +kubebuilder:validation:Optional
+	RegionSelector *v1.Selector `json:"regionSelector,omitempty" tf:"-"`
 }
 
 type PrimaryObservation struct {

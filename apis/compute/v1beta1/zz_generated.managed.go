@@ -20,6 +20,9 @@ package v1beta1
 import xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 5366d83e (Enable the following resources:)
 // GetCondition of this Address.
 func (mg *Address) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -30,9 +33,15 @@ func (mg *Address) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+<<<<<<< HEAD
 // GetManagementPolicies of this Address.
 func (mg *Address) GetManagementPolicies() xpv1.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
+=======
+// GetManagementPolicy of this Address.
+func (mg *Address) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+>>>>>>> 5366d83e (Enable the following resources:)
 }
 
 // GetProviderConfigReference of this Address.
@@ -68,9 +77,15 @@ func (mg *Address) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+<<<<<<< HEAD
 // SetManagementPolicies of this Address.
 func (mg *Address) SetManagementPolicies(r xpv1.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
+=======
+// SetManagementPolicy of this Address.
+func (mg *Address) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
+>>>>>>> 5366d83e (Enable the following resources:)
 }
 
 // SetProviderConfigReference of this Address.
@@ -96,6 +111,7 @@ func (mg *Address) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) 
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+<<<<<<< HEAD
 // GetCondition of this AttachedDisk.
 func (mg *AttachedDisk) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -402,6 +418,8 @@ func (mg *BackendBucketSignedURLKey) SetWriteConnectionSecretToReference(r *xpv1
 
 =======
 >>>>>>> a3be7bc6 (Remove unneeded resources)
+=======
+>>>>>>> 5366d83e (Enable the following resources:)
 // GetCondition of this BackendService.
 func (mg *BackendService) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -478,6 +496,7 @@ func (mg *BackendService) SetWriteConnectionSecretToReference(r *xpv1.SecretRefe
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 // GetCondition of this BackendServiceSignedURLKey.
 func (mg *BackendServiceSignedURLKey) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
@@ -1163,6 +1182,8 @@ func (mg *FirewallPolicyRule) SetWriteConnectionSecretToReference(r *xpv1.Secret
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+=======
+>>>>>>> 5366d83e (Enable the following resources:)
 // GetCondition of this ForwardingRule.
 func (mg *ForwardingRule) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -1173,9 +1194,15 @@ func (mg *ForwardingRule) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+<<<<<<< HEAD
 // GetManagementPolicies of this ForwardingRule.
 func (mg *ForwardingRule) GetManagementPolicies() xpv1.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
+=======
+// GetManagementPolicy of this ForwardingRule.
+func (mg *ForwardingRule) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+>>>>>>> 5366d83e (Enable the following resources:)
 }
 
 // GetProviderConfigReference of this ForwardingRule.
@@ -1211,9 +1238,15 @@ func (mg *ForwardingRule) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+<<<<<<< HEAD
 // SetManagementPolicies of this ForwardingRule.
 func (mg *ForwardingRule) SetManagementPolicies(r xpv1.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
+=======
+// SetManagementPolicy of this ForwardingRule.
+func (mg *ForwardingRule) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
+>>>>>>> 5366d83e (Enable the following resources:)
 }
 
 // SetProviderConfigReference of this ForwardingRule.
@@ -1239,8 +1272,11 @@ func (mg *ForwardingRule) SetWriteConnectionSecretToReference(r *xpv1.SecretRefe
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+<<<<<<< HEAD
 =======
 >>>>>>> a3be7bc6 (Remove unneeded resources)
+=======
+>>>>>>> 5366d83e (Enable the following resources:)
 // GetCondition of this GlobalAddress.
 func (mg *GlobalAddress) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)

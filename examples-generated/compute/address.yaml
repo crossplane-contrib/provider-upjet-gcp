@@ -8,3 +8,9 @@ metadata:
   name: ip-address
 spec:
   forProvider: {}
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> 5366d83e (Enable the following resources:)

@@ -28,6 +28,48 @@ import (
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
+// ResolveReferences of this Address.
+func (mg *Address) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Network),
+		Extract:      common.SelfLinkExtractor(),
+		Reference:    mg.Spec.ForProvider.NetworkRef,
+		Selector:     mg.Spec.ForProvider.NetworkSelector,
+		To: reference.To{
+			List:    &NetworkList{},
+			Managed: &Network{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Network")
+	}
+	mg.Spec.ForProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.NetworkRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Subnetwork),
+		Extract:      common.SelfLinkExtractor(),
+		Reference:    mg.Spec.ForProvider.SubnetworkRef,
+		Selector:     mg.Spec.ForProvider.SubnetworkSelector,
+		To: reference.To{
+			List:    &SubnetworkList{},
+			Managed: &Subnetwork{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Subnetwork")
+	}
+	mg.Spec.ForProvider.Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.SubnetworkRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this BackendService.
 func (mg *BackendService) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
@@ -69,6 +111,96 @@ func (mg *BackendService) ResolveReferences(ctx context.Context, c client.Reader
 	}
 	mg.Spec.ForProvider.HealthChecks = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.ForProvider.HealthChecksRefs = mrsp.ResolvedReferences
+
+	return nil
+}
+
+// ResolveReferences of this ForwardingRule.
+func (mg *ForwardingRule) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BackendService),
+		Extract:      common.SelfLinkExtractor(),
+		Reference:    mg.Spec.ForProvider.BackendServiceRef,
+		Selector:     mg.Spec.ForProvider.BackendServiceSelector,
+		To: reference.To{
+			List:    &RegionBackendServiceList{},
+			Managed: &RegionBackendService{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.BackendService")
+	}
+	mg.Spec.ForProvider.BackendService = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.BackendServiceRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.IPAddress),
+		Extract:      common.SelfLinkExtractor(),
+		Reference:    mg.Spec.ForProvider.IPAddressRef,
+		Selector:     mg.Spec.ForProvider.IPAddressSelector,
+		To: reference.To{
+			List:    &AddressList{},
+			Managed: &Address{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.IPAddress")
+	}
+	mg.Spec.ForProvider.IPAddress = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.IPAddressRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Network),
+		Extract:      common.SelfLinkExtractor(),
+		Reference:    mg.Spec.ForProvider.NetworkRef,
+		Selector:     mg.Spec.ForProvider.NetworkSelector,
+		To: reference.To{
+			List:    &NetworkList{},
+			Managed: &Network{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Network")
+	}
+	mg.Spec.ForProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.NetworkRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Subnetwork),
+		Extract:      common.SelfLinkExtractor(),
+		Reference:    mg.Spec.ForProvider.SubnetworkRef,
+		Selector:     mg.Spec.ForProvider.SubnetworkSelector,
+		To: reference.To{
+			List:    &SubnetworkList{},
+			Managed: &Subnetwork{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Subnetwork")
+	}
+	mg.Spec.ForProvider.Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.SubnetworkRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Target),
+		Extract:      common.SelfLinkExtractor(),
+		Reference:    mg.Spec.ForProvider.TargetRef,
+		Selector:     mg.Spec.ForProvider.TargetSelector,
+		To: reference.To{
+			List:    &RegionTargetHTTPProxyList{},
+			Managed: &RegionTargetHTTPProxy{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Target")
+	}
+	mg.Spec.ForProvider.Target = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.TargetRef = rsp.ResolvedReference
 
 	return nil
 }

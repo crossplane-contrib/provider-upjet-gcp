@@ -989,7 +989,9 @@ func init() {
 	acceptedKeys := map[string]struct{}{
 		"google_bigquery_dataset":                      {},
 		"google_bigquery_table":                        {},
+		"google_compute_address":                       {},
 		"google_compute_backend_service":               {},
+		"google_compute_forwarding_rule":               {},
 		"google_compute_global_address":                {},
 		"google_compute_global_forwarding_rule":        {},
 		"google_compute_health_check":                  {},
