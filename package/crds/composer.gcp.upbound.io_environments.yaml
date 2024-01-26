@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.13.0
+    controller-gen.kubebuilder.io/version: v0.14.0
   name: environments.composer.gcp.upbound.io
 spec:
   group: composer.gcp.upbound.io
@@ -38,14 +38,19 @@ spec:
           for running orchestration tasks.
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
             type: string
           metadata:
             type: object
@@ -54,13 +59,14 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: 'DeletionPolicy specifies what will happen to the underlying
-                  external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicies field in a future release. Currently,
-                  both could be set independently and non-default values would be
-                  honored if the feature flag is enabled. See the design doc for more
-                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
                 enum:
                 - Orphan
                 - Delete
@@ -73,38 +79,39 @@ spec:
                     items:
                       properties:
                         databaseConfig:
-                          description: The configuration settings for Cloud SQL instance
-                            used internally by Apache Airflow software.
+                          description: |-
+                            The configuration settings for Cloud SQL instance used internally
+                            by Apache Airflow software.
                           items:
                             properties:
                               machineType:
-                                description: 'Machine type on which Airflow web server
-                                  is running. It has to be one of: composer-n1-webserver-2,
+                                description: |-
+                                  Machine type on which Airflow web server is running. It has to be one of: composer-n1-webserver-2,
                                   composer-n1-webserver-4 or composer-n1-webserver-8.
-                                  Value custom is returned only in response, if Airflow
-                                  web server parameters were manually changed to a
-                                  non-standard values.'
+                                  Value custom is returned only in response, if Airflow web server parameters were
+                                  manually changed to a non-standard values.
                                 type: string
                             type: object
                           type: array
                         encryptionConfig:
-                          description: The encryption options for the Cloud Composer
-                            environment and its dependencies.
+                          description: |-
+                            The encryption options for the Cloud Composer environment and its
+                            dependencies.
                           items:
                             properties:
                               kmsKeyName:
-                                description: Customer-managed Encryption Key available
-                                  through Google's Key Management Service. It must
-                                  be the fully qualified resource name, i.e. projects/project-id/locations/location/keyRings/keyring/cryptoKeys/key.
-                                  Cannot be updated.
+                                description: |-
+                                  Customer-managed Encryption Key available through Google's Key Management Service. It must
+                                  be the fully qualified resource name,
+                                  i.e. projects/project-id/locations/location/keyRings/keyring/cryptoKeys/key. Cannot be updated.
                                 type: string
                             type: object
                           type: array
                         environmentSize:
-                          description: The environment size controls the performance
-                            parameters of the managed Cloud Composer infrastructure
-                            that includes the Airflow database. Values for environment
-                            size are ENVIRONMENT_SIZE_SMALL, ENVIRONMENT_SIZE_MEDIUM,
+                          description: |-
+                            The environment size controls the performance parameters of the managed
+                            Cloud Composer infrastructure that includes the Airflow database. Values for
+                            environment size are ENVIRONMENT_SIZE_SMALL, ENVIRONMENT_SIZE_MEDIUM,
                             and ENVIRONMENT_SIZE_LARGE.
                           type: string
                         maintenanceWindow:
@@ -113,17 +120,15 @@ spec:
                           items:
                             properties:
                               endTime:
-                                description: Maintenance window end time. It is used
-                                  only to calculate the duration of the maintenance
-                                  window. The value for end-time must be in the future,
-                                  relative to 'start_time'.
+                                description: |-
+                                  Maintenance window end time. It is used only to calculate the duration of the maintenance window.
+                                  The value for end-time must be in the future, relative to 'start_time'.
                                 type: string
                               recurrence:
-                                description: 'Maintenance window recurrence. Format
-                                  is a subset of RFC-5545 (https://tools.ietf.org/html/rfc5545)
-                                  ''RRULE''. The only allowed values for ''FREQ''
-                                  field are ''FREQ=DAILY'' and ''FREQ=WEEKLY;BYDAY=...''.
-                                  Example values: ''FREQ=WEEKLY;BYDAY=TU,WE'', ''FREQ=DAILY''.'
+                                description: |-
+                                  Maintenance window recurrence. Format is a subset of RFC-5545 (https://tools.ietf.org/html/rfc5545) 'RRULE'.
+                                  The only allowed values for 'FREQ' field are 'FREQ=DAILY' and 'FREQ=WEEKLY;BYDAY=...'.
+                                  Example values: 'FREQ=WEEKLY;BYDAY=TU,WE', 'FREQ=DAILY'.
                                 type: string
                               startTime:
                                 description: Start time of the first recurrence of
@@ -132,12 +137,12 @@ spec:
                             type: object
                           type: array
                         masterAuthorizedNetworksConfig:
-                          description: Configuration options for the master authorized
-                            networks feature. Enabled master authorized networks will
-                            disallow all external traffic to access Kubernetes master
-                            through HTTPS except traffic from the given CIDR blocks,
-                            Google Compute Engine Public IPs and Google Prod IPs.
-                            Structure is documented below.
+                          description: |-
+                            Configuration options for the master authorized networks feature. Enabled
+                            master authorized networks will disallow all external traffic to access
+                            Kubernetes master through HTTPS except traffic from the given CIDR blocks,
+                            Google Compute Engine Public IPs and Google Prod IPs. Structure is
+                            documented below.
                           items:
                             properties:
                               cidrBlocks:
@@ -169,90 +174,75 @@ spec:
                           items:
                             properties:
                               diskSizeGb:
-                                description: The disk size in GB used for node VMs.
-                                  Minimum size is 20GB. If unspecified, defaults to
-                                  100GB. Cannot be updated.
+                                description: |-
+                                  The disk size in GB used for node VMs. Minimum size is 20GB.
+                                  If unspecified, defaults to 100GB. Cannot be updated.
                                 type: number
                               enableIpMasqAgent:
-                                description: Deploys 'ip-masq-agent' daemon set in
-                                  the GKE cluster and defines nonMasqueradeCIDRs equals
-                                  to pod IP range so IP masquerading is used for all
-                                  destination addresses, except between pods traffic.
+                                description: |-
+                                  Deploys 'ip-masq-agent' daemon set in the GKE cluster and defines
+                                  nonMasqueradeCIDRs equals to pod IP range so IP masquerading is used for
+                                  all destination addresses, except between pods traffic.
                                   See the documentation.
                                 type: boolean
                               ipAllocationPolicy:
-                                description: Configuration for controlling how IPs
-                                  are allocated in the GKE cluster. Structure is documented
-                                  below. Cannot be updated.
+                                description: |-
+                                  Configuration for controlling how IPs are allocated in the GKE cluster.
+                                  Structure is documented below.
+                                  Cannot be updated.
                                 items:
                                   properties:
                                     clusterIpv4CidrBlock:
-                                      description: The IP address range used to allocate
-                                        IP addresses to pods in the cluster. For Cloud
-                                        Composer 1 environments, this field is applicable
-                                        only when use_ip_aliases is true. Set to blank
-                                        to have GKE choose a range with the default
-                                        size. Set to /netmask (e.g. /14) to have GKE
-                                        choose a range with a specific netmask. Set
-                                        to a CIDR notation (e.g. 10.96.0.0/14) from
-                                        the RFC-1918 private networks (e.g. 10.0.0.0/8,
-                                        172.16.0.0/12, 192.168.0.0/16) to pick a specific
-                                        range to use. Specify either cluster_secondary_range_name
-                                        or cluster_ipv4_cidr_block but not both.
+                                      description: |-
+                                        The IP address range used to allocate IP addresses to pods in the cluster.
+                                        For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true.
+                                        Set to blank to have GKE choose a range with the default size.
+                                        Set to /netmask (e.g. /14) to have GKE choose a range with a specific netmask.
+                                        Set to a CIDR notation (e.g. 10.96.0.0/14) from the RFC-1918 private networks
+                                        (e.g. 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) to pick a specific range to use.
+                                        Specify either cluster_secondary_range_name or cluster_ipv4_cidr_block but not both.
                                       type: string
                                     clusterSecondaryRangeName:
-                                      description: The name of the cluster's secondary
-                                        range used to allocate IP addresses to pods.
-                                        Specify either cluster_secondary_range_name
-                                        or cluster_ipv4_cidr_block but not both. For
-                                        Cloud Composer 1 environments, this field
-                                        is applicable only when use_ip_aliases is
-                                        true.
+                                      description: |-
+                                        The name of the cluster's secondary range used to allocate IP addresses to pods.
+                                        Specify either cluster_secondary_range_name or cluster_ipv4_cidr_block but not both.
+                                        For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true.
                                       type: string
                                     servicesIpv4CidrBlock:
-                                      description: The IP address range used to allocate
-                                        IP addresses in this cluster. For Cloud Composer
-                                        1 environments, this field is applicable only
-                                        when use_ip_aliases is true. Set to blank
-                                        to have GKE choose a range with the default
-                                        size. Set to /netmask (e.g. /14) to have GKE
-                                        choose a range with a specific netmask. Set
-                                        to a CIDR notation (e.g. 10.96.0.0/14) from
-                                        the RFC-1918 private networks (e.g. 10.0.0.0/8,
-                                        172.16.0.0/12, 192.168.0.0/16) to pick a specific
-                                        range to use. Specify either services_secondary_range_name
-                                        or services_ipv4_cidr_block but not both.
+                                      description: |-
+                                        The IP address range used to allocate IP addresses in this cluster.
+                                        For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true.
+                                        Set to blank to have GKE choose a range with the default size.
+                                        Set to /netmask (e.g. /14) to have GKE choose a range with a specific netmask.
+                                        Set to a CIDR notation (e.g. 10.96.0.0/14) from the RFC-1918 private networks
+                                        (e.g. 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) to pick a specific range to use.
+                                        Specify either services_secondary_range_name or services_ipv4_cidr_block but not both.
                                       type: string
                                     servicesSecondaryRangeName:
-                                      description: The name of the services' secondary
-                                        range used to allocate IP addresses to the
-                                        cluster. Specify either services_secondary_range_name
-                                        or services_ipv4_cidr_block but not both.
-                                        For Cloud Composer 1 environments, this field
-                                        is applicable only when use_ip_aliases is
-                                        true.
+                                      description: |-
+                                        The name of the services' secondary range used to allocate IP addresses to the cluster.
+                                        Specify either services_secondary_range_name or services_ipv4_cidr_block but not both.
+                                        For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true.
                                       type: string
                                     useIpAliases:
-                                      description: Whether or not to enable Alias
-                                        IPs in the GKE cluster. If true, a VPC-native
-                                        cluster is created. Defaults to true if the
-                                        ip_allocation_policy block is present in config.
+                                      description: |-
+                                        Whether or not to enable Alias IPs in the GKE cluster. If true, a VPC-native cluster is created.
+                                        Defaults to true if the ip_allocation_policy block is present in config.
                                       type: boolean
                                   type: object
                                 type: array
                               machineType:
-                                description: 'Machine type on which Airflow web server
-                                  is running. It has to be one of: composer-n1-webserver-2,
+                                description: |-
+                                  Machine type on which Airflow web server is running. It has to be one of: composer-n1-webserver-2,
                                   composer-n1-webserver-4 or composer-n1-webserver-8.
-                                  Value custom is returned only in response, if Airflow
-                                  web server parameters were manually changed to a
-                                  non-standard values.'
+                                  Value custom is returned only in response, if Airflow web server parameters were
+                                  manually changed to a non-standard values.
                                 type: string
                               network:
-                                description: The Compute Engine network to be used
-                                  for machine communications, specified as a self-link,
-                                  relative resource name (for example "projects/{project}/global/networks/{network}"),
-                                  by name.
+                                description: |-
+                                  The Compute Engine network to be used for machine
+                                  communications, specified as a self-link, relative resource name
+                                  (for example "projects/{project}/global/networks/{network}"), by name.
                                 type: string
                               networkRef:
                                 description: Reference to a Network in compute to
@@ -266,23 +256,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -296,9 +284,9 @@ spec:
                                   populate network.
                                 properties:
                                   matchControllerRef:
-                                    description: MatchControllerRef ensures an object
-                                      with the same controller reference as the selecting
-                                      object is selected.
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
                                     type: boolean
                                   matchLabels:
                                     additionalProperties:
@@ -311,23 +299,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -335,21 +321,21 @@ spec:
                                     type: object
                                 type: object
                               oauthScopes:
-                                description: The set of Google API scopes to be made
-                                  available on all node VMs. Cannot be updated. If
-                                  empty, defaults to ["https://www.googleapis.com/auth/cloud-platform"].
+                                description: |-
+                                  The set of Google API scopes to be made available on all node
+                                  VMs. Cannot be updated. If empty, defaults to
+                                  ["https://www.googleapis.com/auth/cloud-platform"].
                                 items:
                                   type: string
                                 type: array
                                 x-kubernetes-list-type: set
                               serviceAccount:
-                                description: The Google Cloud Platform Service Account
-                                  to be used by the node VMs. If a service account
-                                  is not specified, the "default" Compute Engine service
-                                  account is used. Cannot be updated. If given, note
-                                  that the service account must have roles/composer.worker
-                                  for any GCP resources created under the Cloud Composer
-                                  Environment.
+                                description: |-
+                                  The Google Cloud Platform Service Account to be used by the
+                                  node VMs. If a service account is not specified, the "default"
+                                  Compute Engine service account is used. Cannot be updated. If given,
+                                  note that the service account must have roles/composer.worker
+                                  for any GCP resources created under the Cloud Composer Environment.
                                 type: string
                               serviceAccountRef:
                                 description: Reference to a ServiceAccount in cloudplatform
@@ -363,23 +349,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -393,9 +377,9 @@ spec:
                                   to populate serviceAccount.
                                 properties:
                                   matchControllerRef:
-                                    description: MatchControllerRef ensures an object
-                                      with the same controller reference as the selecting
-                                      object is selected.
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
                                     type: boolean
                                   matchLabels:
                                     additionalProperties:
@@ -408,23 +392,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -432,12 +414,11 @@ spec:
                                     type: object
                                 type: object
                               subnetwork:
-                                description: The Compute Engine subnetwork to be used
-                                  for machine communications, specified as a self-link,
-                                  relative resource name (for example, "projects/{project}/regions/{region}/subnetworks/{subnetwork}"),
-                                  or by name. If subnetwork is provided, network must
-                                  also be provided and the subnetwork must belong
-                                  to the enclosing environment's project and region.
+                                description: |-
+                                  The Compute Engine subnetwork to be used for machine
+                                  communications, specified as a self-link, relative resource name (for example,
+                                  "projects/{project}/regions/{region}/subnetworks/{subnetwork}"), or by name. If subnetwork is provided,
+                                  network must also be provided and the subnetwork must belong to the enclosing environment's project and region.
                                 type: string
                               subnetworkRef:
                                 description: Reference to a Subnetwork in compute
@@ -451,23 +432,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -481,9 +460,9 @@ spec:
                                   to populate subnetwork.
                                 properties:
                                   matchControllerRef:
-                                    description: MatchControllerRef ensures an object
-                                      with the same controller reference as the selecting
-                                      object is selected.
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
                                     type: boolean
                                   matchLabels:
                                     additionalProperties:
@@ -496,23 +475,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -520,20 +497,21 @@ spec:
                                     type: object
                                 type: object
                               tags:
-                                description: The list of instance tags applied to
-                                  all node VMs. Tags are used to identify valid sources
-                                  or targets for network firewalls. Each tag within
-                                  the list must comply with RFC1035. Cannot be updated.
+                                description: |-
+                                  The list of instance tags applied to all node VMs. Tags are
+                                  used to identify valid sources or targets for network
+                                  firewalls. Each tag within the list must comply with RFC1035.
+                                  Cannot be updated.
                                 items:
                                   type: string
                                 type: array
                                 x-kubernetes-list-type: set
                               zone:
-                                description: The Compute Engine zone in which to deploy
-                                  the VMs running the Apache Airflow software, specified
-                                  as the zone name or relative resource name (e.g.
-                                  "projects/{project}/zones/{zone}"). Must belong
-                                  to the enclosing environment's project and region.
+                                description: |-
+                                  The Compute Engine zone in which to deploy the VMs running the
+                                  Apache Airflow software, specified as the zone name or
+                                  relative resource name (e.g. "projects/{project}/zones/{zone}"). Must
+                                  belong to the enclosing environment's project and region.
                                 type: string
                             type: object
                           type: array
@@ -547,13 +525,11 @@ spec:
                           items:
                             properties:
                               cloudComposerConnectionSubnetwork:
-                                description: When specified, the environment will
-                                  use Private Service Connect instead of VPC peerings
-                                  to connect to Cloud SQL in the Tenant Project, and
-                                  the PSC endpoint in the Customer Project will use
-                                  an IP address from this subnetwork. This field is
-                                  supported for Cloud Composer environments in versions
-                                  composer-2.*.*-airflow-*.*.* and newer.
+                                description: |-
+                                  When specified, the environment will use Private Service Connect instead of VPC peerings to connect
+                                  to Cloud SQL in the Tenant Project, and the PSC endpoint in the Customer Project will use an IP
+                                  address from this subnetwork. This field is supported for Cloud Composer environments in
+                                  versions composer-2.*.*-airflow-*.*.* and newer.
                                 type: string
                               cloudComposerNetworkIpv4CidrBlock:
                                 type: string
@@ -563,26 +539,23 @@ spec:
                                   to be disjoint from web_server_ipv4_cidr_block
                                 type: string
                               enablePrivateEndpoint:
-                                description: If true, access to the public endpoint
-                                  of the GKE cluster is denied. If this field is set
-                                  to true, the ip_allocation_policy.use_ip_aliases
-                                  field must also be set to true for Cloud Composer
-                                  1 environments.
+                                description: |-
+                                  If true, access to the public endpoint of the GKE cluster is denied.
+                                  If this field is set to true, the ip_allocation_policy.use_ip_aliases field must
+                                  also be set to true for Cloud Composer 1 environments.
                                 type: boolean
                               enablePrivatelyUsedPublicIps:
-                                description: When enabled, IPs from public (non-RFC1918)
-                                  ranges can be used for ip_allocation_policy.cluster_ipv4_cidr_block
-                                  and ip_allocation_policy.service_ipv4_cidr_block.
+                                description: |-
+                                  When enabled, IPs from public (non-RFC1918) ranges can be used for
+                                  ip_allocation_policy.cluster_ipv4_cidr_block and ip_allocation_policy.service_ipv4_cidr_block.
                                 type: boolean
                               masterIpv4CidrBlock:
-                                description: The IP range in CIDR notation to use
-                                  for the hosted master network. This range is used
-                                  for assigning internal IP addresses to the cluster
-                                  master or set of masters and to the internal load
-                                  balancer virtual IP. This range must not overlap
-                                  with any other ranges in use within the cluster's
-                                  network. If left blank, the default value of is
-                                  used. See documentation for default values per region.
+                                description: |-
+                                  The IP range in CIDR notation to use for the hosted master network. This range is used
+                                  for assigning internal IP addresses to the cluster master or set of masters and to the
+                                  internal load balancer virtual IP. This range must not overlap with any other ranges
+                                  in use within the cluster's network.
+                                  If left blank, the default value of is used. See documentation for default values per region.
                                 type: string
                               webServerIpv4CidrBlock:
                                 description: The CIDR block from which IP range for
@@ -626,10 +599,11 @@ spec:
                             type: object
                           type: array
                         resilienceMode:
-                          description: The resilience mode states whether high resilience
-                            is enabled for the environment or not. Values for resilience
-                            mode are HIGH_RESILIENCE for high resilience and STANDARD_RESILIENCE
-                            for standard resilience.
+                          description: |-
+                            The resilience mode states whether high resilience is enabled for
+                            the environment or not. Values for resilience mode are HIGH_RESILIENCE
+                            for high resilience and STANDARD_RESILIENCE for standard
+                            resilience.
                           type: string
                         softwareConfig:
                           description: The configuration settings for software inside
@@ -639,23 +613,19 @@ spec:
                               airflowConfigOverrides:
                                 additionalProperties:
                                   type: string
-                                description: Apache Airflow configuration properties
-                                  to override. Property keys contain the section and
-                                  property names, separated by a hyphen, for example
-                                  "core-dags_are_paused_at_creation".
+                                description: |-
+                                  Apache Airflow configuration properties to override. Property keys contain the section and property names,
+                                  separated by a hyphen, for example "core-dags_are_paused_at_creation".
                                 type: object
                                 x-kubernetes-map-type: granular
                               envVariables:
                                 additionalProperties:
                                   type: string
-                                description: 'Additional environment variables to
-                                  provide to the Apache Airflow scheduler, worker,
-                                  and webserver processes. Environment variable names
-                                  must match the regular expression [a-zA-Z_][a-zA-Z0-9_]*.
-                                  They cannot specify Apache Airflow software configuration
-                                  overrides (they cannot match the regular expression
-                                  AIRFLOW__[A-Z0-9_]+__[A-Z0-9_]+), and they cannot
-                                  match any of the following reserved names:'
+                                description: |-
+                                  Additional environment variables to provide to the Apache Airflow scheduler, worker, and webserver processes.
+                                  Environment variable names must match the regular expression [a-zA-Z_][a-zA-Z0-9_]*.
+                                  They cannot specify Apache Airflow software configuration overrides (they cannot match the regular expression
+                                  AIRFLOW__[A-Z0-9_]+__[A-Z0-9_]+), and they cannot match any of the following reserved names:
                                 type: object
                                 x-kubernetes-map-type: granular
                               imageVersion:
@@ -663,21 +633,17 @@ spec:
                               pypiPackages:
                                 additionalProperties:
                                   type: string
-                                description: Custom Python Package Index (PyPI) packages
-                                  to be installed in the environment. Keys refer to
-                                  the lowercase package name (e.g. "numpy"). Values
-                                  are the lowercase extras and version specifier (e.g.
-                                  "==1.12.0", "[devel,gcp_api]", "[devel]>=1.8.2,
-                                  <1.9.2"). To specify a package without pinning it
-                                  to a version specifier, use the empty string as
-                                  the value.
+                                description: |-
+                                  Custom Python Package Index (PyPI) packages to be installed
+                                  in the environment. Keys refer to the lowercase package name (e.g. "numpy"). Values are the lowercase extras and
+                                  version specifier (e.g. "==1.12.0", "[devel,gcp_api]", "[devel]>=1.8.2, <1.9.2"). To specify a package without
+                                  pinning it to a version specifier, use the empty string as the value.
                                 type: object
                                 x-kubernetes-map-type: granular
                               pythonVersion:
-                                description: The major version of Python used to run
-                                  the Apache Airflow scheduler, worker, and webserver
-                                  processes. Can be set to '2' or '3'. If not specified,
-                                  the default is '3'.
+                                description: |-
+                                  The major version of Python used to run the Apache Airflow scheduler, worker, and webserver processes.
+                                  Can be set to '2' or '3'. If not specified, the default is '3'.
                                 type: string
                               schedulerCount:
                                 description: The number of schedulers for Airflow.
@@ -690,19 +656,18 @@ spec:
                           items:
                             properties:
                               machineType:
-                                description: 'Machine type on which Airflow web server
-                                  is running. It has to be one of: composer-n1-webserver-2,
+                                description: |-
+                                  Machine type on which Airflow web server is running. It has to be one of: composer-n1-webserver-2,
                                   composer-n1-webserver-4 or composer-n1-webserver-8.
-                                  Value custom is returned only in response, if Airflow
-                                  web server parameters were manually changed to a
-                                  non-standard values.'
+                                  Value custom is returned only in response, if Airflow web server parameters were
+                                  manually changed to a non-standard values.
                                 type: string
                             type: object
                           type: array
                         webServerNetworkAccessControl:
-                          description: The network-level access control policy for
-                            the Airflow web server. If unspecified, no network-level
-                            access restrictions are applied.
+                          description: |-
+                            The network-level access control policy for the Airflow web server.
+                            If unspecified, no network-level access restrictions are applied.
                           items:
                             properties:
                               allowedIpRange:
@@ -714,22 +679,20 @@ spec:
                                       description: A description of this ip range.
                                       type: string
                                     value:
-                                      description: 'IP address or range, defined using
-                                        CIDR notation, of requests that this rule
-                                        applies to. Examples: 192.168.1.1 or 192.168.0.0/16
-                                        or 2001:db8::/32 or 2001:0db8:0000:0042:0000:8a2e:0370:7334.
-                                        IP range prefixes should be properly truncated.
-                                        For example, 1.2.3.4/24 should be truncated
-                                        to 1.2.3.0/24. Similarly, for IPv6, 2001:db8::1/32
-                                        should be truncated to 2001:db8::/32.'
+                                      description: |-
+                                        IP address or range, defined using CIDR notation, of requests that this rule applies to.
+                                        Examples: 192.168.1.1 or 192.168.0.0/16 or 2001:db8::/32 or 2001:0db8:0000:0042:0000:8a2e:0370:7334.
+                                        IP range prefixes should be properly truncated. For example,
+                                        1.2.3.4/24 should be truncated to 1.2.3.0/24. Similarly, for IPv6, 2001:db8::1/32 should be truncated to 2001:db8::/32.
                                       type: string
                                   type: object
                                 type: array
                             type: object
                           type: array
                         workloadsConfig:
-                          description: The Kubernetes workloads configuration for
-                            GKE cluster associated with the Cloud Composer environment.
+                          description: |-
+                            The Kubernetes workloads configuration for GKE cluster associated with the
+                            Cloud Composer environment.
                           items:
                             properties:
                               scheduler:
@@ -783,22 +746,19 @@ spec:
                                         Airflow worker.
                                       type: number
                                     maxCount:
-                                      description: The maximum number of Airflow workers
-                                        that the environment can run. The number of
-                                        workers in the environment does not go above
-                                        this number, even if a higher number of workers
-                                        is required to handle the load.
+                                      description: |-
+                                        The maximum number of Airflow workers that the environment can run. The number of workers in the
+                                        environment does not go above this number, even if a higher number of workers is required to
+                                        handle the load.
                                       type: number
                                     memoryGb:
                                       description: The amount of memory (GB) for a
                                         single Airflow worker.
                                       type: number
                                     minCount:
-                                      description: The minimum number of Airflow workers
-                                        that the environment can run. The number of
-                                        workers in the environment does not go above
-                                        this number, even if a lower number of workers
-                                        can handle the load.
+                                      description: |-
+                                        The minimum number of Airflow workers that the environment can run. The number of workers in the
+                                        environment does not go above this number, even if a lower number of workers can handle the load.
                                       type: number
                                     storageGb:
                                       description: The amount of storage (GB) for
@@ -813,19 +773,21 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: 'User-defined labels for this environment. The labels
-                      map can contain no more than 64 entries. Entries of the labels
-                      map are UTF8 strings that comply with the following restrictions:
-                      Label keys must be between 1 and 63 characters long and must
-                      conform to the following regular expression: [a-z]([-a-z0-9]*[a-z0-9])?.
+                    description: |-
+                      User-defined labels for this environment. The labels map can contain
+                      no more than 64 entries. Entries of the labels map are UTF8 strings
+                      that comply with the following restrictions:
+                      Label keys must be between 1 and 63 characters long and must conform
+                      to the following regular expression: [a-z]([-a-z0-9]*[a-z0-9])?.
                       Label values must be between 0 and 63 characters long and must
                       conform to the regular expression ([a-z]([-a-z0-9]*[a-z0-9])?)?.
                       No more than 64 labels can be associated with a given environment.
-                      Both keys and values must be <= 128 bytes in size.'
+                      Both keys and values must be <= 128 bytes in size.
                     type: object
                     x-kubernetes-map-type: granular
                   project:
-                    description: The ID of the project in which the resource belongs.
+                    description: |-
+                      The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                   projectRef:
@@ -840,21 +802,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -868,8 +830,9 @@ spec:
                       project.
                     properties:
                       matchControllerRef:
-                        description: MatchControllerRef ensures an object with the
-                          same controller reference as the selecting object is selected.
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
                         type: boolean
                       matchLabels:
                         additionalProperties:
@@ -882,21 +845,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -910,16 +873,17 @@ spec:
                 - region
                 type: object
               initProvider:
-                description: THIS IS A BETA FIELD. It will be honored unless the Management
-                  Policies feature flag is disabled. InitProvider holds the same fields
-                  as ForProvider, with the exception of Identifier and other resource
-                  reference fields. The fields that are in InitProvider are merged
-                  into ForProvider when the resource is created. The same fields are
-                  also added to the terraform ignore_changes hook, to avoid updating
-                  them after creation. This is useful for fields that are required
-                  on creation, but we do not desire to update them after creation,
-                  for example because of an external controller is managing them,
-                  like an autoscaler.
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
                 properties:
                   config:
                     description: Configuration parameters for this environment  Structure
@@ -927,38 +891,39 @@ spec:
                     items:
                       properties:
                         databaseConfig:
-                          description: The configuration settings for Cloud SQL instance
-                            used internally by Apache Airflow software.
+                          description: |-
+                            The configuration settings for Cloud SQL instance used internally
+                            by Apache Airflow software.
                           items:
                             properties:
                               machineType:
-                                description: 'Machine type on which Airflow web server
-                                  is running. It has to be one of: composer-n1-webserver-2,
+                                description: |-
+                                  Machine type on which Airflow web server is running. It has to be one of: composer-n1-webserver-2,
                                   composer-n1-webserver-4 or composer-n1-webserver-8.
-                                  Value custom is returned only in response, if Airflow
-                                  web server parameters were manually changed to a
-                                  non-standard values.'
+                                  Value custom is returned only in response, if Airflow web server parameters were
+                                  manually changed to a non-standard values.
                                 type: string
                             type: object
                           type: array
                         encryptionConfig:
-                          description: The encryption options for the Cloud Composer
-                            environment and its dependencies.
+                          description: |-
+                            The encryption options for the Cloud Composer environment and its
+                            dependencies.
                           items:
                             properties:
                               kmsKeyName:
-                                description: Customer-managed Encryption Key available
-                                  through Google's Key Management Service. It must
-                                  be the fully qualified resource name, i.e. projects/project-id/locations/location/keyRings/keyring/cryptoKeys/key.
-                                  Cannot be updated.
+                                description: |-
+                                  Customer-managed Encryption Key available through Google's Key Management Service. It must
+                                  be the fully qualified resource name,
+                                  i.e. projects/project-id/locations/location/keyRings/keyring/cryptoKeys/key. Cannot be updated.
                                 type: string
                             type: object
                           type: array
                         environmentSize:
-                          description: The environment size controls the performance
-                            parameters of the managed Cloud Composer infrastructure
-                            that includes the Airflow database. Values for environment
-                            size are ENVIRONMENT_SIZE_SMALL, ENVIRONMENT_SIZE_MEDIUM,
+                          description: |-
+                            The environment size controls the performance parameters of the managed
+                            Cloud Composer infrastructure that includes the Airflow database. Values for
+                            environment size are ENVIRONMENT_SIZE_SMALL, ENVIRONMENT_SIZE_MEDIUM,
                             and ENVIRONMENT_SIZE_LARGE.
                           type: string
                         maintenanceWindow:
@@ -967,17 +932,15 @@ spec:
                           items:
                             properties:
                               endTime:
-                                description: Maintenance window end time. It is used
-                                  only to calculate the duration of the maintenance
-                                  window. The value for end-time must be in the future,
-                                  relative to 'start_time'.
+                                description: |-
+                                  Maintenance window end time. It is used only to calculate the duration of the maintenance window.
+                                  The value for end-time must be in the future, relative to 'start_time'.
                                 type: string
                               recurrence:
-                                description: 'Maintenance window recurrence. Format
-                                  is a subset of RFC-5545 (https://tools.ietf.org/html/rfc5545)
-                                  ''RRULE''. The only allowed values for ''FREQ''
-                                  field are ''FREQ=DAILY'' and ''FREQ=WEEKLY;BYDAY=...''.
-                                  Example values: ''FREQ=WEEKLY;BYDAY=TU,WE'', ''FREQ=DAILY''.'
+                                description: |-
+                                  Maintenance window recurrence. Format is a subset of RFC-5545 (https://tools.ietf.org/html/rfc5545) 'RRULE'.
+                                  The only allowed values for 'FREQ' field are 'FREQ=DAILY' and 'FREQ=WEEKLY;BYDAY=...'.
+                                  Example values: 'FREQ=WEEKLY;BYDAY=TU,WE', 'FREQ=DAILY'.
                                 type: string
                               startTime:
                                 description: Start time of the first recurrence of
@@ -986,12 +949,12 @@ spec:
                             type: object
                           type: array
                         masterAuthorizedNetworksConfig:
-                          description: Configuration options for the master authorized
-                            networks feature. Enabled master authorized networks will
-                            disallow all external traffic to access Kubernetes master
-                            through HTTPS except traffic from the given CIDR blocks,
-                            Google Compute Engine Public IPs and Google Prod IPs.
-                            Structure is documented below.
+                          description: |-
+                            Configuration options for the master authorized networks feature. Enabled
+                            master authorized networks will disallow all external traffic to access
+                            Kubernetes master through HTTPS except traffic from the given CIDR blocks,
+                            Google Compute Engine Public IPs and Google Prod IPs. Structure is
+                            documented below.
                           items:
                             properties:
                               cidrBlocks:
@@ -1023,90 +986,75 @@ spec:
                           items:
                             properties:
                               diskSizeGb:
-                                description: The disk size in GB used for node VMs.
-                                  Minimum size is 20GB. If unspecified, defaults to
-                                  100GB. Cannot be updated.
+                                description: |-
+                                  The disk size in GB used for node VMs. Minimum size is 20GB.
+                                  If unspecified, defaults to 100GB. Cannot be updated.
                                 type: number
                               enableIpMasqAgent:
-                                description: Deploys 'ip-masq-agent' daemon set in
-                                  the GKE cluster and defines nonMasqueradeCIDRs equals
-                                  to pod IP range so IP masquerading is used for all
-                                  destination addresses, except between pods traffic.
+                                description: |-
+                                  Deploys 'ip-masq-agent' daemon set in the GKE cluster and defines
+                                  nonMasqueradeCIDRs equals to pod IP range so IP masquerading is used for
+                                  all destination addresses, except between pods traffic.
                                   See the documentation.
                                 type: boolean
                               ipAllocationPolicy:
-                                description: Configuration for controlling how IPs
-                                  are allocated in the GKE cluster. Structure is documented
-                                  below. Cannot be updated.
+                                description: |-
+                                  Configuration for controlling how IPs are allocated in the GKE cluster.
+                                  Structure is documented below.
+                                  Cannot be updated.
                                 items:
                                   properties:
                                     clusterIpv4CidrBlock:
-                                      description: The IP address range used to allocate
-                                        IP addresses to pods in the cluster. For Cloud
-                                        Composer 1 environments, this field is applicable
-                                        only when use_ip_aliases is true. Set to blank
-                                        to have GKE choose a range with the default
-                                        size. Set to /netmask (e.g. /14) to have GKE
-                                        choose a range with a specific netmask. Set
-                                        to a CIDR notation (e.g. 10.96.0.0/14) from
-                                        the RFC-1918 private networks (e.g. 10.0.0.0/8,
-                                        172.16.0.0/12, 192.168.0.0/16) to pick a specific
-                                        range to use. Specify either cluster_secondary_range_name
-                                        or cluster_ipv4_cidr_block but not both.
+                                      description: |-
+                                        The IP address range used to allocate IP addresses to pods in the cluster.
+                                        For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true.
+                                        Set to blank to have GKE choose a range with the default size.
+                                        Set to /netmask (e.g. /14) to have GKE choose a range with a specific netmask.
+                                        Set to a CIDR notation (e.g. 10.96.0.0/14) from the RFC-1918 private networks
+                                        (e.g. 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) to pick a specific range to use.
+                                        Specify either cluster_secondary_range_name or cluster_ipv4_cidr_block but not both.
                                       type: string
                                     clusterSecondaryRangeName:
-                                      description: The name of the cluster's secondary
-                                        range used to allocate IP addresses to pods.
-                                        Specify either cluster_secondary_range_name
-                                        or cluster_ipv4_cidr_block but not both. For
-                                        Cloud Composer 1 environments, this field
-                                        is applicable only when use_ip_aliases is
-                                        true.
+                                      description: |-
+                                        The name of the cluster's secondary range used to allocate IP addresses to pods.
+                                        Specify either cluster_secondary_range_name or cluster_ipv4_cidr_block but not both.
+                                        For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true.
                                       type: string
                                     servicesIpv4CidrBlock:
-                                      description: The IP address range used to allocate
-                                        IP addresses in this cluster. For Cloud Composer
-                                        1 environments, this field is applicable only
-                                        when use_ip_aliases is true. Set to blank
-                                        to have GKE choose a range with the default
-                                        size. Set to /netmask (e.g. /14) to have GKE
-                                        choose a range with a specific netmask. Set
-                                        to a CIDR notation (e.g. 10.96.0.0/14) from
-                                        the RFC-1918 private networks (e.g. 10.0.0.0/8,
-                                        172.16.0.0/12, 192.168.0.0/16) to pick a specific
-                                        range to use. Specify either services_secondary_range_name
-                                        or services_ipv4_cidr_block but not both.
+                                      description: |-
+                                        The IP address range used to allocate IP addresses in this cluster.
+                                        For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true.
+                                        Set to blank to have GKE choose a range with the default size.
+                                        Set to /netmask (e.g. /14) to have GKE choose a range with a specific netmask.
+                                        Set to a CIDR notation (e.g. 10.96.0.0/14) from the RFC-1918 private networks
+                                        (e.g. 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) to pick a specific range to use.
+                                        Specify either services_secondary_range_name or services_ipv4_cidr_block but not both.
                                       type: string
                                     servicesSecondaryRangeName:
-                                      description: The name of the services' secondary
-                                        range used to allocate IP addresses to the
-                                        cluster. Specify either services_secondary_range_name
-                                        or services_ipv4_cidr_block but not both.
-                                        For Cloud Composer 1 environments, this field
-                                        is applicable only when use_ip_aliases is
-                                        true.
+                                      description: |-
+                                        The name of the services' secondary range used to allocate IP addresses to the cluster.
+                                        Specify either services_secondary_range_name or services_ipv4_cidr_block but not both.
+                                        For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true.
                                       type: string
                                     useIpAliases:
-                                      description: Whether or not to enable Alias
-                                        IPs in the GKE cluster. If true, a VPC-native
-                                        cluster is created. Defaults to true if the
-                                        ip_allocation_policy block is present in config.
+                                      description: |-
+                                        Whether or not to enable Alias IPs in the GKE cluster. If true, a VPC-native cluster is created.
+                                        Defaults to true if the ip_allocation_policy block is present in config.
                                       type: boolean
                                   type: object
                                 type: array
                               machineType:
-                                description: 'Machine type on which Airflow web server
-                                  is running. It has to be one of: composer-n1-webserver-2,
+                                description: |-
+                                  Machine type on which Airflow web server is running. It has to be one of: composer-n1-webserver-2,
                                   composer-n1-webserver-4 or composer-n1-webserver-8.
-                                  Value custom is returned only in response, if Airflow
-                                  web server parameters were manually changed to a
-                                  non-standard values.'
+                                  Value custom is returned only in response, if Airflow web server parameters were
+                                  manually changed to a non-standard values.
                                 type: string
                               network:
-                                description: The Compute Engine network to be used
-                                  for machine communications, specified as a self-link,
-                                  relative resource name (for example "projects/{project}/global/networks/{network}"),
-                                  by name.
+                                description: |-
+                                  The Compute Engine network to be used for machine
+                                  communications, specified as a self-link, relative resource name
+                                  (for example "projects/{project}/global/networks/{network}"), by name.
                                 type: string
                               networkRef:
                                 description: Reference to a Network in compute to
@@ -1120,23 +1068,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -1150,9 +1096,9 @@ spec:
                                   populate network.
                                 properties:
                                   matchControllerRef:
-                                    description: MatchControllerRef ensures an object
-                                      with the same controller reference as the selecting
-                                      object is selected.
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
                                     type: boolean
                                   matchLabels:
                                     additionalProperties:
@@ -1165,23 +1111,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -1189,21 +1133,21 @@ spec:
                                     type: object
                                 type: object
                               oauthScopes:
-                                description: The set of Google API scopes to be made
-                                  available on all node VMs. Cannot be updated. If
-                                  empty, defaults to ["https://www.googleapis.com/auth/cloud-platform"].
+                                description: |-
+                                  The set of Google API scopes to be made available on all node
+                                  VMs. Cannot be updated. If empty, defaults to
+                                  ["https://www.googleapis.com/auth/cloud-platform"].
                                 items:
                                   type: string
                                 type: array
                                 x-kubernetes-list-type: set
                               serviceAccount:
-                                description: The Google Cloud Platform Service Account
-                                  to be used by the node VMs. If a service account
-                                  is not specified, the "default" Compute Engine service
-                                  account is used. Cannot be updated. If given, note
-                                  that the service account must have roles/composer.worker
-                                  for any GCP resources created under the Cloud Composer
-                                  Environment.
+                                description: |-
+                                  The Google Cloud Platform Service Account to be used by the
+                                  node VMs. If a service account is not specified, the "default"
+                                  Compute Engine service account is used. Cannot be updated. If given,
+                                  note that the service account must have roles/composer.worker
+                                  for any GCP resources created under the Cloud Composer Environment.
                                 type: string
                               serviceAccountRef:
                                 description: Reference to a ServiceAccount in cloudplatform
@@ -1217,23 +1161,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -1247,9 +1189,9 @@ spec:
                                   to populate serviceAccount.
                                 properties:
                                   matchControllerRef:
-                                    description: MatchControllerRef ensures an object
-                                      with the same controller reference as the selecting
-                                      object is selected.
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
                                     type: boolean
                                   matchLabels:
                                     additionalProperties:
@@ -1262,23 +1204,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -1286,12 +1226,11 @@ spec:
                                     type: object
                                 type: object
                               subnetwork:
-                                description: The Compute Engine subnetwork to be used
-                                  for machine communications, specified as a self-link,
-                                  relative resource name (for example, "projects/{project}/regions/{region}/subnetworks/{subnetwork}"),
-                                  or by name. If subnetwork is provided, network must
-                                  also be provided and the subnetwork must belong
-                                  to the enclosing environment's project and region.
+                                description: |-
+                                  The Compute Engine subnetwork to be used for machine
+                                  communications, specified as a self-link, relative resource name (for example,
+                                  "projects/{project}/regions/{region}/subnetworks/{subnetwork}"), or by name. If subnetwork is provided,
+                                  network must also be provided and the subnetwork must belong to the enclosing environment's project and region.
                                 type: string
                               subnetworkRef:
                                 description: Reference to a Subnetwork in compute
@@ -1305,23 +1244,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -1335,9 +1272,9 @@ spec:
                                   to populate subnetwork.
                                 properties:
                                   matchControllerRef:
-                                    description: MatchControllerRef ensures an object
-                                      with the same controller reference as the selecting
-                                      object is selected.
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
                                     type: boolean
                                   matchLabels:
                                     additionalProperties:
@@ -1350,23 +1287,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -1374,20 +1309,21 @@ spec:
                                     type: object
                                 type: object
                               tags:
-                                description: The list of instance tags applied to
-                                  all node VMs. Tags are used to identify valid sources
-                                  or targets for network firewalls. Each tag within
-                                  the list must comply with RFC1035. Cannot be updated.
+                                description: |-
+                                  The list of instance tags applied to all node VMs. Tags are
+                                  used to identify valid sources or targets for network
+                                  firewalls. Each tag within the list must comply with RFC1035.
+                                  Cannot be updated.
                                 items:
                                   type: string
                                 type: array
                                 x-kubernetes-list-type: set
                               zone:
-                                description: The Compute Engine zone in which to deploy
-                                  the VMs running the Apache Airflow software, specified
-                                  as the zone name or relative resource name (e.g.
-                                  "projects/{project}/zones/{zone}"). Must belong
-                                  to the enclosing environment's project and region.
+                                description: |-
+                                  The Compute Engine zone in which to deploy the VMs running the
+                                  Apache Airflow software, specified as the zone name or
+                                  relative resource name (e.g. "projects/{project}/zones/{zone}"). Must
+                                  belong to the enclosing environment's project and region.
                                 type: string
                             type: object
                           type: array
@@ -1401,13 +1337,11 @@ spec:
                           items:
                             properties:
                               cloudComposerConnectionSubnetwork:
-                                description: When specified, the environment will
-                                  use Private Service Connect instead of VPC peerings
-                                  to connect to Cloud SQL in the Tenant Project, and
-                                  the PSC endpoint in the Customer Project will use
-                                  an IP address from this subnetwork. This field is
-                                  supported for Cloud Composer environments in versions
-                                  composer-2.*.*-airflow-*.*.* and newer.
+                                description: |-
+                                  When specified, the environment will use Private Service Connect instead of VPC peerings to connect
+                                  to Cloud SQL in the Tenant Project, and the PSC endpoint in the Customer Project will use an IP
+                                  address from this subnetwork. This field is supported for Cloud Composer environments in
+                                  versions composer-2.*.*-airflow-*.*.* and newer.
                                 type: string
                               cloudComposerNetworkIpv4CidrBlock:
                                 type: string
@@ -1417,26 +1351,23 @@ spec:
                                   to be disjoint from web_server_ipv4_cidr_block
                                 type: string
                               enablePrivateEndpoint:
-                                description: If true, access to the public endpoint
-                                  of the GKE cluster is denied. If this field is set
-                                  to true, the ip_allocation_policy.use_ip_aliases
-                                  field must also be set to true for Cloud Composer
-                                  1 environments.
+                                description: |-
+                                  If true, access to the public endpoint of the GKE cluster is denied.
+                                  If this field is set to true, the ip_allocation_policy.use_ip_aliases field must
+                                  also be set to true for Cloud Composer 1 environments.
                                 type: boolean
                               enablePrivatelyUsedPublicIps:
-                                description: When enabled, IPs from public (non-RFC1918)
-                                  ranges can be used for ip_allocation_policy.cluster_ipv4_cidr_block
-                                  and ip_allocation_policy.service_ipv4_cidr_block.
+                                description: |-
+                                  When enabled, IPs from public (non-RFC1918) ranges can be used for
+                                  ip_allocation_policy.cluster_ipv4_cidr_block and ip_allocation_policy.service_ipv4_cidr_block.
                                 type: boolean
                               masterIpv4CidrBlock:
-                                description: The IP range in CIDR notation to use
-                                  for the hosted master network. This range is used
-                                  for assigning internal IP addresses to the cluster
-                                  master or set of masters and to the internal load
-                                  balancer virtual IP. This range must not overlap
-                                  with any other ranges in use within the cluster's
-                                  network. If left blank, the default value of is
-                                  used. See documentation for default values per region.
+                                description: |-
+                                  The IP range in CIDR notation to use for the hosted master network. This range is used
+                                  for assigning internal IP addresses to the cluster master or set of masters and to the
+                                  internal load balancer virtual IP. This range must not overlap with any other ranges
+                                  in use within the cluster's network.
+                                  If left blank, the default value of is used. See documentation for default values per region.
                                 type: string
                               webServerIpv4CidrBlock:
                                 description: The CIDR block from which IP range for
@@ -1480,10 +1411,11 @@ spec:
                             type: object
                           type: array
                         resilienceMode:
-                          description: The resilience mode states whether high resilience
-                            is enabled for the environment or not. Values for resilience
-                            mode are HIGH_RESILIENCE for high resilience and STANDARD_RESILIENCE
-                            for standard resilience.
+                          description: |-
+                            The resilience mode states whether high resilience is enabled for
+                            the environment or not. Values for resilience mode are HIGH_RESILIENCE
+                            for high resilience and STANDARD_RESILIENCE for standard
+                            resilience.
                           type: string
                         softwareConfig:
                           description: The configuration settings for software inside
@@ -1493,23 +1425,19 @@ spec:
                               airflowConfigOverrides:
                                 additionalProperties:
                                   type: string
-                                description: Apache Airflow configuration properties
-                                  to override. Property keys contain the section and
-                                  property names, separated by a hyphen, for example
-                                  "core-dags_are_paused_at_creation".
+                                description: |-
+                                  Apache Airflow configuration properties to override. Property keys contain the section and property names,
+                                  separated by a hyphen, for example "core-dags_are_paused_at_creation".
                                 type: object
                                 x-kubernetes-map-type: granular
                               envVariables:
                                 additionalProperties:
                                   type: string
-                                description: 'Additional environment variables to
-                                  provide to the Apache Airflow scheduler, worker,
-                                  and webserver processes. Environment variable names
-                                  must match the regular expression [a-zA-Z_][a-zA-Z0-9_]*.
-                                  They cannot specify Apache Airflow software configuration
-                                  overrides (they cannot match the regular expression
-                                  AIRFLOW__[A-Z0-9_]+__[A-Z0-9_]+), and they cannot
-                                  match any of the following reserved names:'
+                                description: |-
+                                  Additional environment variables to provide to the Apache Airflow scheduler, worker, and webserver processes.
+                                  Environment variable names must match the regular expression [a-zA-Z_][a-zA-Z0-9_]*.
+                                  They cannot specify Apache Airflow software configuration overrides (they cannot match the regular expression
+                                  AIRFLOW__[A-Z0-9_]+__[A-Z0-9_]+), and they cannot match any of the following reserved names:
                                 type: object
                                 x-kubernetes-map-type: granular
                               imageVersion:
@@ -1517,21 +1445,17 @@ spec:
                               pypiPackages:
                                 additionalProperties:
                                   type: string
-                                description: Custom Python Package Index (PyPI) packages
-                                  to be installed in the environment. Keys refer to
-                                  the lowercase package name (e.g. "numpy"). Values
-                                  are the lowercase extras and version specifier (e.g.
-                                  "==1.12.0", "[devel,gcp_api]", "[devel]>=1.8.2,
-                                  <1.9.2"). To specify a package without pinning it
-                                  to a version specifier, use the empty string as
-                                  the value.
+                                description: |-
+                                  Custom Python Package Index (PyPI) packages to be installed
+                                  in the environment. Keys refer to the lowercase package name (e.g. "numpy"). Values are the lowercase extras and
+                                  version specifier (e.g. "==1.12.0", "[devel,gcp_api]", "[devel]>=1.8.2, <1.9.2"). To specify a package without
+                                  pinning it to a version specifier, use the empty string as the value.
                                 type: object
                                 x-kubernetes-map-type: granular
                               pythonVersion:
-                                description: The major version of Python used to run
-                                  the Apache Airflow scheduler, worker, and webserver
-                                  processes. Can be set to '2' or '3'. If not specified,
-                                  the default is '3'.
+                                description: |-
+                                  The major version of Python used to run the Apache Airflow scheduler, worker, and webserver processes.
+                                  Can be set to '2' or '3'. If not specified, the default is '3'.
                                 type: string
                               schedulerCount:
                                 description: The number of schedulers for Airflow.
@@ -1544,19 +1468,18 @@ spec:
                           items:
                             properties:
                               machineType:
-                                description: 'Machine type on which Airflow web server
-                                  is running. It has to be one of: composer-n1-webserver-2,
+                                description: |-
+                                  Machine type on which Airflow web server is running. It has to be one of: composer-n1-webserver-2,
                                   composer-n1-webserver-4 or composer-n1-webserver-8.
-                                  Value custom is returned only in response, if Airflow
-                                  web server parameters were manually changed to a
-                                  non-standard values.'
+                                  Value custom is returned only in response, if Airflow web server parameters were
+                                  manually changed to a non-standard values.
                                 type: string
                             type: object
                           type: array
                         webServerNetworkAccessControl:
-                          description: The network-level access control policy for
-                            the Airflow web server. If unspecified, no network-level
-                            access restrictions are applied.
+                          description: |-
+                            The network-level access control policy for the Airflow web server.
+                            If unspecified, no network-level access restrictions are applied.
                           items:
                             properties:
                               allowedIpRange:
@@ -1568,22 +1491,20 @@ spec:
                                       description: A description of this ip range.
                                       type: string
                                     value:
-                                      description: 'IP address or range, defined using
-                                        CIDR notation, of requests that this rule
-                                        applies to. Examples: 192.168.1.1 or 192.168.0.0/16
-                                        or 2001:db8::/32 or 2001:0db8:0000:0042:0000:8a2e:0370:7334.
-                                        IP range prefixes should be properly truncated.
-                                        For example, 1.2.3.4/24 should be truncated
-                                        to 1.2.3.0/24. Similarly, for IPv6, 2001:db8::1/32
-                                        should be truncated to 2001:db8::/32.'
+                                      description: |-
+                                        IP address or range, defined using CIDR notation, of requests that this rule applies to.
+                                        Examples: 192.168.1.1 or 192.168.0.0/16 or 2001:db8::/32 or 2001:0db8:0000:0042:0000:8a2e:0370:7334.
+                                        IP range prefixes should be properly truncated. For example,
+                                        1.2.3.4/24 should be truncated to 1.2.3.0/24. Similarly, for IPv6, 2001:db8::1/32 should be truncated to 2001:db8::/32.
                                       type: string
                                   type: object
                                 type: array
                             type: object
                           type: array
                         workloadsConfig:
-                          description: The Kubernetes workloads configuration for
-                            GKE cluster associated with the Cloud Composer environment.
+                          description: |-
+                            The Kubernetes workloads configuration for GKE cluster associated with the
+                            Cloud Composer environment.
                           items:
                             properties:
                               scheduler:
@@ -1637,22 +1558,19 @@ spec:
                                         Airflow worker.
                                       type: number
                                     maxCount:
-                                      description: The maximum number of Airflow workers
-                                        that the environment can run. The number of
-                                        workers in the environment does not go above
-                                        this number, even if a higher number of workers
-                                        is required to handle the load.
+                                      description: |-
+                                        The maximum number of Airflow workers that the environment can run. The number of workers in the
+                                        environment does not go above this number, even if a higher number of workers is required to
+                                        handle the load.
                                       type: number
                                     memoryGb:
                                       description: The amount of memory (GB) for a
                                         single Airflow worker.
                                       type: number
                                     minCount:
-                                      description: The minimum number of Airflow workers
-                                        that the environment can run. The number of
-                                        workers in the environment does not go above
-                                        this number, even if a lower number of workers
-                                        can handle the load.
+                                      description: |-
+                                        The minimum number of Airflow workers that the environment can run. The number of workers in the
+                                        environment does not go above this number, even if a lower number of workers can handle the load.
                                       type: number
                                     storageGb:
                                       description: The amount of storage (GB) for
@@ -1667,19 +1585,21 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: 'User-defined labels for this environment. The labels
-                      map can contain no more than 64 entries. Entries of the labels
-                      map are UTF8 strings that comply with the following restrictions:
-                      Label keys must be between 1 and 63 characters long and must
-                      conform to the following regular expression: [a-z]([-a-z0-9]*[a-z0-9])?.
+                    description: |-
+                      User-defined labels for this environment. The labels map can contain
+                      no more than 64 entries. Entries of the labels map are UTF8 strings
+                      that comply with the following restrictions:
+                      Label keys must be between 1 and 63 characters long and must conform
+                      to the following regular expression: [a-z]([-a-z0-9]*[a-z0-9])?.
                       Label values must be between 0 and 63 characters long and must
                       conform to the regular expression ([a-z]([-a-z0-9]*[a-z0-9])?)?.
                       No more than 64 labels can be associated with a given environment.
-                      Both keys and values must be <= 128 bytes in size.'
+                      Both keys and values must be <= 128 bytes in size.
                     type: object
                     x-kubernetes-map-type: granular
                   project:
-                    description: The ID of the project in which the resource belongs.
+                    description: |-
+                      The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                   projectRef:
@@ -1694,21 +1614,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -1722,8 +1642,9 @@ spec:
                       project.
                     properties:
                       matchControllerRef:
-                        description: MatchControllerRef ensures an object with the
-                          same controller reference as the selecting object is selected.
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
                         type: boolean
                       matchLabels:
                         additionalProperties:
@@ -1736,21 +1657,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -1761,19 +1682,21 @@ spec:
               managementPolicies:
                 default:
                 - '*'
-                description: 'THIS IS A BETA FIELD. It is on by default but can be
-                  opted out through a Crossplane feature flag. ManagementPolicies
-                  specify the array of actions Crossplane is allowed to take on the
-                  managed and external resources. This field is planned to replace
-                  the DeletionPolicy field in a future release. Currently, both could
-                  be set independently and non-default values would be honored if
-                  the feature flag is enabled. If both are custom, the DeletionPolicy
-                  field will be ignored. See the design doc for more information:
-                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
-                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
                 items:
-                  description: A ManagementAction represents an action that the Crossplane
-                    controllers can take on an external resource.
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
                   enum:
                   - Observe
                   - Create
@@ -1786,9 +1709,10 @@ spec:
               providerConfigRef:
                 default:
                   name: default
-                description: ProviderConfigReference specifies how the provider that
-                  will be used to create, observe, update, and delete this managed
-                  resource should be configured.
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
                 properties:
                   name:
                     description: Name of the referenced object.
@@ -1798,21 +1722,21 @@ spec:
                     properties:
                       resolution:
                         default: Required
-                        description: Resolution specifies whether resolution of this
-                          reference is required. The default is 'Required', which
-                          means the reconcile will fail if the reference cannot be
-                          resolved. 'Optional' means this reference will be a no-op
-                          if it cannot be resolved.
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
                         enum:
                         - Required
                         - Optional
                         type: string
                       resolve:
-                        description: Resolve specifies when this reference should
-                          be resolved. The default is 'IfNotPresent', which will attempt
-                          to resolve the reference only when the corresponding field
-                          is not present. Use 'Always' to resolve the reference on
-                          every reconcile.
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
                         enum:
                         - Always
                         - IfNotPresent
@@ -1822,17 +1746,19 @@ spec:
                 - name
                 type: object
               publishConnectionDetailsTo:
-                description: PublishConnectionDetailsTo specifies the connection secret
-                  config which contains a name, metadata and a reference to secret
-                  store config to which any connection details for this managed resource
-                  should be written. Connection details frequently include the endpoint,
-                  username, and password required to connect to the managed resource.
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
                 properties:
                   configRef:
                     default:
                       name: default
-                    description: SecretStoreConfigRef specifies which secret store
-                      config should be used for this ConnectionSecret.
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -1842,21 +1768,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -1871,21 +1797,22 @@ spec:
                       annotations:
                         additionalProperties:
                           type: string
-                        description: Annotations are the annotations to be added to
-                          connection secret. - For Kubernetes secrets, this will be
-                          used as "metadata.annotations". - It is up to Secret Store
-                          implementation for others store types.
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
                         type: object
                       labels:
                         additionalProperties:
                           type: string
-                        description: Labels are the labels/tags to be added to connection
-                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
-                          - It is up to Secret Store implementation for others store
-                          types.
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
                         type: object
                       type:
-                        description: Type is the SecretType for the connection secret.
+                        description: |-
+                          Type is the SecretType for the connection secret.
                           - Only valid for Kubernetes Secret Stores.
                         type: string
                     type: object
@@ -1896,14 +1823,15 @@ spec:
                 - name
                 type: object
               writeConnectionSecretToRef:
-                description: WriteConnectionSecretToReference specifies the namespace
-                  and name of a Secret to which any connection details for this managed
-                  resource should be written. Connection details frequently include
-                  the endpoint, username, and password required to connect to the
-                  managed resource. This field is planned to be replaced in a future
-                  release in favor of PublishConnectionDetailsTo. Currently, both
-                  could be set independently and connection details would be published
-                  to both without affecting each other.
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
                 properties:
                   name:
                     description: Name of the secret.
@@ -1929,50 +1857,52 @@ spec:
                     items:
                       properties:
                         airflowUri:
-                          description: The URI of the Apache Airflow Web UI hosted
-                            within this environment.
+                          description: |-
+                            The URI of the Apache Airflow Web UI hosted within this
+                            environment.
                           type: string
                         dagGcsPrefix:
-                          description: The Cloud Storage prefix of the DAGs for this
-                            environment. Although Cloud Storage objects reside in
-                            a flat namespace, a hierarchical file tree can be simulated
-                            using '/'-delimited object name prefixes. DAG objects
-                            for this environment reside in a simulated directory with
-                            this prefix.
+                          description: |-
+                            The Cloud Storage prefix of the DAGs for this environment.
+                            Although Cloud Storage objects reside in a flat namespace, a
+                            hierarchical file tree can be simulated using '/'-delimited
+                            object name prefixes. DAG objects for this environment
+                            reside in a simulated directory with this prefix.
                           type: string
                         databaseConfig:
-                          description: The configuration settings for Cloud SQL instance
-                            used internally by Apache Airflow software.
+                          description: |-
+                            The configuration settings for Cloud SQL instance used internally
+                            by Apache Airflow software.
                           items:
                             properties:
                               machineType:
-                                description: 'Machine type on which Airflow web server
-                                  is running. It has to be one of: composer-n1-webserver-2,
+                                description: |-
+                                  Machine type on which Airflow web server is running. It has to be one of: composer-n1-webserver-2,
                                   composer-n1-webserver-4 or composer-n1-webserver-8.
-                                  Value custom is returned only in response, if Airflow
-                                  web server parameters were manually changed to a
-                                  non-standard values.'
+                                  Value custom is returned only in response, if Airflow web server parameters were
+                                  manually changed to a non-standard values.
                                 type: string
                             type: object
                           type: array
                         encryptionConfig:
-                          description: The encryption options for the Cloud Composer
-                            environment and its dependencies.
+                          description: |-
+                            The encryption options for the Cloud Composer environment and its
+                            dependencies.
                           items:
                             properties:
                               kmsKeyName:
-                                description: Customer-managed Encryption Key available
-                                  through Google's Key Management Service. It must
-                                  be the fully qualified resource name, i.e. projects/project-id/locations/location/keyRings/keyring/cryptoKeys/key.
-                                  Cannot be updated.
+                                description: |-
+                                  Customer-managed Encryption Key available through Google's Key Management Service. It must
+                                  be the fully qualified resource name,
+                                  i.e. projects/project-id/locations/location/keyRings/keyring/cryptoKeys/key. Cannot be updated.
                                 type: string
                             type: object
                           type: array
                         environmentSize:
-                          description: The environment size controls the performance
-                            parameters of the managed Cloud Composer infrastructure
-                            that includes the Airflow database. Values for environment
-                            size are ENVIRONMENT_SIZE_SMALL, ENVIRONMENT_SIZE_MEDIUM,
+                          description: |-
+                            The environment size controls the performance parameters of the managed
+                            Cloud Composer infrastructure that includes the Airflow database. Values for
+                            environment size are ENVIRONMENT_SIZE_SMALL, ENVIRONMENT_SIZE_MEDIUM,
                             and ENVIRONMENT_SIZE_LARGE.
                           type: string
                         gkeCluster:
@@ -1985,17 +1915,15 @@ spec:
                           items:
                             properties:
                               endTime:
-                                description: Maintenance window end time. It is used
-                                  only to calculate the duration of the maintenance
-                                  window. The value for end-time must be in the future,
-                                  relative to 'start_time'.
+                                description: |-
+                                  Maintenance window end time. It is used only to calculate the duration of the maintenance window.
+                                  The value for end-time must be in the future, relative to 'start_time'.
                                 type: string
                               recurrence:
-                                description: 'Maintenance window recurrence. Format
-                                  is a subset of RFC-5545 (https://tools.ietf.org/html/rfc5545)
-                                  ''RRULE''. The only allowed values for ''FREQ''
-                                  field are ''FREQ=DAILY'' and ''FREQ=WEEKLY;BYDAY=...''.
-                                  Example values: ''FREQ=WEEKLY;BYDAY=TU,WE'', ''FREQ=DAILY''.'
+                                description: |-
+                                  Maintenance window recurrence. Format is a subset of RFC-5545 (https://tools.ietf.org/html/rfc5545) 'RRULE'.
+                                  The only allowed values for 'FREQ' field are 'FREQ=DAILY' and 'FREQ=WEEKLY;BYDAY=...'.
+                                  Example values: 'FREQ=WEEKLY;BYDAY=TU,WE', 'FREQ=DAILY'.
                                 type: string
                               startTime:
                                 description: Start time of the first recurrence of
@@ -2004,12 +1932,12 @@ spec:
                             type: object
                           type: array
                         masterAuthorizedNetworksConfig:
-                          description: Configuration options for the master authorized
-                            networks feature. Enabled master authorized networks will
-                            disallow all external traffic to access Kubernetes master
-                            through HTTPS except traffic from the given CIDR blocks,
-                            Google Compute Engine Public IPs and Google Prod IPs.
-                            Structure is documented below.
+                          description: |-
+                            Configuration options for the master authorized networks feature. Enabled
+                            master authorized networks will disallow all external traffic to access
+                            Kubernetes master through HTTPS except traffic from the given CIDR blocks,
+                            Google Compute Engine Public IPs and Google Prod IPs. Structure is
+                            documented below.
                           items:
                             properties:
                               cidrBlocks:
@@ -2041,131 +1969,116 @@ spec:
                           items:
                             properties:
                               diskSizeGb:
-                                description: The disk size in GB used for node VMs.
-                                  Minimum size is 20GB. If unspecified, defaults to
-                                  100GB. Cannot be updated.
+                                description: |-
+                                  The disk size in GB used for node VMs. Minimum size is 20GB.
+                                  If unspecified, defaults to 100GB. Cannot be updated.
                                 type: number
                               enableIpMasqAgent:
-                                description: Deploys 'ip-masq-agent' daemon set in
-                                  the GKE cluster and defines nonMasqueradeCIDRs equals
-                                  to pod IP range so IP masquerading is used for all
-                                  destination addresses, except between pods traffic.
+                                description: |-
+                                  Deploys 'ip-masq-agent' daemon set in the GKE cluster and defines
+                                  nonMasqueradeCIDRs equals to pod IP range so IP masquerading is used for
+                                  all destination addresses, except between pods traffic.
                                   See the documentation.
                                 type: boolean
                               ipAllocationPolicy:
-                                description: Configuration for controlling how IPs
-                                  are allocated in the GKE cluster. Structure is documented
-                                  below. Cannot be updated.
+                                description: |-
+                                  Configuration for controlling how IPs are allocated in the GKE cluster.
+                                  Structure is documented below.
+                                  Cannot be updated.
                                 items:
                                   properties:
                                     clusterIpv4CidrBlock:
-                                      description: The IP address range used to allocate
-                                        IP addresses to pods in the cluster. For Cloud
-                                        Composer 1 environments, this field is applicable
-                                        only when use_ip_aliases is true. Set to blank
-                                        to have GKE choose a range with the default
-                                        size. Set to /netmask (e.g. /14) to have GKE
-                                        choose a range with a specific netmask. Set
-                                        to a CIDR notation (e.g. 10.96.0.0/14) from
-                                        the RFC-1918 private networks (e.g. 10.0.0.0/8,
-                                        172.16.0.0/12, 192.168.0.0/16) to pick a specific
-                                        range to use. Specify either cluster_secondary_range_name
-                                        or cluster_ipv4_cidr_block but not both.
+                                      description: |-
+                                        The IP address range used to allocate IP addresses to pods in the cluster.
+                                        For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true.
+                                        Set to blank to have GKE choose a range with the default size.
+                                        Set to /netmask (e.g. /14) to have GKE choose a range with a specific netmask.
+                                        Set to a CIDR notation (e.g. 10.96.0.0/14) from the RFC-1918 private networks
+                                        (e.g. 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) to pick a specific range to use.
+                                        Specify either cluster_secondary_range_name or cluster_ipv4_cidr_block but not both.
                                       type: string
                                     clusterSecondaryRangeName:
-                                      description: The name of the cluster's secondary
-                                        range used to allocate IP addresses to pods.
-                                        Specify either cluster_secondary_range_name
-                                        or cluster_ipv4_cidr_block but not both. For
-                                        Cloud Composer 1 environments, this field
-                                        is applicable only when use_ip_aliases is
-                                        true.
+                                      description: |-
+                                        The name of the cluster's secondary range used to allocate IP addresses to pods.
+                                        Specify either cluster_secondary_range_name or cluster_ipv4_cidr_block but not both.
+                                        For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true.
                                       type: string
                                     servicesIpv4CidrBlock:
-                                      description: The IP address range used to allocate
-                                        IP addresses in this cluster. For Cloud Composer
-                                        1 environments, this field is applicable only
-                                        when use_ip_aliases is true. Set to blank
-                                        to have GKE choose a range with the default
-                                        size. Set to /netmask (e.g. /14) to have GKE
-                                        choose a range with a specific netmask. Set
-                                        to a CIDR notation (e.g. 10.96.0.0/14) from
-                                        the RFC-1918 private networks (e.g. 10.0.0.0/8,
-                                        172.16.0.0/12, 192.168.0.0/16) to pick a specific
-                                        range to use. Specify either services_secondary_range_name
-                                        or services_ipv4_cidr_block but not both.
+                                      description: |-
+                                        The IP address range used to allocate IP addresses in this cluster.
+                                        For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true.
+                                        Set to blank to have GKE choose a range with the default size.
+                                        Set to /netmask (e.g. /14) to have GKE choose a range with a specific netmask.
+                                        Set to a CIDR notation (e.g. 10.96.0.0/14) from the RFC-1918 private networks
+                                        (e.g. 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) to pick a specific range to use.
+                                        Specify either services_secondary_range_name or services_ipv4_cidr_block but not both.
                                       type: string
                                     servicesSecondaryRangeName:
-                                      description: The name of the services' secondary
-                                        range used to allocate IP addresses to the
-                                        cluster. Specify either services_secondary_range_name
-                                        or services_ipv4_cidr_block but not both.
-                                        For Cloud Composer 1 environments, this field
-                                        is applicable only when use_ip_aliases is
-                                        true.
+                                      description: |-
+                                        The name of the services' secondary range used to allocate IP addresses to the cluster.
+                                        Specify either services_secondary_range_name or services_ipv4_cidr_block but not both.
+                                        For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true.
                                       type: string
                                     useIpAliases:
-                                      description: Whether or not to enable Alias
-                                        IPs in the GKE cluster. If true, a VPC-native
-                                        cluster is created. Defaults to true if the
-                                        ip_allocation_policy block is present in config.
+                                      description: |-
+                                        Whether or not to enable Alias IPs in the GKE cluster. If true, a VPC-native cluster is created.
+                                        Defaults to true if the ip_allocation_policy block is present in config.
                                       type: boolean
                                   type: object
                                 type: array
                               machineType:
-                                description: 'Machine type on which Airflow web server
-                                  is running. It has to be one of: composer-n1-webserver-2,
+                                description: |-
+                                  Machine type on which Airflow web server is running. It has to be one of: composer-n1-webserver-2,
                                   composer-n1-webserver-4 or composer-n1-webserver-8.
-                                  Value custom is returned only in response, if Airflow
-                                  web server parameters were manually changed to a
-                                  non-standard values.'
+                                  Value custom is returned only in response, if Airflow web server parameters were
+                                  manually changed to a non-standard values.
                                 type: string
                               network:
-                                description: The Compute Engine network to be used
-                                  for machine communications, specified as a self-link,
-                                  relative resource name (for example "projects/{project}/global/networks/{network}"),
-                                  by name.
+                                description: |-
+                                  The Compute Engine network to be used for machine
+                                  communications, specified as a self-link, relative resource name
+                                  (for example "projects/{project}/global/networks/{network}"), by name.
                                 type: string
                               oauthScopes:
-                                description: The set of Google API scopes to be made
-                                  available on all node VMs. Cannot be updated. If
-                                  empty, defaults to ["https://www.googleapis.com/auth/cloud-platform"].
+                                description: |-
+                                  The set of Google API scopes to be made available on all node
+                                  VMs. Cannot be updated. If empty, defaults to
+                                  ["https://www.googleapis.com/auth/cloud-platform"].
                                 items:
                                   type: string
                                 type: array
                                 x-kubernetes-list-type: set
                               serviceAccount:
-                                description: The Google Cloud Platform Service Account
-                                  to be used by the node VMs. If a service account
-                                  is not specified, the "default" Compute Engine service
-                                  account is used. Cannot be updated. If given, note
-                                  that the service account must have roles/composer.worker
-                                  for any GCP resources created under the Cloud Composer
-                                  Environment.
+                                description: |-
+                                  The Google Cloud Platform Service Account to be used by the
+                                  node VMs. If a service account is not specified, the "default"
+                                  Compute Engine service account is used. Cannot be updated. If given,
+                                  note that the service account must have roles/composer.worker
+                                  for any GCP resources created under the Cloud Composer Environment.
                                 type: string
                               subnetwork:
-                                description: The Compute Engine subnetwork to be used
-                                  for machine communications, specified as a self-link,
-                                  relative resource name (for example, "projects/{project}/regions/{region}/subnetworks/{subnetwork}"),
-                                  or by name. If subnetwork is provided, network must
-                                  also be provided and the subnetwork must belong
-                                  to the enclosing environment's project and region.
+                                description: |-
+                                  The Compute Engine subnetwork to be used for machine
+                                  communications, specified as a self-link, relative resource name (for example,
+                                  "projects/{project}/regions/{region}/subnetworks/{subnetwork}"), or by name. If subnetwork is provided,
+                                  network must also be provided and the subnetwork must belong to the enclosing environment's project and region.
                                 type: string
                               tags:
-                                description: The list of instance tags applied to
-                                  all node VMs. Tags are used to identify valid sources
-                                  or targets for network firewalls. Each tag within
-                                  the list must comply with RFC1035. Cannot be updated.
+                                description: |-
+                                  The list of instance tags applied to all node VMs. Tags are
+                                  used to identify valid sources or targets for network
+                                  firewalls. Each tag within the list must comply with RFC1035.
+                                  Cannot be updated.
                                 items:
                                   type: string
                                 type: array
                                 x-kubernetes-list-type: set
                               zone:
-                                description: The Compute Engine zone in which to deploy
-                                  the VMs running the Apache Airflow software, specified
-                                  as the zone name or relative resource name (e.g.
-                                  "projects/{project}/zones/{zone}"). Must belong
-                                  to the enclosing environment's project and region.
+                                description: |-
+                                  The Compute Engine zone in which to deploy the VMs running the
+                                  Apache Airflow software, specified as the zone name or
+                                  relative resource name (e.g. "projects/{project}/zones/{zone}"). Must
+                                  belong to the enclosing environment's project and region.
                                 type: string
                             type: object
                           type: array
@@ -2179,13 +2092,11 @@ spec:
                           items:
                             properties:
                               cloudComposerConnectionSubnetwork:
-                                description: When specified, the environment will
-                                  use Private Service Connect instead of VPC peerings
-                                  to connect to Cloud SQL in the Tenant Project, and
-                                  the PSC endpoint in the Customer Project will use
-                                  an IP address from this subnetwork. This field is
-                                  supported for Cloud Composer environments in versions
-                                  composer-2.*.*-airflow-*.*.* and newer.
+                                description: |-
+                                  When specified, the environment will use Private Service Connect instead of VPC peerings to connect
+                                  to Cloud SQL in the Tenant Project, and the PSC endpoint in the Customer Project will use an IP
+                                  address from this subnetwork. This field is supported for Cloud Composer environments in
+                                  versions composer-2.*.*-airflow-*.*.* and newer.
                                 type: string
                               cloudComposerNetworkIpv4CidrBlock:
                                 type: string
@@ -2195,26 +2106,23 @@ spec:
                                   to be disjoint from web_server_ipv4_cidr_block
                                 type: string
                               enablePrivateEndpoint:
-                                description: If true, access to the public endpoint
-                                  of the GKE cluster is denied. If this field is set
-                                  to true, the ip_allocation_policy.use_ip_aliases
-                                  field must also be set to true for Cloud Composer
-                                  1 environments.
+                                description: |-
+                                  If true, access to the public endpoint of the GKE cluster is denied.
+                                  If this field is set to true, the ip_allocation_policy.use_ip_aliases field must
+                                  also be set to true for Cloud Composer 1 environments.
                                 type: boolean
                               enablePrivatelyUsedPublicIps:
-                                description: When enabled, IPs from public (non-RFC1918)
-                                  ranges can be used for ip_allocation_policy.cluster_ipv4_cidr_block
-                                  and ip_allocation_policy.service_ipv4_cidr_block.
+                                description: |-
+                                  When enabled, IPs from public (non-RFC1918) ranges can be used for
+                                  ip_allocation_policy.cluster_ipv4_cidr_block and ip_allocation_policy.service_ipv4_cidr_block.
                                 type: boolean
                               masterIpv4CidrBlock:
-                                description: The IP range in CIDR notation to use
-                                  for the hosted master network. This range is used
-                                  for assigning internal IP addresses to the cluster
-                                  master or set of masters and to the internal load
-                                  balancer virtual IP. This range must not overlap
-                                  with any other ranges in use within the cluster's
-                                  network. If left blank, the default value of is
-                                  used. See documentation for default values per region.
+                                description: |-
+                                  The IP range in CIDR notation to use for the hosted master network. This range is used
+                                  for assigning internal IP addresses to the cluster master or set of masters and to the
+                                  internal load balancer virtual IP. This range must not overlap with any other ranges
+                                  in use within the cluster's network.
+                                  If left blank, the default value of is used. See documentation for default values per region.
                                 type: string
                               webServerIpv4CidrBlock:
                                 description: The CIDR block from which IP range for
@@ -2258,10 +2166,11 @@ spec:
                             type: object
                           type: array
                         resilienceMode:
-                          description: The resilience mode states whether high resilience
-                            is enabled for the environment or not. Values for resilience
-                            mode are HIGH_RESILIENCE for high resilience and STANDARD_RESILIENCE
-                            for standard resilience.
+                          description: |-
+                            The resilience mode states whether high resilience is enabled for
+                            the environment or not. Values for resilience mode are HIGH_RESILIENCE
+                            for high resilience and STANDARD_RESILIENCE for standard
+                            resilience.
                           type: string
                         softwareConfig:
                           description: The configuration settings for software inside
@@ -2271,23 +2180,19 @@ spec:
                               airflowConfigOverrides:
                                 additionalProperties:
                                   type: string
-                                description: Apache Airflow configuration properties
-                                  to override. Property keys contain the section and
-                                  property names, separated by a hyphen, for example
-                                  "core-dags_are_paused_at_creation".
+                                description: |-
+                                  Apache Airflow configuration properties to override. Property keys contain the section and property names,
+                                  separated by a hyphen, for example "core-dags_are_paused_at_creation".
                                 type: object
                                 x-kubernetes-map-type: granular
                               envVariables:
                                 additionalProperties:
                                   type: string
-                                description: 'Additional environment variables to
-                                  provide to the Apache Airflow scheduler, worker,
-                                  and webserver processes. Environment variable names
-                                  must match the regular expression [a-zA-Z_][a-zA-Z0-9_]*.
-                                  They cannot specify Apache Airflow software configuration
-                                  overrides (they cannot match the regular expression
-                                  AIRFLOW__[A-Z0-9_]+__[A-Z0-9_]+), and they cannot
-                                  match any of the following reserved names:'
+                                description: |-
+                                  Additional environment variables to provide to the Apache Airflow scheduler, worker, and webserver processes.
+                                  Environment variable names must match the regular expression [a-zA-Z_][a-zA-Z0-9_]*.
+                                  They cannot specify Apache Airflow software configuration overrides (they cannot match the regular expression
+                                  AIRFLOW__[A-Z0-9_]+__[A-Z0-9_]+), and they cannot match any of the following reserved names:
                                 type: object
                                 x-kubernetes-map-type: granular
                               imageVersion:
@@ -2295,21 +2200,17 @@ spec:
                               pypiPackages:
                                 additionalProperties:
                                   type: string
-                                description: Custom Python Package Index (PyPI) packages
-                                  to be installed in the environment. Keys refer to
-                                  the lowercase package name (e.g. "numpy"). Values
-                                  are the lowercase extras and version specifier (e.g.
-                                  "==1.12.0", "[devel,gcp_api]", "[devel]>=1.8.2,
-                                  <1.9.2"). To specify a package without pinning it
-                                  to a version specifier, use the empty string as
-                                  the value.
+                                description: |-
+                                  Custom Python Package Index (PyPI) packages to be installed
+                                  in the environment. Keys refer to the lowercase package name (e.g. "numpy"). Values are the lowercase extras and
+                                  version specifier (e.g. "==1.12.0", "[devel,gcp_api]", "[devel]>=1.8.2, <1.9.2"). To specify a package without
+                                  pinning it to a version specifier, use the empty string as the value.
                                 type: object
                                 x-kubernetes-map-type: granular
                               pythonVersion:
-                                description: The major version of Python used to run
-                                  the Apache Airflow scheduler, worker, and webserver
-                                  processes. Can be set to '2' or '3'. If not specified,
-                                  the default is '3'.
+                                description: |-
+                                  The major version of Python used to run the Apache Airflow scheduler, worker, and webserver processes.
+                                  Can be set to '2' or '3'. If not specified, the default is '3'.
                                 type: string
                               schedulerCount:
                                 description: The number of schedulers for Airflow.
@@ -2322,19 +2223,18 @@ spec:
                           items:
                             properties:
                               machineType:
-                                description: 'Machine type on which Airflow web server
-                                  is running. It has to be one of: composer-n1-webserver-2,
+                                description: |-
+                                  Machine type on which Airflow web server is running. It has to be one of: composer-n1-webserver-2,
                                   composer-n1-webserver-4 or composer-n1-webserver-8.
-                                  Value custom is returned only in response, if Airflow
-                                  web server parameters were manually changed to a
-                                  non-standard values.'
+                                  Value custom is returned only in response, if Airflow web server parameters were
+                                  manually changed to a non-standard values.
                                 type: string
                             type: object
                           type: array
                         webServerNetworkAccessControl:
-                          description: The network-level access control policy for
-                            the Airflow web server. If unspecified, no network-level
-                            access restrictions are applied.
+                          description: |-
+                            The network-level access control policy for the Airflow web server.
+                            If unspecified, no network-level access restrictions are applied.
                           items:
                             properties:
                               allowedIpRange:
@@ -2346,22 +2246,20 @@ spec:
                                       description: A description of this ip range.
                                       type: string
                                     value:
-                                      description: 'IP address or range, defined using
-                                        CIDR notation, of requests that this rule
-                                        applies to. Examples: 192.168.1.1 or 192.168.0.0/16
-                                        or 2001:db8::/32 or 2001:0db8:0000:0042:0000:8a2e:0370:7334.
-                                        IP range prefixes should be properly truncated.
-                                        For example, 1.2.3.4/24 should be truncated
-                                        to 1.2.3.0/24. Similarly, for IPv6, 2001:db8::1/32
-                                        should be truncated to 2001:db8::/32.'
+                                      description: |-
+                                        IP address or range, defined using CIDR notation, of requests that this rule applies to.
+                                        Examples: 192.168.1.1 or 192.168.0.0/16 or 2001:db8::/32 or 2001:0db8:0000:0042:0000:8a2e:0370:7334.
+                                        IP range prefixes should be properly truncated. For example,
+                                        1.2.3.4/24 should be truncated to 1.2.3.0/24. Similarly, for IPv6, 2001:db8::1/32 should be truncated to 2001:db8::/32.
                                       type: string
                                   type: object
                                 type: array
                             type: object
                           type: array
                         workloadsConfig:
-                          description: The Kubernetes workloads configuration for
-                            GKE cluster associated with the Cloud Composer environment.
+                          description: |-
+                            The Kubernetes workloads configuration for GKE cluster associated with the
+                            Cloud Composer environment.
                           items:
                             properties:
                               scheduler:
@@ -2415,22 +2313,19 @@ spec:
                                         Airflow worker.
                                       type: number
                                     maxCount:
-                                      description: The maximum number of Airflow workers
-                                        that the environment can run. The number of
-                                        workers in the environment does not go above
-                                        this number, even if a higher number of workers
-                                        is required to handle the load.
+                                      description: |-
+                                        The maximum number of Airflow workers that the environment can run. The number of workers in the
+                                        environment does not go above this number, even if a higher number of workers is required to
+                                        handle the load.
                                       type: number
                                     memoryGb:
                                       description: The amount of memory (GB) for a
                                         single Airflow worker.
                                       type: number
                                     minCount:
-                                      description: The minimum number of Airflow workers
-                                        that the environment can run. The number of
-                                        workers in the environment does not go above
-                                        this number, even if a lower number of workers
-                                        can handle the load.
+                                      description: |-
+                                        The minimum number of Airflow workers that the environment can run. The number of workers in the
+                                        environment does not go above this number, even if a lower number of workers can handle the load.
                                       type: number
                                     storageGb:
                                       description: The amount of storage (GB) for
@@ -2448,19 +2343,21 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: 'User-defined labels for this environment. The labels
-                      map can contain no more than 64 entries. Entries of the labels
-                      map are UTF8 strings that comply with the following restrictions:
-                      Label keys must be between 1 and 63 characters long and must
-                      conform to the following regular expression: [a-z]([-a-z0-9]*[a-z0-9])?.
+                    description: |-
+                      User-defined labels for this environment. The labels map can contain
+                      no more than 64 entries. Entries of the labels map are UTF8 strings
+                      that comply with the following restrictions:
+                      Label keys must be between 1 and 63 characters long and must conform
+                      to the following regular expression: [a-z]([-a-z0-9]*[a-z0-9])?.
                       Label values must be between 0 and 63 characters long and must
                       conform to the regular expression ([a-z]([-a-z0-9]*[a-z0-9])?)?.
                       No more than 64 labels can be associated with a given environment.
-                      Both keys and values must be <= 128 bytes in size.'
+                      Both keys and values must be <= 128 bytes in size.
                     type: object
                     x-kubernetes-map-type: granular
                   project:
-                    description: The ID of the project in which the resource belongs.
+                    description: |-
+                      The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                   region:
@@ -2473,13 +2370,15 @@ spec:
                   description: A Condition that may apply to a resource.
                   properties:
                     lastTransitionTime:
-                      description: LastTransitionTime is the last time this condition
-                        transitioned from one status to another.
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
                       format: date-time
                       type: string
                     message:
-                      description: A Message containing details about this condition's
-                        last transition from one status to another, if any.
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
                       type: string
                     reason:
                       description: A Reason for this condition's last transition from
@@ -2490,8 +2389,9 @@ spec:
                         False, or Unknown?
                       type: string
                     type:
-                      description: Type of this condition. At most one of each condition
-                        type may apply to a resource at any point in time.
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
                       type: string
                   required:
                   - lastTransitionTime

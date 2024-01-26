@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.13.0
+    controller-gen.kubebuilder.io/version: v0.14.0
   name: devices.cloudiot.gcp.upbound.io
 spec:
   group: cloudiot.gcp.upbound.io
@@ -38,14 +38,19 @@ spec:
           Core device.
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
             type: string
           metadata:
             type: object
@@ -54,13 +59,14 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: 'DeletionPolicy specifies what will happen to the underlying
-                  external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicies field in a future release. Currently,
-                  both could be set independently and non-default values would be
-                  honored if the feature flag is enabled. See the design doc for more
-                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
                 enum:
                 - Orphan
                 - Delete
@@ -72,7 +78,8 @@ spec:
                       this device will fail.
                     type: boolean
                   credentials:
-                    description: The credentials used to authenticate this device.
+                    description: |-
+                      The credentials used to authenticate this device.
                       Structure is documented below.
                     items:
                       properties:
@@ -80,13 +87,15 @@ spec:
                           description: The time at which this credential becomes invalid.
                           type: string
                         publicKey:
-                          description: A public key used to verify the signature of
-                            JSON Web Tokens (JWTs). Structure is documented below.
+                          description: |-
+                            A public key used to verify the signature of JSON Web Tokens (JWTs).
+                            Structure is documented below.
                           items:
                             properties:
                               format:
-                                description: 'The format of the key. Possible values
-                                  are: RSA_PEM, RSA_X509_PEM, ES256_PEM, ES256_X509_PEM.'
+                                description: |-
+                                  The format of the key.
+                                  Possible values are: RSA_PEM, RSA_X509_PEM, ES256_PEM, ES256_X509_PEM.
                                 type: string
                               key:
                                 description: The key data.
@@ -96,25 +105,28 @@ spec:
                       type: object
                     type: array
                   gatewayConfig:
-                    description: Gateway-related configuration and state. Structure
-                      is documented below.
+                    description: |-
+                      Gateway-related configuration and state.
+                      Structure is documented below.
                     items:
                       properties:
                         gatewayAuthMethod:
-                          description: 'Indicates whether the device is a gateway.
-                            Possible values are: ASSOCIATION_ONLY, DEVICE_AUTH_TOKEN_ONLY,
-                            ASSOCIATION_AND_DEVICE_AUTH_TOKEN.'
+                          description: |-
+                            Indicates whether the device is a gateway.
+                            Possible values are: ASSOCIATION_ONLY, DEVICE_AUTH_TOKEN_ONLY, ASSOCIATION_AND_DEVICE_AUTH_TOKEN.
                           type: string
                         gatewayType:
-                          description: 'Indicates whether the device is a gateway.
-                            Default value is NON_GATEWAY. Possible values are: GATEWAY,
-                            NON_GATEWAY.'
+                          description: |-
+                            Indicates whether the device is a gateway.
+                            Default value is NON_GATEWAY.
+                            Possible values are: GATEWAY, NON_GATEWAY.
                           type: string
                       type: object
                     type: array
                   logLevel:
-                    description: 'The logging verbosity for device activity. Possible
-                      values are: NONE, ERROR, INFO, DEBUG.'
+                    description: |-
+                      The logging verbosity for device activity.
+                      Possible values are: NONE, ERROR, INFO, DEBUG.
                     type: string
                   metadata:
                     additionalProperties:
@@ -137,21 +149,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -164,8 +176,9 @@ spec:
                     description: Selector for a Registry in cloudiot to populate registry.
                     properties:
                       matchControllerRef:
-                        description: MatchControllerRef ensures an object with the
-                          same controller reference as the selecting object is selected.
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
                         type: boolean
                       matchLabels:
                         additionalProperties:
@@ -178,21 +191,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -201,23 +214,25 @@ spec:
                     type: object
                 type: object
               initProvider:
-                description: THIS IS A BETA FIELD. It will be honored unless the Management
-                  Policies feature flag is disabled. InitProvider holds the same fields
-                  as ForProvider, with the exception of Identifier and other resource
-                  reference fields. The fields that are in InitProvider are merged
-                  into ForProvider when the resource is created. The same fields are
-                  also added to the terraform ignore_changes hook, to avoid updating
-                  them after creation. This is useful for fields that are required
-                  on creation, but we do not desire to update them after creation,
-                  for example because of an external controller is managing them,
-                  like an autoscaler.
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
                 properties:
                   blocked:
                     description: If a device is blocked, connections or requests from
                       this device will fail.
                     type: boolean
                   credentials:
-                    description: The credentials used to authenticate this device.
+                    description: |-
+                      The credentials used to authenticate this device.
                       Structure is documented below.
                     items:
                       properties:
@@ -225,13 +240,15 @@ spec:
                           description: The time at which this credential becomes invalid.
                           type: string
                         publicKey:
-                          description: A public key used to verify the signature of
-                            JSON Web Tokens (JWTs). Structure is documented below.
+                          description: |-
+                            A public key used to verify the signature of JSON Web Tokens (JWTs).
+                            Structure is documented below.
                           items:
                             properties:
                               format:
-                                description: 'The format of the key. Possible values
-                                  are: RSA_PEM, RSA_X509_PEM, ES256_PEM, ES256_X509_PEM.'
+                                description: |-
+                                  The format of the key.
+                                  Possible values are: RSA_PEM, RSA_X509_PEM, ES256_PEM, ES256_X509_PEM.
                                 type: string
                               key:
                                 description: The key data.
@@ -241,25 +258,28 @@ spec:
                       type: object
                     type: array
                   gatewayConfig:
-                    description: Gateway-related configuration and state. Structure
-                      is documented below.
+                    description: |-
+                      Gateway-related configuration and state.
+                      Structure is documented below.
                     items:
                       properties:
                         gatewayAuthMethod:
-                          description: 'Indicates whether the device is a gateway.
-                            Possible values are: ASSOCIATION_ONLY, DEVICE_AUTH_TOKEN_ONLY,
-                            ASSOCIATION_AND_DEVICE_AUTH_TOKEN.'
+                          description: |-
+                            Indicates whether the device is a gateway.
+                            Possible values are: ASSOCIATION_ONLY, DEVICE_AUTH_TOKEN_ONLY, ASSOCIATION_AND_DEVICE_AUTH_TOKEN.
                           type: string
                         gatewayType:
-                          description: 'Indicates whether the device is a gateway.
-                            Default value is NON_GATEWAY. Possible values are: GATEWAY,
-                            NON_GATEWAY.'
+                          description: |-
+                            Indicates whether the device is a gateway.
+                            Default value is NON_GATEWAY.
+                            Possible values are: GATEWAY, NON_GATEWAY.
                           type: string
                       type: object
                     type: array
                   logLevel:
-                    description: 'The logging verbosity for device activity. Possible
-                      values are: NONE, ERROR, INFO, DEBUG.'
+                    description: |-
+                      The logging verbosity for device activity.
+                      Possible values are: NONE, ERROR, INFO, DEBUG.
                     type: string
                   metadata:
                     additionalProperties:
@@ -271,19 +291,21 @@ spec:
               managementPolicies:
                 default:
                 - '*'
-                description: 'THIS IS A BETA FIELD. It is on by default but can be
-                  opted out through a Crossplane feature flag. ManagementPolicies
-                  specify the array of actions Crossplane is allowed to take on the
-                  managed and external resources. This field is planned to replace
-                  the DeletionPolicy field in a future release. Currently, both could
-                  be set independently and non-default values would be honored if
-                  the feature flag is enabled. If both are custom, the DeletionPolicy
-                  field will be ignored. See the design doc for more information:
-                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
-                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
                 items:
-                  description: A ManagementAction represents an action that the Crossplane
-                    controllers can take on an external resource.
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
                   enum:
                   - Observe
                   - Create
@@ -296,9 +318,10 @@ spec:
               providerConfigRef:
                 default:
                   name: default
-                description: ProviderConfigReference specifies how the provider that
-                  will be used to create, observe, update, and delete this managed
-                  resource should be configured.
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
                 properties:
                   name:
                     description: Name of the referenced object.
@@ -308,21 +331,21 @@ spec:
                     properties:
                       resolution:
                         default: Required
-                        description: Resolution specifies whether resolution of this
-                          reference is required. The default is 'Required', which
-                          means the reconcile will fail if the reference cannot be
-                          resolved. 'Optional' means this reference will be a no-op
-                          if it cannot be resolved.
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
                         enum:
                         - Required
                         - Optional
                         type: string
                       resolve:
-                        description: Resolve specifies when this reference should
-                          be resolved. The default is 'IfNotPresent', which will attempt
-                          to resolve the reference only when the corresponding field
-                          is not present. Use 'Always' to resolve the reference on
-                          every reconcile.
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
                         enum:
                         - Always
                         - IfNotPresent
@@ -332,17 +355,19 @@ spec:
                 - name
                 type: object
               publishConnectionDetailsTo:
-                description: PublishConnectionDetailsTo specifies the connection secret
-                  config which contains a name, metadata and a reference to secret
-                  store config to which any connection details for this managed resource
-                  should be written. Connection details frequently include the endpoint,
-                  username, and password required to connect to the managed resource.
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
                 properties:
                   configRef:
                     default:
                       name: default
-                    description: SecretStoreConfigRef specifies which secret store
-                      config should be used for this ConnectionSecret.
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -352,21 +377,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -381,21 +406,22 @@ spec:
                       annotations:
                         additionalProperties:
                           type: string
-                        description: Annotations are the annotations to be added to
-                          connection secret. - For Kubernetes secrets, this will be
-                          used as "metadata.annotations". - It is up to Secret Store
-                          implementation for others store types.
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
                         type: object
                       labels:
                         additionalProperties:
                           type: string
-                        description: Labels are the labels/tags to be added to connection
-                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
-                          - It is up to Secret Store implementation for others store
-                          types.
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
                         type: object
                       type:
-                        description: Type is the SecretType for the connection secret.
+                        description: |-
+                          Type is the SecretType for the connection secret.
                           - Only valid for Kubernetes Secret Stores.
                         type: string
                     type: object
@@ -406,14 +432,15 @@ spec:
                 - name
                 type: object
               writeConnectionSecretToRef:
-                description: WriteConnectionSecretToReference specifies the namespace
-                  and name of a Secret to which any connection details for this managed
-                  resource should be written. Connection details frequently include
-                  the endpoint, username, and password required to connect to the
-                  managed resource. This field is planned to be replaced in a future
-                  release in favor of PublishConnectionDetailsTo. Currently, both
-                  could be set independently and connection details would be published
-                  to both without affecting each other.
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
                 properties:
                   name:
                     description: Name of the secret.
@@ -438,30 +465,35 @@ spec:
                       this device will fail.
                     type: boolean
                   config:
-                    description: The most recent device configuration, which is eventually
-                      sent from Cloud IoT Core to the device. Structure is documented
-                      below.
+                    description: |-
+                      The most recent device configuration, which is eventually sent from Cloud IoT Core to the device.
+                      Structure is documented below.
                     items:
                       properties:
                         binaryData:
                           description: The device configuration data.
                           type: string
                         cloudUpdateTime:
-                          description: (Output) The time at which this configuration
-                            version was updated in Cloud IoT Core.
+                          description: |-
+                            (Output)
+                            The time at which this configuration version was updated in Cloud IoT Core.
                           type: string
                         deviceAckTime:
-                          description: (Output) The time at which Cloud IoT Core received
-                            the acknowledgment from the device, indicating that the
-                            device has received this configuration version.
+                          description: |-
+                            (Output)
+                            The time at which Cloud IoT Core received the acknowledgment from the device,
+                            indicating that the device has received this configuration version.
                           type: string
                         version:
-                          description: (Output) The version of this update.
+                          description: |-
+                            (Output)
+                            The version of this update.
                           type: string
                       type: object
                     type: array
                   credentials:
-                    description: The credentials used to authenticate this device.
+                    description: |-
+                      The credentials used to authenticate this device.
                       Structure is documented below.
                     items:
                       properties:
@@ -469,13 +501,15 @@ spec:
                           description: The time at which this credential becomes invalid.
                           type: string
                         publicKey:
-                          description: A public key used to verify the signature of
-                            JSON Web Tokens (JWTs). Structure is documented below.
+                          description: |-
+                            A public key used to verify the signature of JSON Web Tokens (JWTs).
+                            Structure is documented below.
                           items:
                             properties:
                               format:
-                                description: 'The format of the key. Possible values
-                                  are: RSA_PEM, RSA_X509_PEM, ES256_PEM, ES256_X509_PEM.'
+                                description: |-
+                                  The format of the key.
+                                  Possible values are: RSA_PEM, RSA_X509_PEM, ES256_PEM, ES256_X509_PEM.
                                 type: string
                               key:
                                 description: The key data.
@@ -485,27 +519,31 @@ spec:
                       type: object
                     type: array
                   gatewayConfig:
-                    description: Gateway-related configuration and state. Structure
-                      is documented below.
+                    description: |-
+                      Gateway-related configuration and state.
+                      Structure is documented below.
                     items:
                       properties:
                         gatewayAuthMethod:
-                          description: 'Indicates whether the device is a gateway.
-                            Possible values are: ASSOCIATION_ONLY, DEVICE_AUTH_TOKEN_ONLY,
-                            ASSOCIATION_AND_DEVICE_AUTH_TOKEN.'
+                          description: |-
+                            Indicates whether the device is a gateway.
+                            Possible values are: ASSOCIATION_ONLY, DEVICE_AUTH_TOKEN_ONLY, ASSOCIATION_AND_DEVICE_AUTH_TOKEN.
                           type: string
                         gatewayType:
-                          description: 'Indicates whether the device is a gateway.
-                            Default value is NON_GATEWAY. Possible values are: GATEWAY,
-                            NON_GATEWAY.'
+                          description: |-
+                            Indicates whether the device is a gateway.
+                            Default value is NON_GATEWAY.
+                            Possible values are: GATEWAY, NON_GATEWAY.
                           type: string
                         lastAccessedGatewayId:
-                          description: (Output) The ID of the gateway the device accessed
-                            most recently.
+                          description: |-
+                            (Output)
+                            The ID of the gateway the device accessed most recently.
                           type: string
                         lastAccessedGatewayTime:
-                          description: (Output) The most recent time at which the
-                            device accessed the gateway specified in last_accessed_gateway.
+                          description: |-
+                            (Output)
+                            The most recent time at which the device accessed the gateway specified in last_accessed_gateway.
                           type: string
                       type: object
                     type: array
@@ -521,9 +559,9 @@ spec:
                       sent to the device.
                     type: string
                   lastErrorStatus:
-                    description: The error message of the most recent error, such
-                      as a failure to publish to Cloud Pub/Sub. Structure is documented
-                      below.
+                    description: |-
+                      The error message of the most recent error, such as a failure to publish to Cloud Pub/Sub.
+                      Structure is documented below.
                     items:
                       properties:
                         details:
@@ -555,8 +593,9 @@ spec:
                     description: The last time a state event was received.
                     type: string
                   logLevel:
-                    description: 'The logging verbosity for device activity. Possible
-                      values are: NONE, ERROR, INFO, DEBUG.'
+                    description: |-
+                      The logging verbosity for device activity.
+                      Possible values are: NONE, ERROR, INFO, DEBUG.
                     type: string
                   metadata:
                     additionalProperties:
@@ -565,16 +604,17 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   numId:
-                    description: A server-defined unique numeric ID for the device.
-                      This is a more compact way to identify devices, and it is globally
-                      unique.
+                    description: |-
+                      A server-defined unique numeric ID for the device.
+                      This is a more compact way to identify devices, and it is globally unique.
                     type: string
                   registry:
                     description: The name of the device registry where this device
                       should be created.
                     type: string
                   state:
-                    description: The state most recently received from the device.
+                    description: |-
+                      The state most recently received from the device.
                       Structure is documented below.
                     items:
                       properties:
@@ -594,13 +634,15 @@ spec:
                   description: A Condition that may apply to a resource.
                   properties:
                     lastTransitionTime:
-                      description: LastTransitionTime is the last time this condition
-                        transitioned from one status to another.
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
                       format: date-time
                       type: string
                     message:
-                      description: A Message containing details about this condition's
-                        last transition from one status to another, if any.
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
                       type: string
                     reason:
                       description: A Reason for this condition's last transition from
@@ -611,8 +653,9 @@ spec:
                         False, or Unknown?
                       type: string
                     type:
-                      description: Type of this condition. At most one of each condition
-                        type may apply to a resource at any point in time.
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
                       type: string
                   required:
                   - lastTransitionTime

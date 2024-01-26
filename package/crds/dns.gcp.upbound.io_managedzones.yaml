@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.13.0
+    controller-gen.kubebuilder.io/version: v0.14.0
   name: managedzones.dns.gcp.upbound.io
 spec:
   group: dns.gcp.upbound.io
@@ -38,14 +38,19 @@ spec:
           a subtree of the DNS namespace under one administrative responsibility.
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
             type: string
           metadata:
             type: object
@@ -54,13 +59,14 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: 'DeletionPolicy specifies what will happen to the underlying
-                  external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicies field in a future release. Currently,
-                  both could be set independently and non-default values would be
-                  honored if the feature flag is enabled. See the design doc for more
-                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
                 enum:
                 - Orphan
                 - Delete
@@ -68,8 +74,9 @@ spec:
               forProvider:
                 properties:
                   cloudLoggingConfig:
-                    description: Cloud logging configuration Structure is documented
-                      below.
+                    description: |-
+                      Cloud logging configuration
+                      Structure is documented below.
                     items:
                       properties:
                         enableLogging:
@@ -85,35 +92,37 @@ spec:
                     description: The DNS name of this managed zone, for instance "example.com.".
                     type: string
                   dnssecConfig:
-                    description: DNSSEC configuration Structure is documented below.
+                    description: |-
+                      DNSSEC configuration
+                      Structure is documented below.
                     items:
                       properties:
                         defaultKeySpecs:
-                          description: Specifies parameters that will be used for
-                            generating initial DnsKeys for this ManagedZone. If you
-                            provide a spec for keySigning or zoneSigning, you must
-                            also provide one for the other. default_key_specs can
-                            only be updated when the state is off. Structure is documented
-                            below.
+                          description: |-
+                            Specifies parameters that will be used for generating initial DnsKeys
+                            for this ManagedZone. If you provide a spec for keySigning or zoneSigning,
+                            you must also provide one for the other.
+                            default_key_specs can only be updated when the state is off.
+                            Structure is documented below.
                           items:
                             properties:
                               algorithm:
-                                description: 'String mnemonic specifying the DNSSEC
-                                  algorithm of this key Possible values are: ecdsap256sha256,
-                                  ecdsap384sha384, rsasha1, rsasha256, rsasha512.'
+                                description: |-
+                                  String mnemonic specifying the DNSSEC algorithm of this key
+                                  Possible values are: ecdsap256sha256, ecdsap384sha384, rsasha1, rsasha256, rsasha512.
                                 type: string
                               keyLength:
                                 description: Length of the keys in bits
                                 type: number
                               keyType:
-                                description: 'Specifies whether this is a key signing
-                                  key (KSK) or a zone signing key (ZSK). Key signing
-                                  keys have the Secure Entry Point flag set and, when
-                                  active, will only be used to sign resource record
-                                  sets of type DNSKEY. Zone signing keys do not have
-                                  the Secure Entry Point flag set and will be used
+                                description: |-
+                                  Specifies whether this is a key signing key (KSK) or a zone
+                                  signing key (ZSK). Key signing keys have the Secure Entry
+                                  Point flag set and, when active, will only be used to sign
+                                  resource record sets of type DNSKEY. Zone signing keys do
+                                  not have the Secure Entry Point flag set and will be used
                                   to sign all other types of resource record sets.
-                                  Possible values are: keySigning, zoneSigning.'
+                                  Possible values are: keySigning, zoneSigning.
                                 type: string
                               kind:
                                 description: Identifies what kind of resource this
@@ -125,14 +134,15 @@ spec:
                           description: Identifies what kind of resource this is
                           type: string
                         nonExistence:
-                          description: 'Specifies the mechanism used to provide authenticated
-                            denial-of-existence responses. non_existence can only
-                            be updated when the state is off. Possible values are:
-                            nsec, nsec3.'
+                          description: |-
+                            Specifies the mechanism used to provide authenticated denial-of-existence responses.
+                            non_existence can only be updated when the state is off.
+                            Possible values are: nsec, nsec3.
                           type: string
                         state:
-                          description: 'Specifies whether DNSSEC is enabled, and what
-                            mode it is in Possible values are: off, on, transfer.'
+                          description: |-
+                            Specifies whether DNSSEC is enabled, and what mode it is in
+                            Possible values are: off, on, transfer.
                           type: string
                       type: object
                     type: array
@@ -140,27 +150,27 @@ spec:
                     description: Set this true to delete all records in the zone.
                     type: boolean
                   forwardingConfig:
-                    description: The presence for this field indicates that outbound
-                      forwarding is enabled for this zone. The value of this field
-                      contains the set of destinations to forward to. Structure is
-                      documented below.
+                    description: |-
+                      The presence for this field indicates that outbound forwarding is enabled
+                      for this zone. The value of this field contains the set of destinations
+                      to forward to.
+                      Structure is documented below.
                     items:
                       properties:
                         targetNameServers:
-                          description: List of target name servers to forward to.
-                            Cloud DNS will select the best available name server if
-                            more than one target is given. Structure is documented
-                            below.
+                          description: |-
+                            List of target name servers to forward to. Cloud DNS will
+                            select the best available name server if more than
+                            one target is given.
+                            Structure is documented below.
                           items:
                             properties:
                               forwardingPath:
-                                description: 'Forwarding path for this TargetNameServer.
-                                  If unset or default Cloud DNS will make forwarding
-                                  decision based on address ranges, i.e. RFC1918 addresses
-                                  go to the VPC, Non-RFC1918 addresses go to the Internet.
-                                  When set to private, Cloud DNS will always send
-                                  queries through VPC for this target Possible values
-                                  are: default, private.'
+                                description: |-
+                                  Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
+                                  decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
+                                  to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
+                                  Possible values are: default, private.
                                 type: string
                               ipv4Address:
                                 description: IPv4 address of a target name server.
@@ -177,21 +187,23 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   peeringConfig:
-                    description: The presence of this field indicates that DNS Peering
-                      is enabled for this zone. The value of this field contains the
-                      network to peer with. Structure is documented below.
+                    description: |-
+                      The presence of this field indicates that DNS Peering is enabled for this
+                      zone. The value of this field contains the network to peer with.
+                      Structure is documented below.
                     items:
                       properties:
                         targetNetwork:
-                          description: The network with which to peer. Structure is
-                            documented below.
+                          description: |-
+                            The network with which to peer.
+                            Structure is documented below.
                           items:
                             properties:
                               networkUrl:
-                                description: The id or fully qualified URL of the
-                                  VPC network to forward queries to. This should be
-                                  formatted like projects/{project}/global/networks/{network}
-                                  or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
+                                description: |-
+                                  The id or fully qualified URL of the VPC network to forward queries to.
+                                  This should be formatted like projects/{project}/global/networks/{network} or
+                                  https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
                                 type: string
                               networkUrlRef:
                                 description: Reference to a Network in compute to
@@ -205,23 +217,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -235,9 +245,9 @@ spec:
                                   populate networkUrl.
                                 properties:
                                   matchControllerRef:
-                                    description: MatchControllerRef ensures an object
-                                      with the same controller reference as the selecting
-                                      object is selected.
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
                                     type: boolean
                                   matchLabels:
                                     additionalProperties:
@@ -250,23 +260,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -278,20 +286,23 @@ spec:
                       type: object
                     type: array
                   privateVisibilityConfig:
-                    description: For privately visible zones, the set of Virtual Private
-                      Cloud resources that the zone is visible from. Structure is
-                      documented below.
+                    description: |-
+                      For privately visible zones, the set of Virtual Private Cloud
+                      resources that the zone is visible from.
+                      Structure is documented below.
                     items:
                       properties:
                         gkeClusters:
-                          description: The list of Google Kubernetes Engine clusters
-                            that can see this zone. Structure is documented below.
+                          description: |-
+                            The list of Google Kubernetes Engine clusters that can see this zone.
+                            Structure is documented below.
                           items:
                             properties:
                               gkeClusterName:
-                                description: The resource name of the cluster to bind
-                                  this ManagedZone to. This should be specified in
-                                  the format like projects/*/locations/*/clusters/*
+                                description: |-
+                                  The resource name of the cluster to bind this ManagedZone to.
+                                  This should be specified in the format like
+                                  projects/*/locations/*/clusters/*
                                 type: string
                               gkeClusterNameRef:
                                 description: Reference to a Cluster in container to
@@ -305,23 +316,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -335,9 +344,9 @@ spec:
                                   populate gkeClusterName.
                                 properties:
                                   matchControllerRef:
-                                    description: MatchControllerRef ensures an object
-                                      with the same controller reference as the selecting
-                                      object is selected.
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
                                     type: boolean
                                   matchLabels:
                                     additionalProperties:
@@ -350,23 +359,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -376,19 +383,18 @@ spec:
                             type: object
                           type: array
                         networks:
-                          description: The list of VPC networks that can see this
-                            zone.12 SDK in a future release, you may experience issues
-                            with this resource while updating. If you encounter this
-                            issue, remove all networks blocks in an update and then
-                            apply another update adding all of them back simultaneously.
+                          description: |-
+                            The list of VPC networks that can see this zone.12 SDK in a future release, you
+                            may experience issues with this resource while updating. If you encounter this issue, remove all networks
+                            blocks in an update and then apply another update adding all of them back simultaneously.
                             Structure is documented below.
                           items:
                             properties:
                               networkUrl:
-                                description: The id or fully qualified URL of the
-                                  VPC network to forward queries to. This should be
-                                  formatted like projects/{project}/global/networks/{network}
-                                  or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
+                                description: |-
+                                  The id or fully qualified URL of the VPC network to forward queries to.
+                                  This should be formatted like projects/{project}/global/networks/{network} or
+                                  https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
                                 type: string
                               networkUrlRef:
                                 description: Reference to a Network in compute to
@@ -402,23 +408,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -432,9 +436,9 @@ spec:
                                   populate networkUrl.
                                 properties:
                                   matchControllerRef:
-                                    description: MatchControllerRef ensures an object
-                                      with the same controller reference as the selecting
-                                      object is selected.
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
                                     type: boolean
                                   matchLabels:
                                     additionalProperties:
@@ -447,23 +451,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -475,31 +477,35 @@ spec:
                       type: object
                     type: array
                   project:
-                    description: The ID of the project in which the resource belongs.
+                    description: |-
+                      The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                   visibility:
-                    description: 'The zone''s visibility: public zones are exposed
-                      to the Internet, while private zones are visible only to Virtual
-                      Private Cloud resources. Default value is public. Possible values
-                      are: private, public.'
+                    description: |-
+                      The zone's visibility: public zones are exposed to the Internet,
+                      while private zones are visible only to Virtual Private Cloud resources.
+                      Default value is public.
+                      Possible values are: private, public.
                     type: string
                 type: object
               initProvider:
-                description: THIS IS A BETA FIELD. It will be honored unless the Management
-                  Policies feature flag is disabled. InitProvider holds the same fields
-                  as ForProvider, with the exception of Identifier and other resource
-                  reference fields. The fields that are in InitProvider are merged
-                  into ForProvider when the resource is created. The same fields are
-                  also added to the terraform ignore_changes hook, to avoid updating
-                  them after creation. This is useful for fields that are required
-                  on creation, but we do not desire to update them after creation,
-                  for example because of an external controller is managing them,
-                  like an autoscaler.
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
                 properties:
                   cloudLoggingConfig:
-                    description: Cloud logging configuration Structure is documented
-                      below.
+                    description: |-
+                      Cloud logging configuration
+                      Structure is documented below.
                     items:
                       properties:
                         enableLogging:
@@ -515,35 +521,37 @@ spec:
                     description: The DNS name of this managed zone, for instance "example.com.".
                     type: string
                   dnssecConfig:
-                    description: DNSSEC configuration Structure is documented below.
+                    description: |-
+                      DNSSEC configuration
+                      Structure is documented below.
                     items:
                       properties:
                         defaultKeySpecs:
-                          description: Specifies parameters that will be used for
-                            generating initial DnsKeys for this ManagedZone. If you
-                            provide a spec for keySigning or zoneSigning, you must
-                            also provide one for the other. default_key_specs can
-                            only be updated when the state is off. Structure is documented
-                            below.
+                          description: |-
+                            Specifies parameters that will be used for generating initial DnsKeys
+                            for this ManagedZone. If you provide a spec for keySigning or zoneSigning,
+                            you must also provide one for the other.
+                            default_key_specs can only be updated when the state is off.
+                            Structure is documented below.
                           items:
                             properties:
                               algorithm:
-                                description: 'String mnemonic specifying the DNSSEC
-                                  algorithm of this key Possible values are: ecdsap256sha256,
-                                  ecdsap384sha384, rsasha1, rsasha256, rsasha512.'
+                                description: |-
+                                  String mnemonic specifying the DNSSEC algorithm of this key
+                                  Possible values are: ecdsap256sha256, ecdsap384sha384, rsasha1, rsasha256, rsasha512.
                                 type: string
                               keyLength:
                                 description: Length of the keys in bits
                                 type: number
                               keyType:
-                                description: 'Specifies whether this is a key signing
-                                  key (KSK) or a zone signing key (ZSK). Key signing
-                                  keys have the Secure Entry Point flag set and, when
-                                  active, will only be used to sign resource record
-                                  sets of type DNSKEY. Zone signing keys do not have
-                                  the Secure Entry Point flag set and will be used
+                                description: |-
+                                  Specifies whether this is a key signing key (KSK) or a zone
+                                  signing key (ZSK). Key signing keys have the Secure Entry
+                                  Point flag set and, when active, will only be used to sign
+                                  resource record sets of type DNSKEY. Zone signing keys do
+                                  not have the Secure Entry Point flag set and will be used
                                   to sign all other types of resource record sets.
-                                  Possible values are: keySigning, zoneSigning.'
+                                  Possible values are: keySigning, zoneSigning.
                                 type: string
                               kind:
                                 description: Identifies what kind of resource this
@@ -555,14 +563,15 @@ spec:
                           description: Identifies what kind of resource this is
                           type: string
                         nonExistence:
-                          description: 'Specifies the mechanism used to provide authenticated
-                            denial-of-existence responses. non_existence can only
-                            be updated when the state is off. Possible values are:
-                            nsec, nsec3.'
+                          description: |-
+                            Specifies the mechanism used to provide authenticated denial-of-existence responses.
+                            non_existence can only be updated when the state is off.
+                            Possible values are: nsec, nsec3.
                           type: string
                         state:
-                          description: 'Specifies whether DNSSEC is enabled, and what
-                            mode it is in Possible values are: off, on, transfer.'
+                          description: |-
+                            Specifies whether DNSSEC is enabled, and what mode it is in
+                            Possible values are: off, on, transfer.
                           type: string
                       type: object
                     type: array
@@ -570,27 +579,27 @@ spec:
                     description: Set this true to delete all records in the zone.
                     type: boolean
                   forwardingConfig:
-                    description: The presence for this field indicates that outbound
-                      forwarding is enabled for this zone. The value of this field
-                      contains the set of destinations to forward to. Structure is
-                      documented below.
+                    description: |-
+                      The presence for this field indicates that outbound forwarding is enabled
+                      for this zone. The value of this field contains the set of destinations
+                      to forward to.
+                      Structure is documented below.
                     items:
                       properties:
                         targetNameServers:
-                          description: List of target name servers to forward to.
-                            Cloud DNS will select the best available name server if
-                            more than one target is given. Structure is documented
-                            below.
+                          description: |-
+                            List of target name servers to forward to. Cloud DNS will
+                            select the best available name server if more than
+                            one target is given.
+                            Structure is documented below.
                           items:
                             properties:
                               forwardingPath:
-                                description: 'Forwarding path for this TargetNameServer.
-                                  If unset or default Cloud DNS will make forwarding
-                                  decision based on address ranges, i.e. RFC1918 addresses
-                                  go to the VPC, Non-RFC1918 addresses go to the Internet.
-                                  When set to private, Cloud DNS will always send
-                                  queries through VPC for this target Possible values
-                                  are: default, private.'
+                                description: |-
+                                  Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
+                                  decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
+                                  to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
+                                  Possible values are: default, private.
                                 type: string
                               ipv4Address:
                                 description: IPv4 address of a target name server.
@@ -607,21 +616,23 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   peeringConfig:
-                    description: The presence of this field indicates that DNS Peering
-                      is enabled for this zone. The value of this field contains the
-                      network to peer with. Structure is documented below.
+                    description: |-
+                      The presence of this field indicates that DNS Peering is enabled for this
+                      zone. The value of this field contains the network to peer with.
+                      Structure is documented below.
                     items:
                       properties:
                         targetNetwork:
-                          description: The network with which to peer. Structure is
-                            documented below.
+                          description: |-
+                            The network with which to peer.
+                            Structure is documented below.
                           items:
                             properties:
                               networkUrl:
-                                description: The id or fully qualified URL of the
-                                  VPC network to forward queries to. This should be
-                                  formatted like projects/{project}/global/networks/{network}
-                                  or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
+                                description: |-
+                                  The id or fully qualified URL of the VPC network to forward queries to.
+                                  This should be formatted like projects/{project}/global/networks/{network} or
+                                  https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
                                 type: string
                               networkUrlRef:
                                 description: Reference to a Network in compute to
@@ -635,23 +646,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -665,9 +674,9 @@ spec:
                                   populate networkUrl.
                                 properties:
                                   matchControllerRef:
-                                    description: MatchControllerRef ensures an object
-                                      with the same controller reference as the selecting
-                                      object is selected.
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
                                     type: boolean
                                   matchLabels:
                                     additionalProperties:
@@ -680,23 +689,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -708,20 +715,23 @@ spec:
                       type: object
                     type: array
                   privateVisibilityConfig:
-                    description: For privately visible zones, the set of Virtual Private
-                      Cloud resources that the zone is visible from. Structure is
-                      documented below.
+                    description: |-
+                      For privately visible zones, the set of Virtual Private Cloud
+                      resources that the zone is visible from.
+                      Structure is documented below.
                     items:
                       properties:
                         gkeClusters:
-                          description: The list of Google Kubernetes Engine clusters
-                            that can see this zone. Structure is documented below.
+                          description: |-
+                            The list of Google Kubernetes Engine clusters that can see this zone.
+                            Structure is documented below.
                           items:
                             properties:
                               gkeClusterName:
-                                description: The resource name of the cluster to bind
-                                  this ManagedZone to. This should be specified in
-                                  the format like projects/*/locations/*/clusters/*
+                                description: |-
+                                  The resource name of the cluster to bind this ManagedZone to.
+                                  This should be specified in the format like
+                                  projects/*/locations/*/clusters/*
                                 type: string
                               gkeClusterNameRef:
                                 description: Reference to a Cluster in container to
@@ -735,23 +745,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -765,9 +773,9 @@ spec:
                                   populate gkeClusterName.
                                 properties:
                                   matchControllerRef:
-                                    description: MatchControllerRef ensures an object
-                                      with the same controller reference as the selecting
-                                      object is selected.
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
                                     type: boolean
                                   matchLabels:
                                     additionalProperties:
@@ -780,23 +788,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -806,19 +812,18 @@ spec:
                             type: object
                           type: array
                         networks:
-                          description: The list of VPC networks that can see this
-                            zone.12 SDK in a future release, you may experience issues
-                            with this resource while updating. If you encounter this
-                            issue, remove all networks blocks in an update and then
-                            apply another update adding all of them back simultaneously.
+                          description: |-
+                            The list of VPC networks that can see this zone.12 SDK in a future release, you
+                            may experience issues with this resource while updating. If you encounter this issue, remove all networks
+                            blocks in an update and then apply another update adding all of them back simultaneously.
                             Structure is documented below.
                           items:
                             properties:
                               networkUrl:
-                                description: The id or fully qualified URL of the
-                                  VPC network to forward queries to. This should be
-                                  formatted like projects/{project}/global/networks/{network}
-                                  or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
+                                description: |-
+                                  The id or fully qualified URL of the VPC network to forward queries to.
+                                  This should be formatted like projects/{project}/global/networks/{network} or
+                                  https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
                                 type: string
                               networkUrlRef:
                                 description: Reference to a Network in compute to
@@ -832,23 +837,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -862,9 +865,9 @@ spec:
                                   populate networkUrl.
                                 properties:
                                   matchControllerRef:
-                                    description: MatchControllerRef ensures an object
-                                      with the same controller reference as the selecting
-                                      object is selected.
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
                                     type: boolean
                                   matchLabels:
                                     additionalProperties:
@@ -877,23 +880,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -905,32 +906,36 @@ spec:
                       type: object
                     type: array
                   project:
-                    description: The ID of the project in which the resource belongs.
+                    description: |-
+                      The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                   visibility:
-                    description: 'The zone''s visibility: public zones are exposed
-                      to the Internet, while private zones are visible only to Virtual
-                      Private Cloud resources. Default value is public. Possible values
-                      are: private, public.'
+                    description: |-
+                      The zone's visibility: public zones are exposed to the Internet,
+                      while private zones are visible only to Virtual Private Cloud resources.
+                      Default value is public.
+                      Possible values are: private, public.
                     type: string
                 type: object
               managementPolicies:
                 default:
                 - '*'
-                description: 'THIS IS A BETA FIELD. It is on by default but can be
-                  opted out through a Crossplane feature flag. ManagementPolicies
-                  specify the array of actions Crossplane is allowed to take on the
-                  managed and external resources. This field is planned to replace
-                  the DeletionPolicy field in a future release. Currently, both could
-                  be set independently and non-default values would be honored if
-                  the feature flag is enabled. If both are custom, the DeletionPolicy
-                  field will be ignored. See the design doc for more information:
-                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
-                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
                 items:
-                  description: A ManagementAction represents an action that the Crossplane
-                    controllers can take on an external resource.
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
                   enum:
                   - Observe
                   - Create
@@ -943,9 +948,10 @@ spec:
               providerConfigRef:
                 default:
                   name: default
-                description: ProviderConfigReference specifies how the provider that
-                  will be used to create, observe, update, and delete this managed
-                  resource should be configured.
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
                 properties:
                   name:
                     description: Name of the referenced object.
@@ -955,21 +961,21 @@ spec:
                     properties:
                       resolution:
                         default: Required
-                        description: Resolution specifies whether resolution of this
-                          reference is required. The default is 'Required', which
-                          means the reconcile will fail if the reference cannot be
-                          resolved. 'Optional' means this reference will be a no-op
-                          if it cannot be resolved.
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
                         enum:
                         - Required
                         - Optional
                         type: string
                       resolve:
-                        description: Resolve specifies when this reference should
-                          be resolved. The default is 'IfNotPresent', which will attempt
-                          to resolve the reference only when the corresponding field
-                          is not present. Use 'Always' to resolve the reference on
-                          every reconcile.
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
                         enum:
                         - Always
                         - IfNotPresent
@@ -979,17 +985,19 @@ spec:
                 - name
                 type: object
               publishConnectionDetailsTo:
-                description: PublishConnectionDetailsTo specifies the connection secret
-                  config which contains a name, metadata and a reference to secret
-                  store config to which any connection details for this managed resource
-                  should be written. Connection details frequently include the endpoint,
-                  username, and password required to connect to the managed resource.
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
                 properties:
                   configRef:
                     default:
                       name: default
-                    description: SecretStoreConfigRef specifies which secret store
-                      config should be used for this ConnectionSecret.
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -999,21 +1007,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -1028,21 +1036,22 @@ spec:
                       annotations:
                         additionalProperties:
                           type: string
-                        description: Annotations are the annotations to be added to
-                          connection secret. - For Kubernetes secrets, this will be
-                          used as "metadata.annotations". - It is up to Secret Store
-                          implementation for others store types.
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
                         type: object
                       labels:
                         additionalProperties:
                           type: string
-                        description: Labels are the labels/tags to be added to connection
-                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
-                          - It is up to Secret Store implementation for others store
-                          types.
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
                         type: object
                       type:
-                        description: Type is the SecretType for the connection secret.
+                        description: |-
+                          Type is the SecretType for the connection secret.
                           - Only valid for Kubernetes Secret Stores.
                         type: string
                     type: object
@@ -1053,14 +1062,15 @@ spec:
                 - name
                 type: object
               writeConnectionSecretToRef:
-                description: WriteConnectionSecretToReference specifies the namespace
-                  and name of a Secret to which any connection details for this managed
-                  resource should be written. Connection details frequently include
-                  the endpoint, username, and password required to connect to the
-                  managed resource. This field is planned to be replaced in a future
-                  release in favor of PublishConnectionDetailsTo. Currently, both
-                  could be set independently and connection details would be published
-                  to both without affecting each other.
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
                 properties:
                   name:
                     description: Name of the secret.
@@ -1086,8 +1096,9 @@ spec:
               atProvider:
                 properties:
                   cloudLoggingConfig:
-                    description: Cloud logging configuration Structure is documented
-                      below.
+                    description: |-
+                      Cloud logging configuration
+                      Structure is documented below.
                     items:
                       properties:
                         enableLogging:
@@ -1097,7 +1108,8 @@ spec:
                       type: object
                     type: array
                   creationTime:
-                    description: The time that this resource was created on the server.
+                    description: |-
+                      The time that this resource was created on the server.
                       This is in RFC3339 text format.
                     type: string
                   description:
@@ -1107,35 +1119,37 @@ spec:
                     description: The DNS name of this managed zone, for instance "example.com.".
                     type: string
                   dnssecConfig:
-                    description: DNSSEC configuration Structure is documented below.
+                    description: |-
+                      DNSSEC configuration
+                      Structure is documented below.
                     items:
                       properties:
                         defaultKeySpecs:
-                          description: Specifies parameters that will be used for
-                            generating initial DnsKeys for this ManagedZone. If you
-                            provide a spec for keySigning or zoneSigning, you must
-                            also provide one for the other. default_key_specs can
-                            only be updated when the state is off. Structure is documented
-                            below.
+                          description: |-
+                            Specifies parameters that will be used for generating initial DnsKeys
+                            for this ManagedZone. If you provide a spec for keySigning or zoneSigning,
+                            you must also provide one for the other.
+                            default_key_specs can only be updated when the state is off.
+                            Structure is documented below.
                           items:
                             properties:
                               algorithm:
-                                description: 'String mnemonic specifying the DNSSEC
-                                  algorithm of this key Possible values are: ecdsap256sha256,
-                                  ecdsap384sha384, rsasha1, rsasha256, rsasha512.'
+                                description: |-
+                                  String mnemonic specifying the DNSSEC algorithm of this key
+                                  Possible values are: ecdsap256sha256, ecdsap384sha384, rsasha1, rsasha256, rsasha512.
                                 type: string
                               keyLength:
                                 description: Length of the keys in bits
                                 type: number
                               keyType:
-                                description: 'Specifies whether this is a key signing
-                                  key (KSK) or a zone signing key (ZSK). Key signing
-                                  keys have the Secure Entry Point flag set and, when
-                                  active, will only be used to sign resource record
-                                  sets of type DNSKEY. Zone signing keys do not have
-                                  the Secure Entry Point flag set and will be used
+                                description: |-
+                                  Specifies whether this is a key signing key (KSK) or a zone
+                                  signing key (ZSK). Key signing keys have the Secure Entry
+                                  Point flag set and, when active, will only be used to sign
+                                  resource record sets of type DNSKEY. Zone signing keys do
+                                  not have the Secure Entry Point flag set and will be used
                                   to sign all other types of resource record sets.
-                                  Possible values are: keySigning, zoneSigning.'
+                                  Possible values are: keySigning, zoneSigning.
                                 type: string
                               kind:
                                 description: Identifies what kind of resource this
@@ -1147,14 +1161,15 @@ spec:
                           description: Identifies what kind of resource this is
                           type: string
                         nonExistence:
-                          description: 'Specifies the mechanism used to provide authenticated
-                            denial-of-existence responses. non_existence can only
-                            be updated when the state is off. Possible values are:
-                            nsec, nsec3.'
+                          description: |-
+                            Specifies the mechanism used to provide authenticated denial-of-existence responses.
+                            non_existence can only be updated when the state is off.
+                            Possible values are: nsec, nsec3.
                           type: string
                         state:
-                          description: 'Specifies whether DNSSEC is enabled, and what
-                            mode it is in Possible values are: off, on, transfer.'
+                          description: |-
+                            Specifies whether DNSSEC is enabled, and what mode it is in
+                            Possible values are: off, on, transfer.
                           type: string
                       type: object
                     type: array
@@ -1162,27 +1177,27 @@ spec:
                     description: Set this true to delete all records in the zone.
                     type: boolean
                   forwardingConfig:
-                    description: The presence for this field indicates that outbound
-                      forwarding is enabled for this zone. The value of this field
-                      contains the set of destinations to forward to. Structure is
-                      documented below.
+                    description: |-
+                      The presence for this field indicates that outbound forwarding is enabled
+                      for this zone. The value of this field contains the set of destinations
+                      to forward to.
+                      Structure is documented below.
                     items:
                       properties:
                         targetNameServers:
-                          description: List of target name servers to forward to.
-                            Cloud DNS will select the best available name server if
-                            more than one target is given. Structure is documented
-                            below.
+                          description: |-
+                            List of target name servers to forward to. Cloud DNS will
+                            select the best available name server if more than
+                            one target is given.
+                            Structure is documented below.
                           items:
                             properties:
                               forwardingPath:
-                                description: 'Forwarding path for this TargetNameServer.
-                                  If unset or default Cloud DNS will make forwarding
-                                  decision based on address ranges, i.e. RFC1918 addresses
-                                  go to the VPC, Non-RFC1918 addresses go to the Internet.
-                                  When set to private, Cloud DNS will always send
-                                  queries through VPC for this target Possible values
-                                  are: default, private.'
+                                description: |-
+                                  Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
+                                  decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
+                                  to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
+                                  Possible values are: default, private.
                                 type: string
                               ipv4Address:
                                 description: IPv4 address of a target name server.
@@ -1206,78 +1221,85 @@ spec:
                       server.
                     type: number
                   nameServers:
-                    description: Delegate your managed_zone to these virtual name
-                      servers; defined by the server
+                    description: |-
+                      Delegate your managed_zone to these virtual name servers;
+                      defined by the server
                     items:
                       type: string
                     type: array
                   peeringConfig:
-                    description: The presence of this field indicates that DNS Peering
-                      is enabled for this zone. The value of this field contains the
-                      network to peer with. Structure is documented below.
+                    description: |-
+                      The presence of this field indicates that DNS Peering is enabled for this
+                      zone. The value of this field contains the network to peer with.
+                      Structure is documented below.
                     items:
                       properties:
                         targetNetwork:
-                          description: The network with which to peer. Structure is
-                            documented below.
+                          description: |-
+                            The network with which to peer.
+                            Structure is documented below.
                           items:
                             properties:
                               networkUrl:
-                                description: The id or fully qualified URL of the
-                                  VPC network to forward queries to. This should be
-                                  formatted like projects/{project}/global/networks/{network}
-                                  or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
+                                description: |-
+                                  The id or fully qualified URL of the VPC network to forward queries to.
+                                  This should be formatted like projects/{project}/global/networks/{network} or
+                                  https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
                                 type: string
                             type: object
                           type: array
                       type: object
                     type: array
                   privateVisibilityConfig:
-                    description: For privately visible zones, the set of Virtual Private
-                      Cloud resources that the zone is visible from. Structure is
-                      documented below.
+                    description: |-
+                      For privately visible zones, the set of Virtual Private Cloud
+                      resources that the zone is visible from.
+                      Structure is documented below.
                     items:
                       properties:
                         gkeClusters:
-                          description: The list of Google Kubernetes Engine clusters
-                            that can see this zone. Structure is documented below.
+                          description: |-
+                            The list of Google Kubernetes Engine clusters that can see this zone.
+                            Structure is documented below.
                           items:
                             properties:
                               gkeClusterName:
-                                description: The resource name of the cluster to bind
-                                  this ManagedZone to. This should be specified in
-                                  the format like projects/*/locations/*/clusters/*
+                                description: |-
+                                  The resource name of the cluster to bind this ManagedZone to.
+                                  This should be specified in the format like
+                                  projects/*/locations/*/clusters/*
                                 type: string
                             type: object
                           type: array
                         networks:
-                          description: The list of VPC networks that can see this
-                            zone.12 SDK in a future release, you may experience issues
-                            with this resource while updating. If you encounter this
-                            issue, remove all networks blocks in an update and then
-                            apply another update adding all of them back simultaneously.
+                          description: |-
+                            The list of VPC networks that can see this zone.12 SDK in a future release, you
+                            may experience issues with this resource while updating. If you encounter this issue, remove all networks
+                            blocks in an update and then apply another update adding all of them back simultaneously.
                             Structure is documented below.
                           items:
                             properties:
                               networkUrl:
-                                description: The id or fully qualified URL of the
-                                  VPC network to forward queries to. This should be
-                                  formatted like projects/{project}/global/networks/{network}
-                                  or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
+                                description: |-
+                                  The id or fully qualified URL of the VPC network to forward queries to.
+                                  This should be formatted like projects/{project}/global/networks/{network} or
+                                  https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
                                 type: string
                             type: object
                           type: array
                       type: object
                     type: array
                   project:
-                    description: The ID of the project in which the resource belongs.
+                    description: |-
+                      The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                   visibility:
-                    description: 'The zone''s visibility: public zones are exposed
-                      to the Internet, while private zones are visible only to Virtual
-                      Private Cloud resources. Default value is public. Possible values
-                      are: private, public.'
+                    description: |-
+                      The zone's visibility: public zones are exposed to the Internet,
+                      while private zones are visible only to Virtual Private Cloud resources.
+                      Default value is public.
+                      Possible values are: private, public.
                     type: string
                 type: object
               conditions:
@@ -1286,13 +1308,15 @@ spec:
                   description: A Condition that may apply to a resource.
                   properties:
                     lastTransitionTime:
-                      description: LastTransitionTime is the last time this condition
-                        transitioned from one status to another.
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
                       format: date-time
                       type: string
                     message:
-                      description: A Message containing details about this condition's
-                        last transition from one status to another, if any.
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
                       type: string
                     reason:
                       description: A Reason for this condition's last transition from
@@ -1303,8 +1327,9 @@ spec:
                         False, or Unknown?
                       type: string
                     type:
-                      description: Type of this condition. At most one of each condition
-                        type may apply to a resource at any point in time.
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
                       type: string
                   required:
                   - lastTransitionTime
