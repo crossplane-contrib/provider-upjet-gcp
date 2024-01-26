@@ -130,6 +130,12 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			Type:      "Cluster",
 			Extractor: common.ExtractResourceIDFuncPath,
 		}
+		r.LateInitializer = config.LateInitializer{
+			IgnoredFields: []string{
+				"node_count",
+				"initial_node_count",
+			},
+		}
 
 		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, _ *terraform.InstanceState, _ *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
 			if diff == nil || diff.Destroy {
