@@ -196,6 +196,9 @@ type NodePoolInitParameters_2 struct {
 	// ignore subsequent changes to this field.
 	InitialNodeCount *float64 `json:"initialNodeCount,omitempty" tf:"initial_node_count,omitempty"`
 
+	// The location (region or zone) of the cluster.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
 	// Node management configuration, wherein auto-repair and
 	// auto-upgrade is configured. Structure is documented below.
 	Management []NodePoolManagementInitParameters_2 `json:"management,omitempty" tf:"management,omitempty"`

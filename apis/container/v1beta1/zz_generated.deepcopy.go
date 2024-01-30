@@ -8030,6 +8030,11 @@ func (in *NodePoolInitParameters_2) DeepCopyInto(out *NodePoolInitParameters_2) 
 		*out = new(float64)
 		**out = **in
 	}
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
 	if in.Management != nil {
 		in, out := &in.Management, &out.Management
 		*out = make([]NodePoolManagementInitParameters_2, len(*in))

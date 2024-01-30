@@ -712,6 +712,9 @@ spec:
                       need this value, don't set it.  If you do need it, you can use a lifecycle block to
                       ignore subsequent changes to this field.
                     type: number
+                  location:
+                    description: The location (region or zone) of the cluster.
+                    type: string
                   management:
                     description: |-
                       Node management configuration, wherein auto-repair and

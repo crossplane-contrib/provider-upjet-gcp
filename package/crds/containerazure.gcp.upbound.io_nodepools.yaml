@@ -269,8 +269,6 @@ spec:
                     description: The Kubernetes version (e.g. 1.19.10-gke.1000) running
                       on this node pool.
                     type: string
-                required:
-                - location
                 type: object
               initProvider:
                 description: |-
@@ -378,6 +376,9 @@ spec:
                           type: string
                       type: object
                     type: array
+                  location:
+                    description: The location for the resource
+                    type: string
                   maxPodsConstraint:
                     description: The constraint on the maximum number of pods that
                       can be run simultaneously on a node in the node pool.
@@ -578,6 +579,10 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.config)
                 || (has(self.initProvider) && has(self.initProvider.config))'
+            - message: spec.forProvider.location is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.location)
+                || (has(self.initProvider) && has(self.initProvider.location))'
             - message: spec.forProvider.maxPodsConstraint is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.maxPodsConstraint)

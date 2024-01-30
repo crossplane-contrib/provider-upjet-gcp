@@ -221,6 +221,9 @@ type NodePoolInitParameters struct {
 	// The node configuration of the node pool.
 	Config []ConfigInitParameters `json:"config,omitempty" tf:"config,omitempty"`
 
+	// The location for the resource
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
 	// The constraint on the maximum number of pods that can be run simultaneously on a node in the node pool.
 	MaxPodsConstraint []MaxPodsConstraintInitParameters `json:"maxPodsConstraint,omitempty" tf:"max_pods_constraint,omitempty"`
 
@@ -322,8 +325,8 @@ type NodePoolParameters struct {
 	Config []ConfigParameters `json:"config,omitempty" tf:"config,omitempty"`
 
 	// The location for the resource
-	// +kubebuilder:validation:Required
-	Location *string `json:"location" tf:"location,omitempty"`
+	// +kubebuilder:validation:Optional
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// The constraint on the maximum number of pods that can be run simultaneously on a node in the node pool.
 	// +kubebuilder:validation:Optional
@@ -379,6 +382,7 @@ type NodePool struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.autoscaling) || (has(self.initProvider) && has(self.initProvider.autoscaling))",message="spec.forProvider.autoscaling is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.config) || (has(self.initProvider) && has(self.initProvider.config))",message="spec.forProvider.config is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.location) || (has(self.initProvider) && has(self.initProvider.location))",message="spec.forProvider.location is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.maxPodsConstraint) || (has(self.initProvider) && has(self.initProvider.maxPodsConstraint))",message="spec.forProvider.maxPodsConstraint is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.subnetId) || (has(self.initProvider) && has(self.initProvider.subnetId))",message="spec.forProvider.subnetId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.version) || (has(self.initProvider) && has(self.initProvider.version))",message="spec.forProvider.version is a required parameter"

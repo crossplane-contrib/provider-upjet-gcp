@@ -2329,6 +2329,11 @@ func (in *NodePoolInitParameters) DeepCopyInto(out *NodePoolInitParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
 	if in.MaxPodsConstraint != nil {
 		in, out := &in.MaxPodsConstraint, &out.MaxPodsConstraint
 		*out = make([]MaxPodsConstraintInitParameters, len(*in))
