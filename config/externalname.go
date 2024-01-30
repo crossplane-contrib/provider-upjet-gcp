@@ -316,8 +316,8 @@ var noForkExternalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following format: projects/my-gcp-project/locations/us-east1-a/clusters/my-cluster
 	"google_container_cluster": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/clusters/{{ .external_name }}"),
-	// Imported by using the following format: my-gcp-project/us-east1-a/my-cluster/main-pool
-	"google_container_node_pool": config.TemplatedStringAsIdentifier("name", "{{ .setup.configuration.project }}/{{ .parameters.location }}/{{ .parameters.cluster }}/{{ .external_name }}"),
+	// Imported by using the following format: projects/my-gcp-project/locations/us-east1-a/clusters/my-cluster/nodePools/main-pool
+	"google_container_node_pool": config.TemplatedStringAsIdentifier("name", "{{ .parameters.cluster }}/nodePools/{{ .external_name }}"),
 
 	// containeranalysis
 	//
@@ -332,15 +332,15 @@ var noForkExternalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following format: projects/my-gcp-project/locations/us-east1-a/clusters/my-cluster
 	"google_container_aws_cluster": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/clusters/{{ .external_name }}"),
-	// Imported by using the following format: my-gcp-project/us-east1-a/my-cluster/main-pool
-	"google_container_aws_node_pool": config.TemplatedStringAsIdentifier("name", "{{ .setup.configuration.project }}/{{ .parameters.location }}/{{ .parameters.cluster }}/{{ .external_name }}"),
+	// Imported by using the following format: projects/my-gcp-project/locations/us-east1-a/clusters/my-cluster/nodePools/main-pool
+	"google_container_aws_node_pool": config.TemplatedStringAsIdentifier("name", "{{ .parameters.cluster }}/nodePools/{{ .external_name }}"),
 
 	// containerazure
 	//
 	// Imported by using the following format: projects/my-gcp-project/locations/us-east1-a/clusters/my-cluster
 	"google_container_azure_cluster": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/clusters/{{ .external_name }}"),
-	// Imported by using the following format: my-gcp-project/us-east1-a/my-cluster/main-pool
-	"google_container_azure_node_pool": config.TemplatedStringAsIdentifier("name", "{{ .setup.configuration.project }}/{{ .parameters.location }}/{{ .parameters.cluster }}/{{ .external_name }}"),
+	// Imported by using the following format: projects/my-gcp-project/locations/us-east1-a/clusters/my-cluster/nodePools/main-pool
+	"google_container_azure_node_pool": config.TemplatedStringAsIdentifier("name", "{{ .parameters.cluster }}/nodePools/{{ .external_name }}"),
 	// Imported by using the following format: projects/my-gcp-project/locations/us-east1-a/azureClients/my-client
 	"google_container_azure_client": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/azureClients/{{ .external_name }}"),
 
