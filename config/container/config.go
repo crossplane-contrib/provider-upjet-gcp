@@ -126,6 +126,11 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 
 	p.AddResourceConfigurator("google_container_node_pool", func(r *config.Resource) {
 		r.Kind = "NodePool"
+		r.LateInitializer = config.LateInitializer{
+			IgnoredFields: []string{
+				"version",
+			},
+		}
 		r.References["cluster"] = config.Reference{
 			Type:      "Cluster",
 			Extractor: common.ExtractResourceIDFuncPath,
