@@ -8968,6 +8968,11 @@ func (in *NodePoolNodeConfigInitParameters_2) DeepCopyInto(out *NodePoolNodeConf
 		*out = new(string)
 		**out = **in
 	}
+	if in.Index != nil {
+		in, out := &in.Index, &out.Index
+		*out = new(string)
+		**out = **in
+	}
 	if in.KubeletConfig != nil {
 		in, out := &in.KubeletConfig, &out.KubeletConfig
 		*out = make([]NodePoolNodeConfigKubeletConfigInitParameters, len(*in))
@@ -9722,6 +9727,11 @@ func (in *NodePoolNodeConfigObservation_2) DeepCopyInto(out *NodePoolNodeConfigO
 		*out = new(string)
 		**out = **in
 	}
+	if in.Index != nil {
+		in, out := &in.Index, &out.Index
+		*out = new(string)
+		**out = **in
+	}
 	if in.KubeletConfig != nil {
 		in, out := &in.KubeletConfig, &out.KubeletConfig
 		*out = make([]NodePoolNodeConfigKubeletConfigObservation, len(*in))
@@ -9977,6 +9987,11 @@ func (in *NodePoolNodeConfigParameters_2) DeepCopyInto(out *NodePoolNodeConfigPa
 	}
 	if in.ImageType != nil {
 		in, out := &in.ImageType, &out.ImageType
+		*out = new(string)
+		**out = **in
+	}
+	if in.Index != nil {
+		in, out := &in.Index, &out.Index
 		*out = new(string)
 		**out = **in
 	}

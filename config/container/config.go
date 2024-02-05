@@ -131,6 +131,18 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			Extractor: common.ExtractResourceIDFuncPath,
 		}
 
+		r.ServerSideApplyMergeStrategies["node_config"] = config.MergeStrategy{
+			ListMergeStrategy: config.ListMergeStrategy{
+				MergeStrategy: config.ListTypeMap,
+				ListMapKeys: config.ListMapKeys{
+					InjectedKey: config.InjectedKey{
+						Key:          "index",
+						DefaultValue: `"0"`,
+					},
+				},
+			},
+		}
+
 		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, _ *terraform.InstanceState, _ *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
 			if diff == nil || diff.Destroy {
 				return diff, nil

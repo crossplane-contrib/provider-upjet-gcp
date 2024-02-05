@@ -214,6 +214,8 @@ type NodePoolInitParameters_2 struct {
 
 	// Parameters used in creating the node pool. See
 	// google_container_cluster for schema.
+	// +listType=map
+	// +listMapKey=index
 	NodeConfig []NodePoolNodeConfigInitParameters_2 `json:"nodeConfig,omitempty" tf:"node_config,omitempty"`
 
 	// The number of nodes per instance group. This field can be used to
@@ -486,6 +488,10 @@ type NodePoolNodeConfigInitParameters_2 struct {
 
 	ImageType *string `json:"imageType,omitempty" tf:"image_type,omitempty"`
 
+	// This is an injected field with a default value for being able to merge items of the parent object list.
+	// +kubebuilder:default:="0"
+	Index *string `json:"index,omitempty" tf:"-"`
+
 	KubeletConfig []NodePoolNodeConfigKubeletConfigInitParameters `json:"kubeletConfig,omitempty" tf:"kubelet_config,omitempty"`
 
 	// +mapType=granular
@@ -634,6 +640,10 @@ type NodePoolNodeConfigObservation_2 struct {
 
 	ImageType *string `json:"imageType,omitempty" tf:"image_type,omitempty"`
 
+	// This is an injected field with a default value for being able to merge items of the parent object list.
+	// +kubebuilder:default:="0"
+	Index *string `json:"index,omitempty" tf:"-"`
+
 	KubeletConfig []NodePoolNodeConfigKubeletConfigObservation `json:"kubeletConfig,omitempty" tf:"kubelet_config,omitempty"`
 
 	// +mapType=granular
@@ -714,6 +724,11 @@ type NodePoolNodeConfigParameters_2 struct {
 
 	// +kubebuilder:validation:Optional
 	ImageType *string `json:"imageType,omitempty" tf:"image_type,omitempty"`
+
+	// This is an injected field with a default value for being able to merge items of the parent object list.
+	// +kubebuilder:validation:Optional
+	// +kubebuilder:default:="0"
+	Index *string `json:"index" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	KubeletConfig []NodePoolNodeConfigKubeletConfigParameters `json:"kubeletConfig,omitempty" tf:"kubelet_config,omitempty"`
@@ -949,6 +964,8 @@ type NodePoolObservation_2 struct {
 
 	// Parameters used in creating the node pool. See
 	// google_container_cluster for schema.
+	// +listType=map
+	// +listMapKey=index
 	NodeConfig []NodePoolNodeConfigObservation_2 `json:"nodeConfig,omitempty" tf:"node_config,omitempty"`
 
 	// The number of nodes per instance group. This field can be used to
@@ -1037,6 +1054,8 @@ type NodePoolParameters_2 struct {
 	// Parameters used in creating the node pool. See
 	// google_container_cluster for schema.
 	// +kubebuilder:validation:Optional
+	// +listType=map
+	// +listMapKey=index
 	NodeConfig []NodePoolNodeConfigParameters_2 `json:"nodeConfig,omitempty" tf:"node_config,omitempty"`
 
 	// The number of nodes per instance group. This field can be used to
