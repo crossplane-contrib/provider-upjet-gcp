@@ -10,10 +10,10 @@ import (
 	"github.com/upbound/provider-gcp/config/common"
 )
 
-// noForkExternalNameConfigs contains all external name configurations
+// terraformPluginSDKExternalNameConfigs contains all external name configurations
 // belonging to Terraform resources to be reconciled under the no-fork
 // architecture for this provider.
-var noForkExternalNameConfigs = map[string]config.ExternalName{
+var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// activedirectory
 	//
 	// Imported by using the following format: {{name}}
@@ -1010,16 +1010,16 @@ func TemplatedStringAsIdentifierWithNoName(tmpl string) config.ExternalName {
 }
 
 // resourceConfigurator applies all external name configs
-// listed in the table NoForkExternalNameConfigs and
+// listed in the table terraformPluginSDKExternalNameConfigs and
 // cliReconciledExternalNameConfigs and sets the version
 // of those resources to v1beta1. For those resource in
-// noForkExternalNameConfigs, it also sets
+// terraformPluginSDKExternalNameConfigs, it also sets
 // config.Resource.UseNoForkClient to `true`.
 func resourceConfigurator() config.ResourceOption {
 	return func(r *config.Resource) {
 		// if configured both for the no-fork and CLI based architectures,
 		// no-fork configuration prevails
-		e, configured := noForkExternalNameConfigs[r.Name]
+		e, configured := terraformPluginSDKExternalNameConfigs[r.Name]
 		if !configured {
 			e, configured = cliReconciledExternalNameConfigs[r.Name]
 		}
