@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.13.0
+    controller-gen.kubebuilder.io/version: v0.14.0
   name: interconnectattachments.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -38,14 +38,19 @@ spec:
           API. Represents an InterconnectAttachment (VLAN attachment) resource.
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
             type: string
           metadata:
             type: object
@@ -54,13 +59,14 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: 'DeletionPolicy specifies what will happen to the underlying
-                  external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicies field in a future release. Currently,
-                  both could be set independently and non-default values would be
-                  honored if the feature flag is enabled. See the design doc for more
-                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
                 enum:
                 - Orphan
                 - Delete
@@ -68,29 +74,28 @@ spec:
               forProvider:
                 properties:
                   adminEnabled:
-                    description: Whether the VLAN attachment is enabled or disabled.  When
-                      using PARTNER type this will Pre-Activate the interconnect attachment
+                    description: |-
+                      Whether the VLAN attachment is enabled or disabled.  When using
+                      PARTNER type this will Pre-Activate the interconnect attachment
                     type: boolean
                   bandwidth:
-                    description: 'Provisioned bandwidth capacity for the interconnect
-                      attachment. For attachments of type DEDICATED, the user can
-                      set the bandwidth. For attachments of type PARTNER, the Google
-                      Partner that is operating the interconnect must set the bandwidth.
-                      Output only for PARTNER type, mutable for PARTNER_PROVIDER and
-                      DEDICATED, Defaults to BPS_10G Possible values are: BPS_50M,
-                      BPS_100M, BPS_200M, BPS_300M, BPS_400M, BPS_500M, BPS_1G, BPS_2G,
-                      BPS_5G, BPS_10G, BPS_20G, BPS_50G.'
+                    description: |-
+                      Provisioned bandwidth capacity for the interconnect attachment.
+                      For attachments of type DEDICATED, the user can set the bandwidth.
+                      For attachments of type PARTNER, the Google Partner that is operating the interconnect must set the bandwidth.
+                      Output only for PARTNER type, mutable for PARTNER_PROVIDER and DEDICATED,
+                      Defaults to BPS_10G
+                      Possible values are: BPS_50M, BPS_100M, BPS_200M, BPS_300M, BPS_400M, BPS_500M, BPS_1G, BPS_2G, BPS_5G, BPS_10G, BPS_20G, BPS_50G.
                     type: string
                   candidateSubnets:
-                    description: Up to 16 candidate prefixes that can be used to restrict
-                      the allocation of cloudRouterIpAddress and customerRouterIpAddress
-                      for this attachment. All prefixes must be within link-local
-                      address space (169.254.0.0/16) and must be /29 or shorter (/28,
-                      /27, etc). Google will attempt to select an unused /29 from
-                      the supplied candidate prefix(es). The request will fail if
-                      all possible /29s are in use on Google's edge. If not supplied,
-                      Google will randomly select an unused /29 from all of link-local
-                      space.
+                    description: |-
+                      Up to 16 candidate prefixes that can be used to restrict the allocation
+                      of cloudRouterIpAddress and customerRouterIpAddress for this attachment.
+                      All prefixes must be within link-local address space (169.254.0.0/16)
+                      and must be /29 or shorter (/28, /27, etc). Google will attempt to select
+                      an unused /29 from the supplied candidate prefix(es). The request will
+                      fail if all possible /29s are in use on Google's edge. If not supplied,
+                      Google will randomly select an unused /29 from all of link-local space.
                     items:
                       type: string
                     type: array
@@ -98,51 +103,54 @@ spec:
                     description: An optional description of this resource.
                     type: string
                   edgeAvailabilityDomain:
-                    description: Desired availability domain for the attachment. Only
-                      available for type PARTNER, at creation time. For improved reliability,
-                      customers should configure a pair of attachments with one per
-                      availability domain. The selected availability domain will be
-                      provided to the Partner via the pairing key so that the provisioned
-                      circuit will lie in the specified domain. If not specified,
-                      the value will default to AVAILABILITY_DOMAIN_ANY.
+                    description: |-
+                      Desired availability domain for the attachment. Only available for type
+                      PARTNER, at creation time. For improved reliability, customers should
+                      configure a pair of attachments with one per availability domain. The
+                      selected availability domain will be provided to the Partner via the
+                      pairing key so that the provisioned circuit will lie in the specified
+                      domain. If not specified, the value will default to AVAILABILITY_DOMAIN_ANY.
                     type: string
                   encryption:
-                    description: Indicates the user-supplied encryption option of
-                      this interconnect attachment. Can only be specified at attachment
-                      creation for PARTNER or DEDICATED attachments.
+                    description: |-
+                      Indicates the user-supplied encryption option of this interconnect
+                      attachment. Can only be specified at attachment creation for PARTNER or
+                      DEDICATED attachments.
                     type: string
                   interconnect:
-                    description: URL of the underlying Interconnect object that this
-                      attachment's traffic will traverse through. Required if type
-                      is DEDICATED, must not be set if type is PARTNER.
+                    description: |-
+                      URL of the underlying Interconnect object that this attachment's
+                      traffic will traverse through. Required if type is DEDICATED, must not
+                      be set if type is PARTNER.
                     type: string
                   ipsecInternalAddresses:
-                    description: URL of addresses that have been reserved for the
-                      interconnect attachment, Used only for interconnect attachment
-                      that has the encryption option as IPSEC. The addresses must
-                      be RFC 1918 IP address ranges. When creating HA VPN gateway
-                      over the interconnect attachment, if the attachment is configured
-                      to use an RFC 1918 IP address, then the VPN gateway's IP address
-                      will be allocated from the IP address range specified here.
-                      For example, if the HA VPN gateway's interface 0 is paired to
-                      this interconnect attachment, then an RFC 1918 IP address for
-                      the VPN gateway interface 0 will be allocated from the IP address
-                      specified for this interconnect attachment. If this field is
-                      not specified for interconnect attachment that has encryption
-                      option as IPSEC, later on when creating HA VPN gateway on this
-                      interconnect attachment, the HA VPN gateway's IP address will
-                      be allocated from regional external IP address pool.
+                    description: |-
+                      URL of addresses that have been reserved for the interconnect attachment,
+                      Used only for interconnect attachment that has the encryption option as
+                      IPSEC.
+                      The addresses must be RFC 1918 IP address ranges. When creating HA VPN
+                      gateway over the interconnect attachment, if the attachment is configured
+                      to use an RFC 1918 IP address, then the VPN gateway's IP address will be
+                      allocated from the IP address range specified here.
+                      For example, if the HA VPN gateway's interface 0 is paired to this
+                      interconnect attachment, then an RFC 1918 IP address for the VPN gateway
+                      interface 0 will be allocated from the IP address specified for this
+                      interconnect attachment.
+                      If this field is not specified for interconnect attachment that has
+                      encryption option as IPSEC, later on when creating HA VPN gateway on this
+                      interconnect attachment, the HA VPN gateway's IP address will be
+                      allocated from regional external IP address pool.
                     items:
                       type: string
                     type: array
                   mtu:
-                    description: Maximum Transmission Unit (MTU), in bytes, of packets
-                      passing through this interconnect attachment. Currently, only
-                      1440 and 1500 are allowed. If not specified, the value will
-                      default to 1440.
+                    description: |-
+                      Maximum Transmission Unit (MTU), in bytes, of packets passing through
+                      this interconnect attachment. Currently, only 1440 and 1500 are allowed. If not specified, the value will default to 1440.
                     type: string
                   project:
-                    description: The ID of the project in which the resource belongs.
+                    description: |-
+                      The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                   region:
@@ -150,10 +158,11 @@ spec:
                       resides.
                     type: string
                   router:
-                    description: URL of the cloud router to be used for dynamic routing.
-                      This router must be in the same region as this InterconnectAttachment.
-                      The InterconnectAttachment will automatically connect the Interconnect
-                      to the network & region within which the Cloud Router is configured.
+                    description: |-
+                      URL of the cloud router to be used for dynamic routing. This router must be in
+                      the same region as this InterconnectAttachment. The InterconnectAttachment will
+                      automatically connect the Interconnect to the network & region within which the
+                      Cloud Router is configured.
                     type: string
                   routerRef:
                     description: Reference to a Router to populate router.
@@ -166,21 +175,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -193,8 +202,9 @@ spec:
                     description: Selector for a Router to populate router.
                     properties:
                       matchControllerRef:
-                        description: MatchControllerRef ensures an object with the
-                          same controller reference as the selecting object is selected.
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
                         type: boolean
                       matchLabels:
                         additionalProperties:
@@ -207,21 +217,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -229,54 +239,55 @@ spec:
                         type: object
                     type: object
                   type:
-                    description: 'The type of InterconnectAttachment you wish to create.
-                      Defaults to DEDICATED. Possible values are: DEDICATED, PARTNER,
-                      PARTNER_PROVIDER.'
+                    description: |-
+                      The type of InterconnectAttachment you wish to create. Defaults to
+                      DEDICATED.
+                      Possible values are: DEDICATED, PARTNER, PARTNER_PROVIDER.
                     type: string
                   vlanTag8021Q:
-                    description: The IEEE 802.1Q VLAN tag for this attachment, in
-                      the range 2-4094. When using PARTNER type this will be managed
-                      upstream.
+                    description: |-
+                      The IEEE 802.1Q VLAN tag for this attachment, in the range 2-4094. When
+                      using PARTNER type this will be managed upstream.
                     type: number
                 required:
                 - region
                 type: object
               initProvider:
-                description: THIS IS A BETA FIELD. It will be honored unless the Management
-                  Policies feature flag is disabled. InitProvider holds the same fields
-                  as ForProvider, with the exception of Identifier and other resource
-                  reference fields. The fields that are in InitProvider are merged
-                  into ForProvider when the resource is created. The same fields are
-                  also added to the terraform ignore_changes hook, to avoid updating
-                  them after creation. This is useful for fields that are required
-                  on creation, but we do not desire to update them after creation,
-                  for example because of an external controller is managing them,
-                  like an autoscaler.
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
                 properties:
                   adminEnabled:
-                    description: Whether the VLAN attachment is enabled or disabled.  When
-                      using PARTNER type this will Pre-Activate the interconnect attachment
+                    description: |-
+                      Whether the VLAN attachment is enabled or disabled.  When using
+                      PARTNER type this will Pre-Activate the interconnect attachment
                     type: boolean
                   bandwidth:
-                    description: 'Provisioned bandwidth capacity for the interconnect
-                      attachment. For attachments of type DEDICATED, the user can
-                      set the bandwidth. For attachments of type PARTNER, the Google
-                      Partner that is operating the interconnect must set the bandwidth.
-                      Output only for PARTNER type, mutable for PARTNER_PROVIDER and
-                      DEDICATED, Defaults to BPS_10G Possible values are: BPS_50M,
-                      BPS_100M, BPS_200M, BPS_300M, BPS_400M, BPS_500M, BPS_1G, BPS_2G,
-                      BPS_5G, BPS_10G, BPS_20G, BPS_50G.'
+                    description: |-
+                      Provisioned bandwidth capacity for the interconnect attachment.
+                      For attachments of type DEDICATED, the user can set the bandwidth.
+                      For attachments of type PARTNER, the Google Partner that is operating the interconnect must set the bandwidth.
+                      Output only for PARTNER type, mutable for PARTNER_PROVIDER and DEDICATED,
+                      Defaults to BPS_10G
+                      Possible values are: BPS_50M, BPS_100M, BPS_200M, BPS_300M, BPS_400M, BPS_500M, BPS_1G, BPS_2G, BPS_5G, BPS_10G, BPS_20G, BPS_50G.
                     type: string
                   candidateSubnets:
-                    description: Up to 16 candidate prefixes that can be used to restrict
-                      the allocation of cloudRouterIpAddress and customerRouterIpAddress
-                      for this attachment. All prefixes must be within link-local
-                      address space (169.254.0.0/16) and must be /29 or shorter (/28,
-                      /27, etc). Google will attempt to select an unused /29 from
-                      the supplied candidate prefix(es). The request will fail if
-                      all possible /29s are in use on Google's edge. If not supplied,
-                      Google will randomly select an unused /29 from all of link-local
-                      space.
+                    description: |-
+                      Up to 16 candidate prefixes that can be used to restrict the allocation
+                      of cloudRouterIpAddress and customerRouterIpAddress for this attachment.
+                      All prefixes must be within link-local address space (169.254.0.0/16)
+                      and must be /29 or shorter (/28, /27, etc). Google will attempt to select
+                      an unused /29 from the supplied candidate prefix(es). The request will
+                      fail if all possible /29s are in use on Google's edge. If not supplied,
+                      Google will randomly select an unused /29 from all of link-local space.
                     items:
                       type: string
                     type: array
@@ -284,58 +295,62 @@ spec:
                     description: An optional description of this resource.
                     type: string
                   edgeAvailabilityDomain:
-                    description: Desired availability domain for the attachment. Only
-                      available for type PARTNER, at creation time. For improved reliability,
-                      customers should configure a pair of attachments with one per
-                      availability domain. The selected availability domain will be
-                      provided to the Partner via the pairing key so that the provisioned
-                      circuit will lie in the specified domain. If not specified,
-                      the value will default to AVAILABILITY_DOMAIN_ANY.
+                    description: |-
+                      Desired availability domain for the attachment. Only available for type
+                      PARTNER, at creation time. For improved reliability, customers should
+                      configure a pair of attachments with one per availability domain. The
+                      selected availability domain will be provided to the Partner via the
+                      pairing key so that the provisioned circuit will lie in the specified
+                      domain. If not specified, the value will default to AVAILABILITY_DOMAIN_ANY.
                     type: string
                   encryption:
-                    description: Indicates the user-supplied encryption option of
-                      this interconnect attachment. Can only be specified at attachment
-                      creation for PARTNER or DEDICATED attachments.
+                    description: |-
+                      Indicates the user-supplied encryption option of this interconnect
+                      attachment. Can only be specified at attachment creation for PARTNER or
+                      DEDICATED attachments.
                     type: string
                   interconnect:
-                    description: URL of the underlying Interconnect object that this
-                      attachment's traffic will traverse through. Required if type
-                      is DEDICATED, must not be set if type is PARTNER.
+                    description: |-
+                      URL of the underlying Interconnect object that this attachment's
+                      traffic will traverse through. Required if type is DEDICATED, must not
+                      be set if type is PARTNER.
                     type: string
                   ipsecInternalAddresses:
-                    description: URL of addresses that have been reserved for the
-                      interconnect attachment, Used only for interconnect attachment
-                      that has the encryption option as IPSEC. The addresses must
-                      be RFC 1918 IP address ranges. When creating HA VPN gateway
-                      over the interconnect attachment, if the attachment is configured
-                      to use an RFC 1918 IP address, then the VPN gateway's IP address
-                      will be allocated from the IP address range specified here.
-                      For example, if the HA VPN gateway's interface 0 is paired to
-                      this interconnect attachment, then an RFC 1918 IP address for
-                      the VPN gateway interface 0 will be allocated from the IP address
-                      specified for this interconnect attachment. If this field is
-                      not specified for interconnect attachment that has encryption
-                      option as IPSEC, later on when creating HA VPN gateway on this
-                      interconnect attachment, the HA VPN gateway's IP address will
-                      be allocated from regional external IP address pool.
+                    description: |-
+                      URL of addresses that have been reserved for the interconnect attachment,
+                      Used only for interconnect attachment that has the encryption option as
+                      IPSEC.
+                      The addresses must be RFC 1918 IP address ranges. When creating HA VPN
+                      gateway over the interconnect attachment, if the attachment is configured
+                      to use an RFC 1918 IP address, then the VPN gateway's IP address will be
+                      allocated from the IP address range specified here.
+                      For example, if the HA VPN gateway's interface 0 is paired to this
+                      interconnect attachment, then an RFC 1918 IP address for the VPN gateway
+                      interface 0 will be allocated from the IP address specified for this
+                      interconnect attachment.
+                      If this field is not specified for interconnect attachment that has
+                      encryption option as IPSEC, later on when creating HA VPN gateway on this
+                      interconnect attachment, the HA VPN gateway's IP address will be
+                      allocated from regional external IP address pool.
                     items:
                       type: string
                     type: array
                   mtu:
-                    description: Maximum Transmission Unit (MTU), in bytes, of packets
-                      passing through this interconnect attachment. Currently, only
-                      1440 and 1500 are allowed. If not specified, the value will
-                      default to 1440.
+                    description: |-
+                      Maximum Transmission Unit (MTU), in bytes, of packets passing through
+                      this interconnect attachment. Currently, only 1440 and 1500 are allowed. If not specified, the value will default to 1440.
                     type: string
                   project:
-                    description: The ID of the project in which the resource belongs.
+                    description: |-
+                      The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                   router:
-                    description: URL of the cloud router to be used for dynamic routing.
-                      This router must be in the same region as this InterconnectAttachment.
-                      The InterconnectAttachment will automatically connect the Interconnect
-                      to the network & region within which the Cloud Router is configured.
+                    description: |-
+                      URL of the cloud router to be used for dynamic routing. This router must be in
+                      the same region as this InterconnectAttachment. The InterconnectAttachment will
+                      automatically connect the Interconnect to the network & region within which the
+                      Cloud Router is configured.
                     type: string
                   routerRef:
                     description: Reference to a Router to populate router.
@@ -348,21 +363,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -375,8 +390,9 @@ spec:
                     description: Selector for a Router to populate router.
                     properties:
                       matchControllerRef:
-                        description: MatchControllerRef ensures an object with the
-                          same controller reference as the selecting object is selected.
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
                         type: boolean
                       matchLabels:
                         additionalProperties:
@@ -389,21 +405,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -411,32 +427,35 @@ spec:
                         type: object
                     type: object
                   type:
-                    description: 'The type of InterconnectAttachment you wish to create.
-                      Defaults to DEDICATED. Possible values are: DEDICATED, PARTNER,
-                      PARTNER_PROVIDER.'
+                    description: |-
+                      The type of InterconnectAttachment you wish to create. Defaults to
+                      DEDICATED.
+                      Possible values are: DEDICATED, PARTNER, PARTNER_PROVIDER.
                     type: string
                   vlanTag8021Q:
-                    description: The IEEE 802.1Q VLAN tag for this attachment, in
-                      the range 2-4094. When using PARTNER type this will be managed
-                      upstream.
+                    description: |-
+                      The IEEE 802.1Q VLAN tag for this attachment, in the range 2-4094. When
+                      using PARTNER type this will be managed upstream.
                     type: number
                 type: object
               managementPolicies:
                 default:
                 - '*'
-                description: 'THIS IS A BETA FIELD. It is on by default but can be
-                  opted out through a Crossplane feature flag. ManagementPolicies
-                  specify the array of actions Crossplane is allowed to take on the
-                  managed and external resources. This field is planned to replace
-                  the DeletionPolicy field in a future release. Currently, both could
-                  be set independently and non-default values would be honored if
-                  the feature flag is enabled. If both are custom, the DeletionPolicy
-                  field will be ignored. See the design doc for more information:
-                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
-                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
                 items:
-                  description: A ManagementAction represents an action that the Crossplane
-                    controllers can take on an external resource.
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
                   enum:
                   - Observe
                   - Create
@@ -449,9 +468,10 @@ spec:
               providerConfigRef:
                 default:
                   name: default
-                description: ProviderConfigReference specifies how the provider that
-                  will be used to create, observe, update, and delete this managed
-                  resource should be configured.
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
                 properties:
                   name:
                     description: Name of the referenced object.
@@ -461,21 +481,21 @@ spec:
                     properties:
                       resolution:
                         default: Required
-                        description: Resolution specifies whether resolution of this
-                          reference is required. The default is 'Required', which
-                          means the reconcile will fail if the reference cannot be
-                          resolved. 'Optional' means this reference will be a no-op
-                          if it cannot be resolved.
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
                         enum:
                         - Required
                         - Optional
                         type: string
                       resolve:
-                        description: Resolve specifies when this reference should
-                          be resolved. The default is 'IfNotPresent', which will attempt
-                          to resolve the reference only when the corresponding field
-                          is not present. Use 'Always' to resolve the reference on
-                          every reconcile.
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
                         enum:
                         - Always
                         - IfNotPresent
@@ -485,17 +505,19 @@ spec:
                 - name
                 type: object
               publishConnectionDetailsTo:
-                description: PublishConnectionDetailsTo specifies the connection secret
-                  config which contains a name, metadata and a reference to secret
-                  store config to which any connection details for this managed resource
-                  should be written. Connection details frequently include the endpoint,
-                  username, and password required to connect to the managed resource.
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
                 properties:
                   configRef:
                     default:
                       name: default
-                    description: SecretStoreConfigRef specifies which secret store
-                      config should be used for this ConnectionSecret.
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -505,21 +527,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -534,21 +556,22 @@ spec:
                       annotations:
                         additionalProperties:
                           type: string
-                        description: Annotations are the annotations to be added to
-                          connection secret. - For Kubernetes secrets, this will be
-                          used as "metadata.annotations". - It is up to Secret Store
-                          implementation for others store types.
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
                         type: object
                       labels:
                         additionalProperties:
                           type: string
-                        description: Labels are the labels/tags to be added to connection
-                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
-                          - It is up to Secret Store implementation for others store
-                          types.
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
                         type: object
                       type:
-                        description: Type is the SecretType for the connection secret.
+                        description: |-
+                          Type is the SecretType for the connection secret.
                           - Only valid for Kubernetes Secret Stores.
                         type: string
                     type: object
@@ -559,14 +582,15 @@ spec:
                 - name
                 type: object
               writeConnectionSecretToRef:
-                description: WriteConnectionSecretToReference specifies the namespace
-                  and name of a Secret to which any connection details for this managed
-                  resource should be written. Connection details frequently include
-                  the endpoint, username, and password required to connect to the
-                  managed resource. This field is planned to be replaced in a future
-                  release in favor of PublishConnectionDetailsTo. Currently, both
-                  could be set independently and connection details would be published
-                  to both without affecting each other.
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
                 properties:
                   name:
                     description: Name of the secret.
@@ -588,123 +612,131 @@ spec:
               atProvider:
                 properties:
                   adminEnabled:
-                    description: Whether the VLAN attachment is enabled or disabled.  When
-                      using PARTNER type this will Pre-Activate the interconnect attachment
+                    description: |-
+                      Whether the VLAN attachment is enabled or disabled.  When using
+                      PARTNER type this will Pre-Activate the interconnect attachment
                     type: boolean
                   bandwidth:
-                    description: 'Provisioned bandwidth capacity for the interconnect
-                      attachment. For attachments of type DEDICATED, the user can
-                      set the bandwidth. For attachments of type PARTNER, the Google
-                      Partner that is operating the interconnect must set the bandwidth.
-                      Output only for PARTNER type, mutable for PARTNER_PROVIDER and
-                      DEDICATED, Defaults to BPS_10G Possible values are: BPS_50M,
-                      BPS_100M, BPS_200M, BPS_300M, BPS_400M, BPS_500M, BPS_1G, BPS_2G,
-                      BPS_5G, BPS_10G, BPS_20G, BPS_50G.'
+                    description: |-
+                      Provisioned bandwidth capacity for the interconnect attachment.
+                      For attachments of type DEDICATED, the user can set the bandwidth.
+                      For attachments of type PARTNER, the Google Partner that is operating the interconnect must set the bandwidth.
+                      Output only for PARTNER type, mutable for PARTNER_PROVIDER and DEDICATED,
+                      Defaults to BPS_10G
+                      Possible values are: BPS_50M, BPS_100M, BPS_200M, BPS_300M, BPS_400M, BPS_500M, BPS_1G, BPS_2G, BPS_5G, BPS_10G, BPS_20G, BPS_50G.
                     type: string
                   candidateSubnets:
-                    description: Up to 16 candidate prefixes that can be used to restrict
-                      the allocation of cloudRouterIpAddress and customerRouterIpAddress
-                      for this attachment. All prefixes must be within link-local
-                      address space (169.254.0.0/16) and must be /29 or shorter (/28,
-                      /27, etc). Google will attempt to select an unused /29 from
-                      the supplied candidate prefix(es). The request will fail if
-                      all possible /29s are in use on Google's edge. If not supplied,
-                      Google will randomly select an unused /29 from all of link-local
-                      space.
+                    description: |-
+                      Up to 16 candidate prefixes that can be used to restrict the allocation
+                      of cloudRouterIpAddress and customerRouterIpAddress for this attachment.
+                      All prefixes must be within link-local address space (169.254.0.0/16)
+                      and must be /29 or shorter (/28, /27, etc). Google will attempt to select
+                      an unused /29 from the supplied candidate prefix(es). The request will
+                      fail if all possible /29s are in use on Google's edge. If not supplied,
+                      Google will randomly select an unused /29 from all of link-local space.
                     items:
                       type: string
                     type: array
                   cloudRouterIpAddress:
-                    description: IPv4 address + prefix length to be configured on
-                      Cloud Router Interface for this interconnect attachment.
+                    description: |-
+                      IPv4 address + prefix length to be configured on Cloud Router
+                      Interface for this interconnect attachment.
                     type: string
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
                   customerRouterIpAddress:
-                    description: IPv4 address + prefix length to be configured on
-                      the customer router subinterface for this interconnect attachment.
+                    description: |-
+                      IPv4 address + prefix length to be configured on the customer
+                      router subinterface for this interconnect attachment.
                     type: string
                   description:
                     description: An optional description of this resource.
                     type: string
                   edgeAvailabilityDomain:
-                    description: Desired availability domain for the attachment. Only
-                      available for type PARTNER, at creation time. For improved reliability,
-                      customers should configure a pair of attachments with one per
-                      availability domain. The selected availability domain will be
-                      provided to the Partner via the pairing key so that the provisioned
-                      circuit will lie in the specified domain. If not specified,
-                      the value will default to AVAILABILITY_DOMAIN_ANY.
+                    description: |-
+                      Desired availability domain for the attachment. Only available for type
+                      PARTNER, at creation time. For improved reliability, customers should
+                      configure a pair of attachments with one per availability domain. The
+                      selected availability domain will be provided to the Partner via the
+                      pairing key so that the provisioned circuit will lie in the specified
+                      domain. If not specified, the value will default to AVAILABILITY_DOMAIN_ANY.
                     type: string
                   encryption:
-                    description: Indicates the user-supplied encryption option of
-                      this interconnect attachment. Can only be specified at attachment
-                      creation for PARTNER or DEDICATED attachments.
+                    description: |-
+                      Indicates the user-supplied encryption option of this interconnect
+                      attachment. Can only be specified at attachment creation for PARTNER or
+                      DEDICATED attachments.
                     type: string
                   googleReferenceId:
-                    description: Google reference ID, to be used when raising support
-                      tickets with Google or otherwise to debug backend connectivity
-                      issues.
+                    description: |-
+                      Google reference ID, to be used when raising support tickets with
+                      Google or otherwise to debug backend connectivity issues.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/interconnectAttachments/{{name}}
                     type: string
                   interconnect:
-                    description: URL of the underlying Interconnect object that this
-                      attachment's traffic will traverse through. Required if type
-                      is DEDICATED, must not be set if type is PARTNER.
+                    description: |-
+                      URL of the underlying Interconnect object that this attachment's
+                      traffic will traverse through. Required if type is DEDICATED, must not
+                      be set if type is PARTNER.
                     type: string
                   ipsecInternalAddresses:
-                    description: URL of addresses that have been reserved for the
-                      interconnect attachment, Used only for interconnect attachment
-                      that has the encryption option as IPSEC. The addresses must
-                      be RFC 1918 IP address ranges. When creating HA VPN gateway
-                      over the interconnect attachment, if the attachment is configured
-                      to use an RFC 1918 IP address, then the VPN gateway's IP address
-                      will be allocated from the IP address range specified here.
-                      For example, if the HA VPN gateway's interface 0 is paired to
-                      this interconnect attachment, then an RFC 1918 IP address for
-                      the VPN gateway interface 0 will be allocated from the IP address
-                      specified for this interconnect attachment. If this field is
-                      not specified for interconnect attachment that has encryption
-                      option as IPSEC, later on when creating HA VPN gateway on this
-                      interconnect attachment, the HA VPN gateway's IP address will
-                      be allocated from regional external IP address pool.
+                    description: |-
+                      URL of addresses that have been reserved for the interconnect attachment,
+                      Used only for interconnect attachment that has the encryption option as
+                      IPSEC.
+                      The addresses must be RFC 1918 IP address ranges. When creating HA VPN
+                      gateway over the interconnect attachment, if the attachment is configured
+                      to use an RFC 1918 IP address, then the VPN gateway's IP address will be
+                      allocated from the IP address range specified here.
+                      For example, if the HA VPN gateway's interface 0 is paired to this
+                      interconnect attachment, then an RFC 1918 IP address for the VPN gateway
+                      interface 0 will be allocated from the IP address specified for this
+                      interconnect attachment.
+                      If this field is not specified for interconnect attachment that has
+                      encryption option as IPSEC, later on when creating HA VPN gateway on this
+                      interconnect attachment, the HA VPN gateway's IP address will be
+                      allocated from regional external IP address pool.
                     items:
                       type: string
                     type: array
                   mtu:
-                    description: Maximum Transmission Unit (MTU), in bytes, of packets
-                      passing through this interconnect attachment. Currently, only
-                      1440 and 1500 are allowed. If not specified, the value will
-                      default to 1440.
+                    description: |-
+                      Maximum Transmission Unit (MTU), in bytes, of packets passing through
+                      this interconnect attachment. Currently, only 1440 and 1500 are allowed. If not specified, the value will default to 1440.
                     type: string
                   pairingKey:
-                    description: '[Output only for type PARTNER. Not present for DEDICATED].
-                      The opaque identifier of an PARTNER attachment used to initiate
-                      provisioning with a selected partner. Of the form "XXXXX/region/domain"'
+                    description: |-
+                      [Output only for type PARTNER. Not present for DEDICATED]. The opaque
+                      identifier of an PARTNER attachment used to initiate provisioning with
+                      a selected partner. Of the form "XXXXX/region/domain"
                     type: string
                   partnerAsn:
-                    description: '[Output only for type PARTNER. Not present for DEDICATED].
-                      Optional BGP ASN for the router that should be supplied by a
-                      layer 3 Partner if they configured BGP on behalf of the customer.'
+                    description: |-
+                      [Output only for type PARTNER. Not present for DEDICATED]. Optional
+                      BGP ASN for the router that should be supplied by a layer 3 Partner if
+                      they configured BGP on behalf of the customer.
                     type: string
                   privateInterconnectInfo:
-                    description: Information specific to an InterconnectAttachment.
-                      This property is populated if the interconnect that this is
-                      attached to is of type DEDICATED. Structure is documented below.
+                    description: |-
+                      Information specific to an InterconnectAttachment. This property
+                      is populated if the interconnect that this is attached to is of type DEDICATED.
+                      Structure is documented below.
                     items:
                       properties:
                         tag8021q:
-                          description: (Output) 802.1q encapsulation tag to be used
-                            for traffic between Google and the customer, going to
-                            and from this network and region.
+                          description: |-
+                            (Output)
+                            802.1q encapsulation tag to be used for traffic between
+                            Google and the customer, going to and from this network and region.
                           type: number
                       type: object
                     type: array
                   project:
-                    description: The ID of the project in which the resource belongs.
+                    description: |-
+                      The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                   region:
@@ -712,10 +744,11 @@ spec:
                       resides.
                     type: string
                   router:
-                    description: URL of the cloud router to be used for dynamic routing.
-                      This router must be in the same region as this InterconnectAttachment.
-                      The InterconnectAttachment will automatically connect the Interconnect
-                      to the network & region within which the Cloud Router is configured.
+                    description: |-
+                      URL of the cloud router to be used for dynamic routing. This router must be in
+                      the same region as this InterconnectAttachment. The InterconnectAttachment will
+                      automatically connect the Interconnect to the network & region within which the
+                      Cloud Router is configured.
                     type: string
                   selfLink:
                     description: The URI of the created resource.
@@ -725,14 +758,15 @@ spec:
                       functionality.'
                     type: string
                   type:
-                    description: 'The type of InterconnectAttachment you wish to create.
-                      Defaults to DEDICATED. Possible values are: DEDICATED, PARTNER,
-                      PARTNER_PROVIDER.'
+                    description: |-
+                      The type of InterconnectAttachment you wish to create. Defaults to
+                      DEDICATED.
+                      Possible values are: DEDICATED, PARTNER, PARTNER_PROVIDER.
                     type: string
                   vlanTag8021Q:
-                    description: The IEEE 802.1Q VLAN tag for this attachment, in
-                      the range 2-4094. When using PARTNER type this will be managed
-                      upstream.
+                    description: |-
+                      The IEEE 802.1Q VLAN tag for this attachment, in the range 2-4094. When
+                      using PARTNER type this will be managed upstream.
                     type: number
                 type: object
               conditions:
@@ -741,13 +775,15 @@ spec:
                   description: A Condition that may apply to a resource.
                   properties:
                     lastTransitionTime:
-                      description: LastTransitionTime is the last time this condition
-                        transitioned from one status to another.
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
                       format: date-time
                       type: string
                     message:
-                      description: A Message containing details about this condition's
-                        last transition from one status to another, if any.
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
                       type: string
                     reason:
                       description: A Reason for this condition's last transition from
@@ -758,8 +794,9 @@ spec:
                         False, or Unknown?
                       type: string
                     type:
-                      description: Type of this condition. At most one of each condition
-                        type may apply to a resource at any point in time.
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
                       type: string
                   required:
                   - lastTransitionTime
