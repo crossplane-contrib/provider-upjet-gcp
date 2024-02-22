@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.13.0
+    controller-gen.kubebuilder.io/version: v0.14.0
   name: resourcepolicies.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -39,14 +39,19 @@ spec:
           resource.
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
             type: string
           metadata:
             type: object
@@ -55,13 +60,14 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: 'DeletionPolicy specifies what will happen to the underlying
-                  external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicies field in a future release. Currently,
-                  both could be set independently and non-default values would be
-                  honored if the feature flag is enabled. See the design doc for more
-                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
                 enum:
                 - Orphan
                 - Delete
@@ -73,8 +79,9 @@ spec:
                       this property when you create the resource.
                     type: string
                   diskConsistencyGroupPolicy:
-                    description: Replication consistency group for asynchronous disk
-                      replication. Structure is documented below.
+                    description: |-
+                      Replication consistency group for asynchronous disk replication.
+                      Structure is documented below.
                     items:
                       properties:
                         enabled:
@@ -83,35 +90,35 @@ spec:
                       type: object
                     type: array
                   groupPlacementPolicy:
-                    description: Resource policy for instances used for placement
-                      configuration. Structure is documented below.
+                    description: |-
+                      Resource policy for instances used for placement configuration.
+                      Structure is documented below.
                     items:
                       properties:
                         availabilityDomainCount:
-                          description: The number of availability domains instances
-                            will be spread across. If two instances are in different
-                            availability domain, they will not be put in the same
-                            low latency network
+                          description: |-
+                            The number of availability domains instances will be spread across. If two instances are in different
+                            availability domain, they will not be put in the same low latency network
                           type: number
                         collocation:
-                          description: 'Collocation specifies whether to place VMs
-                            inside the same availability domain on the same low-latency
-                            network. Specify COLLOCATED to enable collocation. Can
-                            only be specified with vm_count. If compute instances
-                            are created with a COLLOCATED policy, then exactly vm_count
-                            instances must be created at the same time with the resource
-                            policy attached. Possible values are: COLLOCATED.'
+                          description: |-
+                            Collocation specifies whether to place VMs inside the same availability domain on the same low-latency network.
+                            Specify COLLOCATED to enable collocation. Can only be specified with vm_count. If compute instances are created
+                            with a COLLOCATED policy, then exactly vm_count instances must be created at the same time with the resource policy
+                            attached.
+                            Possible values are: COLLOCATED.
                           type: string
                         vmCount:
-                          description: Number of VMs in this placement group. Google
-                            does not recommend that you use this field unless you
-                            use a compact policy and you want your policy to work
-                            only if it contains this exact number of VMs.
+                          description: |-
+                            Number of VMs in this placement group. Google does not recommend that you use this field
+                            unless you use a compact policy and you want your policy to work only if it contains this
+                            exact number of VMs.
                           type: number
                       type: object
                     type: array
                   instanceSchedulePolicy:
-                    description: Resource policy for scheduling instance operations.
+                    description: |-
+                      Resource policy for scheduling instance operations.
                       Structure is documented below.
                     items:
                       properties:
@@ -124,12 +131,13 @@ spec:
                             is an RFC3339 string.
                           type: string
                         timeZone:
-                          description: 'Specifies the time zone to be used in interpreting
-                            the schedule. The value of this field must be a time zone
-                            name from the tz database: http://en.wikipedia.org/wiki/Tz_database.'
+                          description: |-
+                            Specifies the time zone to be used in interpreting the schedule. The value of this field must be a time zone name
+                            from the tz database: http://en.wikipedia.org/wiki/Tz_database.
                           type: string
                         vmStartSchedule:
-                          description: Specifies the schedule for starting instances.
+                          description: |-
+                            Specifies the schedule for starting instances.
                             Structure is documented below.
                           items:
                             properties:
@@ -140,7 +148,8 @@ spec:
                             type: object
                           type: array
                         vmStopSchedule:
-                          description: Specifies the schedule for stopping instances.
+                          description: |-
+                            Specifies the schedule for stopping instances.
                             Structure is documented below.
                           items:
                             properties:
@@ -153,20 +162,23 @@ spec:
                       type: object
                     type: array
                   project:
-                    description: The ID of the project in which the resource belongs.
+                    description: |-
+                      The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                   region:
                     description: Region where resource policy resides.
                     type: string
                   snapshotSchedulePolicy:
-                    description: Policy for creating snapshots of persistent disks.
+                    description: |-
+                      Policy for creating snapshots of persistent disks.
                       Structure is documented below.
                     items:
                       properties:
                         retentionPolicy:
-                          description: Retention policy applied to snapshots created
-                            by this resource policy. Structure is documented below.
+                          description: |-
+                            Retention policy applied to snapshots created by this resource policy.
+                            Structure is documented below.
                           items:
                             properties:
                               maxRetentionDays:
@@ -174,21 +186,24 @@ spec:
                                   to be kept.
                                 type: number
                               onSourceDiskDelete:
-                                description: 'Specifies the behavior to apply to scheduled
-                                  snapshots when the source disk is deleted. Default
-                                  value is KEEP_AUTO_SNAPSHOTS. Possible values are:
-                                  KEEP_AUTO_SNAPSHOTS, APPLY_RETENTION_POLICY.'
+                                description: |-
+                                  Specifies the behavior to apply to scheduled snapshots when
+                                  the source disk is deleted.
+                                  Default value is KEEP_AUTO_SNAPSHOTS.
+                                  Possible values are: KEEP_AUTO_SNAPSHOTS, APPLY_RETENTION_POLICY.
                                 type: string
                             type: object
                           type: array
                         schedule:
-                          description: Contains one of an hourlySchedule, dailySchedule,
-                            or weeklySchedule. Structure is documented below.
+                          description: |-
+                            Contains one of an hourlySchedule, dailySchedule, or weeklySchedule.
+                            Structure is documented below.
                           items:
                             properties:
                               dailySchedule:
-                                description: The policy will execute every nth day
-                                  at the specified time. Structure is documented below.
+                                description: |-
+                                  The policy will execute every nth day at the specified time.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     daysInCycle:
@@ -199,50 +214,49 @@ spec:
                                         be 1.
                                       type: number
                                     startTime:
-                                      description: 'Time within the window to start
-                                        the operations. It must be in format "HH:MM",
-                                        where HH : [00-23] and MM : [00-00] GMT.'
+                                      description: |-
+                                        Time within the window to start the operations.
+                                        It must be in format "HH:MM", where HH : [00-23] and MM : [00-00] GMT.
                                       type: string
                                   type: object
                                 type: array
                               hourlySchedule:
-                                description: The policy will execute every nth hour
-                                  starting at the specified time. Structure is documented
-                                  below.
+                                description: |-
+                                  The policy will execute every nth hour starting at the specified time.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     hoursInCycle:
                                       description: The number of hours between snapshots.
                                       type: number
                                     startTime:
-                                      description: 'Time within the window to start
-                                        the operations. It must be in format "HH:MM",
-                                        where HH : [00-23] and MM : [00-00] GMT.'
+                                      description: |-
+                                        Time within the window to start the operations.
+                                        It must be in format "HH:MM", where HH : [00-23] and MM : [00-00] GMT.
                                       type: string
                                   type: object
                                 type: array
                               weeklySchedule:
-                                description: Allows specifying a snapshot time for
-                                  each day of the week. Structure is documented below.
+                                description: |-
+                                  Allows specifying a snapshot time for each day of the week.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     dayOfWeeks:
-                                      description: May contain up to seven (one for
-                                        each day of the week) snapshot times. Structure
-                                        is documented below.
+                                      description: |-
+                                        May contain up to seven (one for each day of the week) snapshot times.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           day:
-                                            description: 'The day of the week to create
-                                              the snapshot. e.g. MONDAY Possible values
-                                              are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY,
-                                              FRIDAY, SATURDAY, SUNDAY.'
+                                            description: |-
+                                              The day of the week to create the snapshot. e.g. MONDAY
+                                              Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
                                             type: string
                                           startTime:
-                                            description: 'Time within the window to
-                                              start the operations. It must be in
-                                              format "HH:MM", where HH : [00-23] and
-                                              MM : [00-00] GMT.'
+                                            description: |-
+                                              Time within the window to start the operations.
+                                              It must be in format "HH:MM", where HH : [00-23] and MM : [00-00] GMT.
                                             type: string
                                         type: object
                                       type: array
@@ -251,15 +265,16 @@ spec:
                             type: object
                           type: array
                         snapshotProperties:
-                          description: Properties with which the snapshots are created,
-                            such as labels. Structure is documented below.
+                          description: |-
+                            Properties with which the snapshots are created, such as labels.
+                            Structure is documented below.
                           items:
                             properties:
                               chainName:
-                                description: Creates the new snapshot in the snapshot
-                                  chain labeled with the specified name. The chain
-                                  name must be 1-63 characters long and comply with
-                                  RFC1035.
+                                description: |-
+                                  Creates the new snapshot in the snapshot chain labeled with the
+                                  specified name. The chain name must be 1-63 characters long and comply
+                                  with RFC1035.
                                 type: string
                               guestFlush:
                                 description: Whether to perform a 'guest aware' snapshot.
@@ -271,8 +286,9 @@ spec:
                                 type: object
                                 x-kubernetes-map-type: granular
                               storageLocations:
-                                description: Cloud Storage bucket location to store
-                                  the auto snapshot (regional or multi-regional)
+                                description: |-
+                                  Cloud Storage bucket location to store the auto snapshot
+                                  (regional or multi-regional)
                                 items:
                                   type: string
                                 type: array
@@ -285,24 +301,26 @@ spec:
                 - region
                 type: object
               initProvider:
-                description: THIS IS A BETA FIELD. It will be honored unless the Management
-                  Policies feature flag is disabled. InitProvider holds the same fields
-                  as ForProvider, with the exception of Identifier and other resource
-                  reference fields. The fields that are in InitProvider are merged
-                  into ForProvider when the resource is created. The same fields are
-                  also added to the terraform ignore_changes hook, to avoid updating
-                  them after creation. This is useful for fields that are required
-                  on creation, but we do not desire to update them after creation,
-                  for example because of an external controller is managing them,
-                  like an autoscaler.
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
                 properties:
                   description:
                     description: An optional description of this resource. Provide
                       this property when you create the resource.
                     type: string
                   diskConsistencyGroupPolicy:
-                    description: Replication consistency group for asynchronous disk
-                      replication. Structure is documented below.
+                    description: |-
+                      Replication consistency group for asynchronous disk replication.
+                      Structure is documented below.
                     items:
                       properties:
                         enabled:
@@ -311,35 +329,35 @@ spec:
                       type: object
                     type: array
                   groupPlacementPolicy:
-                    description: Resource policy for instances used for placement
-                      configuration. Structure is documented below.
+                    description: |-
+                      Resource policy for instances used for placement configuration.
+                      Structure is documented below.
                     items:
                       properties:
                         availabilityDomainCount:
-                          description: The number of availability domains instances
-                            will be spread across. If two instances are in different
-                            availability domain, they will not be put in the same
-                            low latency network
+                          description: |-
+                            The number of availability domains instances will be spread across. If two instances are in different
+                            availability domain, they will not be put in the same low latency network
                           type: number
                         collocation:
-                          description: 'Collocation specifies whether to place VMs
-                            inside the same availability domain on the same low-latency
-                            network. Specify COLLOCATED to enable collocation. Can
-                            only be specified with vm_count. If compute instances
-                            are created with a COLLOCATED policy, then exactly vm_count
-                            instances must be created at the same time with the resource
-                            policy attached. Possible values are: COLLOCATED.'
+                          description: |-
+                            Collocation specifies whether to place VMs inside the same availability domain on the same low-latency network.
+                            Specify COLLOCATED to enable collocation. Can only be specified with vm_count. If compute instances are created
+                            with a COLLOCATED policy, then exactly vm_count instances must be created at the same time with the resource policy
+                            attached.
+                            Possible values are: COLLOCATED.
                           type: string
                         vmCount:
-                          description: Number of VMs in this placement group. Google
-                            does not recommend that you use this field unless you
-                            use a compact policy and you want your policy to work
-                            only if it contains this exact number of VMs.
+                          description: |-
+                            Number of VMs in this placement group. Google does not recommend that you use this field
+                            unless you use a compact policy and you want your policy to work only if it contains this
+                            exact number of VMs.
                           type: number
                       type: object
                     type: array
                   instanceSchedulePolicy:
-                    description: Resource policy for scheduling instance operations.
+                    description: |-
+                      Resource policy for scheduling instance operations.
                       Structure is documented below.
                     items:
                       properties:
@@ -352,12 +370,13 @@ spec:
                             is an RFC3339 string.
                           type: string
                         timeZone:
-                          description: 'Specifies the time zone to be used in interpreting
-                            the schedule. The value of this field must be a time zone
-                            name from the tz database: http://en.wikipedia.org/wiki/Tz_database.'
+                          description: |-
+                            Specifies the time zone to be used in interpreting the schedule. The value of this field must be a time zone name
+                            from the tz database: http://en.wikipedia.org/wiki/Tz_database.
                           type: string
                         vmStartSchedule:
-                          description: Specifies the schedule for starting instances.
+                          description: |-
+                            Specifies the schedule for starting instances.
                             Structure is documented below.
                           items:
                             properties:
@@ -368,7 +387,8 @@ spec:
                             type: object
                           type: array
                         vmStopSchedule:
-                          description: Specifies the schedule for stopping instances.
+                          description: |-
+                            Specifies the schedule for stopping instances.
                             Structure is documented below.
                           items:
                             properties:
@@ -381,17 +401,20 @@ spec:
                       type: object
                     type: array
                   project:
-                    description: The ID of the project in which the resource belongs.
+                    description: |-
+                      The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                   snapshotSchedulePolicy:
-                    description: Policy for creating snapshots of persistent disks.
+                    description: |-
+                      Policy for creating snapshots of persistent disks.
                       Structure is documented below.
                     items:
                       properties:
                         retentionPolicy:
-                          description: Retention policy applied to snapshots created
-                            by this resource policy. Structure is documented below.
+                          description: |-
+                            Retention policy applied to snapshots created by this resource policy.
+                            Structure is documented below.
                           items:
                             properties:
                               maxRetentionDays:
@@ -399,21 +422,24 @@ spec:
                                   to be kept.
                                 type: number
                               onSourceDiskDelete:
-                                description: 'Specifies the behavior to apply to scheduled
-                                  snapshots when the source disk is deleted. Default
-                                  value is KEEP_AUTO_SNAPSHOTS. Possible values are:
-                                  KEEP_AUTO_SNAPSHOTS, APPLY_RETENTION_POLICY.'
+                                description: |-
+                                  Specifies the behavior to apply to scheduled snapshots when
+                                  the source disk is deleted.
+                                  Default value is KEEP_AUTO_SNAPSHOTS.
+                                  Possible values are: KEEP_AUTO_SNAPSHOTS, APPLY_RETENTION_POLICY.
                                 type: string
                             type: object
                           type: array
                         schedule:
-                          description: Contains one of an hourlySchedule, dailySchedule,
-                            or weeklySchedule. Structure is documented below.
+                          description: |-
+                            Contains one of an hourlySchedule, dailySchedule, or weeklySchedule.
+                            Structure is documented below.
                           items:
                             properties:
                               dailySchedule:
-                                description: The policy will execute every nth day
-                                  at the specified time. Structure is documented below.
+                                description: |-
+                                  The policy will execute every nth day at the specified time.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     daysInCycle:
@@ -424,50 +450,49 @@ spec:
                                         be 1.
                                       type: number
                                     startTime:
-                                      description: 'Time within the window to start
-                                        the operations. It must be in format "HH:MM",
-                                        where HH : [00-23] and MM : [00-00] GMT.'
+                                      description: |-
+                                        Time within the window to start the operations.
+                                        It must be in format "HH:MM", where HH : [00-23] and MM : [00-00] GMT.
                                       type: string
                                   type: object
                                 type: array
                               hourlySchedule:
-                                description: The policy will execute every nth hour
-                                  starting at the specified time. Structure is documented
-                                  below.
+                                description: |-
+                                  The policy will execute every nth hour starting at the specified time.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     hoursInCycle:
                                       description: The number of hours between snapshots.
                                       type: number
                                     startTime:
-                                      description: 'Time within the window to start
-                                        the operations. It must be in format "HH:MM",
-                                        where HH : [00-23] and MM : [00-00] GMT.'
+                                      description: |-
+                                        Time within the window to start the operations.
+                                        It must be in format "HH:MM", where HH : [00-23] and MM : [00-00] GMT.
                                       type: string
                                   type: object
                                 type: array
                               weeklySchedule:
-                                description: Allows specifying a snapshot time for
-                                  each day of the week. Structure is documented below.
+                                description: |-
+                                  Allows specifying a snapshot time for each day of the week.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     dayOfWeeks:
-                                      description: May contain up to seven (one for
-                                        each day of the week) snapshot times. Structure
-                                        is documented below.
+                                      description: |-
+                                        May contain up to seven (one for each day of the week) snapshot times.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           day:
-                                            description: 'The day of the week to create
-                                              the snapshot. e.g. MONDAY Possible values
-                                              are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY,
-                                              FRIDAY, SATURDAY, SUNDAY.'
+                                            description: |-
+                                              The day of the week to create the snapshot. e.g. MONDAY
+                                              Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
                                             type: string
                                           startTime:
-                                            description: 'Time within the window to
-                                              start the operations. It must be in
-                                              format "HH:MM", where HH : [00-23] and
-                                              MM : [00-00] GMT.'
+                                            description: |-
+                                              Time within the window to start the operations.
+                                              It must be in format "HH:MM", where HH : [00-23] and MM : [00-00] GMT.
                                             type: string
                                         type: object
                                       type: array
@@ -476,15 +501,16 @@ spec:
                             type: object
                           type: array
                         snapshotProperties:
-                          description: Properties with which the snapshots are created,
-                            such as labels. Structure is documented below.
+                          description: |-
+                            Properties with which the snapshots are created, such as labels.
+                            Structure is documented below.
                           items:
                             properties:
                               chainName:
-                                description: Creates the new snapshot in the snapshot
-                                  chain labeled with the specified name. The chain
-                                  name must be 1-63 characters long and comply with
-                                  RFC1035.
+                                description: |-
+                                  Creates the new snapshot in the snapshot chain labeled with the
+                                  specified name. The chain name must be 1-63 characters long and comply
+                                  with RFC1035.
                                 type: string
                               guestFlush:
                                 description: Whether to perform a 'guest aware' snapshot.
@@ -496,8 +522,9 @@ spec:
                                 type: object
                                 x-kubernetes-map-type: granular
                               storageLocations:
-                                description: Cloud Storage bucket location to store
-                                  the auto snapshot (regional or multi-regional)
+                                description: |-
+                                  Cloud Storage bucket location to store the auto snapshot
+                                  (regional or multi-regional)
                                 items:
                                   type: string
                                 type: array
@@ -510,19 +537,21 @@ spec:
               managementPolicies:
                 default:
                 - '*'
-                description: 'THIS IS A BETA FIELD. It is on by default but can be
-                  opted out through a Crossplane feature flag. ManagementPolicies
-                  specify the array of actions Crossplane is allowed to take on the
-                  managed and external resources. This field is planned to replace
-                  the DeletionPolicy field in a future release. Currently, both could
-                  be set independently and non-default values would be honored if
-                  the feature flag is enabled. If both are custom, the DeletionPolicy
-                  field will be ignored. See the design doc for more information:
-                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
-                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
                 items:
-                  description: A ManagementAction represents an action that the Crossplane
-                    controllers can take on an external resource.
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
                   enum:
                   - Observe
                   - Create
@@ -535,9 +564,10 @@ spec:
               providerConfigRef:
                 default:
                   name: default
-                description: ProviderConfigReference specifies how the provider that
-                  will be used to create, observe, update, and delete this managed
-                  resource should be configured.
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
                 properties:
                   name:
                     description: Name of the referenced object.
@@ -547,21 +577,21 @@ spec:
                     properties:
                       resolution:
                         default: Required
-                        description: Resolution specifies whether resolution of this
-                          reference is required. The default is 'Required', which
-                          means the reconcile will fail if the reference cannot be
-                          resolved. 'Optional' means this reference will be a no-op
-                          if it cannot be resolved.
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
                         enum:
                         - Required
                         - Optional
                         type: string
                       resolve:
-                        description: Resolve specifies when this reference should
-                          be resolved. The default is 'IfNotPresent', which will attempt
-                          to resolve the reference only when the corresponding field
-                          is not present. Use 'Always' to resolve the reference on
-                          every reconcile.
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
                         enum:
                         - Always
                         - IfNotPresent
@@ -571,17 +601,19 @@ spec:
                 - name
                 type: object
               publishConnectionDetailsTo:
-                description: PublishConnectionDetailsTo specifies the connection secret
-                  config which contains a name, metadata and a reference to secret
-                  store config to which any connection details for this managed resource
-                  should be written. Connection details frequently include the endpoint,
-                  username, and password required to connect to the managed resource.
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
                 properties:
                   configRef:
                     default:
                       name: default
-                    description: SecretStoreConfigRef specifies which secret store
-                      config should be used for this ConnectionSecret.
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -591,21 +623,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -620,21 +652,22 @@ spec:
                       annotations:
                         additionalProperties:
                           type: string
-                        description: Annotations are the annotations to be added to
-                          connection secret. - For Kubernetes secrets, this will be
-                          used as "metadata.annotations". - It is up to Secret Store
-                          implementation for others store types.
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
                         type: object
                       labels:
                         additionalProperties:
                           type: string
-                        description: Labels are the labels/tags to be added to connection
-                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
-                          - It is up to Secret Store implementation for others store
-                          types.
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
                         type: object
                       type:
-                        description: Type is the SecretType for the connection secret.
+                        description: |-
+                          Type is the SecretType for the connection secret.
                           - Only valid for Kubernetes Secret Stores.
                         type: string
                     type: object
@@ -645,14 +678,15 @@ spec:
                 - name
                 type: object
               writeConnectionSecretToRef:
-                description: WriteConnectionSecretToReference specifies the namespace
-                  and name of a Secret to which any connection details for this managed
-                  resource should be written. Connection details frequently include
-                  the endpoint, username, and password required to connect to the
-                  managed resource. This field is planned to be replaced in a future
-                  release in favor of PublishConnectionDetailsTo. Currently, both
-                  could be set independently and connection details would be published
-                  to both without affecting each other.
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
                 properties:
                   name:
                     description: Name of the secret.
@@ -677,8 +711,9 @@ spec:
                       this property when you create the resource.
                     type: string
                   diskConsistencyGroupPolicy:
-                    description: Replication consistency group for asynchronous disk
-                      replication. Structure is documented below.
+                    description: |-
+                      Replication consistency group for asynchronous disk replication.
+                      Structure is documented below.
                     items:
                       properties:
                         enabled:
@@ -687,30 +722,29 @@ spec:
                       type: object
                     type: array
                   groupPlacementPolicy:
-                    description: Resource policy for instances used for placement
-                      configuration. Structure is documented below.
+                    description: |-
+                      Resource policy for instances used for placement configuration.
+                      Structure is documented below.
                     items:
                       properties:
                         availabilityDomainCount:
-                          description: The number of availability domains instances
-                            will be spread across. If two instances are in different
-                            availability domain, they will not be put in the same
-                            low latency network
+                          description: |-
+                            The number of availability domains instances will be spread across. If two instances are in different
+                            availability domain, they will not be put in the same low latency network
                           type: number
                         collocation:
-                          description: 'Collocation specifies whether to place VMs
-                            inside the same availability domain on the same low-latency
-                            network. Specify COLLOCATED to enable collocation. Can
-                            only be specified with vm_count. If compute instances
-                            are created with a COLLOCATED policy, then exactly vm_count
-                            instances must be created at the same time with the resource
-                            policy attached. Possible values are: COLLOCATED.'
+                          description: |-
+                            Collocation specifies whether to place VMs inside the same availability domain on the same low-latency network.
+                            Specify COLLOCATED to enable collocation. Can only be specified with vm_count. If compute instances are created
+                            with a COLLOCATED policy, then exactly vm_count instances must be created at the same time with the resource policy
+                            attached.
+                            Possible values are: COLLOCATED.
                           type: string
                         vmCount:
-                          description: Number of VMs in this placement group. Google
-                            does not recommend that you use this field unless you
-                            use a compact policy and you want your policy to work
-                            only if it contains this exact number of VMs.
+                          description: |-
+                            Number of VMs in this placement group. Google does not recommend that you use this field
+                            unless you use a compact policy and you want your policy to work only if it contains this
+                            exact number of VMs.
                           type: number
                       type: object
                     type: array
@@ -718,7 +752,8 @@ spec:
                     description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/resourcePolicies/{{name}}
                     type: string
                   instanceSchedulePolicy:
-                    description: Resource policy for scheduling instance operations.
+                    description: |-
+                      Resource policy for scheduling instance operations.
                       Structure is documented below.
                     items:
                       properties:
@@ -731,12 +766,13 @@ spec:
                             is an RFC3339 string.
                           type: string
                         timeZone:
-                          description: 'Specifies the time zone to be used in interpreting
-                            the schedule. The value of this field must be a time zone
-                            name from the tz database: http://en.wikipedia.org/wiki/Tz_database.'
+                          description: |-
+                            Specifies the time zone to be used in interpreting the schedule. The value of this field must be a time zone name
+                            from the tz database: http://en.wikipedia.org/wiki/Tz_database.
                           type: string
                         vmStartSchedule:
-                          description: Specifies the schedule for starting instances.
+                          description: |-
+                            Specifies the schedule for starting instances.
                             Structure is documented below.
                           items:
                             properties:
@@ -747,7 +783,8 @@ spec:
                             type: object
                           type: array
                         vmStopSchedule:
-                          description: Specifies the schedule for stopping instances.
+                          description: |-
+                            Specifies the schedule for stopping instances.
                             Structure is documented below.
                           items:
                             properties:
@@ -760,7 +797,8 @@ spec:
                       type: object
                     type: array
                   project:
-                    description: The ID of the project in which the resource belongs.
+                    description: |-
+                      The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                   region:
@@ -770,13 +808,15 @@ spec:
                     description: The URI of the created resource.
                     type: string
                   snapshotSchedulePolicy:
-                    description: Policy for creating snapshots of persistent disks.
+                    description: |-
+                      Policy for creating snapshots of persistent disks.
                       Structure is documented below.
                     items:
                       properties:
                         retentionPolicy:
-                          description: Retention policy applied to snapshots created
-                            by this resource policy. Structure is documented below.
+                          description: |-
+                            Retention policy applied to snapshots created by this resource policy.
+                            Structure is documented below.
                           items:
                             properties:
                               maxRetentionDays:
@@ -784,21 +824,24 @@ spec:
                                   to be kept.
                                 type: number
                               onSourceDiskDelete:
-                                description: 'Specifies the behavior to apply to scheduled
-                                  snapshots when the source disk is deleted. Default
-                                  value is KEEP_AUTO_SNAPSHOTS. Possible values are:
-                                  KEEP_AUTO_SNAPSHOTS, APPLY_RETENTION_POLICY.'
+                                description: |-
+                                  Specifies the behavior to apply to scheduled snapshots when
+                                  the source disk is deleted.
+                                  Default value is KEEP_AUTO_SNAPSHOTS.
+                                  Possible values are: KEEP_AUTO_SNAPSHOTS, APPLY_RETENTION_POLICY.
                                 type: string
                             type: object
                           type: array
                         schedule:
-                          description: Contains one of an hourlySchedule, dailySchedule,
-                            or weeklySchedule. Structure is documented below.
+                          description: |-
+                            Contains one of an hourlySchedule, dailySchedule, or weeklySchedule.
+                            Structure is documented below.
                           items:
                             properties:
                               dailySchedule:
-                                description: The policy will execute every nth day
-                                  at the specified time. Structure is documented below.
+                                description: |-
+                                  The policy will execute every nth day at the specified time.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     daysInCycle:
@@ -809,50 +852,49 @@ spec:
                                         be 1.
                                       type: number
                                     startTime:
-                                      description: 'Time within the window to start
-                                        the operations. It must be in format "HH:MM",
-                                        where HH : [00-23] and MM : [00-00] GMT.'
+                                      description: |-
+                                        Time within the window to start the operations.
+                                        It must be in format "HH:MM", where HH : [00-23] and MM : [00-00] GMT.
                                       type: string
                                   type: object
                                 type: array
                               hourlySchedule:
-                                description: The policy will execute every nth hour
-                                  starting at the specified time. Structure is documented
-                                  below.
+                                description: |-
+                                  The policy will execute every nth hour starting at the specified time.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     hoursInCycle:
                                       description: The number of hours between snapshots.
                                       type: number
                                     startTime:
-                                      description: 'Time within the window to start
-                                        the operations. It must be in format "HH:MM",
-                                        where HH : [00-23] and MM : [00-00] GMT.'
+                                      description: |-
+                                        Time within the window to start the operations.
+                                        It must be in format "HH:MM", where HH : [00-23] and MM : [00-00] GMT.
                                       type: string
                                   type: object
                                 type: array
                               weeklySchedule:
-                                description: Allows specifying a snapshot time for
-                                  each day of the week. Structure is documented below.
+                                description: |-
+                                  Allows specifying a snapshot time for each day of the week.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     dayOfWeeks:
-                                      description: May contain up to seven (one for
-                                        each day of the week) snapshot times. Structure
-                                        is documented below.
+                                      description: |-
+                                        May contain up to seven (one for each day of the week) snapshot times.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           day:
-                                            description: 'The day of the week to create
-                                              the snapshot. e.g. MONDAY Possible values
-                                              are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY,
-                                              FRIDAY, SATURDAY, SUNDAY.'
+                                            description: |-
+                                              The day of the week to create the snapshot. e.g. MONDAY
+                                              Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
                                             type: string
                                           startTime:
-                                            description: 'Time within the window to
-                                              start the operations. It must be in
-                                              format "HH:MM", where HH : [00-23] and
-                                              MM : [00-00] GMT.'
+                                            description: |-
+                                              Time within the window to start the operations.
+                                              It must be in format "HH:MM", where HH : [00-23] and MM : [00-00] GMT.
                                             type: string
                                         type: object
                                       type: array
@@ -861,15 +903,16 @@ spec:
                             type: object
                           type: array
                         snapshotProperties:
-                          description: Properties with which the snapshots are created,
-                            such as labels. Structure is documented below.
+                          description: |-
+                            Properties with which the snapshots are created, such as labels.
+                            Structure is documented below.
                           items:
                             properties:
                               chainName:
-                                description: Creates the new snapshot in the snapshot
-                                  chain labeled with the specified name. The chain
-                                  name must be 1-63 characters long and comply with
-                                  RFC1035.
+                                description: |-
+                                  Creates the new snapshot in the snapshot chain labeled with the
+                                  specified name. The chain name must be 1-63 characters long and comply
+                                  with RFC1035.
                                 type: string
                               guestFlush:
                                 description: Whether to perform a 'guest aware' snapshot.
@@ -881,8 +924,9 @@ spec:
                                 type: object
                                 x-kubernetes-map-type: granular
                               storageLocations:
-                                description: Cloud Storage bucket location to store
-                                  the auto snapshot (regional or multi-regional)
+                                description: |-
+                                  Cloud Storage bucket location to store the auto snapshot
+                                  (regional or multi-regional)
                                 items:
                                   type: string
                                 type: array
@@ -898,13 +942,15 @@ spec:
                   description: A Condition that may apply to a resource.
                   properties:
                     lastTransitionTime:
-                      description: LastTransitionTime is the last time this condition
-                        transitioned from one status to another.
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
                       format: date-time
                       type: string
                     message:
-                      description: A Message containing details about this condition's
-                        last transition from one status to another, if any.
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
                       type: string
                     reason:
                       description: A Reason for this condition's last transition from
@@ -915,8 +961,9 @@ spec:
                         False, or Unknown?
                       type: string
                     type:
-                      description: Type of this condition. At most one of each condition
-                        type may apply to a resource at any point in time.
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
                       type: string
                   required:
                   - lastTransitionTime

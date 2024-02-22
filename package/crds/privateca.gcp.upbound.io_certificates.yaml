@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.13.0
+    controller-gen.kubebuilder.io/version: v0.14.0
   name: certificates.privateca.gcp.upbound.io
 spec:
   group: privateca.gcp.upbound.io
@@ -38,14 +38,19 @@ spec:
           corresponds to a signed X.
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
             type: string
           metadata:
             type: object
@@ -54,13 +59,14 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: 'DeletionPolicy specifies what will happen to the underlying
-                  external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicies field in a future release. Currently,
-                  both could be set independently and non-default values would be
-                  honored if the feature flag is enabled. See the design doc for more
-                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
                 enum:
                 - Orphan
                 - Delete
@@ -68,11 +74,11 @@ spec:
               forProvider:
                 properties:
                   certificateAuthority:
-                    description: The Certificate Authority ID that should issue the
-                      certificate. For example, to issue a Certificate from a Certificate
-                      Authority with resource name projects/my-project/locations/us-central1/caPools/my-pool/certificateAuthorities/my-ca,
-                      argument pool should be set to projects/my-project/locations/us-central1/caPools/my-pool,
-                      argument certificate_authority should be set to my-ca.
+                    description: |-
+                      The Certificate Authority ID that should issue the certificate. For example, to issue a Certificate from
+                      a Certificate Authority with resource name projects/my-project/locations/us-central1/caPools/my-pool/certificateAuthorities/my-ca,
+                      argument pool should be set to projects/my-project/locations/us-central1/caPools/my-pool, argument certificate_authority
+                      should be set to my-ca.
                     type: string
                   certificateAuthorityRef:
                     description: Reference to a CertificateAuthority in privateca
@@ -86,21 +92,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -114,8 +120,9 @@ spec:
                       to populate certificateAuthority.
                     properties:
                       matchControllerRef:
-                        description: MatchControllerRef ensures an object with the
-                          same controller reference as the selecting object is selected.
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
                         type: boolean
                       matchLabels:
                         additionalProperties:
@@ -128,21 +135,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -150,11 +157,12 @@ spec:
                         type: object
                     type: object
                   certificateTemplate:
-                    description: The resource name for a CertificateTemplate used
-                      to issue this certificate, in the format projects/*/locations/*/certificateTemplates/*.
-                      If this is specified, the caller must have the necessary permission
-                      to use this template. If this is omitted, no template will be
-                      used. This template must be in the same location as the Certificate.
+                    description: |-
+                      The resource name for a CertificateTemplate used to issue this certificate,
+                      in the format projects/*/locations/*/certificateTemplates/*. If this is specified,
+                      the caller must have the necessary permission to use this template. If this is
+                      omitted, no template will be used. This template must be in the same location
+                      as the Certificate.
                     type: string
                   certificateTemplateRef:
                     description: Reference to a CertificateTemplate in privateca to
@@ -168,21 +176,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -196,8 +204,9 @@ spec:
                       populate certificateTemplate.
                     properties:
                       matchControllerRef:
-                        description: MatchControllerRef ensures an object with the
-                          same controller reference as the selecting object is selected.
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
                         type: boolean
                       matchLabels:
                         additionalProperties:
@@ -210,21 +219,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -232,19 +241,21 @@ spec:
                         type: object
                     type: object
                   config:
-                    description: The config used to create a self-signed X.509 certificate
-                      or CSR. Structure is documented below.
+                    description: |-
+                      The config used to create a self-signed X.509 certificate or CSR.
+                      Structure is documented below.
                     items:
                       properties:
                         publicKey:
-                          description: A PublicKey describes a public key. Structure
-                            is documented below.
+                          description: |-
+                            A PublicKey describes a public key.
+                            Structure is documented below.
                           items:
                             properties:
                               format:
-                                description: 'The format of the public key. Currently,
-                                  only PEM format is supported. Possible values are:
-                                  KEY_TYPE_UNSPECIFIED, PEM.'
+                                description: |-
+                                  The format of the public key. Currently, only PEM format is supported.
+                                  Possible values are: KEY_TYPE_UNSPECIFIED, PEM.
                                 type: string
                               keySecretRef:
                                 description: Required. A public key. When this is
@@ -272,15 +283,16 @@ spec:
                             type: object
                           type: array
                         subjectConfig:
-                          description: Specifies some of the values in a certificate
-                            that are related to the subject. Structure is documented
-                            below.
+                          description: |-
+                            Specifies some of the values in a certificate that are related to the subject.
+                            Structure is documented below.
                           items:
                             properties:
                               subject:
-                                description: (Output) Contains distinguished name
-                                  fields such as the location and organization. Structure
-                                  is documented below.
+                                description: |-
+                                  (Output)
+                                  Contains distinguished name fields such as the location and organization.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     commonName:
@@ -313,8 +325,10 @@ spec:
                                   type: object
                                 type: array
                               subjectAltName:
-                                description: (Output) The subject alternative name
-                                  fields. Structure is documented below.
+                                description: |-
+                                  (Output)
+                                  The subject alternative name fields.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     dnsNames:
@@ -345,13 +359,15 @@ spec:
                             type: object
                           type: array
                         x509Config:
-                          description: Describes how some of the technical X.509 fields
-                            in a certificate should be populated. Structure is documented
-                            below.
+                          description: |-
+                            Describes how some of the technical X.509 fields in a certificate should be populated.
+                            Structure is documented below.
                           items:
                             properties:
                               additionalExtensions:
-                                description: (Output) Describes custom X.509 extensions.
+                                description: |-
+                                  (Output)
+                                  Describes custom X.509 extensions.
                                   Structure is documented below.
                                 items:
                                   properties:
@@ -360,9 +376,9 @@ spec:
                                         constraints are marked critical.
                                       type: boolean
                                     objectId:
-                                      description: Describes values that are relevant
-                                        in a CA certificate. Structure is documented
-                                        below.
+                                      description: |-
+                                        Describes values that are relevant in a CA certificate.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           objectIdPath:
@@ -376,22 +392,25 @@ spec:
                                         type: object
                                       type: array
                                     value:
-                                      description: (Output) The value of this X.509
-                                        extension.
+                                      description: |-
+                                        (Output)
+                                        The value of this X.509 extension.
                                       type: string
                                   type: object
                                 type: array
                               aiaOcspServers:
-                                description: (Output) Describes Online Certificate
-                                  Status Protocol (OCSP) endpoint addresses that appear
-                                  in the "Authority Information Access" extension
-                                  in the certificate.
+                                description: |-
+                                  (Output)
+                                  Describes Online Certificate Status Protocol (OCSP) endpoint addresses that appear in the
+                                  "Authority Information Access" extension in the certificate.
                                 items:
                                   type: string
                                 type: array
                               caOptions:
-                                description: (Output) Describes values that are relevant
-                                  in a CA certificate. Structure is documented below.
+                                description: |-
+                                  (Output)
+                                  Describes values that are relevant in a CA certificate.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     isCa:
@@ -399,83 +418,87 @@ spec:
                                         extension will be set to true.
                                       type: boolean
                                     maxIssuerPathLength:
-                                      description: Refers to the "path length constraint"
-                                        in Basic Constraints extension. For a CA certificate,
-                                        this value describes the depth of subordinate
-                                        CA certificates that are allowed. If this
-                                        value is less than 0, the request will fail.
+                                      description: |-
+                                        Refers to the "path length constraint" in Basic Constraints extension. For a CA certificate, this value describes the depth of
+                                        subordinate CA certificates that are allowed. If this value is less than 0, the request will fail.
                                       type: number
                                     nonCa:
-                                      description: When true, the "CA" in Basic Constraints
-                                        extension will be set to false. If both is_ca
-                                        and non_ca are unset, the extension will be
-                                        omitted from the CA certificate.
+                                      description: |-
+                                        When true, the "CA" in Basic Constraints extension will be set to false.
+                                        If both is_ca and non_ca are unset, the extension will be omitted from the CA certificate.
                                       type: boolean
                                     zeroMaxIssuerPathLength:
-                                      description: When true, the "path length constraint"
-                                        in Basic Constraints extension will be set
-                                        to 0. if both max_issuer_path_length and zero_max_issuer_path_length
-                                        are unset, the max path length will be omitted
-                                        from the CA certificate.
+                                      description: |-
+                                        When true, the "path length constraint" in Basic Constraints extension will be set to 0.
+                                        if both max_issuer_path_length and zero_max_issuer_path_length are unset,
+                                        the max path length will be omitted from the CA certificate.
                                       type: boolean
                                   type: object
                                 type: array
                               keyUsage:
-                                description: (Output) Indicates the intended use for
-                                  keys that correspond to a certificate. Structure
-                                  is documented below.
+                                description: |-
+                                  (Output)
+                                  Indicates the intended use for keys that correspond to a certificate.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     baseKeyUsage:
-                                      description: Describes high-level ways in which
-                                        a key may be used. Structure is documented
-                                        below.
+                                      description: |-
+                                        Describes high-level ways in which a key may be used.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           certSign:
-                                            description: (Output) The key may be used
-                                              to sign certificates.
+                                            description: |-
+                                              (Output)
+                                              The key may be used to sign certificates.
                                             type: boolean
                                           contentCommitment:
-                                            description: (Output) The key may be used
-                                              for cryptographic commitments. Note
-                                              that this may also be referred to as
-                                              "non-repudiation".
+                                            description: |-
+                                              (Output)
+                                              The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
                                             type: boolean
                                           crlSign:
-                                            description: (Output) The key may be used
-                                              sign certificate revocation lists.
+                                            description: |-
+                                              (Output)
+                                              The key may be used sign certificate revocation lists.
                                             type: boolean
                                           dataEncipherment:
-                                            description: (Output) The key may be used
-                                              to encipher data.
+                                            description: |-
+                                              (Output)
+                                              The key may be used to encipher data.
                                             type: boolean
                                           decipherOnly:
-                                            description: (Output) The key may be used
-                                              to decipher only.
+                                            description: |-
+                                              (Output)
+                                              The key may be used to decipher only.
                                             type: boolean
                                           digitalSignature:
-                                            description: (Output) The key may be used
-                                              for digital signatures.
+                                            description: |-
+                                              (Output)
+                                              The key may be used for digital signatures.
                                             type: boolean
                                           encipherOnly:
-                                            description: (Output) The key may be used
-                                              to encipher only.
+                                            description: |-
+                                              (Output)
+                                              The key may be used to encipher only.
                                             type: boolean
                                           keyAgreement:
-                                            description: (Output) The key may be used
-                                              in a key agreement protocol.
+                                            description: |-
+                                              (Output)
+                                              The key may be used in a key agreement protocol.
                                             type: boolean
                                           keyEncipherment:
-                                            description: (Output) The key may be used
-                                              to encipher other keys.
+                                            description: |-
+                                              (Output)
+                                              The key may be used to encipher other keys.
                                             type: boolean
                                         type: object
                                       type: array
                                     extendedKeyUsage:
-                                      description: Describes high-level ways in which
-                                        a key may be used. Structure is documented
-                                        below.
+                                      description: |-
+                                        Describes high-level ways in which a key may be used.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           clientAuth:
@@ -513,10 +536,9 @@ spec:
                                         type: object
                                       type: array
                                     unknownExtendedKeyUsages:
-                                      description: An ObjectId specifies an object
-                                        identifier (OID). These provide context and
-                                        describe types in ASN.1 messages. Structure
-                                        is documented below.
+                                      description: |-
+                                        An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           objectIdPath:
@@ -532,8 +554,10 @@ spec:
                                   type: object
                                 type: array
                               nameConstraints:
-                                description: (Output) Describes the X.509 name constraints
-                                  extension. Structure is documented below.
+                                description: |-
+                                  (Output)
+                                  Describes the X.509 name constraints extension.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     critical:
@@ -541,86 +565,83 @@ spec:
                                         constraints are marked critical.
                                       type: boolean
                                     excludedDnsNames:
-                                      description: Contains excluded DNS names. Any
-                                        DNS name that can be constructed by simply
-                                        adding zero or more labels to the left-hand
-                                        side of the name satisfies the name constraint.
-                                        For example, example.com, www.example.com,
-                                        www.sub.example.com would satisfy example.com
-                                        while example1.com does not.
+                                      description: |-
+                                        Contains excluded DNS names. Any DNS name that can be
+                                        constructed by simply adding zero or more labels to
+                                        the left-hand side of the name satisfies the name constraint.
+                                        For example, example.com, www.example.com, www.sub.example.com
+                                        would satisfy example.com while example1.com does not.
                                       items:
                                         type: string
                                       type: array
                                     excludedEmailAddresses:
-                                      description: Contains the excluded email addresses.
-                                        The value can be a particular email address,
-                                        a hostname to indicate all email addresses
-                                        on that host or a domain with a leading period
-                                        (e.g. .example.com) to indicate all email
-                                        addresses in that domain.
+                                      description: |-
+                                        Contains the excluded email addresses. The value can be a particular
+                                        email address, a hostname to indicate all email addresses on that host or
+                                        a domain with a leading period (e.g. .example.com) to indicate
+                                        all email addresses in that domain.
                                       items:
                                         type: string
                                       type: array
                                     excludedIpRanges:
-                                      description: Contains the excluded IP ranges.
-                                        For IPv4 addresses, the ranges are expressed
-                                        using CIDR notation as specified in RFC 4632.
-                                        For IPv6 addresses, the ranges are expressed
-                                        in similar encoding as IPv4 addresses.
+                                      description: |-
+                                        Contains the excluded IP ranges. For IPv4 addresses, the ranges
+                                        are expressed using CIDR notation as specified in RFC 4632.
+                                        For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+                                        addresses.
                                       items:
                                         type: string
                                       type: array
                                     excludedUris:
-                                      description: Contains the excluded URIs that
-                                        apply to the host part of the name. The value
-                                        can be a hostname or a domain with a leading
-                                        period (like .example.com)
+                                      description: |-
+                                        Contains the excluded URIs that apply to the host part of the name.
+                                        The value can be a hostname or a domain with a
+                                        leading period (like .example.com)
                                       items:
                                         type: string
                                       type: array
                                     permittedDnsNames:
-                                      description: Contains permitted DNS names. Any
-                                        DNS name that can be constructed by simply
-                                        adding zero or more labels to the left-hand
-                                        side of the name satisfies the name constraint.
-                                        For example, example.com, www.example.com,
-                                        www.sub.example.com would satisfy example.com
-                                        while example1.com does not.
+                                      description: |-
+                                        Contains permitted DNS names. Any DNS name that can be
+                                        constructed by simply adding zero or more labels to
+                                        the left-hand side of the name satisfies the name constraint.
+                                        For example, example.com, www.example.com, www.sub.example.com
+                                        would satisfy example.com while example1.com does not.
                                       items:
                                         type: string
                                       type: array
                                     permittedEmailAddresses:
-                                      description: Contains the permitted email addresses.
-                                        The value can be a particular email address,
-                                        a hostname to indicate all email addresses
-                                        on that host or a domain with a leading period
-                                        (e.g. .example.com) to indicate all email
-                                        addresses in that domain.
+                                      description: |-
+                                        Contains the permitted email addresses. The value can be a particular
+                                        email address, a hostname to indicate all email addresses on that host or
+                                        a domain with a leading period (e.g. .example.com) to indicate
+                                        all email addresses in that domain.
                                       items:
                                         type: string
                                       type: array
                                     permittedIpRanges:
-                                      description: Contains the permitted IP ranges.
-                                        For IPv4 addresses, the ranges are expressed
-                                        using CIDR notation as specified in RFC 4632.
-                                        For IPv6 addresses, the ranges are expressed
-                                        in similar encoding as IPv4 addresses.
+                                      description: |-
+                                        Contains the permitted IP ranges. For IPv4 addresses, the ranges
+                                        are expressed using CIDR notation as specified in RFC 4632.
+                                        For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+                                        addresses.
                                       items:
                                         type: string
                                       type: array
                                     permittedUris:
-                                      description: Contains the permitted URIs that
-                                        apply to the host part of the name. The value
-                                        can be a hostname or a domain with a leading
-                                        period (like .example.com)
+                                      description: |-
+                                        Contains the permitted URIs that apply to the host part of the name.
+                                        The value can be a hostname or a domain with a
+                                        leading period (like .example.com)
                                       items:
                                         type: string
                                       type: array
                                   type: object
                                 type: array
                               policyIds:
-                                description: (Output) Describes the X.509 certificate
-                                  policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
+                                description: |-
+                                  (Output)
+                                  Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
                                   Structure is documented below.
                                 items:
                                   properties:
@@ -645,15 +666,15 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   lifetime:
-                    description: 'The desired lifetime of the CA certificate. Used
-                      to create the "notBeforeTime" and "notAfterTime" fields inside
-                      an X.509 certificate. A duration in seconds with up to nine
-                      fractional digits, terminated by ''s''. Example: "3.5s".'
+                    description: |-
+                      The desired lifetime of the CA certificate. Used to create the "notBeforeTime" and
+                      "notAfterTime" fields inside an X.509 certificate. A duration in seconds with up to nine
+                      fractional digits, terminated by 's'. Example: "3.5s".
                     type: string
                   location:
-                    description: Location of the Certificate. A full list of valid
-                      locations can be found by running gcloud privateca locations
-                      list.
+                    description: |-
+                      Location of the Certificate. A full list of valid locations can be found by
+                      running gcloud privateca locations list.
                     type: string
                   pemCsr:
                     description: Immutable. A pem-encoded X.509 certificate signing
@@ -673,21 +694,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -700,8 +721,9 @@ spec:
                     description: Selector for a CAPool to populate pool.
                     properties:
                       matchControllerRef:
-                        description: MatchControllerRef ensures an object with the
-                          same controller reference as the selecting object is selected.
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
                         type: boolean
                       matchLabels:
                         additionalProperties:
@@ -714,21 +736,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -736,30 +758,32 @@ spec:
                         type: object
                     type: object
                   project:
-                    description: The ID of the project in which the resource belongs.
+                    description: |-
+                      The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                 required:
                 - location
                 type: object
               initProvider:
-                description: THIS IS A BETA FIELD. It will be honored unless the Management
-                  Policies feature flag is disabled. InitProvider holds the same fields
-                  as ForProvider, with the exception of Identifier and other resource
-                  reference fields. The fields that are in InitProvider are merged
-                  into ForProvider when the resource is created. The same fields are
-                  also added to the terraform ignore_changes hook, to avoid updating
-                  them after creation. This is useful for fields that are required
-                  on creation, but we do not desire to update them after creation,
-                  for example because of an external controller is managing them,
-                  like an autoscaler.
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
                 properties:
                   certificateAuthority:
-                    description: The Certificate Authority ID that should issue the
-                      certificate. For example, to issue a Certificate from a Certificate
-                      Authority with resource name projects/my-project/locations/us-central1/caPools/my-pool/certificateAuthorities/my-ca,
-                      argument pool should be set to projects/my-project/locations/us-central1/caPools/my-pool,
-                      argument certificate_authority should be set to my-ca.
+                    description: |-
+                      The Certificate Authority ID that should issue the certificate. For example, to issue a Certificate from
+                      a Certificate Authority with resource name projects/my-project/locations/us-central1/caPools/my-pool/certificateAuthorities/my-ca,
+                      argument pool should be set to projects/my-project/locations/us-central1/caPools/my-pool, argument certificate_authority
+                      should be set to my-ca.
                     type: string
                   certificateAuthorityRef:
                     description: Reference to a CertificateAuthority in privateca
@@ -773,21 +797,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -801,8 +825,9 @@ spec:
                       to populate certificateAuthority.
                     properties:
                       matchControllerRef:
-                        description: MatchControllerRef ensures an object with the
-                          same controller reference as the selecting object is selected.
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
                         type: boolean
                       matchLabels:
                         additionalProperties:
@@ -815,21 +840,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -837,11 +862,12 @@ spec:
                         type: object
                     type: object
                   certificateTemplate:
-                    description: The resource name for a CertificateTemplate used
-                      to issue this certificate, in the format projects/*/locations/*/certificateTemplates/*.
-                      If this is specified, the caller must have the necessary permission
-                      to use this template. If this is omitted, no template will be
-                      used. This template must be in the same location as the Certificate.
+                    description: |-
+                      The resource name for a CertificateTemplate used to issue this certificate,
+                      in the format projects/*/locations/*/certificateTemplates/*. If this is specified,
+                      the caller must have the necessary permission to use this template. If this is
+                      omitted, no template will be used. This template must be in the same location
+                      as the Certificate.
                     type: string
                   certificateTemplateRef:
                     description: Reference to a CertificateTemplate in privateca to
@@ -855,21 +881,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -883,8 +909,9 @@ spec:
                       populate certificateTemplate.
                     properties:
                       matchControllerRef:
-                        description: MatchControllerRef ensures an object with the
-                          same controller reference as the selecting object is selected.
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
                         type: boolean
                       matchLabels:
                         additionalProperties:
@@ -897,21 +924,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -919,32 +946,35 @@ spec:
                         type: object
                     type: object
                   config:
-                    description: The config used to create a self-signed X.509 certificate
-                      or CSR. Structure is documented below.
+                    description: |-
+                      The config used to create a self-signed X.509 certificate or CSR.
+                      Structure is documented below.
                     items:
                       properties:
                         publicKey:
-                          description: A PublicKey describes a public key. Structure
-                            is documented below.
+                          description: |-
+                            A PublicKey describes a public key.
+                            Structure is documented below.
                           items:
                             properties:
                               format:
-                                description: 'The format of the public key. Currently,
-                                  only PEM format is supported. Possible values are:
-                                  KEY_TYPE_UNSPECIFIED, PEM.'
+                                description: |-
+                                  The format of the public key. Currently, only PEM format is supported.
+                                  Possible values are: KEY_TYPE_UNSPECIFIED, PEM.
                                 type: string
                             type: object
                           type: array
                         subjectConfig:
-                          description: Specifies some of the values in a certificate
-                            that are related to the subject. Structure is documented
-                            below.
+                          description: |-
+                            Specifies some of the values in a certificate that are related to the subject.
+                            Structure is documented below.
                           items:
                             properties:
                               subject:
-                                description: (Output) Contains distinguished name
-                                  fields such as the location and organization. Structure
-                                  is documented below.
+                                description: |-
+                                  (Output)
+                                  Contains distinguished name fields such as the location and organization.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     commonName:
@@ -977,8 +1007,10 @@ spec:
                                   type: object
                                 type: array
                               subjectAltName:
-                                description: (Output) The subject alternative name
-                                  fields. Structure is documented below.
+                                description: |-
+                                  (Output)
+                                  The subject alternative name fields.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     dnsNames:
@@ -1009,13 +1041,15 @@ spec:
                             type: object
                           type: array
                         x509Config:
-                          description: Describes how some of the technical X.509 fields
-                            in a certificate should be populated. Structure is documented
-                            below.
+                          description: |-
+                            Describes how some of the technical X.509 fields in a certificate should be populated.
+                            Structure is documented below.
                           items:
                             properties:
                               additionalExtensions:
-                                description: (Output) Describes custom X.509 extensions.
+                                description: |-
+                                  (Output)
+                                  Describes custom X.509 extensions.
                                   Structure is documented below.
                                 items:
                                   properties:
@@ -1024,9 +1058,9 @@ spec:
                                         constraints are marked critical.
                                       type: boolean
                                     objectId:
-                                      description: Describes values that are relevant
-                                        in a CA certificate. Structure is documented
-                                        below.
+                                      description: |-
+                                        Describes values that are relevant in a CA certificate.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           objectIdPath:
@@ -1040,22 +1074,25 @@ spec:
                                         type: object
                                       type: array
                                     value:
-                                      description: (Output) The value of this X.509
-                                        extension.
+                                      description: |-
+                                        (Output)
+                                        The value of this X.509 extension.
                                       type: string
                                   type: object
                                 type: array
                               aiaOcspServers:
-                                description: (Output) Describes Online Certificate
-                                  Status Protocol (OCSP) endpoint addresses that appear
-                                  in the "Authority Information Access" extension
-                                  in the certificate.
+                                description: |-
+                                  (Output)
+                                  Describes Online Certificate Status Protocol (OCSP) endpoint addresses that appear in the
+                                  "Authority Information Access" extension in the certificate.
                                 items:
                                   type: string
                                 type: array
                               caOptions:
-                                description: (Output) Describes values that are relevant
-                                  in a CA certificate. Structure is documented below.
+                                description: |-
+                                  (Output)
+                                  Describes values that are relevant in a CA certificate.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     isCa:
@@ -1063,83 +1100,87 @@ spec:
                                         extension will be set to true.
                                       type: boolean
                                     maxIssuerPathLength:
-                                      description: Refers to the "path length constraint"
-                                        in Basic Constraints extension. For a CA certificate,
-                                        this value describes the depth of subordinate
-                                        CA certificates that are allowed. If this
-                                        value is less than 0, the request will fail.
+                                      description: |-
+                                        Refers to the "path length constraint" in Basic Constraints extension. For a CA certificate, this value describes the depth of
+                                        subordinate CA certificates that are allowed. If this value is less than 0, the request will fail.
                                       type: number
                                     nonCa:
-                                      description: When true, the "CA" in Basic Constraints
-                                        extension will be set to false. If both is_ca
-                                        and non_ca are unset, the extension will be
-                                        omitted from the CA certificate.
+                                      description: |-
+                                        When true, the "CA" in Basic Constraints extension will be set to false.
+                                        If both is_ca and non_ca are unset, the extension will be omitted from the CA certificate.
                                       type: boolean
                                     zeroMaxIssuerPathLength:
-                                      description: When true, the "path length constraint"
-                                        in Basic Constraints extension will be set
-                                        to 0. if both max_issuer_path_length and zero_max_issuer_path_length
-                                        are unset, the max path length will be omitted
-                                        from the CA certificate.
+                                      description: |-
+                                        When true, the "path length constraint" in Basic Constraints extension will be set to 0.
+                                        if both max_issuer_path_length and zero_max_issuer_path_length are unset,
+                                        the max path length will be omitted from the CA certificate.
                                       type: boolean
                                   type: object
                                 type: array
                               keyUsage:
-                                description: (Output) Indicates the intended use for
-                                  keys that correspond to a certificate. Structure
-                                  is documented below.
+                                description: |-
+                                  (Output)
+                                  Indicates the intended use for keys that correspond to a certificate.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     baseKeyUsage:
-                                      description: Describes high-level ways in which
-                                        a key may be used. Structure is documented
-                                        below.
+                                      description: |-
+                                        Describes high-level ways in which a key may be used.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           certSign:
-                                            description: (Output) The key may be used
-                                              to sign certificates.
+                                            description: |-
+                                              (Output)
+                                              The key may be used to sign certificates.
                                             type: boolean
                                           contentCommitment:
-                                            description: (Output) The key may be used
-                                              for cryptographic commitments. Note
-                                              that this may also be referred to as
-                                              "non-repudiation".
+                                            description: |-
+                                              (Output)
+                                              The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
                                             type: boolean
                                           crlSign:
-                                            description: (Output) The key may be used
-                                              sign certificate revocation lists.
+                                            description: |-
+                                              (Output)
+                                              The key may be used sign certificate revocation lists.
                                             type: boolean
                                           dataEncipherment:
-                                            description: (Output) The key may be used
-                                              to encipher data.
+                                            description: |-
+                                              (Output)
+                                              The key may be used to encipher data.
                                             type: boolean
                                           decipherOnly:
-                                            description: (Output) The key may be used
-                                              to decipher only.
+                                            description: |-
+                                              (Output)
+                                              The key may be used to decipher only.
                                             type: boolean
                                           digitalSignature:
-                                            description: (Output) The key may be used
-                                              for digital signatures.
+                                            description: |-
+                                              (Output)
+                                              The key may be used for digital signatures.
                                             type: boolean
                                           encipherOnly:
-                                            description: (Output) The key may be used
-                                              to encipher only.
+                                            description: |-
+                                              (Output)
+                                              The key may be used to encipher only.
                                             type: boolean
                                           keyAgreement:
-                                            description: (Output) The key may be used
-                                              in a key agreement protocol.
+                                            description: |-
+                                              (Output)
+                                              The key may be used in a key agreement protocol.
                                             type: boolean
                                           keyEncipherment:
-                                            description: (Output) The key may be used
-                                              to encipher other keys.
+                                            description: |-
+                                              (Output)
+                                              The key may be used to encipher other keys.
                                             type: boolean
                                         type: object
                                       type: array
                                     extendedKeyUsage:
-                                      description: Describes high-level ways in which
-                                        a key may be used. Structure is documented
-                                        below.
+                                      description: |-
+                                        Describes high-level ways in which a key may be used.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           clientAuth:
@@ -1177,10 +1218,9 @@ spec:
                                         type: object
                                       type: array
                                     unknownExtendedKeyUsages:
-                                      description: An ObjectId specifies an object
-                                        identifier (OID). These provide context and
-                                        describe types in ASN.1 messages. Structure
-                                        is documented below.
+                                      description: |-
+                                        An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           objectIdPath:
@@ -1196,8 +1236,10 @@ spec:
                                   type: object
                                 type: array
                               nameConstraints:
-                                description: (Output) Describes the X.509 name constraints
-                                  extension. Structure is documented below.
+                                description: |-
+                                  (Output)
+                                  Describes the X.509 name constraints extension.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     critical:
@@ -1205,86 +1247,83 @@ spec:
                                         constraints are marked critical.
                                       type: boolean
                                     excludedDnsNames:
-                                      description: Contains excluded DNS names. Any
-                                        DNS name that can be constructed by simply
-                                        adding zero or more labels to the left-hand
-                                        side of the name satisfies the name constraint.
-                                        For example, example.com, www.example.com,
-                                        www.sub.example.com would satisfy example.com
-                                        while example1.com does not.
+                                      description: |-
+                                        Contains excluded DNS names. Any DNS name that can be
+                                        constructed by simply adding zero or more labels to
+                                        the left-hand side of the name satisfies the name constraint.
+                                        For example, example.com, www.example.com, www.sub.example.com
+                                        would satisfy example.com while example1.com does not.
                                       items:
                                         type: string
                                       type: array
                                     excludedEmailAddresses:
-                                      description: Contains the excluded email addresses.
-                                        The value can be a particular email address,
-                                        a hostname to indicate all email addresses
-                                        on that host or a domain with a leading period
-                                        (e.g. .example.com) to indicate all email
-                                        addresses in that domain.
+                                      description: |-
+                                        Contains the excluded email addresses. The value can be a particular
+                                        email address, a hostname to indicate all email addresses on that host or
+                                        a domain with a leading period (e.g. .example.com) to indicate
+                                        all email addresses in that domain.
                                       items:
                                         type: string
                                       type: array
                                     excludedIpRanges:
-                                      description: Contains the excluded IP ranges.
-                                        For IPv4 addresses, the ranges are expressed
-                                        using CIDR notation as specified in RFC 4632.
-                                        For IPv6 addresses, the ranges are expressed
-                                        in similar encoding as IPv4 addresses.
+                                      description: |-
+                                        Contains the excluded IP ranges. For IPv4 addresses, the ranges
+                                        are expressed using CIDR notation as specified in RFC 4632.
+                                        For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+                                        addresses.
                                       items:
                                         type: string
                                       type: array
                                     excludedUris:
-                                      description: Contains the excluded URIs that
-                                        apply to the host part of the name. The value
-                                        can be a hostname or a domain with a leading
-                                        period (like .example.com)
+                                      description: |-
+                                        Contains the excluded URIs that apply to the host part of the name.
+                                        The value can be a hostname or a domain with a
+                                        leading period (like .example.com)
                                       items:
                                         type: string
                                       type: array
                                     permittedDnsNames:
-                                      description: Contains permitted DNS names. Any
-                                        DNS name that can be constructed by simply
-                                        adding zero or more labels to the left-hand
-                                        side of the name satisfies the name constraint.
-                                        For example, example.com, www.example.com,
-                                        www.sub.example.com would satisfy example.com
-                                        while example1.com does not.
+                                      description: |-
+                                        Contains permitted DNS names. Any DNS name that can be
+                                        constructed by simply adding zero or more labels to
+                                        the left-hand side of the name satisfies the name constraint.
+                                        For example, example.com, www.example.com, www.sub.example.com
+                                        would satisfy example.com while example1.com does not.
                                       items:
                                         type: string
                                       type: array
                                     permittedEmailAddresses:
-                                      description: Contains the permitted email addresses.
-                                        The value can be a particular email address,
-                                        a hostname to indicate all email addresses
-                                        on that host or a domain with a leading period
-                                        (e.g. .example.com) to indicate all email
-                                        addresses in that domain.
+                                      description: |-
+                                        Contains the permitted email addresses. The value can be a particular
+                                        email address, a hostname to indicate all email addresses on that host or
+                                        a domain with a leading period (e.g. .example.com) to indicate
+                                        all email addresses in that domain.
                                       items:
                                         type: string
                                       type: array
                                     permittedIpRanges:
-                                      description: Contains the permitted IP ranges.
-                                        For IPv4 addresses, the ranges are expressed
-                                        using CIDR notation as specified in RFC 4632.
-                                        For IPv6 addresses, the ranges are expressed
-                                        in similar encoding as IPv4 addresses.
+                                      description: |-
+                                        Contains the permitted IP ranges. For IPv4 addresses, the ranges
+                                        are expressed using CIDR notation as specified in RFC 4632.
+                                        For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+                                        addresses.
                                       items:
                                         type: string
                                       type: array
                                     permittedUris:
-                                      description: Contains the permitted URIs that
-                                        apply to the host part of the name. The value
-                                        can be a hostname or a domain with a leading
-                                        period (like .example.com)
+                                      description: |-
+                                        Contains the permitted URIs that apply to the host part of the name.
+                                        The value can be a hostname or a domain with a
+                                        leading period (like .example.com)
                                       items:
                                         type: string
                                       type: array
                                   type: object
                                 type: array
                               policyIds:
-                                description: (Output) Describes the X.509 certificate
-                                  policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
+                                description: |-
+                                  (Output)
+                                  Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
                                   Structure is documented below.
                                 items:
                                   properties:
@@ -1309,36 +1348,39 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   lifetime:
-                    description: 'The desired lifetime of the CA certificate. Used
-                      to create the "notBeforeTime" and "notAfterTime" fields inside
-                      an X.509 certificate. A duration in seconds with up to nine
-                      fractional digits, terminated by ''s''. Example: "3.5s".'
+                    description: |-
+                      The desired lifetime of the CA certificate. Used to create the "notBeforeTime" and
+                      "notAfterTime" fields inside an X.509 certificate. A duration in seconds with up to nine
+                      fractional digits, terminated by 's'. Example: "3.5s".
                     type: string
                   pemCsr:
                     description: Immutable. A pem-encoded X.509 certificate signing
                       request (CSR).
                     type: string
                   project:
-                    description: The ID of the project in which the resource belongs.
+                    description: |-
+                      The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                 type: object
               managementPolicies:
                 default:
                 - '*'
-                description: 'THIS IS A BETA FIELD. It is on by default but can be
-                  opted out through a Crossplane feature flag. ManagementPolicies
-                  specify the array of actions Crossplane is allowed to take on the
-                  managed and external resources. This field is planned to replace
-                  the DeletionPolicy field in a future release. Currently, both could
-                  be set independently and non-default values would be honored if
-                  the feature flag is enabled. If both are custom, the DeletionPolicy
-                  field will be ignored. See the design doc for more information:
-                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
-                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
                 items:
-                  description: A ManagementAction represents an action that the Crossplane
-                    controllers can take on an external resource.
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
                   enum:
                   - Observe
                   - Create
@@ -1351,9 +1393,10 @@ spec:
               providerConfigRef:
                 default:
                   name: default
-                description: ProviderConfigReference specifies how the provider that
-                  will be used to create, observe, update, and delete this managed
-                  resource should be configured.
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
                 properties:
                   name:
                     description: Name of the referenced object.
@@ -1363,21 +1406,21 @@ spec:
                     properties:
                       resolution:
                         default: Required
-                        description: Resolution specifies whether resolution of this
-                          reference is required. The default is 'Required', which
-                          means the reconcile will fail if the reference cannot be
-                          resolved. 'Optional' means this reference will be a no-op
-                          if it cannot be resolved.
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
                         enum:
                         - Required
                         - Optional
                         type: string
                       resolve:
-                        description: Resolve specifies when this reference should
-                          be resolved. The default is 'IfNotPresent', which will attempt
-                          to resolve the reference only when the corresponding field
-                          is not present. Use 'Always' to resolve the reference on
-                          every reconcile.
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
                         enum:
                         - Always
                         - IfNotPresent
@@ -1387,17 +1430,19 @@ spec:
                 - name
                 type: object
               publishConnectionDetailsTo:
-                description: PublishConnectionDetailsTo specifies the connection secret
-                  config which contains a name, metadata and a reference to secret
-                  store config to which any connection details for this managed resource
-                  should be written. Connection details frequently include the endpoint,
-                  username, and password required to connect to the managed resource.
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
                 properties:
                   configRef:
                     default:
                       name: default
-                    description: SecretStoreConfigRef specifies which secret store
-                      config should be used for this ConnectionSecret.
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -1407,21 +1452,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -1436,21 +1481,22 @@ spec:
                       annotations:
                         additionalProperties:
                           type: string
-                        description: Annotations are the annotations to be added to
-                          connection secret. - For Kubernetes secrets, this will be
-                          used as "metadata.annotations". - It is up to Secret Store
-                          implementation for others store types.
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
                         type: object
                       labels:
                         additionalProperties:
                           type: string
-                        description: Labels are the labels/tags to be added to connection
-                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
-                          - It is up to Secret Store implementation for others store
-                          types.
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
                         type: object
                       type:
-                        description: Type is the SecretType for the connection secret.
+                        description: |-
+                          Type is the SecretType for the connection secret.
                           - Only valid for Kubernetes Secret Stores.
                         type: string
                     type: object
@@ -1461,14 +1507,15 @@ spec:
                 - name
                 type: object
               writeConnectionSecretToRef:
-                description: WriteConnectionSecretToReference specifies the namespace
-                  and name of a Secret to which any connection details for this managed
-                  resource should be written. Connection details frequently include
-                  the endpoint, username, and password required to connect to the
-                  managed resource. This field is planned to be replaced in a future
-                  release in favor of PublishConnectionDetailsTo. Currently, both
-                  could be set independently and connection details would be published
-                  to both without affecting each other.
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
                 properties:
                   name:
                     description: Name of the secret.
@@ -1489,121 +1536,133 @@ spec:
               atProvider:
                 properties:
                   certificateAuthority:
-                    description: The Certificate Authority ID that should issue the
-                      certificate. For example, to issue a Certificate from a Certificate
-                      Authority with resource name projects/my-project/locations/us-central1/caPools/my-pool/certificateAuthorities/my-ca,
-                      argument pool should be set to projects/my-project/locations/us-central1/caPools/my-pool,
-                      argument certificate_authority should be set to my-ca.
+                    description: |-
+                      The Certificate Authority ID that should issue the certificate. For example, to issue a Certificate from
+                      a Certificate Authority with resource name projects/my-project/locations/us-central1/caPools/my-pool/certificateAuthorities/my-ca,
+                      argument pool should be set to projects/my-project/locations/us-central1/caPools/my-pool, argument certificate_authority
+                      should be set to my-ca.
                     type: string
                   certificateDescription:
-                    description: Output only. Details regarding the revocation of
-                      this Certificate. This Certificate is considered revoked if
-                      and only if this field is present. Structure is documented below.
+                    description: |-
+                      Output only. Details regarding the revocation of this Certificate. This Certificate is considered revoked if and only if this field is present.
+                      Structure is documented below.
                     items:
                       properties:
                         aiaIssuingCertificateUrls:
-                          description: (Output) Describes lists of issuer CA certificate
-                            URLs that appear in the "Authority Information Access"
-                            extension in the certificate.
+                          description: |-
+                            (Output)
+                            Describes lists of issuer CA certificate URLs that appear in the "Authority Information Access" extension in the certificate.
                           items:
                             type: string
                           type: array
                         authorityKeyId:
-                          description: (Output) Identifies the subjectKeyId of the
-                            parent certificate, per https://tools.ietf.org/html/rfc5280#section-4.2.1.1
+                          description: |-
+                            (Output)
+                            Identifies the subjectKeyId of the parent certificate, per https://tools.ietf.org/html/rfc5280#section-4.2.1.1
                             Structure is documented below.
                           items:
                             properties:
                               keyId:
-                                description: (Output) Optional. The value of this
-                                  KeyId encoded in lowercase hexadecimal. This is
-                                  most likely the 160 bit SHA-1 hash of the public
-                                  key.
+                                description: |-
+                                  (Output)
+                                  Optional. The value of this KeyId encoded in lowercase hexadecimal. This is most likely the 160 bit SHA-1 hash of the public key.
                                 type: string
                             type: object
                           type: array
                         certFingerprint:
-                          description: (Output) The hash of the x.509 certificate.
+                          description: |-
+                            (Output)
+                            The hash of the x.509 certificate.
                             Structure is documented below.
                           items:
                             properties:
                               sha256Hash:
-                                description: (Output) The SHA 256 hash, encoded in
-                                  hexadecimal, of the DER x509 certificate.
+                                description: |-
+                                  (Output)
+                                  The SHA 256 hash, encoded in hexadecimal, of the DER x509 certificate.
                                 type: string
                             type: object
                           type: array
                         configValues:
-                          description: (Output, Deprecated) Describes some of the
-                            technical fields in a certificate. Structure is documented
-                            below.
+                          description: |-
+                            (Output, Deprecated)
+                            Describes some of the technical fields in a certificate.
+                            Structure is documented below.
                           items:
                             properties:
                               keyUsage:
-                                description: (Output) Indicates the intended use for
-                                  keys that correspond to a certificate. Structure
-                                  is documented below.
+                                description: |-
+                                  (Output)
+                                  Indicates the intended use for keys that correspond to a certificate.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     baseKeyUsage:
-                                      description: Describes high-level ways in which
-                                        a key may be used. Structure is documented
-                                        below.
+                                      description: |-
+                                        Describes high-level ways in which a key may be used.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           keyUsageOptions:
-                                            description: (Output) Describes high-level
-                                              ways in which a key may be used. Structure
-                                              is documented below.
+                                            description: |-
+                                              (Output)
+                                              Describes high-level ways in which a key may be used.
+                                              Structure is documented below.
                                             items:
                                               properties:
                                                 certSign:
-                                                  description: (Output) The key may
-                                                    be used to sign certificates.
+                                                  description: |-
+                                                    (Output)
+                                                    The key may be used to sign certificates.
                                                   type: boolean
                                                 contentCommitment:
-                                                  description: (Output) The key may
-                                                    be used for cryptographic commitments.
-                                                    Note that this may also be referred
-                                                    to as "non-repudiation".
+                                                  description: |-
+                                                    (Output)
+                                                    The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
                                                   type: boolean
                                                 crlSign:
-                                                  description: (Output) The key may
-                                                    be used sign certificate revocation
-                                                    lists.
+                                                  description: |-
+                                                    (Output)
+                                                    The key may be used sign certificate revocation lists.
                                                   type: boolean
                                                 dataEncipherment:
-                                                  description: (Output) The key may
-                                                    be used to encipher data.
+                                                  description: |-
+                                                    (Output)
+                                                    The key may be used to encipher data.
                                                   type: boolean
                                                 decipherOnly:
-                                                  description: (Output) The key may
-                                                    be used to decipher only.
+                                                  description: |-
+                                                    (Output)
+                                                    The key may be used to decipher only.
                                                   type: boolean
                                                 digitalSignature:
-                                                  description: (Output) The key may
-                                                    be used for digital signatures.
+                                                  description: |-
+                                                    (Output)
+                                                    The key may be used for digital signatures.
                                                   type: boolean
                                                 encipherOnly:
-                                                  description: (Output) The key may
-                                                    be used to encipher only.
+                                                  description: |-
+                                                    (Output)
+                                                    The key may be used to encipher only.
                                                   type: boolean
                                                 keyAgreement:
-                                                  description: (Output) The key may
-                                                    be used in a key agreement protocol.
+                                                  description: |-
+                                                    (Output)
+                                                    The key may be used in a key agreement protocol.
                                                   type: boolean
                                                 keyEncipherment:
-                                                  description: (Output) The key may
-                                                    be used to encipher other keys.
+                                                  description: |-
+                                                    (Output)
+                                                    The key may be used to encipher other keys.
                                                   type: boolean
                                               type: object
                                             type: array
                                         type: object
                                       type: array
                                     extendedKeyUsage:
-                                      description: Describes high-level ways in which
-                                        a key may be used. Structure is documented
-                                        below.
+                                      description: |-
+                                        Describes high-level ways in which a key may be used.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           clientAuth:
@@ -1641,17 +1700,16 @@ spec:
                                         type: object
                                       type: array
                                     unknownExtendedKeyUsages:
-                                      description: An ObjectId specifies an object
-                                        identifier (OID). These provide context and
-                                        describe types in ASN.1 messages. Structure
-                                        is documented below.
+                                      description: |-
+                                        An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           obectId:
-                                            description: (Output) Required. Describes
-                                              how some of the technical fields in
-                                              a certificate should be populated. Structure
-                                              is documented below.
+                                            description: |-
+                                              (Output)
+                                              Required. Describes how some of the technical fields in a certificate should be populated.
+                                              Structure is documented below.
                                             items:
                                               properties:
                                                 objectIdPath:
@@ -1671,21 +1729,23 @@ spec:
                             type: object
                           type: array
                         crlDistributionPoints:
-                          description: (Output) Describes a list of locations to obtain
-                            CRL information, i.e. the DistributionPoint.fullName described
-                            by https://tools.ietf.org/html/rfc5280#section-4.2.1.13
+                          description: |-
+                            (Output)
+                            Describes a list of locations to obtain CRL information, i.e. the DistributionPoint.fullName described by https://tools.ietf.org/html/rfc5280#section-4.2.1.13
                           items:
                             type: string
                           type: array
                         publicKey:
-                          description: (Output) A PublicKey describes a public key.
+                          description: |-
+                            (Output)
+                            A PublicKey describes a public key.
                             Structure is documented below.
                           items:
                             properties:
                               format:
-                                description: 'The format of the public key. Currently,
-                                  only PEM format is supported. Possible values are:
-                                  KEY_TYPE_UNSPECIFIED, PEM.'
+                                description: |-
+                                  The format of the public key. Currently, only PEM format is supported.
+                                  Possible values are: KEY_TYPE_UNSPECIFIED, PEM.
                                 type: string
                               key:
                                 description: Required. A public key. When this is
@@ -1699,32 +1759,37 @@ spec:
                             type: object
                           type: array
                         subjectDescription:
-                          description: (Output) Describes some of the values in a
-                            certificate that are related to the subject and lifetime.
+                          description: |-
+                            (Output)
+                            Describes some of the values in a certificate that are related to the subject and lifetime.
                             Structure is documented below.
                           items:
                             properties:
                               hexSerialNumber:
-                                description: (Output) The serial number encoded in
-                                  lowercase hexadecimal.
+                                description: |-
+                                  (Output)
+                                  The serial number encoded in lowercase hexadecimal.
                                 type: string
                               lifetime:
-                                description: (Output) For convenience, the actual
-                                  lifetime of an issued certificate. Corresponds to
-                                  'notAfterTime' - 'notBeforeTime'.
+                                description: |-
+                                  (Output)
+                                  For convenience, the actual lifetime of an issued certificate. Corresponds to 'notAfterTime' - 'notBeforeTime'.
                                 type: string
                               notAfterTime:
-                                description: (Output) The time at which the certificate
-                                  expires.
+                                description: |-
+                                  (Output)
+                                  The time at which the certificate expires.
                                 type: string
                               notBeforeTime:
-                                description: (Output) The time at which the certificate
-                                  becomes valid.
+                                description: |-
+                                  (Output)
+                                  The time at which the certificate becomes valid.
                                 type: string
                               subject:
-                                description: (Output) Contains distinguished name
-                                  fields such as the location and organization. Structure
-                                  is documented below.
+                                description: |-
+                                  (Output)
+                                  Contains distinguished name fields such as the location and organization.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     commonName:
@@ -1757,14 +1822,17 @@ spec:
                                   type: object
                                 type: array
                               subjectAltName:
-                                description: (Output) The subject alternative name
-                                  fields. Structure is documented below.
+                                description: |-
+                                  (Output)
+                                  The subject alternative name fields.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     customSans:
-                                      description: (Output) Contains additional subject
-                                        alternative name values. Structure is documented
-                                        below.
+                                      description: |-
+                                        (Output)
+                                        Contains additional subject alternative name values.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           critical:
@@ -1772,10 +1840,10 @@ spec:
                                               the name constraints are marked critical.
                                             type: boolean
                                           obectId:
-                                            description: (Output) Required. Describes
-                                              how some of the technical fields in
-                                              a certificate should be populated. Structure
-                                              is documented below.
+                                            description: |-
+                                              (Output)
+                                              Required. Describes how some of the technical fields in a certificate should be populated.
+                                              Structure is documented below.
                                             items:
                                               properties:
                                                 objectIdPath:
@@ -1789,8 +1857,9 @@ spec:
                                               type: object
                                             type: array
                                           value:
-                                            description: (Output) The value of this
-                                              X.509 extension.
+                                            description: |-
+                                              (Output)
+                                              The value of this X.509 extension.
                                             type: string
                                         type: object
                                       type: array
@@ -1822,26 +1891,30 @@ spec:
                             type: object
                           type: array
                         subjectKeyId:
-                          description: (Output) Provides a means of identifiying certificates
-                            that contain a particular public key, per https://tools.ietf.org/html/rfc5280#section-4.2.1.2.
+                          description: |-
+                            (Output)
+                            Provides a means of identifiying certificates that contain a particular public key, per https://tools.ietf.org/html/rfc5280#section-4.2.1.2.
                             Structure is documented below.
                           items:
                             properties:
                               keyId:
-                                description: (Output) Optional. The value of this
-                                  KeyId encoded in lowercase hexadecimal. This is
-                                  most likely the 160 bit SHA-1 hash of the public
-                                  key.
+                                description: |-
+                                  (Output)
+                                  Optional. The value of this KeyId encoded in lowercase hexadecimal. This is most likely the 160 bit SHA-1 hash of the public key.
                                 type: string
                             type: object
                           type: array
                         x509Description:
-                          description: (Output) A structured description of the issued
-                            X.509 certificate. Structure is documented below.
+                          description: |-
+                            (Output)
+                            A structured description of the issued X.509 certificate.
+                            Structure is documented below.
                           items:
                             properties:
                               additionalExtensions:
-                                description: (Output) Describes custom X.509 extensions.
+                                description: |-
+                                  (Output)
+                                  Describes custom X.509 extensions.
                                   Structure is documented below.
                                 items:
                                   properties:
@@ -1850,9 +1923,9 @@ spec:
                                         constraints are marked critical.
                                       type: boolean
                                     objectId:
-                                      description: Describes values that are relevant
-                                        in a CA certificate. Structure is documented
-                                        below.
+                                      description: |-
+                                        Describes values that are relevant in a CA certificate.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           objectIdPath:
@@ -1866,22 +1939,25 @@ spec:
                                         type: object
                                       type: array
                                     value:
-                                      description: (Output) The value of this X.509
-                                        extension.
+                                      description: |-
+                                        (Output)
+                                        The value of this X.509 extension.
                                       type: string
                                   type: object
                                 type: array
                               aiaOcspServers:
-                                description: (Output) Describes Online Certificate
-                                  Status Protocol (OCSP) endpoint addresses that appear
-                                  in the "Authority Information Access" extension
-                                  in the certificate.
+                                description: |-
+                                  (Output)
+                                  Describes Online Certificate Status Protocol (OCSP) endpoint addresses that appear in the
+                                  "Authority Information Access" extension in the certificate.
                                 items:
                                   type: string
                                 type: array
                               caOptions:
-                                description: (Output) Describes values that are relevant
-                                  in a CA certificate. Structure is documented below.
+                                description: |-
+                                  (Output)
+                                  Describes values that are relevant in a CA certificate.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     isCa:
@@ -1889,70 +1965,76 @@ spec:
                                         extension will be set to true.
                                       type: boolean
                                     maxIssuerPathLength:
-                                      description: Refers to the "path length constraint"
-                                        in Basic Constraints extension. For a CA certificate,
-                                        this value describes the depth of subordinate
-                                        CA certificates that are allowed. If this
-                                        value is less than 0, the request will fail.
+                                      description: |-
+                                        Refers to the "path length constraint" in Basic Constraints extension. For a CA certificate, this value describes the depth of
+                                        subordinate CA certificates that are allowed. If this value is less than 0, the request will fail.
                                       type: number
                                   type: object
                                 type: array
                               keyUsage:
-                                description: (Output) Indicates the intended use for
-                                  keys that correspond to a certificate. Structure
-                                  is documented below.
+                                description: |-
+                                  (Output)
+                                  Indicates the intended use for keys that correspond to a certificate.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     baseKeyUsage:
-                                      description: Describes high-level ways in which
-                                        a key may be used. Structure is documented
-                                        below.
+                                      description: |-
+                                        Describes high-level ways in which a key may be used.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           certSign:
-                                            description: (Output) The key may be used
-                                              to sign certificates.
+                                            description: |-
+                                              (Output)
+                                              The key may be used to sign certificates.
                                             type: boolean
                                           contentCommitment:
-                                            description: (Output) The key may be used
-                                              for cryptographic commitments. Note
-                                              that this may also be referred to as
-                                              "non-repudiation".
+                                            description: |-
+                                              (Output)
+                                              The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
                                             type: boolean
                                           crlSign:
-                                            description: (Output) The key may be used
-                                              sign certificate revocation lists.
+                                            description: |-
+                                              (Output)
+                                              The key may be used sign certificate revocation lists.
                                             type: boolean
                                           dataEncipherment:
-                                            description: (Output) The key may be used
-                                              to encipher data.
+                                            description: |-
+                                              (Output)
+                                              The key may be used to encipher data.
                                             type: boolean
                                           decipherOnly:
-                                            description: (Output) The key may be used
-                                              to decipher only.
+                                            description: |-
+                                              (Output)
+                                              The key may be used to decipher only.
                                             type: boolean
                                           digitalSignature:
-                                            description: (Output) The key may be used
-                                              for digital signatures.
+                                            description: |-
+                                              (Output)
+                                              The key may be used for digital signatures.
                                             type: boolean
                                           encipherOnly:
-                                            description: (Output) The key may be used
-                                              to encipher only.
+                                            description: |-
+                                              (Output)
+                                              The key may be used to encipher only.
                                             type: boolean
                                           keyAgreement:
-                                            description: (Output) The key may be used
-                                              in a key agreement protocol.
+                                            description: |-
+                                              (Output)
+                                              The key may be used in a key agreement protocol.
                                             type: boolean
                                           keyEncipherment:
-                                            description: (Output) The key may be used
-                                              to encipher other keys.
+                                            description: |-
+                                              (Output)
+                                              The key may be used to encipher other keys.
                                             type: boolean
                                         type: object
                                       type: array
                                     extendedKeyUsage:
-                                      description: Describes high-level ways in which
-                                        a key may be used. Structure is documented
-                                        below.
+                                      description: |-
+                                        Describes high-level ways in which a key may be used.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           clientAuth:
@@ -1990,10 +2072,9 @@ spec:
                                         type: object
                                       type: array
                                     unknownExtendedKeyUsages:
-                                      description: An ObjectId specifies an object
-                                        identifier (OID). These provide context and
-                                        describe types in ASN.1 messages. Structure
-                                        is documented below.
+                                      description: |-
+                                        An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           objectIdPath:
@@ -2009,8 +2090,10 @@ spec:
                                   type: object
                                 type: array
                               nameConstraints:
-                                description: (Output) Describes the X.509 name constraints
-                                  extension. Structure is documented below.
+                                description: |-
+                                  (Output)
+                                  Describes the X.509 name constraints extension.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     critical:
@@ -2018,86 +2101,83 @@ spec:
                                         constraints are marked critical.
                                       type: boolean
                                     excludedDnsNames:
-                                      description: Contains excluded DNS names. Any
-                                        DNS name that can be constructed by simply
-                                        adding zero or more labels to the left-hand
-                                        side of the name satisfies the name constraint.
-                                        For example, example.com, www.example.com,
-                                        www.sub.example.com would satisfy example.com
-                                        while example1.com does not.
+                                      description: |-
+                                        Contains excluded DNS names. Any DNS name that can be
+                                        constructed by simply adding zero or more labels to
+                                        the left-hand side of the name satisfies the name constraint.
+                                        For example, example.com, www.example.com, www.sub.example.com
+                                        would satisfy example.com while example1.com does not.
                                       items:
                                         type: string
                                       type: array
                                     excludedEmailAddresses:
-                                      description: Contains the excluded email addresses.
-                                        The value can be a particular email address,
-                                        a hostname to indicate all email addresses
-                                        on that host or a domain with a leading period
-                                        (e.g. .example.com) to indicate all email
-                                        addresses in that domain.
+                                      description: |-
+                                        Contains the excluded email addresses. The value can be a particular
+                                        email address, a hostname to indicate all email addresses on that host or
+                                        a domain with a leading period (e.g. .example.com) to indicate
+                                        all email addresses in that domain.
                                       items:
                                         type: string
                                       type: array
                                     excludedIpRanges:
-                                      description: Contains the excluded IP ranges.
-                                        For IPv4 addresses, the ranges are expressed
-                                        using CIDR notation as specified in RFC 4632.
-                                        For IPv6 addresses, the ranges are expressed
-                                        in similar encoding as IPv4 addresses.
+                                      description: |-
+                                        Contains the excluded IP ranges. For IPv4 addresses, the ranges
+                                        are expressed using CIDR notation as specified in RFC 4632.
+                                        For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+                                        addresses.
                                       items:
                                         type: string
                                       type: array
                                     excludedUris:
-                                      description: Contains the excluded URIs that
-                                        apply to the host part of the name. The value
-                                        can be a hostname or a domain with a leading
-                                        period (like .example.com)
+                                      description: |-
+                                        Contains the excluded URIs that apply to the host part of the name.
+                                        The value can be a hostname or a domain with a
+                                        leading period (like .example.com)
                                       items:
                                         type: string
                                       type: array
                                     permittedDnsNames:
-                                      description: Contains permitted DNS names. Any
-                                        DNS name that can be constructed by simply
-                                        adding zero or more labels to the left-hand
-                                        side of the name satisfies the name constraint.
-                                        For example, example.com, www.example.com,
-                                        www.sub.example.com would satisfy example.com
-                                        while example1.com does not.
+                                      description: |-
+                                        Contains permitted DNS names. Any DNS name that can be
+                                        constructed by simply adding zero or more labels to
+                                        the left-hand side of the name satisfies the name constraint.
+                                        For example, example.com, www.example.com, www.sub.example.com
+                                        would satisfy example.com while example1.com does not.
                                       items:
                                         type: string
                                       type: array
                                     permittedEmailAddresses:
-                                      description: Contains the permitted email addresses.
-                                        The value can be a particular email address,
-                                        a hostname to indicate all email addresses
-                                        on that host or a domain with a leading period
-                                        (e.g. .example.com) to indicate all email
-                                        addresses in that domain.
+                                      description: |-
+                                        Contains the permitted email addresses. The value can be a particular
+                                        email address, a hostname to indicate all email addresses on that host or
+                                        a domain with a leading period (e.g. .example.com) to indicate
+                                        all email addresses in that domain.
                                       items:
                                         type: string
                                       type: array
                                     permittedIpRanges:
-                                      description: Contains the permitted IP ranges.
-                                        For IPv4 addresses, the ranges are expressed
-                                        using CIDR notation as specified in RFC 4632.
-                                        For IPv6 addresses, the ranges are expressed
-                                        in similar encoding as IPv4 addresses.
+                                      description: |-
+                                        Contains the permitted IP ranges. For IPv4 addresses, the ranges
+                                        are expressed using CIDR notation as specified in RFC 4632.
+                                        For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+                                        addresses.
                                       items:
                                         type: string
                                       type: array
                                     permittedUris:
-                                      description: Contains the permitted URIs that
-                                        apply to the host part of the name. The value
-                                        can be a hostname or a domain with a leading
-                                        period (like .example.com)
+                                      description: |-
+                                        Contains the permitted URIs that apply to the host part of the name.
+                                        The value can be a hostname or a domain with a
+                                        leading period (like .example.com)
                                       items:
                                         type: string
                                       type: array
                                   type: object
                                 type: array
                               policyIds:
-                                description: (Output) Describes the X.509 certificate
-                                  policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
+                                description: |-
+                                  (Output)
+                                  Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
                                   Structure is documented below.
                                 items:
                                   properties:
@@ -2115,39 +2195,43 @@ spec:
                       type: object
                     type: array
                   certificateTemplate:
-                    description: The resource name for a CertificateTemplate used
-                      to issue this certificate, in the format projects/*/locations/*/certificateTemplates/*.
-                      If this is specified, the caller must have the necessary permission
-                      to use this template. If this is omitted, no template will be
-                      used. This template must be in the same location as the Certificate.
+                    description: |-
+                      The resource name for a CertificateTemplate used to issue this certificate,
+                      in the format projects/*/locations/*/certificateTemplates/*. If this is specified,
+                      the caller must have the necessary permission to use this template. If this is
+                      omitted, no template will be used. This template must be in the same location
+                      as the Certificate.
                     type: string
                   config:
-                    description: The config used to create a self-signed X.509 certificate
-                      or CSR. Structure is documented below.
+                    description: |-
+                      The config used to create a self-signed X.509 certificate or CSR.
+                      Structure is documented below.
                     items:
                       properties:
                         publicKey:
-                          description: A PublicKey describes a public key. Structure
-                            is documented below.
+                          description: |-
+                            A PublicKey describes a public key.
+                            Structure is documented below.
                           items:
                             properties:
                               format:
-                                description: 'The format of the public key. Currently,
-                                  only PEM format is supported. Possible values are:
-                                  KEY_TYPE_UNSPECIFIED, PEM.'
+                                description: |-
+                                  The format of the public key. Currently, only PEM format is supported.
+                                  Possible values are: KEY_TYPE_UNSPECIFIED, PEM.
                                 type: string
                             type: object
                           type: array
                         subjectConfig:
-                          description: Specifies some of the values in a certificate
-                            that are related to the subject. Structure is documented
-                            below.
+                          description: |-
+                            Specifies some of the values in a certificate that are related to the subject.
+                            Structure is documented below.
                           items:
                             properties:
                               subject:
-                                description: (Output) Contains distinguished name
-                                  fields such as the location and organization. Structure
-                                  is documented below.
+                                description: |-
+                                  (Output)
+                                  Contains distinguished name fields such as the location and organization.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     commonName:
@@ -2180,8 +2264,10 @@ spec:
                                   type: object
                                 type: array
                               subjectAltName:
-                                description: (Output) The subject alternative name
-                                  fields. Structure is documented below.
+                                description: |-
+                                  (Output)
+                                  The subject alternative name fields.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     dnsNames:
@@ -2212,13 +2298,15 @@ spec:
                             type: object
                           type: array
                         x509Config:
-                          description: Describes how some of the technical X.509 fields
-                            in a certificate should be populated. Structure is documented
-                            below.
+                          description: |-
+                            Describes how some of the technical X.509 fields in a certificate should be populated.
+                            Structure is documented below.
                           items:
                             properties:
                               additionalExtensions:
-                                description: (Output) Describes custom X.509 extensions.
+                                description: |-
+                                  (Output)
+                                  Describes custom X.509 extensions.
                                   Structure is documented below.
                                 items:
                                   properties:
@@ -2227,9 +2315,9 @@ spec:
                                         constraints are marked critical.
                                       type: boolean
                                     objectId:
-                                      description: Describes values that are relevant
-                                        in a CA certificate. Structure is documented
-                                        below.
+                                      description: |-
+                                        Describes values that are relevant in a CA certificate.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           objectIdPath:
@@ -2243,22 +2331,25 @@ spec:
                                         type: object
                                       type: array
                                     value:
-                                      description: (Output) The value of this X.509
-                                        extension.
+                                      description: |-
+                                        (Output)
+                                        The value of this X.509 extension.
                                       type: string
                                   type: object
                                 type: array
                               aiaOcspServers:
-                                description: (Output) Describes Online Certificate
-                                  Status Protocol (OCSP) endpoint addresses that appear
-                                  in the "Authority Information Access" extension
-                                  in the certificate.
+                                description: |-
+                                  (Output)
+                                  Describes Online Certificate Status Protocol (OCSP) endpoint addresses that appear in the
+                                  "Authority Information Access" extension in the certificate.
                                 items:
                                   type: string
                                 type: array
                               caOptions:
-                                description: (Output) Describes values that are relevant
-                                  in a CA certificate. Structure is documented below.
+                                description: |-
+                                  (Output)
+                                  Describes values that are relevant in a CA certificate.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     isCa:
@@ -2266,83 +2357,87 @@ spec:
                                         extension will be set to true.
                                       type: boolean
                                     maxIssuerPathLength:
-                                      description: Refers to the "path length constraint"
-                                        in Basic Constraints extension. For a CA certificate,
-                                        this value describes the depth of subordinate
-                                        CA certificates that are allowed. If this
-                                        value is less than 0, the request will fail.
+                                      description: |-
+                                        Refers to the "path length constraint" in Basic Constraints extension. For a CA certificate, this value describes the depth of
+                                        subordinate CA certificates that are allowed. If this value is less than 0, the request will fail.
                                       type: number
                                     nonCa:
-                                      description: When true, the "CA" in Basic Constraints
-                                        extension will be set to false. If both is_ca
-                                        and non_ca are unset, the extension will be
-                                        omitted from the CA certificate.
+                                      description: |-
+                                        When true, the "CA" in Basic Constraints extension will be set to false.
+                                        If both is_ca and non_ca are unset, the extension will be omitted from the CA certificate.
                                       type: boolean
                                     zeroMaxIssuerPathLength:
-                                      description: When true, the "path length constraint"
-                                        in Basic Constraints extension will be set
-                                        to 0. if both max_issuer_path_length and zero_max_issuer_path_length
-                                        are unset, the max path length will be omitted
-                                        from the CA certificate.
+                                      description: |-
+                                        When true, the "path length constraint" in Basic Constraints extension will be set to 0.
+                                        if both max_issuer_path_length and zero_max_issuer_path_length are unset,
+                                        the max path length will be omitted from the CA certificate.
                                       type: boolean
                                   type: object
                                 type: array
                               keyUsage:
-                                description: (Output) Indicates the intended use for
-                                  keys that correspond to a certificate. Structure
-                                  is documented below.
+                                description: |-
+                                  (Output)
+                                  Indicates the intended use for keys that correspond to a certificate.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     baseKeyUsage:
-                                      description: Describes high-level ways in which
-                                        a key may be used. Structure is documented
-                                        below.
+                                      description: |-
+                                        Describes high-level ways in which a key may be used.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           certSign:
-                                            description: (Output) The key may be used
-                                              to sign certificates.
+                                            description: |-
+                                              (Output)
+                                              The key may be used to sign certificates.
                                             type: boolean
                                           contentCommitment:
-                                            description: (Output) The key may be used
-                                              for cryptographic commitments. Note
-                                              that this may also be referred to as
-                                              "non-repudiation".
+                                            description: |-
+                                              (Output)
+                                              The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
                                             type: boolean
                                           crlSign:
-                                            description: (Output) The key may be used
-                                              sign certificate revocation lists.
+                                            description: |-
+                                              (Output)
+                                              The key may be used sign certificate revocation lists.
                                             type: boolean
                                           dataEncipherment:
-                                            description: (Output) The key may be used
-                                              to encipher data.
+                                            description: |-
+                                              (Output)
+                                              The key may be used to encipher data.
                                             type: boolean
                                           decipherOnly:
-                                            description: (Output) The key may be used
-                                              to decipher only.
+                                            description: |-
+                                              (Output)
+                                              The key may be used to decipher only.
                                             type: boolean
                                           digitalSignature:
-                                            description: (Output) The key may be used
-                                              for digital signatures.
+                                            description: |-
+                                              (Output)
+                                              The key may be used for digital signatures.
                                             type: boolean
                                           encipherOnly:
-                                            description: (Output) The key may be used
-                                              to encipher only.
+                                            description: |-
+                                              (Output)
+                                              The key may be used to encipher only.
                                             type: boolean
                                           keyAgreement:
-                                            description: (Output) The key may be used
-                                              in a key agreement protocol.
+                                            description: |-
+                                              (Output)
+                                              The key may be used in a key agreement protocol.
                                             type: boolean
                                           keyEncipherment:
-                                            description: (Output) The key may be used
-                                              to encipher other keys.
+                                            description: |-
+                                              (Output)
+                                              The key may be used to encipher other keys.
                                             type: boolean
                                         type: object
                                       type: array
                                     extendedKeyUsage:
-                                      description: Describes high-level ways in which
-                                        a key may be used. Structure is documented
-                                        below.
+                                      description: |-
+                                        Describes high-level ways in which a key may be used.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           clientAuth:
@@ -2380,10 +2475,9 @@ spec:
                                         type: object
                                       type: array
                                     unknownExtendedKeyUsages:
-                                      description: An ObjectId specifies an object
-                                        identifier (OID). These provide context and
-                                        describe types in ASN.1 messages. Structure
-                                        is documented below.
+                                      description: |-
+                                        An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           objectIdPath:
@@ -2399,8 +2493,10 @@ spec:
                                   type: object
                                 type: array
                               nameConstraints:
-                                description: (Output) Describes the X.509 name constraints
-                                  extension. Structure is documented below.
+                                description: |-
+                                  (Output)
+                                  Describes the X.509 name constraints extension.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     critical:
@@ -2408,86 +2504,83 @@ spec:
                                         constraints are marked critical.
                                       type: boolean
                                     excludedDnsNames:
-                                      description: Contains excluded DNS names. Any
-                                        DNS name that can be constructed by simply
-                                        adding zero or more labels to the left-hand
-                                        side of the name satisfies the name constraint.
-                                        For example, example.com, www.example.com,
-                                        www.sub.example.com would satisfy example.com
-                                        while example1.com does not.
+                                      description: |-
+                                        Contains excluded DNS names. Any DNS name that can be
+                                        constructed by simply adding zero or more labels to
+                                        the left-hand side of the name satisfies the name constraint.
+                                        For example, example.com, www.example.com, www.sub.example.com
+                                        would satisfy example.com while example1.com does not.
                                       items:
                                         type: string
                                       type: array
                                     excludedEmailAddresses:
-                                      description: Contains the excluded email addresses.
-                                        The value can be a particular email address,
-                                        a hostname to indicate all email addresses
-                                        on that host or a domain with a leading period
-                                        (e.g. .example.com) to indicate all email
-                                        addresses in that domain.
+                                      description: |-
+                                        Contains the excluded email addresses. The value can be a particular
+                                        email address, a hostname to indicate all email addresses on that host or
+                                        a domain with a leading period (e.g. .example.com) to indicate
+                                        all email addresses in that domain.
                                       items:
                                         type: string
                                       type: array
                                     excludedIpRanges:
-                                      description: Contains the excluded IP ranges.
-                                        For IPv4 addresses, the ranges are expressed
-                                        using CIDR notation as specified in RFC 4632.
-                                        For IPv6 addresses, the ranges are expressed
-                                        in similar encoding as IPv4 addresses.
+                                      description: |-
+                                        Contains the excluded IP ranges. For IPv4 addresses, the ranges
+                                        are expressed using CIDR notation as specified in RFC 4632.
+                                        For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+                                        addresses.
                                       items:
                                         type: string
                                       type: array
                                     excludedUris:
-                                      description: Contains the excluded URIs that
-                                        apply to the host part of the name. The value
-                                        can be a hostname or a domain with a leading
-                                        period (like .example.com)
+                                      description: |-
+                                        Contains the excluded URIs that apply to the host part of the name.
+                                        The value can be a hostname or a domain with a
+                                        leading period (like .example.com)
                                       items:
                                         type: string
                                       type: array
                                     permittedDnsNames:
-                                      description: Contains permitted DNS names. Any
-                                        DNS name that can be constructed by simply
-                                        adding zero or more labels to the left-hand
-                                        side of the name satisfies the name constraint.
-                                        For example, example.com, www.example.com,
-                                        www.sub.example.com would satisfy example.com
-                                        while example1.com does not.
+                                      description: |-
+                                        Contains permitted DNS names. Any DNS name that can be
+                                        constructed by simply adding zero or more labels to
+                                        the left-hand side of the name satisfies the name constraint.
+                                        For example, example.com, www.example.com, www.sub.example.com
+                                        would satisfy example.com while example1.com does not.
                                       items:
                                         type: string
                                       type: array
                                     permittedEmailAddresses:
-                                      description: Contains the permitted email addresses.
-                                        The value can be a particular email address,
-                                        a hostname to indicate all email addresses
-                                        on that host or a domain with a leading period
-                                        (e.g. .example.com) to indicate all email
-                                        addresses in that domain.
+                                      description: |-
+                                        Contains the permitted email addresses. The value can be a particular
+                                        email address, a hostname to indicate all email addresses on that host or
+                                        a domain with a leading period (e.g. .example.com) to indicate
+                                        all email addresses in that domain.
                                       items:
                                         type: string
                                       type: array
                                     permittedIpRanges:
-                                      description: Contains the permitted IP ranges.
-                                        For IPv4 addresses, the ranges are expressed
-                                        using CIDR notation as specified in RFC 4632.
-                                        For IPv6 addresses, the ranges are expressed
-                                        in similar encoding as IPv4 addresses.
+                                      description: |-
+                                        Contains the permitted IP ranges. For IPv4 addresses, the ranges
+                                        are expressed using CIDR notation as specified in RFC 4632.
+                                        For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+                                        addresses.
                                       items:
                                         type: string
                                       type: array
                                     permittedUris:
-                                      description: Contains the permitted URIs that
-                                        apply to the host part of the name. The value
-                                        can be a hostname or a domain with a leading
-                                        period (like .example.com)
+                                      description: |-
+                                        Contains the permitted URIs that apply to the host part of the name.
+                                        The value can be a hostname or a domain with a
+                                        leading period (like .example.com)
                                       items:
                                         type: string
                                       type: array
                                   type: object
                                 type: array
                               policyIds:
-                                description: (Output) Describes the X.509 certificate
-                                  policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
+                                description: |-
+                                  (Output)
+                                  Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
                                   Structure is documented below.
                                 items:
                                   properties:
@@ -2505,7 +2598,8 @@ spec:
                       type: object
                     type: array
                   createTime:
-                    description: The time that this resource was created on the server.
+                    description: |-
+                      The time that this resource was created on the server.
                       This is in RFC3339 text format.
                     type: string
                   id:
@@ -2523,15 +2617,15 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   lifetime:
-                    description: 'The desired lifetime of the CA certificate. Used
-                      to create the "notBeforeTime" and "notAfterTime" fields inside
-                      an X.509 certificate. A duration in seconds with up to nine
-                      fractional digits, terminated by ''s''. Example: "3.5s".'
+                    description: |-
+                      The desired lifetime of the CA certificate. Used to create the "notBeforeTime" and
+                      "notAfterTime" fields inside an X.509 certificate. A duration in seconds with up to nine
+                      fractional digits, terminated by 's'. Example: "3.5s".
                     type: string
                   location:
-                    description: Location of the Certificate. A full list of valid
-                      locations can be found by running gcloud privateca locations
-                      list.
+                    description: |-
+                      Location of the Certificate. A full list of valid locations can be found by
+                      running gcloud privateca locations list.
                     type: string
                   pemCertificate:
                     description: Output only. The pem-encoded, signed X.509 certificate.
@@ -2543,8 +2637,9 @@ spec:
                       type: string
                     type: array
                   pemCertificates:
-                    description: (Deprecated) Required. Expected to be in leaf-to-root
-                      order according to RFC 5246.
+                    description: |-
+                      (Deprecated)
+                      Required. Expected to be in leaf-to-root order according to RFC 5246.
                     items:
                       type: string
                     type: array
@@ -2556,27 +2651,33 @@ spec:
                     description: The name of the CaPool this Certificate belongs to.
                     type: string
                   project:
-                    description: The ID of the project in which the resource belongs.
+                    description: |-
+                      The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                   revocationDetails:
-                    description: Output only. Details regarding the revocation of
-                      this Certificate. This Certificate is considered revoked if
-                      and only if this field is present. Structure is documented below.
+                    description: |-
+                      Output only. Details regarding the revocation of this Certificate. This Certificate is
+                      considered revoked if and only if this field is present.
+                      Structure is documented below.
                     items:
                       properties:
                         revocationState:
-                          description: (Output) Indicates why a Certificate was revoked.
+                          description: |-
+                            (Output)
+                            Indicates why a Certificate was revoked.
                           type: string
                         revocationTime:
-                          description: (Output) The time at which this Certificate
-                            was revoked.
+                          description: |-
+                            (Output)
+                            The time at which this Certificate was revoked.
                           type: string
                       type: object
                     type: array
                   updateTime:
-                    description: Output only. The time at which this CertificateAuthority
-                      was updated. This is in RFC3339 text format.
+                    description: |-
+                      Output only. The time at which this CertificateAuthority was updated.
+                      This is in RFC3339 text format.
                     type: string
                 type: object
               conditions:
@@ -2585,13 +2686,15 @@ spec:
                   description: A Condition that may apply to a resource.
                   properties:
                     lastTransitionTime:
-                      description: LastTransitionTime is the last time this condition
-                        transitioned from one status to another.
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
                       format: date-time
                       type: string
                     message:
-                      description: A Message containing details about this condition's
-                        last transition from one status to another, if any.
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
                       type: string
                     reason:
                       description: A Reason for this condition's last transition from
@@ -2602,8 +2705,9 @@ spec:
                         False, or Unknown?
                       type: string
                     type:
-                      description: Type of this condition. At most one of each condition
-                        type may apply to a resource at any point in time.
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
                       type: string
                   required:
                   - lastTransitionTime

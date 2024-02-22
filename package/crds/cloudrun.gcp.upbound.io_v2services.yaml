@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.13.0
+    controller-gen.kubebuilder.io/version: v0.14.0
   name: v2services.cloudrun.gcp.upbound.io
 spec:
   group: cloudrun.gcp.upbound.io
@@ -39,14 +39,19 @@ spec:
           templates which implement a network service.
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
             type: string
           metadata:
             type: object
@@ -55,13 +60,14 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: 'DeletionPolicy specifies what will happen to the underlying
-                  external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicies field in a future release. Currently,
-                  both could be set independently and non-default values would be
-                  honored if the feature flag is enabled. See the design doc for more
-                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
                 enum:
                 - Orphan
                 - Delete
@@ -71,19 +77,17 @@ spec:
                   annotations:
                     additionalProperties:
                       type: string
-                    description: Unstructured key value map that may be set by external
-                      tools to store and arbitrary metadata. They are not queryable
-                      and should be preserved when modifying objects. Cloud Run API
-                      v2 does not support annotations with run.googleapis.com, cloud.googleapis.com,
-                      serving.knative.dev, or autoscaling.knative.dev namespaces,
-                      and they will be rejected. All system annotations in v1 now
-                      have a corresponding field in v2 RevisionTemplate. This field
-                      follows Kubernetes annotations' namespacing, limits, and rules.
+                    description: |-
+                      Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects.
+                      Cloud Run API v2 does not support annotations with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+                      All system annotations in v1 now have a corresponding field in v2 RevisionTemplate.
+                      This field follows Kubernetes annotations' namespacing, limits, and rules.
                     type: object
                     x-kubernetes-map-type: granular
                   binaryAuthorization:
-                    description: Settings for the Binary Authorization feature. Structure
-                      is documented below.
+                    description: |-
+                      Settings for the Binary Authorization feature.
+                      Structure is documented below.
                     items:
                       properties:
                         breakglassJustification:
@@ -109,67 +113,55 @@ spec:
                       currently has a 512-character limit.
                     type: string
                   ingress:
-                    description: 'Provides the ingress settings for this Service.
-                      On output, returns the currently observed ingress settings,
-                      or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active. Possible
-                      values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY,
-                      INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.'
+                    description: |-
+                      Provides the ingress settings for this Service. On output, returns the currently observed ingress settings, or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active.
+                      Possible values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY, INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.
                     type: string
                   labels:
                     additionalProperties:
                       type: string
-                    description: Unstructured key value map that can be used to organize
-                      and categorize objects. User-provided labels are shared with
-                      Google's billing system, so they can be used to filter, or break
-                      down billing charges by team, component, environment, state,
-                      etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels
-                      or https://cloud.google.com/run/docs/configuring/labels. Cloud
-                      Run API v2 does not support labels with run.googleapis.com,
-                      cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev
-                      namespaces, and they will be rejected. All system labels in
-                      v1 now have a corresponding field in v2 RevisionTemplate.
+                    description: |-
+                      Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
+                      For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+                      Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+                      All system labels in v1 now have a corresponding field in v2 RevisionTemplate.
                     type: object
                     x-kubernetes-map-type: granular
                   launchStage:
-                    description: 'The launch stage as defined by Google Cloud Platform
-                      Launch Stages. Cloud Run supports ALPHA, BETA, and GA. If no
-                      value is specified, GA is assumed. Set the launch stage to a
-                      preview stage on input to allow use of preview features in that
-                      stage. On read (or output), describes whether the resource uses
-                      preview features. For example, if ALPHA is provided as input,
-                      but only BETA and GA-level features are used, this field will
-                      be BETA on output. Possible values are: UNIMPLEMENTED, PRELAUNCH,
-                      EARLY_ACCESS, ALPHA, BETA, GA, DEPRECATED.'
+                    description: |-
+                      The launch stage as defined by Google Cloud Platform Launch Stages. Cloud Run supports ALPHA, BETA, and GA.
+                      If no value is specified, GA is assumed. Set the launch stage to a preview stage on input to allow use of preview features in that stage. On read (or output), describes whether the resource uses preview features.
+                      For example, if ALPHA is provided as input, but only BETA and GA-level features are used, this field will be BETA on output.
+                      Possible values are: UNIMPLEMENTED, PRELAUNCH, EARLY_ACCESS, ALPHA, BETA, GA, DEPRECATED.
                     type: string
                   location:
                     description: The location of the cloud run service
                     type: string
                   project:
-                    description: The ID of the project in which the resource belongs.
+                    description: |-
+                      The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                   template:
-                    description: The template used to create revisions for this Service.
+                    description: |-
+                      The template used to create revisions for this Service.
                       Structure is documented below.
                     items:
                       properties:
                         annotations:
                           additionalProperties:
                             type: string
-                          description: Unstructured key value map that may be set
-                            by external tools to store and arbitrary metadata. They
-                            are not queryable and should be preserved when modifying
-                            objects. Cloud Run API v2 does not support annotations
-                            with run.googleapis.com, cloud.googleapis.com, serving.knative.dev,
-                            or autoscaling.knative.dev namespaces, and they will be
-                            rejected. All system annotations in v1 now have a corresponding
-                            field in v2 RevisionTemplate. This field follows Kubernetes
-                            annotations' namespacing, limits, and rules.
+                          description: |-
+                            Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects.
+                            Cloud Run API v2 does not support annotations with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+                            All system annotations in v1 now have a corresponding field in v2 RevisionTemplate.
+                            This field follows Kubernetes annotations' namespacing, limits, and rules.
                           type: object
                           x-kubernetes-map-type: granular
                         containers:
-                          description: Holds the containers that define the unit of
-                            execution for this Service. Structure is documented below.
+                          description: |-
+                            Holds the containers that define the unit of execution for this Service.
+                            Structure is documented below.
                           items:
                             properties:
                               args:
@@ -200,8 +192,9 @@ spec:
                                   type: string
                                 type: array
                               env:
-                                description: List of environment variables to set
-                                  in the container. Structure is documented below.
+                                description: |-
+                                  List of environment variables to set in the container.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     name:
@@ -211,21 +204,21 @@ spec:
                                       description: The header field value
                                       type: string
                                     valueSource:
-                                      description: Source for the environment variable's
-                                        value. Structure is documented below.
+                                      description: |-
+                                        Source for the environment variable's value.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           secretKeyRef:
-                                            description: Selects a secret and a specific
-                                              version from Cloud Secret Manager. Structure
-                                              is documented below.
+                                            description: |-
+                                              Selects a secret and a specific version from Cloud Secret Manager.
+                                              Structure is documented below.
                                             items:
                                               properties:
                                                 secret:
-                                                  description: 'Secret represents
-                                                    a secret that should populate
-                                                    this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
-                                                    Structure is documented below.'
+                                                  description: |-
+                                                    Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
+                                                    Structure is documented below.
                                                   type: string
                                                 secretRef:
                                                   description: Reference to a Secret
@@ -240,31 +233,21 @@ spec:
                                                       properties:
                                                         resolution:
                                                           default: Required
-                                                          description: Resolution
-                                                            specifies whether resolution
-                                                            of this reference is required.
-                                                            The default is 'Required',
-                                                            which means the reconcile
-                                                            will fail if the reference
-                                                            cannot be resolved. 'Optional'
-                                                            means this reference will
-                                                            be a no-op if it cannot
-                                                            be resolved.
+                                                          description: |-
+                                                            Resolution specifies whether resolution of this reference is required.
+                                                            The default is 'Required', which means the reconcile will fail if the
+                                                            reference cannot be resolved. 'Optional' means this reference will be
+                                                            a no-op if it cannot be resolved.
                                                           enum:
                                                           - Required
                                                           - Optional
                                                           type: string
                                                         resolve:
-                                                          description: Resolve specifies
-                                                            when this reference should
-                                                            be resolved. The default
-                                                            is 'IfNotPresent', which
-                                                            will attempt to resolve
-                                                            the reference only when
-                                                            the corresponding field
-                                                            is not present. Use 'Always'
-                                                            to resolve the reference
-                                                            on every reconcile.
+                                                          description: |-
+                                                            Resolve specifies when this reference should be resolved. The default
+                                                            is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                            the corresponding field is not present. Use 'Always' to resolve the
+                                                            reference on every reconcile.
                                                           enum:
                                                           - Always
                                                           - IfNotPresent
@@ -278,11 +261,9 @@ spec:
                                                     in secretmanager to populate secret.
                                                   properties:
                                                     matchControllerRef:
-                                                      description: MatchControllerRef
-                                                        ensures an object with the
-                                                        same controller reference
-                                                        as the selecting object is
-                                                        selected.
+                                                      description: |-
+                                                        MatchControllerRef ensures an object with the same controller reference
+                                                        as the selecting object is selected.
                                                       type: boolean
                                                     matchLabels:
                                                       additionalProperties:
@@ -296,31 +277,21 @@ spec:
                                                       properties:
                                                         resolution:
                                                           default: Required
-                                                          description: Resolution
-                                                            specifies whether resolution
-                                                            of this reference is required.
-                                                            The default is 'Required',
-                                                            which means the reconcile
-                                                            will fail if the reference
-                                                            cannot be resolved. 'Optional'
-                                                            means this reference will
-                                                            be a no-op if it cannot
-                                                            be resolved.
+                                                          description: |-
+                                                            Resolution specifies whether resolution of this reference is required.
+                                                            The default is 'Required', which means the reconcile will fail if the
+                                                            reference cannot be resolved. 'Optional' means this reference will be
+                                                            a no-op if it cannot be resolved.
                                                           enum:
                                                           - Required
                                                           - Optional
                                                           type: string
                                                         resolve:
-                                                          description: Resolve specifies
-                                                            when this reference should
-                                                            be resolved. The default
-                                                            is 'IfNotPresent', which
-                                                            will attempt to resolve
-                                                            the reference only when
-                                                            the corresponding field
-                                                            is not present. Use 'Always'
-                                                            to resolve the reference
-                                                            on every reconcile.
+                                                          description: |-
+                                                            Resolve specifies when this reference should be resolved. The default
+                                                            is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                            the corresponding field is not present. Use 'Always' to resolve the
+                                                            reference on every reconcile.
                                                           enum:
                                                           - Always
                                                           - IfNotPresent
@@ -345,10 +316,9 @@ spec:
                                   More info: https://kubernetes.io/docs/concepts/containers/images'
                                 type: string
                               livenessProbe:
-                                description: 'Periodic probe of container liveness.
-                                  Container will be restarted if the probe fails.
-                                  More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-                                  Structure is documented below.'
+                                description: |-
+                                  Periodic probe of container liveness. Container will be restarted if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     failureThreshold:
@@ -358,8 +328,9 @@ spec:
                                         1.
                                       type: number
                                     grpc:
-                                      description: GRPC specifies an action involving
-                                        a GRPC port. Structure is documented below.
+                                      description: |-
+                                        GRPC specifies an action involving a GRPC port.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           port:
@@ -369,24 +340,22 @@ spec:
                                               to 8080.
                                             type: number
                                           service:
-                                            description: The name of the service to
-                                              place in the gRPC HealthCheckRequest
+                                            description: |-
+                                              The name of the service to place in the gRPC HealthCheckRequest
                                               (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
-                                              If this is not specified, the default
-                                              behavior is defined by gRPC.
+                                              If this is not specified, the default behavior is defined by gRPC.
                                             type: string
                                         type: object
                                       type: array
                                     httpGet:
-                                      description: HTTPGet specifies the http request
-                                        to perform. Exactly one of HTTPGet or TCPSocket
-                                        must be specified. Structure is documented
-                                        below.
+                                      description: |-
+                                        HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           httpHeaders:
-                                            description: Custom headers to set in
-                                              the request. HTTP allows repeated headers.
+                                            description: |-
+                                              Custom headers to set in the request. HTTP allows repeated headers.
                                               Structure is documented below.
                                             items:
                                               properties:
@@ -426,10 +395,9 @@ spec:
                                         240. Must be greater or equal than timeoutSeconds
                                       type: number
                                     tcpSocket:
-                                      description: TCPSocket specifies an action involving
-                                        a TCP port. Exactly one of HTTPGet or TCPSocket
-                                        must be specified. Structure is documented
-                                        below.
+                                      description: |-
+                                        TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           port:
@@ -453,13 +421,10 @@ spec:
                                 description: Volume's name.
                                 type: string
                               ports:
-                                description: List of ports to expose from the container.
-                                  Only a single port can be specified. The specified
-                                  ports must be listening on all interfaces (0.0.0.0)
-                                  within the container to be accessible. If omitted,
-                                  a port number will be chosen and passed to the container
-                                  through the PORT environment variable for the container
-                                  to listen on Structure is documented below.
+                                description: |-
+                                  List of ports to expose from the container. Only a single port can be specified. The specified ports must be listening on all interfaces (0.0.0.0) within the container to be accessible.
+                                  If omitted, a port number will be chosen and passed to the container through the PORT environment variable for the container to listen on
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     containerPort:
@@ -473,9 +438,9 @@ spec:
                                   type: object
                                 type: array
                               resources:
-                                description: 'Compute Resource requirements by this
-                                  container. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources
-                                  Structure is documented below.'
+                                description: |-
+                                  Compute Resource requirements by this container. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     cpuIdle:
@@ -502,12 +467,9 @@ spec:
                                   type: object
                                 type: array
                               startupProbe:
-                                description: 'Startup probe of application within
-                                  the container. All other probes are disabled if
-                                  a startup probe is provided, until it succeeds.
-                                  Container will not be added to service endpoints
-                                  if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-                                  Structure is documented below.'
+                                description: |-
+                                  Startup probe of application within the container. All other probes are disabled if a startup probe is provided, until it succeeds. Container will not be added to service endpoints if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     failureThreshold:
@@ -517,8 +479,9 @@ spec:
                                         1.
                                       type: number
                                     grpc:
-                                      description: GRPC specifies an action involving
-                                        a GRPC port. Structure is documented below.
+                                      description: |-
+                                        GRPC specifies an action involving a GRPC port.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           port:
@@ -528,24 +491,22 @@ spec:
                                               to 8080.
                                             type: number
                                           service:
-                                            description: The name of the service to
-                                              place in the gRPC HealthCheckRequest
+                                            description: |-
+                                              The name of the service to place in the gRPC HealthCheckRequest
                                               (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
-                                              If this is not specified, the default
-                                              behavior is defined by gRPC.
+                                              If this is not specified, the default behavior is defined by gRPC.
                                             type: string
                                         type: object
                                       type: array
                                     httpGet:
-                                      description: HTTPGet specifies the http request
-                                        to perform. Exactly one of HTTPGet or TCPSocket
-                                        must be specified. Structure is documented
-                                        below.
+                                      description: |-
+                                        HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           httpHeaders:
-                                            description: Custom headers to set in
-                                              the request. HTTP allows repeated headers.
+                                            description: |-
+                                              Custom headers to set in the request. HTTP allows repeated headers.
                                               Structure is documented below.
                                             items:
                                               properties:
@@ -585,10 +546,9 @@ spec:
                                         240. Must be greater or equal than timeoutSeconds
                                       type: number
                                     tcpSocket:
-                                      description: TCPSocket specifies an action involving
-                                        a TCP port. Exactly one of HTTPGet or TCPSocket
-                                        must be specified. Structure is documented
-                                        below.
+                                      description: |-
+                                        TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           port:
@@ -609,8 +569,9 @@ spec:
                                   type: object
                                 type: array
                               volumeMounts:
-                                description: Volume to mount into the container's
-                                  filesystem. Structure is documented below.
+                                description: |-
+                                  Volume to mount into the container's filesystem.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     mountPath:
@@ -641,23 +602,18 @@ spec:
                             more information, go to https://cloud.google.com/run/docs/securing/using-cmek
                           type: string
                         executionEnvironment:
-                          description: 'The sandbox environment to host this Revision.
-                            Possible values are: EXECUTION_ENVIRONMENT_GEN1, EXECUTION_ENVIRONMENT_GEN2.'
+                          description: |-
+                            The sandbox environment to host this Revision.
+                            Possible values are: EXECUTION_ENVIRONMENT_GEN1, EXECUTION_ENVIRONMENT_GEN2.
                           type: string
                         labels:
                           additionalProperties:
                             type: string
-                          description: Unstructured key value map that can be used
-                            to organize and categorize objects. User-provided labels
-                            are shared with Google's billing system, so they can be
-                            used to filter, or break down billing charges by team,
-                            component, environment, state, etc. For more information,
-                            visit https://cloud.google.com/resource-manager/docs/creating-managing-labels
-                            or https://cloud.google.com/run/docs/configuring/labels.
-                            Cloud Run API v2 does not support labels with run.googleapis.com,
-                            cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev
-                            namespaces, and they will be rejected. All system labels
-                            in v1 now have a corresponding field in v2 RevisionTemplate.
+                          description: |-
+                            Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
+                            For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+                            Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+                            All system labels in v1 now have a corresponding field in v2 RevisionTemplate.
                           type: object
                           x-kubernetes-map-type: granular
                         maxInstanceRequestConcurrency:
@@ -670,8 +626,9 @@ spec:
                             the Service name.
                           type: string
                         scaling:
-                          description: Scaling settings for this Revision. Structure
-                            is documented below.
+                          description: |-
+                            Scaling settings for this Revision.
+                            Structure is documented below.
                           items:
                             properties:
                               maxInstanceCount:
@@ -696,20 +653,20 @@ spec:
                             go to https://cloud.google.com/run/docs/configuring/session-affinity
                           type: boolean
                         timeout:
-                          description: 'Max allowed time for an instance to respond
-                            to a request. A duration in seconds with up to nine fractional
-                            digits, ending with ''s''. Example: "3.5s".'
+                          description: |-
+                            Max allowed time for an instance to respond to a request.
+                            A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
                           type: string
                         volumes:
-                          description: A list of Volumes to make available to containers.
+                          description: |-
+                            A list of Volumes to make available to containers.
                             Structure is documented below.
                           items:
                             properties:
                               cloudSqlInstance:
-                                description: For Cloud SQL volumes, contains the specific
-                                  instances that should be mounted. Visit https://cloud.google.com/sql/docs/mysql/connect-run
-                                  for more information on how to connect Cloud SQL
-                                  and Cloud Run. Structure is documented below.
+                                description: |-
+                                  For Cloud SQL volumes, contains the specific instances that should be mounted. Visit https://cloud.google.com/sql/docs/mysql/connect-run for more information on how to connect Cloud SQL and Cloud Run.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     instances:
@@ -727,9 +684,9 @@ spec:
                                 description: Volume's name.
                                 type: string
                               secret:
-                                description: 'Secret represents a secret that should
-                                  populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
-                                  Structure is documented below.'
+                                description: |-
+                                  Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     defaultMode:
@@ -740,15 +697,9 @@ spec:
                                         path are not affected by this setting.
                                       type: number
                                     items:
-                                      description: If unspecified, the volume will
-                                        expose a file whose name is the secret, relative
-                                        to VolumeMount.mount_path. If specified, the
-                                        key will be used as the version to fetch from
-                                        Cloud Secret Manager and the path will be
-                                        the name of the file exposed in the volume.
-                                        When items are defined, they must specify
-                                        a path and a version. Structure is documented
-                                        below.
+                                      description: |-
+                                        If unspecified, the volume will expose a file whose name is the secret, relative to VolumeMount.mount_path. If specified, the key will be used as the version to fetch from Cloud Secret Manager and the path will be the name of the file exposed in the volume. When items are defined, they must specify a path and a version.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           mode:
@@ -770,9 +721,9 @@ spec:
                                         type: object
                                       type: array
                                     secret:
-                                      description: 'Secret represents a secret that
-                                        should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
-                                        Structure is documented below.'
+                                      description: |-
+                                        Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
+                                        Structure is documented below.
                                       type: string
                                     secretRef:
                                       description: Reference to a Secret in secretmanager
@@ -786,25 +737,21 @@ spec:
                                           properties:
                                             resolution:
                                               default: Required
-                                              description: Resolution specifies whether
-                                                resolution of this reference is required.
-                                                The default is 'Required', which means
-                                                the reconcile will fail if the reference
-                                                cannot be resolved. 'Optional' means
-                                                this reference will be a no-op if
-                                                it cannot be resolved.
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
                                               enum:
                                               - Required
                                               - Optional
                                               type: string
                                             resolve:
-                                              description: Resolve specifies when
-                                                this reference should be resolved.
-                                                The default is 'IfNotPresent', which
-                                                will attempt to resolve the reference
-                                                only when the corresponding field
-                                                is not present. Use 'Always' to resolve
-                                                the reference on every reconcile.
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
                                               enum:
                                               - Always
                                               - IfNotPresent
@@ -818,8 +765,8 @@ spec:
                                         to populate secret.
                                       properties:
                                         matchControllerRef:
-                                          description: MatchControllerRef ensures
-                                            an object with the same controller reference
+                                          description: |-
+                                            MatchControllerRef ensures an object with the same controller reference
                                             as the selecting object is selected.
                                           type: boolean
                                         matchLabels:
@@ -833,25 +780,21 @@ spec:
                                           properties:
                                             resolution:
                                               default: Required
-                                              description: Resolution specifies whether
-                                                resolution of this reference is required.
-                                                The default is 'Required', which means
-                                                the reconcile will fail if the reference
-                                                cannot be resolved. 'Optional' means
-                                                this reference will be a no-op if
-                                                it cannot be resolved.
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
                                               enum:
                                               - Required
                                               - Optional
                                               type: string
                                             resolve:
-                                              description: Resolve specifies when
-                                                this reference should be resolved.
-                                                The default is 'IfNotPresent', which
-                                                will attempt to resolve the reference
-                                                only when the corresponding field
-                                                is not present. Use 'Always' to resolve
-                                                the reference on every reconcile.
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
                                               enum:
                                               - Always
                                               - IfNotPresent
@@ -863,8 +806,8 @@ spec:
                             type: object
                           type: array
                         vpcAccess:
-                          description: VPC Access configuration to use for this Task.
-                            For more information, visit https://cloud.google.com/run/docs/configuring/connecting-vpc.
+                          description: |-
+                            VPC Access configuration to use for this Task. For more information, visit https://cloud.google.com/run/docs/configuring/connecting-vpc.
                             Structure is documented below.
                           items:
                             properties:
@@ -873,17 +816,17 @@ spec:
                                   where {project} can be project id or number.'
                                 type: string
                               egress:
-                                description: 'Traffic VPC egress settings. Possible
-                                  values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.'
+                                description: |-
+                                  Traffic VPC egress settings.
+                                  Possible values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.
                                 type: string
                             type: object
                           type: array
                       type: object
                     type: array
                   traffic:
-                    description: Specifies how to distribute traffic over a collection
-                      of Revisions belonging to the Service. If traffic is empty or
-                      not provided, defaults to 100% traffic to the latest Ready Revision.
+                    description: |-
+                      Specifies how to distribute traffic over a collection of Revisions belonging to the Service. If traffic is empty or not provided, defaults to 100% traffic to the latest Ready Revision.
                       Structure is documented below.
                     items:
                       properties:
@@ -900,41 +843,40 @@ spec:
                             exclusively reference this target.
                           type: string
                         type:
-                          description: 'The allocation type for this traffic target.
-                            Possible values are: TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST,
-                            TRAFFIC_TARGET_ALLOCATION_TYPE_REVISION.'
+                          description: |-
+                            The allocation type for this traffic target.
+                            Possible values are: TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST, TRAFFIC_TARGET_ALLOCATION_TYPE_REVISION.
                           type: string
                       type: object
                     type: array
                 type: object
               initProvider:
-                description: THIS IS A BETA FIELD. It will be honored unless the Management
-                  Policies feature flag is disabled. InitProvider holds the same fields
-                  as ForProvider, with the exception of Identifier and other resource
-                  reference fields. The fields that are in InitProvider are merged
-                  into ForProvider when the resource is created. The same fields are
-                  also added to the terraform ignore_changes hook, to avoid updating
-                  them after creation. This is useful for fields that are required
-                  on creation, but we do not desire to update them after creation,
-                  for example because of an external controller is managing them,
-                  like an autoscaler.
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
                 properties:
                   annotations:
                     additionalProperties:
                       type: string
-                    description: Unstructured key value map that may be set by external
-                      tools to store and arbitrary metadata. They are not queryable
-                      and should be preserved when modifying objects. Cloud Run API
-                      v2 does not support annotations with run.googleapis.com, cloud.googleapis.com,
-                      serving.knative.dev, or autoscaling.knative.dev namespaces,
-                      and they will be rejected. All system annotations in v1 now
-                      have a corresponding field in v2 RevisionTemplate. This field
-                      follows Kubernetes annotations' namespacing, limits, and rules.
+                    description: |-
+                      Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects.
+                      Cloud Run API v2 does not support annotations with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+                      All system annotations in v1 now have a corresponding field in v2 RevisionTemplate.
+                      This field follows Kubernetes annotations' namespacing, limits, and rules.
                     type: object
                     x-kubernetes-map-type: granular
                   binaryAuthorization:
-                    description: Settings for the Binary Authorization feature. Structure
-                      is documented below.
+                    description: |-
+                      Settings for the Binary Authorization feature.
+                      Structure is documented below.
                     items:
                       properties:
                         breakglassJustification:
@@ -960,64 +902,52 @@ spec:
                       currently has a 512-character limit.
                     type: string
                   ingress:
-                    description: 'Provides the ingress settings for this Service.
-                      On output, returns the currently observed ingress settings,
-                      or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active. Possible
-                      values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY,
-                      INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.'
+                    description: |-
+                      Provides the ingress settings for this Service. On output, returns the currently observed ingress settings, or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active.
+                      Possible values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY, INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.
                     type: string
                   labels:
                     additionalProperties:
                       type: string
-                    description: Unstructured key value map that can be used to organize
-                      and categorize objects. User-provided labels are shared with
-                      Google's billing system, so they can be used to filter, or break
-                      down billing charges by team, component, environment, state,
-                      etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels
-                      or https://cloud.google.com/run/docs/configuring/labels. Cloud
-                      Run API v2 does not support labels with run.googleapis.com,
-                      cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev
-                      namespaces, and they will be rejected. All system labels in
-                      v1 now have a corresponding field in v2 RevisionTemplate.
+                    description: |-
+                      Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
+                      For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+                      Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+                      All system labels in v1 now have a corresponding field in v2 RevisionTemplate.
                     type: object
                     x-kubernetes-map-type: granular
                   launchStage:
-                    description: 'The launch stage as defined by Google Cloud Platform
-                      Launch Stages. Cloud Run supports ALPHA, BETA, and GA. If no
-                      value is specified, GA is assumed. Set the launch stage to a
-                      preview stage on input to allow use of preview features in that
-                      stage. On read (or output), describes whether the resource uses
-                      preview features. For example, if ALPHA is provided as input,
-                      but only BETA and GA-level features are used, this field will
-                      be BETA on output. Possible values are: UNIMPLEMENTED, PRELAUNCH,
-                      EARLY_ACCESS, ALPHA, BETA, GA, DEPRECATED.'
+                    description: |-
+                      The launch stage as defined by Google Cloud Platform Launch Stages. Cloud Run supports ALPHA, BETA, and GA.
+                      If no value is specified, GA is assumed. Set the launch stage to a preview stage on input to allow use of preview features in that stage. On read (or output), describes whether the resource uses preview features.
+                      For example, if ALPHA is provided as input, but only BETA and GA-level features are used, this field will be BETA on output.
+                      Possible values are: UNIMPLEMENTED, PRELAUNCH, EARLY_ACCESS, ALPHA, BETA, GA, DEPRECATED.
                     type: string
                   project:
-                    description: The ID of the project in which the resource belongs.
+                    description: |-
+                      The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                   template:
-                    description: The template used to create revisions for this Service.
+                    description: |-
+                      The template used to create revisions for this Service.
                       Structure is documented below.
                     items:
                       properties:
                         annotations:
                           additionalProperties:
                             type: string
-                          description: Unstructured key value map that may be set
-                            by external tools to store and arbitrary metadata. They
-                            are not queryable and should be preserved when modifying
-                            objects. Cloud Run API v2 does not support annotations
-                            with run.googleapis.com, cloud.googleapis.com, serving.knative.dev,
-                            or autoscaling.knative.dev namespaces, and they will be
-                            rejected. All system annotations in v1 now have a corresponding
-                            field in v2 RevisionTemplate. This field follows Kubernetes
-                            annotations' namespacing, limits, and rules.
+                          description: |-
+                            Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects.
+                            Cloud Run API v2 does not support annotations with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+                            All system annotations in v1 now have a corresponding field in v2 RevisionTemplate.
+                            This field follows Kubernetes annotations' namespacing, limits, and rules.
                           type: object
                           x-kubernetes-map-type: granular
                         containers:
-                          description: Holds the containers that define the unit of
-                            execution for this Service. Structure is documented below.
+                          description: |-
+                            Holds the containers that define the unit of execution for this Service.
+                            Structure is documented below.
                           items:
                             properties:
                               args:
@@ -1048,8 +978,9 @@ spec:
                                   type: string
                                 type: array
                               env:
-                                description: List of environment variables to set
-                                  in the container. Structure is documented below.
+                                description: |-
+                                  List of environment variables to set in the container.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     name:
@@ -1059,21 +990,21 @@ spec:
                                       description: The header field value
                                       type: string
                                     valueSource:
-                                      description: Source for the environment variable's
-                                        value. Structure is documented below.
+                                      description: |-
+                                        Source for the environment variable's value.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           secretKeyRef:
-                                            description: Selects a secret and a specific
-                                              version from Cloud Secret Manager. Structure
-                                              is documented below.
+                                            description: |-
+                                              Selects a secret and a specific version from Cloud Secret Manager.
+                                              Structure is documented below.
                                             items:
                                               properties:
                                                 secret:
-                                                  description: 'Secret represents
-                                                    a secret that should populate
-                                                    this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
-                                                    Structure is documented below.'
+                                                  description: |-
+                                                    Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
+                                                    Structure is documented below.
                                                   type: string
                                                 secretRef:
                                                   description: Reference to a Secret
@@ -1088,31 +1019,21 @@ spec:
                                                       properties:
                                                         resolution:
                                                           default: Required
-                                                          description: Resolution
-                                                            specifies whether resolution
-                                                            of this reference is required.
-                                                            The default is 'Required',
-                                                            which means the reconcile
-                                                            will fail if the reference
-                                                            cannot be resolved. 'Optional'
-                                                            means this reference will
-                                                            be a no-op if it cannot
-                                                            be resolved.
+                                                          description: |-
+                                                            Resolution specifies whether resolution of this reference is required.
+                                                            The default is 'Required', which means the reconcile will fail if the
+                                                            reference cannot be resolved. 'Optional' means this reference will be
+                                                            a no-op if it cannot be resolved.
                                                           enum:
                                                           - Required
                                                           - Optional
                                                           type: string
                                                         resolve:
-                                                          description: Resolve specifies
-                                                            when this reference should
-                                                            be resolved. The default
-                                                            is 'IfNotPresent', which
-                                                            will attempt to resolve
-                                                            the reference only when
-                                                            the corresponding field
-                                                            is not present. Use 'Always'
-                                                            to resolve the reference
-                                                            on every reconcile.
+                                                          description: |-
+                                                            Resolve specifies when this reference should be resolved. The default
+                                                            is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                            the corresponding field is not present. Use 'Always' to resolve the
+                                                            reference on every reconcile.
                                                           enum:
                                                           - Always
                                                           - IfNotPresent
@@ -1126,11 +1047,9 @@ spec:
                                                     in secretmanager to populate secret.
                                                   properties:
                                                     matchControllerRef:
-                                                      description: MatchControllerRef
-                                                        ensures an object with the
-                                                        same controller reference
-                                                        as the selecting object is
-                                                        selected.
+                                                      description: |-
+                                                        MatchControllerRef ensures an object with the same controller reference
+                                                        as the selecting object is selected.
                                                       type: boolean
                                                     matchLabels:
                                                       additionalProperties:
@@ -1144,31 +1063,21 @@ spec:
                                                       properties:
                                                         resolution:
                                                           default: Required
-                                                          description: Resolution
-                                                            specifies whether resolution
-                                                            of this reference is required.
-                                                            The default is 'Required',
-                                                            which means the reconcile
-                                                            will fail if the reference
-                                                            cannot be resolved. 'Optional'
-                                                            means this reference will
-                                                            be a no-op if it cannot
-                                                            be resolved.
+                                                          description: |-
+                                                            Resolution specifies whether resolution of this reference is required.
+                                                            The default is 'Required', which means the reconcile will fail if the
+                                                            reference cannot be resolved. 'Optional' means this reference will be
+                                                            a no-op if it cannot be resolved.
                                                           enum:
                                                           - Required
                                                           - Optional
                                                           type: string
                                                         resolve:
-                                                          description: Resolve specifies
-                                                            when this reference should
-                                                            be resolved. The default
-                                                            is 'IfNotPresent', which
-                                                            will attempt to resolve
-                                                            the reference only when
-                                                            the corresponding field
-                                                            is not present. Use 'Always'
-                                                            to resolve the reference
-                                                            on every reconcile.
+                                                          description: |-
+                                                            Resolve specifies when this reference should be resolved. The default
+                                                            is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                            the corresponding field is not present. Use 'Always' to resolve the
+                                                            reference on every reconcile.
                                                           enum:
                                                           - Always
                                                           - IfNotPresent
@@ -1193,10 +1102,9 @@ spec:
                                   More info: https://kubernetes.io/docs/concepts/containers/images'
                                 type: string
                               livenessProbe:
-                                description: 'Periodic probe of container liveness.
-                                  Container will be restarted if the probe fails.
-                                  More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-                                  Structure is documented below.'
+                                description: |-
+                                  Periodic probe of container liveness. Container will be restarted if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     failureThreshold:
@@ -1206,8 +1114,9 @@ spec:
                                         1.
                                       type: number
                                     grpc:
-                                      description: GRPC specifies an action involving
-                                        a GRPC port. Structure is documented below.
+                                      description: |-
+                                        GRPC specifies an action involving a GRPC port.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           port:
@@ -1217,24 +1126,22 @@ spec:
                                               to 8080.
                                             type: number
                                           service:
-                                            description: The name of the service to
-                                              place in the gRPC HealthCheckRequest
+                                            description: |-
+                                              The name of the service to place in the gRPC HealthCheckRequest
                                               (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
-                                              If this is not specified, the default
-                                              behavior is defined by gRPC.
+                                              If this is not specified, the default behavior is defined by gRPC.
                                             type: string
                                         type: object
                                       type: array
                                     httpGet:
-                                      description: HTTPGet specifies the http request
-                                        to perform. Exactly one of HTTPGet or TCPSocket
-                                        must be specified. Structure is documented
-                                        below.
+                                      description: |-
+                                        HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           httpHeaders:
-                                            description: Custom headers to set in
-                                              the request. HTTP allows repeated headers.
+                                            description: |-
+                                              Custom headers to set in the request. HTTP allows repeated headers.
                                               Structure is documented below.
                                             items:
                                               properties:
@@ -1274,10 +1181,9 @@ spec:
                                         240. Must be greater or equal than timeoutSeconds
                                       type: number
                                     tcpSocket:
-                                      description: TCPSocket specifies an action involving
-                                        a TCP port. Exactly one of HTTPGet or TCPSocket
-                                        must be specified. Structure is documented
-                                        below.
+                                      description: |-
+                                        TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           port:
@@ -1301,13 +1207,10 @@ spec:
                                 description: Volume's name.
                                 type: string
                               ports:
-                                description: List of ports to expose from the container.
-                                  Only a single port can be specified. The specified
-                                  ports must be listening on all interfaces (0.0.0.0)
-                                  within the container to be accessible. If omitted,
-                                  a port number will be chosen and passed to the container
-                                  through the PORT environment variable for the container
-                                  to listen on Structure is documented below.
+                                description: |-
+                                  List of ports to expose from the container. Only a single port can be specified. The specified ports must be listening on all interfaces (0.0.0.0) within the container to be accessible.
+                                  If omitted, a port number will be chosen and passed to the container through the PORT environment variable for the container to listen on
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     containerPort:
@@ -1321,9 +1224,9 @@ spec:
                                   type: object
                                 type: array
                               resources:
-                                description: 'Compute Resource requirements by this
-                                  container. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources
-                                  Structure is documented below.'
+                                description: |-
+                                  Compute Resource requirements by this container. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     cpuIdle:
@@ -1350,12 +1253,9 @@ spec:
                                   type: object
                                 type: array
                               startupProbe:
-                                description: 'Startup probe of application within
-                                  the container. All other probes are disabled if
-                                  a startup probe is provided, until it succeeds.
-                                  Container will not be added to service endpoints
-                                  if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-                                  Structure is documented below.'
+                                description: |-
+                                  Startup probe of application within the container. All other probes are disabled if a startup probe is provided, until it succeeds. Container will not be added to service endpoints if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     failureThreshold:
@@ -1365,8 +1265,9 @@ spec:
                                         1.
                                       type: number
                                     grpc:
-                                      description: GRPC specifies an action involving
-                                        a GRPC port. Structure is documented below.
+                                      description: |-
+                                        GRPC specifies an action involving a GRPC port.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           port:
@@ -1376,24 +1277,22 @@ spec:
                                               to 8080.
                                             type: number
                                           service:
-                                            description: The name of the service to
-                                              place in the gRPC HealthCheckRequest
+                                            description: |-
+                                              The name of the service to place in the gRPC HealthCheckRequest
                                               (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
-                                              If this is not specified, the default
-                                              behavior is defined by gRPC.
+                                              If this is not specified, the default behavior is defined by gRPC.
                                             type: string
                                         type: object
                                       type: array
                                     httpGet:
-                                      description: HTTPGet specifies the http request
-                                        to perform. Exactly one of HTTPGet or TCPSocket
-                                        must be specified. Structure is documented
-                                        below.
+                                      description: |-
+                                        HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           httpHeaders:
-                                            description: Custom headers to set in
-                                              the request. HTTP allows repeated headers.
+                                            description: |-
+                                              Custom headers to set in the request. HTTP allows repeated headers.
                                               Structure is documented below.
                                             items:
                                               properties:
@@ -1433,10 +1332,9 @@ spec:
                                         240. Must be greater or equal than timeoutSeconds
                                       type: number
                                     tcpSocket:
-                                      description: TCPSocket specifies an action involving
-                                        a TCP port. Exactly one of HTTPGet or TCPSocket
-                                        must be specified. Structure is documented
-                                        below.
+                                      description: |-
+                                        TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           port:
@@ -1457,8 +1355,9 @@ spec:
                                   type: object
                                 type: array
                               volumeMounts:
-                                description: Volume to mount into the container's
-                                  filesystem. Structure is documented below.
+                                description: |-
+                                  Volume to mount into the container's filesystem.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     mountPath:
@@ -1489,23 +1388,18 @@ spec:
                             more information, go to https://cloud.google.com/run/docs/securing/using-cmek
                           type: string
                         executionEnvironment:
-                          description: 'The sandbox environment to host this Revision.
-                            Possible values are: EXECUTION_ENVIRONMENT_GEN1, EXECUTION_ENVIRONMENT_GEN2.'
+                          description: |-
+                            The sandbox environment to host this Revision.
+                            Possible values are: EXECUTION_ENVIRONMENT_GEN1, EXECUTION_ENVIRONMENT_GEN2.
                           type: string
                         labels:
                           additionalProperties:
                             type: string
-                          description: Unstructured key value map that can be used
-                            to organize and categorize objects. User-provided labels
-                            are shared with Google's billing system, so they can be
-                            used to filter, or break down billing charges by team,
-                            component, environment, state, etc. For more information,
-                            visit https://cloud.google.com/resource-manager/docs/creating-managing-labels
-                            or https://cloud.google.com/run/docs/configuring/labels.
-                            Cloud Run API v2 does not support labels with run.googleapis.com,
-                            cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev
-                            namespaces, and they will be rejected. All system labels
-                            in v1 now have a corresponding field in v2 RevisionTemplate.
+                          description: |-
+                            Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
+                            For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+                            Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+                            All system labels in v1 now have a corresponding field in v2 RevisionTemplate.
                           type: object
                           x-kubernetes-map-type: granular
                         maxInstanceRequestConcurrency:
@@ -1518,8 +1412,9 @@ spec:
                             the Service name.
                           type: string
                         scaling:
-                          description: Scaling settings for this Revision. Structure
-                            is documented below.
+                          description: |-
+                            Scaling settings for this Revision.
+                            Structure is documented below.
                           items:
                             properties:
                               maxInstanceCount:
@@ -1544,20 +1439,20 @@ spec:
                             go to https://cloud.google.com/run/docs/configuring/session-affinity
                           type: boolean
                         timeout:
-                          description: 'Max allowed time for an instance to respond
-                            to a request. A duration in seconds with up to nine fractional
-                            digits, ending with ''s''. Example: "3.5s".'
+                          description: |-
+                            Max allowed time for an instance to respond to a request.
+                            A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
                           type: string
                         volumes:
-                          description: A list of Volumes to make available to containers.
+                          description: |-
+                            A list of Volumes to make available to containers.
                             Structure is documented below.
                           items:
                             properties:
                               cloudSqlInstance:
-                                description: For Cloud SQL volumes, contains the specific
-                                  instances that should be mounted. Visit https://cloud.google.com/sql/docs/mysql/connect-run
-                                  for more information on how to connect Cloud SQL
-                                  and Cloud Run. Structure is documented below.
+                                description: |-
+                                  For Cloud SQL volumes, contains the specific instances that should be mounted. Visit https://cloud.google.com/sql/docs/mysql/connect-run for more information on how to connect Cloud SQL and Cloud Run.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     instances:
@@ -1575,9 +1470,9 @@ spec:
                                 description: Volume's name.
                                 type: string
                               secret:
-                                description: 'Secret represents a secret that should
-                                  populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
-                                  Structure is documented below.'
+                                description: |-
+                                  Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     defaultMode:
@@ -1588,15 +1483,9 @@ spec:
                                         path are not affected by this setting.
                                       type: number
                                     items:
-                                      description: If unspecified, the volume will
-                                        expose a file whose name is the secret, relative
-                                        to VolumeMount.mount_path. If specified, the
-                                        key will be used as the version to fetch from
-                                        Cloud Secret Manager and the path will be
-                                        the name of the file exposed in the volume.
-                                        When items are defined, they must specify
-                                        a path and a version. Structure is documented
-                                        below.
+                                      description: |-
+                                        If unspecified, the volume will expose a file whose name is the secret, relative to VolumeMount.mount_path. If specified, the key will be used as the version to fetch from Cloud Secret Manager and the path will be the name of the file exposed in the volume. When items are defined, they must specify a path and a version.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           mode:
@@ -1618,9 +1507,9 @@ spec:
                                         type: object
                                       type: array
                                     secret:
-                                      description: 'Secret represents a secret that
-                                        should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
-                                        Structure is documented below.'
+                                      description: |-
+                                        Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
+                                        Structure is documented below.
                                       type: string
                                     secretRef:
                                       description: Reference to a Secret in secretmanager
@@ -1634,25 +1523,21 @@ spec:
                                           properties:
                                             resolution:
                                               default: Required
-                                              description: Resolution specifies whether
-                                                resolution of this reference is required.
-                                                The default is 'Required', which means
-                                                the reconcile will fail if the reference
-                                                cannot be resolved. 'Optional' means
-                                                this reference will be a no-op if
-                                                it cannot be resolved.
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
                                               enum:
                                               - Required
                                               - Optional
                                               type: string
                                             resolve:
-                                              description: Resolve specifies when
-                                                this reference should be resolved.
-                                                The default is 'IfNotPresent', which
-                                                will attempt to resolve the reference
-                                                only when the corresponding field
-                                                is not present. Use 'Always' to resolve
-                                                the reference on every reconcile.
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
                                               enum:
                                               - Always
                                               - IfNotPresent
@@ -1666,8 +1551,8 @@ spec:
                                         to populate secret.
                                       properties:
                                         matchControllerRef:
-                                          description: MatchControllerRef ensures
-                                            an object with the same controller reference
+                                          description: |-
+                                            MatchControllerRef ensures an object with the same controller reference
                                             as the selecting object is selected.
                                           type: boolean
                                         matchLabels:
@@ -1681,25 +1566,21 @@ spec:
                                           properties:
                                             resolution:
                                               default: Required
-                                              description: Resolution specifies whether
-                                                resolution of this reference is required.
-                                                The default is 'Required', which means
-                                                the reconcile will fail if the reference
-                                                cannot be resolved. 'Optional' means
-                                                this reference will be a no-op if
-                                                it cannot be resolved.
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
                                               enum:
                                               - Required
                                               - Optional
                                               type: string
                                             resolve:
-                                              description: Resolve specifies when
-                                                this reference should be resolved.
-                                                The default is 'IfNotPresent', which
-                                                will attempt to resolve the reference
-                                                only when the corresponding field
-                                                is not present. Use 'Always' to resolve
-                                                the reference on every reconcile.
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
                                               enum:
                                               - Always
                                               - IfNotPresent
@@ -1711,8 +1592,8 @@ spec:
                             type: object
                           type: array
                         vpcAccess:
-                          description: VPC Access configuration to use for this Task.
-                            For more information, visit https://cloud.google.com/run/docs/configuring/connecting-vpc.
+                          description: |-
+                            VPC Access configuration to use for this Task. For more information, visit https://cloud.google.com/run/docs/configuring/connecting-vpc.
                             Structure is documented below.
                           items:
                             properties:
@@ -1721,17 +1602,17 @@ spec:
                                   where {project} can be project id or number.'
                                 type: string
                               egress:
-                                description: 'Traffic VPC egress settings. Possible
-                                  values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.'
+                                description: |-
+                                  Traffic VPC egress settings.
+                                  Possible values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.
                                 type: string
                             type: object
                           type: array
                       type: object
                     type: array
                   traffic:
-                    description: Specifies how to distribute traffic over a collection
-                      of Revisions belonging to the Service. If traffic is empty or
-                      not provided, defaults to 100% traffic to the latest Ready Revision.
+                    description: |-
+                      Specifies how to distribute traffic over a collection of Revisions belonging to the Service. If traffic is empty or not provided, defaults to 100% traffic to the latest Ready Revision.
                       Structure is documented below.
                     items:
                       properties:
@@ -1748,9 +1629,9 @@ spec:
                             exclusively reference this target.
                           type: string
                         type:
-                          description: 'The allocation type for this traffic target.
-                            Possible values are: TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST,
-                            TRAFFIC_TARGET_ALLOCATION_TYPE_REVISION.'
+                          description: |-
+                            The allocation type for this traffic target.
+                            Possible values are: TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST, TRAFFIC_TARGET_ALLOCATION_TYPE_REVISION.
                           type: string
                       type: object
                     type: array
@@ -1758,19 +1639,21 @@ spec:
               managementPolicies:
                 default:
                 - '*'
-                description: 'THIS IS A BETA FIELD. It is on by default but can be
-                  opted out through a Crossplane feature flag. ManagementPolicies
-                  specify the array of actions Crossplane is allowed to take on the
-                  managed and external resources. This field is planned to replace
-                  the DeletionPolicy field in a future release. Currently, both could
-                  be set independently and non-default values would be honored if
-                  the feature flag is enabled. If both are custom, the DeletionPolicy
-                  field will be ignored. See the design doc for more information:
-                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
-                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
                 items:
-                  description: A ManagementAction represents an action that the Crossplane
-                    controllers can take on an external resource.
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
                   enum:
                   - Observe
                   - Create
@@ -1783,9 +1666,10 @@ spec:
               providerConfigRef:
                 default:
                   name: default
-                description: ProviderConfigReference specifies how the provider that
-                  will be used to create, observe, update, and delete this managed
-                  resource should be configured.
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
                 properties:
                   name:
                     description: Name of the referenced object.
@@ -1795,21 +1679,21 @@ spec:
                     properties:
                       resolution:
                         default: Required
-                        description: Resolution specifies whether resolution of this
-                          reference is required. The default is 'Required', which
-                          means the reconcile will fail if the reference cannot be
-                          resolved. 'Optional' means this reference will be a no-op
-                          if it cannot be resolved.
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
                         enum:
                         - Required
                         - Optional
                         type: string
                       resolve:
-                        description: Resolve specifies when this reference should
-                          be resolved. The default is 'IfNotPresent', which will attempt
-                          to resolve the reference only when the corresponding field
-                          is not present. Use 'Always' to resolve the reference on
-                          every reconcile.
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
                         enum:
                         - Always
                         - IfNotPresent
@@ -1819,17 +1703,19 @@ spec:
                 - name
                 type: object
               publishConnectionDetailsTo:
-                description: PublishConnectionDetailsTo specifies the connection secret
-                  config which contains a name, metadata and a reference to secret
-                  store config to which any connection details for this managed resource
-                  should be written. Connection details frequently include the endpoint,
-                  username, and password required to connect to the managed resource.
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
                 properties:
                   configRef:
                     default:
                       name: default
-                    description: SecretStoreConfigRef specifies which secret store
-                      config should be used for this ConnectionSecret.
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -1839,21 +1725,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -1868,21 +1754,22 @@ spec:
                       annotations:
                         additionalProperties:
                           type: string
-                        description: Annotations are the annotations to be added to
-                          connection secret. - For Kubernetes secrets, this will be
-                          used as "metadata.annotations". - It is up to Secret Store
-                          implementation for others store types.
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
                         type: object
                       labels:
                         additionalProperties:
                           type: string
-                        description: Labels are the labels/tags to be added to connection
-                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
-                          - It is up to Secret Store implementation for others store
-                          types.
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
                         type: object
                       type:
-                        description: Type is the SecretType for the connection secret.
+                        description: |-
+                          Type is the SecretType for the connection secret.
                           - Only valid for Kubernetes Secret Stores.
                         type: string
                     type: object
@@ -1893,14 +1780,15 @@ spec:
                 - name
                 type: object
               writeConnectionSecretToRef:
-                description: WriteConnectionSecretToReference specifies the namespace
-                  and name of a Secret to which any connection details for this managed
-                  resource should be written. Connection details frequently include
-                  the endpoint, username, and password required to connect to the
-                  managed resource. This field is planned to be replaced in a future
-                  release in favor of PublishConnectionDetailsTo. Currently, both
-                  could be set independently and connection details would be published
-                  to both without affecting each other.
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
                 properties:
                   name:
                     description: Name of the secret.
@@ -1928,19 +1816,17 @@ spec:
                   annotations:
                     additionalProperties:
                       type: string
-                    description: Unstructured key value map that may be set by external
-                      tools to store and arbitrary metadata. They are not queryable
-                      and should be preserved when modifying objects. Cloud Run API
-                      v2 does not support annotations with run.googleapis.com, cloud.googleapis.com,
-                      serving.knative.dev, or autoscaling.knative.dev namespaces,
-                      and they will be rejected. All system annotations in v1 now
-                      have a corresponding field in v2 RevisionTemplate. This field
-                      follows Kubernetes annotations' namespacing, limits, and rules.
+                    description: |-
+                      Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects.
+                      Cloud Run API v2 does not support annotations with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+                      All system annotations in v1 now have a corresponding field in v2 RevisionTemplate.
+                      This field follows Kubernetes annotations' namespacing, limits, and rules.
                     type: object
                     x-kubernetes-map-type: granular
                   binaryAuthorization:
-                    description: Settings for the Binary Authorization feature. Structure
-                      is documented below.
+                    description: |-
+                      Settings for the Binary Authorization feature.
+                      Structure is documented below.
                     items:
                       properties:
                         breakglassJustification:
@@ -1962,46 +1848,51 @@ spec:
                     description: Arbitrary version identifier for the API client.
                     type: string
                   conditions:
-                    description: The Conditions of all other associated sub-resources.
-                      They contain additional diagnostics information in case the
-                      Service does not reach its Serving state. See comments in reconciling
-                      for additional information on reconciliation process in Cloud
-                      Run. Structure is documented below.
+                    description: |-
+                      The Conditions of all other associated sub-resources. They contain additional diagnostics information in case the Service does not reach its Serving state. See comments in reconciling for additional information on reconciliation process in Cloud Run.
+                      Structure is documented below.
                     items:
                       properties:
                         executionReason:
-                          description: (Output) A reason for the execution condition.
+                          description: |-
+                            (Output)
+                            A reason for the execution condition.
                           type: string
                         lastTransitionTime:
-                          description: '(Output) Last time the condition transitioned
-                            from one status to another. A timestamp in RFC3339 UTC
-                            "Zulu" format, with nanosecond resolution and up to nine
-                            fractional digits. Examples: "2014-10-02T15:01:23Z" and
-                            "2014-10-02T15:01:23.045123456Z".'
+                          description: |-
+                            (Output)
+                            Last time the condition transitioned from one status to another.
+                            A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
                           type: string
                         message:
-                          description: (Output) Human readable message indicating
-                            details about the current status.
+                          description: |-
+                            (Output)
+                            Human readable message indicating details about the current status.
                           type: string
                         reason:
-                          description: (Output) A common (service-level) reason for
-                            this condition.
+                          description: |-
+                            (Output)
+                            A common (service-level) reason for this condition.
                           type: string
                         revisionReason:
-                          description: (Output) A reason for the revision condition.
+                          description: |-
+                            (Output)
+                            A reason for the revision condition.
                           type: string
                         severity:
-                          description: (Output) How to interpret failures of this
-                            condition, one of Error, Warning, Info
+                          description: |-
+                            (Output)
+                            How to interpret failures of this condition, one of Error, Warning, Info
                           type: string
                         state:
-                          description: (Output) State of the condition.
+                          description: |-
+                            (Output)
+                            State of the condition.
                           type: string
                         type:
-                          description: '(Output) type is used to communicate the status
-                            of the reconciliation process. See also: https://github.com/knative/serving/blob/main/docs/spec/errors.md#error-conditions-and-reporting
-                            Types common to all resources include: * "Ready": True
-                            when the Resource is ready.'
+                          description: |-
+                            (Output)
+                            type is used to communicate the status of the reconciliation process. See also: https://github.com/knative/serving/blob/main/docs/spec/errors.md#error-conditions-and-reporting Types common to all resources include: * "Ready": True when the Resource is ready.
                           type: string
                       type: object
                     type: array
@@ -2024,25 +1915,18 @@ spec:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/services/{{name}}
                     type: string
                   ingress:
-                    description: 'Provides the ingress settings for this Service.
-                      On output, returns the currently observed ingress settings,
-                      or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active. Possible
-                      values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY,
-                      INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.'
+                    description: |-
+                      Provides the ingress settings for this Service. On output, returns the currently observed ingress settings, or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active.
+                      Possible values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY, INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.
                     type: string
                   labels:
                     additionalProperties:
                       type: string
-                    description: Unstructured key value map that can be used to organize
-                      and categorize objects. User-provided labels are shared with
-                      Google's billing system, so they can be used to filter, or break
-                      down billing charges by team, component, environment, state,
-                      etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels
-                      or https://cloud.google.com/run/docs/configuring/labels. Cloud
-                      Run API v2 does not support labels with run.googleapis.com,
-                      cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev
-                      namespaces, and they will be rejected. All system labels in
-                      v1 now have a corresponding field in v2 RevisionTemplate.
+                    description: |-
+                      Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
+                      For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+                      Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+                      All system labels in v1 now have a corresponding field in v2 RevisionTemplate.
                     type: object
                     x-kubernetes-map-type: granular
                   latestCreatedRevision:
@@ -2056,15 +1940,11 @@ spec:
                       process in Cloud Run.
                     type: string
                   launchStage:
-                    description: 'The launch stage as defined by Google Cloud Platform
-                      Launch Stages. Cloud Run supports ALPHA, BETA, and GA. If no
-                      value is specified, GA is assumed. Set the launch stage to a
-                      preview stage on input to allow use of preview features in that
-                      stage. On read (or output), describes whether the resource uses
-                      preview features. For example, if ALPHA is provided as input,
-                      but only BETA and GA-level features are used, this field will
-                      be BETA on output. Possible values are: UNIMPLEMENTED, PRELAUNCH,
-                      EARLY_ACCESS, ALPHA, BETA, GA, DEPRECATED.'
+                    description: |-
+                      The launch stage as defined by Google Cloud Platform Launch Stages. Cloud Run supports ALPHA, BETA, and GA.
+                      If no value is specified, GA is assumed. Set the launch stage to a preview stage on input to allow use of preview features in that stage. On read (or output), describes whether the resource uses preview features.
+                      For example, if ALPHA is provided as input, but only BETA and GA-level features are used, this field will be BETA on output.
+                      Possible values are: UNIMPLEMENTED, PRELAUNCH, EARLY_ACCESS, ALPHA, BETA, GA, DEPRECATED.
                     type: string
                   location:
                     description: The location of the cloud run service
@@ -2077,51 +1957,37 @@ spec:
                       representation will be a string instead of an integer.
                     type: string
                   project:
-                    description: The ID of the project in which the resource belongs.
+                    description: |-
+                      The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                   reconciling:
-                    description: 'Returns true if the Service is currently being acted
-                      upon by the system to bring it into the desired state. When
-                      a new Service is created, or an existing one is updated, Cloud
-                      Run will asynchronously perform all necessary steps to bring
-                      the Service to the desired serving state. This process is called
-                      reconciliation. While reconciliation is in process, observedGeneration,
-                      latest_ready_revison, trafficStatuses, and uri will have transient
-                      values that might mismatch the intended state: Once reconciliation
-                      is over (and this field is false), there are two possible outcomes:
-                      reconciliation succeeded and the serving state matches the Service,
-                      or there was an error, and reconciliation failed. This state
-                      can be found in terminalCondition.state. If reconciliation succeeded,
-                      the following fields will match: traffic and trafficStatuses,
-                      observedGeneration and generation, latestReadyRevision and latestCreatedRevision.
-                      If reconciliation failed, trafficStatuses, observedGeneration,
-                      and latestReadyRevision will have the state of the last serving
-                      revision, or empty for newly created Services. Additional information
-                      on the failure can be found in terminalCondition and conditions.'
+                    description: |-
+                      Returns true if the Service is currently being acted upon by the system to bring it into the desired state.
+                      When a new Service is created, or an existing one is updated, Cloud Run will asynchronously perform all necessary steps to bring the Service to the desired serving state. This process is called reconciliation. While reconciliation is in process, observedGeneration, latest_ready_revison, trafficStatuses, and uri will have transient values that might mismatch the intended state: Once reconciliation is over (and this field is false), there are two possible outcomes: reconciliation succeeded and the serving state matches the Service, or there was an error, and reconciliation failed. This state can be found in terminalCondition.state.
+                      If reconciliation succeeded, the following fields will match: traffic and trafficStatuses, observedGeneration and generation, latestReadyRevision and latestCreatedRevision.
+                      If reconciliation failed, trafficStatuses, observedGeneration, and latestReadyRevision will have the state of the last serving revision, or empty for newly created Services. Additional information on the failure can be found in terminalCondition and conditions.
                     type: boolean
                   template:
-                    description: The template used to create revisions for this Service.
+                    description: |-
+                      The template used to create revisions for this Service.
                       Structure is documented below.
                     items:
                       properties:
                         annotations:
                           additionalProperties:
                             type: string
-                          description: Unstructured key value map that may be set
-                            by external tools to store and arbitrary metadata. They
-                            are not queryable and should be preserved when modifying
-                            objects. Cloud Run API v2 does not support annotations
-                            with run.googleapis.com, cloud.googleapis.com, serving.knative.dev,
-                            or autoscaling.knative.dev namespaces, and they will be
-                            rejected. All system annotations in v1 now have a corresponding
-                            field in v2 RevisionTemplate. This field follows Kubernetes
-                            annotations' namespacing, limits, and rules.
+                          description: |-
+                            Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects.
+                            Cloud Run API v2 does not support annotations with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+                            All system annotations in v1 now have a corresponding field in v2 RevisionTemplate.
+                            This field follows Kubernetes annotations' namespacing, limits, and rules.
                           type: object
                           x-kubernetes-map-type: granular
                         containers:
-                          description: Holds the containers that define the unit of
-                            execution for this Service. Structure is documented below.
+                          description: |-
+                            Holds the containers that define the unit of execution for this Service.
+                            Structure is documented below.
                           items:
                             properties:
                               args:
@@ -2152,8 +2018,9 @@ spec:
                                   type: string
                                 type: array
                               env:
-                                description: List of environment variables to set
-                                  in the container. Structure is documented below.
+                                description: |-
+                                  List of environment variables to set in the container.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     name:
@@ -2163,21 +2030,21 @@ spec:
                                       description: The header field value
                                       type: string
                                     valueSource:
-                                      description: Source for the environment variable's
-                                        value. Structure is documented below.
+                                      description: |-
+                                        Source for the environment variable's value.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           secretKeyRef:
-                                            description: Selects a secret and a specific
-                                              version from Cloud Secret Manager. Structure
-                                              is documented below.
+                                            description: |-
+                                              Selects a secret and a specific version from Cloud Secret Manager.
+                                              Structure is documented below.
                                             items:
                                               properties:
                                                 secret:
-                                                  description: 'Secret represents
-                                                    a secret that should populate
-                                                    this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
-                                                    Structure is documented below.'
+                                                  description: |-
+                                                    Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
+                                                    Structure is documented below.
                                                   type: string
                                                 version:
                                                   description: The Cloud Secret Manager
@@ -2197,10 +2064,9 @@ spec:
                                   More info: https://kubernetes.io/docs/concepts/containers/images'
                                 type: string
                               livenessProbe:
-                                description: 'Periodic probe of container liveness.
-                                  Container will be restarted if the probe fails.
-                                  More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-                                  Structure is documented below.'
+                                description: |-
+                                  Periodic probe of container liveness. Container will be restarted if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     failureThreshold:
@@ -2210,8 +2076,9 @@ spec:
                                         1.
                                       type: number
                                     grpc:
-                                      description: GRPC specifies an action involving
-                                        a GRPC port. Structure is documented below.
+                                      description: |-
+                                        GRPC specifies an action involving a GRPC port.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           port:
@@ -2221,24 +2088,22 @@ spec:
                                               to 8080.
                                             type: number
                                           service:
-                                            description: The name of the service to
-                                              place in the gRPC HealthCheckRequest
+                                            description: |-
+                                              The name of the service to place in the gRPC HealthCheckRequest
                                               (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
-                                              If this is not specified, the default
-                                              behavior is defined by gRPC.
+                                              If this is not specified, the default behavior is defined by gRPC.
                                             type: string
                                         type: object
                                       type: array
                                     httpGet:
-                                      description: HTTPGet specifies the http request
-                                        to perform. Exactly one of HTTPGet or TCPSocket
-                                        must be specified. Structure is documented
-                                        below.
+                                      description: |-
+                                        HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           httpHeaders:
-                                            description: Custom headers to set in
-                                              the request. HTTP allows repeated headers.
+                                            description: |-
+                                              Custom headers to set in the request. HTTP allows repeated headers.
                                               Structure is documented below.
                                             items:
                                               properties:
@@ -2278,10 +2143,9 @@ spec:
                                         240. Must be greater or equal than timeoutSeconds
                                       type: number
                                     tcpSocket:
-                                      description: TCPSocket specifies an action involving
-                                        a TCP port. Exactly one of HTTPGet or TCPSocket
-                                        must be specified. Structure is documented
-                                        below.
+                                      description: |-
+                                        TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           port:
@@ -2305,13 +2169,10 @@ spec:
                                 description: Volume's name.
                                 type: string
                               ports:
-                                description: List of ports to expose from the container.
-                                  Only a single port can be specified. The specified
-                                  ports must be listening on all interfaces (0.0.0.0)
-                                  within the container to be accessible. If omitted,
-                                  a port number will be chosen and passed to the container
-                                  through the PORT environment variable for the container
-                                  to listen on Structure is documented below.
+                                description: |-
+                                  List of ports to expose from the container. Only a single port can be specified. The specified ports must be listening on all interfaces (0.0.0.0) within the container to be accessible.
+                                  If omitted, a port number will be chosen and passed to the container through the PORT environment variable for the container to listen on
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     containerPort:
@@ -2325,9 +2186,9 @@ spec:
                                   type: object
                                 type: array
                               resources:
-                                description: 'Compute Resource requirements by this
-                                  container. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources
-                                  Structure is documented below.'
+                                description: |-
+                                  Compute Resource requirements by this container. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     cpuIdle:
@@ -2354,12 +2215,9 @@ spec:
                                   type: object
                                 type: array
                               startupProbe:
-                                description: 'Startup probe of application within
-                                  the container. All other probes are disabled if
-                                  a startup probe is provided, until it succeeds.
-                                  Container will not be added to service endpoints
-                                  if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-                                  Structure is documented below.'
+                                description: |-
+                                  Startup probe of application within the container. All other probes are disabled if a startup probe is provided, until it succeeds. Container will not be added to service endpoints if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     failureThreshold:
@@ -2369,8 +2227,9 @@ spec:
                                         1.
                                       type: number
                                     grpc:
-                                      description: GRPC specifies an action involving
-                                        a GRPC port. Structure is documented below.
+                                      description: |-
+                                        GRPC specifies an action involving a GRPC port.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           port:
@@ -2380,24 +2239,22 @@ spec:
                                               to 8080.
                                             type: number
                                           service:
-                                            description: The name of the service to
-                                              place in the gRPC HealthCheckRequest
+                                            description: |-
+                                              The name of the service to place in the gRPC HealthCheckRequest
                                               (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
-                                              If this is not specified, the default
-                                              behavior is defined by gRPC.
+                                              If this is not specified, the default behavior is defined by gRPC.
                                             type: string
                                         type: object
                                       type: array
                                     httpGet:
-                                      description: HTTPGet specifies the http request
-                                        to perform. Exactly one of HTTPGet or TCPSocket
-                                        must be specified. Structure is documented
-                                        below.
+                                      description: |-
+                                        HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           httpHeaders:
-                                            description: Custom headers to set in
-                                              the request. HTTP allows repeated headers.
+                                            description: |-
+                                              Custom headers to set in the request. HTTP allows repeated headers.
                                               Structure is documented below.
                                             items:
                                               properties:
@@ -2437,10 +2294,9 @@ spec:
                                         240. Must be greater or equal than timeoutSeconds
                                       type: number
                                     tcpSocket:
-                                      description: TCPSocket specifies an action involving
-                                        a TCP port. Exactly one of HTTPGet or TCPSocket
-                                        must be specified. Structure is documented
-                                        below.
+                                      description: |-
+                                        TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           port:
@@ -2461,8 +2317,9 @@ spec:
                                   type: object
                                 type: array
                               volumeMounts:
-                                description: Volume to mount into the container's
-                                  filesystem. Structure is documented below.
+                                description: |-
+                                  Volume to mount into the container's filesystem.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     mountPath:
@@ -2493,23 +2350,18 @@ spec:
                             more information, go to https://cloud.google.com/run/docs/securing/using-cmek
                           type: string
                         executionEnvironment:
-                          description: 'The sandbox environment to host this Revision.
-                            Possible values are: EXECUTION_ENVIRONMENT_GEN1, EXECUTION_ENVIRONMENT_GEN2.'
+                          description: |-
+                            The sandbox environment to host this Revision.
+                            Possible values are: EXECUTION_ENVIRONMENT_GEN1, EXECUTION_ENVIRONMENT_GEN2.
                           type: string
                         labels:
                           additionalProperties:
                             type: string
-                          description: Unstructured key value map that can be used
-                            to organize and categorize objects. User-provided labels
-                            are shared with Google's billing system, so they can be
-                            used to filter, or break down billing charges by team,
-                            component, environment, state, etc. For more information,
-                            visit https://cloud.google.com/resource-manager/docs/creating-managing-labels
-                            or https://cloud.google.com/run/docs/configuring/labels.
-                            Cloud Run API v2 does not support labels with run.googleapis.com,
-                            cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev
-                            namespaces, and they will be rejected. All system labels
-                            in v1 now have a corresponding field in v2 RevisionTemplate.
+                          description: |-
+                            Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
+                            For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+                            Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+                            All system labels in v1 now have a corresponding field in v2 RevisionTemplate.
                           type: object
                           x-kubernetes-map-type: granular
                         maxInstanceRequestConcurrency:
@@ -2522,8 +2374,9 @@ spec:
                             the Service name.
                           type: string
                         scaling:
-                          description: Scaling settings for this Revision. Structure
-                            is documented below.
+                          description: |-
+                            Scaling settings for this Revision.
+                            Structure is documented below.
                           items:
                             properties:
                               maxInstanceCount:
@@ -2548,20 +2401,20 @@ spec:
                             go to https://cloud.google.com/run/docs/configuring/session-affinity
                           type: boolean
                         timeout:
-                          description: 'Max allowed time for an instance to respond
-                            to a request. A duration in seconds with up to nine fractional
-                            digits, ending with ''s''. Example: "3.5s".'
+                          description: |-
+                            Max allowed time for an instance to respond to a request.
+                            A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
                           type: string
                         volumes:
-                          description: A list of Volumes to make available to containers.
+                          description: |-
+                            A list of Volumes to make available to containers.
                             Structure is documented below.
                           items:
                             properties:
                               cloudSqlInstance:
-                                description: For Cloud SQL volumes, contains the specific
-                                  instances that should be mounted. Visit https://cloud.google.com/sql/docs/mysql/connect-run
-                                  for more information on how to connect Cloud SQL
-                                  and Cloud Run. Structure is documented below.
+                                description: |-
+                                  For Cloud SQL volumes, contains the specific instances that should be mounted. Visit https://cloud.google.com/sql/docs/mysql/connect-run for more information on how to connect Cloud SQL and Cloud Run.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     instances:
@@ -2579,9 +2432,9 @@ spec:
                                 description: Volume's name.
                                 type: string
                               secret:
-                                description: 'Secret represents a secret that should
-                                  populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
-                                  Structure is documented below.'
+                                description: |-
+                                  Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     defaultMode:
@@ -2592,15 +2445,9 @@ spec:
                                         path are not affected by this setting.
                                       type: number
                                     items:
-                                      description: If unspecified, the volume will
-                                        expose a file whose name is the secret, relative
-                                        to VolumeMount.mount_path. If specified, the
-                                        key will be used as the version to fetch from
-                                        Cloud Secret Manager and the path will be
-                                        the name of the file exposed in the volume.
-                                        When items are defined, they must specify
-                                        a path and a version. Structure is documented
-                                        below.
+                                      description: |-
+                                        If unspecified, the volume will expose a file whose name is the secret, relative to VolumeMount.mount_path. If specified, the key will be used as the version to fetch from Cloud Secret Manager and the path will be the name of the file exposed in the volume. When items are defined, they must specify a path and a version.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           mode:
@@ -2622,17 +2469,17 @@ spec:
                                         type: object
                                       type: array
                                     secret:
-                                      description: 'Secret represents a secret that
-                                        should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
-                                        Structure is documented below.'
+                                      description: |-
+                                        Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
+                                        Structure is documented below.
                                       type: string
                                   type: object
                                 type: array
                             type: object
                           type: array
                         vpcAccess:
-                          description: VPC Access configuration to use for this Task.
-                            For more information, visit https://cloud.google.com/run/docs/configuring/connecting-vpc.
+                          description: |-
+                            VPC Access configuration to use for this Task. For more information, visit https://cloud.google.com/run/docs/configuring/connecting-vpc.
                             Structure is documented below.
                           items:
                             properties:
@@ -2641,58 +2488,65 @@ spec:
                                   where {project} can be project id or number.'
                                 type: string
                               egress:
-                                description: 'Traffic VPC egress settings. Possible
-                                  values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.'
+                                description: |-
+                                  Traffic VPC egress settings.
+                                  Possible values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.
                                 type: string
                             type: object
                           type: array
                       type: object
                     type: array
                   terminalCondition:
-                    description: The Condition of this Service, containing its readiness
-                      status, and detailed error information in case it did not reach
-                      a serving state. See comments in reconciling for additional
-                      information on reconciliation process in Cloud Run. Structure
-                      is documented below.
+                    description: |-
+                      The Condition of this Service, containing its readiness status, and detailed error information in case it did not reach a serving state. See comments in reconciling for additional information on reconciliation process in Cloud Run.
+                      Structure is documented below.
                     items:
                       properties:
                         executionReason:
-                          description: (Output) A reason for the execution condition.
+                          description: |-
+                            (Output)
+                            A reason for the execution condition.
                           type: string
                         lastTransitionTime:
-                          description: (Output) Last time the condition transitioned
-                            from one status to another.
+                          description: |-
+                            (Output)
+                            Last time the condition transitioned from one status to another.
                           type: string
                         message:
-                          description: (Output) Human readable message indicating
-                            details about the current status.
+                          description: |-
+                            (Output)
+                            Human readable message indicating details about the current status.
                           type: string
                         reason:
-                          description: (Output) A common (service-level) reason for
-                            this condition.
+                          description: |-
+                            (Output)
+                            A common (service-level) reason for this condition.
                           type: string
                         revisionReason:
-                          description: (Output) A reason for the revision condition.
+                          description: |-
+                            (Output)
+                            A reason for the revision condition.
                           type: string
                         severity:
-                          description: (Output) How to interpret failures of this
-                            condition, one of Error, Warning, Info
+                          description: |-
+                            (Output)
+                            How to interpret failures of this condition, one of Error, Warning, Info
                           type: string
                         state:
-                          description: (Output) State of the condition.
+                          description: |-
+                            (Output)
+                            State of the condition.
                           type: string
                         type:
-                          description: '(Output) type is used to communicate the status
-                            of the reconciliation process. See also: https://github.com/knative/serving/blob/main/docs/spec/errors.md#error-conditions-and-reporting
-                            Types common to all resources include: * "Ready": True
-                            when the Resource is ready.'
+                          description: |-
+                            (Output)
+                            type is used to communicate the status of the reconciliation process. See also: https://github.com/knative/serving/blob/main/docs/spec/errors.md#error-conditions-and-reporting Types common to all resources include: * "Ready": True when the Resource is ready.
                           type: string
                       type: object
                     type: array
                   traffic:
-                    description: Specifies how to distribute traffic over a collection
-                      of Revisions belonging to the Service. If traffic is empty or
-                      not provided, defaults to 100% traffic to the latest Ready Revision.
+                    description: |-
+                      Specifies how to distribute traffic over a collection of Revisions belonging to the Service. If traffic is empty or not provided, defaults to 100% traffic to the latest Ready Revision.
                       Structure is documented below.
                     items:
                       properties:
@@ -2709,37 +2563,42 @@ spec:
                             exclusively reference this target.
                           type: string
                         type:
-                          description: 'The allocation type for this traffic target.
-                            Possible values are: TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST,
-                            TRAFFIC_TARGET_ALLOCATION_TYPE_REVISION.'
+                          description: |-
+                            The allocation type for this traffic target.
+                            Possible values are: TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST, TRAFFIC_TARGET_ALLOCATION_TYPE_REVISION.
                           type: string
                       type: object
                     type: array
                   trafficStatuses:
-                    description: Detailed status information for corresponding traffic
-                      targets. See comments in reconciling for additional information
-                      on reconciliation process in Cloud Run. Structure is documented
-                      below.
+                    description: |-
+                      Detailed status information for corresponding traffic targets. See comments in reconciling for additional information on reconciliation process in Cloud Run.
+                      Structure is documented below.
                     items:
                       properties:
                         percent:
-                          description: (Output) Specifies percent of the traffic to
-                            this Revision.
+                          description: |-
+                            (Output)
+                            Specifies percent of the traffic to this Revision.
                           type: number
                         revision:
-                          description: (Output) Revision to which this traffic is
-                            sent.
+                          description: |-
+                            (Output)
+                            Revision to which this traffic is sent.
                           type: string
                         tag:
-                          description: (Output) Indicates the string used in the URI
-                            to exclusively reference this target.
+                          description: |-
+                            (Output)
+                            Indicates the string used in the URI to exclusively reference this target.
                           type: string
                         type:
-                          description: (Output) The allocation type for this traffic
-                            target.
+                          description: |-
+                            (Output)
+                            The allocation type for this traffic target.
                           type: string
                         uri:
-                          description: (Output) Displays the target URI.
+                          description: |-
+                            (Output)
+                            Displays the target URI.
                           type: string
                       type: object
                     type: array
@@ -2758,13 +2617,15 @@ spec:
                   description: A Condition that may apply to a resource.
                   properties:
                     lastTransitionTime:
-                      description: LastTransitionTime is the last time this condition
-                        transitioned from one status to another.
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
                       format: date-time
                       type: string
                     message:
-                      description: A Message containing details about this condition's
-                        last transition from one status to another, if any.
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
                       type: string
                     reason:
                       description: A Reason for this condition's last transition from
@@ -2775,8 +2636,9 @@ spec:
                         False, or Unknown?
                       type: string
                     type:
-                      description: Type of this condition. At most one of each condition
-                        type may apply to a resource at any point in time.
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
                       type: string
                   required:
                   - lastTransitionTime

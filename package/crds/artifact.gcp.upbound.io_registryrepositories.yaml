@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.13.0
+    controller-gen.kubebuilder.io/version: v0.14.0
   name: registryrepositories.artifact.gcp.upbound.io
 spec:
   group: artifact.gcp.upbound.io
@@ -38,14 +38,19 @@ spec:
           API. A repository for storing artifacts
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
             type: string
           metadata:
             type: object
@@ -54,13 +59,14 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: 'DeletionPolicy specifies what will happen to the underlying
-                  external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicies field in a future release. Currently,
-                  both could be set independently and non-default values would be
-                  honored if the feature flag is enabled. See the design doc for more
-                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
                 enum:
                 - Orphan
                 - Delete
@@ -71,9 +77,9 @@ spec:
                     description: The user-provided description of the repository.
                     type: string
                   dockerConfig:
-                    description: Docker repository config contains repository level
-                      configuration for the repositories of docker type. Structure
-                      is documented below.
+                    description: |-
+                      Docker repository config contains repository level configuration for the repositories of docker type.
+                      Structure is documented below.
                     items:
                       properties:
                         immutableTags:
@@ -84,25 +90,28 @@ spec:
                       type: object
                     type: array
                   format:
-                    description: The format of packages that are stored in the repository.
-                      Supported formats can be found here. You can only create alpha
-                      formats if you are a member of the alpha user group.
+                    description: |-
+                      The format of packages that are stored in the repository. Supported formats
+                      can be found here.
+                      You can only create alpha formats if you are a member of the
+                      alpha user group.
                     type: string
                   kmsKeyName:
-                    description: 'The Cloud KMS resource name of the customer managed
-                      encryption key that’s used to encrypt the contents of the Repository.
-                      Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key.
-                      This value may not be changed after the Repository has been
-                      created.'
+                    description: |-
+                      The Cloud KMS resource name of the customer managed encryption key that’s
+                      used to encrypt the contents of the Repository. Has the form:
+                      projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key.
+                      This value may not be changed after the Repository has been created.
                     type: string
                   labels:
                     additionalProperties:
                       type: string
-                    description: Labels with user-defined metadata. This field may
-                      contain up to 64 entries. Label keys and values may be no longer
-                      than 63 characters. Label keys must begin with a lowercase letter
-                      and may only contain lowercase letters, numeric characters,
-                      underscores, and dashes.
+                    description: |-
+                      Labels with user-defined metadata.
+                      This field may contain up to 64 entries. Label keys and values may be no
+                      longer than 63 characters. Label keys must begin with a lowercase letter
+                      and may only contain lowercase letters, numeric characters, underscores,
+                      and dashes.
                     type: object
                     x-kubernetes-map-type: granular
                   location:
@@ -110,97 +119,115 @@ spec:
                       in.
                     type: string
                   mavenConfig:
-                    description: MavenRepositoryConfig is maven related repository
-                      details. Provides additional configuration details for repositories
-                      of the maven format type. Structure is documented below.
+                    description: |-
+                      MavenRepositoryConfig is maven related repository details.
+                      Provides additional configuration details for repositories of the maven
+                      format type.
+                      Structure is documented below.
                     items:
                       properties:
                         allowSnapshotOverwrites:
-                          description: The repository with this flag will allow publishing
-                            the same snapshot versions.
+                          description: |-
+                            The repository with this flag will allow publishing the same
+                            snapshot versions.
                           type: boolean
                         versionPolicy:
-                          description: 'Version policy defines the versions that the
-                            registry will accept. Default value is VERSION_POLICY_UNSPECIFIED.
-                            Possible values are: VERSION_POLICY_UNSPECIFIED, RELEASE,
-                            SNAPSHOT.'
+                          description: |-
+                            Version policy defines the versions that the registry will accept.
+                            Default value is VERSION_POLICY_UNSPECIFIED.
+                            Possible values are: VERSION_POLICY_UNSPECIFIED, RELEASE, SNAPSHOT.
                           type: string
                       type: object
                     type: array
                   mode:
-                    description: 'The mode configures the repository to serve artifacts
-                      from different sources. Default value is STANDARD_REPOSITORY.
-                      Possible values are: STANDARD_REPOSITORY, VIRTUAL_REPOSITORY,
-                      REMOTE_REPOSITORY.'
+                    description: |-
+                      The mode configures the repository to serve artifacts from different sources.
+                      Default value is STANDARD_REPOSITORY.
+                      Possible values are: STANDARD_REPOSITORY, VIRTUAL_REPOSITORY, REMOTE_REPOSITORY.
                     type: string
                   project:
-                    description: The ID of the project in which the resource belongs.
+                    description: |-
+                      The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                   remoteRepositoryConfig:
-                    description: Configuration specific for a Remote Repository. Structure
-                      is documented below.
+                    description: |-
+                      Configuration specific for a Remote Repository.
+                      Structure is documented below.
                     items:
                       properties:
                         description:
                           description: The description of the remote source.
                           type: string
                         dockerRepository:
-                          description: Specific settings for a Docker remote repository.
+                          description: |-
+                            Specific settings for a Docker remote repository.
                             Structure is documented below.
                           items:
                             properties:
                               publicRepository:
-                                description: 'Address of the remote repository. Default
-                                  value is PYPI. Possible values are: PYPI.'
+                                description: |-
+                                  Address of the remote repository.
+                                  Default value is PYPI.
+                                  Possible values are: PYPI.
                                 type: string
                             type: object
                           type: array
                         mavenRepository:
-                          description: Specific settings for a Maven remote repository.
+                          description: |-
+                            Specific settings for a Maven remote repository.
                             Structure is documented below.
                           items:
                             properties:
                               publicRepository:
-                                description: 'Address of the remote repository. Default
-                                  value is PYPI. Possible values are: PYPI.'
+                                description: |-
+                                  Address of the remote repository.
+                                  Default value is PYPI.
+                                  Possible values are: PYPI.
                                 type: string
                             type: object
                           type: array
                         npmRepository:
-                          description: Specific settings for an Npm remote repository.
+                          description: |-
+                            Specific settings for an Npm remote repository.
                             Structure is documented below.
                           items:
                             properties:
                               publicRepository:
-                                description: 'Address of the remote repository. Default
-                                  value is PYPI. Possible values are: PYPI.'
+                                description: |-
+                                  Address of the remote repository.
+                                  Default value is PYPI.
+                                  Possible values are: PYPI.
                                 type: string
                             type: object
                           type: array
                         pythonRepository:
-                          description: Specific settings for a Python remote repository.
+                          description: |-
+                            Specific settings for a Python remote repository.
                             Structure is documented below.
                           items:
                             properties:
                               publicRepository:
-                                description: 'Address of the remote repository. Default
-                                  value is PYPI. Possible values are: PYPI.'
+                                description: |-
+                                  Address of the remote repository.
+                                  Default value is PYPI.
+                                  Possible values are: PYPI.
                                 type: string
                             type: object
                           type: array
                       type: object
                     type: array
                   virtualRepositoryConfig:
-                    description: Configuration specific for a Virtual Repository.
+                    description: |-
+                      Configuration specific for a Virtual Repository.
                       Structure is documented below.
                     items:
                       properties:
                         upstreamPolicies:
-                          description: Policies that configure the upstream artifacts
-                            distributed by the Virtual Repository. Upstream policies
-                            cannot be set on a standard repository. Structure is documented
-                            below.
+                          description: |-
+                            Policies that configure the upstream artifacts distributed by the Virtual
+                            Repository. Upstream policies cannot be set on a standard repository.
+                            Structure is documented below.
                           items:
                             properties:
                               id:
@@ -212,8 +239,9 @@ spec:
                                   take precedence in the pull order.
                                 type: number
                               repository:
-                                description: 'A reference to the repository resource,
-                                  for example: "projects/p1/locations/us-central1/repository/repo1".'
+                                description: |-
+                                  A reference to the repository resource, for example:
+                                  "projects/p1/locations/us-central1/repository/repo1".
                                 type: string
                               repositoryRef:
                                 description: Reference to a RegistryRepository in
@@ -227,23 +255,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -257,9 +283,9 @@ spec:
                                   artifact to populate repository.
                                 properties:
                                   matchControllerRef:
-                                    description: MatchControllerRef ensures an object
-                                      with the same controller reference as the selecting
-                                      object is selected.
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
                                     type: boolean
                                   matchLabels:
                                     additionalProperties:
@@ -272,23 +298,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -301,24 +325,25 @@ spec:
                     type: array
                 type: object
               initProvider:
-                description: THIS IS A BETA FIELD. It will be honored unless the Management
-                  Policies feature flag is disabled. InitProvider holds the same fields
-                  as ForProvider, with the exception of Identifier and other resource
-                  reference fields. The fields that are in InitProvider are merged
-                  into ForProvider when the resource is created. The same fields are
-                  also added to the terraform ignore_changes hook, to avoid updating
-                  them after creation. This is useful for fields that are required
-                  on creation, but we do not desire to update them after creation,
-                  for example because of an external controller is managing them,
-                  like an autoscaler.
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
                 properties:
                   description:
                     description: The user-provided description of the repository.
                     type: string
                   dockerConfig:
-                    description: Docker repository config contains repository level
-                      configuration for the repositories of docker type. Structure
-                      is documented below.
+                    description: |-
+                      Docker repository config contains repository level configuration for the repositories of docker type.
+                      Structure is documented below.
                     items:
                       properties:
                         immutableTags:
@@ -329,119 +354,140 @@ spec:
                       type: object
                     type: array
                   format:
-                    description: The format of packages that are stored in the repository.
-                      Supported formats can be found here. You can only create alpha
-                      formats if you are a member of the alpha user group.
+                    description: |-
+                      The format of packages that are stored in the repository. Supported formats
+                      can be found here.
+                      You can only create alpha formats if you are a member of the
+                      alpha user group.
                     type: string
                   kmsKeyName:
-                    description: 'The Cloud KMS resource name of the customer managed
-                      encryption key that’s used to encrypt the contents of the Repository.
-                      Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key.
-                      This value may not be changed after the Repository has been
-                      created.'
+                    description: |-
+                      The Cloud KMS resource name of the customer managed encryption key that’s
+                      used to encrypt the contents of the Repository. Has the form:
+                      projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key.
+                      This value may not be changed after the Repository has been created.
                     type: string
                   labels:
                     additionalProperties:
                       type: string
-                    description: Labels with user-defined metadata. This field may
-                      contain up to 64 entries. Label keys and values may be no longer
-                      than 63 characters. Label keys must begin with a lowercase letter
-                      and may only contain lowercase letters, numeric characters,
-                      underscores, and dashes.
+                    description: |-
+                      Labels with user-defined metadata.
+                      This field may contain up to 64 entries. Label keys and values may be no
+                      longer than 63 characters. Label keys must begin with a lowercase letter
+                      and may only contain lowercase letters, numeric characters, underscores,
+                      and dashes.
                     type: object
                     x-kubernetes-map-type: granular
                   mavenConfig:
-                    description: MavenRepositoryConfig is maven related repository
-                      details. Provides additional configuration details for repositories
-                      of the maven format type. Structure is documented below.
+                    description: |-
+                      MavenRepositoryConfig is maven related repository details.
+                      Provides additional configuration details for repositories of the maven
+                      format type.
+                      Structure is documented below.
                     items:
                       properties:
                         allowSnapshotOverwrites:
-                          description: The repository with this flag will allow publishing
-                            the same snapshot versions.
+                          description: |-
+                            The repository with this flag will allow publishing the same
+                            snapshot versions.
                           type: boolean
                         versionPolicy:
-                          description: 'Version policy defines the versions that the
-                            registry will accept. Default value is VERSION_POLICY_UNSPECIFIED.
-                            Possible values are: VERSION_POLICY_UNSPECIFIED, RELEASE,
-                            SNAPSHOT.'
+                          description: |-
+                            Version policy defines the versions that the registry will accept.
+                            Default value is VERSION_POLICY_UNSPECIFIED.
+                            Possible values are: VERSION_POLICY_UNSPECIFIED, RELEASE, SNAPSHOT.
                           type: string
                       type: object
                     type: array
                   mode:
-                    description: 'The mode configures the repository to serve artifacts
-                      from different sources. Default value is STANDARD_REPOSITORY.
-                      Possible values are: STANDARD_REPOSITORY, VIRTUAL_REPOSITORY,
-                      REMOTE_REPOSITORY.'
+                    description: |-
+                      The mode configures the repository to serve artifacts from different sources.
+                      Default value is STANDARD_REPOSITORY.
+                      Possible values are: STANDARD_REPOSITORY, VIRTUAL_REPOSITORY, REMOTE_REPOSITORY.
                     type: string
                   project:
-                    description: The ID of the project in which the resource belongs.
+                    description: |-
+                      The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                   remoteRepositoryConfig:
-                    description: Configuration specific for a Remote Repository. Structure
-                      is documented below.
+                    description: |-
+                      Configuration specific for a Remote Repository.
+                      Structure is documented below.
                     items:
                       properties:
                         description:
                           description: The description of the remote source.
                           type: string
                         dockerRepository:
-                          description: Specific settings for a Docker remote repository.
+                          description: |-
+                            Specific settings for a Docker remote repository.
                             Structure is documented below.
                           items:
                             properties:
                               publicRepository:
-                                description: 'Address of the remote repository. Default
-                                  value is PYPI. Possible values are: PYPI.'
+                                description: |-
+                                  Address of the remote repository.
+                                  Default value is PYPI.
+                                  Possible values are: PYPI.
                                 type: string
                             type: object
                           type: array
                         mavenRepository:
-                          description: Specific settings for a Maven remote repository.
+                          description: |-
+                            Specific settings for a Maven remote repository.
                             Structure is documented below.
                           items:
                             properties:
                               publicRepository:
-                                description: 'Address of the remote repository. Default
-                                  value is PYPI. Possible values are: PYPI.'
+                                description: |-
+                                  Address of the remote repository.
+                                  Default value is PYPI.
+                                  Possible values are: PYPI.
                                 type: string
                             type: object
                           type: array
                         npmRepository:
-                          description: Specific settings for an Npm remote repository.
+                          description: |-
+                            Specific settings for an Npm remote repository.
                             Structure is documented below.
                           items:
                             properties:
                               publicRepository:
-                                description: 'Address of the remote repository. Default
-                                  value is PYPI. Possible values are: PYPI.'
+                                description: |-
+                                  Address of the remote repository.
+                                  Default value is PYPI.
+                                  Possible values are: PYPI.
                                 type: string
                             type: object
                           type: array
                         pythonRepository:
-                          description: Specific settings for a Python remote repository.
+                          description: |-
+                            Specific settings for a Python remote repository.
                             Structure is documented below.
                           items:
                             properties:
                               publicRepository:
-                                description: 'Address of the remote repository. Default
-                                  value is PYPI. Possible values are: PYPI.'
+                                description: |-
+                                  Address of the remote repository.
+                                  Default value is PYPI.
+                                  Possible values are: PYPI.
                                 type: string
                             type: object
                           type: array
                       type: object
                     type: array
                   virtualRepositoryConfig:
-                    description: Configuration specific for a Virtual Repository.
+                    description: |-
+                      Configuration specific for a Virtual Repository.
                       Structure is documented below.
                     items:
                       properties:
                         upstreamPolicies:
-                          description: Policies that configure the upstream artifacts
-                            distributed by the Virtual Repository. Upstream policies
-                            cannot be set on a standard repository. Structure is documented
-                            below.
+                          description: |-
+                            Policies that configure the upstream artifacts distributed by the Virtual
+                            Repository. Upstream policies cannot be set on a standard repository.
+                            Structure is documented below.
                           items:
                             properties:
                               id:
@@ -453,8 +499,9 @@ spec:
                                   take precedence in the pull order.
                                 type: number
                               repository:
-                                description: 'A reference to the repository resource,
-                                  for example: "projects/p1/locations/us-central1/repository/repo1".'
+                                description: |-
+                                  A reference to the repository resource, for example:
+                                  "projects/p1/locations/us-central1/repository/repo1".
                                 type: string
                               repositoryRef:
                                 description: Reference to a RegistryRepository in
@@ -468,23 +515,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -498,9 +543,9 @@ spec:
                                   artifact to populate repository.
                                 properties:
                                   matchControllerRef:
-                                    description: MatchControllerRef ensures an object
-                                      with the same controller reference as the selecting
-                                      object is selected.
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
                                     type: boolean
                                   matchLabels:
                                     additionalProperties:
@@ -513,23 +558,21 @@ spec:
                                     properties:
                                       resolution:
                                         default: Required
-                                        description: Resolution specifies whether
-                                          resolution of this reference is required.
-                                          The default is 'Required', which means the
-                                          reconcile will fail if the reference cannot
-                                          be resolved. 'Optional' means this reference
-                                          will be a no-op if it cannot be resolved.
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
                                         enum:
                                         - Required
                                         - Optional
                                         type: string
                                       resolve:
-                                        description: Resolve specifies when this reference
-                                          should be resolved. The default is 'IfNotPresent',
-                                          which will attempt to resolve the reference
-                                          only when the corresponding field is not
-                                          present. Use 'Always' to resolve the reference
-                                          on every reconcile.
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
                                         enum:
                                         - Always
                                         - IfNotPresent
@@ -544,19 +587,21 @@ spec:
               managementPolicies:
                 default:
                 - '*'
-                description: 'THIS IS A BETA FIELD. It is on by default but can be
-                  opted out through a Crossplane feature flag. ManagementPolicies
-                  specify the array of actions Crossplane is allowed to take on the
-                  managed and external resources. This field is planned to replace
-                  the DeletionPolicy field in a future release. Currently, both could
-                  be set independently and non-default values would be honored if
-                  the feature flag is enabled. If both are custom, the DeletionPolicy
-                  field will be ignored. See the design doc for more information:
-                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
-                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
                 items:
-                  description: A ManagementAction represents an action that the Crossplane
-                    controllers can take on an external resource.
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
                   enum:
                   - Observe
                   - Create
@@ -569,9 +614,10 @@ spec:
               providerConfigRef:
                 default:
                   name: default
-                description: ProviderConfigReference specifies how the provider that
-                  will be used to create, observe, update, and delete this managed
-                  resource should be configured.
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
                 properties:
                   name:
                     description: Name of the referenced object.
@@ -581,21 +627,21 @@ spec:
                     properties:
                       resolution:
                         default: Required
-                        description: Resolution specifies whether resolution of this
-                          reference is required. The default is 'Required', which
-                          means the reconcile will fail if the reference cannot be
-                          resolved. 'Optional' means this reference will be a no-op
-                          if it cannot be resolved.
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
                         enum:
                         - Required
                         - Optional
                         type: string
                       resolve:
-                        description: Resolve specifies when this reference should
-                          be resolved. The default is 'IfNotPresent', which will attempt
-                          to resolve the reference only when the corresponding field
-                          is not present. Use 'Always' to resolve the reference on
-                          every reconcile.
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
                         enum:
                         - Always
                         - IfNotPresent
@@ -605,17 +651,19 @@ spec:
                 - name
                 type: object
               publishConnectionDetailsTo:
-                description: PublishConnectionDetailsTo specifies the connection secret
-                  config which contains a name, metadata and a reference to secret
-                  store config to which any connection details for this managed resource
-                  should be written. Connection details frequently include the endpoint,
-                  username, and password required to connect to the managed resource.
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
                 properties:
                   configRef:
                     default:
                       name: default
-                    description: SecretStoreConfigRef specifies which secret store
-                      config should be used for this ConnectionSecret.
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -625,21 +673,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -654,21 +702,22 @@ spec:
                       annotations:
                         additionalProperties:
                           type: string
-                        description: Annotations are the annotations to be added to
-                          connection secret. - For Kubernetes secrets, this will be
-                          used as "metadata.annotations". - It is up to Secret Store
-                          implementation for others store types.
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
                         type: object
                       labels:
                         additionalProperties:
                           type: string
-                        description: Labels are the labels/tags to be added to connection
-                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
-                          - It is up to Secret Store implementation for others store
-                          types.
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
                         type: object
                       type:
-                        description: Type is the SecretType for the connection secret.
+                        description: |-
+                          Type is the SecretType for the connection secret.
                           - Only valid for Kubernetes Secret Stores.
                         type: string
                     type: object
@@ -679,14 +728,15 @@ spec:
                 - name
                 type: object
               writeConnectionSecretToRef:
-                description: WriteConnectionSecretToReference specifies the namespace
-                  and name of a Secret to which any connection details for this managed
-                  resource should be written. Connection details frequently include
-                  the endpoint, username, and password required to connect to the
-                  managed resource. This field is planned to be replaced in a future
-                  release in favor of PublishConnectionDetailsTo. Currently, both
-                  could be set independently and connection details would be published
-                  to both without affecting each other.
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
                 properties:
                   name:
                     description: Name of the secret.
@@ -718,9 +768,9 @@ spec:
                     description: The user-provided description of the repository.
                     type: string
                   dockerConfig:
-                    description: Docker repository config contains repository level
-                      configuration for the repositories of docker type. Structure
-                      is documented below.
+                    description: |-
+                      Docker repository config contains repository level configuration for the repositories of docker type.
+                      Structure is documented below.
                     items:
                       properties:
                         immutableTags:
@@ -731,28 +781,31 @@ spec:
                       type: object
                     type: array
                   format:
-                    description: The format of packages that are stored in the repository.
-                      Supported formats can be found here. You can only create alpha
-                      formats if you are a member of the alpha user group.
+                    description: |-
+                      The format of packages that are stored in the repository. Supported formats
+                      can be found here.
+                      You can only create alpha formats if you are a member of the
+                      alpha user group.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/repositories/{{repository_id}}
                     type: string
                   kmsKeyName:
-                    description: 'The Cloud KMS resource name of the customer managed
-                      encryption key that’s used to encrypt the contents of the Repository.
-                      Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key.
-                      This value may not be changed after the Repository has been
-                      created.'
+                    description: |-
+                      The Cloud KMS resource name of the customer managed encryption key that’s
+                      used to encrypt the contents of the Repository. Has the form:
+                      projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key.
+                      This value may not be changed after the Repository has been created.
                     type: string
                   labels:
                     additionalProperties:
                       type: string
-                    description: Labels with user-defined metadata. This field may
-                      contain up to 64 entries. Label keys and values may be no longer
-                      than 63 characters. Label keys must begin with a lowercase letter
-                      and may only contain lowercase letters, numeric characters,
-                      underscores, and dashes.
+                    description: |-
+                      Labels with user-defined metadata.
+                      This field may contain up to 64 entries. Label keys and values may be no
+                      longer than 63 characters. Label keys must begin with a lowercase letter
+                      and may only contain lowercase letters, numeric characters, underscores,
+                      and dashes.
                     type: object
                     x-kubernetes-map-type: granular
                   location:
@@ -760,85 +813,104 @@ spec:
                       in.
                     type: string
                   mavenConfig:
-                    description: MavenRepositoryConfig is maven related repository
-                      details. Provides additional configuration details for repositories
-                      of the maven format type. Structure is documented below.
+                    description: |-
+                      MavenRepositoryConfig is maven related repository details.
+                      Provides additional configuration details for repositories of the maven
+                      format type.
+                      Structure is documented below.
                     items:
                       properties:
                         allowSnapshotOverwrites:
-                          description: The repository with this flag will allow publishing
-                            the same snapshot versions.
+                          description: |-
+                            The repository with this flag will allow publishing the same
+                            snapshot versions.
                           type: boolean
                         versionPolicy:
-                          description: 'Version policy defines the versions that the
-                            registry will accept. Default value is VERSION_POLICY_UNSPECIFIED.
-                            Possible values are: VERSION_POLICY_UNSPECIFIED, RELEASE,
-                            SNAPSHOT.'
+                          description: |-
+                            Version policy defines the versions that the registry will accept.
+                            Default value is VERSION_POLICY_UNSPECIFIED.
+                            Possible values are: VERSION_POLICY_UNSPECIFIED, RELEASE, SNAPSHOT.
                           type: string
                       type: object
                     type: array
                   mode:
-                    description: 'The mode configures the repository to serve artifacts
-                      from different sources. Default value is STANDARD_REPOSITORY.
-                      Possible values are: STANDARD_REPOSITORY, VIRTUAL_REPOSITORY,
-                      REMOTE_REPOSITORY.'
+                    description: |-
+                      The mode configures the repository to serve artifacts from different sources.
+                      Default value is STANDARD_REPOSITORY.
+                      Possible values are: STANDARD_REPOSITORY, VIRTUAL_REPOSITORY, REMOTE_REPOSITORY.
                     type: string
                   name:
-                    description: 'The name of the repository, for example: "repo1"'
+                    description: |-
+                      The name of the repository, for example:
+                      "repo1"
                     type: string
                   project:
-                    description: The ID of the project in which the resource belongs.
+                    description: |-
+                      The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                   remoteRepositoryConfig:
-                    description: Configuration specific for a Remote Repository. Structure
-                      is documented below.
+                    description: |-
+                      Configuration specific for a Remote Repository.
+                      Structure is documented below.
                     items:
                       properties:
                         description:
                           description: The description of the remote source.
                           type: string
                         dockerRepository:
-                          description: Specific settings for a Docker remote repository.
+                          description: |-
+                            Specific settings for a Docker remote repository.
                             Structure is documented below.
                           items:
                             properties:
                               publicRepository:
-                                description: 'Address of the remote repository. Default
-                                  value is PYPI. Possible values are: PYPI.'
+                                description: |-
+                                  Address of the remote repository.
+                                  Default value is PYPI.
+                                  Possible values are: PYPI.
                                 type: string
                             type: object
                           type: array
                         mavenRepository:
-                          description: Specific settings for a Maven remote repository.
+                          description: |-
+                            Specific settings for a Maven remote repository.
                             Structure is documented below.
                           items:
                             properties:
                               publicRepository:
-                                description: 'Address of the remote repository. Default
-                                  value is PYPI. Possible values are: PYPI.'
+                                description: |-
+                                  Address of the remote repository.
+                                  Default value is PYPI.
+                                  Possible values are: PYPI.
                                 type: string
                             type: object
                           type: array
                         npmRepository:
-                          description: Specific settings for an Npm remote repository.
+                          description: |-
+                            Specific settings for an Npm remote repository.
                             Structure is documented below.
                           items:
                             properties:
                               publicRepository:
-                                description: 'Address of the remote repository. Default
-                                  value is PYPI. Possible values are: PYPI.'
+                                description: |-
+                                  Address of the remote repository.
+                                  Default value is PYPI.
+                                  Possible values are: PYPI.
                                 type: string
                             type: object
                           type: array
                         pythonRepository:
-                          description: Specific settings for a Python remote repository.
+                          description: |-
+                            Specific settings for a Python remote repository.
                             Structure is documented below.
                           items:
                             properties:
                               publicRepository:
-                                description: 'Address of the remote repository. Default
-                                  value is PYPI. Possible values are: PYPI.'
+                                description: |-
+                                  Address of the remote repository.
+                                  Default value is PYPI.
+                                  Possible values are: PYPI.
                                 type: string
                             type: object
                           type: array
@@ -848,15 +920,16 @@ spec:
                     description: The time when the repository was last updated.
                     type: string
                   virtualRepositoryConfig:
-                    description: Configuration specific for a Virtual Repository.
+                    description: |-
+                      Configuration specific for a Virtual Repository.
                       Structure is documented below.
                     items:
                       properties:
                         upstreamPolicies:
-                          description: Policies that configure the upstream artifacts
-                            distributed by the Virtual Repository. Upstream policies
-                            cannot be set on a standard repository. Structure is documented
-                            below.
+                          description: |-
+                            Policies that configure the upstream artifacts distributed by the Virtual
+                            Repository. Upstream policies cannot be set on a standard repository.
+                            Structure is documented below.
                           items:
                             properties:
                               id:
@@ -868,8 +941,9 @@ spec:
                                   take precedence in the pull order.
                                 type: number
                               repository:
-                                description: 'A reference to the repository resource,
-                                  for example: "projects/p1/locations/us-central1/repository/repo1".'
+                                description: |-
+                                  A reference to the repository resource, for example:
+                                  "projects/p1/locations/us-central1/repository/repo1".
                                 type: string
                             type: object
                           type: array
@@ -882,13 +956,15 @@ spec:
                   description: A Condition that may apply to a resource.
                   properties:
                     lastTransitionTime:
-                      description: LastTransitionTime is the last time this condition
-                        transitioned from one status to another.
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
                       format: date-time
                       type: string
                     message:
-                      description: A Message containing details about this condition's
-                        last transition from one status to another, if any.
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
                       type: string
                     reason:
                       description: A Reason for this condition's last transition from
@@ -899,8 +975,9 @@ spec:
                         False, or Unknown?
                       type: string
                     type:
-                      description: Type of this condition. At most one of each condition
-                        type may apply to a resource at any point in time.
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
                       type: string
                   required:
                   - lastTransitionTime

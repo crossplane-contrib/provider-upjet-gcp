@@ -168,13 +168,14 @@ type RegionTargetTCPProxyStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // RegionTargetTCPProxy is the Schema for the RegionTargetTCPProxys API. Represents a RegionTargetTcpProxy resource, which is used by one or more forwarding rules to route incoming TCP requests to a regional TCP proxy load balancer.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,gcp}
 type RegionTargetTCPProxy struct {
 	metav1.TypeMeta   `json:",inline"`
