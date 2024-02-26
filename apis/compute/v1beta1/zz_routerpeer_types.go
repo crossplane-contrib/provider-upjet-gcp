@@ -123,6 +123,43 @@ type BfdParameters struct {
 	SessionInitializationMode *string `json:"sessionInitializationMode" tf:"session_initialization_mode,omitempty"`
 }
 
+type Md5AuthenticationKeyInitParameters struct {
+
+	// Name of this BGP peer. The name must be 1-63 characters long,
+	// and comply with RFC1035. Specifically, the name must be 1-63 characters
+	// long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which
+	// means the first character must be a lowercase letter, and all
+	// following characters must be a dash, lowercase letter, or digit,
+	// except the last character, which cannot be a dash.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type Md5AuthenticationKeyObservation struct {
+
+	// Name of this BGP peer. The name must be 1-63 characters long,
+	// and comply with RFC1035. Specifically, the name must be 1-63 characters
+	// long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which
+	// means the first character must be a lowercase letter, and all
+	// following characters must be a dash, lowercase letter, or digit,
+	// except the last character, which cannot be a dash.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type Md5AuthenticationKeyParameters struct {
+
+	// +kubebuilder:validation:Required
+	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
+
+	// Name of this BGP peer. The name must be 1-63 characters long,
+	// and comply with RFC1035. Specifically, the name must be 1-63 characters
+	// long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which
+	// means the first character must be a lowercase letter, and all
+	// following characters must be a dash, lowercase letter, or digit,
+	// except the last character, which cannot be a dash.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+}
+
 type RouterPeerAdvertisedIPRangesInitParameters struct {
 
 	// User-specified description for the IP range.
@@ -164,7 +201,7 @@ type RouterPeerInitParameters struct {
 	AdvertiseMode *string `json:"advertiseMode,omitempty" tf:"advertise_mode,omitempty"`
 
 	// User-specified list of prefix groups to advertise in custom
-	// mode, which can take one of the following options:
+	// mode, which currently supports the following option:
 	AdvertisedGroups []*string `json:"advertisedGroups,omitempty" tf:"advertised_groups,omitempty"`
 
 	// User-specified list of individual IP ranges to advertise in
@@ -215,6 +252,8 @@ type RouterPeerInitParameters struct {
 	// Selector for a RouterInterface in compute to populate interface.
 	// +kubebuilder:validation:Optional
 	InterfaceSelector *v1.Selector `json:"interfaceSelector,omitempty" tf:"-"`
+
+	Md5AuthenticationKey []Md5AuthenticationKeyInitParameters `json:"md5AuthenticationKey,omitempty" tf:"md5_authentication_key,omitempty"`
 
 	// Peer BGP Autonomous System Number (ASN).
 	// Each BGP interface may use a different value.
@@ -284,7 +323,7 @@ type RouterPeerObservation struct {
 	AdvertiseMode *string `json:"advertiseMode,omitempty" tf:"advertise_mode,omitempty"`
 
 	// User-specified list of prefix groups to advertise in custom
-	// mode, which can take one of the following options:
+	// mode, which currently supports the following option:
 	AdvertisedGroups []*string `json:"advertisedGroups,omitempty" tf:"advertised_groups,omitempty"`
 
 	// User-specified list of individual IP ranges to advertise in
@@ -332,6 +371,8 @@ type RouterPeerObservation struct {
 	// The resource that configures and manages this BGP peer.
 	ManagementType *string `json:"managementType,omitempty" tf:"management_type,omitempty"`
 
+	Md5AuthenticationKey []Md5AuthenticationKeyObservation `json:"md5AuthenticationKey,omitempty" tf:"md5_authentication_key,omitempty"`
+
 	// Peer BGP Autonomous System Number (ASN).
 	// Each BGP interface may use a different value.
 	PeerAsn *float64 `json:"peerAsn,omitempty" tf:"peer_asn,omitempty"`
@@ -374,7 +415,7 @@ type RouterPeerParameters struct {
 	AdvertiseMode *string `json:"advertiseMode,omitempty" tf:"advertise_mode,omitempty"`
 
 	// User-specified list of prefix groups to advertise in custom
-	// mode, which can take one of the following options:
+	// mode, which currently supports the following option:
 	// +kubebuilder:validation:Optional
 	AdvertisedGroups []*string `json:"advertisedGroups,omitempty" tf:"advertised_groups,omitempty"`
 
@@ -434,6 +475,9 @@ type RouterPeerParameters struct {
 	// Selector for a RouterInterface in compute to populate interface.
 	// +kubebuilder:validation:Optional
 	InterfaceSelector *v1.Selector `json:"interfaceSelector,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	Md5AuthenticationKey []Md5AuthenticationKeyParameters `json:"md5AuthenticationKey,omitempty" tf:"md5_authentication_key,omitempty"`
 
 	// Peer BGP Autonomous System Number (ASN).
 	// Each BGP interface may use a different value.

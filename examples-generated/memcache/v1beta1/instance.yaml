@@ -11,6 +11,8 @@ spec:
     authorizedNetworkSelector:
       matchLabels:
         testing.upbound.io/example-name: private_service_connection
+    labels:
+      env: test
     maintenancePolicy:
     - weeklyMaintenanceWindow:
       - day: SATURDAY
@@ -42,9 +44,22 @@ spec:
     addressType: INTERNAL
     networkSelector:
       matchLabels:
-        testing.upbound.io/example-name: google_compute_network
+        testing.upbound.io/example-name: memcache_network
     prefixLength: 16
     purpose: VPC_PEERING
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: memcache/v1beta1/instance
+  labels:
+    testing.upbound.io/example-name: memcache_network
+  name: memcache-network
+spec:
+  forProvider: {}
 
 ---
 
@@ -60,7 +75,7 @@ spec:
   forProvider:
     networkSelector:
       matchLabels:
-        testing.upbound.io/example-name: google_compute_network
+        testing.upbound.io/example-name: memcache_network
     reservedPeeringRangesRefs:
     - name: service_range
     service: servicenetworking.googleapis.com

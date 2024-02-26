@@ -65,6 +65,8 @@ type NodeInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Resource labels to represent user provided metadata.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -120,10 +122,15 @@ type NodeObservation struct {
 	// The user-supplied description of the TPU. Maximum of 512 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{zone}}/nodes/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Resource labels to represent user provided metadata.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -155,6 +162,11 @@ type NodeObservation struct {
 
 	// The version of Tensorflow running in the Node.
 	TensorflowVersion *string `json:"tensorflowVersion,omitempty" tf:"tensorflow_version,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// Whether the VPC peering for the node is set up through Service Networking API.
 	// The VPC Peering should be set up before provisioning the node. If this field is set,
@@ -188,6 +200,8 @@ type NodeParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Resource labels to represent user provided metadata.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`

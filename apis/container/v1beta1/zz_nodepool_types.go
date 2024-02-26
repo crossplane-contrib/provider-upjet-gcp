@@ -29,6 +29,20 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type NetworkConfigNetworkPerformanceConfigInitParameters struct {
+	TotalEgressBandwidthTier *string `json:"totalEgressBandwidthTier,omitempty" tf:"total_egress_bandwidth_tier,omitempty"`
+}
+
+type NetworkConfigNetworkPerformanceConfigObservation struct {
+	TotalEgressBandwidthTier *string `json:"totalEgressBandwidthTier,omitempty" tf:"total_egress_bandwidth_tier,omitempty"`
+}
+
+type NetworkConfigNetworkPerformanceConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	TotalEgressBandwidthTier *string `json:"totalEgressBandwidthTier" tf:"total_egress_bandwidth_tier,omitempty"`
+}
+
 type NodeConfigGuestAcceleratorGpuDriverInstallationConfigInitParameters struct {
 
 	// The Kubernetes version for the nodes in this pool. Note that if this field
@@ -249,29 +263,29 @@ type NodePoolInitParameters_2 struct {
 
 type NodePoolManagementInitParameters_2 struct {
 
-	// Whether the nodes will be automatically repaired.
+	// Whether the nodes will be automatically repaired. Enabled by default.
 	AutoRepair *bool `json:"autoRepair,omitempty" tf:"auto_repair,omitempty"`
 
-	// Whether the nodes will be automatically upgraded.
+	// Whether the nodes will be automatically upgraded. Enabled by default.
 	AutoUpgrade *bool `json:"autoUpgrade,omitempty" tf:"auto_upgrade,omitempty"`
 }
 
 type NodePoolManagementObservation_2 struct {
 
-	// Whether the nodes will be automatically repaired.
+	// Whether the nodes will be automatically repaired. Enabled by default.
 	AutoRepair *bool `json:"autoRepair,omitempty" tf:"auto_repair,omitempty"`
 
-	// Whether the nodes will be automatically upgraded.
+	// Whether the nodes will be automatically upgraded. Enabled by default.
 	AutoUpgrade *bool `json:"autoUpgrade,omitempty" tf:"auto_upgrade,omitempty"`
 }
 
 type NodePoolManagementParameters_2 struct {
 
-	// Whether the nodes will be automatically repaired.
+	// Whether the nodes will be automatically repaired. Enabled by default.
 	// +kubebuilder:validation:Optional
 	AutoRepair *bool `json:"autoRepair,omitempty" tf:"auto_repair,omitempty"`
 
-	// Whether the nodes will be automatically upgraded.
+	// Whether the nodes will be automatically upgraded. Enabled by default.
 	// +kubebuilder:validation:Optional
 	AutoUpgrade *bool `json:"autoUpgrade,omitempty" tf:"auto_upgrade,omitempty"`
 }
@@ -283,6 +297,8 @@ type NodePoolNetworkConfigInitParameters struct {
 
 	// Whether nodes have internal IP addresses only.
 	EnablePrivateNodes *bool `json:"enablePrivateNodes,omitempty" tf:"enable_private_nodes,omitempty"`
+
+	NetworkPerformanceConfig []NetworkConfigNetworkPerformanceConfigInitParameters `json:"networkPerformanceConfig,omitempty" tf:"network_performance_config,omitempty"`
 
 	PodCidrOverprovisionConfig []NodePoolNetworkConfigPodCidrOverprovisionConfigInitParameters `json:"podCidrOverprovisionConfig,omitempty" tf:"pod_cidr_overprovision_config,omitempty"`
 
@@ -300,6 +316,8 @@ type NodePoolNetworkConfigObservation struct {
 
 	// Whether nodes have internal IP addresses only.
 	EnablePrivateNodes *bool `json:"enablePrivateNodes,omitempty" tf:"enable_private_nodes,omitempty"`
+
+	NetworkPerformanceConfig []NetworkConfigNetworkPerformanceConfigObservation `json:"networkPerformanceConfig,omitempty" tf:"network_performance_config,omitempty"`
 
 	PodCidrOverprovisionConfig []NodePoolNetworkConfigPodCidrOverprovisionConfigObservation `json:"podCidrOverprovisionConfig,omitempty" tf:"pod_cidr_overprovision_config,omitempty"`
 
@@ -319,6 +337,9 @@ type NodePoolNetworkConfigParameters struct {
 	// Whether nodes have internal IP addresses only.
 	// +kubebuilder:validation:Optional
 	EnablePrivateNodes *bool `json:"enablePrivateNodes,omitempty" tf:"enable_private_nodes,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NetworkPerformanceConfig []NetworkConfigNetworkPerformanceConfigParameters `json:"networkPerformanceConfig,omitempty" tf:"network_performance_config,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	PodCidrOverprovisionConfig []NodePoolNetworkConfigPodCidrOverprovisionConfigParameters `json:"podCidrOverprovisionConfig,omitempty" tf:"pod_cidr_overprovision_config,omitempty"`
@@ -360,6 +381,39 @@ type NodePoolNodeConfigAdvancedMachineFeaturesParameters struct {
 	ThreadsPerCore *float64 `json:"threadsPerCore" tf:"threads_per_core,omitempty"`
 }
 
+type NodePoolNodeConfigConfidentialNodesInitParameters_2 struct {
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type NodePoolNodeConfigConfidentialNodesObservation_2 struct {
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type NodePoolNodeConfigConfidentialNodesParameters_2 struct {
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
+type NodePoolNodeConfigEffectiveTaintsInitParameters struct {
+}
+
+type NodePoolNodeConfigEffectiveTaintsObservation struct {
+	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
+
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type NodePoolNodeConfigEffectiveTaintsParameters struct {
+}
+
 type NodePoolNodeConfigEphemeralStorageLocalSsdConfigInitParameters struct {
 	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
 }
@@ -374,16 +428,40 @@ type NodePoolNodeConfigEphemeralStorageLocalSsdConfigParameters struct {
 	LocalSsdCount *float64 `json:"localSsdCount" tf:"local_ssd_count,omitempty"`
 }
 
+type NodePoolNodeConfigFastSocketInitParameters struct {
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type NodePoolNodeConfigFastSocketObservation struct {
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type NodePoolNodeConfigFastSocketParameters struct {
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
 type NodePoolNodeConfigGcfsConfigInitParameters struct {
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type NodePoolNodeConfigGcfsConfigObservation struct {
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type NodePoolNodeConfigGcfsConfigParameters struct {
 
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
@@ -440,15 +518,20 @@ type NodePoolNodeConfigGuestAcceleratorParameters struct {
 }
 
 type NodePoolNodeConfigGvnicInitParameters struct {
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type NodePoolNodeConfigGvnicObservation struct {
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type NodePoolNodeConfigGvnicParameters struct {
 
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
@@ -472,11 +555,16 @@ type NodePoolNodeConfigInitParameters_2 struct {
 
 	BootDiskKMSKey *string `json:"bootDiskKmsKey,omitempty" tf:"boot_disk_kms_key,omitempty"`
 
+	// Configuration for Confidential Nodes feature. Structure is documented below.
+	ConfidentialNodes []NodePoolNodeConfigConfidentialNodesInitParameters_2 `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
+
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
 
 	EphemeralStorageLocalSsdConfig []NodePoolNodeConfigEphemeralStorageLocalSsdConfigInitParameters `json:"ephemeralStorageLocalSsdConfig,omitempty" tf:"ephemeral_storage_local_ssd_config,omitempty"`
+
+	FastSocket []NodePoolNodeConfigFastSocketInitParameters `json:"fastSocket,omitempty" tf:"fast_socket,omitempty"`
 
 	GcfsConfig []NodePoolNodeConfigGcfsConfigInitParameters `json:"gcfsConfig,omitempty" tf:"gcfs_config,omitempty"`
 
@@ -587,12 +675,14 @@ type NodePoolNodeConfigKubeletConfigParameters struct {
 }
 
 type NodePoolNodeConfigLinuxNodeConfigInitParameters struct {
+	CgroupMode *string `json:"cgroupMode,omitempty" tf:"cgroup_mode,omitempty"`
 
 	// +mapType=granular
 	Sysctls map[string]*string `json:"sysctls,omitempty" tf:"sysctls,omitempty"`
 }
 
 type NodePoolNodeConfigLinuxNodeConfigObservation struct {
+	CgroupMode *string `json:"cgroupMode,omitempty" tf:"cgroup_mode,omitempty"`
 
 	// +mapType=granular
 	Sysctls map[string]*string `json:"sysctls,omitempty" tf:"sysctls,omitempty"`
@@ -601,8 +691,11 @@ type NodePoolNodeConfigLinuxNodeConfigObservation struct {
 type NodePoolNodeConfigLinuxNodeConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
+	CgroupMode *string `json:"cgroupMode,omitempty" tf:"cgroup_mode,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	// +mapType=granular
-	Sysctls map[string]*string `json:"sysctls" tf:"sysctls,omitempty"`
+	Sysctls map[string]*string `json:"sysctls,omitempty" tf:"sysctls,omitempty"`
 }
 
 type NodePoolNodeConfigLocalNvmeSsdBlockConfigInitParameters struct {
@@ -624,11 +717,18 @@ type NodePoolNodeConfigObservation_2 struct {
 
 	BootDiskKMSKey *string `json:"bootDiskKmsKey,omitempty" tf:"boot_disk_kms_key,omitempty"`
 
+	// Configuration for Confidential Nodes feature. Structure is documented below.
+	ConfidentialNodes []NodePoolNodeConfigConfidentialNodesObservation_2 `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
+
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
 
+	EffectiveTaints []NodePoolNodeConfigEffectiveTaintsObservation `json:"effectiveTaints,omitempty" tf:"effective_taints,omitempty"`
+
 	EphemeralStorageLocalSsdConfig []NodePoolNodeConfigEphemeralStorageLocalSsdConfigObservation `json:"ephemeralStorageLocalSsdConfig,omitempty" tf:"ephemeral_storage_local_ssd_config,omitempty"`
+
+	FastSocket []NodePoolNodeConfigFastSocketObservation `json:"fastSocket,omitempty" tf:"fast_socket,omitempty"`
 
 	GcfsConfig []NodePoolNodeConfigGcfsConfigObservation `json:"gcfsConfig,omitempty" tf:"gcfs_config,omitempty"`
 
@@ -701,6 +801,10 @@ type NodePoolNodeConfigParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	BootDiskKMSKey *string `json:"bootDiskKmsKey,omitempty" tf:"boot_disk_kms_key,omitempty"`
 
+	// Configuration for Confidential Nodes feature. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ConfidentialNodes []NodePoolNodeConfigConfidentialNodesParameters_2 `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
+
 	// +kubebuilder:validation:Optional
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
@@ -709,6 +813,9 @@ type NodePoolNodeConfigParameters_2 struct {
 
 	// +kubebuilder:validation:Optional
 	EphemeralStorageLocalSsdConfig []NodePoolNodeConfigEphemeralStorageLocalSsdConfigParameters `json:"ephemeralStorageLocalSsdConfig,omitempty" tf:"ephemeral_storage_local_ssd_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	FastSocket []NodePoolNodeConfigFastSocketParameters `json:"fastSocket,omitempty" tf:"fast_socket,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	GcfsConfig []NodePoolNodeConfigGcfsConfigParameters `json:"gcfsConfig,omitempty" tf:"gcfs_config,omitempty"`
@@ -877,11 +984,11 @@ type NodePoolNodeConfigSoleTenantConfigParameters struct {
 }
 
 type NodePoolNodeConfigTaintInitParameters struct {
-	Effect *string `json:"effect,omitempty" tf:"effect"`
+	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
 
-	Key *string `json:"key,omitempty" tf:"key"`
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
-	Value *string `json:"value,omitempty" tf:"value"`
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type NodePoolNodeConfigTaintObservation struct {
@@ -895,13 +1002,13 @@ type NodePoolNodeConfigTaintObservation struct {
 type NodePoolNodeConfigTaintParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Effect *string `json:"effect,omitempty" tf:"effect"`
+	Effect *string `json:"effect" tf:"effect,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key"`
+	Key *string `json:"key" tf:"key,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value"`
+	Value *string `json:"value" tf:"value,omitempty"`
 }
 
 type NodePoolNodeConfigWorkloadMetadataConfigInitParameters struct {
@@ -1100,6 +1207,9 @@ type NodePoolPlacementPolicyInitParameters struct {
 	// If not found, InvalidArgument error is returned.
 	PolicyName *string `json:"policyName,omitempty" tf:"policy_name,omitempty"`
 
+	// The TPU placement topology for pod slice node pool.
+	TpuTopology *string `json:"tpuTopology,omitempty" tf:"tpu_topology,omitempty"`
+
 	// The type of the policy. Supports a single value: COMPACT.
 	// Specifying COMPACT placement policy type places node pool's nodes in a closer
 	// physical proximity in order to reduce network latency between nodes.
@@ -1112,6 +1222,9 @@ type NodePoolPlacementPolicyObservation struct {
 	// The resource policy must be in the same project and region as the node pool.
 	// If not found, InvalidArgument error is returned.
 	PolicyName *string `json:"policyName,omitempty" tf:"policy_name,omitempty"`
+
+	// The TPU placement topology for pod slice node pool.
+	TpuTopology *string `json:"tpuTopology,omitempty" tf:"tpu_topology,omitempty"`
 
 	// The type of the policy. Supports a single value: COMPACT.
 	// Specifying COMPACT placement policy type places node pool's nodes in a closer
@@ -1126,6 +1239,10 @@ type NodePoolPlacementPolicyParameters struct {
 	// If not found, InvalidArgument error is returned.
 	// +kubebuilder:validation:Optional
 	PolicyName *string `json:"policyName,omitempty" tf:"policy_name,omitempty"`
+
+	// The TPU placement topology for pod slice node pool.
+	// +kubebuilder:validation:Optional
+	TpuTopology *string `json:"tpuTopology,omitempty" tf:"tpu_topology,omitempty"`
 
 	// The type of the policy. Supports a single value: COMPACT.
 	// Specifying COMPACT placement policy type places node pool's nodes in a closer

@@ -89,6 +89,19 @@ spec:
                     description: Configuration related to the cluster RBAC settings.
                     items:
                       properties:
+                        adminGroups:
+                          description: Groups of users that can perform operations
+                            as a cluster admin. A managed ClusterRoleBinding will
+                            be created to grant the cluster-admin ClusterRole to the
+                            groups. Up to ten admin groups can be provided. For more
+                            info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
+                          items:
+                            properties:
+                              group:
+                                description: The name of the group, e.g. my-group@domain.com.
+                                type: string
+                            type: object
+                          type: array
                         adminUsers:
                           description: Users that can perform operations as a cluster
                             admin. A new ClusterRoleBinding will be created to grant
@@ -336,6 +349,19 @@ spec:
                     description: Configuration related to the cluster RBAC settings.
                     items:
                       properties:
+                        adminGroups:
+                          description: Groups of users that can perform operations
+                            as a cluster admin. A managed ClusterRoleBinding will
+                            be created to grant the cluster-admin ClusterRole to the
+                            groups. Up to ten admin groups can be provided. For more
+                            info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
+                          items:
+                            properties:
+                              group:
+                                description: The name of the group, e.g. my-group@domain.com.
+                                type: string
+                            type: object
+                          type: array
                         adminUsers:
                           description: Users that can perform operations as a cluster
                             admin. A new ClusterRoleBinding will be created to grant
@@ -762,6 +788,19 @@ spec:
                     description: Configuration related to the cluster RBAC settings.
                     items:
                       properties:
+                        adminGroups:
+                          description: Groups of users that can perform operations
+                            as a cluster admin. A managed ClusterRoleBinding will
+                            be created to grant the cluster-admin ClusterRole to the
+                            groups. Up to ten admin groups can be provided. For more
+                            info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
+                          items:
+                            properties:
+                              group:
+                                description: The name of the group, e.g. my-group@domain.com.
+                                type: string
+                            type: object
+                          type: array
                         adminUsers:
                           description: Users that can perform operations as a cluster
                             admin. A new ClusterRoleBinding will be created to grant
@@ -929,6 +968,11 @@ spec:
                     description: Optional. A human readable description of this cluster.
                       Cannot be longer than 255 UTF-8 encoded bytes.
                     type: string
+                  effectiveAnnotations:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   endpoint:
                     description: Output only. The endpoint of the cluster's API server.
                     type: string

@@ -52,9 +52,9 @@ type NetworkEndpointGroupInitParameters struct {
 	// that 1) have the following load balancing schemes: EXTERNAL, EXTERNAL_MANAGED,
 	// INTERNAL_MANAGED, and INTERNAL_SELF_MANAGED and 2) support the RATE or
 	// CONNECTION balancing modes.
-	// Possible values include: GCE_VM_IP, GCE_VM_IP_PORT, and NON_GCP_PRIVATE_IP_PORT.
+	// Possible values include: GCE_VM_IP, GCE_VM_IP_PORT, NON_GCP_PRIVATE_IP_PORT, INTERNET_IP_PORT, INTERNET_FQDN_PORT, SERVERLESS, and PRIVATE_SERVICE_CONNECT.
 	// Default value is GCE_VM_IP_PORT.
-	// Possible values are: GCE_VM_IP, GCE_VM_IP_PORT, NON_GCP_PRIVATE_IP_PORT.
+	// Possible values are: GCE_VM_IP, GCE_VM_IP_PORT, NON_GCP_PRIVATE_IP_PORT, INTERNET_IP_PORT, INTERNET_FQDN_PORT, SERVERLESS, PRIVATE_SERVICE_CONNECT.
 	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
 
 	// Reference to a Network to populate network.
@@ -107,9 +107,9 @@ type NetworkEndpointGroupObservation struct {
 	// that 1) have the following load balancing schemes: EXTERNAL, EXTERNAL_MANAGED,
 	// INTERNAL_MANAGED, and INTERNAL_SELF_MANAGED and 2) support the RATE or
 	// CONNECTION balancing modes.
-	// Possible values include: GCE_VM_IP, GCE_VM_IP_PORT, and NON_GCP_PRIVATE_IP_PORT.
+	// Possible values include: GCE_VM_IP, GCE_VM_IP_PORT, NON_GCP_PRIVATE_IP_PORT, INTERNET_IP_PORT, INTERNET_FQDN_PORT, SERVERLESS, and PRIVATE_SERVICE_CONNECT.
 	// Default value is GCE_VM_IP_PORT.
-	// Possible values are: GCE_VM_IP, GCE_VM_IP_PORT, NON_GCP_PRIVATE_IP_PORT.
+	// Possible values are: GCE_VM_IP, GCE_VM_IP_PORT, NON_GCP_PRIVATE_IP_PORT, INTERNET_IP_PORT, INTERNET_FQDN_PORT, SERVERLESS, PRIVATE_SERVICE_CONNECT.
 	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -155,9 +155,9 @@ type NetworkEndpointGroupParameters struct {
 	// that 1) have the following load balancing schemes: EXTERNAL, EXTERNAL_MANAGED,
 	// INTERNAL_MANAGED, and INTERNAL_SELF_MANAGED and 2) support the RATE or
 	// CONNECTION balancing modes.
-	// Possible values include: GCE_VM_IP, GCE_VM_IP_PORT, and NON_GCP_PRIVATE_IP_PORT.
+	// Possible values include: GCE_VM_IP, GCE_VM_IP_PORT, NON_GCP_PRIVATE_IP_PORT, INTERNET_IP_PORT, INTERNET_FQDN_PORT, SERVERLESS, and PRIVATE_SERVICE_CONNECT.
 	// Default value is GCE_VM_IP_PORT.
-	// Possible values are: GCE_VM_IP, GCE_VM_IP_PORT, NON_GCP_PRIVATE_IP_PORT.
+	// Possible values are: GCE_VM_IP, GCE_VM_IP_PORT, NON_GCP_PRIVATE_IP_PORT, INTERNET_IP_PORT, INTERNET_FQDN_PORT, SERVERLESS, PRIVATE_SERVICE_CONNECT.
 	// +kubebuilder:validation:Optional
 	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
 

@@ -32,7 +32,14 @@ spec:
     addonsConfig:
     - gkeBackupAgentConfig:
       - enabled: true
+    deletionProtection: "true"
     initialNodeCount: 1
     location: us-central1
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    subnetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     workloadIdentityConfig:
     - workloadPool: my-project-name.svc.id.goog

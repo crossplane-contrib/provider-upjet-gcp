@@ -21,9 +21,10 @@ package v1beta1
 import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	resource "github.com/crossplane/upjet/pkg/resource"
 	errors "github.com/pkg/errors"
+
+	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Group.
@@ -159,6 +160,29 @@ func (mg *UptimeCheckConfig) ResolveReferences(ctx context.Context, c client.Rea
 		mg.Spec.ForProvider.ResourceGroup[i3].GroupIDRef = rsp.ResolvedReference
 
 	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.SyntheticMonitor); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.SyntheticMonitor[i3].CloudFunctionV2); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("cloudfunctions2.gcp.upbound.io", "v1beta1", "Function", "FunctionList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].Name),
+					Extract:      resource.ExtractResourceID(),
+					Reference:    mg.Spec.ForProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].NameRef,
+					Selector:     mg.Spec.ForProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].NameSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].Name")
+			}
+			mg.Spec.ForProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].Name = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].NameRef = rsp.ResolvedReference
+
+		}
+	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.ResourceGroup); i3++ {
 		{
 			m, l, err = apisresolver.GetManagedResource("monitoring.gcp.upbound.io", "v1beta1", "Group", "GroupList")
@@ -179,6 +203,29 @@ func (mg *UptimeCheckConfig) ResolveReferences(ctx context.Context, c client.Rea
 		mg.Spec.InitProvider.ResourceGroup[i3].GroupID = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.InitProvider.ResourceGroup[i3].GroupIDRef = rsp.ResolvedReference
 
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.SyntheticMonitor); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.SyntheticMonitor[i3].CloudFunctionV2); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("cloudfunctions2.gcp.upbound.io", "v1beta1", "Function", "FunctionList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].Name),
+					Extract:      resource.ExtractResourceID(),
+					Reference:    mg.Spec.InitProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].NameRef,
+					Selector:     mg.Spec.InitProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].NameSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].Name")
+			}
+			mg.Spec.InitProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].Name = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.SyntheticMonitor[i3].CloudFunctionV2[i4].NameRef = rsp.ResolvedReference
+
+		}
 	}
 
 	return nil

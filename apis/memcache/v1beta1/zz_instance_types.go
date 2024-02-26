@@ -64,7 +64,7 @@ type InstanceInitParameters struct {
 	// Currently the latest supported major version is MEMCACHE_1_5. The minor version will be automatically
 	// determined by our system based on the latest supported minor version.
 	// Default value is MEMCACHE_1_5.
-	// Possible values are: MEMCACHE_1_5.
+	// Possible values are: MEMCACHE_1_5, MEMCACHE_1_6_15.
 	MemcacheVersion *string `json:"memcacheVersion,omitempty" tf:"memcache_version,omitempty"`
 
 	// The resource name of the instance.
@@ -83,6 +83,11 @@ type InstanceInitParameters struct {
 
 	// The region of the Memcache instance. If it is not provided, the provider region is used.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// Contains the name of allocated IP address ranges associated with
+	// the private service access connection for example, "test-default"
+	// associated with IP range 10.0.0.0/29.
+	ReservedIPRangeID []*string `json:"reservedIpRangeId,omitempty" tf:"reserved_ip_range_id,omitempty"`
 
 	// Zones where memcache nodes should be provisioned.  If not
 	// provided, all zones will be used.
@@ -104,6 +109,9 @@ type InstanceObservation struct {
 
 	// A user-visible name for the instance.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/instances/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -135,7 +143,7 @@ type InstanceObservation struct {
 	// Currently the latest supported major version is MEMCACHE_1_5. The minor version will be automatically
 	// determined by our system based on the latest supported minor version.
 	// Default value is MEMCACHE_1_5.
-	// Possible values are: MEMCACHE_1_5.
+	// Possible values are: MEMCACHE_1_5, MEMCACHE_1_6_15.
 	MemcacheVersion *string `json:"memcacheVersion,omitempty" tf:"memcache_version,omitempty"`
 
 	// The resource name of the instance.
@@ -154,6 +162,16 @@ type InstanceObservation struct {
 
 	// The region of the Memcache instance. If it is not provided, the provider region is used.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// Contains the name of allocated IP address ranges associated with
+	// the private service access connection for example, "test-default"
+	// associated with IP range 10.0.0.0/29.
+	ReservedIPRangeID []*string `json:"reservedIpRangeId,omitempty" tf:"reserved_ip_range_id,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// Zones where memcache nodes should be provisioned.  If not
 	// provided, all zones will be used.
@@ -201,7 +219,7 @@ type InstanceParameters struct {
 	// Currently the latest supported major version is MEMCACHE_1_5. The minor version will be automatically
 	// determined by our system based on the latest supported minor version.
 	// Default value is MEMCACHE_1_5.
-	// Possible values are: MEMCACHE_1_5.
+	// Possible values are: MEMCACHE_1_5, MEMCACHE_1_6_15.
 	// +kubebuilder:validation:Optional
 	MemcacheVersion *string `json:"memcacheVersion,omitempty" tf:"memcache_version,omitempty"`
 
@@ -226,6 +244,12 @@ type InstanceParameters struct {
 	// The region of the Memcache instance. If it is not provided, the provider region is used.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// Contains the name of allocated IP address ranges associated with
+	// the private service access connection for example, "test-default"
+	// associated with IP range 10.0.0.0/29.
+	// +kubebuilder:validation:Optional
+	ReservedIPRangeID []*string `json:"reservedIpRangeId,omitempty" tf:"reserved_ip_range_id,omitempty"`
 
 	// Zones where memcache nodes should be provisioned.  If not
 	// provided, all zones will be used.

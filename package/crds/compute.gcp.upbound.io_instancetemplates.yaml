@@ -105,8 +105,9 @@ spec:
                       properties:
                         enableConfidentialCompute:
                           description: Defines whether the instance should have confidential
-                            compute enabled. on_host_maintenance has to be set to
-                            TERMINATE or this will fail to create the VM.
+                            compute enabled with AMD SEV. on_host_maintenance has
+                            to be set to TERMINATE or this will fail to create the
+                            VM.
                           type: boolean
                       type: object
                     type: array
@@ -183,6 +184,21 @@ spec:
                             or READ_ONLY. If you are attaching or creating a boot disk, this must
                             read-write mode.
                           type: string
+                        provisionedIops:
+                          description: |-
+                            Indicates how many IOPS to provision for the disk. This
+                            sets the number of I/O operations per second that the disk can handle.
+                            Values must be between 10,000 and 120,000. For more details, see the
+                            Extreme persistent disk documentation.
+                          type: number
+                        resourceManagerTags:
+                          additionalProperties:
+                            type: string
+                          description: A set of key/value resource manager tag pairs
+                            to bind to this disk. Keys must be in the format tagKeys/{tag_key_id},
+                            and values are in the format tagValues/456.
+                          type: object
+                          x-kubernetes-map-type: granular
                         resourcePolicies:
                           description: '- A list (short name or id) of resource policies
                             to attach to this disk for automatic snapshot creations.
@@ -441,6 +457,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        internalIpv6PrefixLength:
+                          type: number
                         ipv6AccessConfig:
                           description: |-
                             An array of IPv6 access configurations for this interface.
@@ -455,6 +473,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        ipv6Address:
+                          type: string
                         network:
                           description: |-
                             The name or self_link of the network to attach this interface to.
@@ -701,6 +721,14 @@ spec:
                           type: string
                       type: object
                     type: array
+                  resourceManagerTags:
+                    additionalProperties:
+                      type: string
+                    description: A set of key/value resource manager tag pairs to
+                      bind to the instances. Keys must be in the format tagKeys/{tag_key_id},
+                      and values are in the format tagValues/456.
+                    type: object
+                    x-kubernetes-map-type: granular
                   resourcePolicies:
                     description: '- A list of self_links of resource policies to attach
                       to the instance. Modifying this list will cause the instance
@@ -791,7 +819,7 @@ spec:
                         provisioningModel:
                           description: |-
                             Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
-                            preemptible should be true and auto_restart should be
+                            preemptible should be true and automatic_restart should be
                             false. For more info about
                             SPOT, read here
                           type: string
@@ -970,8 +998,9 @@ spec:
                       properties:
                         enableConfidentialCompute:
                           description: Defines whether the instance should have confidential
-                            compute enabled. on_host_maintenance has to be set to
-                            TERMINATE or this will fail to create the VM.
+                            compute enabled with AMD SEV. on_host_maintenance has
+                            to be set to TERMINATE or this will fail to create the
+                            VM.
                           type: boolean
                       type: object
                     type: array
@@ -1048,6 +1077,21 @@ spec:
                             or READ_ONLY. If you are attaching or creating a boot disk, this must
                             read-write mode.
                           type: string
+                        provisionedIops:
+                          description: |-
+                            Indicates how many IOPS to provision for the disk. This
+                            sets the number of I/O operations per second that the disk can handle.
+                            Values must be between 10,000 and 120,000. For more details, see the
+                            Extreme persistent disk documentation.
+                          type: number
+                        resourceManagerTags:
+                          additionalProperties:
+                            type: string
+                          description: A set of key/value resource manager tag pairs
+                            to bind to this disk. Keys must be in the format tagKeys/{tag_key_id},
+                            and values are in the format tagValues/456.
+                          type: object
+                          x-kubernetes-map-type: granular
                         resourcePolicies:
                           description: '- A list (short name or id) of resource policies
                             to attach to this disk for automatic snapshot creations.
@@ -1306,6 +1350,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        internalIpv6PrefixLength:
+                          type: number
                         ipv6AccessConfig:
                           description: |-
                             An array of IPv6 access configurations for this interface.
@@ -1320,6 +1366,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        ipv6Address:
+                          type: string
                         network:
                           description: |-
                             The name or self_link of the network to attach this interface to.
@@ -1566,6 +1614,14 @@ spec:
                           type: string
                       type: object
                     type: array
+                  resourceManagerTags:
+                    additionalProperties:
+                      type: string
+                    description: A set of key/value resource manager tag pairs to
+                      bind to the instances. Keys must be in the format tagKeys/{tag_key_id},
+                      and values are in the format tagValues/456.
+                    type: object
+                    x-kubernetes-map-type: granular
                   resourcePolicies:
                     description: '- A list of self_links of resource policies to attach
                       to the instance. Modifying this list will cause the instance
@@ -1656,7 +1712,7 @@ spec:
                         provisioningModel:
                           description: |-
                             Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
-                            preemptible should be true and auto_restart should be
+                            preemptible should be true and automatic_restart should be
                             false. For more info about
                             SPOT, read here
                           type: string
@@ -2003,8 +2059,9 @@ spec:
                       properties:
                         enableConfidentialCompute:
                           description: Defines whether the instance should have confidential
-                            compute enabled. on_host_maintenance has to be set to
-                            TERMINATE or this will fail to create the VM.
+                            compute enabled with AMD SEV. on_host_maintenance has
+                            to be set to TERMINATE or this will fail to create the
+                            VM.
                           type: boolean
                       type: object
                     type: array
@@ -2081,6 +2138,21 @@ spec:
                             or READ_ONLY. If you are attaching or creating a boot disk, this must
                             read-write mode.
                           type: string
+                        provisionedIops:
+                          description: |-
+                            Indicates how many IOPS to provision for the disk. This
+                            sets the number of I/O operations per second that the disk can handle.
+                            Values must be between 10,000 and 120,000. For more details, see the
+                            Extreme persistent disk documentation.
+                          type: number
+                        resourceManagerTags:
+                          additionalProperties:
+                            type: string
+                          description: A set of key/value resource manager tag pairs
+                            to bind to this disk. Keys must be in the format tagKeys/{tag_key_id},
+                            and values are in the format tagValues/456.
+                          type: object
+                          x-kubernetes-map-type: granular
                         resourcePolicies:
                           description: '- A list (short name or id) of resource policies
                             to attach to this disk for automatic snapshot creations.
@@ -2156,6 +2228,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   guestAccelerator:
                     description: List of the type and count of accelerator cards attached
                       to the instance. Structure documented below.
@@ -2272,6 +2349,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        internalIpv6PrefixLength:
+                          type: number
                         ipv6AccessConfig:
                           description: |-
                             An array of IPv6 access configurations for this interface.
@@ -2297,6 +2376,8 @@ spec:
                             type: object
                           type: array
                         ipv6AccessType:
+                          type: string
+                        ipv6Address:
                           type: string
                         name:
                           description: The name of the instance template.
@@ -2399,6 +2480,14 @@ spec:
                           type: string
                       type: object
                     type: array
+                  resourceManagerTags:
+                    additionalProperties:
+                      type: string
+                    description: A set of key/value resource manager tag pairs to
+                      bind to the instances. Keys must be in the format tagKeys/{tag_key_id},
+                      and values are in the format tagValues/456.
+                    type: object
+                    x-kubernetes-map-type: granular
                   resourcePolicies:
                     description: '- A list of self_links of resource policies to attach
                       to the instance. Modifying this list will cause the instance
@@ -2489,7 +2578,7 @@ spec:
                         provisioningModel:
                           description: |-
                             Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
-                            preemptible should be true and auto_restart should be
+                            preemptible should be true and automatic_restart should be
                             false. For more info about
                             SPOT, read here
                           type: string
@@ -2557,6 +2646,13 @@ spec:
                   tagsFingerprint:
                     description: The unique fingerprint of the tags.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               conditions:
                 description: Conditions of the resource.

@@ -277,3 +277,53 @@ func (mg *ProjectBucketConfig) ResolveReferences(ctx context.Context, c client.R
 
 	return nil
 }
+
+// ResolveReferences of this ProjectSink.
+func (mg *ProjectSink) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CustomWriterIdentity),
+			Extract:      resource.ExtractParamPath("email", true),
+			Reference:    mg.Spec.ForProvider.CustomWriterIdentityRef,
+			Selector:     mg.Spec.ForProvider.CustomWriterIdentitySelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.CustomWriterIdentity")
+	}
+	mg.Spec.ForProvider.CustomWriterIdentity = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.CustomWriterIdentityRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CustomWriterIdentity),
+			Extract:      resource.ExtractParamPath("email", true),
+			Reference:    mg.Spec.InitProvider.CustomWriterIdentityRef,
+			Selector:     mg.Spec.InitProvider.CustomWriterIdentitySelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CustomWriterIdentity")
+	}
+	mg.Spec.InitProvider.CustomWriterIdentity = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CustomWriterIdentityRef = rsp.ResolvedReference
+
+	return nil
+}

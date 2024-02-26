@@ -128,6 +128,9 @@ type InstanceInitParameters struct {
 	// Possible values are: DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
 	DataDiskType *string `json:"dataDiskType,omitempty" tf:"data_disk_type,omitempty"`
 
+	// Desired state of the Notebook Instance. Set this field to ACTIVE to start the Instance, and STOPPED to stop the Instance.
+	DesiredState *string `json:"desiredState,omitempty" tf:"desired_state,omitempty"`
+
 	// Disk encryption method used on the boot and data disks, defaults to GMEK.
 	// Possible values are: DISK_ENCRYPTION_UNSPECIFIED, GMEK, CMEK.
 	DiskEncryption *string `json:"diskEncryption,omitempty" tf:"disk_encryption,omitempty"`
@@ -257,9 +260,16 @@ type InstanceObservation struct {
 	// Possible values are: DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
 	DataDiskType *string `json:"dataDiskType,omitempty" tf:"data_disk_type,omitempty"`
 
+	// Desired state of the Notebook Instance. Set this field to ACTIVE to start the Instance, and STOPPED to stop the Instance.
+	DesiredState *string `json:"desiredState,omitempty" tf:"desired_state,omitempty"`
+
 	// Disk encryption method used on the boot and data disks, defaults to GMEK.
 	// Possible values are: DISK_ENCRYPTION_UNSPECIFIED, GMEK, CMEK.
 	DiskEncryption *string `json:"diskEncryption,omitempty" tf:"disk_encryption,omitempty"`
+
+	// for all of the labels present on the resource.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/instances/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -356,6 +366,11 @@ type InstanceObservation struct {
 	// The Compute Engine tags to add to instance.
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
 	// Instance update time.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
 
@@ -405,6 +420,10 @@ type InstanceParameters struct {
 	// Possible values are: DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
 	// +kubebuilder:validation:Optional
 	DataDiskType *string `json:"dataDiskType,omitempty" tf:"data_disk_type,omitempty"`
+
+	// Desired state of the Notebook Instance. Set this field to ACTIVE to start the Instance, and STOPPED to stop the Instance.
+	// +kubebuilder:validation:Optional
+	DesiredState *string `json:"desiredState,omitempty" tf:"desired_state,omitempty"`
 
 	// Disk encryption method used on the boot and data disks, defaults to GMEK.
 	// Possible values are: DISK_ENCRYPTION_UNSPECIFIED, GMEK, CMEK.

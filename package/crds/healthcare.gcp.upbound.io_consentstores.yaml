@@ -494,6 +494,12 @@ spec:
                       Default time to live for consents in this store. Must be at least 24 hours. Updating this field will not affect the expiration time of existing consents.
                       A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   enableConsentCreateOnUpdate:
                     description: If true, [consents.patch] [google.cloud.healthcare.v1.consent.UpdateConsent]
                       creates the consent if it does not already exist.
@@ -520,6 +526,14 @@ spec:
                       The name of this ConsentStore, for example:
                       "consent1"
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               conditions:
                 description: Conditions of the resource.

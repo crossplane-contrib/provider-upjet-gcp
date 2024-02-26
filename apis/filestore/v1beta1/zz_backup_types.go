@@ -73,6 +73,10 @@ type BackupObservation struct {
 	// Amount of bytes that will be downloaded if the backup is restored.
 	DownloadBytes *string `json:"downloadBytes,omitempty" tf:"download_bytes,omitempty"`
 
+	// for all of the labels present on the resource.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/backups/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -104,6 +108,11 @@ type BackupObservation struct {
 
 	// The size of the storage used by the backup. As backups share storage, this number is expected to change with backup creation/deletion.
 	StorageBytes *string `json:"storageBytes,omitempty" tf:"storage_bytes,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type BackupParameters struct {

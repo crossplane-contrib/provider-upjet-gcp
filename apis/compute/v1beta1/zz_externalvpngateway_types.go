@@ -39,6 +39,8 @@ type ExternalVPNGatewayInitParameters struct {
 	Interface []InterfaceInitParameters `json:"interface,omitempty" tf:"interface,omitempty"`
 
 	// Labels for the external VPN gateway resource.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -56,6 +58,9 @@ type ExternalVPNGatewayObservation struct {
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/global/externalVpnGateways/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -68,6 +73,8 @@ type ExternalVPNGatewayObservation struct {
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
 
 	// Labels for the external VPN gateway resource.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -81,6 +88,11 @@ type ExternalVPNGatewayObservation struct {
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type ExternalVPNGatewayParameters struct {
@@ -95,6 +107,8 @@ type ExternalVPNGatewayParameters struct {
 	Interface []InterfaceParameters `json:"interface,omitempty" tf:"interface,omitempty"`
 
 	// Labels for the external VPN gateway resource.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`

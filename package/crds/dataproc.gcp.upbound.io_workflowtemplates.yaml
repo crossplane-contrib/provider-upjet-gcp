@@ -3128,6 +3128,11 @@ spec:
                       if the workflow was running on a (/dataproc/docs/concepts/workflows/using-workflows#configuring_or_selecting_a_cluster),
                       the cluster is deleted.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/workflowTemplates/{{name}}
                     type: string
@@ -4679,6 +4684,11 @@ spec:
                   project:
                     description: The project for the resource
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   updateTime:
                     description: Output only. The time template was last updated.
                     type: string

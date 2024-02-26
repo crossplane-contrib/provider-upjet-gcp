@@ -205,14 +205,32 @@ type ClusterEncryptionInfoParameters struct {
 
 type ClusterInitParameters struct {
 
+	// Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128
+	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +mapType=granular
+	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
+
 	// The automated backup policy for this cluster. AutomatedBackupPolicy is disabled by default.
 	// Structure is documented below.
 	AutomatedBackupPolicy []AutomatedBackupPolicyInitParameters `json:"automatedBackupPolicy,omitempty" tf:"automated_backup_policy,omitempty"`
+
+	// The type of cluster. If not set, defaults to PRIMARY.
+	// Default value is PRIMARY.
+	// Possible values are: PRIMARY, SECONDARY.
+	ClusterType *string `json:"clusterType,omitempty" tf:"cluster_type,omitempty"`
 
 	// The continuous backup config for this cluster.
 	// If no policy is provided then the default policy will be used. The default policy takes one backup a day and retains backups for 14 days.
 	// Structure is documented below.
 	ContinuousBackupConfig []ContinuousBackupConfigInitParameters `json:"continuousBackupConfig,omitempty" tf:"continuous_backup_config,omitempty"`
+
+	// The database engine major version. This is an optional field and it's populated at the Cluster creation time. This field cannot be changed after cluster creation.
+	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
+
+	// Policy to determine if the cluster should be deleted forcefully.
+	// Deleting a cluster forcefully, deletes the cluster and all its associated instances within the cluster.
+	// Deleting a Secondary cluster with a secondary instance REQUIRES setting deletion_policy = "FORCE" otherwise an error is returned. This is needed as there is no support to delete just the secondary instance, and the only way to delete secondary instance is to delete the associated secondary cluster forcefully which also deletes the secondary instance.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// User-settable and human-readable display name for the Cluster.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -221,11 +239,16 @@ type ClusterInitParameters struct {
 	// Structure is documented below.
 	EncryptionConfig []ClusterEncryptionConfigInitParameters `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
+	// For Resource freshness validation (https://google.aip.dev/154)
+	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
+
 	// Initial user to setup during cluster creation.
 	// Structure is documented below.
 	InitialUser []InitialUserInitParameters `json:"initialUser,omitempty" tf:"initial_user,omitempty"`
 
 	// User-defined labels for the alloydb cluster.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -234,6 +257,10 @@ type ClusterInitParameters struct {
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Metadata related to network configuration.
+	// Structure is documented below.
+	NetworkConfig []NetworkConfigInitParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
@@ -246,9 +273,26 @@ type ClusterInitParameters struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', both can't be set together.
+	// Structure is documented below.
+	RestoreBackupSource []RestoreBackupSourceInitParameters `json:"restoreBackupSource,omitempty" tf:"restore_backup_source,omitempty"`
+
+	// The source when restoring via point in time recovery (PITR). Conflicts with 'restore_backup_source', both can't be set together.
+	// Structure is documented below.
+	RestoreContinuousBackupSource []RestoreContinuousBackupSourceInitParameters `json:"restoreContinuousBackupSource,omitempty" tf:"restore_continuous_backup_source,omitempty"`
+
+	// Configuration of the secondary cluster for Cross Region Replication. This should be set if and only if the cluster is of type SECONDARY.
+	// Structure is documented below.
+	SecondaryConfig []SecondaryConfigInitParameters `json:"secondaryConfig,omitempty" tf:"secondary_config,omitempty"`
 }
 
 type ClusterObservation struct {
+
+	// Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128
+	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +mapType=granular
+	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// The automated backup policy for this cluster. AutomatedBackupPolicy is disabled by default.
 	// Structure is documented below.
@@ -257,6 +301,11 @@ type ClusterObservation struct {
 	// Cluster created from backup.
 	// Structure is documented below.
 	BackupSource []BackupSourceObservation `json:"backupSource,omitempty" tf:"backup_source,omitempty"`
+
+	// The type of cluster. If not set, defaults to PRIMARY.
+	// Default value is PRIMARY.
+	// Possible values are: PRIMARY, SECONDARY.
+	ClusterType *string `json:"clusterType,omitempty" tf:"cluster_type,omitempty"`
 
 	// The continuous backup config for this cluster.
 	// If no policy is provided then the default policy will be used. The default policy takes one backup a day and retains backups for 14 days.
@@ -267,11 +316,23 @@ type ClusterObservation struct {
 	// Structure is documented below.
 	ContinuousBackupInfo []ContinuousBackupInfoObservation `json:"continuousBackupInfo,omitempty" tf:"continuous_backup_info,omitempty"`
 
-	// The database engine major version. This is an output-only field and it's populated at the Cluster creation time. This field cannot be changed after cluster creation.
+	// The database engine major version. This is an optional field and it's populated at the Cluster creation time. This field cannot be changed after cluster creation.
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
+
+	// Policy to determine if the cluster should be deleted forcefully.
+	// Deleting a cluster forcefully, deletes the cluster and all its associated instances within the cluster.
+	// Deleting a Secondary cluster with a secondary instance REQUIRES setting deletion_policy = "FORCE" otherwise an error is returned. This is needed as there is no support to delete just the secondary instance, and the only way to delete secondary instance is to delete the associated secondary cluster forcefully which also deletes the secondary instance.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// User-settable and human-readable display name for the Cluster.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// for all of the annotations present on the resource.
+	// +mapType=granular
+	EffectiveAnnotations map[string]*string `json:"effectiveAnnotations,omitempty" tf:"effective_annotations,omitempty"`
+
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
 	// EncryptionConfig describes the encryption config of a cluster or a backup that is encrypted with a CMEK (customer-managed encryption key).
 	// Structure is documented below.
@@ -281,6 +342,9 @@ type ClusterObservation struct {
 	// Structure is documented below.
 	EncryptionInfo []ClusterEncryptionInfoObservation `json:"encryptionInfo,omitempty" tf:"encryption_info,omitempty"`
 
+	// For Resource freshness validation (https://google.aip.dev/154)
+	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/clusters/{{cluster_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -289,6 +353,8 @@ type ClusterObservation struct {
 	InitialUser []InitialUserObservation `json:"initialUser,omitempty" tf:"initial_user,omitempty"`
 
 	// User-defined labels for the alloydb cluster.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -306,9 +372,38 @@ type ClusterObservation struct {
 	// "projects/{projectNumber}/global/networks/{network_id}".
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// Metadata related to network configuration.
+	// Structure is documented below.
+	NetworkConfig []NetworkConfigObservation `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Output only. Reconciling (https://google.aip.dev/128#reconciliation).
+	// Set to true if the current state of Cluster does not match the user's intended state, and the service is actively updating the resource to reconcile them.
+	// This can happen due to user-triggered updates or system actions like failover or maintenance.
+	Reconciling *bool `json:"reconciling,omitempty" tf:"reconciling,omitempty"`
+
+	// The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', both can't be set together.
+	// Structure is documented below.
+	RestoreBackupSource []RestoreBackupSourceObservation `json:"restoreBackupSource,omitempty" tf:"restore_backup_source,omitempty"`
+
+	// The source when restoring via point in time recovery (PITR). Conflicts with 'restore_backup_source', both can't be set together.
+	// Structure is documented below.
+	RestoreContinuousBackupSource []RestoreContinuousBackupSourceObservation `json:"restoreContinuousBackupSource,omitempty" tf:"restore_continuous_backup_source,omitempty"`
+
+	// Configuration of the secondary cluster for Cross Region Replication. This should be set if and only if the cluster is of type SECONDARY.
+	// Structure is documented below.
+	SecondaryConfig []SecondaryConfigObservation `json:"secondaryConfig,omitempty" tf:"secondary_config,omitempty"`
+
+	// Output only. The current serving state of the cluster.
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// The system-generated UID of the resource.
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
@@ -316,16 +411,38 @@ type ClusterObservation struct {
 
 type ClusterParameters struct {
 
+	// Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128
+	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
+
 	// The automated backup policy for this cluster. AutomatedBackupPolicy is disabled by default.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AutomatedBackupPolicy []AutomatedBackupPolicyParameters `json:"automatedBackupPolicy,omitempty" tf:"automated_backup_policy,omitempty"`
+
+	// The type of cluster. If not set, defaults to PRIMARY.
+	// Default value is PRIMARY.
+	// Possible values are: PRIMARY, SECONDARY.
+	// +kubebuilder:validation:Optional
+	ClusterType *string `json:"clusterType,omitempty" tf:"cluster_type,omitempty"`
 
 	// The continuous backup config for this cluster.
 	// If no policy is provided then the default policy will be used. The default policy takes one backup a day and retains backups for 14 days.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ContinuousBackupConfig []ContinuousBackupConfigParameters `json:"continuousBackupConfig,omitempty" tf:"continuous_backup_config,omitempty"`
+
+	// The database engine major version. This is an optional field and it's populated at the Cluster creation time. This field cannot be changed after cluster creation.
+	// +kubebuilder:validation:Optional
+	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
+
+	// Policy to determine if the cluster should be deleted forcefully.
+	// Deleting a cluster forcefully, deletes the cluster and all its associated instances within the cluster.
+	// Deleting a Secondary cluster with a secondary instance REQUIRES setting deletion_policy = "FORCE" otherwise an error is returned. This is needed as there is no support to delete just the secondary instance, and the only way to delete secondary instance is to delete the associated secondary cluster forcefully which also deletes the secondary instance.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// User-settable and human-readable display name for the Cluster.
 	// +kubebuilder:validation:Optional
@@ -336,12 +453,18 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	EncryptionConfig []ClusterEncryptionConfigParameters `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
+	// For Resource freshness validation (https://google.aip.dev/154)
+	// +kubebuilder:validation:Optional
+	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
+
 	// Initial user to setup during cluster creation.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	InitialUser []InitialUserParameters `json:"initialUser,omitempty" tf:"initial_user,omitempty"`
 
 	// User-defined labels for the alloydb cluster.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
@@ -357,6 +480,11 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// Metadata related to network configuration.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NetworkConfig []NetworkConfigParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
+
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
@@ -369,6 +497,21 @@ type ClusterParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', both can't be set together.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RestoreBackupSource []RestoreBackupSourceParameters `json:"restoreBackupSource,omitempty" tf:"restore_backup_source,omitempty"`
+
+	// The source when restoring via point in time recovery (PITR). Conflicts with 'restore_backup_source', both can't be set together.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RestoreContinuousBackupSource []RestoreContinuousBackupSourceParameters `json:"restoreContinuousBackupSource,omitempty" tf:"restore_continuous_backup_source,omitempty"`
+
+	// Configuration of the secondary cluster for Cross Region Replication. This should be set if and only if the cluster is of type SECONDARY.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SecondaryConfig []SecondaryConfigParameters `json:"secondaryConfig,omitempty" tf:"secondary_config,omitempty"`
 }
 
 type ContinuousBackupConfigEncryptionConfigInitParameters struct {
@@ -520,6 +663,41 @@ type MigrationSourceObservation struct {
 type MigrationSourceParameters struct {
 }
 
+type NetworkConfigInitParameters struct {
+
+	// The name of the allocated IP range for the private IP AlloyDB cluster. For example: "google-managed-services-default".
+	// If set, the instance IPs for this cluster will be created in the allocated range.
+	AllocatedIPRange *string `json:"allocatedIpRange,omitempty" tf:"allocated_ip_range,omitempty"`
+
+	// The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster.
+	// It is specified in the form: "projects/{projectNumber}/global/networks/{network_id}".
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+}
+
+type NetworkConfigObservation struct {
+
+	// The name of the allocated IP range for the private IP AlloyDB cluster. For example: "google-managed-services-default".
+	// If set, the instance IPs for this cluster will be created in the allocated range.
+	AllocatedIPRange *string `json:"allocatedIpRange,omitempty" tf:"allocated_ip_range,omitempty"`
+
+	// The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster.
+	// It is specified in the form: "projects/{projectNumber}/global/networks/{network_id}".
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+}
+
+type NetworkConfigParameters struct {
+
+	// The name of the allocated IP range for the private IP AlloyDB cluster. For example: "google-managed-services-default".
+	// If set, the instance IPs for this cluster will be created in the allocated range.
+	// +kubebuilder:validation:Optional
+	AllocatedIPRange *string `json:"allocatedIpRange,omitempty" tf:"allocated_ip_range,omitempty"`
+
+	// The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster.
+	// It is specified in the form: "projects/{projectNumber}/global/networks/{network_id}".
+	// +kubebuilder:validation:Optional
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+}
+
 type QuantityBasedRetentionInitParameters struct {
 
 	// The number of backups to retain.
@@ -537,6 +715,136 @@ type QuantityBasedRetentionParameters struct {
 	// The number of backups to retain.
 	// +kubebuilder:validation:Optional
 	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+}
+
+type RestoreBackupSourceInitParameters struct {
+
+	// The name of the backup that this cluster is restored from.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/alloydb/v1beta1.Backup
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	BackupName *string `json:"backupName,omitempty" tf:"backup_name,omitempty"`
+
+	// Reference to a Backup in alloydb to populate backupName.
+	// +kubebuilder:validation:Optional
+	BackupNameRef *v1.Reference `json:"backupNameRef,omitempty" tf:"-"`
+
+	// Selector for a Backup in alloydb to populate backupName.
+	// +kubebuilder:validation:Optional
+	BackupNameSelector *v1.Selector `json:"backupNameSelector,omitempty" tf:"-"`
+}
+
+type RestoreBackupSourceObservation struct {
+
+	// The name of the backup that this cluster is restored from.
+	BackupName *string `json:"backupName,omitempty" tf:"backup_name,omitempty"`
+}
+
+type RestoreBackupSourceParameters struct {
+
+	// The name of the backup that this cluster is restored from.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/alloydb/v1beta1.Backup
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +kubebuilder:validation:Optional
+	BackupName *string `json:"backupName,omitempty" tf:"backup_name,omitempty"`
+
+	// Reference to a Backup in alloydb to populate backupName.
+	// +kubebuilder:validation:Optional
+	BackupNameRef *v1.Reference `json:"backupNameRef,omitempty" tf:"-"`
+
+	// Selector for a Backup in alloydb to populate backupName.
+	// +kubebuilder:validation:Optional
+	BackupNameSelector *v1.Selector `json:"backupNameSelector,omitempty" tf:"-"`
+}
+
+type RestoreContinuousBackupSourceInitParameters struct {
+
+	// The name of the source cluster that this cluster is restored from.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/alloydb/v1beta1.Cluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
+
+	// Reference to a Cluster in alloydb to populate cluster.
+	// +kubebuilder:validation:Optional
+	ClusterRef *v1.Reference `json:"clusterRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in alloydb to populate cluster.
+	// +kubebuilder:validation:Optional
+	ClusterSelector *v1.Selector `json:"clusterSelector,omitempty" tf:"-"`
+
+	// The point in time that this cluster is restored to, in RFC 3339 format.
+	PointInTime *string `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
+}
+
+type RestoreContinuousBackupSourceObservation struct {
+
+	// The name of the source cluster that this cluster is restored from.
+	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
+
+	// The point in time that this cluster is restored to, in RFC 3339 format.
+	PointInTime *string `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
+}
+
+type RestoreContinuousBackupSourceParameters struct {
+
+	// The name of the source cluster that this cluster is restored from.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/alloydb/v1beta1.Cluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +kubebuilder:validation:Optional
+	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
+
+	// Reference to a Cluster in alloydb to populate cluster.
+	// +kubebuilder:validation:Optional
+	ClusterRef *v1.Reference `json:"clusterRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in alloydb to populate cluster.
+	// +kubebuilder:validation:Optional
+	ClusterSelector *v1.Selector `json:"clusterSelector,omitempty" tf:"-"`
+
+	// The point in time that this cluster is restored to, in RFC 3339 format.
+	// +kubebuilder:validation:Optional
+	PointInTime *string `json:"pointInTime" tf:"point_in_time,omitempty"`
+}
+
+type SecondaryConfigInitParameters struct {
+
+	// Name of the primary cluster must be in the format
+	// 'projects/{project}/locations/{location}/clusters/{cluster_id}'
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/alloydb/v1beta1.Cluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	PrimaryClusterName *string `json:"primaryClusterName,omitempty" tf:"primary_cluster_name,omitempty"`
+
+	// Reference to a Cluster in alloydb to populate primaryClusterName.
+	// +kubebuilder:validation:Optional
+	PrimaryClusterNameRef *v1.Reference `json:"primaryClusterNameRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in alloydb to populate primaryClusterName.
+	// +kubebuilder:validation:Optional
+	PrimaryClusterNameSelector *v1.Selector `json:"primaryClusterNameSelector,omitempty" tf:"-"`
+}
+
+type SecondaryConfigObservation struct {
+
+	// Name of the primary cluster must be in the format
+	// 'projects/{project}/locations/{location}/clusters/{cluster_id}'
+	PrimaryClusterName *string `json:"primaryClusterName,omitempty" tf:"primary_cluster_name,omitempty"`
+}
+
+type SecondaryConfigParameters struct {
+
+	// Name of the primary cluster must be in the format
+	// 'projects/{project}/locations/{location}/clusters/{cluster_id}'
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/alloydb/v1beta1.Cluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +kubebuilder:validation:Optional
+	PrimaryClusterName *string `json:"primaryClusterName,omitempty" tf:"primary_cluster_name,omitempty"`
+
+	// Reference to a Cluster in alloydb to populate primaryClusterName.
+	// +kubebuilder:validation:Optional
+	PrimaryClusterNameRef *v1.Reference `json:"primaryClusterNameRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in alloydb to populate primaryClusterName.
+	// +kubebuilder:validation:Optional
+	PrimaryClusterNameSelector *v1.Selector `json:"primaryClusterNameSelector,omitempty" tf:"-"`
 }
 
 type StartTimesInitParameters struct {

@@ -117,8 +117,7 @@ type FolderSinkInitParameters struct {
 	// A description of this sink. The maximum length of the description is 8000 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The destination of the sink (or, in other words, where logs are written to). Can be a
-	// Cloud Storage bucket, a PubSub topic, a BigQuery dataset or a Cloud Logging bucket. Examples:
+	// The destination of the sink (or, in other words, where logs are written to). Can be a Cloud Storage bucket, a PubSub topic, a BigQuery dataset, a Cloud Logging bucket, or a Google Cloud project. Examples:
 	Destination *string `json:"destination,omitempty" tf:"destination,omitempty"`
 
 	// If set to True, then this sink is disabled and it does not export any log entries.
@@ -145,8 +144,7 @@ type FolderSinkObservation struct {
 	// A description of this sink. The maximum length of the description is 8000 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The destination of the sink (or, in other words, where logs are written to). Can be a
-	// Cloud Storage bucket, a PubSub topic, a BigQuery dataset or a Cloud Logging bucket. Examples:
+	// The destination of the sink (or, in other words, where logs are written to). Can be a Cloud Storage bucket, a PubSub topic, a BigQuery dataset, a Cloud Logging bucket, or a Google Cloud project. Examples:
 	Destination *string `json:"destination,omitempty" tf:"destination,omitempty"`
 
 	// If set to True, then this sink is disabled and it does not export any log entries.
@@ -186,8 +184,7 @@ type FolderSinkParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The destination of the sink (or, in other words, where logs are written to). Can be a
-	// Cloud Storage bucket, a PubSub topic, a BigQuery dataset or a Cloud Logging bucket. Examples:
+	// The destination of the sink (or, in other words, where logs are written to). Can be a Cloud Storage bucket, a PubSub topic, a BigQuery dataset, a Cloud Logging bucket, or a Google Cloud project. Examples:
 	// +kubebuilder:validation:Optional
 	Destination *string `json:"destination,omitempty" tf:"destination,omitempty"`
 

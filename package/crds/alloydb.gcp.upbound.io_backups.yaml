@@ -72,6 +72,14 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  annotations:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128
+                      An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+                    type: object
+                    x-kubernetes-map-type: granular
                   clusterName:
                     description: The full resource name of the backup source cluster
                       (e.g., projects/{project}/locations/{location}/clusters/{clusterId}).
@@ -153,6 +161,10 @@ spec:
                   description:
                     description: User-provided description of the backup.
                     type: string
+                  displayName:
+                    description: User-settable and human-readable display name for
+                      the Backup.
+                    type: string
                   encryptionConfig:
                     description: |-
                       EncryptionConfig describes the encryption config of a cluster or a backup that is encrypted with a CMEK (customer-managed encryption key).
@@ -169,7 +181,9 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: User-defined labels for the alloydb backup.
+                    description: 'User-defined labels for the alloydb backup. An object
+                      containing a list of "key": value pairs. Example: { "name":
+                      "wrench", "mass": "1.3kg", "count": "3" }.'
                     type: object
                     x-kubernetes-map-type: granular
                   location:
@@ -179,6 +193,11 @@ spec:
                     description: |-
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
+                    type: string
+                  type:
+                    description: |-
+                      The backup type, which suggests the trigger for the backup.
+                      Possible values are: TYPE_UNSPECIFIED, ON_DEMAND, AUTOMATED, CONTINUOUS.
                     type: string
                 required:
                 - location
@@ -196,6 +215,14 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  annotations:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128
+                      An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+                    type: object
+                    x-kubernetes-map-type: granular
                   clusterName:
                     description: The full resource name of the backup source cluster
                       (e.g., projects/{project}/locations/{location}/clusters/{clusterId}).
@@ -277,6 +304,10 @@ spec:
                   description:
                     description: User-provided description of the backup.
                     type: string
+                  displayName:
+                    description: User-settable and human-readable display name for
+                      the Backup.
+                    type: string
                   encryptionConfig:
                     description: |-
                       EncryptionConfig describes the encryption config of a cluster or a backup that is encrypted with a CMEK (customer-managed encryption key).
@@ -293,13 +324,20 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: User-defined labels for the alloydb backup.
+                    description: 'User-defined labels for the alloydb backup. An object
+                      containing a list of "key": value pairs. Example: { "name":
+                      "wrench", "mass": "1.3kg", "count": "3" }.'
                     type: object
                     x-kubernetes-map-type: granular
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
+                    type: string
+                  type:
+                    description: |-
+                      The backup type, which suggests the trigger for the backup.
+                      Possible values are: TYPE_UNSPECIFIED, ON_DEMAND, AUTOMATED, CONTINUOUS.
                     type: string
                 type: object
               managementPolicies:
@@ -474,16 +512,51 @@ spec:
             properties:
               atProvider:
                 properties:
+                  annotations:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128
+                      An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+                    type: object
+                    x-kubernetes-map-type: granular
                   clusterName:
                     description: The full resource name of the backup source cluster
                       (e.g., projects/{project}/locations/{location}/clusters/{clusterId}).
                     type: string
+                  clusterUid:
+                    description: Output only. The system-generated UID of the cluster
+                      which was used to create this resource.
+                    type: string
                   createTime:
-                    description: Time the Backup was created in UTC.
+                    description: |-
+                      Output only. Create time stamp. A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
+                      Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
+                    type: string
+                  deleteTime:
+                    description: |-
+                      Output only. Delete time stamp. A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
+                      Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
                     type: string
                   description:
                     description: User-provided description of the backup.
                     type: string
+                  displayName:
+                    description: User-settable and human-readable display name for
+                      the Backup.
+                    type: string
+                  effectiveAnnotations:
+                    additionalProperties:
+                      type: string
+                    description: for all of the annotations present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   encryptionConfig:
                     description: |-
                       EncryptionConfig describes the encryption config of a cluster or a backup that is encrypted with a CMEK (customer-managed encryption key).
@@ -518,7 +591,31 @@ spec:
                       type: object
                     type: array
                   etag:
-                    description: A hash of the resource.
+                    description: For Resource freshness validation (https://google.aip.dev/154)
+                    type: string
+                  expiryQuantity:
+                    description: |-
+                      Output only. The QuantityBasedExpiry of the backup, specified by the backup's retention policy.
+                      Once the expiry quantity is over retention, the backup is eligible to be garbage collected.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        retentionCount:
+                          description: |-
+                            (Output)
+                            Output only. The backup's position among its backups with the same source cluster and type, by descending chronological order create time (i.e. newest first).
+                          type: number
+                        totalRetentionCount:
+                          description: |-
+                            (Output)
+                            Output only. The length of the quantity-based queue, specified by the backup's retention policy.
+                          type: number
+                      type: object
+                    type: array
+                  expiryTime:
+                    description: |-
+                      Output only. The time at which after the backup is eligible to be garbage collected.
+                      It is the duration specified by the backup's retention policy, added to the backup's createTime.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/backups/{{backup_id}}
@@ -526,7 +623,9 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: User-defined labels for the alloydb backup.
+                    description: 'User-defined labels for the alloydb backup. An object
+                      containing a list of "key": value pairs. Example: { "name":
+                      "wrench", "mass": "1.3kg", "count": "3" }.'
                     type: object
                     x-kubernetes-map-type: granular
                   location:
@@ -542,12 +641,28 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                   reconciling:
-                    description: If true, indicates that the service is actively updating
-                      the resource. This can happen due to user-triggered updates
-                      or system actions like failover or maintenance.
+                    description: |-
+                      Output only. Reconciling (https://google.aip.dev/128#reconciliation), if true, indicates that the service is actively updating the resource.
+                      This can happen due to user-triggered updates or system actions like failover or maintenance.
                     type: boolean
+                  sizeBytes:
+                    description: Output only. The size of the backup in bytes.
+                    type: string
                   state:
-                    description: The current state of the backup.
+                    description: Output only. The current state of the backup.
+                    type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  type:
+                    description: |-
+                      The backup type, which suggests the trigger for the backup.
+                      Possible values are: TYPE_UNSPECIFIED, ON_DEMAND, AUTOMATED, CONTINUOUS.
                     type: string
                   uid:
                     description: Output only. The system-generated UID of the resource.
@@ -555,7 +670,9 @@ spec:
                       retained until it is deleted.
                     type: string
                   updateTime:
-                    description: Time the Backup was updated in UTC.
+                    description: |-
+                      Output only. Update time stamp. A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
+                      Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
                     type: string
                 type: object
               conditions:

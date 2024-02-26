@@ -449,49 +449,41 @@ spec:
                                       items:
                                         properties:
                                           certSign:
-                                            description: |-
-                                              (Output)
-                                              The key may be used to sign certificates.
+                                            description: The key may be used to sign
+                                              certificates.
                                             type: boolean
                                           contentCommitment:
-                                            description: |-
-                                              (Output)
-                                              The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
+                                            description: The key may be used for cryptographic
+                                              commitments. Note that this may also
+                                              be referred to as "non-repudiation".
                                             type: boolean
                                           crlSign:
-                                            description: |-
-                                              (Output)
-                                              The key may be used sign certificate revocation lists.
+                                            description: The key may be used sign
+                                              certificate revocation lists.
                                             type: boolean
                                           dataEncipherment:
-                                            description: |-
-                                              (Output)
-                                              The key may be used to encipher data.
+                                            description: The key may be used to encipher
+                                              data.
                                             type: boolean
                                           decipherOnly:
-                                            description: |-
-                                              (Output)
-                                              The key may be used to decipher only.
+                                            description: The key may be used to decipher
+                                              only.
                                             type: boolean
                                           digitalSignature:
-                                            description: |-
-                                              (Output)
-                                              The key may be used for digital signatures.
+                                            description: The key may be used for digital
+                                              signatures.
                                             type: boolean
                                           encipherOnly:
-                                            description: |-
-                                              (Output)
-                                              The key may be used to encipher only.
+                                            description: The key may be used to encipher
+                                              only.
                                             type: boolean
                                           keyAgreement:
-                                            description: |-
-                                              (Output)
-                                              The key may be used in a key agreement protocol.
+                                            description: The key may be used in a
+                                              key agreement protocol.
                                             type: boolean
                                           keyEncipherment:
-                                            description: |-
-                                              (Output)
-                                              The key may be used to encipher other keys.
+                                            description: The key may be used to encipher
+                                              other keys.
                                             type: boolean
                                         type: object
                                       type: array
@@ -1131,49 +1123,41 @@ spec:
                                       items:
                                         properties:
                                           certSign:
-                                            description: |-
-                                              (Output)
-                                              The key may be used to sign certificates.
+                                            description: The key may be used to sign
+                                              certificates.
                                             type: boolean
                                           contentCommitment:
-                                            description: |-
-                                              (Output)
-                                              The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
+                                            description: The key may be used for cryptographic
+                                              commitments. Note that this may also
+                                              be referred to as "non-repudiation".
                                             type: boolean
                                           crlSign:
-                                            description: |-
-                                              (Output)
-                                              The key may be used sign certificate revocation lists.
+                                            description: The key may be used sign
+                                              certificate revocation lists.
                                             type: boolean
                                           dataEncipherment:
-                                            description: |-
-                                              (Output)
-                                              The key may be used to encipher data.
+                                            description: The key may be used to encipher
+                                              data.
                                             type: boolean
                                           decipherOnly:
-                                            description: |-
-                                              (Output)
-                                              The key may be used to decipher only.
+                                            description: The key may be used to decipher
+                                              only.
                                             type: boolean
                                           digitalSignature:
-                                            description: |-
-                                              (Output)
-                                              The key may be used for digital signatures.
+                                            description: The key may be used for digital
+                                              signatures.
                                             type: boolean
                                           encipherOnly:
-                                            description: |-
-                                              (Output)
-                                              The key may be used to encipher only.
+                                            description: The key may be used to encipher
+                                              only.
                                             type: boolean
                                           keyAgreement:
-                                            description: |-
-                                              (Output)
-                                              The key may be used in a key agreement protocol.
+                                            description: The key may be used in a
+                                              key agreement protocol.
                                             type: boolean
                                           keyEncipherment:
-                                            description: |-
-                                              (Output)
-                                              The key may be used to encipher other keys.
+                                            description: The key may be used to encipher
+                                              other keys.
                                             type: boolean
                                         type: object
                                       type: array
@@ -1583,151 +1567,6 @@ spec:
                                 type: string
                             type: object
                           type: array
-                        configValues:
-                          description: |-
-                            (Output, Deprecated)
-                            Describes some of the technical fields in a certificate.
-                            Structure is documented below.
-                          items:
-                            properties:
-                              keyUsage:
-                                description: |-
-                                  (Output)
-                                  Indicates the intended use for keys that correspond to a certificate.
-                                  Structure is documented below.
-                                items:
-                                  properties:
-                                    baseKeyUsage:
-                                      description: |-
-                                        Describes high-level ways in which a key may be used.
-                                        Structure is documented below.
-                                      items:
-                                        properties:
-                                          keyUsageOptions:
-                                            description: |-
-                                              (Output)
-                                              Describes high-level ways in which a key may be used.
-                                              Structure is documented below.
-                                            items:
-                                              properties:
-                                                certSign:
-                                                  description: |-
-                                                    (Output)
-                                                    The key may be used to sign certificates.
-                                                  type: boolean
-                                                contentCommitment:
-                                                  description: |-
-                                                    (Output)
-                                                    The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
-                                                  type: boolean
-                                                crlSign:
-                                                  description: |-
-                                                    (Output)
-                                                    The key may be used sign certificate revocation lists.
-                                                  type: boolean
-                                                dataEncipherment:
-                                                  description: |-
-                                                    (Output)
-                                                    The key may be used to encipher data.
-                                                  type: boolean
-                                                decipherOnly:
-                                                  description: |-
-                                                    (Output)
-                                                    The key may be used to decipher only.
-                                                  type: boolean
-                                                digitalSignature:
-                                                  description: |-
-                                                    (Output)
-                                                    The key may be used for digital signatures.
-                                                  type: boolean
-                                                encipherOnly:
-                                                  description: |-
-                                                    (Output)
-                                                    The key may be used to encipher only.
-                                                  type: boolean
-                                                keyAgreement:
-                                                  description: |-
-                                                    (Output)
-                                                    The key may be used in a key agreement protocol.
-                                                  type: boolean
-                                                keyEncipherment:
-                                                  description: |-
-                                                    (Output)
-                                                    The key may be used to encipher other keys.
-                                                  type: boolean
-                                              type: object
-                                            type: array
-                                        type: object
-                                      type: array
-                                    extendedKeyUsage:
-                                      description: |-
-                                        Describes high-level ways in which a key may be used.
-                                        Structure is documented below.
-                                      items:
-                                        properties:
-                                          clientAuth:
-                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.2.
-                                              Officially described as "TLS WWW client
-                                              authentication", though regularly used
-                                              for non-WWW TLS.
-                                            type: boolean
-                                          codeSigning:
-                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.3.
-                                              Officially described as "Signing of
-                                              downloadable executable code client
-                                              authentication".
-                                            type: boolean
-                                          emailProtection:
-                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.4.
-                                              Officially described as "Email protection".
-                                            type: boolean
-                                          ocspSigning:
-                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.9.
-                                              Officially described as "Signing OCSP
-                                              responses".
-                                            type: boolean
-                                          serverAuth:
-                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.1.
-                                              Officially described as "TLS WWW server
-                                              authentication", though regularly used
-                                              for non-WWW TLS.
-                                            type: boolean
-                                          timeStamping:
-                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.8.
-                                              Officially described as "Binding the
-                                              hash of an object to a time".
-                                            type: boolean
-                                        type: object
-                                      type: array
-                                    unknownExtendedKeyUsages:
-                                      description: |-
-                                        An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
-                                        Structure is documented below.
-                                      items:
-                                        properties:
-                                          obectId:
-                                            description: |-
-                                              (Output)
-                                              Required. Describes how some of the technical fields in a certificate should be populated.
-                                              Structure is documented below.
-                                            items:
-                                              properties:
-                                                objectIdPath:
-                                                  description: An ObjectId specifies
-                                                    an object identifier (OID). These
-                                                    provide context and describe types
-                                                    in ASN.1 messages.
-                                                  items:
-                                                    type: number
-                                                  type: array
-                                              type: object
-                                            type: array
-                                        type: object
-                                      type: array
-                                  type: object
-                                type: array
-                            type: object
-                          type: array
                         crlDistributionPoints:
                           description: |-
                             (Output)
@@ -1842,7 +1681,7 @@ spec:
                                           obectId:
                                             description: |-
                                               (Output)
-                                              Required. Describes how some of the technical fields in a certificate should be populated.
+                                              Describes how some of the technical fields in a certificate should be populated.
                                               Structure is documented below.
                                             items:
                                               properties:
@@ -1985,49 +1824,41 @@ spec:
                                       items:
                                         properties:
                                           certSign:
-                                            description: |-
-                                              (Output)
-                                              The key may be used to sign certificates.
+                                            description: The key may be used to sign
+                                              certificates.
                                             type: boolean
                                           contentCommitment:
-                                            description: |-
-                                              (Output)
-                                              The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
+                                            description: The key may be used for cryptographic
+                                              commitments. Note that this may also
+                                              be referred to as "non-repudiation".
                                             type: boolean
                                           crlSign:
-                                            description: |-
-                                              (Output)
-                                              The key may be used sign certificate revocation lists.
+                                            description: The key may be used sign
+                                              certificate revocation lists.
                                             type: boolean
                                           dataEncipherment:
-                                            description: |-
-                                              (Output)
-                                              The key may be used to encipher data.
+                                            description: The key may be used to encipher
+                                              data.
                                             type: boolean
                                           decipherOnly:
-                                            description: |-
-                                              (Output)
-                                              The key may be used to decipher only.
+                                            description: The key may be used to decipher
+                                              only.
                                             type: boolean
                                           digitalSignature:
-                                            description: |-
-                                              (Output)
-                                              The key may be used for digital signatures.
+                                            description: The key may be used for digital
+                                              signatures.
                                             type: boolean
                                           encipherOnly:
-                                            description: |-
-                                              (Output)
-                                              The key may be used to encipher only.
+                                            description: The key may be used to encipher
+                                              only.
                                             type: boolean
                                           keyAgreement:
-                                            description: |-
-                                              (Output)
-                                              The key may be used in a key agreement protocol.
+                                            description: The key may be used in a
+                                              key agreement protocol.
                                             type: boolean
                                           keyEncipherment:
-                                            description: |-
-                                              (Output)
-                                              The key may be used to encipher other keys.
+                                            description: The key may be used to encipher
+                                              other keys.
                                             type: boolean
                                         type: object
                                       type: array
@@ -2388,49 +2219,41 @@ spec:
                                       items:
                                         properties:
                                           certSign:
-                                            description: |-
-                                              (Output)
-                                              The key may be used to sign certificates.
+                                            description: The key may be used to sign
+                                              certificates.
                                             type: boolean
                                           contentCommitment:
-                                            description: |-
-                                              (Output)
-                                              The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
+                                            description: The key may be used for cryptographic
+                                              commitments. Note that this may also
+                                              be referred to as "non-repudiation".
                                             type: boolean
                                           crlSign:
-                                            description: |-
-                                              (Output)
-                                              The key may be used sign certificate revocation lists.
+                                            description: The key may be used sign
+                                              certificate revocation lists.
                                             type: boolean
                                           dataEncipherment:
-                                            description: |-
-                                              (Output)
-                                              The key may be used to encipher data.
+                                            description: The key may be used to encipher
+                                              data.
                                             type: boolean
                                           decipherOnly:
-                                            description: |-
-                                              (Output)
-                                              The key may be used to decipher only.
+                                            description: The key may be used to decipher
+                                              only.
                                             type: boolean
                                           digitalSignature:
-                                            description: |-
-                                              (Output)
-                                              The key may be used for digital signatures.
+                                            description: The key may be used for digital
+                                              signatures.
                                             type: boolean
                                           encipherOnly:
-                                            description: |-
-                                              (Output)
-                                              The key may be used to encipher only.
+                                            description: The key may be used to encipher
+                                              only.
                                             type: boolean
                                           keyAgreement:
-                                            description: |-
-                                              (Output)
-                                              The key may be used in a key agreement protocol.
+                                            description: The key may be used in a
+                                              key agreement protocol.
                                             type: boolean
                                           keyEncipherment:
-                                            description: |-
-                                              (Output)
-                                              The key may be used to encipher other keys.
+                                            description: The key may be used to encipher
+                                              other keys.
                                             type: boolean
                                         type: object
                                       type: array
@@ -2602,6 +2425,12 @@ spec:
                       The time that this resource was created on the server.
                       This is in RFC3339 text format.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/caPools/{{pool}}/certificates/{{name}}
                     type: string
@@ -2636,13 +2465,6 @@ spec:
                     items:
                       type: string
                     type: array
-                  pemCertificates:
-                    description: |-
-                      (Deprecated)
-                      Required. Expected to be in leaf-to-root order according to RFC 5246.
-                    items:
-                      type: string
-                    type: array
                   pemCsr:
                     description: Immutable. A pem-encoded X.509 certificate signing
                       request (CSR).
@@ -2674,6 +2496,14 @@ spec:
                           type: string
                       type: object
                     type: array
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   updateTime:
                     description: |-
                       Output only. The time at which this CertificateAuthority was updated.

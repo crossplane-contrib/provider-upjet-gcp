@@ -77,6 +77,10 @@ type AccessInitParameters struct {
 	// An email address of a Google Group to grant access to.
 	GroupByEmail *string `json:"groupByEmail,omitempty" tf:"group_by_email,omitempty"`
 
+	// Some other type of member that appears in the IAM Policy but isn't a user,
+	// group, domain, or special group. For example: allUsers
+	IAMMember *string `json:"iamMember,omitempty" tf:"iam_member,omitempty"`
+
 	// Describes the rights granted to the user specified by the other
 	// member of the access object. Basic, predefined, and custom roles
 	// are supported. Predefined roles that have equivalent basic roles
@@ -131,6 +135,10 @@ type AccessObservation struct {
 	// An email address of a Google Group to grant access to.
 	GroupByEmail *string `json:"groupByEmail,omitempty" tf:"group_by_email,omitempty"`
 
+	// Some other type of member that appears in the IAM Policy but isn't a user,
+	// group, domain, or special group. For example: allUsers
+	IAMMember *string `json:"iamMember,omitempty" tf:"iam_member,omitempty"`
+
 	// Describes the rights granted to the user specified by the other
 	// member of the access object. Basic, predefined, and custom roles
 	// are supported. Predefined roles that have equivalent basic roles
@@ -177,6 +185,11 @@ type AccessParameters struct {
 	// An email address of a Google Group to grant access to.
 	// +kubebuilder:validation:Optional
 	GroupByEmail *string `json:"groupByEmail,omitempty" tf:"group_by_email,omitempty"`
+
+	// Some other type of member that appears in the IAM Policy but isn't a user,
+	// group, domain, or special group. For example: allUsers
+	// +kubebuilder:validation:Optional
+	IAMMember *string `json:"iamMember,omitempty" tf:"iam_member,omitempty"`
 
 	// Describes the rights granted to the user specified by the other
 	// member of the access object. Basic, predefined, and custom roles
@@ -317,7 +330,7 @@ type DatasetInitParameters struct {
 	IsCaseInsensitive *bool `json:"isCaseInsensitive,omitempty" tf:"is_case_insensitive,omitempty"`
 
 	// The labels associated with this dataset. You can use these to
-	// organize and group your datasets
+	// organize and group your datasets.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -376,6 +389,10 @@ type DatasetObservation struct {
 	// A user-friendly description of the dataset
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// for all of the labels present on the resource.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// A hash of the resource.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
@@ -391,7 +408,7 @@ type DatasetObservation struct {
 	IsCaseInsensitive *bool `json:"isCaseInsensitive,omitempty" tf:"is_case_insensitive,omitempty"`
 
 	// The labels associated with this dataset. You can use these to
-	// organize and group your datasets
+	// organize and group your datasets.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -418,6 +435,11 @@ type DatasetObservation struct {
 	// or to PHYSICAL to use physical bytes instead.
 	// LOGICAL is the default if this flag isn't specified.
 	StorageBillingModel *string `json:"storageBillingModel,omitempty" tf:"storage_billing_model,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type DatasetParameters struct {
@@ -475,7 +497,7 @@ type DatasetParameters struct {
 	IsCaseInsensitive *bool `json:"isCaseInsensitive,omitempty" tf:"is_case_insensitive,omitempty"`
 
 	// The labels associated with this dataset. You can use these to
-	// organize and group your datasets
+	// organize and group your datasets.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`

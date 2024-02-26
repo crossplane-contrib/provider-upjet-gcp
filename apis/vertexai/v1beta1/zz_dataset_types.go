@@ -61,6 +61,10 @@ type DatasetObservation struct {
 	// The user-defined name of the Dataset. The name can be up to 128 characters long and can be consist of any UTF-8 characters.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// for all of the labels present on the resource.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// Customer-managed encryption key spec for a Dataset. If set, this Dataset and all sub-resources of this Dataset will be secured by this key.
 	// Structure is documented below.
 	EncryptionSpec []EncryptionSpecObservation `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
@@ -84,6 +88,11 @@ type DatasetObservation struct {
 
 	// The region of the dataset. eg us-central1
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// The timestamp of when the dataset was last updated in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`

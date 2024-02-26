@@ -212,6 +212,34 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                              vpcNetworkSources:
+                                description: |-
+                                  The request must originate from one of the provided VPC networks in Google Cloud. Cannot specify this field together with ip_subnetworks.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    vpcSubnetwork:
+                                      description: |-
+                                        Sub networks within a VPC network.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          network:
+                                            description: Required. Network name to
+                                              be allowed by this Access Level. Networks
+                                              of foreign organizations requires compute.network.get
+                                              permission to be granted to caller.
+                                            type: string
+                                          vpcIpSubnetworks:
+                                            description: CIDR block IP subnetwork
+                                              specification. Must be IPv4.
+                                            items:
+                                              type: string
+                                            type: array
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
                             type: object
                           type: array
                       type: object
@@ -420,6 +448,34 @@ spec:
                                   Format: accessPolicies/{policy_id}/accessLevels/{short_name}
                                 items:
                                   type: string
+                                type: array
+                              vpcNetworkSources:
+                                description: |-
+                                  The request must originate from one of the provided VPC networks in Google Cloud. Cannot specify this field together with ip_subnetworks.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    vpcSubnetwork:
+                                      description: |-
+                                        Sub networks within a VPC network.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          network:
+                                            description: Required. Network name to
+                                              be allowed by this Access Level. Networks
+                                              of foreign organizations requires compute.network.get
+                                              permission to be granted to caller.
+                                            type: string
+                                          vpcIpSubnetworks:
+                                            description: CIDR block IP subnetwork
+                                              specification. Must be IPv4.
+                                            items:
+                                              type: string
+                                            type: array
+                                        type: object
+                                      type: array
+                                  type: object
                                 type: array
                             type: object
                           type: array
@@ -801,6 +857,34 @@ spec:
                                   Format: accessPolicies/{policy_id}/accessLevels/{short_name}
                                 items:
                                   type: string
+                                type: array
+                              vpcNetworkSources:
+                                description: |-
+                                  The request must originate from one of the provided VPC networks in Google Cloud. Cannot specify this field together with ip_subnetworks.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    vpcSubnetwork:
+                                      description: |-
+                                        Sub networks within a VPC network.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          network:
+                                            description: Required. Network name to
+                                              be allowed by this Access Level. Networks
+                                              of foreign organizations requires compute.network.get
+                                              permission to be granted to caller.
+                                            type: string
+                                          vpcIpSubnetworks:
+                                            description: CIDR block IP subnetwork
+                                              specification. Must be IPv4.
+                                            items:
+                                              type: string
+                                            type: array
+                                        type: object
+                                      type: array
+                                  type: object
                                 type: array
                             type: object
                           type: array

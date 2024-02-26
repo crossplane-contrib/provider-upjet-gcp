@@ -12,6 +12,8 @@ spec:
     - instanceSelector:
         matchLabels:
           testing.upbound.io/example-name: destination
+    labels:
+      env: test
     name: conn-test-instances
     protocol: TCP
     source:

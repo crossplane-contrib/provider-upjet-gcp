@@ -77,6 +77,7 @@ spec:
                     description: |-
                       If you use sole-tenant nodes for your workloads, you can use the node
                       group autoscaler to automatically manage the sizes of your node groups.
+                      One of initial_size or autoscaling_policy must be configured on resource creation.
                       Structure is documented below.
                     items:
                       properties:
@@ -100,7 +101,8 @@ spec:
                     type: string
                   initialSize:
                     description: The initial number of nodes in the node group. One
-                      of initial_size or size must be specified.
+                      of initial_size or autoscaling_policy must be configured on
+                      resource creation.
                     type: number
                   maintenancePolicy:
                     description: 'Specifies how to handle instances when a node in
@@ -388,10 +390,6 @@ spec:
                           type: string
                       type: object
                     type: array
-                  size:
-                    description: The total number of nodes in the node group. One
-                      of initial_size or size must be specified.
-                    type: number
                   zone:
                     description: Zone where this node group is located
                     type: string
@@ -415,6 +413,7 @@ spec:
                     description: |-
                       If you use sole-tenant nodes for your workloads, you can use the node
                       group autoscaler to automatically manage the sizes of your node groups.
+                      One of initial_size or autoscaling_policy must be configured on resource creation.
                       Structure is documented below.
                     items:
                       properties:
@@ -438,7 +437,8 @@ spec:
                     type: string
                   initialSize:
                     description: The initial number of nodes in the node group. One
-                      of initial_size or size must be specified.
+                      of initial_size or autoscaling_policy must be configured on
+                      resource creation.
                     type: number
                   maintenancePolicy:
                     description: 'Specifies how to handle instances when a node in
@@ -726,10 +726,6 @@ spec:
                           type: string
                       type: object
                     type: array
-                  size:
-                    description: The total number of nodes in the node group. One
-                      of initial_size or size must be specified.
-                    type: number
                 type: object
               managementPolicies:
                 default:
@@ -907,6 +903,7 @@ spec:
                     description: |-
                       If you use sole-tenant nodes for your workloads, you can use the node
                       group autoscaler to automatically manage the sizes of your node groups.
+                      One of initial_size or autoscaling_policy must be configured on resource creation.
                       Structure is documented below.
                     items:
                       properties:
@@ -936,7 +933,8 @@ spec:
                     type: string
                   initialSize:
                     description: The initial number of nodes in the node group. One
-                      of initial_size or size must be specified.
+                      of initial_size or autoscaling_policy must be configured on
+                      resource creation.
                     type: number
                   maintenancePolicy:
                     description: 'Specifies how to handle instances when a node in
@@ -1000,8 +998,7 @@ spec:
                       type: object
                     type: array
                   size:
-                    description: The total number of nodes in the node group. One
-                      of initial_size or size must be specified.
+                    description: The total number of nodes in the node group.
                     type: number
                   zone:
                     description: Zone where this node group is located

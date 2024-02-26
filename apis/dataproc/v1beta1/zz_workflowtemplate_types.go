@@ -299,13 +299,81 @@ type ConfigLifecycleConfigParameters struct {
 	IdleDeleteTTL *string `json:"idleDeleteTtl,omitempty" tf:"idle_delete_ttl,omitempty"`
 }
 
+type ConfigMasterConfigAcceleratorsInitParameters struct {
+
+	// The number of the accelerator cards of this type exposed to this instance.
+	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
+
+	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
+	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
+}
+
+type ConfigMasterConfigAcceleratorsObservation struct {
+
+	// The number of the accelerator cards of this type exposed to this instance.
+	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
+
+	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
+	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
+}
+
+type ConfigMasterConfigAcceleratorsParameters struct {
+
+	// The number of the accelerator cards of this type exposed to this instance.
+	// +kubebuilder:validation:Optional
+	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
+
+	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
+	// +kubebuilder:validation:Optional
+	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
+}
+
+type ConfigMasterConfigDiskConfigInitParameters struct {
+
+	// Size in GB of the boot disk (default is 500GB).
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive) or "pd-standard" (Persistent Disk Hard Disk Drive).
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Number of attached SSDs, from 0 to 4 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
+type ConfigMasterConfigDiskConfigObservation struct {
+
+	// Size in GB of the boot disk (default is 500GB).
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive) or "pd-standard" (Persistent Disk Hard Disk Drive).
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Number of attached SSDs, from 0 to 4 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
+type ConfigMasterConfigDiskConfigParameters struct {
+
+	// Size in GB of the boot disk (default is 500GB).
+	// +kubebuilder:validation:Optional
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive) or "pd-standard" (Persistent Disk Hard Disk Drive).
+	// +kubebuilder:validation:Optional
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Number of attached SSDs, from 0 to 4 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
+	// +kubebuilder:validation:Optional
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
 type ConfigMasterConfigInitParameters struct {
 
 	// The Compute Engine accelerator configuration for these instances.
-	Accelerators []MasterConfigAcceleratorsInitParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
+	Accelerators []ConfigMasterConfigAcceleratorsInitParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
 	// Disk option config settings.
-	DiskConfig []MasterConfigDiskConfigInitParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+	DiskConfig []ConfigMasterConfigDiskConfigInitParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
 	// The Compute Engine image resource used for cluster instances. The URI can represent an image or image family. Image examples: * https://www.googleapis.com/compute/beta/projects/ If the URI is unspecified, it will be inferred from SoftwareConfig.image_version or the system default.
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
@@ -326,10 +394,10 @@ type ConfigMasterConfigInitParameters struct {
 type ConfigMasterConfigObservation struct {
 
 	// The Compute Engine accelerator configuration for these instances.
-	Accelerators []MasterConfigAcceleratorsObservation `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
+	Accelerators []ConfigMasterConfigAcceleratorsObservation `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
 	// Disk option config settings.
-	DiskConfig []MasterConfigDiskConfigObservation `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+	DiskConfig []ConfigMasterConfigDiskConfigObservation `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
 	// The Compute Engine image resource used for cluster instances. The URI can represent an image or image family. Image examples: * https://www.googleapis.com/compute/beta/projects/ If the URI is unspecified, it will be inferred from SoftwareConfig.image_version or the system default.
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
@@ -360,11 +428,11 @@ type ConfigMasterConfigParameters struct {
 
 	// The Compute Engine accelerator configuration for these instances.
 	// +kubebuilder:validation:Optional
-	Accelerators []MasterConfigAcceleratorsParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
+	Accelerators []ConfigMasterConfigAcceleratorsParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
 	// Disk option config settings.
 	// +kubebuilder:validation:Optional
-	DiskConfig []MasterConfigDiskConfigParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+	DiskConfig []ConfigMasterConfigDiskConfigParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
 	// The Compute Engine image resource used for cluster instances. The URI can represent an image or image family. Image examples: * https://www.googleapis.com/compute/beta/projects/ If the URI is unspecified, it will be inferred from SoftwareConfig.image_version or the system default.
 	// +kubebuilder:validation:Optional
@@ -1362,74 +1430,6 @@ type ManagedGroupConfigObservation struct {
 }
 
 type ManagedGroupConfigParameters struct {
-}
-
-type MasterConfigAcceleratorsInitParameters struct {
-
-	// The number of the accelerator cards of this type exposed to this instance.
-	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
-
-	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
-	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
-}
-
-type MasterConfigAcceleratorsObservation struct {
-
-	// The number of the accelerator cards of this type exposed to this instance.
-	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
-
-	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
-	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
-}
-
-type MasterConfigAcceleratorsParameters struct {
-
-	// The number of the accelerator cards of this type exposed to this instance.
-	// +kubebuilder:validation:Optional
-	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
-
-	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
-	// +kubebuilder:validation:Optional
-	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
-}
-
-type MasterConfigDiskConfigInitParameters struct {
-
-	// Size in GB of the boot disk (default is 500GB).
-	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
-
-	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive) or "pd-standard" (Persistent Disk Hard Disk Drive).
-	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
-
-	// Number of attached SSDs, from 0 to 4 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
-	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
-}
-
-type MasterConfigDiskConfigObservation struct {
-
-	// Size in GB of the boot disk (default is 500GB).
-	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
-
-	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive) or "pd-standard" (Persistent Disk Hard Disk Drive).
-	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
-
-	// Number of attached SSDs, from 0 to 4 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
-	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
-}
-
-type MasterConfigDiskConfigParameters struct {
-
-	// Size in GB of the boot disk (default is 500GB).
-	// +kubebuilder:validation:Optional
-	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
-
-	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive) or "pd-standard" (Persistent Disk Hard Disk Drive).
-	// +kubebuilder:validation:Optional
-	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
-
-	// Number of attached SSDs, from 0 to 4 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
-	// +kubebuilder:validation:Optional
-	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
 }
 
 type ParametersInitParameters struct {
@@ -2544,6 +2544,9 @@ type WorkflowTemplateObservation struct {
 	// (Beta only) Optional. Timeout duration for the DAG of jobs. You can use "s", "m", "h", and "d" suffixes for second, minute, hour, and day duration values, respectively. The timeout duration must be from 10 minutes ("10m") to 24 hours ("24h" or "1d"). The timer begins when the first job is submitted. If the workflow is running at the end of the timeout period, any remaining jobs are cancelled, the workflow is ended, and if the workflow was running on a (/dataproc/docs/concepts/workflows/using-workflows#configuring_or_selecting_a_cluster), the cluster is deleted.
 	DagTimeout *string `json:"dagTimeout,omitempty" tf:"dag_timeout,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/workflowTemplates/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -2565,6 +2568,9 @@ type WorkflowTemplateObservation struct {
 
 	// The project for the resource
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// Output only. The time template was last updated.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`

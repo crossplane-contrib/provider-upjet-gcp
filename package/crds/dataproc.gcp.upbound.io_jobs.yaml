@@ -196,8 +196,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: The list of labels (key/value pairs) to add to the
-                      job.
+                    description: |-
+                      The list of labels (key/value pairs) to add to the job.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field 'effective_labels' for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   pigConfig:
@@ -822,8 +824,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: The list of labels (key/value pairs) to add to the
-                      job.
+                    description: |-
+                      The list of labels (key/value pairs) to add to the job.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field 'effective_labels' for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   pigConfig:
@@ -1499,6 +1503,11 @@ spec:
                     description: A URI pointing to the location of the stdout of the
                       job's driver program.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   forceDelete:
                     description: |-
                       By default, you can only delete inactive jobs within
@@ -1624,8 +1633,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: The list of labels (key/value pairs) to add to the
-                      job.
+                    description: |-
+                      The list of labels (key/value pairs) to add to the job.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field 'effective_labels' for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   pigConfig:
@@ -1987,6 +1998,13 @@ spec:
                           type: string
                       type: object
                     type: array
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               conditions:
                 description: Conditions of the resource.

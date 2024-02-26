@@ -51,6 +51,8 @@ type PrivateConnectionInitParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Labels.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -69,6 +71,9 @@ type PrivateConnectionObservation struct {
 	// Display name.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// The PrivateConnection error in case of failure.
 	// Structure is documented below.
 	Error []ErrorObservation `json:"error,omitempty" tf:"error,omitempty"`
@@ -77,6 +82,8 @@ type PrivateConnectionObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Labels.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -93,6 +100,11 @@ type PrivateConnectionObservation struct {
 	// State of the PrivateConnection.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
 	// The VPC Peering configuration is used to create VPC peering
 	// between Datastream and the consumer's VPC.
 	// Structure is documented below.
@@ -106,6 +118,8 @@ type PrivateConnectionParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Labels.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`

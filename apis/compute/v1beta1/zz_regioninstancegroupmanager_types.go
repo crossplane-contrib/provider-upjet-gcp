@@ -137,6 +137,12 @@ type RegionInstanceGroupManagerInitParameters struct {
 	// Disks created on the instances that will be preserved on instance delete, update, etc. Structure is documented below. For more information see the official documentation. Proactive cross zone instance redistribution must be disabled before you can update stateful disks on existing instance group managers. This can be controlled via the update_policy.
 	StatefulDisk []RegionInstanceGroupManagerStatefulDiskInitParameters `json:"statefulDisk,omitempty" tf:"stateful_disk,omitempty"`
 
+	// External network IPs assigned to the instances that will be preserved on instance delete, update, etc. This map is keyed with the network interface name. Structure is documented below.
+	StatefulExternalIP []RegionInstanceGroupManagerStatefulExternalIPInitParameters `json:"statefulExternalIp,omitempty" tf:"stateful_external_ip,omitempty"`
+
+	// Internal network IPs assigned to the instances that will be preserved on instance delete, update, etc. This map is keyed with the network interface name. Structure is documented below.
+	StatefulInternalIP []RegionInstanceGroupManagerStatefulInternalIPInitParameters `json:"statefulInternalIp,omitempty" tf:"stateful_internal_ip,omitempty"`
+
 	// The full URL of all target pools to which new
 	// instances in the group are added. Updating the target pools attribute does
 	// not affect existing instances.
@@ -154,8 +160,9 @@ type RegionInstanceGroupManagerInitParameters struct {
 	TargetPoolsSelector *v1.Selector `json:"targetPoolsSelector,omitempty" tf:"-"`
 
 	// The target number of running instances for this managed
-	// instance group. This value should always be explicitly set unless this resource is attached to
-	// an autoscaler, in which case it should never be set. Defaults to 0.
+	// instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
+	// when using one. If a value is required, such as to specify a creation-time target size for the MIG,
+	// lifecycle. Defaults to 0.
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
 
 	// The update policy for this managed instance group. Structure is documented below. For more information, see the official documentation and API
@@ -239,6 +246,8 @@ type RegionInstanceGroupManagerObservation struct {
 	// name.
 	BaseInstanceName *string `json:"baseInstanceName,omitempty" tf:"base_instance_name,omitempty"`
 
+	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
 	// An optional textual description of the instance
 	// group manager.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -254,7 +263,7 @@ type RegionInstanceGroupManagerObservation struct {
 	// The fingerprint of the instance group manager.
 	Fingerprint *string `json:"fingerprint,omitempty" tf:"fingerprint,omitempty"`
 
-	// an identifier for the resource with format {{disk.name}}
+	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/instanceGroupManagers/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The full URL of the instance group created by the manager.
@@ -293,6 +302,12 @@ type RegionInstanceGroupManagerObservation struct {
 	// Disks created on the instances that will be preserved on instance delete, update, etc. Structure is documented below. For more information see the official documentation. Proactive cross zone instance redistribution must be disabled before you can update stateful disks on existing instance group managers. This can be controlled via the update_policy.
 	StatefulDisk []RegionInstanceGroupManagerStatefulDiskObservation `json:"statefulDisk,omitempty" tf:"stateful_disk,omitempty"`
 
+	// External network IPs assigned to the instances that will be preserved on instance delete, update, etc. This map is keyed with the network interface name. Structure is documented below.
+	StatefulExternalIP []RegionInstanceGroupManagerStatefulExternalIPObservation `json:"statefulExternalIp,omitempty" tf:"stateful_external_ip,omitempty"`
+
+	// Internal network IPs assigned to the instances that will be preserved on instance delete, update, etc. This map is keyed with the network interface name. Structure is documented below.
+	StatefulInternalIP []RegionInstanceGroupManagerStatefulInternalIPObservation `json:"statefulInternalIp,omitempty" tf:"stateful_internal_ip,omitempty"`
+
 	Status []RegionInstanceGroupManagerStatusObservation `json:"status,omitempty" tf:"status,omitempty"`
 
 	// The full URL of all target pools to which new
@@ -302,8 +317,9 @@ type RegionInstanceGroupManagerObservation struct {
 	TargetPools []*string `json:"targetPools,omitempty" tf:"target_pools,omitempty"`
 
 	// The target number of running instances for this managed
-	// instance group. This value should always be explicitly set unless this resource is attached to
-	// an autoscaler, in which case it should never be set. Defaults to 0.
+	// instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
+	// when using one. If a value is required, such as to specify a creation-time target size for the MIG,
+	// lifecycle. Defaults to 0.
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
 
 	// The update policy for this managed instance group. Structure is documented below. For more information, see the official documentation and API
@@ -393,6 +409,14 @@ type RegionInstanceGroupManagerParameters struct {
 	// +kubebuilder:validation:Optional
 	StatefulDisk []RegionInstanceGroupManagerStatefulDiskParameters `json:"statefulDisk,omitempty" tf:"stateful_disk,omitempty"`
 
+	// External network IPs assigned to the instances that will be preserved on instance delete, update, etc. This map is keyed with the network interface name. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	StatefulExternalIP []RegionInstanceGroupManagerStatefulExternalIPParameters `json:"statefulExternalIp,omitempty" tf:"stateful_external_ip,omitempty"`
+
+	// Internal network IPs assigned to the instances that will be preserved on instance delete, update, etc. This map is keyed with the network interface name. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	StatefulInternalIP []RegionInstanceGroupManagerStatefulInternalIPParameters `json:"statefulInternalIp,omitempty" tf:"stateful_internal_ip,omitempty"`
+
 	// The full URL of all target pools to which new
 	// instances in the group are added. Updating the target pools attribute does
 	// not affect existing instances.
@@ -411,8 +435,9 @@ type RegionInstanceGroupManagerParameters struct {
 	TargetPoolsSelector *v1.Selector `json:"targetPoolsSelector,omitempty" tf:"-"`
 
 	// The target number of running instances for this managed
-	// instance group. This value should always be explicitly set unless this resource is attached to
-	// an autoscaler, in which case it should never be set. Defaults to 0.
+	// instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
+	// when using one. If a value is required, such as to specify a creation-time target size for the MIG,
+	// lifecycle. Defaults to 0.
 	// +kubebuilder:validation:Optional
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
 
@@ -466,6 +491,64 @@ type RegionInstanceGroupManagerStatefulDiskParameters struct {
 	// , The device name of the disk to be attached.
 	// +kubebuilder:validation:Optional
 	DeviceName *string `json:"deviceName" tf:"device_name,omitempty"`
+}
+
+type RegionInstanceGroupManagerStatefulExternalIPInitParameters struct {
+
+	// , A value that prescribes what should happen to the external ip when the VM instance is deleted. The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION. NEVER - detach the ip when the VM is deleted, but do not delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete the external ip when the VM is permanently deleted from the instance group.
+	DeleteRule *string `json:"deleteRule,omitempty" tf:"delete_rule,omitempty"`
+
+	// , The network interface name of the external Ip. Possible value: nic0.
+	InterfaceName *string `json:"interfaceName,omitempty" tf:"interface_name,omitempty"`
+}
+
+type RegionInstanceGroupManagerStatefulExternalIPObservation struct {
+
+	// , A value that prescribes what should happen to the external ip when the VM instance is deleted. The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION. NEVER - detach the ip when the VM is deleted, but do not delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete the external ip when the VM is permanently deleted from the instance group.
+	DeleteRule *string `json:"deleteRule,omitempty" tf:"delete_rule,omitempty"`
+
+	// , The network interface name of the external Ip. Possible value: nic0.
+	InterfaceName *string `json:"interfaceName,omitempty" tf:"interface_name,omitempty"`
+}
+
+type RegionInstanceGroupManagerStatefulExternalIPParameters struct {
+
+	// , A value that prescribes what should happen to the external ip when the VM instance is deleted. The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION. NEVER - detach the ip when the VM is deleted, but do not delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete the external ip when the VM is permanently deleted from the instance group.
+	// +kubebuilder:validation:Optional
+	DeleteRule *string `json:"deleteRule,omitempty" tf:"delete_rule,omitempty"`
+
+	// , The network interface name of the external Ip. Possible value: nic0.
+	// +kubebuilder:validation:Optional
+	InterfaceName *string `json:"interfaceName,omitempty" tf:"interface_name,omitempty"`
+}
+
+type RegionInstanceGroupManagerStatefulInternalIPInitParameters struct {
+
+	// , A value that prescribes what should happen to the internal ip when the VM instance is deleted. The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION. NEVER - detach the ip when the VM is deleted, but do not delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete the internal ip when the VM is permanently deleted from the instance group.
+	DeleteRule *string `json:"deleteRule,omitempty" tf:"delete_rule,omitempty"`
+
+	// , The network interface name of the internal Ip. Possible value: nic0.
+	InterfaceName *string `json:"interfaceName,omitempty" tf:"interface_name,omitempty"`
+}
+
+type RegionInstanceGroupManagerStatefulInternalIPObservation struct {
+
+	// , A value that prescribes what should happen to the internal ip when the VM instance is deleted. The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION. NEVER - detach the ip when the VM is deleted, but do not delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete the internal ip when the VM is permanently deleted from the instance group.
+	DeleteRule *string `json:"deleteRule,omitempty" tf:"delete_rule,omitempty"`
+
+	// , The network interface name of the internal Ip. Possible value: nic0.
+	InterfaceName *string `json:"interfaceName,omitempty" tf:"interface_name,omitempty"`
+}
+
+type RegionInstanceGroupManagerStatefulInternalIPParameters struct {
+
+	// , A value that prescribes what should happen to the internal ip when the VM instance is deleted. The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION. NEVER - detach the ip when the VM is deleted, but do not delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete the internal ip when the VM is permanently deleted from the instance group.
+	// +kubebuilder:validation:Optional
+	DeleteRule *string `json:"deleteRule,omitempty" tf:"delete_rule,omitempty"`
+
+	// , The network interface name of the internal Ip. Possible value: nic0.
+	// +kubebuilder:validation:Optional
+	InterfaceName *string `json:"interfaceName,omitempty" tf:"interface_name,omitempty"`
 }
 
 type RegionInstanceGroupManagerStatusInitParameters struct {

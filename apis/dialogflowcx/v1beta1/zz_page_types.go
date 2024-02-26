@@ -29,7 +29,33 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type EntryFulfillmentConditionalCasesInitParameters struct {
+
+	// A JSON encoded list of cascading if-else conditions. Cases are mutually exclusive. The first one with a matching condition is selected, all the rest ignored.
+	// See Case for the schema.
+	Cases *string `json:"cases,omitempty" tf:"cases,omitempty"`
+}
+
+type EntryFulfillmentConditionalCasesObservation struct {
+
+	// A JSON encoded list of cascading if-else conditions. Cases are mutually exclusive. The first one with a matching condition is selected, all the rest ignored.
+	// See Case for the schema.
+	Cases *string `json:"cases,omitempty" tf:"cases,omitempty"`
+}
+
+type EntryFulfillmentConditionalCasesParameters struct {
+
+	// A JSON encoded list of cascading if-else conditions. Cases are mutually exclusive. The first one with a matching condition is selected, all the rest ignored.
+	// See Case for the schema.
+	// +kubebuilder:validation:Optional
+	Cases *string `json:"cases,omitempty" tf:"cases,omitempty"`
+}
+
 type EntryFulfillmentInitParameters struct {
+
+	// Conditional cases for this fulfillment.
+	// Structure is documented below.
+	ConditionalCases []EntryFulfillmentConditionalCasesInitParameters `json:"conditionalCases,omitempty" tf:"conditional_cases,omitempty"`
 
 	// The list of rich message responses to present to the user.
 	// Structure is documented below.
@@ -38,6 +64,10 @@ type EntryFulfillmentInitParameters struct {
 	// Whether Dialogflow should return currently queued fulfillment response messages in streaming APIs. If a webhook is specified, it happens before Dialogflow invokes webhook. Warning: 1) This flag only affects streaming API. Responses are still queued and returned once in non-streaming API. 2) The flag can be enabled in any fulfillment but only the first 3 partial responses will be returned. You may only want to apply it to fulfillments that have slow webhooks.
 	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
 
+	// Set parameter values before executing the webhook.
+	// Structure is documented below.
+	SetParameterActions []EntryFulfillmentSetParameterActionsInitParameters `json:"setParameterActions,omitempty" tf:"set_parameter_actions,omitempty"`
+
 	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 
@@ -45,23 +75,227 @@ type EntryFulfillmentInitParameters struct {
 	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
 }
 
+type EntryFulfillmentMessagesConversationSuccessInitParameters struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type EntryFulfillmentMessagesConversationSuccessObservation struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type EntryFulfillmentMessagesConversationSuccessParameters struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	// +kubebuilder:validation:Optional
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
 type EntryFulfillmentMessagesInitParameters struct {
+
+	// The channel which the response is associated with. Clients can specify the channel via QueryParameters.channel, and only associated channel response will be returned.
+	Channel *string `json:"channel,omitempty" tf:"channel,omitempty"`
+
+	// Indicates that the conversation succeeded, i.e., the bot handled the issue that the customer talked to it about.
+	// Dialogflow only uses this to determine which conversations should be counted as successful and doesn't process the metadata in this message in any way. Note that Dialogflow also considers conversations that get to the conversation end page as successful even if they don't return ConversationSuccess.
+	// You may set this, for example:
+	ConversationSuccess []EntryFulfillmentMessagesConversationSuccessInitParameters `json:"conversationSuccess,omitempty" tf:"conversation_success,omitempty"`
+
+	// Indicates that the conversation should be handed off to a live agent.
+	// Dialogflow only uses this to determine which conversations were handed off to a human agent for measurement purposes. What else to do with this signal is up to you and your handoff procedures.
+	// You may set this, for example:
+	LiveAgentHandoff []EntryFulfillmentMessagesLiveAgentHandoffInitParameters `json:"liveAgentHandoff,omitempty" tf:"live_agent_handoff,omitempty"`
+
+	// A text or ssml response that is preferentially used for TTS output audio synthesis, as described in the comment on the ResponseMessage message.
+	// Structure is documented below.
+	OutputAudioText []EntryFulfillmentMessagesOutputAudioTextInitParameters `json:"outputAudioText,omitempty" tf:"output_audio_text,omitempty"`
+
+	// A custom, platform-specific payload.
+	Payload *string `json:"payload,omitempty" tf:"payload,omitempty"`
+
+	// Specifies an audio clip to be played by the client as part of the response.
+	// Structure is documented below.
+	PlayAudio []EntryFulfillmentMessagesPlayAudioInitParameters `json:"playAudio,omitempty" tf:"play_audio,omitempty"`
+
+	// Represents the signal that telles the client to transfer the phone call connected to the agent to a third-party endpoint.
+	// Structure is documented below.
+	TelephonyTransferCall []EntryFulfillmentMessagesTelephonyTransferCallInitParameters `json:"telephonyTransferCall,omitempty" tf:"telephony_transfer_call,omitempty"`
 
 	// A collection of text responses.
 	Text []EntryFulfillmentMessagesTextInitParameters `json:"text,omitempty" tf:"text,omitempty"`
 }
 
+type EntryFulfillmentMessagesLiveAgentHandoffInitParameters struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type EntryFulfillmentMessagesLiveAgentHandoffObservation struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type EntryFulfillmentMessagesLiveAgentHandoffParameters struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	// +kubebuilder:validation:Optional
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
 type EntryFulfillmentMessagesObservation struct {
+
+	// The channel which the response is associated with. Clients can specify the channel via QueryParameters.channel, and only associated channel response will be returned.
+	Channel *string `json:"channel,omitempty" tf:"channel,omitempty"`
+
+	// Indicates that the conversation succeeded, i.e., the bot handled the issue that the customer talked to it about.
+	// Dialogflow only uses this to determine which conversations should be counted as successful and doesn't process the metadata in this message in any way. Note that Dialogflow also considers conversations that get to the conversation end page as successful even if they don't return ConversationSuccess.
+	// You may set this, for example:
+	ConversationSuccess []EntryFulfillmentMessagesConversationSuccessObservation `json:"conversationSuccess,omitempty" tf:"conversation_success,omitempty"`
+
+	// Indicates that the conversation should be handed off to a live agent.
+	// Dialogflow only uses this to determine which conversations were handed off to a human agent for measurement purposes. What else to do with this signal is up to you and your handoff procedures.
+	// You may set this, for example:
+	LiveAgentHandoff []EntryFulfillmentMessagesLiveAgentHandoffObservation `json:"liveAgentHandoff,omitempty" tf:"live_agent_handoff,omitempty"`
+
+	// A text or ssml response that is preferentially used for TTS output audio synthesis, as described in the comment on the ResponseMessage message.
+	// Structure is documented below.
+	OutputAudioText []EntryFulfillmentMessagesOutputAudioTextObservation `json:"outputAudioText,omitempty" tf:"output_audio_text,omitempty"`
+
+	// A custom, platform-specific payload.
+	Payload *string `json:"payload,omitempty" tf:"payload,omitempty"`
+
+	// Specifies an audio clip to be played by the client as part of the response.
+	// Structure is documented below.
+	PlayAudio []EntryFulfillmentMessagesPlayAudioObservation `json:"playAudio,omitempty" tf:"play_audio,omitempty"`
+
+	// Represents the signal that telles the client to transfer the phone call connected to the agent to a third-party endpoint.
+	// Structure is documented below.
+	TelephonyTransferCall []EntryFulfillmentMessagesTelephonyTransferCallObservation `json:"telephonyTransferCall,omitempty" tf:"telephony_transfer_call,omitempty"`
 
 	// A collection of text responses.
 	Text []EntryFulfillmentMessagesTextObservation `json:"text,omitempty" tf:"text,omitempty"`
 }
 
+type EntryFulfillmentMessagesOutputAudioTextInitParameters struct {
+
+	// The SSML text to be synthesized. For more information, see SSML.
+	Ssml *string `json:"ssml,omitempty" tf:"ssml,omitempty"`
+
+	// A collection of text responses.
+	Text *string `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type EntryFulfillmentMessagesOutputAudioTextObservation struct {
+
+	// (Output)
+	// Whether the playback of this message can be interrupted by the end user's speech and the client can then starts the next Dialogflow request.
+	AllowPlaybackInterruption *bool `json:"allowPlaybackInterruption,omitempty" tf:"allow_playback_interruption,omitempty"`
+
+	// The SSML text to be synthesized. For more information, see SSML.
+	Ssml *string `json:"ssml,omitempty" tf:"ssml,omitempty"`
+
+	// A collection of text responses.
+	Text *string `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type EntryFulfillmentMessagesOutputAudioTextParameters struct {
+
+	// The SSML text to be synthesized. For more information, see SSML.
+	// +kubebuilder:validation:Optional
+	Ssml *string `json:"ssml,omitempty" tf:"ssml,omitempty"`
+
+	// A collection of text responses.
+	// +kubebuilder:validation:Optional
+	Text *string `json:"text,omitempty" tf:"text,omitempty"`
+}
+
 type EntryFulfillmentMessagesParameters struct {
+
+	// The channel which the response is associated with. Clients can specify the channel via QueryParameters.channel, and only associated channel response will be returned.
+	// +kubebuilder:validation:Optional
+	Channel *string `json:"channel,omitempty" tf:"channel,omitempty"`
+
+	// Indicates that the conversation succeeded, i.e., the bot handled the issue that the customer talked to it about.
+	// Dialogflow only uses this to determine which conversations should be counted as successful and doesn't process the metadata in this message in any way. Note that Dialogflow also considers conversations that get to the conversation end page as successful even if they don't return ConversationSuccess.
+	// You may set this, for example:
+	// +kubebuilder:validation:Optional
+	ConversationSuccess []EntryFulfillmentMessagesConversationSuccessParameters `json:"conversationSuccess,omitempty" tf:"conversation_success,omitempty"`
+
+	// Indicates that the conversation should be handed off to a live agent.
+	// Dialogflow only uses this to determine which conversations were handed off to a human agent for measurement purposes. What else to do with this signal is up to you and your handoff procedures.
+	// You may set this, for example:
+	// +kubebuilder:validation:Optional
+	LiveAgentHandoff []EntryFulfillmentMessagesLiveAgentHandoffParameters `json:"liveAgentHandoff,omitempty" tf:"live_agent_handoff,omitempty"`
+
+	// A text or ssml response that is preferentially used for TTS output audio synthesis, as described in the comment on the ResponseMessage message.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	OutputAudioText []EntryFulfillmentMessagesOutputAudioTextParameters `json:"outputAudioText,omitempty" tf:"output_audio_text,omitempty"`
+
+	// A custom, platform-specific payload.
+	// +kubebuilder:validation:Optional
+	Payload *string `json:"payload,omitempty" tf:"payload,omitempty"`
+
+	// Specifies an audio clip to be played by the client as part of the response.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PlayAudio []EntryFulfillmentMessagesPlayAudioParameters `json:"playAudio,omitempty" tf:"play_audio,omitempty"`
+
+	// Represents the signal that telles the client to transfer the phone call connected to the agent to a third-party endpoint.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TelephonyTransferCall []EntryFulfillmentMessagesTelephonyTransferCallParameters `json:"telephonyTransferCall,omitempty" tf:"telephony_transfer_call,omitempty"`
 
 	// A collection of text responses.
 	// +kubebuilder:validation:Optional
 	Text []EntryFulfillmentMessagesTextParameters `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type EntryFulfillmentMessagesPlayAudioInitParameters struct {
+
+	// URI of the audio clip. Dialogflow does not impose any validation on this value. It is specific to the client that reads it.
+	AudioURI *string `json:"audioUri,omitempty" tf:"audio_uri,omitempty"`
+}
+
+type EntryFulfillmentMessagesPlayAudioObservation struct {
+
+	// (Output)
+	// Whether the playback of this message can be interrupted by the end user's speech and the client can then starts the next Dialogflow request.
+	AllowPlaybackInterruption *bool `json:"allowPlaybackInterruption,omitempty" tf:"allow_playback_interruption,omitempty"`
+
+	// URI of the audio clip. Dialogflow does not impose any validation on this value. It is specific to the client that reads it.
+	AudioURI *string `json:"audioUri,omitempty" tf:"audio_uri,omitempty"`
+}
+
+type EntryFulfillmentMessagesPlayAudioParameters struct {
+
+	// URI of the audio clip. Dialogflow does not impose any validation on this value. It is specific to the client that reads it.
+	// +kubebuilder:validation:Optional
+	AudioURI *string `json:"audioUri" tf:"audio_uri,omitempty"`
+}
+
+type EntryFulfillmentMessagesTelephonyTransferCallInitParameters struct {
+
+	// Transfer the call to a phone number in E.164 format.
+	PhoneNumber *string `json:"phoneNumber,omitempty" tf:"phone_number,omitempty"`
+}
+
+type EntryFulfillmentMessagesTelephonyTransferCallObservation struct {
+
+	// Transfer the call to a phone number in E.164 format.
+	PhoneNumber *string `json:"phoneNumber,omitempty" tf:"phone_number,omitempty"`
+}
+
+type EntryFulfillmentMessagesTelephonyTransferCallParameters struct {
+
+	// Transfer the call to a phone number in E.164 format.
+	// +kubebuilder:validation:Optional
+	PhoneNumber *string `json:"phoneNumber" tf:"phone_number,omitempty"`
 }
 
 type EntryFulfillmentMessagesTextInitParameters struct {
@@ -89,12 +323,20 @@ type EntryFulfillmentMessagesTextParameters struct {
 
 type EntryFulfillmentObservation struct {
 
+	// Conditional cases for this fulfillment.
+	// Structure is documented below.
+	ConditionalCases []EntryFulfillmentConditionalCasesObservation `json:"conditionalCases,omitempty" tf:"conditional_cases,omitempty"`
+
 	// The list of rich message responses to present to the user.
 	// Structure is documented below.
 	Messages []EntryFulfillmentMessagesObservation `json:"messages,omitempty" tf:"messages,omitempty"`
 
 	// Whether Dialogflow should return currently queued fulfillment response messages in streaming APIs. If a webhook is specified, it happens before Dialogflow invokes webhook. Warning: 1) This flag only affects streaming API. Responses are still queued and returned once in non-streaming API. 2) The flag can be enabled in any fulfillment but only the first 3 partial responses will be returned. You may only want to apply it to fulfillments that have slow webhooks.
 	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
+
+	// Set parameter values before executing the webhook.
+	// Structure is documented below.
+	SetParameterActions []EntryFulfillmentSetParameterActionsObservation `json:"setParameterActions,omitempty" tf:"set_parameter_actions,omitempty"`
 
 	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
@@ -105,6 +347,11 @@ type EntryFulfillmentObservation struct {
 
 type EntryFulfillmentParameters struct {
 
+	// Conditional cases for this fulfillment.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ConditionalCases []EntryFulfillmentConditionalCasesParameters `json:"conditionalCases,omitempty" tf:"conditional_cases,omitempty"`
+
 	// The list of rich message responses to present to the user.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -113,6 +360,11 @@ type EntryFulfillmentParameters struct {
 	// Whether Dialogflow should return currently queued fulfillment response messages in streaming APIs. If a webhook is specified, it happens before Dialogflow invokes webhook. Warning: 1) This flag only affects streaming API. Responses are still queued and returned once in non-streaming API. 2) The flag can be enabled in any fulfillment but only the first 3 partial responses will be returned. You may only want to apply it to fulfillments that have slow webhooks.
 	// +kubebuilder:validation:Optional
 	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
+
+	// Set parameter values before executing the webhook.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SetParameterActions []EntryFulfillmentSetParameterActionsParameters `json:"setParameterActions,omitempty" tf:"set_parameter_actions,omitempty"`
 
 	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
 	// +kubebuilder:validation:Optional
@@ -123,7 +375,62 @@ type EntryFulfillmentParameters struct {
 	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
 }
 
+type EntryFulfillmentSetParameterActionsInitParameters struct {
+
+	// Display name of the parameter.
+	Parameter *string `json:"parameter,omitempty" tf:"parameter,omitempty"`
+
+	// The new JSON-encoded value of the parameter. A null value clears the parameter.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type EntryFulfillmentSetParameterActionsObservation struct {
+
+	// Display name of the parameter.
+	Parameter *string `json:"parameter,omitempty" tf:"parameter,omitempty"`
+
+	// The new JSON-encoded value of the parameter. A null value clears the parameter.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type EntryFulfillmentSetParameterActionsParameters struct {
+
+	// Display name of the parameter.
+	// +kubebuilder:validation:Optional
+	Parameter *string `json:"parameter,omitempty" tf:"parameter,omitempty"`
+
+	// The new JSON-encoded value of the parameter. A null value clears the parameter.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type EventHandlersTriggerFulfillmentConditionalCasesInitParameters struct {
+
+	// A JSON encoded list of cascading if-else conditions. Cases are mutually exclusive. The first one with a matching condition is selected, all the rest ignored.
+	// See Case for the schema.
+	Cases *string `json:"cases,omitempty" tf:"cases,omitempty"`
+}
+
+type EventHandlersTriggerFulfillmentConditionalCasesObservation struct {
+
+	// A JSON encoded list of cascading if-else conditions. Cases are mutually exclusive. The first one with a matching condition is selected, all the rest ignored.
+	// See Case for the schema.
+	Cases *string `json:"cases,omitempty" tf:"cases,omitempty"`
+}
+
+type EventHandlersTriggerFulfillmentConditionalCasesParameters struct {
+
+	// A JSON encoded list of cascading if-else conditions. Cases are mutually exclusive. The first one with a matching condition is selected, all the rest ignored.
+	// See Case for the schema.
+	// +kubebuilder:validation:Optional
+	Cases *string `json:"cases,omitempty" tf:"cases,omitempty"`
+}
+
 type EventHandlersTriggerFulfillmentInitParameters struct {
+
+	// Conditional cases for this fulfillment.
+	// Structure is documented below.
+	ConditionalCases []EventHandlersTriggerFulfillmentConditionalCasesInitParameters `json:"conditionalCases,omitempty" tf:"conditional_cases,omitempty"`
 
 	// The list of rich message responses to present to the user.
 	// Structure is documented below.
@@ -131,6 +438,10 @@ type EventHandlersTriggerFulfillmentInitParameters struct {
 
 	// Whether Dialogflow should return currently queued fulfillment response messages in streaming APIs. If a webhook is specified, it happens before Dialogflow invokes webhook. Warning: 1) This flag only affects streaming API. Responses are still queued and returned once in non-streaming API. 2) The flag can be enabled in any fulfillment but only the first 3 partial responses will be returned. You may only want to apply it to fulfillments that have slow webhooks.
 	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
+
+	// Set parameter values before executing the webhook.
+	// Structure is documented below.
+	SetParameterActions []EventHandlersTriggerFulfillmentSetParameterActionsInitParameters `json:"setParameterActions,omitempty" tf:"set_parameter_actions,omitempty"`
 
 	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
@@ -141,17 +452,108 @@ type EventHandlersTriggerFulfillmentInitParameters struct {
 
 type EventHandlersTriggerFulfillmentMessagesInitParameters struct {
 
+	// The channel which the response is associated with. Clients can specify the channel via QueryParameters.channel, and only associated channel response will be returned.
+	Channel *string `json:"channel,omitempty" tf:"channel,omitempty"`
+
+	// Indicates that the conversation succeeded, i.e., the bot handled the issue that the customer talked to it about.
+	// Dialogflow only uses this to determine which conversations should be counted as successful and doesn't process the metadata in this message in any way. Note that Dialogflow also considers conversations that get to the conversation end page as successful even if they don't return ConversationSuccess.
+	// You may set this, for example:
+	ConversationSuccess []TriggerFulfillmentMessagesConversationSuccessInitParameters `json:"conversationSuccess,omitempty" tf:"conversation_success,omitempty"`
+
+	// Indicates that the conversation should be handed off to a live agent.
+	// Dialogflow only uses this to determine which conversations were handed off to a human agent for measurement purposes. What else to do with this signal is up to you and your handoff procedures.
+	// You may set this, for example:
+	LiveAgentHandoff []TriggerFulfillmentMessagesLiveAgentHandoffInitParameters `json:"liveAgentHandoff,omitempty" tf:"live_agent_handoff,omitempty"`
+
+	// A text or ssml response that is preferentially used for TTS output audio synthesis, as described in the comment on the ResponseMessage message.
+	// Structure is documented below.
+	OutputAudioText []TriggerFulfillmentMessagesOutputAudioTextInitParameters `json:"outputAudioText,omitempty" tf:"output_audio_text,omitempty"`
+
+	// A custom, platform-specific payload.
+	Payload *string `json:"payload,omitempty" tf:"payload,omitempty"`
+
+	// Specifies an audio clip to be played by the client as part of the response.
+	// Structure is documented below.
+	PlayAudio []TriggerFulfillmentMessagesPlayAudioInitParameters `json:"playAudio,omitempty" tf:"play_audio,omitempty"`
+
+	// Represents the signal that telles the client to transfer the phone call connected to the agent to a third-party endpoint.
+	// Structure is documented below.
+	TelephonyTransferCall []TriggerFulfillmentMessagesTelephonyTransferCallInitParameters `json:"telephonyTransferCall,omitempty" tf:"telephony_transfer_call,omitempty"`
+
 	// A collection of text responses.
 	Text []TriggerFulfillmentMessagesTextInitParameters `json:"text,omitempty" tf:"text,omitempty"`
 }
 
 type EventHandlersTriggerFulfillmentMessagesObservation struct {
 
+	// The channel which the response is associated with. Clients can specify the channel via QueryParameters.channel, and only associated channel response will be returned.
+	Channel *string `json:"channel,omitempty" tf:"channel,omitempty"`
+
+	// Indicates that the conversation succeeded, i.e., the bot handled the issue that the customer talked to it about.
+	// Dialogflow only uses this to determine which conversations should be counted as successful and doesn't process the metadata in this message in any way. Note that Dialogflow also considers conversations that get to the conversation end page as successful even if they don't return ConversationSuccess.
+	// You may set this, for example:
+	ConversationSuccess []TriggerFulfillmentMessagesConversationSuccessObservation `json:"conversationSuccess,omitempty" tf:"conversation_success,omitempty"`
+
+	// Indicates that the conversation should be handed off to a live agent.
+	// Dialogflow only uses this to determine which conversations were handed off to a human agent for measurement purposes. What else to do with this signal is up to you and your handoff procedures.
+	// You may set this, for example:
+	LiveAgentHandoff []TriggerFulfillmentMessagesLiveAgentHandoffObservation `json:"liveAgentHandoff,omitempty" tf:"live_agent_handoff,omitempty"`
+
+	// A text or ssml response that is preferentially used for TTS output audio synthesis, as described in the comment on the ResponseMessage message.
+	// Structure is documented below.
+	OutputAudioText []TriggerFulfillmentMessagesOutputAudioTextObservation `json:"outputAudioText,omitempty" tf:"output_audio_text,omitempty"`
+
+	// A custom, platform-specific payload.
+	Payload *string `json:"payload,omitempty" tf:"payload,omitempty"`
+
+	// Specifies an audio clip to be played by the client as part of the response.
+	// Structure is documented below.
+	PlayAudio []TriggerFulfillmentMessagesPlayAudioObservation `json:"playAudio,omitempty" tf:"play_audio,omitempty"`
+
+	// Represents the signal that telles the client to transfer the phone call connected to the agent to a third-party endpoint.
+	// Structure is documented below.
+	TelephonyTransferCall []TriggerFulfillmentMessagesTelephonyTransferCallObservation `json:"telephonyTransferCall,omitempty" tf:"telephony_transfer_call,omitempty"`
+
 	// A collection of text responses.
 	Text []TriggerFulfillmentMessagesTextObservation `json:"text,omitempty" tf:"text,omitempty"`
 }
 
 type EventHandlersTriggerFulfillmentMessagesParameters struct {
+
+	// The channel which the response is associated with. Clients can specify the channel via QueryParameters.channel, and only associated channel response will be returned.
+	// +kubebuilder:validation:Optional
+	Channel *string `json:"channel,omitempty" tf:"channel,omitempty"`
+
+	// Indicates that the conversation succeeded, i.e., the bot handled the issue that the customer talked to it about.
+	// Dialogflow only uses this to determine which conversations should be counted as successful and doesn't process the metadata in this message in any way. Note that Dialogflow also considers conversations that get to the conversation end page as successful even if they don't return ConversationSuccess.
+	// You may set this, for example:
+	// +kubebuilder:validation:Optional
+	ConversationSuccess []TriggerFulfillmentMessagesConversationSuccessParameters `json:"conversationSuccess,omitempty" tf:"conversation_success,omitempty"`
+
+	// Indicates that the conversation should be handed off to a live agent.
+	// Dialogflow only uses this to determine which conversations were handed off to a human agent for measurement purposes. What else to do with this signal is up to you and your handoff procedures.
+	// You may set this, for example:
+	// +kubebuilder:validation:Optional
+	LiveAgentHandoff []TriggerFulfillmentMessagesLiveAgentHandoffParameters `json:"liveAgentHandoff,omitempty" tf:"live_agent_handoff,omitempty"`
+
+	// A text or ssml response that is preferentially used for TTS output audio synthesis, as described in the comment on the ResponseMessage message.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	OutputAudioText []TriggerFulfillmentMessagesOutputAudioTextParameters `json:"outputAudioText,omitempty" tf:"output_audio_text,omitempty"`
+
+	// A custom, platform-specific payload.
+	// +kubebuilder:validation:Optional
+	Payload *string `json:"payload,omitempty" tf:"payload,omitempty"`
+
+	// Specifies an audio clip to be played by the client as part of the response.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PlayAudio []TriggerFulfillmentMessagesPlayAudioParameters `json:"playAudio,omitempty" tf:"play_audio,omitempty"`
+
+	// Represents the signal that telles the client to transfer the phone call connected to the agent to a third-party endpoint.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TelephonyTransferCall []TriggerFulfillmentMessagesTelephonyTransferCallParameters `json:"telephonyTransferCall,omitempty" tf:"telephony_transfer_call,omitempty"`
 
 	// A collection of text responses.
 	// +kubebuilder:validation:Optional
@@ -160,12 +562,20 @@ type EventHandlersTriggerFulfillmentMessagesParameters struct {
 
 type EventHandlersTriggerFulfillmentObservation struct {
 
+	// Conditional cases for this fulfillment.
+	// Structure is documented below.
+	ConditionalCases []EventHandlersTriggerFulfillmentConditionalCasesObservation `json:"conditionalCases,omitempty" tf:"conditional_cases,omitempty"`
+
 	// The list of rich message responses to present to the user.
 	// Structure is documented below.
 	Messages []EventHandlersTriggerFulfillmentMessagesObservation `json:"messages,omitempty" tf:"messages,omitempty"`
 
 	// Whether Dialogflow should return currently queued fulfillment response messages in streaming APIs. If a webhook is specified, it happens before Dialogflow invokes webhook. Warning: 1) This flag only affects streaming API. Responses are still queued and returned once in non-streaming API. 2) The flag can be enabled in any fulfillment but only the first 3 partial responses will be returned. You may only want to apply it to fulfillments that have slow webhooks.
 	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
+
+	// Set parameter values before executing the webhook.
+	// Structure is documented below.
+	SetParameterActions []EventHandlersTriggerFulfillmentSetParameterActionsObservation `json:"setParameterActions,omitempty" tf:"set_parameter_actions,omitempty"`
 
 	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
@@ -176,6 +586,11 @@ type EventHandlersTriggerFulfillmentObservation struct {
 
 type EventHandlersTriggerFulfillmentParameters struct {
 
+	// Conditional cases for this fulfillment.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ConditionalCases []EventHandlersTriggerFulfillmentConditionalCasesParameters `json:"conditionalCases,omitempty" tf:"conditional_cases,omitempty"`
+
 	// The list of rich message responses to present to the user.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -184,6 +599,11 @@ type EventHandlersTriggerFulfillmentParameters struct {
 	// Whether Dialogflow should return currently queued fulfillment response messages in streaming APIs. If a webhook is specified, it happens before Dialogflow invokes webhook. Warning: 1) This flag only affects streaming API. Responses are still queued and returned once in non-streaming API. 2) The flag can be enabled in any fulfillment but only the first 3 partial responses will be returned. You may only want to apply it to fulfillments that have slow webhooks.
 	// +kubebuilder:validation:Optional
 	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
+
+	// Set parameter values before executing the webhook.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SetParameterActions []EventHandlersTriggerFulfillmentSetParameterActionsParameters `json:"setParameterActions,omitempty" tf:"set_parameter_actions,omitempty"`
 
 	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
 	// +kubebuilder:validation:Optional
@@ -194,11 +614,43 @@ type EventHandlersTriggerFulfillmentParameters struct {
 	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
 }
 
+type EventHandlersTriggerFulfillmentSetParameterActionsInitParameters struct {
+
+	// Display name of the parameter.
+	Parameter *string `json:"parameter,omitempty" tf:"parameter,omitempty"`
+
+	// The new JSON-encoded value of the parameter. A null value clears the parameter.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type EventHandlersTriggerFulfillmentSetParameterActionsObservation struct {
+
+	// Display name of the parameter.
+	Parameter *string `json:"parameter,omitempty" tf:"parameter,omitempty"`
+
+	// The new JSON-encoded value of the parameter. A null value clears the parameter.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type EventHandlersTriggerFulfillmentSetParameterActionsParameters struct {
+
+	// Display name of the parameter.
+	// +kubebuilder:validation:Optional
+	Parameter *string `json:"parameter,omitempty" tf:"parameter,omitempty"`
+
+	// The new JSON-encoded value of the parameter. A null value clears the parameter.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
 type FillBehaviorInitParameters struct {
 
 	// The fulfillment to provide the initial prompt that the agent can present to the user in order to fill the parameter.
 	// Structure is documented below.
 	InitialPromptFulfillment []InitialPromptFulfillmentInitParameters `json:"initialPromptFulfillment,omitempty" tf:"initial_prompt_fulfillment,omitempty"`
+
+	// The handlers for parameter-level events, used to provide reprompt for the parameter or transition to a different page/flow. The supported events are:
+	RepromptEventHandlers []RepromptEventHandlersInitParameters `json:"repromptEventHandlers,omitempty" tf:"reprompt_event_handlers,omitempty"`
 }
 
 type FillBehaviorObservation struct {
@@ -206,6 +658,9 @@ type FillBehaviorObservation struct {
 	// The fulfillment to provide the initial prompt that the agent can present to the user in order to fill the parameter.
 	// Structure is documented below.
 	InitialPromptFulfillment []InitialPromptFulfillmentObservation `json:"initialPromptFulfillment,omitempty" tf:"initial_prompt_fulfillment,omitempty"`
+
+	// The handlers for parameter-level events, used to provide reprompt for the parameter or transition to a different page/flow. The supported events are:
+	RepromptEventHandlers []RepromptEventHandlersObservation `json:"repromptEventHandlers,omitempty" tf:"reprompt_event_handlers,omitempty"`
 }
 
 type FillBehaviorParameters struct {
@@ -214,6 +669,10 @@ type FillBehaviorParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	InitialPromptFulfillment []InitialPromptFulfillmentParameters `json:"initialPromptFulfillment,omitempty" tf:"initial_prompt_fulfillment,omitempty"`
+
+	// The handlers for parameter-level events, used to provide reprompt for the parameter or transition to a different page/flow. The supported events are:
+	// +kubebuilder:validation:Optional
+	RepromptEventHandlers []RepromptEventHandlersParameters `json:"repromptEventHandlers,omitempty" tf:"reprompt_event_handlers,omitempty"`
 }
 
 type FormInitParameters struct {
@@ -240,6 +699,14 @@ type FormParameters struct {
 
 type FormParametersInitParameters struct {
 
+	// Hierarchical advanced settings for this parameter. The settings exposed at the lower level overrides the settings exposed at the higher level.
+	// Hierarchy: Agent->Flow->Page->Fulfillment/Parameter.
+	// Structure is documented below.
+	AdvancedSettings []ParametersAdvancedSettingsInitParameters `json:"advancedSettings,omitempty" tf:"advanced_settings,omitempty"`
+
+	// The default value of an optional parameter. If the parameter is required, the default value will be ignored.
+	DefaultValue *string `json:"defaultValue,omitempty" tf:"default_value,omitempty"`
+
 	// The human-readable name of the parameter, unique within the form.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -265,6 +732,14 @@ type FormParametersInitParameters struct {
 
 type FormParametersObservation struct {
 
+	// Hierarchical advanced settings for this parameter. The settings exposed at the lower level overrides the settings exposed at the higher level.
+	// Hierarchy: Agent->Flow->Page->Fulfillment/Parameter.
+	// Structure is documented below.
+	AdvancedSettings []ParametersAdvancedSettingsObservation `json:"advancedSettings,omitempty" tf:"advanced_settings,omitempty"`
+
+	// The default value of an optional parameter. If the parameter is required, the default value will be ignored.
+	DefaultValue *string `json:"defaultValue,omitempty" tf:"default_value,omitempty"`
+
 	// The human-readable name of the parameter, unique within the form.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -289,6 +764,16 @@ type FormParametersObservation struct {
 }
 
 type FormParametersParameters struct {
+
+	// Hierarchical advanced settings for this parameter. The settings exposed at the lower level overrides the settings exposed at the higher level.
+	// Hierarchy: Agent->Flow->Page->Fulfillment/Parameter.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AdvancedSettings []ParametersAdvancedSettingsParameters `json:"advancedSettings,omitempty" tf:"advanced_settings,omitempty"`
+
+	// The default value of an optional parameter. If the parameter is required, the default value will be ignored.
+	// +kubebuilder:validation:Optional
+	DefaultValue *string `json:"defaultValue,omitempty" tf:"default_value,omitempty"`
 
 	// The human-readable name of the parameter, unique within the form.
 	// +kubebuilder:validation:Optional
@@ -319,7 +804,33 @@ type FormParametersParameters struct {
 	Required *bool `json:"required,omitempty" tf:"required,omitempty"`
 }
 
+type InitialPromptFulfillmentConditionalCasesInitParameters struct {
+
+	// A JSON encoded list of cascading if-else conditions. Cases are mutually exclusive. The first one with a matching condition is selected, all the rest ignored.
+	// See Case for the schema.
+	Cases *string `json:"cases,omitempty" tf:"cases,omitempty"`
+}
+
+type InitialPromptFulfillmentConditionalCasesObservation struct {
+
+	// A JSON encoded list of cascading if-else conditions. Cases are mutually exclusive. The first one with a matching condition is selected, all the rest ignored.
+	// See Case for the schema.
+	Cases *string `json:"cases,omitempty" tf:"cases,omitempty"`
+}
+
+type InitialPromptFulfillmentConditionalCasesParameters struct {
+
+	// A JSON encoded list of cascading if-else conditions. Cases are mutually exclusive. The first one with a matching condition is selected, all the rest ignored.
+	// See Case for the schema.
+	// +kubebuilder:validation:Optional
+	Cases *string `json:"cases,omitempty" tf:"cases,omitempty"`
+}
+
 type InitialPromptFulfillmentInitParameters struct {
+
+	// Conditional cases for this fulfillment.
+	// Structure is documented below.
+	ConditionalCases []InitialPromptFulfillmentConditionalCasesInitParameters `json:"conditionalCases,omitempty" tf:"conditional_cases,omitempty"`
 
 	// The list of rich message responses to present to the user.
 	// Structure is documented below.
@@ -328,6 +839,10 @@ type InitialPromptFulfillmentInitParameters struct {
 	// Whether Dialogflow should return currently queued fulfillment response messages in streaming APIs. If a webhook is specified, it happens before Dialogflow invokes webhook. Warning: 1) This flag only affects streaming API. Responses are still queued and returned once in non-streaming API. 2) The flag can be enabled in any fulfillment but only the first 3 partial responses will be returned. You may only want to apply it to fulfillments that have slow webhooks.
 	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
 
+	// Set parameter values before executing the webhook.
+	// Structure is documented below.
+	SetParameterActions []InitialPromptFulfillmentSetParameterActionsInitParameters `json:"setParameterActions,omitempty" tf:"set_parameter_actions,omitempty"`
+
 	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 
@@ -335,23 +850,227 @@ type InitialPromptFulfillmentInitParameters struct {
 	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
 }
 
+type InitialPromptFulfillmentMessagesConversationSuccessInitParameters struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type InitialPromptFulfillmentMessagesConversationSuccessObservation struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type InitialPromptFulfillmentMessagesConversationSuccessParameters struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	// +kubebuilder:validation:Optional
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
 type InitialPromptFulfillmentMessagesInitParameters struct {
+
+	// The channel which the response is associated with. Clients can specify the channel via QueryParameters.channel, and only associated channel response will be returned.
+	Channel *string `json:"channel,omitempty" tf:"channel,omitempty"`
+
+	// Indicates that the conversation succeeded, i.e., the bot handled the issue that the customer talked to it about.
+	// Dialogflow only uses this to determine which conversations should be counted as successful and doesn't process the metadata in this message in any way. Note that Dialogflow also considers conversations that get to the conversation end page as successful even if they don't return ConversationSuccess.
+	// You may set this, for example:
+	ConversationSuccess []InitialPromptFulfillmentMessagesConversationSuccessInitParameters `json:"conversationSuccess,omitempty" tf:"conversation_success,omitempty"`
+
+	// Indicates that the conversation should be handed off to a live agent.
+	// Dialogflow only uses this to determine which conversations were handed off to a human agent for measurement purposes. What else to do with this signal is up to you and your handoff procedures.
+	// You may set this, for example:
+	LiveAgentHandoff []InitialPromptFulfillmentMessagesLiveAgentHandoffInitParameters `json:"liveAgentHandoff,omitempty" tf:"live_agent_handoff,omitempty"`
+
+	// A text or ssml response that is preferentially used for TTS output audio synthesis, as described in the comment on the ResponseMessage message.
+	// Structure is documented below.
+	OutputAudioText []InitialPromptFulfillmentMessagesOutputAudioTextInitParameters `json:"outputAudioText,omitempty" tf:"output_audio_text,omitempty"`
+
+	// A custom, platform-specific payload.
+	Payload *string `json:"payload,omitempty" tf:"payload,omitempty"`
+
+	// Specifies an audio clip to be played by the client as part of the response.
+	// Structure is documented below.
+	PlayAudio []InitialPromptFulfillmentMessagesPlayAudioInitParameters `json:"playAudio,omitempty" tf:"play_audio,omitempty"`
+
+	// Represents the signal that telles the client to transfer the phone call connected to the agent to a third-party endpoint.
+	// Structure is documented below.
+	TelephonyTransferCall []InitialPromptFulfillmentMessagesTelephonyTransferCallInitParameters `json:"telephonyTransferCall,omitempty" tf:"telephony_transfer_call,omitempty"`
 
 	// A collection of text responses.
 	Text []InitialPromptFulfillmentMessagesTextInitParameters `json:"text,omitempty" tf:"text,omitempty"`
 }
 
+type InitialPromptFulfillmentMessagesLiveAgentHandoffInitParameters struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type InitialPromptFulfillmentMessagesLiveAgentHandoffObservation struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type InitialPromptFulfillmentMessagesLiveAgentHandoffParameters struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	// +kubebuilder:validation:Optional
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
 type InitialPromptFulfillmentMessagesObservation struct {
+
+	// The channel which the response is associated with. Clients can specify the channel via QueryParameters.channel, and only associated channel response will be returned.
+	Channel *string `json:"channel,omitempty" tf:"channel,omitempty"`
+
+	// Indicates that the conversation succeeded, i.e., the bot handled the issue that the customer talked to it about.
+	// Dialogflow only uses this to determine which conversations should be counted as successful and doesn't process the metadata in this message in any way. Note that Dialogflow also considers conversations that get to the conversation end page as successful even if they don't return ConversationSuccess.
+	// You may set this, for example:
+	ConversationSuccess []InitialPromptFulfillmentMessagesConversationSuccessObservation `json:"conversationSuccess,omitempty" tf:"conversation_success,omitempty"`
+
+	// Indicates that the conversation should be handed off to a live agent.
+	// Dialogflow only uses this to determine which conversations were handed off to a human agent for measurement purposes. What else to do with this signal is up to you and your handoff procedures.
+	// You may set this, for example:
+	LiveAgentHandoff []InitialPromptFulfillmentMessagesLiveAgentHandoffObservation `json:"liveAgentHandoff,omitempty" tf:"live_agent_handoff,omitempty"`
+
+	// A text or ssml response that is preferentially used for TTS output audio synthesis, as described in the comment on the ResponseMessage message.
+	// Structure is documented below.
+	OutputAudioText []InitialPromptFulfillmentMessagesOutputAudioTextObservation `json:"outputAudioText,omitempty" tf:"output_audio_text,omitempty"`
+
+	// A custom, platform-specific payload.
+	Payload *string `json:"payload,omitempty" tf:"payload,omitempty"`
+
+	// Specifies an audio clip to be played by the client as part of the response.
+	// Structure is documented below.
+	PlayAudio []InitialPromptFulfillmentMessagesPlayAudioObservation `json:"playAudio,omitempty" tf:"play_audio,omitempty"`
+
+	// Represents the signal that telles the client to transfer the phone call connected to the agent to a third-party endpoint.
+	// Structure is documented below.
+	TelephonyTransferCall []InitialPromptFulfillmentMessagesTelephonyTransferCallObservation `json:"telephonyTransferCall,omitempty" tf:"telephony_transfer_call,omitempty"`
 
 	// A collection of text responses.
 	Text []InitialPromptFulfillmentMessagesTextObservation `json:"text,omitempty" tf:"text,omitempty"`
 }
 
+type InitialPromptFulfillmentMessagesOutputAudioTextInitParameters struct {
+
+	// The SSML text to be synthesized. For more information, see SSML.
+	Ssml *string `json:"ssml,omitempty" tf:"ssml,omitempty"`
+
+	// A collection of text responses.
+	Text *string `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type InitialPromptFulfillmentMessagesOutputAudioTextObservation struct {
+
+	// (Output)
+	// Whether the playback of this message can be interrupted by the end user's speech and the client can then starts the next Dialogflow request.
+	AllowPlaybackInterruption *bool `json:"allowPlaybackInterruption,omitempty" tf:"allow_playback_interruption,omitempty"`
+
+	// The SSML text to be synthesized. For more information, see SSML.
+	Ssml *string `json:"ssml,omitempty" tf:"ssml,omitempty"`
+
+	// A collection of text responses.
+	Text *string `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type InitialPromptFulfillmentMessagesOutputAudioTextParameters struct {
+
+	// The SSML text to be synthesized. For more information, see SSML.
+	// +kubebuilder:validation:Optional
+	Ssml *string `json:"ssml,omitempty" tf:"ssml,omitempty"`
+
+	// A collection of text responses.
+	// +kubebuilder:validation:Optional
+	Text *string `json:"text,omitempty" tf:"text,omitempty"`
+}
+
 type InitialPromptFulfillmentMessagesParameters struct {
+
+	// The channel which the response is associated with. Clients can specify the channel via QueryParameters.channel, and only associated channel response will be returned.
+	// +kubebuilder:validation:Optional
+	Channel *string `json:"channel,omitempty" tf:"channel,omitempty"`
+
+	// Indicates that the conversation succeeded, i.e., the bot handled the issue that the customer talked to it about.
+	// Dialogflow only uses this to determine which conversations should be counted as successful and doesn't process the metadata in this message in any way. Note that Dialogflow also considers conversations that get to the conversation end page as successful even if they don't return ConversationSuccess.
+	// You may set this, for example:
+	// +kubebuilder:validation:Optional
+	ConversationSuccess []InitialPromptFulfillmentMessagesConversationSuccessParameters `json:"conversationSuccess,omitempty" tf:"conversation_success,omitempty"`
+
+	// Indicates that the conversation should be handed off to a live agent.
+	// Dialogflow only uses this to determine which conversations were handed off to a human agent for measurement purposes. What else to do with this signal is up to you and your handoff procedures.
+	// You may set this, for example:
+	// +kubebuilder:validation:Optional
+	LiveAgentHandoff []InitialPromptFulfillmentMessagesLiveAgentHandoffParameters `json:"liveAgentHandoff,omitempty" tf:"live_agent_handoff,omitempty"`
+
+	// A text or ssml response that is preferentially used for TTS output audio synthesis, as described in the comment on the ResponseMessage message.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	OutputAudioText []InitialPromptFulfillmentMessagesOutputAudioTextParameters `json:"outputAudioText,omitempty" tf:"output_audio_text,omitempty"`
+
+	// A custom, platform-specific payload.
+	// +kubebuilder:validation:Optional
+	Payload *string `json:"payload,omitempty" tf:"payload,omitempty"`
+
+	// Specifies an audio clip to be played by the client as part of the response.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PlayAudio []InitialPromptFulfillmentMessagesPlayAudioParameters `json:"playAudio,omitempty" tf:"play_audio,omitempty"`
+
+	// Represents the signal that telles the client to transfer the phone call connected to the agent to a third-party endpoint.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TelephonyTransferCall []InitialPromptFulfillmentMessagesTelephonyTransferCallParameters `json:"telephonyTransferCall,omitempty" tf:"telephony_transfer_call,omitempty"`
 
 	// A collection of text responses.
 	// +kubebuilder:validation:Optional
 	Text []InitialPromptFulfillmentMessagesTextParameters `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type InitialPromptFulfillmentMessagesPlayAudioInitParameters struct {
+
+	// URI of the audio clip. Dialogflow does not impose any validation on this value. It is specific to the client that reads it.
+	AudioURI *string `json:"audioUri,omitempty" tf:"audio_uri,omitempty"`
+}
+
+type InitialPromptFulfillmentMessagesPlayAudioObservation struct {
+
+	// (Output)
+	// Whether the playback of this message can be interrupted by the end user's speech and the client can then starts the next Dialogflow request.
+	AllowPlaybackInterruption *bool `json:"allowPlaybackInterruption,omitempty" tf:"allow_playback_interruption,omitempty"`
+
+	// URI of the audio clip. Dialogflow does not impose any validation on this value. It is specific to the client that reads it.
+	AudioURI *string `json:"audioUri,omitempty" tf:"audio_uri,omitempty"`
+}
+
+type InitialPromptFulfillmentMessagesPlayAudioParameters struct {
+
+	// URI of the audio clip. Dialogflow does not impose any validation on this value. It is specific to the client that reads it.
+	// +kubebuilder:validation:Optional
+	AudioURI *string `json:"audioUri" tf:"audio_uri,omitempty"`
+}
+
+type InitialPromptFulfillmentMessagesTelephonyTransferCallInitParameters struct {
+
+	// Transfer the call to a phone number in E.164 format.
+	PhoneNumber *string `json:"phoneNumber,omitempty" tf:"phone_number,omitempty"`
+}
+
+type InitialPromptFulfillmentMessagesTelephonyTransferCallObservation struct {
+
+	// Transfer the call to a phone number in E.164 format.
+	PhoneNumber *string `json:"phoneNumber,omitempty" tf:"phone_number,omitempty"`
+}
+
+type InitialPromptFulfillmentMessagesTelephonyTransferCallParameters struct {
+
+	// Transfer the call to a phone number in E.164 format.
+	// +kubebuilder:validation:Optional
+	PhoneNumber *string `json:"phoneNumber" tf:"phone_number,omitempty"`
 }
 
 type InitialPromptFulfillmentMessagesTextInitParameters struct {
@@ -379,12 +1098,20 @@ type InitialPromptFulfillmentMessagesTextParameters struct {
 
 type InitialPromptFulfillmentObservation struct {
 
+	// Conditional cases for this fulfillment.
+	// Structure is documented below.
+	ConditionalCases []InitialPromptFulfillmentConditionalCasesObservation `json:"conditionalCases,omitempty" tf:"conditional_cases,omitempty"`
+
 	// The list of rich message responses to present to the user.
 	// Structure is documented below.
 	Messages []InitialPromptFulfillmentMessagesObservation `json:"messages,omitempty" tf:"messages,omitempty"`
 
 	// Whether Dialogflow should return currently queued fulfillment response messages in streaming APIs. If a webhook is specified, it happens before Dialogflow invokes webhook. Warning: 1) This flag only affects streaming API. Responses are still queued and returned once in non-streaming API. 2) The flag can be enabled in any fulfillment but only the first 3 partial responses will be returned. You may only want to apply it to fulfillments that have slow webhooks.
 	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
+
+	// Set parameter values before executing the webhook.
+	// Structure is documented below.
+	SetParameterActions []InitialPromptFulfillmentSetParameterActionsObservation `json:"setParameterActions,omitempty" tf:"set_parameter_actions,omitempty"`
 
 	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
@@ -395,6 +1122,11 @@ type InitialPromptFulfillmentObservation struct {
 
 type InitialPromptFulfillmentParameters struct {
 
+	// Conditional cases for this fulfillment.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ConditionalCases []InitialPromptFulfillmentConditionalCasesParameters `json:"conditionalCases,omitempty" tf:"conditional_cases,omitempty"`
+
 	// The list of rich message responses to present to the user.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -404,6 +1136,11 @@ type InitialPromptFulfillmentParameters struct {
 	// +kubebuilder:validation:Optional
 	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
 
+	// Set parameter values before executing the webhook.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SetParameterActions []InitialPromptFulfillmentSetParameterActionsParameters `json:"setParameterActions,omitempty" tf:"set_parameter_actions,omitempty"`
+
 	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
 	// +kubebuilder:validation:Optional
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
@@ -411,6 +1148,93 @@ type InitialPromptFulfillmentParameters struct {
 	// The webhook to call. Format: projects//locations//agents//webhooks/.
 	// +kubebuilder:validation:Optional
 	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
+}
+
+type InitialPromptFulfillmentSetParameterActionsInitParameters struct {
+
+	// Display name of the parameter.
+	Parameter *string `json:"parameter,omitempty" tf:"parameter,omitempty"`
+
+	// The new JSON-encoded value of the parameter. A null value clears the parameter.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type InitialPromptFulfillmentSetParameterActionsObservation struct {
+
+	// Display name of the parameter.
+	Parameter *string `json:"parameter,omitempty" tf:"parameter,omitempty"`
+
+	// The new JSON-encoded value of the parameter. A null value clears the parameter.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type InitialPromptFulfillmentSetParameterActionsParameters struct {
+
+	// Display name of the parameter.
+	// +kubebuilder:validation:Optional
+	Parameter *string `json:"parameter,omitempty" tf:"parameter,omitempty"`
+
+	// The new JSON-encoded value of the parameter. A null value clears the parameter.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type PageAdvancedSettingsDtmfSettingsInitParameters struct {
+
+	// If true, incoming audio is processed for DTMF (dual tone multi frequency) events. For example, if the caller presses a button on their telephone keypad and DTMF processing is enabled, Dialogflow will detect the event (e.g. a "3" was pressed) in the incoming audio and pass the event to the bot to drive business logic (e.g. when 3 is pressed, return the account balance).
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// The digit that terminates a DTMF digit sequence.
+	FinishDigit *string `json:"finishDigit,omitempty" tf:"finish_digit,omitempty"`
+
+	// Max length of DTMF digits.
+	MaxDigits *float64 `json:"maxDigits,omitempty" tf:"max_digits,omitempty"`
+}
+
+type PageAdvancedSettingsDtmfSettingsObservation struct {
+
+	// If true, incoming audio is processed for DTMF (dual tone multi frequency) events. For example, if the caller presses a button on their telephone keypad and DTMF processing is enabled, Dialogflow will detect the event (e.g. a "3" was pressed) in the incoming audio and pass the event to the bot to drive business logic (e.g. when 3 is pressed, return the account balance).
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// The digit that terminates a DTMF digit sequence.
+	FinishDigit *string `json:"finishDigit,omitempty" tf:"finish_digit,omitempty"`
+
+	// Max length of DTMF digits.
+	MaxDigits *float64 `json:"maxDigits,omitempty" tf:"max_digits,omitempty"`
+}
+
+type PageAdvancedSettingsDtmfSettingsParameters struct {
+
+	// If true, incoming audio is processed for DTMF (dual tone multi frequency) events. For example, if the caller presses a button on their telephone keypad and DTMF processing is enabled, Dialogflow will detect the event (e.g. a "3" was pressed) in the incoming audio and pass the event to the bot to drive business logic (e.g. when 3 is pressed, return the account balance).
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// The digit that terminates a DTMF digit sequence.
+	// +kubebuilder:validation:Optional
+	FinishDigit *string `json:"finishDigit,omitempty" tf:"finish_digit,omitempty"`
+
+	// Max length of DTMF digits.
+	// +kubebuilder:validation:Optional
+	MaxDigits *float64 `json:"maxDigits,omitempty" tf:"max_digits,omitempty"`
+}
+
+type PageAdvancedSettingsInitParameters struct {
+
+	// Define behaviors for DTMF (dual tone multi frequency). DTMF settings does not override each other. DTMF settings set at different levels define DTMF detections running in parallel. Exposed at the following levels:
+	DtmfSettings []PageAdvancedSettingsDtmfSettingsInitParameters `json:"dtmfSettings,omitempty" tf:"dtmf_settings,omitempty"`
+}
+
+type PageAdvancedSettingsObservation struct {
+
+	// Define behaviors for DTMF (dual tone multi frequency). DTMF settings does not override each other. DTMF settings set at different levels define DTMF detections running in parallel. Exposed at the following levels:
+	DtmfSettings []PageAdvancedSettingsDtmfSettingsObservation `json:"dtmfSettings,omitempty" tf:"dtmf_settings,omitempty"`
+}
+
+type PageAdvancedSettingsParameters struct {
+
+	// Define behaviors for DTMF (dual tone multi frequency). DTMF settings does not override each other. DTMF settings set at different levels define DTMF detections running in parallel. Exposed at the following levels:
+	// +kubebuilder:validation:Optional
+	DtmfSettings []PageAdvancedSettingsDtmfSettingsParameters `json:"dtmfSettings,omitempty" tf:"dtmf_settings,omitempty"`
 }
 
 type PageEventHandlersInitParameters struct {
@@ -477,6 +1301,11 @@ type PageEventHandlersParameters struct {
 
 type PageInitParameters struct {
 
+	// Hierarchical advanced settings for this page. The settings exposed at the lower level overrides the settings exposed at the higher level.
+	// Hierarchy: Agent->Flow->Page->Fulfillment/Parameter.
+	// Structure is documented below.
+	AdvancedSettings []PageAdvancedSettingsInitParameters `json:"advancedSettings,omitempty" tf:"advanced_settings,omitempty"`
+
 	// The human-readable name of the page, unique within the agent.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -540,6 +1369,11 @@ type PageInitParameters struct {
 
 type PageObservation struct {
 
+	// Hierarchical advanced settings for this page. The settings exposed at the lower level overrides the settings exposed at the higher level.
+	// Hierarchy: Agent->Flow->Page->Fulfillment/Parameter.
+	// Structure is documented below.
+	AdvancedSettings []PageAdvancedSettingsObservation `json:"advancedSettings,omitempty" tf:"advanced_settings,omitempty"`
+
 	// The human-readable name of the page, unique within the agent.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -599,6 +1433,12 @@ type PageObservation struct {
 }
 
 type PageParameters struct {
+
+	// Hierarchical advanced settings for this page. The settings exposed at the lower level overrides the settings exposed at the higher level.
+	// Hierarchy: Agent->Flow->Page->Fulfillment/Parameter.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AdvancedSettings []PageAdvancedSettingsParameters `json:"advancedSettings,omitempty" tf:"advanced_settings,omitempty"`
 
 	// The human-readable name of the page, unique within the agent.
 	// +kubebuilder:validation:Optional
@@ -697,7 +1537,7 @@ type PageTransitionRoutesInitParameters struct {
 	// +kubebuilder:validation:Optional
 	TargetPageSelector *v1.Selector `json:"targetPageSelector,omitempty" tf:"-"`
 
-	// The fulfillment to call when the event occurs. Handling webhook errors with a fulfillment enabled with webhook could cause infinite loop. It is invalid to specify such fulfillment for a handler handling webhooks.
+	// The fulfillment to call when the condition is satisfied. At least one of triggerFulfillment and target must be specified. When both are defined, triggerFulfillment is executed first.
 	// Structure is documented below.
 	TriggerFulfillment []PageTransitionRoutesTriggerFulfillmentInitParameters `json:"triggerFulfillment,omitempty" tf:"trigger_fulfillment,omitempty"`
 }
@@ -724,7 +1564,7 @@ type PageTransitionRoutesObservation struct {
 	// Format: projects//locations//agents//flows//pages/.
 	TargetPage *string `json:"targetPage,omitempty" tf:"target_page,omitempty"`
 
-	// The fulfillment to call when the event occurs. Handling webhook errors with a fulfillment enabled with webhook could cause infinite loop. It is invalid to specify such fulfillment for a handler handling webhooks.
+	// The fulfillment to call when the condition is satisfied. At least one of triggerFulfillment and target must be specified. When both are defined, triggerFulfillment is executed first.
 	// Structure is documented below.
 	TriggerFulfillment []PageTransitionRoutesTriggerFulfillmentObservation `json:"triggerFulfillment,omitempty" tf:"trigger_fulfillment,omitempty"`
 }
@@ -761,7 +1601,7 @@ type PageTransitionRoutesParameters struct {
 	// +kubebuilder:validation:Optional
 	TargetPageSelector *v1.Selector `json:"targetPageSelector,omitempty" tf:"-"`
 
-	// The fulfillment to call when the event occurs. Handling webhook errors with a fulfillment enabled with webhook could cause infinite loop. It is invalid to specify such fulfillment for a handler handling webhooks.
+	// The fulfillment to call when the condition is satisfied. At least one of triggerFulfillment and target must be specified. When both are defined, triggerFulfillment is executed first.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	TriggerFulfillment []PageTransitionRoutesTriggerFulfillmentParameters `json:"triggerFulfillment,omitempty" tf:"trigger_fulfillment,omitempty"`
@@ -769,12 +1609,20 @@ type PageTransitionRoutesParameters struct {
 
 type PageTransitionRoutesTriggerFulfillmentInitParameters struct {
 
+	// Conditional cases for this fulfillment.
+	// Structure is documented below.
+	ConditionalCases []TransitionRoutesTriggerFulfillmentConditionalCasesInitParameters `json:"conditionalCases,omitempty" tf:"conditional_cases,omitempty"`
+
 	// The list of rich message responses to present to the user.
 	// Structure is documented below.
 	Messages []TransitionRoutesTriggerFulfillmentMessagesInitParameters `json:"messages,omitempty" tf:"messages,omitempty"`
 
 	// Whether Dialogflow should return currently queued fulfillment response messages in streaming APIs. If a webhook is specified, it happens before Dialogflow invokes webhook. Warning: 1) This flag only affects streaming API. Responses are still queued and returned once in non-streaming API. 2) The flag can be enabled in any fulfillment but only the first 3 partial responses will be returned. You may only want to apply it to fulfillments that have slow webhooks.
 	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
+
+	// Set parameter values before executing the webhook.
+	// Structure is documented below.
+	SetParameterActions []TransitionRoutesTriggerFulfillmentSetParameterActionsInitParameters `json:"setParameterActions,omitempty" tf:"set_parameter_actions,omitempty"`
 
 	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
@@ -785,12 +1633,20 @@ type PageTransitionRoutesTriggerFulfillmentInitParameters struct {
 
 type PageTransitionRoutesTriggerFulfillmentObservation struct {
 
+	// Conditional cases for this fulfillment.
+	// Structure is documented below.
+	ConditionalCases []TransitionRoutesTriggerFulfillmentConditionalCasesObservation `json:"conditionalCases,omitempty" tf:"conditional_cases,omitempty"`
+
 	// The list of rich message responses to present to the user.
 	// Structure is documented below.
 	Messages []TransitionRoutesTriggerFulfillmentMessagesObservation `json:"messages,omitempty" tf:"messages,omitempty"`
 
 	// Whether Dialogflow should return currently queued fulfillment response messages in streaming APIs. If a webhook is specified, it happens before Dialogflow invokes webhook. Warning: 1) This flag only affects streaming API. Responses are still queued and returned once in non-streaming API. 2) The flag can be enabled in any fulfillment but only the first 3 partial responses will be returned. You may only want to apply it to fulfillments that have slow webhooks.
 	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
+
+	// Set parameter values before executing the webhook.
+	// Structure is documented below.
+	SetParameterActions []TransitionRoutesTriggerFulfillmentSetParameterActionsObservation `json:"setParameterActions,omitempty" tf:"set_parameter_actions,omitempty"`
 
 	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
@@ -801,6 +1657,11 @@ type PageTransitionRoutesTriggerFulfillmentObservation struct {
 
 type PageTransitionRoutesTriggerFulfillmentParameters struct {
 
+	// Conditional cases for this fulfillment.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ConditionalCases []TransitionRoutesTriggerFulfillmentConditionalCasesParameters `json:"conditionalCases,omitempty" tf:"conditional_cases,omitempty"`
+
 	// The list of rich message responses to present to the user.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -809,6 +1670,11 @@ type PageTransitionRoutesTriggerFulfillmentParameters struct {
 	// Whether Dialogflow should return currently queued fulfillment response messages in streaming APIs. If a webhook is specified, it happens before Dialogflow invokes webhook. Warning: 1) This flag only affects streaming API. Responses are still queued and returned once in non-streaming API. 2) The flag can be enabled in any fulfillment but only the first 3 partial responses will be returned. You may only want to apply it to fulfillments that have slow webhooks.
 	// +kubebuilder:validation:Optional
 	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
+
+	// Set parameter values before executing the webhook.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SetParameterActions []TransitionRoutesTriggerFulfillmentSetParameterActionsParameters `json:"setParameterActions,omitempty" tf:"set_parameter_actions,omitempty"`
 
 	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
 	// +kubebuilder:validation:Optional
@@ -819,23 +1685,804 @@ type PageTransitionRoutesTriggerFulfillmentParameters struct {
 	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
 }
 
+type ParametersAdvancedSettingsDtmfSettingsInitParameters struct {
+
+	// If true, incoming audio is processed for DTMF (dual tone multi frequency) events. For example, if the caller presses a button on their telephone keypad and DTMF processing is enabled, Dialogflow will detect the event (e.g. a "3" was pressed) in the incoming audio and pass the event to the bot to drive business logic (e.g. when 3 is pressed, return the account balance).
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// The digit that terminates a DTMF digit sequence.
+	FinishDigit *string `json:"finishDigit,omitempty" tf:"finish_digit,omitempty"`
+
+	// Max length of DTMF digits.
+	MaxDigits *float64 `json:"maxDigits,omitempty" tf:"max_digits,omitempty"`
+}
+
+type ParametersAdvancedSettingsDtmfSettingsObservation struct {
+
+	// If true, incoming audio is processed for DTMF (dual tone multi frequency) events. For example, if the caller presses a button on their telephone keypad and DTMF processing is enabled, Dialogflow will detect the event (e.g. a "3" was pressed) in the incoming audio and pass the event to the bot to drive business logic (e.g. when 3 is pressed, return the account balance).
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// The digit that terminates a DTMF digit sequence.
+	FinishDigit *string `json:"finishDigit,omitempty" tf:"finish_digit,omitempty"`
+
+	// Max length of DTMF digits.
+	MaxDigits *float64 `json:"maxDigits,omitempty" tf:"max_digits,omitempty"`
+}
+
+type ParametersAdvancedSettingsDtmfSettingsParameters struct {
+
+	// If true, incoming audio is processed for DTMF (dual tone multi frequency) events. For example, if the caller presses a button on their telephone keypad and DTMF processing is enabled, Dialogflow will detect the event (e.g. a "3" was pressed) in the incoming audio and pass the event to the bot to drive business logic (e.g. when 3 is pressed, return the account balance).
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// The digit that terminates a DTMF digit sequence.
+	// +kubebuilder:validation:Optional
+	FinishDigit *string `json:"finishDigit,omitempty" tf:"finish_digit,omitempty"`
+
+	// Max length of DTMF digits.
+	// +kubebuilder:validation:Optional
+	MaxDigits *float64 `json:"maxDigits,omitempty" tf:"max_digits,omitempty"`
+}
+
+type ParametersAdvancedSettingsInitParameters struct {
+
+	// Define behaviors for DTMF (dual tone multi frequency). DTMF settings does not override each other. DTMF settings set at different levels define DTMF detections running in parallel. Exposed at the following levels:
+	DtmfSettings []ParametersAdvancedSettingsDtmfSettingsInitParameters `json:"dtmfSettings,omitempty" tf:"dtmf_settings,omitempty"`
+}
+
+type ParametersAdvancedSettingsObservation struct {
+
+	// Define behaviors for DTMF (dual tone multi frequency). DTMF settings does not override each other. DTMF settings set at different levels define DTMF detections running in parallel. Exposed at the following levels:
+	DtmfSettings []ParametersAdvancedSettingsDtmfSettingsObservation `json:"dtmfSettings,omitempty" tf:"dtmf_settings,omitempty"`
+}
+
+type ParametersAdvancedSettingsParameters struct {
+
+	// Define behaviors for DTMF (dual tone multi frequency). DTMF settings does not override each other. DTMF settings set at different levels define DTMF detections running in parallel. Exposed at the following levels:
+	// +kubebuilder:validation:Optional
+	DtmfSettings []ParametersAdvancedSettingsDtmfSettingsParameters `json:"dtmfSettings,omitempty" tf:"dtmf_settings,omitempty"`
+}
+
+type RepromptEventHandlersInitParameters struct {
+
+	// The name of the event to handle.
+	Event *string `json:"event,omitempty" tf:"event,omitempty"`
+
+	// The target flow to transition to.
+	// Format: projects//locations//agents//flows/.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dialogflowcx/v1beta1.Agent
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("start_flow",true)
+	TargetFlow *string `json:"targetFlow,omitempty" tf:"target_flow,omitempty"`
+
+	// Reference to a Agent in dialogflowcx to populate targetFlow.
+	// +kubebuilder:validation:Optional
+	TargetFlowRef *v1.Reference `json:"targetFlowRef,omitempty" tf:"-"`
+
+	// Selector for a Agent in dialogflowcx to populate targetFlow.
+	// +kubebuilder:validation:Optional
+	TargetFlowSelector *v1.Selector `json:"targetFlowSelector,omitempty" tf:"-"`
+
+	// The target page to transition to.
+	// Format: projects//locations//agents//flows//pages/.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dialogflowcx/v1beta1.Page
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	TargetPage *string `json:"targetPage,omitempty" tf:"target_page,omitempty"`
+
+	// Reference to a Page in dialogflowcx to populate targetPage.
+	// +kubebuilder:validation:Optional
+	TargetPageRef *v1.Reference `json:"targetPageRef,omitempty" tf:"-"`
+
+	// Selector for a Page in dialogflowcx to populate targetPage.
+	// +kubebuilder:validation:Optional
+	TargetPageSelector *v1.Selector `json:"targetPageSelector,omitempty" tf:"-"`
+
+	// The fulfillment to call when the condition is satisfied. At least one of triggerFulfillment and target must be specified. When both are defined, triggerFulfillment is executed first.
+	// Structure is documented below.
+	TriggerFulfillment []RepromptEventHandlersTriggerFulfillmentInitParameters `json:"triggerFulfillment,omitempty" tf:"trigger_fulfillment,omitempty"`
+}
+
+type RepromptEventHandlersObservation struct {
+
+	// The name of the event to handle.
+	Event *string `json:"event,omitempty" tf:"event,omitempty"`
+
+	// (Output)
+	// The unique identifier of this transition route.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The target flow to transition to.
+	// Format: projects//locations//agents//flows/.
+	TargetFlow *string `json:"targetFlow,omitempty" tf:"target_flow,omitempty"`
+
+	// The target page to transition to.
+	// Format: projects//locations//agents//flows//pages/.
+	TargetPage *string `json:"targetPage,omitempty" tf:"target_page,omitempty"`
+
+	// The fulfillment to call when the condition is satisfied. At least one of triggerFulfillment and target must be specified. When both are defined, triggerFulfillment is executed first.
+	// Structure is documented below.
+	TriggerFulfillment []RepromptEventHandlersTriggerFulfillmentObservation `json:"triggerFulfillment,omitempty" tf:"trigger_fulfillment,omitempty"`
+}
+
+type RepromptEventHandlersParameters struct {
+
+	// The name of the event to handle.
+	// +kubebuilder:validation:Optional
+	Event *string `json:"event,omitempty" tf:"event,omitempty"`
+
+	// The target flow to transition to.
+	// Format: projects//locations//agents//flows/.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dialogflowcx/v1beta1.Agent
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("start_flow",true)
+	// +kubebuilder:validation:Optional
+	TargetFlow *string `json:"targetFlow,omitempty" tf:"target_flow,omitempty"`
+
+	// Reference to a Agent in dialogflowcx to populate targetFlow.
+	// +kubebuilder:validation:Optional
+	TargetFlowRef *v1.Reference `json:"targetFlowRef,omitempty" tf:"-"`
+
+	// Selector for a Agent in dialogflowcx to populate targetFlow.
+	// +kubebuilder:validation:Optional
+	TargetFlowSelector *v1.Selector `json:"targetFlowSelector,omitempty" tf:"-"`
+
+	// The target page to transition to.
+	// Format: projects//locations//agents//flows//pages/.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dialogflowcx/v1beta1.Page
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	TargetPage *string `json:"targetPage,omitempty" tf:"target_page,omitempty"`
+
+	// Reference to a Page in dialogflowcx to populate targetPage.
+	// +kubebuilder:validation:Optional
+	TargetPageRef *v1.Reference `json:"targetPageRef,omitempty" tf:"-"`
+
+	// Selector for a Page in dialogflowcx to populate targetPage.
+	// +kubebuilder:validation:Optional
+	TargetPageSelector *v1.Selector `json:"targetPageSelector,omitempty" tf:"-"`
+
+	// The fulfillment to call when the condition is satisfied. At least one of triggerFulfillment and target must be specified. When both are defined, triggerFulfillment is executed first.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TriggerFulfillment []RepromptEventHandlersTriggerFulfillmentParameters `json:"triggerFulfillment,omitempty" tf:"trigger_fulfillment,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentConditionalCasesInitParameters struct {
+
+	// A JSON encoded list of cascading if-else conditions. Cases are mutually exclusive. The first one with a matching condition is selected, all the rest ignored.
+	// See Case for the schema.
+	Cases *string `json:"cases,omitempty" tf:"cases,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentConditionalCasesObservation struct {
+
+	// A JSON encoded list of cascading if-else conditions. Cases are mutually exclusive. The first one with a matching condition is selected, all the rest ignored.
+	// See Case for the schema.
+	Cases *string `json:"cases,omitempty" tf:"cases,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentConditionalCasesParameters struct {
+
+	// A JSON encoded list of cascading if-else conditions. Cases are mutually exclusive. The first one with a matching condition is selected, all the rest ignored.
+	// See Case for the schema.
+	// +kubebuilder:validation:Optional
+	Cases *string `json:"cases,omitempty" tf:"cases,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentInitParameters struct {
+
+	// Conditional cases for this fulfillment.
+	// Structure is documented below.
+	ConditionalCases []RepromptEventHandlersTriggerFulfillmentConditionalCasesInitParameters `json:"conditionalCases,omitempty" tf:"conditional_cases,omitempty"`
+
+	// The list of rich message responses to present to the user.
+	// Structure is documented below.
+	Messages []RepromptEventHandlersTriggerFulfillmentMessagesInitParameters `json:"messages,omitempty" tf:"messages,omitempty"`
+
+	// Whether Dialogflow should return currently queued fulfillment response messages in streaming APIs. If a webhook is specified, it happens before Dialogflow invokes webhook. Warning: 1) This flag only affects streaming API. Responses are still queued and returned once in non-streaming API. 2) The flag can be enabled in any fulfillment but only the first 3 partial responses will be returned. You may only want to apply it to fulfillments that have slow webhooks.
+	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
+
+	// Set parameter values before executing the webhook.
+	// Structure is documented below.
+	SetParameterActions []RepromptEventHandlersTriggerFulfillmentSetParameterActionsInitParameters `json:"setParameterActions,omitempty" tf:"set_parameter_actions,omitempty"`
+
+	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
+	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+
+	// The webhook to call. Format: projects//locations//agents//webhooks/.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dialogflowcx/v1beta1.Webhook
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
+
+	// Reference to a Webhook in dialogflowcx to populate webhook.
+	// +kubebuilder:validation:Optional
+	WebhookRef *v1.Reference `json:"webhookRef,omitempty" tf:"-"`
+
+	// Selector for a Webhook in dialogflowcx to populate webhook.
+	// +kubebuilder:validation:Optional
+	WebhookSelector *v1.Selector `json:"webhookSelector,omitempty" tf:"-"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentMessagesConversationSuccessInitParameters struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentMessagesConversationSuccessObservation struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentMessagesConversationSuccessParameters struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	// +kubebuilder:validation:Optional
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentMessagesInitParameters struct {
+
+	// The channel which the response is associated with. Clients can specify the channel via QueryParameters.channel, and only associated channel response will be returned.
+	Channel *string `json:"channel,omitempty" tf:"channel,omitempty"`
+
+	// Indicates that the conversation succeeded, i.e., the bot handled the issue that the customer talked to it about.
+	// Dialogflow only uses this to determine which conversations should be counted as successful and doesn't process the metadata in this message in any way. Note that Dialogflow also considers conversations that get to the conversation end page as successful even if they don't return ConversationSuccess.
+	// You may set this, for example:
+	ConversationSuccess []RepromptEventHandlersTriggerFulfillmentMessagesConversationSuccessInitParameters `json:"conversationSuccess,omitempty" tf:"conversation_success,omitempty"`
+
+	// Indicates that the conversation should be handed off to a live agent.
+	// Dialogflow only uses this to determine which conversations were handed off to a human agent for measurement purposes. What else to do with this signal is up to you and your handoff procedures.
+	// You may set this, for example:
+	LiveAgentHandoff []RepromptEventHandlersTriggerFulfillmentMessagesLiveAgentHandoffInitParameters `json:"liveAgentHandoff,omitempty" tf:"live_agent_handoff,omitempty"`
+
+	// A text or ssml response that is preferentially used for TTS output audio synthesis, as described in the comment on the ResponseMessage message.
+	// Structure is documented below.
+	OutputAudioText []RepromptEventHandlersTriggerFulfillmentMessagesOutputAudioTextInitParameters `json:"outputAudioText,omitempty" tf:"output_audio_text,omitempty"`
+
+	// A custom, platform-specific payload.
+	Payload *string `json:"payload,omitempty" tf:"payload,omitempty"`
+
+	// Specifies an audio clip to be played by the client as part of the response.
+	// Structure is documented below.
+	PlayAudio []RepromptEventHandlersTriggerFulfillmentMessagesPlayAudioInitParameters `json:"playAudio,omitempty" tf:"play_audio,omitempty"`
+
+	// Represents the signal that telles the client to transfer the phone call connected to the agent to a third-party endpoint.
+	// Structure is documented below.
+	TelephonyTransferCall []RepromptEventHandlersTriggerFulfillmentMessagesTelephonyTransferCallInitParameters `json:"telephonyTransferCall,omitempty" tf:"telephony_transfer_call,omitempty"`
+
+	// A collection of text responses.
+	Text []RepromptEventHandlersTriggerFulfillmentMessagesTextInitParameters `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentMessagesLiveAgentHandoffInitParameters struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentMessagesLiveAgentHandoffObservation struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentMessagesLiveAgentHandoffParameters struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	// +kubebuilder:validation:Optional
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentMessagesObservation struct {
+
+	// The channel which the response is associated with. Clients can specify the channel via QueryParameters.channel, and only associated channel response will be returned.
+	Channel *string `json:"channel,omitempty" tf:"channel,omitempty"`
+
+	// Indicates that the conversation succeeded, i.e., the bot handled the issue that the customer talked to it about.
+	// Dialogflow only uses this to determine which conversations should be counted as successful and doesn't process the metadata in this message in any way. Note that Dialogflow also considers conversations that get to the conversation end page as successful even if they don't return ConversationSuccess.
+	// You may set this, for example:
+	ConversationSuccess []RepromptEventHandlersTriggerFulfillmentMessagesConversationSuccessObservation `json:"conversationSuccess,omitempty" tf:"conversation_success,omitempty"`
+
+	// Indicates that the conversation should be handed off to a live agent.
+	// Dialogflow only uses this to determine which conversations were handed off to a human agent for measurement purposes. What else to do with this signal is up to you and your handoff procedures.
+	// You may set this, for example:
+	LiveAgentHandoff []RepromptEventHandlersTriggerFulfillmentMessagesLiveAgentHandoffObservation `json:"liveAgentHandoff,omitempty" tf:"live_agent_handoff,omitempty"`
+
+	// A text or ssml response that is preferentially used for TTS output audio synthesis, as described in the comment on the ResponseMessage message.
+	// Structure is documented below.
+	OutputAudioText []RepromptEventHandlersTriggerFulfillmentMessagesOutputAudioTextObservation `json:"outputAudioText,omitempty" tf:"output_audio_text,omitempty"`
+
+	// A custom, platform-specific payload.
+	Payload *string `json:"payload,omitempty" tf:"payload,omitempty"`
+
+	// Specifies an audio clip to be played by the client as part of the response.
+	// Structure is documented below.
+	PlayAudio []RepromptEventHandlersTriggerFulfillmentMessagesPlayAudioObservation `json:"playAudio,omitempty" tf:"play_audio,omitempty"`
+
+	// Represents the signal that telles the client to transfer the phone call connected to the agent to a third-party endpoint.
+	// Structure is documented below.
+	TelephonyTransferCall []RepromptEventHandlersTriggerFulfillmentMessagesTelephonyTransferCallObservation `json:"telephonyTransferCall,omitempty" tf:"telephony_transfer_call,omitempty"`
+
+	// A collection of text responses.
+	Text []RepromptEventHandlersTriggerFulfillmentMessagesTextObservation `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentMessagesOutputAudioTextInitParameters struct {
+
+	// The SSML text to be synthesized. For more information, see SSML.
+	Ssml *string `json:"ssml,omitempty" tf:"ssml,omitempty"`
+
+	// A collection of text responses.
+	Text *string `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentMessagesOutputAudioTextObservation struct {
+
+	// (Output)
+	// Whether the playback of this message can be interrupted by the end user's speech and the client can then starts the next Dialogflow request.
+	AllowPlaybackInterruption *bool `json:"allowPlaybackInterruption,omitempty" tf:"allow_playback_interruption,omitempty"`
+
+	// The SSML text to be synthesized. For more information, see SSML.
+	Ssml *string `json:"ssml,omitempty" tf:"ssml,omitempty"`
+
+	// A collection of text responses.
+	Text *string `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentMessagesOutputAudioTextParameters struct {
+
+	// The SSML text to be synthesized. For more information, see SSML.
+	// +kubebuilder:validation:Optional
+	Ssml *string `json:"ssml,omitempty" tf:"ssml,omitempty"`
+
+	// A collection of text responses.
+	// +kubebuilder:validation:Optional
+	Text *string `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentMessagesParameters struct {
+
+	// The channel which the response is associated with. Clients can specify the channel via QueryParameters.channel, and only associated channel response will be returned.
+	// +kubebuilder:validation:Optional
+	Channel *string `json:"channel,omitempty" tf:"channel,omitempty"`
+
+	// Indicates that the conversation succeeded, i.e., the bot handled the issue that the customer talked to it about.
+	// Dialogflow only uses this to determine which conversations should be counted as successful and doesn't process the metadata in this message in any way. Note that Dialogflow also considers conversations that get to the conversation end page as successful even if they don't return ConversationSuccess.
+	// You may set this, for example:
+	// +kubebuilder:validation:Optional
+	ConversationSuccess []RepromptEventHandlersTriggerFulfillmentMessagesConversationSuccessParameters `json:"conversationSuccess,omitempty" tf:"conversation_success,omitempty"`
+
+	// Indicates that the conversation should be handed off to a live agent.
+	// Dialogflow only uses this to determine which conversations were handed off to a human agent for measurement purposes. What else to do with this signal is up to you and your handoff procedures.
+	// You may set this, for example:
+	// +kubebuilder:validation:Optional
+	LiveAgentHandoff []RepromptEventHandlersTriggerFulfillmentMessagesLiveAgentHandoffParameters `json:"liveAgentHandoff,omitempty" tf:"live_agent_handoff,omitempty"`
+
+	// A text or ssml response that is preferentially used for TTS output audio synthesis, as described in the comment on the ResponseMessage message.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	OutputAudioText []RepromptEventHandlersTriggerFulfillmentMessagesOutputAudioTextParameters `json:"outputAudioText,omitempty" tf:"output_audio_text,omitempty"`
+
+	// A custom, platform-specific payload.
+	// +kubebuilder:validation:Optional
+	Payload *string `json:"payload,omitempty" tf:"payload,omitempty"`
+
+	// Specifies an audio clip to be played by the client as part of the response.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PlayAudio []RepromptEventHandlersTriggerFulfillmentMessagesPlayAudioParameters `json:"playAudio,omitempty" tf:"play_audio,omitempty"`
+
+	// Represents the signal that telles the client to transfer the phone call connected to the agent to a third-party endpoint.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TelephonyTransferCall []RepromptEventHandlersTriggerFulfillmentMessagesTelephonyTransferCallParameters `json:"telephonyTransferCall,omitempty" tf:"telephony_transfer_call,omitempty"`
+
+	// A collection of text responses.
+	// +kubebuilder:validation:Optional
+	Text []RepromptEventHandlersTriggerFulfillmentMessagesTextParameters `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentMessagesPlayAudioInitParameters struct {
+
+	// URI of the audio clip. Dialogflow does not impose any validation on this value. It is specific to the client that reads it.
+	AudioURI *string `json:"audioUri,omitempty" tf:"audio_uri,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentMessagesPlayAudioObservation struct {
+
+	// (Output)
+	// Whether the playback of this message can be interrupted by the end user's speech and the client can then starts the next Dialogflow request.
+	AllowPlaybackInterruption *bool `json:"allowPlaybackInterruption,omitempty" tf:"allow_playback_interruption,omitempty"`
+
+	// URI of the audio clip. Dialogflow does not impose any validation on this value. It is specific to the client that reads it.
+	AudioURI *string `json:"audioUri,omitempty" tf:"audio_uri,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentMessagesPlayAudioParameters struct {
+
+	// URI of the audio clip. Dialogflow does not impose any validation on this value. It is specific to the client that reads it.
+	// +kubebuilder:validation:Optional
+	AudioURI *string `json:"audioUri" tf:"audio_uri,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentMessagesTelephonyTransferCallInitParameters struct {
+
+	// Transfer the call to a phone number in E.164 format.
+	PhoneNumber *string `json:"phoneNumber,omitempty" tf:"phone_number,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentMessagesTelephonyTransferCallObservation struct {
+
+	// Transfer the call to a phone number in E.164 format.
+	PhoneNumber *string `json:"phoneNumber,omitempty" tf:"phone_number,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentMessagesTelephonyTransferCallParameters struct {
+
+	// Transfer the call to a phone number in E.164 format.
+	// +kubebuilder:validation:Optional
+	PhoneNumber *string `json:"phoneNumber" tf:"phone_number,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentMessagesTextInitParameters struct {
+
+	// A collection of text responses.
+	Text []*string `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentMessagesTextObservation struct {
+
+	// (Output)
+	// Whether the playback of this message can be interrupted by the end user's speech and the client can then starts the next Dialogflow request.
+	AllowPlaybackInterruption *bool `json:"allowPlaybackInterruption,omitempty" tf:"allow_playback_interruption,omitempty"`
+
+	// A collection of text responses.
+	Text []*string `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentMessagesTextParameters struct {
+
+	// A collection of text responses.
+	// +kubebuilder:validation:Optional
+	Text []*string `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentObservation struct {
+
+	// Conditional cases for this fulfillment.
+	// Structure is documented below.
+	ConditionalCases []RepromptEventHandlersTriggerFulfillmentConditionalCasesObservation `json:"conditionalCases,omitempty" tf:"conditional_cases,omitempty"`
+
+	// The list of rich message responses to present to the user.
+	// Structure is documented below.
+	Messages []RepromptEventHandlersTriggerFulfillmentMessagesObservation `json:"messages,omitempty" tf:"messages,omitempty"`
+
+	// Whether Dialogflow should return currently queued fulfillment response messages in streaming APIs. If a webhook is specified, it happens before Dialogflow invokes webhook. Warning: 1) This flag only affects streaming API. Responses are still queued and returned once in non-streaming API. 2) The flag can be enabled in any fulfillment but only the first 3 partial responses will be returned. You may only want to apply it to fulfillments that have slow webhooks.
+	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
+
+	// Set parameter values before executing the webhook.
+	// Structure is documented below.
+	SetParameterActions []RepromptEventHandlersTriggerFulfillmentSetParameterActionsObservation `json:"setParameterActions,omitempty" tf:"set_parameter_actions,omitempty"`
+
+	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
+	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+
+	// The webhook to call. Format: projects//locations//agents//webhooks/.
+	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentParameters struct {
+
+	// Conditional cases for this fulfillment.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ConditionalCases []RepromptEventHandlersTriggerFulfillmentConditionalCasesParameters `json:"conditionalCases,omitempty" tf:"conditional_cases,omitempty"`
+
+	// The list of rich message responses to present to the user.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Messages []RepromptEventHandlersTriggerFulfillmentMessagesParameters `json:"messages,omitempty" tf:"messages,omitempty"`
+
+	// Whether Dialogflow should return currently queued fulfillment response messages in streaming APIs. If a webhook is specified, it happens before Dialogflow invokes webhook. Warning: 1) This flag only affects streaming API. Responses are still queued and returned once in non-streaming API. 2) The flag can be enabled in any fulfillment but only the first 3 partial responses will be returned. You may only want to apply it to fulfillments that have slow webhooks.
+	// +kubebuilder:validation:Optional
+	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
+
+	// Set parameter values before executing the webhook.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SetParameterActions []RepromptEventHandlersTriggerFulfillmentSetParameterActionsParameters `json:"setParameterActions,omitempty" tf:"set_parameter_actions,omitempty"`
+
+	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
+	// +kubebuilder:validation:Optional
+	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+
+	// The webhook to call. Format: projects//locations//agents//webhooks/.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dialogflowcx/v1beta1.Webhook
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
+
+	// Reference to a Webhook in dialogflowcx to populate webhook.
+	// +kubebuilder:validation:Optional
+	WebhookRef *v1.Reference `json:"webhookRef,omitempty" tf:"-"`
+
+	// Selector for a Webhook in dialogflowcx to populate webhook.
+	// +kubebuilder:validation:Optional
+	WebhookSelector *v1.Selector `json:"webhookSelector,omitempty" tf:"-"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentSetParameterActionsInitParameters struct {
+
+	// Display name of the parameter.
+	Parameter *string `json:"parameter,omitempty" tf:"parameter,omitempty"`
+
+	// The new JSON-encoded value of the parameter. A null value clears the parameter.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentSetParameterActionsObservation struct {
+
+	// Display name of the parameter.
+	Parameter *string `json:"parameter,omitempty" tf:"parameter,omitempty"`
+
+	// The new JSON-encoded value of the parameter. A null value clears the parameter.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RepromptEventHandlersTriggerFulfillmentSetParameterActionsParameters struct {
+
+	// Display name of the parameter.
+	// +kubebuilder:validation:Optional
+	Parameter *string `json:"parameter,omitempty" tf:"parameter,omitempty"`
+
+	// The new JSON-encoded value of the parameter. A null value clears the parameter.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type TransitionRoutesTriggerFulfillmentConditionalCasesInitParameters struct {
+
+	// A JSON encoded list of cascading if-else conditions. Cases are mutually exclusive. The first one with a matching condition is selected, all the rest ignored.
+	// See Case for the schema.
+	Cases *string `json:"cases,omitempty" tf:"cases,omitempty"`
+}
+
+type TransitionRoutesTriggerFulfillmentConditionalCasesObservation struct {
+
+	// A JSON encoded list of cascading if-else conditions. Cases are mutually exclusive. The first one with a matching condition is selected, all the rest ignored.
+	// See Case for the schema.
+	Cases *string `json:"cases,omitempty" tf:"cases,omitempty"`
+}
+
+type TransitionRoutesTriggerFulfillmentConditionalCasesParameters struct {
+
+	// A JSON encoded list of cascading if-else conditions. Cases are mutually exclusive. The first one with a matching condition is selected, all the rest ignored.
+	// See Case for the schema.
+	// +kubebuilder:validation:Optional
+	Cases *string `json:"cases,omitempty" tf:"cases,omitempty"`
+}
+
+type TransitionRoutesTriggerFulfillmentMessagesConversationSuccessInitParameters struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type TransitionRoutesTriggerFulfillmentMessagesConversationSuccessObservation struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type TransitionRoutesTriggerFulfillmentMessagesConversationSuccessParameters struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	// +kubebuilder:validation:Optional
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
 type TransitionRoutesTriggerFulfillmentMessagesInitParameters struct {
+
+	// The channel which the response is associated with. Clients can specify the channel via QueryParameters.channel, and only associated channel response will be returned.
+	Channel *string `json:"channel,omitempty" tf:"channel,omitempty"`
+
+	// Indicates that the conversation succeeded, i.e., the bot handled the issue that the customer talked to it about.
+	// Dialogflow only uses this to determine which conversations should be counted as successful and doesn't process the metadata in this message in any way. Note that Dialogflow also considers conversations that get to the conversation end page as successful even if they don't return ConversationSuccess.
+	// You may set this, for example:
+	ConversationSuccess []TransitionRoutesTriggerFulfillmentMessagesConversationSuccessInitParameters `json:"conversationSuccess,omitempty" tf:"conversation_success,omitempty"`
+
+	// Indicates that the conversation should be handed off to a live agent.
+	// Dialogflow only uses this to determine which conversations were handed off to a human agent for measurement purposes. What else to do with this signal is up to you and your handoff procedures.
+	// You may set this, for example:
+	LiveAgentHandoff []TransitionRoutesTriggerFulfillmentMessagesLiveAgentHandoffInitParameters `json:"liveAgentHandoff,omitempty" tf:"live_agent_handoff,omitempty"`
+
+	// A text or ssml response that is preferentially used for TTS output audio synthesis, as described in the comment on the ResponseMessage message.
+	// Structure is documented below.
+	OutputAudioText []TransitionRoutesTriggerFulfillmentMessagesOutputAudioTextInitParameters `json:"outputAudioText,omitempty" tf:"output_audio_text,omitempty"`
+
+	// A custom, platform-specific payload.
+	Payload *string `json:"payload,omitempty" tf:"payload,omitempty"`
+
+	// Specifies an audio clip to be played by the client as part of the response.
+	// Structure is documented below.
+	PlayAudio []TransitionRoutesTriggerFulfillmentMessagesPlayAudioInitParameters `json:"playAudio,omitempty" tf:"play_audio,omitempty"`
+
+	// Represents the signal that telles the client to transfer the phone call connected to the agent to a third-party endpoint.
+	// Structure is documented below.
+	TelephonyTransferCall []TransitionRoutesTriggerFulfillmentMessagesTelephonyTransferCallInitParameters `json:"telephonyTransferCall,omitempty" tf:"telephony_transfer_call,omitempty"`
 
 	// A collection of text responses.
 	Text []TransitionRoutesTriggerFulfillmentMessagesTextInitParameters `json:"text,omitempty" tf:"text,omitempty"`
 }
 
+type TransitionRoutesTriggerFulfillmentMessagesLiveAgentHandoffInitParameters struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type TransitionRoutesTriggerFulfillmentMessagesLiveAgentHandoffObservation struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type TransitionRoutesTriggerFulfillmentMessagesLiveAgentHandoffParameters struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	// +kubebuilder:validation:Optional
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
 type TransitionRoutesTriggerFulfillmentMessagesObservation struct {
+
+	// The channel which the response is associated with. Clients can specify the channel via QueryParameters.channel, and only associated channel response will be returned.
+	Channel *string `json:"channel,omitempty" tf:"channel,omitempty"`
+
+	// Indicates that the conversation succeeded, i.e., the bot handled the issue that the customer talked to it about.
+	// Dialogflow only uses this to determine which conversations should be counted as successful and doesn't process the metadata in this message in any way. Note that Dialogflow also considers conversations that get to the conversation end page as successful even if they don't return ConversationSuccess.
+	// You may set this, for example:
+	ConversationSuccess []TransitionRoutesTriggerFulfillmentMessagesConversationSuccessObservation `json:"conversationSuccess,omitempty" tf:"conversation_success,omitempty"`
+
+	// Indicates that the conversation should be handed off to a live agent.
+	// Dialogflow only uses this to determine which conversations were handed off to a human agent for measurement purposes. What else to do with this signal is up to you and your handoff procedures.
+	// You may set this, for example:
+	LiveAgentHandoff []TransitionRoutesTriggerFulfillmentMessagesLiveAgentHandoffObservation `json:"liveAgentHandoff,omitempty" tf:"live_agent_handoff,omitempty"`
+
+	// A text or ssml response that is preferentially used for TTS output audio synthesis, as described in the comment on the ResponseMessage message.
+	// Structure is documented below.
+	OutputAudioText []TransitionRoutesTriggerFulfillmentMessagesOutputAudioTextObservation `json:"outputAudioText,omitempty" tf:"output_audio_text,omitempty"`
+
+	// A custom, platform-specific payload.
+	Payload *string `json:"payload,omitempty" tf:"payload,omitempty"`
+
+	// Specifies an audio clip to be played by the client as part of the response.
+	// Structure is documented below.
+	PlayAudio []TransitionRoutesTriggerFulfillmentMessagesPlayAudioObservation `json:"playAudio,omitempty" tf:"play_audio,omitempty"`
+
+	// Represents the signal that telles the client to transfer the phone call connected to the agent to a third-party endpoint.
+	// Structure is documented below.
+	TelephonyTransferCall []TransitionRoutesTriggerFulfillmentMessagesTelephonyTransferCallObservation `json:"telephonyTransferCall,omitempty" tf:"telephony_transfer_call,omitempty"`
 
 	// A collection of text responses.
 	Text []TransitionRoutesTriggerFulfillmentMessagesTextObservation `json:"text,omitempty" tf:"text,omitempty"`
 }
 
+type TransitionRoutesTriggerFulfillmentMessagesOutputAudioTextInitParameters struct {
+
+	// The SSML text to be synthesized. For more information, see SSML.
+	Ssml *string `json:"ssml,omitempty" tf:"ssml,omitempty"`
+
+	// A collection of text responses.
+	Text *string `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type TransitionRoutesTriggerFulfillmentMessagesOutputAudioTextObservation struct {
+
+	// (Output)
+	// Whether the playback of this message can be interrupted by the end user's speech and the client can then starts the next Dialogflow request.
+	AllowPlaybackInterruption *bool `json:"allowPlaybackInterruption,omitempty" tf:"allow_playback_interruption,omitempty"`
+
+	// The SSML text to be synthesized. For more information, see SSML.
+	Ssml *string `json:"ssml,omitempty" tf:"ssml,omitempty"`
+
+	// A collection of text responses.
+	Text *string `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type TransitionRoutesTriggerFulfillmentMessagesOutputAudioTextParameters struct {
+
+	// The SSML text to be synthesized. For more information, see SSML.
+	// +kubebuilder:validation:Optional
+	Ssml *string `json:"ssml,omitempty" tf:"ssml,omitempty"`
+
+	// A collection of text responses.
+	// +kubebuilder:validation:Optional
+	Text *string `json:"text,omitempty" tf:"text,omitempty"`
+}
+
 type TransitionRoutesTriggerFulfillmentMessagesParameters struct {
+
+	// The channel which the response is associated with. Clients can specify the channel via QueryParameters.channel, and only associated channel response will be returned.
+	// +kubebuilder:validation:Optional
+	Channel *string `json:"channel,omitempty" tf:"channel,omitempty"`
+
+	// Indicates that the conversation succeeded, i.e., the bot handled the issue that the customer talked to it about.
+	// Dialogflow only uses this to determine which conversations should be counted as successful and doesn't process the metadata in this message in any way. Note that Dialogflow also considers conversations that get to the conversation end page as successful even if they don't return ConversationSuccess.
+	// You may set this, for example:
+	// +kubebuilder:validation:Optional
+	ConversationSuccess []TransitionRoutesTriggerFulfillmentMessagesConversationSuccessParameters `json:"conversationSuccess,omitempty" tf:"conversation_success,omitempty"`
+
+	// Indicates that the conversation should be handed off to a live agent.
+	// Dialogflow only uses this to determine which conversations were handed off to a human agent for measurement purposes. What else to do with this signal is up to you and your handoff procedures.
+	// You may set this, for example:
+	// +kubebuilder:validation:Optional
+	LiveAgentHandoff []TransitionRoutesTriggerFulfillmentMessagesLiveAgentHandoffParameters `json:"liveAgentHandoff,omitempty" tf:"live_agent_handoff,omitempty"`
+
+	// A text or ssml response that is preferentially used for TTS output audio synthesis, as described in the comment on the ResponseMessage message.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	OutputAudioText []TransitionRoutesTriggerFulfillmentMessagesOutputAudioTextParameters `json:"outputAudioText,omitempty" tf:"output_audio_text,omitempty"`
+
+	// A custom, platform-specific payload.
+	// +kubebuilder:validation:Optional
+	Payload *string `json:"payload,omitempty" tf:"payload,omitempty"`
+
+	// Specifies an audio clip to be played by the client as part of the response.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PlayAudio []TransitionRoutesTriggerFulfillmentMessagesPlayAudioParameters `json:"playAudio,omitempty" tf:"play_audio,omitempty"`
+
+	// Represents the signal that telles the client to transfer the phone call connected to the agent to a third-party endpoint.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TelephonyTransferCall []TransitionRoutesTriggerFulfillmentMessagesTelephonyTransferCallParameters `json:"telephonyTransferCall,omitempty" tf:"telephony_transfer_call,omitempty"`
 
 	// A collection of text responses.
 	// +kubebuilder:validation:Optional
 	Text []TransitionRoutesTriggerFulfillmentMessagesTextParameters `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type TransitionRoutesTriggerFulfillmentMessagesPlayAudioInitParameters struct {
+
+	// URI of the audio clip. Dialogflow does not impose any validation on this value. It is specific to the client that reads it.
+	AudioURI *string `json:"audioUri,omitempty" tf:"audio_uri,omitempty"`
+}
+
+type TransitionRoutesTriggerFulfillmentMessagesPlayAudioObservation struct {
+
+	// (Output)
+	// Whether the playback of this message can be interrupted by the end user's speech and the client can then starts the next Dialogflow request.
+	AllowPlaybackInterruption *bool `json:"allowPlaybackInterruption,omitempty" tf:"allow_playback_interruption,omitempty"`
+
+	// URI of the audio clip. Dialogflow does not impose any validation on this value. It is specific to the client that reads it.
+	AudioURI *string `json:"audioUri,omitempty" tf:"audio_uri,omitempty"`
+}
+
+type TransitionRoutesTriggerFulfillmentMessagesPlayAudioParameters struct {
+
+	// URI of the audio clip. Dialogflow does not impose any validation on this value. It is specific to the client that reads it.
+	// +kubebuilder:validation:Optional
+	AudioURI *string `json:"audioUri" tf:"audio_uri,omitempty"`
+}
+
+type TransitionRoutesTriggerFulfillmentMessagesTelephonyTransferCallInitParameters struct {
+
+	// Transfer the call to a phone number in E.164 format.
+	PhoneNumber *string `json:"phoneNumber,omitempty" tf:"phone_number,omitempty"`
+}
+
+type TransitionRoutesTriggerFulfillmentMessagesTelephonyTransferCallObservation struct {
+
+	// Transfer the call to a phone number in E.164 format.
+	PhoneNumber *string `json:"phoneNumber,omitempty" tf:"phone_number,omitempty"`
+}
+
+type TransitionRoutesTriggerFulfillmentMessagesTelephonyTransferCallParameters struct {
+
+	// Transfer the call to a phone number in E.164 format.
+	// +kubebuilder:validation:Optional
+	PhoneNumber *string `json:"phoneNumber" tf:"phone_number,omitempty"`
 }
 
 type TransitionRoutesTriggerFulfillmentMessagesTextInitParameters struct {
@@ -859,6 +2506,148 @@ type TransitionRoutesTriggerFulfillmentMessagesTextParameters struct {
 	// A collection of text responses.
 	// +kubebuilder:validation:Optional
 	Text []*string `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type TransitionRoutesTriggerFulfillmentSetParameterActionsInitParameters struct {
+
+	// Display name of the parameter.
+	Parameter *string `json:"parameter,omitempty" tf:"parameter,omitempty"`
+
+	// The new JSON-encoded value of the parameter. A null value clears the parameter.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type TransitionRoutesTriggerFulfillmentSetParameterActionsObservation struct {
+
+	// Display name of the parameter.
+	Parameter *string `json:"parameter,omitempty" tf:"parameter,omitempty"`
+
+	// The new JSON-encoded value of the parameter. A null value clears the parameter.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type TransitionRoutesTriggerFulfillmentSetParameterActionsParameters struct {
+
+	// Display name of the parameter.
+	// +kubebuilder:validation:Optional
+	Parameter *string `json:"parameter,omitempty" tf:"parameter,omitempty"`
+
+	// The new JSON-encoded value of the parameter. A null value clears the parameter.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type TriggerFulfillmentMessagesConversationSuccessInitParameters struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type TriggerFulfillmentMessagesConversationSuccessObservation struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type TriggerFulfillmentMessagesConversationSuccessParameters struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	// +kubebuilder:validation:Optional
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type TriggerFulfillmentMessagesLiveAgentHandoffInitParameters struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type TriggerFulfillmentMessagesLiveAgentHandoffObservation struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type TriggerFulfillmentMessagesLiveAgentHandoffParameters struct {
+
+	// Custom metadata. Dialogflow doesn't impose any structure on this.
+	// +kubebuilder:validation:Optional
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type TriggerFulfillmentMessagesOutputAudioTextInitParameters struct {
+
+	// The SSML text to be synthesized. For more information, see SSML.
+	Ssml *string `json:"ssml,omitempty" tf:"ssml,omitempty"`
+
+	// A collection of text responses.
+	Text *string `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type TriggerFulfillmentMessagesOutputAudioTextObservation struct {
+
+	// (Output)
+	// Whether the playback of this message can be interrupted by the end user's speech and the client can then starts the next Dialogflow request.
+	AllowPlaybackInterruption *bool `json:"allowPlaybackInterruption,omitempty" tf:"allow_playback_interruption,omitempty"`
+
+	// The SSML text to be synthesized. For more information, see SSML.
+	Ssml *string `json:"ssml,omitempty" tf:"ssml,omitempty"`
+
+	// A collection of text responses.
+	Text *string `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type TriggerFulfillmentMessagesOutputAudioTextParameters struct {
+
+	// The SSML text to be synthesized. For more information, see SSML.
+	// +kubebuilder:validation:Optional
+	Ssml *string `json:"ssml,omitempty" tf:"ssml,omitempty"`
+
+	// A collection of text responses.
+	// +kubebuilder:validation:Optional
+	Text *string `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type TriggerFulfillmentMessagesPlayAudioInitParameters struct {
+
+	// URI of the audio clip. Dialogflow does not impose any validation on this value. It is specific to the client that reads it.
+	AudioURI *string `json:"audioUri,omitempty" tf:"audio_uri,omitempty"`
+}
+
+type TriggerFulfillmentMessagesPlayAudioObservation struct {
+
+	// (Output)
+	// Whether the playback of this message can be interrupted by the end user's speech and the client can then starts the next Dialogflow request.
+	AllowPlaybackInterruption *bool `json:"allowPlaybackInterruption,omitempty" tf:"allow_playback_interruption,omitempty"`
+
+	// URI of the audio clip. Dialogflow does not impose any validation on this value. It is specific to the client that reads it.
+	AudioURI *string `json:"audioUri,omitempty" tf:"audio_uri,omitempty"`
+}
+
+type TriggerFulfillmentMessagesPlayAudioParameters struct {
+
+	// URI of the audio clip. Dialogflow does not impose any validation on this value. It is specific to the client that reads it.
+	// +kubebuilder:validation:Optional
+	AudioURI *string `json:"audioUri" tf:"audio_uri,omitempty"`
+}
+
+type TriggerFulfillmentMessagesTelephonyTransferCallInitParameters struct {
+
+	// Transfer the call to a phone number in E.164 format.
+	PhoneNumber *string `json:"phoneNumber,omitempty" tf:"phone_number,omitempty"`
+}
+
+type TriggerFulfillmentMessagesTelephonyTransferCallObservation struct {
+
+	// Transfer the call to a phone number in E.164 format.
+	PhoneNumber *string `json:"phoneNumber,omitempty" tf:"phone_number,omitempty"`
+}
+
+type TriggerFulfillmentMessagesTelephonyTransferCallParameters struct {
+
+	// Transfer the call to a phone number in E.164 format.
+	// +kubebuilder:validation:Optional
+	PhoneNumber *string `json:"phoneNumber" tf:"phone_number,omitempty"`
 }
 
 type TriggerFulfillmentMessagesTextInitParameters struct {

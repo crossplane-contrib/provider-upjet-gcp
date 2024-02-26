@@ -29,6 +29,25 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AdminGroupsInitParameters struct {
+
+	// The name of the group, e.g. my-group@domain.com.
+	Group *string `json:"group,omitempty" tf:"group,omitempty"`
+}
+
+type AdminGroupsObservation struct {
+
+	// The name of the group, e.g. my-group@domain.com.
+	Group *string `json:"group,omitempty" tf:"group,omitempty"`
+}
+
+type AdminGroupsParameters struct {
+
+	// The name of the group, e.g. my-group@domain.com.
+	// +kubebuilder:validation:Optional
+	Group *string `json:"group" tf:"group,omitempty"`
+}
+
 type AdminUsersInitParameters struct {
 
 	// The name of the user, e.g. my-gcp-id@gmail.com.
@@ -50,17 +69,27 @@ type AdminUsersParameters struct {
 
 type AuthorizationInitParameters struct {
 
+	// Groups of users that can perform operations as a cluster admin. A managed ClusterRoleBinding will be created to grant the cluster-admin ClusterRole to the groups. Up to ten admin groups can be provided. For more info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
+	AdminGroups []AdminGroupsInitParameters `json:"adminGroups,omitempty" tf:"admin_groups,omitempty"`
+
 	// Users that can perform operations as a cluster admin. A new ClusterRoleBinding will be created to grant the cluster-admin ClusterRole to the users. Up to ten admin users can be provided. For more info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
 	AdminUsers []AdminUsersInitParameters `json:"adminUsers,omitempty" tf:"admin_users,omitempty"`
 }
 
 type AuthorizationObservation struct {
 
+	// Groups of users that can perform operations as a cluster admin. A managed ClusterRoleBinding will be created to grant the cluster-admin ClusterRole to the groups. Up to ten admin groups can be provided. For more info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
+	AdminGroups []AdminGroupsObservation `json:"adminGroups,omitempty" tf:"admin_groups,omitempty"`
+
 	// Users that can perform operations as a cluster admin. A new ClusterRoleBinding will be created to grant the cluster-admin ClusterRole to the users. Up to ten admin users can be provided. For more info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
 	AdminUsers []AdminUsersObservation `json:"adminUsers,omitempty" tf:"admin_users,omitempty"`
 }
 
 type AuthorizationParameters struct {
+
+	// Groups of users that can perform operations as a cluster admin. A managed ClusterRoleBinding will be created to grant the cluster-admin ClusterRole to the groups. Up to ten admin groups can be provided. For more info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
+	// +kubebuilder:validation:Optional
+	AdminGroups []AdminGroupsParameters `json:"adminGroups,omitempty" tf:"admin_groups,omitempty"`
 
 	// Users that can perform operations as a cluster admin. A new ClusterRoleBinding will be created to grant the cluster-admin ClusterRole to the users. Up to ten admin users can be provided. For more info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
 	// +kubebuilder:validation:Optional
@@ -159,6 +188,9 @@ type ClusterObservation struct {
 
 	// Optional. A human readable description of this cluster. Cannot be longer than 255 UTF-8 encoded bytes.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// +mapType=granular
+	EffectiveAnnotations map[string]*string `json:"effectiveAnnotations,omitempty" tf:"effective_annotations,omitempty"`
 
 	// Output only. The endpoint of the cluster's API server.
 	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`

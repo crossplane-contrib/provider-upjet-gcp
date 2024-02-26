@@ -168,6 +168,23 @@ spec:
                             type: string
                         type: object
                     type: object
+                  indexConfigs:
+                    description: A list of indexed fields and related configuration
+                      data. Structure is documented below.
+                    items:
+                      properties:
+                        fieldPath:
+                          description: |-
+                            The LogEntry field path to index.
+                            Note that some paths are automatically indexed, and other paths are not eligible for indexing. See indexing documentation for details.
+                          type: string
+                        type:
+                          description: The type of data in this index. Allowed types
+                            include INDEX_TYPE_UNSPECIFIED, INDEX_TYPE_STRING and
+                            INDEX_TYPE_INTEGER.
+                          type: string
+                      type: object
+                    type: array
                   location:
                     description: The location of the bucket.
                     type: string
@@ -208,6 +225,23 @@ spec:
                   description:
                     description: Describes this bucket.
                     type: string
+                  indexConfigs:
+                    description: A list of indexed fields and related configuration
+                      data. Structure is documented below.
+                    items:
+                      properties:
+                        fieldPath:
+                          description: |-
+                            The LogEntry field path to index.
+                            Note that some paths are automatically indexed, and other paths are not eligible for indexing. See indexing documentation for details.
+                          type: string
+                        type:
+                          description: The type of data in this index. Allowed types
+                            include INDEX_TYPE_UNSPECIFIED, INDEX_TYPE_STRING and
+                            INDEX_TYPE_INTEGER.
+                          type: string
+                      type: object
+                    type: array
                   retentionDays:
                     description: Logs will be retained by default for this amount
                       of time, after which they will automatically be deleted. The
@@ -423,6 +457,23 @@ spec:
                   id:
                     description: an identifier for the resource with format folders/{{folder}}/locations/{{location}}/buckets/{{bucket_id}}
                     type: string
+                  indexConfigs:
+                    description: A list of indexed fields and related configuration
+                      data. Structure is documented below.
+                    items:
+                      properties:
+                        fieldPath:
+                          description: |-
+                            The LogEntry field path to index.
+                            Note that some paths are automatically indexed, and other paths are not eligible for indexing. See indexing documentation for details.
+                          type: string
+                        type:
+                          description: The type of data in this index. Allowed types
+                            include INDEX_TYPE_UNSPECIFIED, INDEX_TYPE_STRING and
+                            INDEX_TYPE_INTEGER.
+                          type: string
+                      type: object
+                    type: array
                   lifecycleState:
                     description: The bucket's lifecycle such as active or deleted.
                       See LifecycleState.

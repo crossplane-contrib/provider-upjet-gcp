@@ -84,11 +84,6 @@ spec:
                       should be sent to.
                     items:
                       properties:
-                        cloudFunction:
-                          description: '[WARNING] Configuring a Cloud Function in
-                            Trigger is not supported as of today. The Cloud Function
-                            resource name. Format: projects/{project}/locations/{location}/functions/{function}'
-                          type: string
                         cloudRunService:
                           description: Cloud Run fully-managed service that receives
                             the events. The service should be running in the same
@@ -219,6 +214,36 @@ spec:
                             - location
                             type: object
                           type: array
+                        httpEndpoint:
+                          description: An HTTP endpoint destination described by an
+                            URI.
+                          items:
+                            properties:
+                              uri:
+                                description: 'Required. The URI of the HTTP enpdoint.
+                                  The value must be a RFC2396 URI string. Examples:
+                                  http://10.10.10.8:80/route, http://svc.us-central1.p.local:8080/.
+                                  Only HTTP and HTTPS protocols are supported. The
+                                  host can be either a static IP addressable from
+                                  the VPC specified by the network config, or an internal
+                                  DNS hostname of the service resolvable via Cloud
+                                  DNS.'
+                                type: string
+                            type: object
+                          type: array
+                        networkConfig:
+                          description: Optional. Network config is used to configure
+                            how Eventarc resolves and connect to a destination. This
+                            should only be used with HttpEndpoint destination type.
+                          items:
+                            properties:
+                              networkAttachment:
+                                description: 'Required. Name of the NetworkAttachment
+                                  that allows access to the destination VPC. Format:
+                                  projects/{PROJECT_ID}/regions/{REGION}/networkAttachments/{NETWORK_ATTACHMENT_NAME}'
+                                type: string
+                            type: object
+                          type: array
                         workflow:
                           description: 'The resource name of the Workflow whose Executions
                             are triggered by the events. The Workflow resource should
@@ -228,6 +253,10 @@ spec:
                       type: object
                     type: array
                   eventDataContentType:
+                    description: Optional. EventDataContentType specifies the type
+                      of payload in MIME format that is expected from the CloudEvent
+                      data field. This is set to application/json if the value is
+                      not defined.
                     type: string
                   labels:
                     additionalProperties:
@@ -331,11 +360,6 @@ spec:
                       should be sent to.
                     items:
                       properties:
-                        cloudFunction:
-                          description: '[WARNING] Configuring a Cloud Function in
-                            Trigger is not supported as of today. The Cloud Function
-                            resource name. Format: projects/{project}/locations/{location}/functions/{function}'
-                          type: string
                         cloudRunService:
                           description: Cloud Run fully-managed service that receives
                             the events. The service should be running in the same
@@ -461,6 +485,36 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        httpEndpoint:
+                          description: An HTTP endpoint destination described by an
+                            URI.
+                          items:
+                            properties:
+                              uri:
+                                description: 'Required. The URI of the HTTP enpdoint.
+                                  The value must be a RFC2396 URI string. Examples:
+                                  http://10.10.10.8:80/route, http://svc.us-central1.p.local:8080/.
+                                  Only HTTP and HTTPS protocols are supported. The
+                                  host can be either a static IP addressable from
+                                  the VPC specified by the network config, or an internal
+                                  DNS hostname of the service resolvable via Cloud
+                                  DNS.'
+                                type: string
+                            type: object
+                          type: array
+                        networkConfig:
+                          description: Optional. Network config is used to configure
+                            how Eventarc resolves and connect to a destination. This
+                            should only be used with HttpEndpoint destination type.
+                          items:
+                            properties:
+                              networkAttachment:
+                                description: 'Required. Name of the NetworkAttachment
+                                  that allows access to the destination VPC. Format:
+                                  projects/{PROJECT_ID}/regions/{REGION}/networkAttachments/{NETWORK_ATTACHMENT_NAME}'
+                                type: string
+                            type: object
+                          type: array
                         workflow:
                           description: 'The resource name of the Workflow whose Executions
                             are triggered by the events. The Workflow resource should
@@ -470,6 +524,10 @@ spec:
                       type: object
                     type: array
                   eventDataContentType:
+                    description: Optional. EventDataContentType specifies the type
+                      of payload in MIME format that is expected from the CloudEvent
+                      data field. This is set to application/json if the value is
+                      not defined.
                     type: string
                   labels:
                     additionalProperties:
@@ -747,9 +805,12 @@ spec:
                     items:
                       properties:
                         cloudFunction:
-                          description: '[WARNING] Configuring a Cloud Function in
-                            Trigger is not supported as of today. The Cloud Function
-                            resource name. Format: projects/{project}/locations/{location}/functions/{function}'
+                          description: The Cloud Function resource name. Only Cloud
+                            Functions V2 is supported. Format projects/{project}/locations/{location}/functions/{function}
+                            This is a read-only field. [WARNING] Creating Cloud Functions
+                            V2 triggers is only supported via the Cloud Functions
+                            product. An error will be returned if the user sets this
+                            value.
                           type: string
                         cloudRunService:
                           description: Cloud Run fully-managed service that receives
@@ -803,6 +864,36 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        httpEndpoint:
+                          description: An HTTP endpoint destination described by an
+                            URI.
+                          items:
+                            properties:
+                              uri:
+                                description: 'Required. The URI of the HTTP enpdoint.
+                                  The value must be a RFC2396 URI string. Examples:
+                                  http://10.10.10.8:80/route, http://svc.us-central1.p.local:8080/.
+                                  Only HTTP and HTTPS protocols are supported. The
+                                  host can be either a static IP addressable from
+                                  the VPC specified by the network config, or an internal
+                                  DNS hostname of the service resolvable via Cloud
+                                  DNS.'
+                                type: string
+                            type: object
+                          type: array
+                        networkConfig:
+                          description: Optional. Network config is used to configure
+                            how Eventarc resolves and connect to a destination. This
+                            should only be used with HttpEndpoint destination type.
+                          items:
+                            properties:
+                              networkAttachment:
+                                description: 'Required. Name of the NetworkAttachment
+                                  that allows access to the destination VPC. Format:
+                                  projects/{PROJECT_ID}/regions/{REGION}/networkAttachments/{NETWORK_ATTACHMENT_NAME}'
+                                type: string
+                            type: object
+                          type: array
                         workflow:
                           description: 'The resource name of the Workflow whose Executions
                             are triggered by the events. The Workflow resource should
@@ -811,6 +902,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   etag:
                     description: Output only. This checksum is computed by the server
                       based on the value of other fields, and may be sent only on
@@ -818,6 +914,10 @@ spec:
                       before proceeding.
                     type: string
                   eventDataContentType:
+                    description: Optional. EventDataContentType specifies the type
+                      of payload in MIME format that is expected from the CloudEvent
+                      data field. This is set to application/json if the value is
+                      not defined.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/triggers/{{name}}
@@ -872,6 +972,13 @@ spec:
                       In order to create Audit Log triggers, the service account should
                       also have roles/eventarc.eventReceiver IAM role.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   transport:
                     description: Optional. In order to deliver messages, Eventarc
                       may use other GCP products as transport intermediary. This field

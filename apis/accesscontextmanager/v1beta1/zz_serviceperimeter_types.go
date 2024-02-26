@@ -34,6 +34,7 @@ type EgressFromInitParameters struct {
 	// A list of identities that are allowed access through this ingress policy.
 	// Should be in the format of email address. The email address should represent
 	// individual user or service account only.
+	// +listType=set
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
 
 	// Specifies the type of identities that are allowed access from outside the
@@ -41,6 +42,14 @@ type EgressFromInitParameters struct {
 	// allowed access.
 	// Possible values are: IDENTITY_TYPE_UNSPECIFIED, ANY_IDENTITY, ANY_USER_ACCOUNT, ANY_SERVICE_ACCOUNT.
 	IdentityType *string `json:"identityType,omitempty" tf:"identity_type,omitempty"`
+
+	// Whether to enforce traffic restrictions based on sources field. If the sources field is non-empty, then this field must be set to SOURCE_RESTRICTION_ENABLED.
+	// Possible values are: SOURCE_RESTRICTION_UNSPECIFIED, SOURCE_RESTRICTION_ENABLED, SOURCE_RESTRICTION_DISABLED.
+	SourceRestriction *string `json:"sourceRestriction,omitempty" tf:"source_restriction,omitempty"`
+
+	// Sources that this IngressPolicy authorizes access from.
+	// Structure is documented below.
+	Sources []SourcesInitParameters `json:"sources,omitempty" tf:"sources,omitempty"`
 }
 
 type EgressFromObservation struct {
@@ -48,6 +57,7 @@ type EgressFromObservation struct {
 	// A list of identities that are allowed access through this ingress policy.
 	// Should be in the format of email address. The email address should represent
 	// individual user or service account only.
+	// +listType=set
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
 
 	// Specifies the type of identities that are allowed access from outside the
@@ -55,6 +65,14 @@ type EgressFromObservation struct {
 	// allowed access.
 	// Possible values are: IDENTITY_TYPE_UNSPECIFIED, ANY_IDENTITY, ANY_USER_ACCOUNT, ANY_SERVICE_ACCOUNT.
 	IdentityType *string `json:"identityType,omitempty" tf:"identity_type,omitempty"`
+
+	// Whether to enforce traffic restrictions based on sources field. If the sources field is non-empty, then this field must be set to SOURCE_RESTRICTION_ENABLED.
+	// Possible values are: SOURCE_RESTRICTION_UNSPECIFIED, SOURCE_RESTRICTION_ENABLED, SOURCE_RESTRICTION_DISABLED.
+	SourceRestriction *string `json:"sourceRestriction,omitempty" tf:"source_restriction,omitempty"`
+
+	// Sources that this IngressPolicy authorizes access from.
+	// Structure is documented below.
+	Sources []SourcesObservation `json:"sources,omitempty" tf:"sources,omitempty"`
 }
 
 type EgressFromParameters struct {
@@ -63,6 +81,7 @@ type EgressFromParameters struct {
 	// Should be in the format of email address. The email address should represent
 	// individual user or service account only.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
 
 	// Specifies the type of identities that are allowed access from outside the
@@ -71,6 +90,56 @@ type EgressFromParameters struct {
 	// Possible values are: IDENTITY_TYPE_UNSPECIFIED, ANY_IDENTITY, ANY_USER_ACCOUNT, ANY_SERVICE_ACCOUNT.
 	// +kubebuilder:validation:Optional
 	IdentityType *string `json:"identityType,omitempty" tf:"identity_type,omitempty"`
+
+	// Whether to enforce traffic restrictions based on sources field. If the sources field is non-empty, then this field must be set to SOURCE_RESTRICTION_ENABLED.
+	// Possible values are: SOURCE_RESTRICTION_UNSPECIFIED, SOURCE_RESTRICTION_ENABLED, SOURCE_RESTRICTION_DISABLED.
+	// +kubebuilder:validation:Optional
+	SourceRestriction *string `json:"sourceRestriction,omitempty" tf:"source_restriction,omitempty"`
+
+	// Sources that this IngressPolicy authorizes access from.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Sources []SourcesParameters `json:"sources,omitempty" tf:"sources,omitempty"`
+}
+
+type EgressFromSourcesInitParameters struct {
+
+	// An AccessLevel resource name that allow resources within the
+	// ServicePerimeters to be accessed from the internet. AccessLevels listed
+	// must be in the same policy as this ServicePerimeter. Referencing a nonexistent
+	// AccessLevel will cause an error. If no AccessLevel names are listed,
+	// resources within the perimeter can only be accessed via Google Cloud calls
+	// with request origins within the perimeter.
+	// Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
+	// If * is specified, then all IngressSources will be allowed.
+	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
+}
+
+type EgressFromSourcesObservation struct {
+
+	// An AccessLevel resource name that allow resources within the
+	// ServicePerimeters to be accessed from the internet. AccessLevels listed
+	// must be in the same policy as this ServicePerimeter. Referencing a nonexistent
+	// AccessLevel will cause an error. If no AccessLevel names are listed,
+	// resources within the perimeter can only be accessed via Google Cloud calls
+	// with request origins within the perimeter.
+	// Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
+	// If * is specified, then all IngressSources will be allowed.
+	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
+}
+
+type EgressFromSourcesParameters struct {
+
+	// An AccessLevel resource name that allow resources within the
+	// ServicePerimeters to be accessed from the internet. AccessLevels listed
+	// must be in the same policy as this ServicePerimeter. Referencing a nonexistent
+	// AccessLevel will cause an error. If no AccessLevel names are listed,
+	// resources within the perimeter can only be accessed via Google Cloud calls
+	// with request origins within the perimeter.
+	// Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
+	// If * is specified, then all IngressSources will be allowed.
+	// +kubebuilder:validation:Optional
+	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
 }
 
 type EgressPoliciesEgressFromInitParameters struct {
@@ -78,6 +147,7 @@ type EgressPoliciesEgressFromInitParameters struct {
 	// A list of identities that are allowed access through this ingress policy.
 	// Should be in the format of email address. The email address should represent
 	// individual user or service account only.
+	// +listType=set
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
 
 	// Specifies the type of identities that are allowed access from outside the
@@ -85,6 +155,14 @@ type EgressPoliciesEgressFromInitParameters struct {
 	// allowed access.
 	// Possible values are: IDENTITY_TYPE_UNSPECIFIED, ANY_IDENTITY, ANY_USER_ACCOUNT, ANY_SERVICE_ACCOUNT.
 	IdentityType *string `json:"identityType,omitempty" tf:"identity_type,omitempty"`
+
+	// Whether to enforce traffic restrictions based on sources field. If the sources field is non-empty, then this field must be set to SOURCE_RESTRICTION_ENABLED.
+	// Possible values are: SOURCE_RESTRICTION_UNSPECIFIED, SOURCE_RESTRICTION_ENABLED, SOURCE_RESTRICTION_DISABLED.
+	SourceRestriction *string `json:"sourceRestriction,omitempty" tf:"source_restriction,omitempty"`
+
+	// Sources that this IngressPolicy authorizes access from.
+	// Structure is documented below.
+	Sources []EgressFromSourcesInitParameters `json:"sources,omitempty" tf:"sources,omitempty"`
 }
 
 type EgressPoliciesEgressFromObservation struct {
@@ -92,6 +170,7 @@ type EgressPoliciesEgressFromObservation struct {
 	// A list of identities that are allowed access through this ingress policy.
 	// Should be in the format of email address. The email address should represent
 	// individual user or service account only.
+	// +listType=set
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
 
 	// Specifies the type of identities that are allowed access from outside the
@@ -99,6 +178,14 @@ type EgressPoliciesEgressFromObservation struct {
 	// allowed access.
 	// Possible values are: IDENTITY_TYPE_UNSPECIFIED, ANY_IDENTITY, ANY_USER_ACCOUNT, ANY_SERVICE_ACCOUNT.
 	IdentityType *string `json:"identityType,omitempty" tf:"identity_type,omitempty"`
+
+	// Whether to enforce traffic restrictions based on sources field. If the sources field is non-empty, then this field must be set to SOURCE_RESTRICTION_ENABLED.
+	// Possible values are: SOURCE_RESTRICTION_UNSPECIFIED, SOURCE_RESTRICTION_ENABLED, SOURCE_RESTRICTION_DISABLED.
+	SourceRestriction *string `json:"sourceRestriction,omitempty" tf:"source_restriction,omitempty"`
+
+	// Sources that this IngressPolicy authorizes access from.
+	// Structure is documented below.
+	Sources []EgressFromSourcesObservation `json:"sources,omitempty" tf:"sources,omitempty"`
 }
 
 type EgressPoliciesEgressFromParameters struct {
@@ -107,6 +194,7 @@ type EgressPoliciesEgressFromParameters struct {
 	// Should be in the format of email address. The email address should represent
 	// individual user or service account only.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
 
 	// Specifies the type of identities that are allowed access from outside the
@@ -115,6 +203,16 @@ type EgressPoliciesEgressFromParameters struct {
 	// Possible values are: IDENTITY_TYPE_UNSPECIFIED, ANY_IDENTITY, ANY_USER_ACCOUNT, ANY_SERVICE_ACCOUNT.
 	// +kubebuilder:validation:Optional
 	IdentityType *string `json:"identityType,omitempty" tf:"identity_type,omitempty"`
+
+	// Whether to enforce traffic restrictions based on sources field. If the sources field is non-empty, then this field must be set to SOURCE_RESTRICTION_ENABLED.
+	// Possible values are: SOURCE_RESTRICTION_UNSPECIFIED, SOURCE_RESTRICTION_ENABLED, SOURCE_RESTRICTION_DISABLED.
+	// +kubebuilder:validation:Optional
+	SourceRestriction *string `json:"sourceRestriction,omitempty" tf:"source_restriction,omitempty"`
+
+	// Sources that this IngressPolicy authorizes access from.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Sources []EgressFromSourcesParameters `json:"sources,omitempty" tf:"sources,omitempty"`
 }
 
 type EgressPoliciesEgressToInitParameters struct {
@@ -122,6 +220,7 @@ type EgressPoliciesEgressToInitParameters struct {
 	// A list of external resources that are allowed to be accessed. A request
 	// matches if it contains an external resource in this list (Example:
 	// s3://bucket/path). Currently '*' is not allowed.
+	// +listType=set
 	ExternalResources []*string `json:"externalResources,omitempty" tf:"external_resources,omitempty"`
 
 	// A list of ApiOperations the sources specified in corresponding IngressFrom
@@ -132,6 +231,7 @@ type EgressPoliciesEgressToInitParameters struct {
 	// A list of GCP resources that are inside of the service perimeter.
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
+	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
 }
 
@@ -140,6 +240,7 @@ type EgressPoliciesEgressToObservation struct {
 	// A list of external resources that are allowed to be accessed. A request
 	// matches if it contains an external resource in this list (Example:
 	// s3://bucket/path). Currently '*' is not allowed.
+	// +listType=set
 	ExternalResources []*string `json:"externalResources,omitempty" tf:"external_resources,omitempty"`
 
 	// A list of ApiOperations the sources specified in corresponding IngressFrom
@@ -150,6 +251,7 @@ type EgressPoliciesEgressToObservation struct {
 	// A list of GCP resources that are inside of the service perimeter.
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
+	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
 }
 
@@ -159,6 +261,7 @@ type EgressPoliciesEgressToParameters struct {
 	// matches if it contains an external resource in this list (Example:
 	// s3://bucket/path). Currently '*' is not allowed.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	ExternalResources []*string `json:"externalResources,omitempty" tf:"external_resources,omitempty"`
 
 	// A list of ApiOperations the sources specified in corresponding IngressFrom
@@ -171,6 +274,7 @@ type EgressPoliciesEgressToParameters struct {
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
 }
 
@@ -217,6 +321,7 @@ type EgressToInitParameters struct {
 	// A list of external resources that are allowed to be accessed. A request
 	// matches if it contains an external resource in this list (Example:
 	// s3://bucket/path). Currently '*' is not allowed.
+	// +listType=set
 	ExternalResources []*string `json:"externalResources,omitempty" tf:"external_resources,omitempty"`
 
 	// A list of ApiOperations the sources specified in corresponding IngressFrom
@@ -227,6 +332,7 @@ type EgressToInitParameters struct {
 	// A list of GCP resources that are inside of the service perimeter.
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
+	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
 }
 
@@ -235,6 +341,7 @@ type EgressToObservation struct {
 	// A list of external resources that are allowed to be accessed. A request
 	// matches if it contains an external resource in this list (Example:
 	// s3://bucket/path). Currently '*' is not allowed.
+	// +listType=set
 	ExternalResources []*string `json:"externalResources,omitempty" tf:"external_resources,omitempty"`
 
 	// A list of ApiOperations the sources specified in corresponding IngressFrom
@@ -245,6 +352,7 @@ type EgressToObservation struct {
 	// A list of GCP resources that are inside of the service perimeter.
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
+	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
 }
 
@@ -339,6 +447,7 @@ type EgressToParameters struct {
 	// matches if it contains an external resource in this list (Example:
 	// s3://bucket/path). Currently '*' is not allowed.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	ExternalResources []*string `json:"externalResources,omitempty" tf:"external_resources,omitempty"`
 
 	// A list of ApiOperations the sources specified in corresponding IngressFrom
@@ -351,6 +460,7 @@ type EgressToParameters struct {
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
 }
 
@@ -359,6 +469,7 @@ type IngressFromInitParameters struct {
 	// A list of identities that are allowed access through this ingress policy.
 	// Should be in the format of email address. The email address should represent
 	// individual user or service account only.
+	// +listType=set
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
 
 	// Specifies the type of identities that are allowed access from outside the
@@ -369,7 +480,7 @@ type IngressFromInitParameters struct {
 
 	// Sources that this IngressPolicy authorizes access from.
 	// Structure is documented below.
-	Sources []SourcesInitParameters `json:"sources,omitempty" tf:"sources,omitempty"`
+	Sources []IngressFromSourcesInitParameters `json:"sources,omitempty" tf:"sources,omitempty"`
 }
 
 type IngressFromObservation struct {
@@ -377,6 +488,7 @@ type IngressFromObservation struct {
 	// A list of identities that are allowed access through this ingress policy.
 	// Should be in the format of email address. The email address should represent
 	// individual user or service account only.
+	// +listType=set
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
 
 	// Specifies the type of identities that are allowed access from outside the
@@ -387,7 +499,7 @@ type IngressFromObservation struct {
 
 	// Sources that this IngressPolicy authorizes access from.
 	// Structure is documented below.
-	Sources []SourcesObservation `json:"sources,omitempty" tf:"sources,omitempty"`
+	Sources []IngressFromSourcesObservation `json:"sources,omitempty" tf:"sources,omitempty"`
 }
 
 type IngressFromParameters struct {
@@ -396,6 +508,7 @@ type IngressFromParameters struct {
 	// Should be in the format of email address. The email address should represent
 	// individual user or service account only.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
 
 	// Specifies the type of identities that are allowed access from outside the
@@ -408,7 +521,7 @@ type IngressFromParameters struct {
 	// Sources that this IngressPolicy authorizes access from.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Sources []SourcesParameters `json:"sources,omitempty" tf:"sources,omitempty"`
+	Sources []IngressFromSourcesParameters `json:"sources,omitempty" tf:"sources,omitempty"`
 }
 
 type IngressFromSourcesInitParameters struct {
@@ -421,17 +534,7 @@ type IngressFromSourcesInitParameters struct {
 	// with request origins within the perimeter.
 	// Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
 	// If * is specified, then all IngressSources will be allowed.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/accesscontextmanager/v1beta1.AccessLevel
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
-
-	// Reference to a AccessLevel in accesscontextmanager to populate accessLevel.
-	// +kubebuilder:validation:Optional
-	AccessLevelRef *v1.Reference `json:"accessLevelRef,omitempty" tf:"-"`
-
-	// Selector for a AccessLevel in accesscontextmanager to populate accessLevel.
-	// +kubebuilder:validation:Optional
-	AccessLevelSelector *v1.Selector `json:"accessLevelSelector,omitempty" tf:"-"`
 
 	// A Google Cloud resource that is allowed to ingress the perimeter.
 	// Requests from these resources will be allowed to access perimeter data.
@@ -473,6 +576,141 @@ type IngressFromSourcesParameters struct {
 	// with request origins within the perimeter.
 	// Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
 	// If * is specified, then all IngressSources will be allowed.
+	// +kubebuilder:validation:Optional
+	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
+
+	// A Google Cloud resource that is allowed to ingress the perimeter.
+	// Requests from these resources will be allowed to access perimeter data.
+	// Currently only projects are allowed. Format projects/{project_number}
+	// The project may be in any Google Cloud organization, not just the
+	// organization that the perimeter is defined in. * is not allowed, the case
+	// of allowing all Google Cloud resources only is not supported.
+	// +kubebuilder:validation:Optional
+	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
+}
+
+type IngressPoliciesIngressFromInitParameters struct {
+
+	// A list of identities that are allowed access through this ingress policy.
+	// Should be in the format of email address. The email address should represent
+	// individual user or service account only.
+	// +listType=set
+	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
+
+	// Specifies the type of identities that are allowed access from outside the
+	// perimeter. If left unspecified, then members of identities field will be
+	// allowed access.
+	// Possible values are: IDENTITY_TYPE_UNSPECIFIED, ANY_IDENTITY, ANY_USER_ACCOUNT, ANY_SERVICE_ACCOUNT.
+	IdentityType *string `json:"identityType,omitempty" tf:"identity_type,omitempty"`
+
+	// Sources that this IngressPolicy authorizes access from.
+	// Structure is documented below.
+	Sources []IngressPoliciesIngressFromSourcesInitParameters `json:"sources,omitempty" tf:"sources,omitempty"`
+}
+
+type IngressPoliciesIngressFromObservation struct {
+
+	// A list of identities that are allowed access through this ingress policy.
+	// Should be in the format of email address. The email address should represent
+	// individual user or service account only.
+	// +listType=set
+	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
+
+	// Specifies the type of identities that are allowed access from outside the
+	// perimeter. If left unspecified, then members of identities field will be
+	// allowed access.
+	// Possible values are: IDENTITY_TYPE_UNSPECIFIED, ANY_IDENTITY, ANY_USER_ACCOUNT, ANY_SERVICE_ACCOUNT.
+	IdentityType *string `json:"identityType,omitempty" tf:"identity_type,omitempty"`
+
+	// Sources that this IngressPolicy authorizes access from.
+	// Structure is documented below.
+	Sources []IngressPoliciesIngressFromSourcesObservation `json:"sources,omitempty" tf:"sources,omitempty"`
+}
+
+type IngressPoliciesIngressFromParameters struct {
+
+	// A list of identities that are allowed access through this ingress policy.
+	// Should be in the format of email address. The email address should represent
+	// individual user or service account only.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
+
+	// Specifies the type of identities that are allowed access from outside the
+	// perimeter. If left unspecified, then members of identities field will be
+	// allowed access.
+	// Possible values are: IDENTITY_TYPE_UNSPECIFIED, ANY_IDENTITY, ANY_USER_ACCOUNT, ANY_SERVICE_ACCOUNT.
+	// +kubebuilder:validation:Optional
+	IdentityType *string `json:"identityType,omitempty" tf:"identity_type,omitempty"`
+
+	// Sources that this IngressPolicy authorizes access from.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Sources []IngressPoliciesIngressFromSourcesParameters `json:"sources,omitempty" tf:"sources,omitempty"`
+}
+
+type IngressPoliciesIngressFromSourcesInitParameters struct {
+
+	// An AccessLevel resource name that allow resources within the
+	// ServicePerimeters to be accessed from the internet. AccessLevels listed
+	// must be in the same policy as this ServicePerimeter. Referencing a nonexistent
+	// AccessLevel will cause an error. If no AccessLevel names are listed,
+	// resources within the perimeter can only be accessed via Google Cloud calls
+	// with request origins within the perimeter.
+	// Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
+	// If * is specified, then all IngressSources will be allowed.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/accesscontextmanager/v1beta1.AccessLevel
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
+
+	// Reference to a AccessLevel in accesscontextmanager to populate accessLevel.
+	// +kubebuilder:validation:Optional
+	AccessLevelRef *v1.Reference `json:"accessLevelRef,omitempty" tf:"-"`
+
+	// Selector for a AccessLevel in accesscontextmanager to populate accessLevel.
+	// +kubebuilder:validation:Optional
+	AccessLevelSelector *v1.Selector `json:"accessLevelSelector,omitempty" tf:"-"`
+
+	// A Google Cloud resource that is allowed to ingress the perimeter.
+	// Requests from these resources will be allowed to access perimeter data.
+	// Currently only projects are allowed. Format projects/{project_number}
+	// The project may be in any Google Cloud organization, not just the
+	// organization that the perimeter is defined in. * is not allowed, the case
+	// of allowing all Google Cloud resources only is not supported.
+	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
+}
+
+type IngressPoliciesIngressFromSourcesObservation struct {
+
+	// An AccessLevel resource name that allow resources within the
+	// ServicePerimeters to be accessed from the internet. AccessLevels listed
+	// must be in the same policy as this ServicePerimeter. Referencing a nonexistent
+	// AccessLevel will cause an error. If no AccessLevel names are listed,
+	// resources within the perimeter can only be accessed via Google Cloud calls
+	// with request origins within the perimeter.
+	// Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
+	// If * is specified, then all IngressSources will be allowed.
+	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
+
+	// A Google Cloud resource that is allowed to ingress the perimeter.
+	// Requests from these resources will be allowed to access perimeter data.
+	// Currently only projects are allowed. Format projects/{project_number}
+	// The project may be in any Google Cloud organization, not just the
+	// organization that the perimeter is defined in. * is not allowed, the case
+	// of allowing all Google Cloud resources only is not supported.
+	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
+}
+
+type IngressPoliciesIngressFromSourcesParameters struct {
+
+	// An AccessLevel resource name that allow resources within the
+	// ServicePerimeters to be accessed from the internet. AccessLevels listed
+	// must be in the same policy as this ServicePerimeter. Referencing a nonexistent
+	// AccessLevel will cause an error. If no AccessLevel names are listed,
+	// resources within the perimeter can only be accessed via Google Cloud calls
+	// with request origins within the perimeter.
+	// Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
+	// If * is specified, then all IngressSources will be allowed.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/accesscontextmanager/v1beta1.AccessLevel
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
@@ -496,63 +734,6 @@ type IngressFromSourcesParameters struct {
 	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
 }
 
-type IngressPoliciesIngressFromInitParameters struct {
-
-	// A list of identities that are allowed access through this ingress policy.
-	// Should be in the format of email address. The email address should represent
-	// individual user or service account only.
-	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
-
-	// Specifies the type of identities that are allowed access from outside the
-	// perimeter. If left unspecified, then members of identities field will be
-	// allowed access.
-	// Possible values are: IDENTITY_TYPE_UNSPECIFIED, ANY_IDENTITY, ANY_USER_ACCOUNT, ANY_SERVICE_ACCOUNT.
-	IdentityType *string `json:"identityType,omitempty" tf:"identity_type,omitempty"`
-
-	// Sources that this IngressPolicy authorizes access from.
-	// Structure is documented below.
-	Sources []IngressFromSourcesInitParameters `json:"sources,omitempty" tf:"sources,omitempty"`
-}
-
-type IngressPoliciesIngressFromObservation struct {
-
-	// A list of identities that are allowed access through this ingress policy.
-	// Should be in the format of email address. The email address should represent
-	// individual user or service account only.
-	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
-
-	// Specifies the type of identities that are allowed access from outside the
-	// perimeter. If left unspecified, then members of identities field will be
-	// allowed access.
-	// Possible values are: IDENTITY_TYPE_UNSPECIFIED, ANY_IDENTITY, ANY_USER_ACCOUNT, ANY_SERVICE_ACCOUNT.
-	IdentityType *string `json:"identityType,omitempty" tf:"identity_type,omitempty"`
-
-	// Sources that this IngressPolicy authorizes access from.
-	// Structure is documented below.
-	Sources []IngressFromSourcesObservation `json:"sources,omitempty" tf:"sources,omitempty"`
-}
-
-type IngressPoliciesIngressFromParameters struct {
-
-	// A list of identities that are allowed access through this ingress policy.
-	// Should be in the format of email address. The email address should represent
-	// individual user or service account only.
-	// +kubebuilder:validation:Optional
-	Identities []*string `json:"identities,omitempty" tf:"identities,omitempty"`
-
-	// Specifies the type of identities that are allowed access from outside the
-	// perimeter. If left unspecified, then members of identities field will be
-	// allowed access.
-	// Possible values are: IDENTITY_TYPE_UNSPECIFIED, ANY_IDENTITY, ANY_USER_ACCOUNT, ANY_SERVICE_ACCOUNT.
-	// +kubebuilder:validation:Optional
-	IdentityType *string `json:"identityType,omitempty" tf:"identity_type,omitempty"`
-
-	// Sources that this IngressPolicy authorizes access from.
-	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	Sources []IngressFromSourcesParameters `json:"sources,omitempty" tf:"sources,omitempty"`
-}
-
 type IngressPoliciesIngressToInitParameters struct {
 
 	// A list of ApiOperations the sources specified in corresponding IngressFrom
@@ -563,6 +744,7 @@ type IngressPoliciesIngressToInitParameters struct {
 	// A list of GCP resources that are inside of the service perimeter.
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
+	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
 }
 
@@ -576,6 +758,7 @@ type IngressPoliciesIngressToObservation struct {
 	// A list of GCP resources that are inside of the service perimeter.
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
+	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
 }
 
@@ -638,6 +821,7 @@ type IngressPoliciesIngressToParameters struct {
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
 }
 
@@ -692,6 +876,7 @@ type IngressToInitParameters struct {
 	// A list of GCP resources that are inside of the service perimeter.
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
+	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
 }
 
@@ -705,6 +890,7 @@ type IngressToObservation struct {
 	// A list of GCP resources that are inside of the service perimeter.
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
+	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
 }
 
@@ -805,6 +991,7 @@ type IngressToParameters struct {
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
 }
 
@@ -1142,14 +1329,6 @@ type SourcesInitParameters struct {
 	// Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
 	// If * is specified, then all IngressSources will be allowed.
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
-
-	// A Google Cloud resource that is allowed to ingress the perimeter.
-	// Requests from these resources will be allowed to access perimeter data.
-	// Currently only projects are allowed. Format projects/{project_number}
-	// The project may be in any Google Cloud organization, not just the
-	// organization that the perimeter is defined in. * is not allowed, the case
-	// of allowing all Google Cloud resources only is not supported.
-	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
 }
 
 type SourcesObservation struct {
@@ -1163,14 +1342,6 @@ type SourcesObservation struct {
 	// Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
 	// If * is specified, then all IngressSources will be allowed.
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
-
-	// A Google Cloud resource that is allowed to ingress the perimeter.
-	// Requests from these resources will be allowed to access perimeter data.
-	// Currently only projects are allowed. Format projects/{project_number}
-	// The project may be in any Google Cloud organization, not just the
-	// organization that the perimeter is defined in. * is not allowed, the case
-	// of allowing all Google Cloud resources only is not supported.
-	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
 }
 
 type SourcesParameters struct {
@@ -1185,15 +1356,6 @@ type SourcesParameters struct {
 	// If * is specified, then all IngressSources will be allowed.
 	// +kubebuilder:validation:Optional
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
-
-	// A Google Cloud resource that is allowed to ingress the perimeter.
-	// Requests from these resources will be allowed to access perimeter data.
-	// Currently only projects are allowed. Format projects/{project_number}
-	// The project may be in any Google Cloud organization, not just the
-	// organization that the perimeter is defined in. * is not allowed, the case
-	// of allowing all Google Cloud resources only is not supported.
-	// +kubebuilder:validation:Optional
-	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
 }
 
 type SpecInitParameters struct {
@@ -1208,6 +1370,7 @@ type SpecInitParameters struct {
 	// be empty.
 	// Format: accessPolicies/{policy_id}/accessLevels/{access_level_name}
 	// +crossplane:generate:reference:type=AccessLevel
+	// +listType=set
 	AccessLevels []*string `json:"accessLevels,omitempty" tf:"access_levels,omitempty"`
 
 	// References to AccessLevel to populate accessLevels.
@@ -1235,6 +1398,7 @@ type SpecInitParameters struct {
 	// A list of GCP resources that are inside of the service perimeter.
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
+	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
 
 	// GCP services that are subject to the Service Perimeter
@@ -1242,6 +1406,7 @@ type SpecInitParameters struct {
 	// storage.googleapis.com is specified, access to the storage
 	// buckets inside the perimeter must meet the perimeter's access
 	// restrictions.
+	// +listType=set
 	RestrictedServices []*string `json:"restrictedServices,omitempty" tf:"restricted_services,omitempty"`
 
 	// Specifies how APIs are allowed to communicate within the Service
@@ -1261,6 +1426,7 @@ type SpecObservation struct {
 	// origins within the perimeter. For Service Perimeter Bridge, must
 	// be empty.
 	// Format: accessPolicies/{policy_id}/accessLevels/{access_level_name}
+	// +listType=set
 	AccessLevels []*string `json:"accessLevels,omitempty" tf:"access_levels,omitempty"`
 
 	// List of EgressPolicies to apply to the perimeter. A perimeter may
@@ -1280,6 +1446,7 @@ type SpecObservation struct {
 	// A list of GCP resources that are inside of the service perimeter.
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
+	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
 
 	// GCP services that are subject to the Service Perimeter
@@ -1287,6 +1454,7 @@ type SpecObservation struct {
 	// storage.googleapis.com is specified, access to the storage
 	// buckets inside the perimeter must meet the perimeter's access
 	// restrictions.
+	// +listType=set
 	RestrictedServices []*string `json:"restrictedServices,omitempty" tf:"restricted_services,omitempty"`
 
 	// Specifies how APIs are allowed to communicate within the Service
@@ -1308,6 +1476,7 @@ type SpecParameters struct {
 	// Format: accessPolicies/{policy_id}/accessLevels/{access_level_name}
 	// +crossplane:generate:reference:type=AccessLevel
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	AccessLevels []*string `json:"accessLevels,omitempty" tf:"access_levels,omitempty"`
 
 	// References to AccessLevel to populate accessLevels.
@@ -1338,6 +1507,7 @@ type SpecParameters struct {
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
 
 	// GCP services that are subject to the Service Perimeter
@@ -1346,6 +1516,7 @@ type SpecParameters struct {
 	// buckets inside the perimeter must meet the perimeter's access
 	// restrictions.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	RestrictedServices []*string `json:"restrictedServices,omitempty" tf:"restricted_services,omitempty"`
 
 	// Specifies how APIs are allowed to communicate within the Service
@@ -1446,6 +1617,7 @@ type StatusInitParameters struct {
 	// be empty.
 	// Format: accessPolicies/{policy_id}/accessLevels/{access_level_name}
 	// +crossplane:generate:reference:type=AccessLevel
+	// +listType=set
 	AccessLevels []*string `json:"accessLevels,omitempty" tf:"access_levels,omitempty"`
 
 	// References to AccessLevel to populate accessLevels.
@@ -1473,6 +1645,7 @@ type StatusInitParameters struct {
 	// A list of GCP resources that are inside of the service perimeter.
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
+	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
 
 	// GCP services that are subject to the Service Perimeter
@@ -1500,6 +1673,7 @@ type StatusObservation struct {
 	// origins within the perimeter. For Service Perimeter Bridge, must
 	// be empty.
 	// Format: accessPolicies/{policy_id}/accessLevels/{access_level_name}
+	// +listType=set
 	AccessLevels []*string `json:"accessLevels,omitempty" tf:"access_levels,omitempty"`
 
 	// List of EgressPolicies to apply to the perimeter. A perimeter may
@@ -1519,6 +1693,7 @@ type StatusObservation struct {
 	// A list of GCP resources that are inside of the service perimeter.
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
+	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
 
 	// GCP services that are subject to the Service Perimeter
@@ -1548,6 +1723,7 @@ type StatusParameters struct {
 	// Format: accessPolicies/{policy_id}/accessLevels/{access_level_name}
 	// +crossplane:generate:reference:type=AccessLevel
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	AccessLevels []*string `json:"accessLevels,omitempty" tf:"access_levels,omitempty"`
 
 	// References to AccessLevel to populate accessLevels.
@@ -1578,6 +1754,7 @@ type StatusParameters struct {
 	// Currently only projects are allowed.
 	// Format: projects/{project_number}
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Resources []*string `json:"resources,omitempty" tf:"resources,omitempty"`
 
 	// GCP services that are subject to the Service Perimeter
@@ -1638,6 +1815,7 @@ type VPCAccessibleServicesInitParameters struct {
 
 	// The list of APIs usable within the Service Perimeter.
 	// Must be empty unless enableRestriction is True.
+	// +listType=set
 	AllowedServices []*string `json:"allowedServices,omitempty" tf:"allowed_services,omitempty"`
 
 	// Whether to restrict API calls within the Service Perimeter to the
@@ -1649,6 +1827,7 @@ type VPCAccessibleServicesObservation struct {
 
 	// The list of APIs usable within the Service Perimeter.
 	// Must be empty unless enableRestriction is True.
+	// +listType=set
 	AllowedServices []*string `json:"allowedServices,omitempty" tf:"allowed_services,omitempty"`
 
 	// Whether to restrict API calls within the Service Perimeter to the
@@ -1661,6 +1840,7 @@ type VPCAccessibleServicesParameters struct {
 	// The list of APIs usable within the Service Perimeter.
 	// Must be empty unless enableRestriction is True.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	AllowedServices []*string `json:"allowedServices,omitempty" tf:"allowed_services,omitempty"`
 
 	// Whether to restrict API calls within the Service Perimeter to the

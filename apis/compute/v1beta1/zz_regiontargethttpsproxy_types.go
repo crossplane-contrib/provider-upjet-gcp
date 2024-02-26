@@ -52,6 +52,11 @@ type RegionTargetHTTPSProxyInitParameters struct {
 	// +kubebuilder:validation:Optional
 	SSLCertificatesSelector *v1.Selector `json:"sslCertificatesSelector,omitempty" tf:"-"`
 
+	// A reference to the Region SslPolicy resource that will be associated with
+	// the TargetHttpsProxy resource. If not set, the TargetHttpsProxy
+	// resource will not have any SSL policy configured.
+	SSLPolicy *string `json:"sslPolicy,omitempty" tf:"ssl_policy,omitempty"`
+
 	// A reference to the RegionUrlMap resource that defines the mapping from URL
 	// to the RegionBackendService.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionURLMap
@@ -94,6 +99,11 @@ type RegionTargetHTTPSProxyObservation struct {
 	// one SSL certificate must be specified.
 	SSLCertificates []*string `json:"sslCertificates,omitempty" tf:"ssl_certificates,omitempty"`
 
+	// A reference to the Region SslPolicy resource that will be associated with
+	// the TargetHttpsProxy resource. If not set, the TargetHttpsProxy
+	// resource will not have any SSL policy configured.
+	SSLPolicy *string `json:"sslPolicy,omitempty" tf:"ssl_policy,omitempty"`
+
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
@@ -132,6 +142,12 @@ type RegionTargetHTTPSProxyParameters struct {
 	// Selector for a list of RegionSSLCertificate to populate sslCertificates.
 	// +kubebuilder:validation:Optional
 	SSLCertificatesSelector *v1.Selector `json:"sslCertificatesSelector,omitempty" tf:"-"`
+
+	// A reference to the Region SslPolicy resource that will be associated with
+	// the TargetHttpsProxy resource. If not set, the TargetHttpsProxy
+	// resource will not have any SSL policy configured.
+	// +kubebuilder:validation:Optional
+	SSLPolicy *string `json:"sslPolicy,omitempty" tf:"ssl_policy,omitempty"`
 
 	// A reference to the RegionUrlMap resource that defines the mapping from URL
 	// to the RegionBackendService.

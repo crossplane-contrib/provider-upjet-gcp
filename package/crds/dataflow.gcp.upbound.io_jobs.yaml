@@ -100,8 +100,7 @@ spec:
                     description: |-
                       User labels to be specified for the job. Keys and values should follow the restrictions
                       specified in the labeling restrictions page.
-                      NOTE: Google-provided Dataflow templates often provide default labels that begin with goog-dataflow-provided.
-                      Unless explicitly set in config, these labels will be ignored to prevent diffs on re-apply.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration. Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                   machineType:
                     description: The machine type to use for the job.
@@ -205,8 +204,7 @@ spec:
                     description: |-
                       User labels to be specified for the job. Keys and values should follow the restrictions
                       specified in the labeling restrictions page.
-                      NOTE: Google-provided Dataflow templates often provide default labels that begin with goog-dataflow-provided.
-                      Unless explicitly set in config, these labels will be ignored to prevent diffs on re-apply.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration. Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                   machineType:
                     description: The machine type to use for the job.
@@ -462,6 +460,11 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   enableStreamingEngine:
                     description: Enable/disable the use of Streaming Engine for the
                       job. Note that Streaming Engine is enabled by default for pipelines
@@ -487,8 +490,7 @@ spec:
                     description: |-
                       User labels to be specified for the job. Keys and values should follow the restrictions
                       specified in the labeling restrictions page.
-                      NOTE: Google-provided Dataflow templates often provide default labels that begin with goog-dataflow-provided.
-                      Unless explicitly set in config, these labels will be ignored to prevent diffs on re-apply.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration. Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                   machineType:
                     description: The machine type to use for the job.
@@ -543,6 +545,13 @@ spec:
                   templateGcsPath:
                     description: The GCS path to the Dataflow job template.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   transformNameMapping:
                     additionalProperties:
                       type: string

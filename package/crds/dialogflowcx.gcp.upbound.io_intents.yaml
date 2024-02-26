@@ -82,10 +82,21 @@ spec:
                     description: The human-readable name of the intent, unique within
                       the agent.
                     type: string
+                  isDefaultNegativeIntent:
+                    description: |-
+                      Marks this as the Default Negative Intent for an agent. When you create an agent, a Default Negative Intent is created automatically.
+                      The Default Negative Intent cannot be deleted; deleting the google_dialogflow_cx_intent resource does nothing to the underlying GCP resources.
+                    type: boolean
+                  isDefaultWelcomeIntent:
+                    description: |-
+                      Marks this as the Default Welcome Intent for an agent. When you create an agent, a Default Welcome Intent is created automatically.
+                      The Default Welcome Intent cannot be deleted; deleting the google_dialogflow_cx_intent resource does nothing to the underlying GCP resources.
+                    type: boolean
                   isFallback:
                     description: |-
                       Indicates whether this is a fallback intent. Currently only default fallback intent is allowed in the agent, which is added upon agent creation.
                       Adding training phrases to fallback intent is useful in the case of requests that are mistakenly matched, since training phrases assigned to fallback intents act as negative examples that triggers no-match event.
+                      To manage the fallback intent, set is_default_negative_intent = true
                     type: boolean
                   labels:
                     additionalProperties:
@@ -272,10 +283,21 @@ spec:
                     description: The human-readable name of the intent, unique within
                       the agent.
                     type: string
+                  isDefaultNegativeIntent:
+                    description: |-
+                      Marks this as the Default Negative Intent for an agent. When you create an agent, a Default Negative Intent is created automatically.
+                      The Default Negative Intent cannot be deleted; deleting the google_dialogflow_cx_intent resource does nothing to the underlying GCP resources.
+                    type: boolean
+                  isDefaultWelcomeIntent:
+                    description: |-
+                      Marks this as the Default Welcome Intent for an agent. When you create an agent, a Default Welcome Intent is created automatically.
+                      The Default Welcome Intent cannot be deleted; deleting the google_dialogflow_cx_intent resource does nothing to the underlying GCP resources.
+                    type: boolean
                   isFallback:
                     description: |-
                       Indicates whether this is a fallback intent. Currently only default fallback intent is allowed in the agent, which is added upon agent creation.
                       Adding training phrases to fallback intent is useful in the case of requests that are mistakenly matched, since training phrases assigned to fallback intents act as negative examples that triggers no-match event.
+                      To manage the fallback intent, set is_default_negative_intent = true
                     type: boolean
                   labels:
                     additionalProperties:
@@ -626,13 +648,30 @@ spec:
                     description: The human-readable name of the intent, unique within
                       the agent.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   id:
                     description: an identifier for the resource with format {{parent}}/intents/{{name}}
                     type: string
+                  isDefaultNegativeIntent:
+                    description: |-
+                      Marks this as the Default Negative Intent for an agent. When you create an agent, a Default Negative Intent is created automatically.
+                      The Default Negative Intent cannot be deleted; deleting the google_dialogflow_cx_intent resource does nothing to the underlying GCP resources.
+                    type: boolean
+                  isDefaultWelcomeIntent:
+                    description: |-
+                      Marks this as the Default Welcome Intent for an agent. When you create an agent, a Default Welcome Intent is created automatically.
+                      The Default Welcome Intent cannot be deleted; deleting the google_dialogflow_cx_intent resource does nothing to the underlying GCP resources.
+                    type: boolean
                   isFallback:
                     description: |-
                       Indicates whether this is a fallback intent. Currently only default fallback intent is allowed in the agent, which is added upon agent creation.
                       Adding training phrases to fallback intent is useful in the case of requests that are mistakenly matched, since training phrases assigned to fallback intents act as negative examples that triggers no-match event.
+                      To manage the fallback intent, set is_default_negative_intent = true
                     type: boolean
                   labels:
                     additionalProperties:
@@ -691,6 +730,14 @@ spec:
                       If the supplied value is unspecified or 0, the service translates the value to 500,000, which corresponds to the Normal priority in the console.
                       If the supplied value is negative, the intent is ignored in runtime detect intent requests.
                     type: number
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   trainingPhrases:
                     description: |-
                       The collection of training phrases the agent is trained on to identify the intent.

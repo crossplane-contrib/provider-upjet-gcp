@@ -71,6 +71,9 @@ type AssetObservation struct {
 	// Optional. User friendly display name.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/lakes/{{lake}}/zones/{{dataplex_zone}}/assets/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -98,6 +101,10 @@ type AssetObservation struct {
 
 	// Output only. Current state of the asset. Possible values: STATE_UNSPECIFIED, ACTIVE, CREATING, DELETING, ACTION_REQUIRED
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// Output only. System generated globally unique ID for the asset. This ID will be different if the asset is deleted and re-created with the same name.
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
@@ -338,6 +345,9 @@ type ResourceSpecInitParameters struct {
 	// Immutable. Relative name of the cloud resource that contains the data that is being managed within a lake. For example: projects/{project_number}/buckets/{bucket_id} projects/{project_number}/datasets/{dataset_id}
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Optional. Determines how read permissions are handled for each asset and their associated tables. Only available to storage buckets assets. Possible values: DIRECT, MANAGED
+	ReadAccessMode *string `json:"readAccessMode,omitempty" tf:"read_access_mode,omitempty"`
+
 	// Required. Immutable. Type of resource. Possible values: STORAGE_BUCKET, BIGQUERY_DATASET
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -346,6 +356,9 @@ type ResourceSpecObservation struct {
 
 	// Immutable. Relative name of the cloud resource that contains the data that is being managed within a lake. For example: projects/{project_number}/buckets/{bucket_id} projects/{project_number}/datasets/{dataset_id}
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Optional. Determines how read permissions are handled for each asset and their associated tables. Only available to storage buckets assets. Possible values: DIRECT, MANAGED
+	ReadAccessMode *string `json:"readAccessMode,omitempty" tf:"read_access_mode,omitempty"`
 
 	// Required. Immutable. Type of resource. Possible values: STORAGE_BUCKET, BIGQUERY_DATASET
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
@@ -356,6 +369,10 @@ type ResourceSpecParameters struct {
 	// Immutable. Relative name of the cloud resource that contains the data that is being managed within a lake. For example: projects/{project_number}/buckets/{bucket_id} projects/{project_number}/datasets/{dataset_id}
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Optional. Determines how read permissions are handled for each asset and their associated tables. Only available to storage buckets assets. Possible values: DIRECT, MANAGED
+	// +kubebuilder:validation:Optional
+	ReadAccessMode *string `json:"readAccessMode,omitempty" tf:"read_access_mode,omitempty"`
 
 	// Required. Immutable. Type of resource. Possible values: STORAGE_BUCKET, BIGQUERY_DATASET
 	// +kubebuilder:validation:Optional

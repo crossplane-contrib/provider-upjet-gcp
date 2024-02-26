@@ -31,6 +31,12 @@ import (
 
 type TargetHTTPSProxyInitParameters struct {
 
+	// URLs to certificate manager certificate resources that are used to authenticate connections between users and the load balancer.
+	// Currently, you may specify up to 15 certificates. Certificate manager certificates do not apply when the load balancing scheme is set to INTERNAL_SELF_MANAGED.
+	// sslCertificates and certificateManagerCertificates fields can not be defined together.
+	// Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificates/{resourceName} or just the self_link projects/{project}/locations/{location}/certificates/{resourceName}
+	CertificateManagerCertificates []*string `json:"certificateManagerCertificates,omitempty" tf:"certificate_manager_certificates,omitempty"`
+
 	// A reference to the CertificateMap resource uri that identifies a certificate map
 	// associated with the given target proxy. This field can only be set for global target proxies.
 	// Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificateMaps/{resourceName}.
@@ -63,8 +69,9 @@ type TargetHTTPSProxyInitParameters struct {
 	// Possible values are: NONE, ENABLE, DISABLE.
 	QuicOverride *string `json:"quicOverride,omitempty" tf:"quic_override,omitempty"`
 
-	// A list of SslCertificate resource URLs or Certificate Manager certificate URLs that are used to authenticate
-	// connections between users and the load balancer. At least one resource must be specified.
+	// URLs to SslCertificate resources that are used to authenticate connections between users and the load balancer.
+	// Currently, you may specify up to 15 SSL certificates. sslCertificates do not apply when the load balancing scheme is set to INTERNAL_SELF_MANAGED.
+	// sslCertificates and certificateManagerCertificates can not be defined together.
 	// +crossplane:generate:reference:type=SSLCertificate
 	SSLCertificates []*string `json:"sslCertificates,omitempty" tf:"ssl_certificates,omitempty"`
 
@@ -80,6 +87,17 @@ type TargetHTTPSProxyInitParameters struct {
 	// the TargetHttpsProxy resource. If not set, the TargetHttpsProxy
 	// resource will not have any SSL policy configured.
 	SSLPolicy *string `json:"sslPolicy,omitempty" tf:"ssl_policy,omitempty"`
+
+	// A URL referring to a networksecurity.ServerTlsPolicy
+	// resource that describes how the proxy should authenticate inbound
+	// traffic. serverTlsPolicy only applies to a global TargetHttpsProxy
+	// attached to globalForwardingRules with the loadBalancingScheme
+	// set to INTERNAL_SELF_MANAGED or EXTERNAL or EXTERNAL_MANAGED.
+	// For details which ServerTlsPolicy resources are accepted with
+	// INTERNAL_SELF_MANAGED and which with EXTERNAL, EXTERNAL_MANAGED
+	// loadBalancingScheme consult ServerTlsPolicy documentation.
+	// If left blank, communications are not encrypted.
+	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
 
 	// A reference to the UrlMap resource that defines the mapping from URL
 	// to the BackendService.
@@ -97,6 +115,12 @@ type TargetHTTPSProxyInitParameters struct {
 }
 
 type TargetHTTPSProxyObservation struct {
+
+	// URLs to certificate manager certificate resources that are used to authenticate connections between users and the load balancer.
+	// Currently, you may specify up to 15 certificates. Certificate manager certificates do not apply when the load balancing scheme is set to INTERNAL_SELF_MANAGED.
+	// sslCertificates and certificateManagerCertificates fields can not be defined together.
+	// Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificates/{resourceName} or just the self_link projects/{project}/locations/{location}/certificates/{resourceName}
+	CertificateManagerCertificates []*string `json:"certificateManagerCertificates,omitempty" tf:"certificate_manager_certificates,omitempty"`
 
 	// A reference to the CertificateMap resource uri that identifies a certificate map
 	// associated with the given target proxy. This field can only be set for global target proxies.
@@ -139,8 +163,9 @@ type TargetHTTPSProxyObservation struct {
 	// Possible values are: NONE, ENABLE, DISABLE.
 	QuicOverride *string `json:"quicOverride,omitempty" tf:"quic_override,omitempty"`
 
-	// A list of SslCertificate resource URLs or Certificate Manager certificate URLs that are used to authenticate
-	// connections between users and the load balancer. At least one resource must be specified.
+	// URLs to SslCertificate resources that are used to authenticate connections between users and the load balancer.
+	// Currently, you may specify up to 15 SSL certificates. sslCertificates do not apply when the load balancing scheme is set to INTERNAL_SELF_MANAGED.
+	// sslCertificates and certificateManagerCertificates can not be defined together.
 	SSLCertificates []*string `json:"sslCertificates,omitempty" tf:"ssl_certificates,omitempty"`
 
 	// A reference to the SslPolicy resource that will be associated with
@@ -151,12 +176,30 @@ type TargetHTTPSProxyObservation struct {
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// A URL referring to a networksecurity.ServerTlsPolicy
+	// resource that describes how the proxy should authenticate inbound
+	// traffic. serverTlsPolicy only applies to a global TargetHttpsProxy
+	// attached to globalForwardingRules with the loadBalancingScheme
+	// set to INTERNAL_SELF_MANAGED or EXTERNAL or EXTERNAL_MANAGED.
+	// For details which ServerTlsPolicy resources are accepted with
+	// INTERNAL_SELF_MANAGED and which with EXTERNAL, EXTERNAL_MANAGED
+	// loadBalancingScheme consult ServerTlsPolicy documentation.
+	// If left blank, communications are not encrypted.
+	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
+
 	// A reference to the UrlMap resource that defines the mapping from URL
 	// to the BackendService.
 	URLMap *string `json:"urlMap,omitempty" tf:"url_map,omitempty"`
 }
 
 type TargetHTTPSProxyParameters struct {
+
+	// URLs to certificate manager certificate resources that are used to authenticate connections between users and the load balancer.
+	// Currently, you may specify up to 15 certificates. Certificate manager certificates do not apply when the load balancing scheme is set to INTERNAL_SELF_MANAGED.
+	// sslCertificates and certificateManagerCertificates fields can not be defined together.
+	// Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificates/{resourceName} or just the self_link projects/{project}/locations/{location}/certificates/{resourceName}
+	// +kubebuilder:validation:Optional
+	CertificateManagerCertificates []*string `json:"certificateManagerCertificates,omitempty" tf:"certificate_manager_certificates,omitempty"`
 
 	// A reference to the CertificateMap resource uri that identifies a certificate map
 	// associated with the given target proxy. This field can only be set for global target proxies.
@@ -196,8 +239,9 @@ type TargetHTTPSProxyParameters struct {
 	// +kubebuilder:validation:Optional
 	QuicOverride *string `json:"quicOverride,omitempty" tf:"quic_override,omitempty"`
 
-	// A list of SslCertificate resource URLs or Certificate Manager certificate URLs that are used to authenticate
-	// connections between users and the load balancer. At least one resource must be specified.
+	// URLs to SslCertificate resources that are used to authenticate connections between users and the load balancer.
+	// Currently, you may specify up to 15 SSL certificates. sslCertificates do not apply when the load balancing scheme is set to INTERNAL_SELF_MANAGED.
+	// sslCertificates and certificateManagerCertificates can not be defined together.
 	// +crossplane:generate:reference:type=SSLCertificate
 	// +kubebuilder:validation:Optional
 	SSLCertificates []*string `json:"sslCertificates,omitempty" tf:"ssl_certificates,omitempty"`
@@ -215,6 +259,18 @@ type TargetHTTPSProxyParameters struct {
 	// resource will not have any SSL policy configured.
 	// +kubebuilder:validation:Optional
 	SSLPolicy *string `json:"sslPolicy,omitempty" tf:"ssl_policy,omitempty"`
+
+	// A URL referring to a networksecurity.ServerTlsPolicy
+	// resource that describes how the proxy should authenticate inbound
+	// traffic. serverTlsPolicy only applies to a global TargetHttpsProxy
+	// attached to globalForwardingRules with the loadBalancingScheme
+	// set to INTERNAL_SELF_MANAGED or EXTERNAL or EXTERNAL_MANAGED.
+	// For details which ServerTlsPolicy resources are accepted with
+	// INTERNAL_SELF_MANAGED and which with EXTERNAL, EXTERNAL_MANAGED
+	// loadBalancingScheme consult ServerTlsPolicy documentation.
+	// If left blank, communications are not encrypted.
+	// +kubebuilder:validation:Optional
+	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
 
 	// A reference to the UrlMap resource that defines the mapping from URL
 	// to the BackendService.

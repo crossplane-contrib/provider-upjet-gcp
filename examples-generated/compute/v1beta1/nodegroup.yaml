@@ -9,10 +9,10 @@ metadata:
 spec:
   forProvider:
     description: example google_compute_node_group for Terraform Google Provider
+    initialSize: 1
     nodeTemplateSelector:
       matchLabels:
         testing.upbound.io/example-name: soletenant-tmpl
-    size: 1
     zone: us-central1-f
 
 ---

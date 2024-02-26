@@ -268,19 +268,19 @@ type BootDiskParameters struct {
 
 type ConfidentialInstanceConfigInitParameters struct {
 
-	// Defines whether the instance should have confidential compute enabled. on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
+	// Defines whether the instance should have confidential compute enabled with AMD SEV. on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 }
 
 type ConfidentialInstanceConfigObservation struct {
 
-	// Defines whether the instance should have confidential compute enabled. on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
+	// Defines whether the instance should have confidential compute enabled with AMD SEV. on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 }
 
 type ConfidentialInstanceConfigParameters struct {
 
-	// Defines whether the instance should have confidential compute enabled. on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
+	// Defines whether the instance should have confidential compute enabled with AMD SEV. on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
 	// +kubebuilder:validation:Optional
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute" tf:"enable_confidential_compute,omitempty"`
 }
@@ -393,6 +393,10 @@ type IPv6AccessConfigParameters struct {
 
 type InitializeParamsInitParameters struct {
 
+	// Whether this disk is using confidential compute mode.
+	// Note: Only supported on hyperdisk skus, disk_encryption_key is required when setting to true.
+	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
+
 	// The image from which to initialize this disk. This can be
 	// one of: the image's self_link, projects/{project}/global/images/{image},
 	// projects/{project}/global/images/family/{family}, global/images/{image},
@@ -414,7 +418,27 @@ type InitializeParamsInitParameters struct {
 	ImageSelector *v1.Selector `json:"imageSelector,omitempty" tf:"-"`
 
 	// A map of key/value label pairs to assign to the instance.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field 'effective_labels' for all of the labels present on the resource.
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk.
+	// This sets the number of I/O operations per second that the disk can handle.
+	// For more details,see the Hyperdisk documentation.
+	// Note: Updating currently is only supported for hyperdisk skus via disk update
+	// api/gcloud without the need to delete and recreate the disk, hyperdisk allows
+	// for an update of IOPS every 4 hours. To update your hyperdisk more frequently,
+	// you'll need to manually delete and recreate it.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk.
+	// This sets the number of throughput mb per second that the disk can handle.
+	// For more details,see the Hyperdisk documentation.
+	// Note: Updating currently is only supported for hyperdisk skus via disk update
+	// api/gcloud without the need to delete and recreate the disk, hyperdisk allows
+	// for an update of throughput every 4 hours. To update your hyperdisk more
+	// frequently, you'll need to manually delete and recreate it.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
 
 	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
 	// +mapType=granular
@@ -424,12 +448,16 @@ type InitializeParamsInitParameters struct {
 	// will inherit the size of its base image.
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
-	// The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80.
+	// The type of reservation from which this instance can consume resources.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type InitializeParamsObservation struct {
 
+	// Whether this disk is using confidential compute mode.
+	// Note: Only supported on hyperdisk skus, disk_encryption_key is required when setting to true.
+	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
+
 	// The image from which to initialize this disk. This can be
 	// one of: the image's self_link, projects/{project}/global/images/{image},
 	// projects/{project}/global/images/family/{family}, global/images/{image},
@@ -442,7 +470,27 @@ type InitializeParamsObservation struct {
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
 	// A map of key/value label pairs to assign to the instance.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field 'effective_labels' for all of the labels present on the resource.
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk.
+	// This sets the number of I/O operations per second that the disk can handle.
+	// For more details,see the Hyperdisk documentation.
+	// Note: Updating currently is only supported for hyperdisk skus via disk update
+	// api/gcloud without the need to delete and recreate the disk, hyperdisk allows
+	// for an update of IOPS every 4 hours. To update your hyperdisk more frequently,
+	// you'll need to manually delete and recreate it.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk.
+	// This sets the number of throughput mb per second that the disk can handle.
+	// For more details,see the Hyperdisk documentation.
+	// Note: Updating currently is only supported for hyperdisk skus via disk update
+	// api/gcloud without the need to delete and recreate the disk, hyperdisk allows
+	// for an update of throughput every 4 hours. To update your hyperdisk more
+	// frequently, you'll need to manually delete and recreate it.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
 
 	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
 	// +mapType=granular
@@ -452,11 +500,16 @@ type InitializeParamsObservation struct {
 	// will inherit the size of its base image.
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
-	// The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80.
+	// The type of reservation from which this instance can consume resources.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type InitializeParamsParameters struct {
+
+	// Whether this disk is using confidential compute mode.
+	// Note: Only supported on hyperdisk skus, disk_encryption_key is required when setting to true.
+	// +kubebuilder:validation:Optional
+	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 
 	// The image from which to initialize this disk. This can be
 	// one of: the image's self_link, projects/{project}/global/images/{image},
@@ -480,8 +533,30 @@ type InitializeParamsParameters struct {
 	ImageSelector *v1.Selector `json:"imageSelector,omitempty" tf:"-"`
 
 	// A map of key/value label pairs to assign to the instance.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field 'effective_labels' for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk.
+	// This sets the number of I/O operations per second that the disk can handle.
+	// For more details,see the Hyperdisk documentation.
+	// Note: Updating currently is only supported for hyperdisk skus via disk update
+	// api/gcloud without the need to delete and recreate the disk, hyperdisk allows
+	// for an update of IOPS every 4 hours. To update your hyperdisk more frequently,
+	// you'll need to manually delete and recreate it.
+	// +kubebuilder:validation:Optional
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk.
+	// This sets the number of throughput mb per second that the disk can handle.
+	// For more details,see the Hyperdisk documentation.
+	// Note: Updating currently is only supported for hyperdisk skus via disk update
+	// api/gcloud without the need to delete and recreate the disk, hyperdisk allows
+	// for an update of throughput every 4 hours. To update your hyperdisk more
+	// frequently, you'll need to manually delete and recreate it.
+	// +kubebuilder:validation:Optional
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
 
 	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
 	// +kubebuilder:validation:Optional
@@ -493,7 +568,7 @@ type InitializeParamsParameters struct {
 	// +kubebuilder:validation:Optional
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
-	// The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80.
+	// The type of reservation from which this instance can consume resources.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -630,6 +705,8 @@ type InstanceInitParameters struct {
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
 	// A map of key/value label pairs to assign to the instance.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field 'effective_labels' for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -745,6 +822,9 @@ type InstanceObservation struct {
 	// "RUNNING" or "TERMINATED".
 	DesiredStatus *string `json:"desiredStatus,omitempty" tf:"desired_status,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// Enable Virtual Displays on this instance.
 	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
 	EnableDisplay *bool `json:"enableDisplay,omitempty" tf:"enable_display,omitempty"`
@@ -773,6 +853,8 @@ type InstanceObservation struct {
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
 
 	// A map of key/value label pairs to assign to the instance.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field 'effective_labels' for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -856,6 +938,10 @@ type InstanceObservation struct {
 	// The unique fingerprint of the tags.
 	TagsFingerprint *string `json:"tagsFingerprint,omitempty" tf:"tags_fingerprint,omitempty"`
 
+	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
 	// The zone that the machine should be created in. If it is not provided, the provider zone is used.
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
@@ -925,6 +1011,8 @@ type InstanceParameters struct {
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
 	// A map of key/value label pairs to assign to the instance.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field 'effective_labels' for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
@@ -1083,6 +1171,10 @@ type NetworkInterfaceInitParameters struct {
 	// specified, then this instance will have no external IPv6 Internet access. Structure documented below.
 	IPv6AccessConfig []IPv6AccessConfigInitParameters `json:"ipv6AccessConfig,omitempty" tf:"ipv6_access_config,omitempty"`
 
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
+
+	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
+
 	// The name or self_link of the network to attach this interface to.
 	// Either network or subnetwork must be provided. If network isn't provided it will
 	// be inferred from the subnetwork.
@@ -1160,6 +1252,10 @@ type NetworkInterfaceObservation struct {
 	// This field is always inherited from its subnetwork.
 	IPv6AccessType *string `json:"ipv6AccessType,omitempty" tf:"ipv6_access_type,omitempty"`
 
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
+
+	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
+
 	// A unique name for the resource, required by GCE.
 	// Changing this forces a new resource to be created.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -1219,6 +1315,12 @@ type NetworkInterfaceParameters struct {
 	// specified, then this instance will have no external IPv6 Internet access. Structure documented below.
 	// +kubebuilder:validation:Optional
 	IPv6AccessConfig []IPv6AccessConfigParameters `json:"ipv6AccessConfig,omitempty" tf:"ipv6_access_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
 
 	// The name or self_link of the network to attach this interface to.
 	// Either network or subnetwork must be provided. If network isn't provided it will
@@ -1437,7 +1539,7 @@ type SchedulingInitParameters struct {
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
 	// Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
-	// preemptible should be true and auto_restart should be
+	// preemptible should be true and automatic_restart should be
 	// false. For more info about
 	// SPOT, read here
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
@@ -1478,7 +1580,7 @@ type SchedulingObservation struct {
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
 	// Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
-	// preemptible should be true and auto_restart should be
+	// preemptible should be true and automatic_restart should be
 	// false. For more info about
 	// SPOT, read here
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
@@ -1526,7 +1628,7 @@ type SchedulingParameters struct {
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
 	// Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
-	// preemptible should be true and auto_restart should be
+	// preemptible should be true and automatic_restart should be
 	// false. For more info about
 	// SPOT, read here
 	// +kubebuilder:validation:Optional
@@ -1534,6 +1636,10 @@ type SchedulingParameters struct {
 }
 
 type ScratchDiskInitParameters struct {
+
+	// Name with which attached disk will be accessible.
+	// On the instance, this device will be /dev/disk/by-id/google-{{device_name}}.
+	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
 	// The disk interface to use for attaching this disk; either SCSI or NVME.
 	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
@@ -1545,6 +1651,10 @@ type ScratchDiskInitParameters struct {
 
 type ScratchDiskObservation struct {
 
+	// Name with which attached disk will be accessible.
+	// On the instance, this device will be /dev/disk/by-id/google-{{device_name}}.
+	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
+
 	// The disk interface to use for attaching this disk; either SCSI or NVME.
 	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
 
@@ -1554,6 +1664,11 @@ type ScratchDiskObservation struct {
 }
 
 type ScratchDiskParameters struct {
+
+	// Name with which attached disk will be accessible.
+	// On the instance, this device will be /dev/disk/by-id/google-{{device_name}}.
+	// +kubebuilder:validation:Optional
+	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
 	// The disk interface to use for attaching this disk; either SCSI or NVME.
 	// +kubebuilder:validation:Optional

@@ -136,6 +136,55 @@ type LinkedRouterApplianceInstancesParameters struct {
 	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer" tf:"site_to_site_data_transfer,omitempty"`
 }
 
+type LinkedVPCNetworkInitParameters struct {
+
+	// IP ranges encompassing the subnets to be excluded from peering.
+	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	// The URI of the VPC network resource.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+
+	// Reference to a Network in compute to populate uri.
+	// +kubebuilder:validation:Optional
+	URIRef *v1.Reference `json:"uriRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate uri.
+	// +kubebuilder:validation:Optional
+	URISelector *v1.Selector `json:"uriSelector,omitempty" tf:"-"`
+}
+
+type LinkedVPCNetworkObservation struct {
+
+	// IP ranges encompassing the subnets to be excluded from peering.
+	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	// The URI of the VPC network resource.
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type LinkedVPCNetworkParameters struct {
+
+	// IP ranges encompassing the subnets to be excluded from peering.
+	// +kubebuilder:validation:Optional
+	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	// The URI of the VPC network resource.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	// +kubebuilder:validation:Optional
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+
+	// Reference to a Network in compute to populate uri.
+	// +kubebuilder:validation:Optional
+	URIRef *v1.Reference `json:"uriRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate uri.
+	// +kubebuilder:validation:Optional
+	URISelector *v1.Selector `json:"uriSelector,omitempty" tf:"-"`
+}
+
 type LinkedVPNTunnelsInitParameters struct {
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
@@ -193,6 +242,9 @@ type SpokeInitParameters struct {
 	// The URIs of linked Router appliance resources
 	LinkedRouterApplianceInstances []LinkedRouterApplianceInstancesInitParameters `json:"linkedRouterApplianceInstances,omitempty" tf:"linked_router_appliance_instances,omitempty"`
 
+	// VPC network that is associated with the spoke.
+	LinkedVPCNetwork []LinkedVPCNetworkInitParameters `json:"linkedVpcNetwork,omitempty" tf:"linked_vpc_network,omitempty"`
+
 	// The URIs of linked VPN tunnel resources
 	LinkedVPNTunnels []LinkedVPNTunnelsInitParameters `json:"linkedVpnTunnels,omitempty" tf:"linked_vpn_tunnels,omitempty"`
 
@@ -214,6 +266,9 @@ type SpokeObservation struct {
 	// An optional description of the spoke.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// Immutable. The URI of the hub that this spoke is attached to.
 	Hub *string `json:"hub,omitempty" tf:"hub,omitempty"`
 
@@ -230,6 +285,9 @@ type SpokeObservation struct {
 	// The URIs of linked Router appliance resources
 	LinkedRouterApplianceInstances []LinkedRouterApplianceInstancesObservation `json:"linkedRouterApplianceInstances,omitempty" tf:"linked_router_appliance_instances,omitempty"`
 
+	// VPC network that is associated with the spoke.
+	LinkedVPCNetwork []LinkedVPCNetworkObservation `json:"linkedVpcNetwork,omitempty" tf:"linked_vpc_network,omitempty"`
+
 	// The URIs of linked VPN tunnel resources
 	LinkedVPNTunnels []LinkedVPNTunnelsObservation `json:"linkedVpnTunnels,omitempty" tf:"linked_vpn_tunnels,omitempty"`
 
@@ -244,6 +302,10 @@ type SpokeObservation struct {
 
 	// Output only. The current lifecycle state of this spoke. Possible values: STATE_UNSPECIFIED, CREATING, ACTIVE, DELETING
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// Output only. The Google-generated UUID for the spoke. This value is unique across all spoke resources. If a spoke is deleted and another with the same name is created, the new spoke is assigned a different unique_id.
 	UniqueID *string `json:"uniqueId,omitempty" tf:"unique_id,omitempty"`
@@ -284,6 +346,10 @@ type SpokeParameters struct {
 	// The URIs of linked Router appliance resources
 	// +kubebuilder:validation:Optional
 	LinkedRouterApplianceInstances []LinkedRouterApplianceInstancesParameters `json:"linkedRouterApplianceInstances,omitempty" tf:"linked_router_appliance_instances,omitempty"`
+
+	// VPC network that is associated with the spoke.
+	// +kubebuilder:validation:Optional
+	LinkedVPCNetwork []LinkedVPCNetworkParameters `json:"linkedVpcNetwork,omitempty" tf:"linked_vpc_network,omitempty"`
 
 	// The URIs of linked VPN tunnel resources
 	// +kubebuilder:validation:Optional

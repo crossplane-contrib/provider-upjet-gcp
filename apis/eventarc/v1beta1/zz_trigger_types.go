@@ -88,14 +88,17 @@ type CloudRunServiceParameters struct {
 
 type DestinationInitParameters struct {
 
-	// [WARNING] Configuring a Cloud Function in Trigger is not supported as of today. The Cloud Function resource name. Format: projects/{project}/locations/{location}/functions/{function}
-	CloudFunction *string `json:"cloudFunction,omitempty" tf:"cloud_function,omitempty"`
-
 	// Cloud Run fully-managed service that receives the events. The service should be running in the same project of the trigger.
 	CloudRunService []CloudRunServiceInitParameters `json:"cloudRunService,omitempty" tf:"cloud_run_service,omitempty"`
 
 	// A GKE service capable of receiving events. The service should be running in the same project as the trigger.
 	Gke []GkeInitParameters `json:"gke,omitempty" tf:"gke,omitempty"`
+
+	// An HTTP endpoint destination described by an URI.
+	HTTPEndpoint []HTTPEndpointInitParameters `json:"httpEndpoint,omitempty" tf:"http_endpoint,omitempty"`
+
+	// Optional. Network config is used to configure how Eventarc resolves and connect to a destination. This should only be used with HttpEndpoint destination type.
+	NetworkConfig []NetworkConfigInitParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
 
 	// The resource name of the Workflow whose Executions are triggered by the events. The Workflow resource should be deployed in the same project as the trigger. Format: projects/{project}/locations/{location}/workflows/{workflow}
 	Workflow *string `json:"workflow,omitempty" tf:"workflow,omitempty"`
@@ -103,7 +106,7 @@ type DestinationInitParameters struct {
 
 type DestinationObservation struct {
 
-	// [WARNING] Configuring a Cloud Function in Trigger is not supported as of today. The Cloud Function resource name. Format: projects/{project}/locations/{location}/functions/{function}
+	// The Cloud Function resource name. Only Cloud Functions V2 is supported. Format projects/{project}/locations/{location}/functions/{function} This is a read-only field. [WARNING] Creating Cloud Functions V2 triggers is only supported via the Cloud Functions product. An error will be returned if the user sets this value.
 	CloudFunction *string `json:"cloudFunction,omitempty" tf:"cloud_function,omitempty"`
 
 	// Cloud Run fully-managed service that receives the events. The service should be running in the same project of the trigger.
@@ -112,15 +115,17 @@ type DestinationObservation struct {
 	// A GKE service capable of receiving events. The service should be running in the same project as the trigger.
 	Gke []GkeObservation `json:"gke,omitempty" tf:"gke,omitempty"`
 
+	// An HTTP endpoint destination described by an URI.
+	HTTPEndpoint []HTTPEndpointObservation `json:"httpEndpoint,omitempty" tf:"http_endpoint,omitempty"`
+
+	// Optional. Network config is used to configure how Eventarc resolves and connect to a destination. This should only be used with HttpEndpoint destination type.
+	NetworkConfig []NetworkConfigObservation `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
+
 	// The resource name of the Workflow whose Executions are triggered by the events. The Workflow resource should be deployed in the same project as the trigger. Format: projects/{project}/locations/{location}/workflows/{workflow}
 	Workflow *string `json:"workflow,omitempty" tf:"workflow,omitempty"`
 }
 
 type DestinationParameters struct {
-
-	// [WARNING] Configuring a Cloud Function in Trigger is not supported as of today. The Cloud Function resource name. Format: projects/{project}/locations/{location}/functions/{function}
-	// +kubebuilder:validation:Optional
-	CloudFunction *string `json:"cloudFunction,omitempty" tf:"cloud_function,omitempty"`
 
 	// Cloud Run fully-managed service that receives the events. The service should be running in the same project of the trigger.
 	// +kubebuilder:validation:Optional
@@ -129,6 +134,14 @@ type DestinationParameters struct {
 	// A GKE service capable of receiving events. The service should be running in the same project as the trigger.
 	// +kubebuilder:validation:Optional
 	Gke []GkeParameters `json:"gke,omitempty" tf:"gke,omitempty"`
+
+	// An HTTP endpoint destination described by an URI.
+	// +kubebuilder:validation:Optional
+	HTTPEndpoint []HTTPEndpointParameters `json:"httpEndpoint,omitempty" tf:"http_endpoint,omitempty"`
+
+	// Optional. Network config is used to configure how Eventarc resolves and connect to a destination. This should only be used with HttpEndpoint destination type.
+	// +kubebuilder:validation:Optional
+	NetworkConfig []NetworkConfigParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
 
 	// The resource name of the Workflow whose Executions are triggered by the events. The Workflow resource should be deployed in the same project as the trigger. Format: projects/{project}/locations/{location}/workflows/{workflow}
 	// +kubebuilder:validation:Optional
@@ -191,6 +204,25 @@ type GkeParameters struct {
 	Service *string `json:"service" tf:"service,omitempty"`
 }
 
+type HTTPEndpointInitParameters struct {
+
+	// Required. The URI of the HTTP enpdoint. The value must be a RFC2396 URI string. Examples: http://10.10.10.8:80/route, http://svc.us-central1.p.local:8080/. Only HTTP and HTTPS protocols are supported. The host can be either a static IP addressable from the VPC specified by the network config, or an internal DNS hostname of the service resolvable via Cloud DNS.
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type HTTPEndpointObservation struct {
+
+	// Required. The URI of the HTTP enpdoint. The value must be a RFC2396 URI string. Examples: http://10.10.10.8:80/route, http://svc.us-central1.p.local:8080/. Only HTTP and HTTPS protocols are supported. The host can be either a static IP addressable from the VPC specified by the network config, or an internal DNS hostname of the service resolvable via Cloud DNS.
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type HTTPEndpointParameters struct {
+
+	// Required. The URI of the HTTP enpdoint. The value must be a RFC2396 URI string. Examples: http://10.10.10.8:80/route, http://svc.us-central1.p.local:8080/. Only HTTP and HTTPS protocols are supported. The host can be either a static IP addressable from the VPC specified by the network config, or an internal DNS hostname of the service resolvable via Cloud DNS.
+	// +kubebuilder:validation:Optional
+	URI *string `json:"uri" tf:"uri,omitempty"`
+}
+
 type MatchingCriteriaInitParameters struct {
 
 	// Required. The name of a CloudEvents attribute. Currently, only a subset of attributes are supported for filtering. All triggers MUST provide a filter for the 'type' attribute.
@@ -228,6 +260,25 @@ type MatchingCriteriaParameters struct {
 	// Required. The value for the attribute. See https://cloud.google.com/eventarc/docs/creating-triggers#trigger-gcloud for available values.
 	// +kubebuilder:validation:Optional
 	Value *string `json:"value" tf:"value,omitempty"`
+}
+
+type NetworkConfigInitParameters struct {
+
+	// Required. Name of the NetworkAttachment that allows access to the destination VPC. Format: projects/{PROJECT_ID}/regions/{REGION}/networkAttachments/{NETWORK_ATTACHMENT_NAME}
+	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
+}
+
+type NetworkConfigObservation struct {
+
+	// Required. Name of the NetworkAttachment that allows access to the destination VPC. Format: projects/{PROJECT_ID}/regions/{REGION}/networkAttachments/{NETWORK_ATTACHMENT_NAME}
+	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
+}
+
+type NetworkConfigParameters struct {
+
+	// Required. Name of the NetworkAttachment that allows access to the destination VPC. Format: projects/{PROJECT_ID}/regions/{REGION}/networkAttachments/{NETWORK_ATTACHMENT_NAME}
+	// +kubebuilder:validation:Optional
+	NetworkAttachment *string `json:"networkAttachment" tf:"network_attachment,omitempty"`
 }
 
 type PubsubInitParameters struct {
@@ -279,6 +330,7 @@ type TriggerInitParameters struct {
 	// Required. Destination specifies where the events should be sent to.
 	Destination []DestinationInitParameters `json:"destination,omitempty" tf:"destination,omitempty"`
 
+	// Optional. EventDataContentType specifies the type of payload in MIME format that is expected from the CloudEvent data field. This is set to application/json if the value is not defined.
 	EventDataContentType *string `json:"eventDataContentType,omitempty" tf:"event_data_content_type,omitempty"`
 
 	// Optional. User labels attached to the triggers that can be used to group resources.
@@ -313,9 +365,13 @@ type TriggerObservation struct {
 	// Required. Destination specifies where the events should be sent to.
 	Destination []DestinationObservation `json:"destination,omitempty" tf:"destination,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// Output only. This checksum is computed by the server based on the value of other fields, and may be sent only on create requests to ensure the client has an up-to-date value before proceeding.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
+	// Optional. EventDataContentType specifies the type of payload in MIME format that is expected from the CloudEvent data field. This is set to application/json if the value is not defined.
 	EventDataContentType *string `json:"eventDataContentType,omitempty" tf:"event_data_content_type,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/triggers/{{name}}
@@ -337,6 +393,10 @@ type TriggerObservation struct {
 	// Optional. The IAM service account email associated with the trigger. The service account represents the identity of the trigger. The principal who calls this API must have iam.serviceAccounts.actAs permission in the service account. See https://cloud.google.com/iam/docs/understanding-service-accounts#sa_common for more information. For Cloud Run destinations, this service account is used to generate identity tokens when invoking the service. See https://cloud.google.com/run/docs/triggering/pubsub-push#create-service-account for information on how to invoke authenticated Cloud Run services. In order to create Audit Log triggers, the service account should also have roles/eventarc.eventReceiver IAM role.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
+	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
 	// Optional. In order to deliver messages, Eventarc may use other GCP products as transport intermediary. This field contains a reference to that transport intermediary. This information can be used for debugging purposes.
 	Transport []TransportObservation `json:"transport,omitempty" tf:"transport,omitempty"`
 
@@ -357,6 +417,7 @@ type TriggerParameters struct {
 	// +kubebuilder:validation:Optional
 	Destination []DestinationParameters `json:"destination,omitempty" tf:"destination,omitempty"`
 
+	// Optional. EventDataContentType specifies the type of payload in MIME format that is expected from the CloudEvent data field. This is set to application/json if the value is not defined.
 	// +kubebuilder:validation:Optional
 	EventDataContentType *string `json:"eventDataContentType,omitempty" tf:"event_data_content_type,omitempty"`
 

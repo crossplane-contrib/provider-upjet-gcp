@@ -92,8 +92,8 @@ spec:
                     type: boolean
                   enableEndpointIndependentMapping:
                     description: |-
-                      Specifies if endpoint independent mapping is enabled. This is enabled by default. For more information
-                      see the official documentation.
+                      Enable endpoint independent mapping.
+                      For more information see the official documentation.
                     type: boolean
                   icmpIdleTimeoutSec:
                     description: Timeout (in seconds) for ICMP connections. Defaults
@@ -452,8 +452,8 @@ spec:
                     type: boolean
                   enableEndpointIndependentMapping:
                     description: |-
-                      Specifies if endpoint independent mapping is enabled. This is enabled by default. For more information
-                      see the official documentation.
+                      Enable endpoint independent mapping.
+                      For more information see the official documentation.
                     type: boolean
                   icmpIdleTimeoutSec:
                     description: Timeout (in seconds) for ICMP connections. Defaults
@@ -865,10 +865,6 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
-            - message: spec.forProvider.natIpAllocateOption is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.natIpAllocateOption)
-                || (has(self.initProvider) && has(self.initProvider.natIpAllocateOption))'
             - message: spec.forProvider.sourceSubnetworkIpRangesToNat is a required
                 parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
@@ -898,8 +894,8 @@ spec:
                     type: boolean
                   enableEndpointIndependentMapping:
                     description: |-
-                      Specifies if endpoint independent mapping is enabled. This is enabled by default. For more information
-                      see the official documentation.
+                      Enable endpoint independent mapping.
+                      For more information see the official documentation.
                     type: boolean
                   icmpIdleTimeoutSec:
                     description: Timeout (in seconds) for ICMP connections. Defaults

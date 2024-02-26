@@ -73,6 +73,11 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: The deletion policy for the service networking connection.
+                      Setting to ABANDON allows the resource to be abandoned rather
+                      than deleted. Use with care as it can lead to dangling resources.
+                    type: string
                   network:
                     description: Name of VPC network connected with service producers
                       using VPC peering.
@@ -258,6 +263,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: The deletion policy for the service networking connection.
+                      Setting to ABANDON allows the resource to be abandoned rather
+                      than deleted. Use with care as it can lead to dangling resources.
+                    type: string
                   network:
                     description: Name of VPC network connected with service producers
                       using VPC peering.
@@ -607,6 +617,11 @@ spec:
             properties:
               atProvider:
                 properties:
+                  deletionPolicy:
+                    description: The deletion policy for the service networking connection.
+                      Setting to ABANDON allows the resource to be abandoned rather
+                      than deleted. Use with care as it can lead to dangling resources.
+                    type: string
                   id:
                     type: string
                   network:

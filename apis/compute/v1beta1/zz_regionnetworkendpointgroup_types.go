@@ -258,17 +258,17 @@ type CloudRunParameters struct {
 
 type RegionNetworkEndpointGroupInitParameters struct {
 
-	// Only valid when networkEndpointType is "SERVERLESS".
+	// This field is only used for SERVERLESS NEGs.
 	// Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
 	// Structure is documented below.
 	AppEngine []AppEngineInitParameters `json:"appEngine,omitempty" tf:"app_engine,omitempty"`
 
-	// Only valid when networkEndpointType is "SERVERLESS".
+	// This field is only used for SERVERLESS NEGs.
 	// Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
 	// Structure is documented below.
 	CloudFunction []CloudFunctionInitParameters `json:"cloudFunction,omitempty" tf:"cloud_function,omitempty"`
 
-	// Only valid when networkEndpointType is "SERVERLESS".
+	// This field is only used for SERVERLESS NEGs.
 	// Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
 	// Structure is documented below.
 	CloudRun []CloudRunInitParameters `json:"cloudRun,omitempty" tf:"cloud_run,omitempty"`
@@ -277,16 +277,16 @@ type RegionNetworkEndpointGroupInitParameters struct {
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// This field is only used for PSC.
+	// This field is only used for PSC and INTERNET NEGs.
 	// The URL of the network to which all network endpoints in the NEG belong. Uses
 	// "default" project network if unspecified.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
-	// Type of network endpoints in this network endpoint group. Defaults to SERVERLESS
+	// Type of network endpoints in this network endpoint group. Defaults to SERVERLESS.
 	// Default value is SERVERLESS.
-	// Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT.
+	// Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT, INTERNET_IP_PORT, INTERNET_FQDN_PORT.
 	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
 
 	// Reference to a Network in compute to populate network.
@@ -301,6 +301,7 @@ type RegionNetworkEndpointGroupInitParameters struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// This field is only used for PSC and INTERNET NEGs.
 	// The target service url used to set up private service connection to
 	// a Google API or a PSC Producer Service Attachment.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.ServiceAttachment
@@ -315,7 +316,7 @@ type RegionNetworkEndpointGroupInitParameters struct {
 	// +kubebuilder:validation:Optional
 	PscTargetServiceSelector *v1.Selector `json:"pscTargetServiceSelector,omitempty" tf:"-"`
 
-	// This field is only used for PSC.
+	// This field is only used for PSC NEGs.
 	// Optional URL of the subnetwork to which all network endpoints in the NEG belong.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
@@ -332,17 +333,17 @@ type RegionNetworkEndpointGroupInitParameters struct {
 
 type RegionNetworkEndpointGroupObservation struct {
 
-	// Only valid when networkEndpointType is "SERVERLESS".
+	// This field is only used for SERVERLESS NEGs.
 	// Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
 	// Structure is documented below.
 	AppEngine []AppEngineObservation `json:"appEngine,omitempty" tf:"app_engine,omitempty"`
 
-	// Only valid when networkEndpointType is "SERVERLESS".
+	// This field is only used for SERVERLESS NEGs.
 	// Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
 	// Structure is documented below.
 	CloudFunction []CloudFunctionObservation `json:"cloudFunction,omitempty" tf:"cloud_function,omitempty"`
 
-	// Only valid when networkEndpointType is "SERVERLESS".
+	// This field is only used for SERVERLESS NEGs.
 	// Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
 	// Structure is documented below.
 	CloudRun []CloudRunObservation `json:"cloudRun,omitempty" tf:"cloud_run,omitempty"`
@@ -354,50 +355,51 @@ type RegionNetworkEndpointGroupObservation struct {
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/networkEndpointGroups/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// This field is only used for PSC.
+	// This field is only used for PSC and INTERNET NEGs.
 	// The URL of the network to which all network endpoints in the NEG belong. Uses
 	// "default" project network if unspecified.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
-	// Type of network endpoints in this network endpoint group. Defaults to SERVERLESS
+	// Type of network endpoints in this network endpoint group. Defaults to SERVERLESS.
 	// Default value is SERVERLESS.
-	// Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT.
+	// Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT, INTERNET_IP_PORT, INTERNET_FQDN_PORT.
 	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// This field is only used for PSC and INTERNET NEGs.
 	// The target service url used to set up private service connection to
 	// a Google API or a PSC Producer Service Attachment.
 	PscTargetService *string `json:"pscTargetService,omitempty" tf:"psc_target_service,omitempty"`
 
-	// A reference to the region where the Serverless NEGs Reside.
+	// A reference to the region where the regional NEGs reside.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
-	// This field is only used for PSC.
+	// This field is only used for PSC NEGs.
 	// Optional URL of the subnetwork to which all network endpoints in the NEG belong.
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 }
 
 type RegionNetworkEndpointGroupParameters struct {
 
-	// Only valid when networkEndpointType is "SERVERLESS".
+	// This field is only used for SERVERLESS NEGs.
 	// Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AppEngine []AppEngineParameters `json:"appEngine,omitempty" tf:"app_engine,omitempty"`
 
-	// Only valid when networkEndpointType is "SERVERLESS".
+	// This field is only used for SERVERLESS NEGs.
 	// Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CloudFunction []CloudFunctionParameters `json:"cloudFunction,omitempty" tf:"cloud_function,omitempty"`
 
-	// Only valid when networkEndpointType is "SERVERLESS".
+	// This field is only used for SERVERLESS NEGs.
 	// Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -408,7 +410,7 @@ type RegionNetworkEndpointGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// This field is only used for PSC.
+	// This field is only used for PSC and INTERNET NEGs.
 	// The URL of the network to which all network endpoints in the NEG belong. Uses
 	// "default" project network if unspecified.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
@@ -416,9 +418,9 @@ type RegionNetworkEndpointGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
-	// Type of network endpoints in this network endpoint group. Defaults to SERVERLESS
+	// Type of network endpoints in this network endpoint group. Defaults to SERVERLESS.
 	// Default value is SERVERLESS.
-	// Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT.
+	// Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT, INTERNET_IP_PORT, INTERNET_FQDN_PORT.
 	// +kubebuilder:validation:Optional
 	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
 
@@ -435,6 +437,7 @@ type RegionNetworkEndpointGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// This field is only used for PSC and INTERNET NEGs.
 	// The target service url used to set up private service connection to
 	// a Google API or a PSC Producer Service Attachment.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.ServiceAttachment
@@ -450,11 +453,11 @@ type RegionNetworkEndpointGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	PscTargetServiceSelector *v1.Selector `json:"pscTargetServiceSelector,omitempty" tf:"-"`
 
-	// A reference to the region where the Serverless NEGs Reside.
+	// A reference to the region where the regional NEGs reside.
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
 
-	// This field is only used for PSC.
+	// This field is only used for PSC NEGs.
 	// Optional URL of the subnetwork to which all network endpoints in the NEG belong.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
@@ -497,7 +500,7 @@ type RegionNetworkEndpointGroupStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// RegionNetworkEndpointGroup is the Schema for the RegionNetworkEndpointGroups API. A regional NEG that can support Serverless Products.
+// RegionNetworkEndpointGroup is the Schema for the RegionNetworkEndpointGroups API. A regional NEG that can support Serverless Products and proxying traffic to external backends.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

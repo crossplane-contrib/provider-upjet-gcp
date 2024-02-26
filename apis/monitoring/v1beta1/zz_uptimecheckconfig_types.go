@@ -85,6 +85,45 @@ type AuthInfoParameters struct {
 	Username *string `json:"username" tf:"username,omitempty"`
 }
 
+type CloudFunctionV2InitParameters struct {
+
+	// The fully qualified name of the cloud function resource.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudfunctions2/v1beta1.Function
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Reference to a Function in cloudfunctions2 to populate name.
+	// +kubebuilder:validation:Optional
+	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+
+	// Selector for a Function in cloudfunctions2 to populate name.
+	// +kubebuilder:validation:Optional
+	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
+}
+
+type CloudFunctionV2Observation struct {
+
+	// The fully qualified name of the cloud function resource.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type CloudFunctionV2Parameters struct {
+
+	// The fully qualified name of the cloud function resource.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudfunctions2/v1beta1.Function
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Reference to a Function in cloudfunctions2 to populate name.
+	// +kubebuilder:validation:Optional
+	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+
+	// Selector for a Function in cloudfunctions2 to populate name.
+	// +kubebuilder:validation:Optional
+	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
+}
+
 type ContentMatchersInitParameters struct {
 
 	// String or regex content to match (max 1024 bytes)
@@ -143,27 +182,34 @@ type HTTPCheckInitParameters struct {
 	// Structure is documented below.
 	AuthInfo []AuthInfoInitParameters `json:"authInfo,omitempty" tf:"auth_info,omitempty"`
 
-	// The request body associated with the HTTP POST request. If contentType is URL_ENCODED, the body passed in must be URL-encoded. Users can provide a Content-Length header via the headers field or the API will do so. If the requestMethod is GET and body is not empty, the API will return an error. The maximum byte size is 1 megabyte. Note - As with all bytes fields JSON representations are base64 encoded. e.g. "foo=bar" in URL-encoded form is "foo%3Dbar" and in base64 encoding is "Zm9vJTI1M0RiYXI=".
+	// The request body associated with the HTTP POST request. If content_type is URL_ENCODED, the body passed in must be URL-encoded. Users can provide a Content-Length header via the headers field or the API will do so. If the request_method is GET and body is not empty, the API will return an error. The maximum byte size is 1 megabyte. Note - As with all bytes fields JSON representations are base64 encoded. e.g. foo=bar in URL-encoded form is foo%3Dbar and in base64 encoding is Zm9vJTI1M0RiYXI=.
 	Body *string `json:"body,omitempty" tf:"body,omitempty"`
 
 	// The content type to use for the check.
-	// Possible values are: TYPE_UNSPECIFIED, URL_ENCODED.
+	// Possible values are: TYPE_UNSPECIFIED, URL_ENCODED, USER_PROVIDED.
 	ContentType *string `json:"contentType,omitempty" tf:"content_type,omitempty"`
 
-	// The list of headers to send as part of the uptime check request. If two headers have the same key and different values, they should be entered as a single header, with the value being a comma-separated list of all the desired values as described at https://www.w3.org/Protocols/rfc2616/rfc2616.txt (page 31). Entering two separate headers with the same key in a Create call will cause the first to be overwritten by the second. The maximum number of headers allowed is 100.
+	// A user provided content type header to use for the check. The invalid configurations outlined in the content_type field apply to custom_content_type, as well as the following 1. content_typeisURL_ENCODEDandcustom_content_typeis set. 2.content_typeisUSER_PROVIDEDandcustom_content_type` is not set.
+	CustomContentType *string `json:"customContentType,omitempty" tf:"custom_content_type,omitempty"`
+
+	// The list of headers to send as part of the uptime check request. If two headers have the same key and different values, they should be entered as a single header, with the value being a comma-separated list of all the desired values as described in RFC 2616 (page 31). Entering two separate headers with the same key in a Create call will cause the first to be overwritten by the second. The maximum number of headers allowed is 100.
 	// +mapType=granular
 	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
 
-	// Boolean specifying whether to encrypt the header information. Encryption should be specified for any headers related to authentication that you do not wish to be seen when retrieving the configuration. The server will be responsible for encrypting the headers. On Get/List calls, if mask_headers is set to True then the headers will be obscured with ******.
+	// Boolean specifying whether to encrypt the header information. Encryption should be specified for any headers related to authentication that you do not wish to be seen when retrieving the configuration. The server will be responsible for encrypting the headers. On Get/List calls, if mask_headers is set to true then the headers will be obscured with ******.
 	MaskHeaders *bool `json:"maskHeaders,omitempty" tf:"mask_headers,omitempty"`
 
-	// The path to the page to run the check against. Will be combined with the host (specified within the MonitoredResource) and port to construct the full URL. If the provided path does not begin with "/", a "/" will be prepended automatically. Optional (defaults to "/").
+	// The path to the page to run the check against. Will be combined with the host (specified within the MonitoredResource) and port to construct the full URL. If the provided path does not begin with /, a / will be prepended automatically. Optional (defaults to /).
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
-	// The port to the page to run the check against. Will be combined with host (specified within the MonitoredResource) and path to construct the full URL. Optional (defaults to 80 without SSL, or 443 with SSL).
+	// Contains information needed to add pings to an HTTP check.
+	// Structure is documented below.
+	PingConfig []PingConfigInitParameters `json:"pingConfig,omitempty" tf:"ping_config,omitempty"`
+
+	// The port to the page to run the check against. Will be combined with host (specified within the monitored_resource) and path to construct the full URL. Optional (defaults to 80 without SSL, or 443 with SSL).
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
-	// The HTTP request method to use for the check. If set to METHOD_UNSPECIFIED then requestMethod defaults to GET.
+	// The HTTP request method to use for the check. If set to METHOD_UNSPECIFIED then request_method defaults to GET.
 	// Default value is GET.
 	// Possible values are: METHOD_UNSPECIFIED, GET, POST.
 	RequestMethod *string `json:"requestMethod,omitempty" tf:"request_method,omitempty"`
@@ -171,7 +217,7 @@ type HTTPCheckInitParameters struct {
 	// If true, use HTTPS instead of HTTP to run the check.
 	UseSSL *bool `json:"useSsl,omitempty" tf:"use_ssl,omitempty"`
 
-	// Boolean specifying whether to include SSL certificate validation as a part of the Uptime check. Only applies to checks where monitoredResource is set to uptime_url. If useSsl is false, setting validateSsl to true has no effect.
+	// Boolean specifying whether to include SSL certificate validation as a part of the Uptime check. Only applies to checks where monitored_resource is set to uptime_url. If use_ssl is false, setting validate_ssl to true has no effect.
 	ValidateSSL *bool `json:"validateSsl,omitempty" tf:"validate_ssl,omitempty"`
 }
 
@@ -185,27 +231,34 @@ type HTTPCheckObservation struct {
 	// Structure is documented below.
 	AuthInfo []AuthInfoObservation `json:"authInfo,omitempty" tf:"auth_info,omitempty"`
 
-	// The request body associated with the HTTP POST request. If contentType is URL_ENCODED, the body passed in must be URL-encoded. Users can provide a Content-Length header via the headers field or the API will do so. If the requestMethod is GET and body is not empty, the API will return an error. The maximum byte size is 1 megabyte. Note - As with all bytes fields JSON representations are base64 encoded. e.g. "foo=bar" in URL-encoded form is "foo%3Dbar" and in base64 encoding is "Zm9vJTI1M0RiYXI=".
+	// The request body associated with the HTTP POST request. If content_type is URL_ENCODED, the body passed in must be URL-encoded. Users can provide a Content-Length header via the headers field or the API will do so. If the request_method is GET and body is not empty, the API will return an error. The maximum byte size is 1 megabyte. Note - As with all bytes fields JSON representations are base64 encoded. e.g. foo=bar in URL-encoded form is foo%3Dbar and in base64 encoding is Zm9vJTI1M0RiYXI=.
 	Body *string `json:"body,omitempty" tf:"body,omitempty"`
 
 	// The content type to use for the check.
-	// Possible values are: TYPE_UNSPECIFIED, URL_ENCODED.
+	// Possible values are: TYPE_UNSPECIFIED, URL_ENCODED, USER_PROVIDED.
 	ContentType *string `json:"contentType,omitempty" tf:"content_type,omitempty"`
 
-	// The list of headers to send as part of the uptime check request. If two headers have the same key and different values, they should be entered as a single header, with the value being a comma-separated list of all the desired values as described at https://www.w3.org/Protocols/rfc2616/rfc2616.txt (page 31). Entering two separate headers with the same key in a Create call will cause the first to be overwritten by the second. The maximum number of headers allowed is 100.
+	// A user provided content type header to use for the check. The invalid configurations outlined in the content_type field apply to custom_content_type, as well as the following 1. content_typeisURL_ENCODEDandcustom_content_typeis set. 2.content_typeisUSER_PROVIDEDandcustom_content_type` is not set.
+	CustomContentType *string `json:"customContentType,omitempty" tf:"custom_content_type,omitempty"`
+
+	// The list of headers to send as part of the uptime check request. If two headers have the same key and different values, they should be entered as a single header, with the value being a comma-separated list of all the desired values as described in RFC 2616 (page 31). Entering two separate headers with the same key in a Create call will cause the first to be overwritten by the second. The maximum number of headers allowed is 100.
 	// +mapType=granular
 	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
 
-	// Boolean specifying whether to encrypt the header information. Encryption should be specified for any headers related to authentication that you do not wish to be seen when retrieving the configuration. The server will be responsible for encrypting the headers. On Get/List calls, if mask_headers is set to True then the headers will be obscured with ******.
+	// Boolean specifying whether to encrypt the header information. Encryption should be specified for any headers related to authentication that you do not wish to be seen when retrieving the configuration. The server will be responsible for encrypting the headers. On Get/List calls, if mask_headers is set to true then the headers will be obscured with ******.
 	MaskHeaders *bool `json:"maskHeaders,omitempty" tf:"mask_headers,omitempty"`
 
-	// The path to the page to run the check against. Will be combined with the host (specified within the MonitoredResource) and port to construct the full URL. If the provided path does not begin with "/", a "/" will be prepended automatically. Optional (defaults to "/").
+	// The path to the page to run the check against. Will be combined with the host (specified within the MonitoredResource) and port to construct the full URL. If the provided path does not begin with /, a / will be prepended automatically. Optional (defaults to /).
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
-	// The port to the page to run the check against. Will be combined with host (specified within the MonitoredResource) and path to construct the full URL. Optional (defaults to 80 without SSL, or 443 with SSL).
+	// Contains information needed to add pings to an HTTP check.
+	// Structure is documented below.
+	PingConfig []PingConfigObservation `json:"pingConfig,omitempty" tf:"ping_config,omitempty"`
+
+	// The port to the page to run the check against. Will be combined with host (specified within the monitored_resource) and path to construct the full URL. Optional (defaults to 80 without SSL, or 443 with SSL).
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
-	// The HTTP request method to use for the check. If set to METHOD_UNSPECIFIED then requestMethod defaults to GET.
+	// The HTTP request method to use for the check. If set to METHOD_UNSPECIFIED then request_method defaults to GET.
 	// Default value is GET.
 	// Possible values are: METHOD_UNSPECIFIED, GET, POST.
 	RequestMethod *string `json:"requestMethod,omitempty" tf:"request_method,omitempty"`
@@ -213,7 +266,7 @@ type HTTPCheckObservation struct {
 	// If true, use HTTPS instead of HTTP to run the check.
 	UseSSL *bool `json:"useSsl,omitempty" tf:"use_ssl,omitempty"`
 
-	// Boolean specifying whether to include SSL certificate validation as a part of the Uptime check. Only applies to checks where monitoredResource is set to uptime_url. If useSsl is false, setting validateSsl to true has no effect.
+	// Boolean specifying whether to include SSL certificate validation as a part of the Uptime check. Only applies to checks where monitored_resource is set to uptime_url. If use_ssl is false, setting validate_ssl to true has no effect.
 	ValidateSSL *bool `json:"validateSsl,omitempty" tf:"validate_ssl,omitempty"`
 }
 
@@ -229,33 +282,42 @@ type HTTPCheckParameters struct {
 	// +kubebuilder:validation:Optional
 	AuthInfo []AuthInfoParameters `json:"authInfo,omitempty" tf:"auth_info,omitempty"`
 
-	// The request body associated with the HTTP POST request. If contentType is URL_ENCODED, the body passed in must be URL-encoded. Users can provide a Content-Length header via the headers field or the API will do so. If the requestMethod is GET and body is not empty, the API will return an error. The maximum byte size is 1 megabyte. Note - As with all bytes fields JSON representations are base64 encoded. e.g. "foo=bar" in URL-encoded form is "foo%3Dbar" and in base64 encoding is "Zm9vJTI1M0RiYXI=".
+	// The request body associated with the HTTP POST request. If content_type is URL_ENCODED, the body passed in must be URL-encoded. Users can provide a Content-Length header via the headers field or the API will do so. If the request_method is GET and body is not empty, the API will return an error. The maximum byte size is 1 megabyte. Note - As with all bytes fields JSON representations are base64 encoded. e.g. foo=bar in URL-encoded form is foo%3Dbar and in base64 encoding is Zm9vJTI1M0RiYXI=.
 	// +kubebuilder:validation:Optional
 	Body *string `json:"body,omitempty" tf:"body,omitempty"`
 
 	// The content type to use for the check.
-	// Possible values are: TYPE_UNSPECIFIED, URL_ENCODED.
+	// Possible values are: TYPE_UNSPECIFIED, URL_ENCODED, USER_PROVIDED.
 	// +kubebuilder:validation:Optional
 	ContentType *string `json:"contentType,omitempty" tf:"content_type,omitempty"`
 
-	// The list of headers to send as part of the uptime check request. If two headers have the same key and different values, they should be entered as a single header, with the value being a comma-separated list of all the desired values as described at https://www.w3.org/Protocols/rfc2616/rfc2616.txt (page 31). Entering two separate headers with the same key in a Create call will cause the first to be overwritten by the second. The maximum number of headers allowed is 100.
+	// A user provided content type header to use for the check. The invalid configurations outlined in the content_type field apply to custom_content_type, as well as the following 1. content_typeisURL_ENCODEDandcustom_content_typeis set. 2.content_typeisUSER_PROVIDEDandcustom_content_type` is not set.
+	// +kubebuilder:validation:Optional
+	CustomContentType *string `json:"customContentType,omitempty" tf:"custom_content_type,omitempty"`
+
+	// The list of headers to send as part of the uptime check request. If two headers have the same key and different values, they should be entered as a single header, with the value being a comma-separated list of all the desired values as described in RFC 2616 (page 31). Entering two separate headers with the same key in a Create call will cause the first to be overwritten by the second. The maximum number of headers allowed is 100.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
 
-	// Boolean specifying whether to encrypt the header information. Encryption should be specified for any headers related to authentication that you do not wish to be seen when retrieving the configuration. The server will be responsible for encrypting the headers. On Get/List calls, if mask_headers is set to True then the headers will be obscured with ******.
+	// Boolean specifying whether to encrypt the header information. Encryption should be specified for any headers related to authentication that you do not wish to be seen when retrieving the configuration. The server will be responsible for encrypting the headers. On Get/List calls, if mask_headers is set to true then the headers will be obscured with ******.
 	// +kubebuilder:validation:Optional
 	MaskHeaders *bool `json:"maskHeaders,omitempty" tf:"mask_headers,omitempty"`
 
-	// The path to the page to run the check against. Will be combined with the host (specified within the MonitoredResource) and port to construct the full URL. If the provided path does not begin with "/", a "/" will be prepended automatically. Optional (defaults to "/").
+	// The path to the page to run the check against. Will be combined with the host (specified within the MonitoredResource) and port to construct the full URL. If the provided path does not begin with /, a / will be prepended automatically. Optional (defaults to /).
 	// +kubebuilder:validation:Optional
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
-	// The port to the page to run the check against. Will be combined with host (specified within the MonitoredResource) and path to construct the full URL. Optional (defaults to 80 without SSL, or 443 with SSL).
+	// Contains information needed to add pings to an HTTP check.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PingConfig []PingConfigParameters `json:"pingConfig,omitempty" tf:"ping_config,omitempty"`
+
+	// The port to the page to run the check against. Will be combined with host (specified within the monitored_resource) and path to construct the full URL. Optional (defaults to 80 without SSL, or 443 with SSL).
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
-	// The HTTP request method to use for the check. If set to METHOD_UNSPECIFIED then requestMethod defaults to GET.
+	// The HTTP request method to use for the check. If set to METHOD_UNSPECIFIED then request_method defaults to GET.
 	// Default value is GET.
 	// Possible values are: METHOD_UNSPECIFIED, GET, POST.
 	// +kubebuilder:validation:Optional
@@ -265,7 +327,7 @@ type HTTPCheckParameters struct {
 	// +kubebuilder:validation:Optional
 	UseSSL *bool `json:"useSsl,omitempty" tf:"use_ssl,omitempty"`
 
-	// Boolean specifying whether to include SSL certificate validation as a part of the Uptime check. Only applies to checks where monitoredResource is set to uptime_url. If useSsl is false, setting validateSsl to true has no effect.
+	// Boolean specifying whether to include SSL certificate validation as a part of the Uptime check. Only applies to checks where monitored_resource is set to uptime_url. If use_ssl is false, setting validate_ssl to true has no effect.
 	// +kubebuilder:validation:Optional
 	ValidateSSL *bool `json:"validateSsl,omitempty" tf:"validate_ssl,omitempty"`
 }
@@ -307,34 +369,53 @@ type JSONPathMatcherParameters struct {
 
 type MonitoredResourceInitParameters struct {
 
-	// Values for all of the labels listed in the associated monitored resource descriptor. For example, Compute Engine VM instances use the labels "project_id", "instance_id", and "zone".
+	// Values for all of the labels listed in the associated monitored resource descriptor. For example, Compute Engine VM instances use the labels project_id, instance_id, and zone.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// The monitored resource type. This field must match the type field of a MonitoredResourceDescriptor (https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.monitoredResourceDescriptors#MonitoredResourceDescriptor) object. For example, the type of a Compute Engine VM instance is gce_instance. For a list of types, see Monitoring resource types (https://cloud.google.com/monitoring/api/resources) and Logging resource types (https://cloud.google.com/logging/docs/api/v2/resource-list).
+	// The monitored resource type. This field must match the type field of a MonitoredResourceDescriptor object. For example, the type of a Compute Engine VM instance is gce_instance. For a list of types, see Monitoring resource types and Logging resource types.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type MonitoredResourceObservation struct {
 
-	// Values for all of the labels listed in the associated monitored resource descriptor. For example, Compute Engine VM instances use the labels "project_id", "instance_id", and "zone".
+	// Values for all of the labels listed in the associated monitored resource descriptor. For example, Compute Engine VM instances use the labels project_id, instance_id, and zone.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// The monitored resource type. This field must match the type field of a MonitoredResourceDescriptor (https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.monitoredResourceDescriptors#MonitoredResourceDescriptor) object. For example, the type of a Compute Engine VM instance is gce_instance. For a list of types, see Monitoring resource types (https://cloud.google.com/monitoring/api/resources) and Logging resource types (https://cloud.google.com/logging/docs/api/v2/resource-list).
+	// The monitored resource type. This field must match the type field of a MonitoredResourceDescriptor object. For example, the type of a Compute Engine VM instance is gce_instance. For a list of types, see Monitoring resource types and Logging resource types.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type MonitoredResourceParameters struct {
 
-	// Values for all of the labels listed in the associated monitored resource descriptor. For example, Compute Engine VM instances use the labels "project_id", "instance_id", and "zone".
+	// Values for all of the labels listed in the associated monitored resource descriptor. For example, Compute Engine VM instances use the labels project_id, instance_id, and zone.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels" tf:"labels,omitempty"`
 
-	// The monitored resource type. This field must match the type field of a MonitoredResourceDescriptor (https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.monitoredResourceDescriptors#MonitoredResourceDescriptor) object. For example, the type of a Compute Engine VM instance is gce_instance. For a list of types, see Monitoring resource types (https://cloud.google.com/monitoring/api/resources) and Logging resource types (https://cloud.google.com/logging/docs/api/v2/resource-list).
+	// The monitored resource type. This field must match the type field of a MonitoredResourceDescriptor object. For example, the type of a Compute Engine VM instance is gce_instance. For a list of types, see Monitoring resource types and Logging resource types.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
+}
+
+type PingConfigInitParameters struct {
+
+	// Number of ICMP pings. A maximum of 3 ICMP pings is currently supported.
+	PingsCount *float64 `json:"pingsCount,omitempty" tf:"pings_count,omitempty"`
+}
+
+type PingConfigObservation struct {
+
+	// Number of ICMP pings. A maximum of 3 ICMP pings is currently supported.
+	PingsCount *float64 `json:"pingsCount,omitempty" tf:"pings_count,omitempty"`
+}
+
+type PingConfigParameters struct {
+
+	// Number of ICMP pings. A maximum of 3 ICMP pings is currently supported.
+	// +kubebuilder:validation:Optional
+	PingsCount *float64 `json:"pingsCount" tf:"pings_count,omitempty"`
 }
 
 type ResourceGroupInitParameters struct {
@@ -389,28 +470,82 @@ type ResourceGroupParameters struct {
 	ResourceType *string `json:"resourceType,omitempty" tf:"resource_type,omitempty"`
 }
 
+type SyntheticMonitorInitParameters struct {
+
+	// Target a Synthetic Monitor GCFv2 Instance
+	// Structure is documented below.
+	CloudFunctionV2 []CloudFunctionV2InitParameters `json:"cloudFunctionV2,omitempty" tf:"cloud_function_v2,omitempty"`
+}
+
+type SyntheticMonitorObservation struct {
+
+	// Target a Synthetic Monitor GCFv2 Instance
+	// Structure is documented below.
+	CloudFunctionV2 []CloudFunctionV2Observation `json:"cloudFunctionV2,omitempty" tf:"cloud_function_v2,omitempty"`
+}
+
+type SyntheticMonitorParameters struct {
+
+	// Target a Synthetic Monitor GCFv2 Instance
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CloudFunctionV2 []CloudFunctionV2Parameters `json:"cloudFunctionV2" tf:"cloud_function_v2,omitempty"`
+}
+
 type TCPCheckInitParameters struct {
 
-	// The port to the page to run the check against. Will be combined with host (specified within the MonitoredResource) to construct the full URL.
+	// Contains information needed to add pings to a TCP check.
+	// Structure is documented below.
+	PingConfig []TCPCheckPingConfigInitParameters `json:"pingConfig,omitempty" tf:"ping_config,omitempty"`
+
+	// The port to the page to run the check against. Will be combined with host (specified within the monitored_resource) to construct the full URL.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 }
 
 type TCPCheckObservation struct {
 
-	// The port to the page to run the check against. Will be combined with host (specified within the MonitoredResource) to construct the full URL.
+	// Contains information needed to add pings to a TCP check.
+	// Structure is documented below.
+	PingConfig []TCPCheckPingConfigObservation `json:"pingConfig,omitempty" tf:"ping_config,omitempty"`
+
+	// The port to the page to run the check against. Will be combined with host (specified within the monitored_resource) to construct the full URL.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 }
 
 type TCPCheckParameters struct {
 
-	// The port to the page to run the check against. Will be combined with host (specified within the MonitoredResource) to construct the full URL.
+	// Contains information needed to add pings to a TCP check.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PingConfig []TCPCheckPingConfigParameters `json:"pingConfig,omitempty" tf:"ping_config,omitempty"`
+
+	// The port to the page to run the check against. Will be combined with host (specified within the monitored_resource) to construct the full URL.
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port" tf:"port,omitempty"`
 }
 
+type TCPCheckPingConfigInitParameters struct {
+
+	// Number of ICMP pings. A maximum of 3 ICMP pings is currently supported.
+	PingsCount *float64 `json:"pingsCount,omitempty" tf:"pings_count,omitempty"`
+}
+
+type TCPCheckPingConfigObservation struct {
+
+	// Number of ICMP pings. A maximum of 3 ICMP pings is currently supported.
+	PingsCount *float64 `json:"pingsCount,omitempty" tf:"pings_count,omitempty"`
+}
+
+type TCPCheckPingConfigParameters struct {
+
+	// Number of ICMP pings. A maximum of 3 ICMP pings is currently supported.
+	// +kubebuilder:validation:Optional
+	PingsCount *float64 `json:"pingsCount" tf:"pings_count,omitempty"`
+}
+
 type UptimeCheckConfigInitParameters struct {
 
-	// The checker type to use for the check. If the monitored resource type is servicedirectory_service, checkerType must be set to VPC_CHECKERS.
+	// The checker type to use for the check. If the monitored resource type is servicedirectory_service, checker_type must be set to VPC_CHECKERS.
 	// Possible values are: STATIC_IP_CHECKERS, VPC_CHECKERS.
 	CheckerType *string `json:"checkerType,omitempty" tf:"checker_type,omitempty"`
 
@@ -425,8 +560,10 @@ type UptimeCheckConfigInitParameters struct {
 	// Structure is documented below.
 	HTTPCheck []HTTPCheckInitParameters `json:"httpCheck,omitempty" tf:"http_check,omitempty"`
 
-	// The monitored resource (https://cloud.google.com/monitoring/api/resources) associated with the configuration. The following monitored resource types are supported for uptime checks:  uptime_url  gce_instance  gae_app  aws_ec2_instance aws_elb_load_balancer  k8s_service  servicedirectory_service
-	// Structure is documented below.
+	// The [monitored resource]
+	// (https://cloud.google.com/monitoring/api/resources) associated with the
+	// configuration. The following monitored resource types are supported for
+	// uptime checks:
 	MonitoredResource []MonitoredResourceInitParameters `json:"monitoredResource,omitempty" tf:"monitored_resource,omitempty"`
 
 	// How often, in seconds, the uptime check is performed. Currently, the only supported values are 60s (1 minute), 300s (5 minutes), 600s (10 minutes), and 900s (15 minutes). Optional, defaults to 300s.
@@ -443,17 +580,25 @@ type UptimeCheckConfigInitParameters struct {
 	// The list of regions from which the check will be run. Some regions contain one location, and others contain more than one. If this field is specified, enough regions to include a minimum of 3 locations must be provided, or an error message is returned. Not specifying this field will result in uptime checks running from all regions.
 	SelectedRegions []*string `json:"selectedRegions,omitempty" tf:"selected_regions,omitempty"`
 
+	// A Synthetic Monitor deployed to a Cloud Functions V2 instance.
+	// Structure is documented below.
+	SyntheticMonitor []SyntheticMonitorInitParameters `json:"syntheticMonitor,omitempty" tf:"synthetic_monitor,omitempty"`
+
 	// Contains information needed to make a TCP check.
 	// Structure is documented below.
 	TCPCheck []TCPCheckInitParameters `json:"tcpCheck,omitempty" tf:"tcp_check,omitempty"`
 
-	// The maximum amount of time to wait for the request to complete (must be between 1 and 60 seconds). Accepted formats https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration
+	// The maximum amount of time to wait for the request to complete (must be between 1 and 60 seconds). See the accepted formats
 	Timeout *string `json:"timeout,omitempty" tf:"timeout,omitempty"`
+
+	// User-supplied key/value data to be used for organizing and identifying the UptimeCheckConfig objects. The field can contain up to 64 entries. Each key and value is limited to 63 Unicode characters or 128 bytes, whichever is smaller. Labels and values can contain only lowercase letters, numerals, underscores, and dashes. Keys must begin with a letter.
+	// +mapType=granular
+	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
 }
 
 type UptimeCheckConfigObservation struct {
 
-	// The checker type to use for the check. If the monitored resource type is servicedirectory_service, checkerType must be set to VPC_CHECKERS.
+	// The checker type to use for the check. If the monitored resource type is servicedirectory_service, checker_type must be set to VPC_CHECKERS.
 	// Possible values are: STATIC_IP_CHECKERS, VPC_CHECKERS.
 	CheckerType *string `json:"checkerType,omitempty" tf:"checker_type,omitempty"`
 
@@ -471,8 +616,10 @@ type UptimeCheckConfigObservation struct {
 	// an identifier for the resource with format {{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The monitored resource (https://cloud.google.com/monitoring/api/resources) associated with the configuration. The following monitored resource types are supported for uptime checks:  uptime_url  gce_instance  gae_app  aws_ec2_instance aws_elb_load_balancer  k8s_service  servicedirectory_service
-	// Structure is documented below.
+	// The [monitored resource]
+	// (https://cloud.google.com/monitoring/api/resources) associated with the
+	// configuration. The following monitored resource types are supported for
+	// uptime checks:
 	MonitoredResource []MonitoredResourceObservation `json:"monitoredResource,omitempty" tf:"monitored_resource,omitempty"`
 
 	// A unique resource name for this UptimeCheckConfig. The format is projects/[PROJECT_ID]/uptimeCheckConfigs/[UPTIME_CHECK_ID].
@@ -492,20 +639,28 @@ type UptimeCheckConfigObservation struct {
 	// The list of regions from which the check will be run. Some regions contain one location, and others contain more than one. If this field is specified, enough regions to include a minimum of 3 locations must be provided, or an error message is returned. Not specifying this field will result in uptime checks running from all regions.
 	SelectedRegions []*string `json:"selectedRegions,omitempty" tf:"selected_regions,omitempty"`
 
+	// A Synthetic Monitor deployed to a Cloud Functions V2 instance.
+	// Structure is documented below.
+	SyntheticMonitor []SyntheticMonitorObservation `json:"syntheticMonitor,omitempty" tf:"synthetic_monitor,omitempty"`
+
 	// Contains information needed to make a TCP check.
 	// Structure is documented below.
 	TCPCheck []TCPCheckObservation `json:"tcpCheck,omitempty" tf:"tcp_check,omitempty"`
 
-	// The maximum amount of time to wait for the request to complete (must be between 1 and 60 seconds). Accepted formats https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration
+	// The maximum amount of time to wait for the request to complete (must be between 1 and 60 seconds). See the accepted formats
 	Timeout *string `json:"timeout,omitempty" tf:"timeout,omitempty"`
 
 	// The id of the uptime check
 	UptimeCheckID *string `json:"uptimeCheckId,omitempty" tf:"uptime_check_id,omitempty"`
+
+	// User-supplied key/value data to be used for organizing and identifying the UptimeCheckConfig objects. The field can contain up to 64 entries. Each key and value is limited to 63 Unicode characters or 128 bytes, whichever is smaller. Labels and values can contain only lowercase letters, numerals, underscores, and dashes. Keys must begin with a letter.
+	// +mapType=granular
+	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
 }
 
 type UptimeCheckConfigParameters struct {
 
-	// The checker type to use for the check. If the monitored resource type is servicedirectory_service, checkerType must be set to VPC_CHECKERS.
+	// The checker type to use for the check. If the monitored resource type is servicedirectory_service, checker_type must be set to VPC_CHECKERS.
 	// Possible values are: STATIC_IP_CHECKERS, VPC_CHECKERS.
 	// +kubebuilder:validation:Optional
 	CheckerType *string `json:"checkerType,omitempty" tf:"checker_type,omitempty"`
@@ -524,8 +679,10 @@ type UptimeCheckConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	HTTPCheck []HTTPCheckParameters `json:"httpCheck,omitempty" tf:"http_check,omitempty"`
 
-	// The monitored resource (https://cloud.google.com/monitoring/api/resources) associated with the configuration. The following monitored resource types are supported for uptime checks:  uptime_url  gce_instance  gae_app  aws_ec2_instance aws_elb_load_balancer  k8s_service  servicedirectory_service
-	// Structure is documented below.
+	// The [monitored resource]
+	// (https://cloud.google.com/monitoring/api/resources) associated with the
+	// configuration. The following monitored resource types are supported for
+	// uptime checks:
 	// +kubebuilder:validation:Optional
 	MonitoredResource []MonitoredResourceParameters `json:"monitoredResource,omitempty" tf:"monitored_resource,omitempty"`
 
@@ -547,14 +704,24 @@ type UptimeCheckConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	SelectedRegions []*string `json:"selectedRegions,omitempty" tf:"selected_regions,omitempty"`
 
+	// A Synthetic Monitor deployed to a Cloud Functions V2 instance.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SyntheticMonitor []SyntheticMonitorParameters `json:"syntheticMonitor,omitempty" tf:"synthetic_monitor,omitempty"`
+
 	// Contains information needed to make a TCP check.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	TCPCheck []TCPCheckParameters `json:"tcpCheck,omitempty" tf:"tcp_check,omitempty"`
 
-	// The maximum amount of time to wait for the request to complete (must be between 1 and 60 seconds). Accepted formats https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration
+	// The maximum amount of time to wait for the request to complete (must be between 1 and 60 seconds). See the accepted formats
 	// +kubebuilder:validation:Optional
 	Timeout *string `json:"timeout,omitempty" tf:"timeout,omitempty"`
+
+	// User-supplied key/value data to be used for organizing and identifying the UptimeCheckConfig objects. The field can contain up to 64 entries. Each key and value is limited to 63 Unicode characters or 128 bytes, whichever is smaller. Labels and values can contain only lowercase letters, numerals, underscores, and dashes. Keys must begin with a letter.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
 }
 
 // UptimeCheckConfigSpec defines the desired state of UptimeCheckConfig

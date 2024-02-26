@@ -235,39 +235,69 @@ type CloudSQLParameters struct {
 
 type CloudSpannerInitParameters struct {
 
-	// Cloud Spanner database in the form `project/instance/database'
+	// Cloud Spanner database in the form `project/instance/database'.
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
-	// If parallelism should be used when reading from Cloud Spanner
+	// Cloud Spanner database role for fine-grained access control. The Cloud Spanner admin should have provisioned the database role with appropriate permissions, such as SELECT and INSERT. Other users should only use roles provided by their Cloud Spanner admins. The database role name must start with a letter, and can only contain letters, numbers, and underscores. For more details, see https://cloud.google.com/spanner/docs/fgac-about.
+	DatabaseRole *string `json:"databaseRole,omitempty" tf:"database_role,omitempty"`
+
+	// Allows setting max parallelism per query when executing on Spanner independent compute resources. If unspecified, default values of parallelism are chosen that are dependent on the Cloud Spanner instance configuration. useParallelism and useDataBoost must be set when setting max parallelism.
+	MaxParallelism *float64 `json:"maxParallelism,omitempty" tf:"max_parallelism,omitempty"`
+
+	// If set, the request will be executed via Spanner independent compute resources. use_parallelism must be set when using data boost.
+	UseDataBoost *bool `json:"useDataBoost,omitempty" tf:"use_data_boost,omitempty"`
+
+	// If parallelism should be used when reading from Cloud Spanner.
 	UseParallelism *bool `json:"useParallelism,omitempty" tf:"use_parallelism,omitempty"`
 
-	// If the serverless analytics service should be used to read data from Cloud Spanner. useParallelism must be set when using serverless analytics
+	// If the serverless analytics service should be used to read data from Cloud Spanner. useParallelism must be set when using serverless analytics.
 	UseServerlessAnalytics *bool `json:"useServerlessAnalytics,omitempty" tf:"use_serverless_analytics,omitempty"`
 }
 
 type CloudSpannerObservation struct {
 
-	// Cloud Spanner database in the form `project/instance/database'
+	// Cloud Spanner database in the form `project/instance/database'.
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
-	// If parallelism should be used when reading from Cloud Spanner
+	// Cloud Spanner database role for fine-grained access control. The Cloud Spanner admin should have provisioned the database role with appropriate permissions, such as SELECT and INSERT. Other users should only use roles provided by their Cloud Spanner admins. The database role name must start with a letter, and can only contain letters, numbers, and underscores. For more details, see https://cloud.google.com/spanner/docs/fgac-about.
+	DatabaseRole *string `json:"databaseRole,omitempty" tf:"database_role,omitempty"`
+
+	// Allows setting max parallelism per query when executing on Spanner independent compute resources. If unspecified, default values of parallelism are chosen that are dependent on the Cloud Spanner instance configuration. useParallelism and useDataBoost must be set when setting max parallelism.
+	MaxParallelism *float64 `json:"maxParallelism,omitempty" tf:"max_parallelism,omitempty"`
+
+	// If set, the request will be executed via Spanner independent compute resources. use_parallelism must be set when using data boost.
+	UseDataBoost *bool `json:"useDataBoost,omitempty" tf:"use_data_boost,omitempty"`
+
+	// If parallelism should be used when reading from Cloud Spanner.
 	UseParallelism *bool `json:"useParallelism,omitempty" tf:"use_parallelism,omitempty"`
 
-	// If the serverless analytics service should be used to read data from Cloud Spanner. useParallelism must be set when using serverless analytics
+	// If the serverless analytics service should be used to read data from Cloud Spanner. useParallelism must be set when using serverless analytics.
 	UseServerlessAnalytics *bool `json:"useServerlessAnalytics,omitempty" tf:"use_serverless_analytics,omitempty"`
 }
 
 type CloudSpannerParameters struct {
 
-	// Cloud Spanner database in the form `project/instance/database'
+	// Cloud Spanner database in the form `project/instance/database'.
 	// +kubebuilder:validation:Optional
 	Database *string `json:"database" tf:"database,omitempty"`
 
-	// If parallelism should be used when reading from Cloud Spanner
+	// Cloud Spanner database role for fine-grained access control. The Cloud Spanner admin should have provisioned the database role with appropriate permissions, such as SELECT and INSERT. Other users should only use roles provided by their Cloud Spanner admins. The database role name must start with a letter, and can only contain letters, numbers, and underscores. For more details, see https://cloud.google.com/spanner/docs/fgac-about.
+	// +kubebuilder:validation:Optional
+	DatabaseRole *string `json:"databaseRole,omitempty" tf:"database_role,omitempty"`
+
+	// Allows setting max parallelism per query when executing on Spanner independent compute resources. If unspecified, default values of parallelism are chosen that are dependent on the Cloud Spanner instance configuration. useParallelism and useDataBoost must be set when setting max parallelism.
+	// +kubebuilder:validation:Optional
+	MaxParallelism *float64 `json:"maxParallelism,omitempty" tf:"max_parallelism,omitempty"`
+
+	// If set, the request will be executed via Spanner independent compute resources. use_parallelism must be set when using data boost.
+	// +kubebuilder:validation:Optional
+	UseDataBoost *bool `json:"useDataBoost,omitempty" tf:"use_data_boost,omitempty"`
+
+	// If parallelism should be used when reading from Cloud Spanner.
 	// +kubebuilder:validation:Optional
 	UseParallelism *bool `json:"useParallelism,omitempty" tf:"use_parallelism,omitempty"`
 
-	// If the serverless analytics service should be used to read data from Cloud Spanner. useParallelism must be set when using serverless analytics
+	// If the serverless analytics service should be used to read data from Cloud Spanner. useParallelism must be set when using serverless analytics.
 	// +kubebuilder:validation:Optional
 	UseServerlessAnalytics *bool `json:"useServerlessAnalytics,omitempty" tf:"use_serverless_analytics,omitempty"`
 }
@@ -315,6 +345,10 @@ type ConnectionInitParameters struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Container for connection properties to execute stored procedures for Apache Spark. resources.
+	// Structure is documented below.
+	Spark []SparkInitParameters `json:"spark,omitempty" tf:"spark,omitempty"`
 }
 
 type ConnectionObservation struct {
@@ -370,6 +404,10 @@ type ConnectionObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Container for connection properties to execute stored procedures for Apache Spark. resources.
+	// Structure is documented below.
+	Spark []SparkObservation `json:"spark,omitempty" tf:"spark,omitempty"`
 }
 
 type ConnectionParameters struct {
@@ -425,6 +463,11 @@ type ConnectionParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Container for connection properties to execute stored procedures for Apache Spark. resources.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Spark []SparkParameters `json:"spark,omitempty" tf:"spark,omitempty"`
 }
 
 type CredentialInitParameters struct {
@@ -467,6 +510,103 @@ type CredentialParameters struct {
 	// Selector for a User in sql to populate username.
 	// +kubebuilder:validation:Optional
 	UsernameSelector *v1.Selector `json:"usernameSelector,omitempty" tf:"-"`
+}
+
+type MetastoreServiceConfigInitParameters struct {
+
+	// Resource name of an existing Dataproc Metastore service in the form of projects/[projectId]/locations/[region]/services/[serviceId].
+	MetastoreService *string `json:"metastoreService,omitempty" tf:"metastore_service,omitempty"`
+}
+
+type MetastoreServiceConfigObservation struct {
+
+	// Resource name of an existing Dataproc Metastore service in the form of projects/[projectId]/locations/[region]/services/[serviceId].
+	MetastoreService *string `json:"metastoreService,omitempty" tf:"metastore_service,omitempty"`
+}
+
+type MetastoreServiceConfigParameters struct {
+
+	// Resource name of an existing Dataproc Metastore service in the form of projects/[projectId]/locations/[region]/services/[serviceId].
+	// +kubebuilder:validation:Optional
+	MetastoreService *string `json:"metastoreService,omitempty" tf:"metastore_service,omitempty"`
+}
+
+type SparkHistoryServerConfigInitParameters struct {
+
+	// Resource name of an existing Dataproc Cluster to act as a Spark History Server for the connection if the form of projects/[projectId]/regions/[region]/clusters/[cluster_name].
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dataproc/v1beta1.Cluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	DataprocCluster *string `json:"dataprocCluster,omitempty" tf:"dataproc_cluster,omitempty"`
+
+	// Reference to a Cluster in dataproc to populate dataprocCluster.
+	// +kubebuilder:validation:Optional
+	DataprocClusterRef *v1.Reference `json:"dataprocClusterRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in dataproc to populate dataprocCluster.
+	// +kubebuilder:validation:Optional
+	DataprocClusterSelector *v1.Selector `json:"dataprocClusterSelector,omitempty" tf:"-"`
+}
+
+type SparkHistoryServerConfigObservation struct {
+
+	// Resource name of an existing Dataproc Cluster to act as a Spark History Server for the connection if the form of projects/[projectId]/regions/[region]/clusters/[cluster_name].
+	DataprocCluster *string `json:"dataprocCluster,omitempty" tf:"dataproc_cluster,omitempty"`
+}
+
+type SparkHistoryServerConfigParameters struct {
+
+	// Resource name of an existing Dataproc Cluster to act as a Spark History Server for the connection if the form of projects/[projectId]/regions/[region]/clusters/[cluster_name].
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dataproc/v1beta1.Cluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	DataprocCluster *string `json:"dataprocCluster,omitempty" tf:"dataproc_cluster,omitempty"`
+
+	// Reference to a Cluster in dataproc to populate dataprocCluster.
+	// +kubebuilder:validation:Optional
+	DataprocClusterRef *v1.Reference `json:"dataprocClusterRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in dataproc to populate dataprocCluster.
+	// +kubebuilder:validation:Optional
+	DataprocClusterSelector *v1.Selector `json:"dataprocClusterSelector,omitempty" tf:"-"`
+}
+
+type SparkInitParameters struct {
+
+	// Dataproc Metastore Service configuration for the connection.
+	// Structure is documented below.
+	MetastoreServiceConfig []MetastoreServiceConfigInitParameters `json:"metastoreServiceConfig,omitempty" tf:"metastore_service_config,omitempty"`
+
+	// Spark History Server configuration for the connection.
+	// Structure is documented below.
+	SparkHistoryServerConfig []SparkHistoryServerConfigInitParameters `json:"sparkHistoryServerConfig,omitempty" tf:"spark_history_server_config,omitempty"`
+}
+
+type SparkObservation struct {
+
+	// Dataproc Metastore Service configuration for the connection.
+	// Structure is documented below.
+	MetastoreServiceConfig []MetastoreServiceConfigObservation `json:"metastoreServiceConfig,omitempty" tf:"metastore_service_config,omitempty"`
+
+	// (Output)
+	// The account ID of the service created for the purpose of this connection.
+	ServiceAccountID *string `json:"serviceAccountId,omitempty" tf:"service_account_id,omitempty"`
+
+	// Spark History Server configuration for the connection.
+	// Structure is documented below.
+	SparkHistoryServerConfig []SparkHistoryServerConfigObservation `json:"sparkHistoryServerConfig,omitempty" tf:"spark_history_server_config,omitempty"`
+}
+
+type SparkParameters struct {
+
+	// Dataproc Metastore Service configuration for the connection.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MetastoreServiceConfig []MetastoreServiceConfigParameters `json:"metastoreServiceConfig,omitempty" tf:"metastore_service_config,omitempty"`
+
+	// Spark History Server configuration for the connection.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SparkHistoryServerConfig []SparkHistoryServerConfigParameters `json:"sparkHistoryServerConfig,omitempty" tf:"spark_history_server_config,omitempty"`
 }
 
 // ConnectionSpec defines the desired state of Connection

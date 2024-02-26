@@ -244,7 +244,7 @@ spec:
                       Currently the latest supported major version is MEMCACHE_1_5. The minor version will be automatically
                       determined by our system based on the latest supported minor version.
                       Default value is MEMCACHE_1_5.
-                      Possible values are: MEMCACHE_1_5.
+                      Possible values are: MEMCACHE_1_5, MEMCACHE_1_6_15.
                     type: string
                   name:
                     description: The resource name of the instance.
@@ -276,6 +276,14 @@ spec:
                     description: The region of the Memcache instance. If it is not
                       provided, the provider region is used.
                     type: string
+                  reservedIpRangeId:
+                    description: |-
+                      Contains the name of allocated IP address ranges associated with
+                      the private service access connection for example, "test-default"
+                      associated with IP range 10.0.0.0/29.
+                    items:
+                      type: string
+                    type: array
                   zones:
                     description: |-
                       Zones where memcache nodes should be provisioned.  If not
@@ -469,7 +477,7 @@ spec:
                       Currently the latest supported major version is MEMCACHE_1_5. The minor version will be automatically
                       determined by our system based on the latest supported minor version.
                       Default value is MEMCACHE_1_5.
-                      Possible values are: MEMCACHE_1_5.
+                      Possible values are: MEMCACHE_1_5, MEMCACHE_1_6_15.
                     type: string
                   name:
                     description: The resource name of the instance.
@@ -501,6 +509,14 @@ spec:
                     description: The region of the Memcache instance. If it is not
                       provided, the provider region is used.
                     type: string
+                  reservedIpRangeId:
+                    description: |-
+                      Contains the name of allocated IP address ranges associated with
+                      the private service access connection for example, "test-default"
+                      associated with IP range 10.0.0.0/29.
+                    items:
+                      type: string
+                    type: array
                   zones:
                     description: |-
                       Zones where memcache nodes should be provisioned.  If not
@@ -709,6 +725,11 @@ spec:
                   displayName:
                     description: A user-visible name for the instance.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/instances/{{name}}
                     type: string
@@ -885,7 +906,7 @@ spec:
                       Currently the latest supported major version is MEMCACHE_1_5. The minor version will be automatically
                       determined by our system based on the latest supported minor version.
                       Default value is MEMCACHE_1_5.
-                      Possible values are: MEMCACHE_1_5.
+                      Possible values are: MEMCACHE_1_5, MEMCACHE_1_6_15.
                     type: string
                   name:
                     description: The resource name of the instance.
@@ -917,6 +938,22 @@ spec:
                     description: The region of the Memcache instance. If it is not
                       provided, the provider region is used.
                     type: string
+                  reservedIpRangeId:
+                    description: |-
+                      Contains the name of allocated IP address ranges associated with
+                      the private service access connection for example, "test-default"
+                      associated with IP range 10.0.0.0/29.
+                    items:
+                      type: string
+                    type: array
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   zones:
                     description: |-
                       Zones where memcache nodes should be provisioned.  If not

@@ -55,6 +55,10 @@ type AddressInitParameters struct {
 	// Possible values are: VM, NETLB.
 	IPv6EndpointType *string `json:"ipv6EndpointType,omitempty" tf:"ipv6_endpoint_type,omitempty"`
 
+	// Labels to apply to this address.  A list of key->value pairs.
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
 	// The URL of the network in which to reserve the address. This field
 	// can only be used with INTERNAL type with the VPC_PEERING and
 	// IPSEC_INTERCONNECT purposes.
@@ -122,6 +126,10 @@ type AddressObservation struct {
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// for all of the labels present on the resource.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/addresses/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -134,6 +142,14 @@ type AddressObservation struct {
 	// the external IPv6 address reservation.
 	// Possible values are: VM, NETLB.
 	IPv6EndpointType *string `json:"ipv6EndpointType,omitempty" tf:"ipv6_endpoint_type,omitempty"`
+
+	// The fingerprint used for optimistic locking of this resource.  Used
+	// internally during updates.
+	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
+
+	// Labels to apply to this address.  A list of key->value pairs.
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The URL of the network in which to reserve the address. This field
 	// can only be used with INTERNAL type with the VPC_PEERING and
@@ -169,6 +185,11 @@ type AddressObservation struct {
 	// GCE_ENDPOINT/DNS_RESOLVER purposes.
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
 	// The URLs of the resources that are using this address.
 	Users []*string `json:"users,omitempty" tf:"users,omitempty"`
 }
@@ -203,6 +224,11 @@ type AddressParameters struct {
 	// Possible values are: VM, NETLB.
 	// +kubebuilder:validation:Optional
 	IPv6EndpointType *string `json:"ipv6EndpointType,omitempty" tf:"ipv6_endpoint_type,omitempty"`
+
+	// Labels to apply to this address.  A list of key->value pairs.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The URL of the network in which to reserve the address. This field
 	// can only be used with INTERNAL type with the VPC_PEERING and

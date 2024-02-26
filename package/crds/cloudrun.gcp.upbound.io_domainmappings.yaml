@@ -90,6 +90,8 @@ spec:
                             may be set by external tools to store and retrieve arbitrary metadata. More
                             info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
                             Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
+                            Note: This field is non-authoritative, and will only manage the annotations present in your configuration.
+                            Please refer to the field effective_annotations for all of the annotations present on the resource.
                           type: object
                           x-kubernetes-map-type: granular
                         labels:
@@ -100,6 +102,8 @@ spec:
                             (scope and select) objects. May match selectors of replication controllers
                             and routes.
                             More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels
+                            Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                            Please refer to the field effective_labels for all of the labels present on the resource.
                           type: object
                           x-kubernetes-map-type: granular
                         namespace:
@@ -324,6 +328,8 @@ spec:
                             may be set by external tools to store and retrieve arbitrary metadata. More
                             info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
                             Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
+                            Note: This field is non-authoritative, and will only manage the annotations present in your configuration.
+                            Please refer to the field effective_annotations for all of the annotations present on the resource.
                           type: object
                           x-kubernetes-map-type: granular
                         labels:
@@ -334,6 +340,8 @@ spec:
                             (scope and select) objects. May match selectors of replication controllers
                             and routes.
                             More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels
+                            Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                            Please refer to the field effective_labels for all of the labels present on the resource.
                           type: object
                           x-kubernetes-map-type: granular
                         namespace:
@@ -700,10 +708,6 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.location)
                 || (has(self.initProvider) && has(self.initProvider.location))'
-            - message: spec.forProvider.metadata is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.metadata)
-                || (has(self.initProvider) && has(self.initProvider.metadata))'
             - message: spec.forProvider.name is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
@@ -737,6 +741,18 @@ spec:
                             may be set by external tools to store and retrieve arbitrary metadata. More
                             info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
                             Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
+                            Note: This field is non-authoritative, and will only manage the annotations present in your configuration.
+                            Please refer to the field effective_annotations for all of the annotations present on the resource.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        effectiveAnnotations:
+                          additionalProperties:
+                            type: string
+                          type: object
+                          x-kubernetes-map-type: granular
+                        effectiveLabels:
+                          additionalProperties:
+                            type: string
                           type: object
                           x-kubernetes-map-type: granular
                         generation:
@@ -752,6 +768,8 @@ spec:
                             (scope and select) objects. May match selectors of replication controllers
                             and routes.
                             More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels
+                            Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                            Please refer to the field effective_labels for all of the labels present on the resource.
                           type: object
                           x-kubernetes-map-type: granular
                         namespace:
@@ -775,6 +793,15 @@ spec:
                             (Output)
                             SelfLink is a URL representing this object.
                           type: string
+                        terraformLabels:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            (Output)
+                            The combination of labels configured directly on the resource
+                            and default labels configured on the provider.
+                          type: object
+                          x-kubernetes-map-type: granular
                         uid:
                           description: |-
                             (Output)

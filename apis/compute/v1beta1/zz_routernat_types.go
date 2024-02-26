@@ -94,8 +94,8 @@ type RouterNATInitParameters struct {
 	// Mutually exclusive with enableEndpointIndependentMapping.
 	EnableDynamicPortAllocation *bool `json:"enableDynamicPortAllocation,omitempty" tf:"enable_dynamic_port_allocation,omitempty"`
 
-	// Specifies if endpoint independent mapping is enabled. This is enabled by default. For more information
-	// see the official documentation.
+	// Enable endpoint independent mapping.
+	// For more information see the official documentation.
 	EnableEndpointIndependentMapping *bool `json:"enableEndpointIndependentMapping,omitempty" tf:"enable_endpoint_independent_mapping,omitempty"`
 
 	// Timeout (in seconds) for ICMP connections. Defaults to 30s if not set.
@@ -212,8 +212,8 @@ type RouterNATObservation struct {
 	// Mutually exclusive with enableEndpointIndependentMapping.
 	EnableDynamicPortAllocation *bool `json:"enableDynamicPortAllocation,omitempty" tf:"enable_dynamic_port_allocation,omitempty"`
 
-	// Specifies if endpoint independent mapping is enabled. This is enabled by default. For more information
-	// see the official documentation.
+	// Enable endpoint independent mapping.
+	// For more information see the official documentation.
 	EnableEndpointIndependentMapping *bool `json:"enableEndpointIndependentMapping,omitempty" tf:"enable_endpoint_independent_mapping,omitempty"`
 
 	// an identifier for the resource with format {{project}}/{{region}}/{{router}}/{{name}}
@@ -309,8 +309,8 @@ type RouterNATParameters struct {
 	// +kubebuilder:validation:Optional
 	EnableDynamicPortAllocation *bool `json:"enableDynamicPortAllocation,omitempty" tf:"enable_dynamic_port_allocation,omitempty"`
 
-	// Specifies if endpoint independent mapping is enabled. This is enabled by default. For more information
-	// see the official documentation.
+	// Enable endpoint independent mapping.
+	// For more information see the official documentation.
 	// +kubebuilder:validation:Optional
 	EnableEndpointIndependentMapping *bool `json:"enableEndpointIndependentMapping,omitempty" tf:"enable_endpoint_independent_mapping,omitempty"`
 
@@ -602,7 +602,6 @@ type RouterNATStatus struct {
 type RouterNAT struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.natIpAllocateOption) || (has(self.initProvider) && has(self.initProvider.natIpAllocateOption))",message="spec.forProvider.natIpAllocateOption is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.sourceSubnetworkIpRangesToNat) || (has(self.initProvider) && has(self.initProvider.sourceSubnetworkIpRangesToNat))",message="spec.forProvider.sourceSubnetworkIpRangesToNat is a required parameter"
 	Spec   RouterNATSpec   `json:"spec"`
 	Status RouterNATStatus `json:"status,omitempty"`

@@ -137,6 +137,10 @@ type MembershipInitParameters struct {
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// Location of the membership.
+	// The default value is global.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -150,16 +154,24 @@ type MembershipObservation struct {
 	// Structure is documented below.
 	Authority []AuthorityObservation `json:"authority,omitempty" tf:"authority,omitempty"`
 
+	// for all of the labels present on the resource.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// If this Membership is a Kubernetes API server hosted on GKE, this is a self link to its GCP resource.
 	// Structure is documented below.
 	Endpoint []EndpointObservation `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
 
-	// an identifier for the resource with format projects/{{project}}/locations/global/memberships/{{membership_id}}
+	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/memberships/{{membership_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Labels to apply to this membership.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Location of the membership.
+	// The default value is global.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// The unique identifier of the membership.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -167,6 +179,11 @@ type MembershipObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type MembershipParameters struct {
@@ -187,6 +204,11 @@ type MembershipParameters struct {
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Location of the membership.
+	// The default value is global.
+	// +kubebuilder:validation:Optional
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

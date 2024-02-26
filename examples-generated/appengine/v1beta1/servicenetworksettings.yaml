@@ -67,4 +67,4 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: bucket
     name: hello-world.zip
-    source: ./test-fixtures/appengine/hello-world.zip
+    source: ./test-fixtures/hello-world.zip

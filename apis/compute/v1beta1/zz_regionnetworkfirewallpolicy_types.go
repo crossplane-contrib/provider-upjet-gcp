@@ -34,7 +34,8 @@ type RegionNetworkFirewallPolicyInitParameters struct {
 	// An optional description of this resource. Provide this property when you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -52,10 +53,11 @@ type RegionNetworkFirewallPolicyObservation struct {
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/firewallPolicies/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// The location of this resource.
+	// The region of this resource.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The unique identifier for the resource. This identifier is defined by the server.
@@ -77,11 +79,12 @@ type RegionNetworkFirewallPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// The location of this resource.
+	// The region of this resource.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }

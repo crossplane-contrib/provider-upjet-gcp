@@ -62,6 +62,8 @@ type ProjectInitParameters struct {
 	FolderIDSelector *v1.Selector `json:"folderIdSelector,omitempty" tf:"-"`
 
 	// A set of key/value label pairs to assign to the project.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field 'effective_labels' for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -98,6 +100,9 @@ type ProjectObservation struct {
 	// for more details.
 	BillingAccount *string `json:"billingAccount,omitempty" tf:"billing_account,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// The numeric ID of the folder this project should be
 	// created under. Only one of org_id or folder_id may be
 	// specified. If the folder_id is specified, then the project is
@@ -109,6 +114,8 @@ type ProjectObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// A set of key/value label pairs to assign to the project.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field 'effective_labels' for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -131,6 +138,10 @@ type ProjectObservation struct {
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	SkipDelete *bool `json:"skipDelete,omitempty" tf:"skip_delete,omitempty"`
+
+	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type ProjectParameters struct {
@@ -169,6 +180,8 @@ type ProjectParameters struct {
 	FolderIDSelector *v1.Selector `json:"folderIdSelector,omitempty" tf:"-"`
 
 	// A set of key/value label pairs to assign to the project.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field 'effective_labels' for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`

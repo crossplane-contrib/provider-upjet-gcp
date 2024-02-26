@@ -55,6 +55,13 @@ type EnvironmentInitParameters struct {
 	// NodeConfig for setting the min/max number of nodes associated with the environment.
 	// Structure is documented below.
 	NodeConfig []NodeConfigInitParameters `json:"nodeConfig,omitempty" tf:"node_config,omitempty"`
+
+	// Types that can be selected for an Environment. Each of the types are
+	// limited by capability and capacity. Refer to Apigee's public documentation
+	// to understand about each of these types in details.
+	// An Apigee org can support heterogeneous Environments.
+	// Possible values are: ENVIRONMENT_TYPE_UNSPECIFIED, BASE, INTERMEDIATE, COMPREHENSIVE.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type EnvironmentObservation struct {
@@ -90,6 +97,13 @@ type EnvironmentObservation struct {
 	// The Apigee Organization associated with the Apigee environment,
 	// in the format organizations/{{org_name}}.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	// Types that can be selected for an Environment. Each of the types are
+	// limited by capability and capacity. Refer to Apigee's public documentation
+	// to understand about each of these types in details.
+	// An Apigee org can support heterogeneous Environments.
+	// Possible values are: ENVIRONMENT_TYPE_UNSPECIFIED, BASE, INTERMEDIATE, COMPREHENSIVE.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type EnvironmentParameters struct {
@@ -138,6 +152,14 @@ type EnvironmentParameters struct {
 	// Selector for a Organization in apigee to populate orgId.
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
+
+	// Types that can be selected for an Environment. Each of the types are
+	// limited by capability and capacity. Refer to Apigee's public documentation
+	// to understand about each of these types in details.
+	// An Apigee org can support heterogeneous Environments.
+	// Possible values are: ENVIRONMENT_TYPE_UNSPECIFIED, BASE, INTERMEDIATE, COMPREHENSIVE.
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type NodeConfigInitParameters struct {

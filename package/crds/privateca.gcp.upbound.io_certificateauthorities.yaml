@@ -1861,6 +1861,11 @@ spec:
                     description: Desired state of the CertificateAuthority. Set this
                       field to STAGED to create a STAGED root CA.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   gcsBucket:
                     description: |-
                       The name of a Cloud Storage bucket where this CertificateAuthority will publish content,
@@ -1987,6 +1992,14 @@ spec:
                           type: array
                       type: object
                     type: array
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   type:
                     description: |-
                       The Type of this CertificateAuthority.

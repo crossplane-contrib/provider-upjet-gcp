@@ -29,6 +29,140 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ExternalIPInitParameters struct {
+
+	// These stateful IPs will never be released during autohealing, update or VM instance recreate operations. This flag is used to configure if the IP reservation should be deleted after it is no longer used by the group, e.g. when the given instance or the whole group is deleted.
+	// Default value is NEVER.
+	// Possible values are: NEVER, ON_PERMANENT_INSTANCE_DELETION.
+	AutoDelete *string `json:"autoDelete,omitempty" tf:"auto_delete,omitempty"`
+
+	// Ip address representation
+	// Structure is documented below.
+	IPAddress []IPAddressInitParameters `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// The identifier for this object. Format specified above.
+	InterfaceName *string `json:"interfaceName,omitempty" tf:"interface_name,omitempty"`
+}
+
+type ExternalIPObservation struct {
+
+	// These stateful IPs will never be released during autohealing, update or VM instance recreate operations. This flag is used to configure if the IP reservation should be deleted after it is no longer used by the group, e.g. when the given instance or the whole group is deleted.
+	// Default value is NEVER.
+	// Possible values are: NEVER, ON_PERMANENT_INSTANCE_DELETION.
+	AutoDelete *string `json:"autoDelete,omitempty" tf:"auto_delete,omitempty"`
+
+	// Ip address representation
+	// Structure is documented below.
+	IPAddress []IPAddressObservation `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// The identifier for this object. Format specified above.
+	InterfaceName *string `json:"interfaceName,omitempty" tf:"interface_name,omitempty"`
+}
+
+type ExternalIPParameters struct {
+
+	// These stateful IPs will never be released during autohealing, update or VM instance recreate operations. This flag is used to configure if the IP reservation should be deleted after it is no longer used by the group, e.g. when the given instance or the whole group is deleted.
+	// Default value is NEVER.
+	// Possible values are: NEVER, ON_PERMANENT_INSTANCE_DELETION.
+	// +kubebuilder:validation:Optional
+	AutoDelete *string `json:"autoDelete,omitempty" tf:"auto_delete,omitempty"`
+
+	// Ip address representation
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	IPAddress []IPAddressParameters `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// The identifier for this object. Format specified above.
+	// +kubebuilder:validation:Optional
+	InterfaceName *string `json:"interfaceName" tf:"interface_name,omitempty"`
+}
+
+type IPAddressInitParameters struct {
+
+	// The URL of the reservation for this IP address.
+	Address *string `json:"address,omitempty" tf:"address,omitempty"`
+}
+
+type IPAddressObservation struct {
+
+	// The URL of the reservation for this IP address.
+	Address *string `json:"address,omitempty" tf:"address,omitempty"`
+}
+
+type IPAddressParameters struct {
+
+	// The URL of the reservation for this IP address.
+	// +kubebuilder:validation:Optional
+	Address *string `json:"address,omitempty" tf:"address,omitempty"`
+}
+
+type InternalIPIPAddressInitParameters struct {
+
+	// The URL of the reservation for this IP address.
+	Address *string `json:"address,omitempty" tf:"address,omitempty"`
+}
+
+type InternalIPIPAddressObservation struct {
+
+	// The URL of the reservation for this IP address.
+	Address *string `json:"address,omitempty" tf:"address,omitempty"`
+}
+
+type InternalIPIPAddressParameters struct {
+
+	// The URL of the reservation for this IP address.
+	// +kubebuilder:validation:Optional
+	Address *string `json:"address,omitempty" tf:"address,omitempty"`
+}
+
+type InternalIPInitParameters struct {
+
+	// These stateful IPs will never be released during autohealing, update or VM instance recreate operations. This flag is used to configure if the IP reservation should be deleted after it is no longer used by the group, e.g. when the given instance or the whole group is deleted.
+	// Default value is NEVER.
+	// Possible values are: NEVER, ON_PERMANENT_INSTANCE_DELETION.
+	AutoDelete *string `json:"autoDelete,omitempty" tf:"auto_delete,omitempty"`
+
+	// Ip address representation
+	// Structure is documented below.
+	IPAddress []InternalIPIPAddressInitParameters `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// The identifier for this object. Format specified above.
+	InterfaceName *string `json:"interfaceName,omitempty" tf:"interface_name,omitempty"`
+}
+
+type InternalIPObservation struct {
+
+	// These stateful IPs will never be released during autohealing, update or VM instance recreate operations. This flag is used to configure if the IP reservation should be deleted after it is no longer used by the group, e.g. when the given instance or the whole group is deleted.
+	// Default value is NEVER.
+	// Possible values are: NEVER, ON_PERMANENT_INSTANCE_DELETION.
+	AutoDelete *string `json:"autoDelete,omitempty" tf:"auto_delete,omitempty"`
+
+	// Ip address representation
+	// Structure is documented below.
+	IPAddress []InternalIPIPAddressObservation `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// The identifier for this object. Format specified above.
+	InterfaceName *string `json:"interfaceName,omitempty" tf:"interface_name,omitempty"`
+}
+
+type InternalIPParameters struct {
+
+	// These stateful IPs will never be released during autohealing, update or VM instance recreate operations. This flag is used to configure if the IP reservation should be deleted after it is no longer used by the group, e.g. when the given instance or the whole group is deleted.
+	// Default value is NEVER.
+	// Possible values are: NEVER, ON_PERMANENT_INSTANCE_DELETION.
+	// +kubebuilder:validation:Optional
+	AutoDelete *string `json:"autoDelete,omitempty" tf:"auto_delete,omitempty"`
+
+	// Ip address representation
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	IPAddress []InternalIPIPAddressParameters `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// The identifier for this object. Format specified above.
+	// +kubebuilder:validation:Optional
+	InterfaceName *string `json:"interfaceName" tf:"interface_name,omitempty"`
+}
+
 type PerInstanceConfigInitParameters struct {
 
 	// The instance group manager this instance config is part of.
@@ -61,6 +195,10 @@ type PerInstanceConfigInitParameters struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// When true, deleting this config will immediately remove the underlying instance.
+	// When false, deleting this config will use the behavior as determined by remove_instance_on_destroy.
+	RemoveInstanceOnDestroy *bool `json:"removeInstanceOnDestroy,omitempty" tf:"remove_instance_on_destroy,omitempty"`
 
 	// When true, deleting this config will immediately remove any specified state from the underlying instance.
 	// When false, deleting this config will not immediately remove any state from the underlying instance.
@@ -107,6 +245,10 @@ type PerInstanceConfigObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// When true, deleting this config will immediately remove the underlying instance.
+	// When false, deleting this config will use the behavior as determined by remove_instance_on_destroy.
+	RemoveInstanceOnDestroy *bool `json:"removeInstanceOnDestroy,omitempty" tf:"remove_instance_on_destroy,omitempty"`
 
 	// When true, deleting this config will immediately remove any specified state from the underlying instance.
 	// When false, deleting this config will not immediately remove any state from the underlying instance.
@@ -155,6 +297,11 @@ type PerInstanceConfigParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// When true, deleting this config will immediately remove the underlying instance.
+	// When false, deleting this config will use the behavior as determined by remove_instance_on_destroy.
+	// +kubebuilder:validation:Optional
+	RemoveInstanceOnDestroy *bool `json:"removeInstanceOnDestroy,omitempty" tf:"remove_instance_on_destroy,omitempty"`
 
 	// When true, deleting this config will immediately remove any specified state from the underlying instance.
 	// When false, deleting this config will not immediately remove any state from the underlying instance.
@@ -279,6 +426,14 @@ type PreservedStateInitParameters struct {
 	// Structure is documented below.
 	Disk []PreservedStateDiskInitParameters `json:"disk,omitempty" tf:"disk,omitempty"`
 
+	// Preserved external IPs defined for this instance. This map is keyed with the name of the network interface.
+	// Structure is documented below.
+	ExternalIP []ExternalIPInitParameters `json:"externalIp,omitempty" tf:"external_ip,omitempty"`
+
+	// Preserved internal IPs defined for this instance. This map is keyed with the name of the network interface.
+	// Structure is documented below.
+	InternalIP []InternalIPInitParameters `json:"internalIp,omitempty" tf:"internal_ip,omitempty"`
+
 	// Preserved metadata defined for this instance. This is a list of key->value pairs.
 	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
@@ -289,6 +444,14 @@ type PreservedStateObservation struct {
 	// Stateful disks for the instance.
 	// Structure is documented below.
 	Disk []PreservedStateDiskObservation `json:"disk,omitempty" tf:"disk,omitempty"`
+
+	// Preserved external IPs defined for this instance. This map is keyed with the name of the network interface.
+	// Structure is documented below.
+	ExternalIP []ExternalIPObservation `json:"externalIp,omitempty" tf:"external_ip,omitempty"`
+
+	// Preserved internal IPs defined for this instance. This map is keyed with the name of the network interface.
+	// Structure is documented below.
+	InternalIP []InternalIPObservation `json:"internalIp,omitempty" tf:"internal_ip,omitempty"`
 
 	// Preserved metadata defined for this instance. This is a list of key->value pairs.
 	// +mapType=granular
@@ -301,6 +464,16 @@ type PreservedStateParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Disk []PreservedStateDiskParameters `json:"disk,omitempty" tf:"disk,omitempty"`
+
+	// Preserved external IPs defined for this instance. This map is keyed with the name of the network interface.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ExternalIP []ExternalIPParameters `json:"externalIp,omitempty" tf:"external_ip,omitempty"`
+
+	// Preserved internal IPs defined for this instance. This map is keyed with the name of the network interface.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	InternalIP []InternalIPParameters `json:"internalIp,omitempty" tf:"internal_ip,omitempty"`
 
 	// Preserved metadata defined for this instance. This is a list of key->value pairs.
 	// +kubebuilder:validation:Optional

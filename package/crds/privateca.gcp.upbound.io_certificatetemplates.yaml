@@ -826,6 +826,11 @@ spec:
                     description: Optional. A human-readable description of scenarios
                       this template is intended for.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/certificateTemplates/{{name}}
                     type: string
@@ -1104,6 +1109,13 @@ spec:
                   project:
                     description: The project for the resource
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   updateTime:
                     description: Output only. The time at which this CertificateTemplate
                       was updated.

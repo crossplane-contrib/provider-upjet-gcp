@@ -51,6 +51,10 @@ type AppProfileInitParameters struct {
 	// Use a single-cluster routing policy.
 	// Structure is documented below.
 	SingleClusterRouting []SingleClusterRoutingInitParameters `json:"singleClusterRouting,omitempty" tf:"single_cluster_routing,omitempty"`
+
+	// The standard options used for isolating this app profile's traffic from other use cases.
+	// Structure is documented below.
+	StandardIsolation []StandardIsolationInitParameters `json:"standardIsolation,omitempty" tf:"standard_isolation,omitempty"`
 }
 
 type AppProfileObservation struct {
@@ -84,6 +88,10 @@ type AppProfileObservation struct {
 	// Use a single-cluster routing policy.
 	// Structure is documented below.
 	SingleClusterRouting []SingleClusterRoutingObservation `json:"singleClusterRouting,omitempty" tf:"single_cluster_routing,omitempty"`
+
+	// The standard options used for isolating this app profile's traffic from other use cases.
+	// Structure is documented below.
+	StandardIsolation []StandardIsolationObservation `json:"standardIsolation,omitempty" tf:"standard_isolation,omitempty"`
 }
 
 type AppProfileParameters struct {
@@ -127,6 +135,11 @@ type AppProfileParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SingleClusterRouting []SingleClusterRoutingParameters `json:"singleClusterRouting,omitempty" tf:"single_cluster_routing,omitempty"`
+
+	// The standard options used for isolating this app profile's traffic from other use cases.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	StandardIsolation []StandardIsolationParameters `json:"standardIsolation,omitempty" tf:"standard_isolation,omitempty"`
 }
 
 type SingleClusterRoutingInitParameters struct {
@@ -159,6 +172,28 @@ type SingleClusterRoutingParameters struct {
 	// The cluster to which read/write requests should be routed.
 	// +kubebuilder:validation:Optional
 	ClusterID *string `json:"clusterId" tf:"cluster_id,omitempty"`
+}
+
+type StandardIsolationInitParameters struct {
+
+	// The priority of requests sent using this app profile.
+	// Possible values are: PRIORITY_LOW, PRIORITY_MEDIUM, PRIORITY_HIGH.
+	Priority *string `json:"priority,omitempty" tf:"priority,omitempty"`
+}
+
+type StandardIsolationObservation struct {
+
+	// The priority of requests sent using this app profile.
+	// Possible values are: PRIORITY_LOW, PRIORITY_MEDIUM, PRIORITY_HIGH.
+	Priority *string `json:"priority,omitempty" tf:"priority,omitempty"`
+}
+
+type StandardIsolationParameters struct {
+
+	// The priority of requests sent using this app profile.
+	// Possible values are: PRIORITY_LOW, PRIORITY_MEDIUM, PRIORITY_HIGH.
+	// +kubebuilder:validation:Optional
+	Priority *string `json:"priority" tf:"priority,omitempty"`
 }
 
 // AppProfileSpec defines the desired state of AppProfile

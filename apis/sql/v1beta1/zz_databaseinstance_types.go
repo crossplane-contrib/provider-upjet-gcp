@@ -246,6 +246,9 @@ type CloneInitParameters struct {
 	// The timestamp of the point in time that should be restored.
 	PointInTime *string `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
 
+	// (Point-in-time recovery for PostgreSQL only) Clone to an instance in the specified zone. If no zone is specified, clone to the same zone as the source instance. clone-unavailable-instance
+	PreferredZone *string `json:"preferredZone,omitempty" tf:"preferred_zone,omitempty"`
+
 	// Name of the source instance which will be cloned.
 	SourceInstanceName *string `json:"sourceInstanceName,omitempty" tf:"source_instance_name,omitempty"`
 }
@@ -260,6 +263,9 @@ type CloneObservation struct {
 
 	// The timestamp of the point in time that should be restored.
 	PointInTime *string `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
+
+	// (Point-in-time recovery for PostgreSQL only) Clone to an instance in the specified zone. If no zone is specified, clone to the same zone as the source instance. clone-unavailable-instance
+	PreferredZone *string `json:"preferredZone,omitempty" tf:"preferred_zone,omitempty"`
 
 	// Name of the source instance which will be cloned.
 	SourceInstanceName *string `json:"sourceInstanceName,omitempty" tf:"source_instance_name,omitempty"`
@@ -279,6 +285,10 @@ type CloneParameters struct {
 	// +kubebuilder:validation:Optional
 	PointInTime *string `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
 
+	// (Point-in-time recovery for PostgreSQL only) Clone to an instance in the specified zone. If no zone is specified, clone to the same zone as the source instance. clone-unavailable-instance
+	// +kubebuilder:validation:Optional
+	PreferredZone *string `json:"preferredZone,omitempty" tf:"preferred_zone,omitempty"`
+
 	// Name of the source instance which will be cloned.
 	// +kubebuilder:validation:Optional
 	SourceInstanceName *string `json:"sourceInstanceName" tf:"source_instance_name,omitempty"`
@@ -286,22 +296,19 @@ type CloneParameters struct {
 
 type DataCacheConfigInitParameters struct {
 
-	// Whether data cache is enabled for the instance. Defaults to false
-	// Can only be used with MYSQL.
+	// Whether data cache is enabled for the instance. Defaults to false. Can be used with MYSQL and PostgreSQL only.
 	DataCacheEnabled *bool `json:"dataCacheEnabled,omitempty" tf:"data_cache_enabled,omitempty"`
 }
 
 type DataCacheConfigObservation struct {
 
-	// Whether data cache is enabled for the instance. Defaults to false
-	// Can only be used with MYSQL.
+	// Whether data cache is enabled for the instance. Defaults to false. Can be used with MYSQL and PostgreSQL only.
 	DataCacheEnabled *bool `json:"dataCacheEnabled,omitempty" tf:"data_cache_enabled,omitempty"`
 }
 
 type DataCacheConfigParameters struct {
 
-	// Whether data cache is enabled for the instance. Defaults to false
-	// Can only be used with MYSQL.
+	// Whether data cache is enabled for the instance. Defaults to false. Can be used with MYSQL and PostgreSQL only.
 	// +kubebuilder:validation:Optional
 	DataCacheEnabled *bool `json:"dataCacheEnabled,omitempty" tf:"data_cache_enabled,omitempty"`
 }
@@ -412,6 +419,10 @@ type DatabaseInstanceObservation struct {
 	// connection strings. For example, when connecting with Cloud SQL Proxy.
 	ConnectionName *string `json:"connectionName,omitempty" tf:"connection_name,omitempty"`
 
+	// The name of the instance. This is done because after a name is used, it cannot be reused for
+	// up to one week.
+	DNSName *string `json:"dnsName,omitempty" tf:"dns_name,omitempty"`
+
 	// The MySQL, PostgreSQL or
 	// SQL Server version to use. Supported values include MYSQL_5_6,
 	// MYSQL_5_7, MYSQL_8_0, POSTGRES_9_6,POSTGRES_10, POSTGRES_11,
@@ -461,6 +472,9 @@ type DatabaseInstanceObservation struct {
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// the URI that points to the service attachment of the instance.
+	PscServiceAttachmentLink *string `json:"pscServiceAttachmentLink,omitempty" tf:"psc_service_attachment_link,omitempty"`
+
 	// The first public (PRIMARY) IPv4 address assigned.
 	PublicIPAddress *string `json:"publicIpAddress,omitempty" tf:"public_ip_address,omitempty"`
 
@@ -478,8 +492,6 @@ type DatabaseInstanceObservation struct {
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
-
-	ServerCACert []ServerCACertObservation `json:"serverCaCert,omitempty" tf:"server_ca_cert,omitempty"`
 
 	// The service account email address assigned to the
 	// instance.
@@ -653,8 +665,13 @@ type IPConfigurationInitParameters struct {
 	// +kubebuilder:validation:Optional
 	PrivateNetworkSelector *v1.Selector `json:"privateNetworkSelector,omitempty" tf:"-"`
 
-	// Whether SSL connections over IP are enforced or not.
+	PscConfig []PscConfigInitParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
+
+	// Whether SSL connections over IP are enforced or not. To change this field, also set the corresponding value in ssl_mode.
 	RequireSSL *bool `json:"requireSsl,omitempty" tf:"require_ssl,omitempty"`
+
+	// Specify how SSL connection should be enforced in DB connections. This field provides more SSL enforcment options compared to require_ssl. To change this field, also set the correspoding value in require_ssl.
+	SSLMode *string `json:"sslMode,omitempty" tf:"ssl_mode,omitempty"`
 }
 
 type IPConfigurationObservation struct {
@@ -679,8 +696,13 @@ type IPConfigurationObservation struct {
 	// This setting can be updated, but it cannot be removed after it is set.
 	PrivateNetwork *string `json:"privateNetwork,omitempty" tf:"private_network,omitempty"`
 
-	// Whether SSL connections over IP are enforced or not.
+	PscConfig []PscConfigObservation `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
+
+	// Whether SSL connections over IP are enforced or not. To change this field, also set the corresponding value in ssl_mode.
 	RequireSSL *bool `json:"requireSsl,omitempty" tf:"require_ssl,omitempty"`
+
+	// Specify how SSL connection should be enforced in DB connections. This field provides more SSL enforcment options compared to require_ssl. To change this field, also set the correspoding value in require_ssl.
+	SSLMode *string `json:"sslMode,omitempty" tf:"ssl_mode,omitempty"`
 }
 
 type IPConfigurationParameters struct {
@@ -720,9 +742,16 @@ type IPConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	PrivateNetworkSelector *v1.Selector `json:"privateNetworkSelector,omitempty" tf:"-"`
 
-	// Whether SSL connections over IP are enforced or not.
+	// +kubebuilder:validation:Optional
+	PscConfig []PscConfigParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
+
+	// Whether SSL connections over IP are enforced or not. To change this field, also set the corresponding value in ssl_mode.
 	// +kubebuilder:validation:Optional
 	RequireSSL *bool `json:"requireSsl,omitempty" tf:"require_ssl,omitempty"`
+
+	// Specify how SSL connection should be enforced in DB connections. This field provides more SSL enforcment options compared to require_ssl. To change this field, also set the correspoding value in require_ssl.
+	// +kubebuilder:validation:Optional
+	SSLMode *string `json:"sslMode,omitempty" tf:"ssl_mode,omitempty"`
 }
 
 type InsightsConfigInitParameters struct {
@@ -940,6 +969,38 @@ type PasswordValidationPolicyParameters struct {
 	ReuseInterval *float64 `json:"reuseInterval,omitempty" tf:"reuse_interval,omitempty"`
 }
 
+type PscConfigInitParameters struct {
+
+	// List of consumer projects that are allow-listed for PSC connections to this instance. This instance can be connected to with PSC from any network in these projects. Each consumer project in this list may be represented by a project number (numeric) or by a project id (alphanumeric).
+	// +listType=set
+	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
+
+	// Whether PSC connectivity is enabled for this instance.
+	PscEnabled *bool `json:"pscEnabled,omitempty" tf:"psc_enabled,omitempty"`
+}
+
+type PscConfigObservation struct {
+
+	// List of consumer projects that are allow-listed for PSC connections to this instance. This instance can be connected to with PSC from any network in these projects. Each consumer project in this list may be represented by a project number (numeric) or by a project id (alphanumeric).
+	// +listType=set
+	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
+
+	// Whether PSC connectivity is enabled for this instance.
+	PscEnabled *bool `json:"pscEnabled,omitempty" tf:"psc_enabled,omitempty"`
+}
+
+type PscConfigParameters struct {
+
+	// List of consumer projects that are allow-listed for PSC connections to this instance. This instance can be connected to with PSC from any network in these projects. Each consumer project in this list may be represented by a project number (numeric) or by a project id (alphanumeric).
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
+
+	// Whether PSC connectivity is enabled for this instance.
+	// +kubebuilder:validation:Optional
+	PscEnabled *bool `json:"pscEnabled,omitempty" tf:"psc_enabled,omitempty"`
+}
+
 type ReplicaConfigurationInitParameters struct {
 
 	// PEM representation of the trusted CA's x509
@@ -973,6 +1034,7 @@ type ReplicaConfigurationInitParameters struct {
 	// heartbeats.
 	MasterHeartbeatPeriod *float64 `json:"masterHeartbeatPeriod,omitempty" tf:"master_heartbeat_period,omitempty"`
 
+	// Permissible ciphers for use in SSL encryption.
 	SSLCipher *string `json:"sslCipher,omitempty" tf:"ssl_cipher,omitempty"`
 
 	// Username for replication connection.
@@ -1016,6 +1078,7 @@ type ReplicaConfigurationObservation struct {
 	// heartbeats.
 	MasterHeartbeatPeriod *float64 `json:"masterHeartbeatPeriod,omitempty" tf:"master_heartbeat_period,omitempty"`
 
+	// Permissible ciphers for use in SSL encryption.
 	SSLCipher *string `json:"sslCipher,omitempty" tf:"ssl_cipher,omitempty"`
 
 	// Username for replication connection.
@@ -1070,6 +1133,7 @@ type ReplicaConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
+	// Permissible ciphers for use in SSL encryption.
 	// +kubebuilder:validation:Optional
 	SSLCipher *string `json:"sslCipher,omitempty" tf:"ssl_cipher,omitempty"`
 

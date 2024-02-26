@@ -880,6 +880,12 @@ spec:
                           type: string
                       type: object
                     type: array
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   guestOsFeatures:
                     description: |-
                       A list of features to enable on the guest operating system.
@@ -1002,6 +1008,14 @@ spec:
                       snapshot ID would identify the exact version of the snapshot that was
                       used.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   type:
                     description: |-
                       URL of the disk type resource describing which disk type to use to

@@ -79,10 +79,12 @@ spec:
                       this property when you create the resource.
                     type: string
                   project:
-                    description: The project for the resource
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   region:
-                    description: The location of this resource.
+                    description: The region of this resource.
                     type: string
                 type: object
               initProvider:
@@ -103,7 +105,9 @@ spec:
                       this property when you create the resource.
                     type: string
                   project:
-                    description: The project for the resource
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                 type: object
               managementPolicies:
@@ -294,10 +298,12 @@ spec:
                     description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/firewallPolicies/{{name}}
                     type: string
                   project:
-                    description: The project for the resource
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   region:
-                    description: The location of this resource.
+                    description: The region of this resource.
                     type: string
                   regionNetworkFirewallPolicyId:
                     description: The unique identifier for the resource. This identifier

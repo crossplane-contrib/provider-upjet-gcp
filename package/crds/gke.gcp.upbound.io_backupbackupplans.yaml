@@ -968,6 +968,12 @@ spec:
                   description:
                     description: User specified descriptive string for this BackupPlan.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   etag:
                     description: |-
                       etag is used for optimistic concurrency control as a way to help prevent simultaneous
@@ -1044,6 +1050,14 @@ spec:
                     description: Detailed description of why BackupPlan is in its
                       current state.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   uid:
                     description: Server generated, unique identifier of UUID format.
                     type: string

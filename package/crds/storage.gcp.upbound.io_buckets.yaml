@@ -83,6 +83,11 @@ spec:
                             transitions objects in your bucket to appropriate storage
                             classes based on each object's access pattern.
                           type: boolean
+                        terminalStorageClass:
+                          description: 'The storage class that objects in the bucket
+                            eventually transition to if they are not read for a certain
+                            length of time. Supported values include: NEARLINE, ARCHIVE.'
+                          type: string
                       type: object
                     type: array
                   cors:
@@ -140,6 +145,9 @@ spec:
                   defaultEventBasedHold:
                     description: Whether or not to automatically apply an eventBasedHold
                       to new objects added to the bucket.
+                    type: boolean
+                  enableObjectRetention:
+                    description: Enables object retention on a storage bucket.
                     type: boolean
                   encryption:
                     description: The bucket's encryption configuration. Structure
@@ -240,6 +248,11 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                              noAge:
+                                description: While set true, age value will be omitted.
+                                  Note Required to set true when age is unset in the
+                                  config file.
+                                type: boolean
                               noncurrentTimeBefore:
                                 description: Relevant only for versioned objects.
                                   The date in RFC 3339 (e.g. 2017-06-13) when the
@@ -312,6 +325,16 @@ spec:
                           type: number
                       type: object
                     type: array
+                  rpo:
+                    description: The recovery point objective for cross-region replication
+                      of the bucket. Applicable only for dual and multi-region buckets.
+                      "DEFAULT" sets default replication. "ASYNC_TURBO" value enables
+                      turbo replication, valid for dual-region buckets only. See Turbo
+                      Replication for more information. If rpo is not specified at
+                      bucket creation, it defaults to "DEFAULT" for dual and multi-region
+                      buckets. NOTE If used with single-region bucket, It will throw
+                      an error.
+                    type: string
                   storageClass:
                     description: 'The Storage Class of the new bucket. Supported values
                       include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE,
@@ -372,6 +395,11 @@ spec:
                             transitions objects in your bucket to appropriate storage
                             classes based on each object's access pattern.
                           type: boolean
+                        terminalStorageClass:
+                          description: 'The storage class that objects in the bucket
+                            eventually transition to if they are not read for a certain
+                            length of time. Supported values include: NEARLINE, ARCHIVE.'
+                          type: string
                       type: object
                     type: array
                   cors:
@@ -429,6 +457,9 @@ spec:
                   defaultEventBasedHold:
                     description: Whether or not to automatically apply an eventBasedHold
                       to new objects added to the bucket.
+                    type: boolean
+                  enableObjectRetention:
+                    description: Enables object retention on a storage bucket.
                     type: boolean
                   encryption:
                     description: The bucket's encryption configuration. Structure
@@ -529,6 +560,11 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                              noAge:
+                                description: While set true, age value will be omitted.
+                                  Note Required to set true when age is unset in the
+                                  config file.
+                                type: boolean
                               noncurrentTimeBefore:
                                 description: Relevant only for versioned objects.
                                   The date in RFC 3339 (e.g. 2017-06-13) when the
@@ -601,6 +637,16 @@ spec:
                           type: number
                       type: object
                     type: array
+                  rpo:
+                    description: The recovery point objective for cross-region replication
+                      of the bucket. Applicable only for dual and multi-region buckets.
+                      "DEFAULT" sets default replication. "ASYNC_TURBO" value enables
+                      turbo replication, valid for dual-region buckets only. See Turbo
+                      Replication for more information. If rpo is not specified at
+                      bucket creation, it defaults to "DEFAULT" for dual and multi-region
+                      buckets. NOTE If used with single-region bucket, It will throw
+                      an error.
+                    type: string
                   storageClass:
                     description: 'The Storage Class of the new bucket. Supported values
                       include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE,
@@ -825,6 +871,11 @@ spec:
                             transitions objects in your bucket to appropriate storage
                             classes based on each object's access pattern.
                           type: boolean
+                        terminalStorageClass:
+                          description: 'The storage class that objects in the bucket
+                            eventually transition to if they are not read for a certain
+                            length of time. Supported values include: NEARLINE, ARCHIVE.'
+                          type: string
                       type: object
                     type: array
                   cors:
@@ -882,6 +933,15 @@ spec:
                   defaultEventBasedHold:
                     description: Whether or not to automatically apply an eventBasedHold
                       to new objects added to the bucket.
+                    type: boolean
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: A map of key/value label pairs to assign to the bucket.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  enableObjectRetention:
+                    description: Enables object retention on a storage bucket.
                     type: boolean
                   encryption:
                     description: The bucket's encryption configuration. Structure
@@ -984,6 +1044,11 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                              noAge:
+                                description: While set true, age value will be omitted.
+                                  Note Required to set true when age is unset in the
+                                  config file.
+                                type: boolean
                               noncurrentTimeBefore:
                                 description: Relevant only for versioned objects.
                                   The date in RFC 3339 (e.g. 2017-06-13) when the
@@ -1056,6 +1121,16 @@ spec:
                           type: number
                       type: object
                     type: array
+                  rpo:
+                    description: The recovery point objective for cross-region replication
+                      of the bucket. Applicable only for dual and multi-region buckets.
+                      "DEFAULT" sets default replication. "ASYNC_TURBO" value enables
+                      turbo replication, valid for dual-region buckets only. See Turbo
+                      Replication for more information. If rpo is not specified at
+                      bucket creation, it defaults to "DEFAULT" for dual and multi-region
+                      buckets. NOTE If used with single-region bucket, It will throw
+                      an error.
+                    type: string
                   selfLink:
                     description: The URI of the created resource.
                     type: string
@@ -1064,6 +1139,12 @@ spec:
                       include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE,
                       ARCHIVE.'
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: A map of key/value label pairs to assign to the bucket.
+                    type: object
+                    x-kubernetes-map-type: granular
                   uniformBucketLevelAccess:
                     description: Enables Uniform bucket-level access access to a bucket.
                     type: boolean

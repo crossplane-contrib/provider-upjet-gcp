@@ -15,7 +15,7 @@ spec:
             testing.upbound.io/example-name: example
         labels:
           my_label: value
-    machineType: e2-medium
+    machineType: n2-standard-2
     metadata:
       foo: bar
     metadataStartupScript: echo hi > /test.txt
@@ -26,7 +26,7 @@ spec:
         matchLabels:
           testing.upbound.io/example-name: example
     scratchDisk:
-    - interface: SCSI
+    - interface: NVME
     serviceAccount:
     - emailSelector:
         matchLabels:
@@ -50,4 +50,4 @@ metadata:
   name: default
 spec:
   forProvider:
-    displayName: Service Account
+    displayName: Custom SA for VM Instance

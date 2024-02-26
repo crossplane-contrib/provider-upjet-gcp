@@ -45,6 +45,8 @@ type DomainInitParameters struct {
 	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
 
 	// Resource labels that can contain user-provided metadata
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -76,6 +78,9 @@ type DomainObservation struct {
 	// https://cloud.google.com/managed-microsoft-ad/reference/rest/v1/projects.locations.global.domains.
 	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// The fully-qualified domain name of the exposed domain used by clients to connect to the service.
 	// Similar to what would be chosen for an Active Directory set up on an internal network.
 	Fqdn *string `json:"fqdn,omitempty" tf:"fqdn,omitempty"`
@@ -84,6 +89,8 @@ type DomainObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Resource labels that can contain user-provided metadata
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -101,6 +108,11 @@ type DomainObservation struct {
 	// The CIDR range of internal addresses that are reserved for this domain. Reserved networks must be /24 or larger.
 	// Ranges must be unique and non-overlapping with existing subnets in authorizedNetworks
 	ReservedIPRange *string `json:"reservedIpRange,omitempty" tf:"reserved_ip_range,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type DomainParameters struct {
@@ -122,6 +134,8 @@ type DomainParameters struct {
 	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
 
 	// Resource labels that can contain user-provided metadata
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`

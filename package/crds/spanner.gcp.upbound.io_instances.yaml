@@ -73,6 +73,72 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  autoscalingConfig:
+                    description: |-
+                      The autoscaling configuration. Autoscaling is enabled if this field is set.
+                      When autoscaling is enabled, num_nodes and processing_units are treated as,
+                      OUTPUT_ONLY fields and reflect the current compute capacity allocated to
+                      the instance.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        autoscalingLimits:
+                          description: |-
+                            Defines scale in controls to reduce the risk of response latency
+                            and outages due to abrupt scale-in events. Users can define the minimum and
+                            maximum compute capacity allocated to the instance, and the autoscaler will
+                            only scale within that range. Users can either use nodes or processing
+                            units to specify the limits, but should use the same unit to set both the
+                            min_limit and max_limit.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              maxNodes:
+                                description: |-
+                                  Specifies maximum number of nodes allocated to the instance. If set, this number
+                                  should be greater than or equal to min_nodes.
+                                type: number
+                              maxProcessingUnits:
+                                description: |-
+                                  Specifies maximum number of processing units allocated to the instance.
+                                  If set, this number should be multiples of 1000 and be greater than or equal to
+                                  min_processing_units.
+                                type: number
+                              minNodes:
+                                description: |-
+                                  Specifies number of nodes allocated to the instance. If set, this number
+                                  should be greater than or equal to 1.
+                                type: number
+                              minProcessingUnits:
+                                description: |-
+                                  Specifies minimum number of processing units allocated to the instance.
+                                  If set, this number should be multiples of 1000.
+                                type: number
+                            type: object
+                          type: array
+                        autoscalingTargets:
+                          description: |-
+                            Defines scale in controls to reduce the risk of response latency
+                            and outages due to abrupt scale-in events
+                            Structure is documented below.
+                          items:
+                            properties:
+                              highPriorityCpuUtilizationPercent:
+                                description: |-
+                                  Specifies the target high priority cpu utilization percentage that the autoscaler
+                                  should be trying to achieve for the instance.
+                                  This number is on a scale from 0 (no utilization) to 100 (full utilization)..
+                                type: number
+                              storageUtilizationPercent:
+                                description: |-
+                                  Specifies the target storage utilization percentage that the autoscaler
+                                  should be trying to achieve for the instance.
+                                  This number is on a scale from 0 (no utilization) to 100 (full utilization).
+                                type: number
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   config:
                     description: |-
                       The name of the instance's configuration (similar but not
@@ -126,6 +192,72 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  autoscalingConfig:
+                    description: |-
+                      The autoscaling configuration. Autoscaling is enabled if this field is set.
+                      When autoscaling is enabled, num_nodes and processing_units are treated as,
+                      OUTPUT_ONLY fields and reflect the current compute capacity allocated to
+                      the instance.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        autoscalingLimits:
+                          description: |-
+                            Defines scale in controls to reduce the risk of response latency
+                            and outages due to abrupt scale-in events. Users can define the minimum and
+                            maximum compute capacity allocated to the instance, and the autoscaler will
+                            only scale within that range. Users can either use nodes or processing
+                            units to specify the limits, but should use the same unit to set both the
+                            min_limit and max_limit.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              maxNodes:
+                                description: |-
+                                  Specifies maximum number of nodes allocated to the instance. If set, this number
+                                  should be greater than or equal to min_nodes.
+                                type: number
+                              maxProcessingUnits:
+                                description: |-
+                                  Specifies maximum number of processing units allocated to the instance.
+                                  If set, this number should be multiples of 1000 and be greater than or equal to
+                                  min_processing_units.
+                                type: number
+                              minNodes:
+                                description: |-
+                                  Specifies number of nodes allocated to the instance. If set, this number
+                                  should be greater than or equal to 1.
+                                type: number
+                              minProcessingUnits:
+                                description: |-
+                                  Specifies minimum number of processing units allocated to the instance.
+                                  If set, this number should be multiples of 1000.
+                                type: number
+                            type: object
+                          type: array
+                        autoscalingTargets:
+                          description: |-
+                            Defines scale in controls to reduce the risk of response latency
+                            and outages due to abrupt scale-in events
+                            Structure is documented below.
+                          items:
+                            properties:
+                              highPriorityCpuUtilizationPercent:
+                                description: |-
+                                  Specifies the target high priority cpu utilization percentage that the autoscaler
+                                  should be trying to achieve for the instance.
+                                  This number is on a scale from 0 (no utilization) to 100 (full utilization)..
+                                type: number
+                              storageUtilizationPercent:
+                                description: |-
+                                  Specifies the target storage utilization percentage that the autoscaler
+                                  should be trying to achieve for the instance.
+                                  This number is on a scale from 0 (no utilization) to 100 (full utilization).
+                                type: number
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   config:
                     description: |-
                       The name of the instance's configuration (similar but not
@@ -347,6 +479,72 @@ spec:
             properties:
               atProvider:
                 properties:
+                  autoscalingConfig:
+                    description: |-
+                      The autoscaling configuration. Autoscaling is enabled if this field is set.
+                      When autoscaling is enabled, num_nodes and processing_units are treated as,
+                      OUTPUT_ONLY fields and reflect the current compute capacity allocated to
+                      the instance.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        autoscalingLimits:
+                          description: |-
+                            Defines scale in controls to reduce the risk of response latency
+                            and outages due to abrupt scale-in events. Users can define the minimum and
+                            maximum compute capacity allocated to the instance, and the autoscaler will
+                            only scale within that range. Users can either use nodes or processing
+                            units to specify the limits, but should use the same unit to set both the
+                            min_limit and max_limit.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              maxNodes:
+                                description: |-
+                                  Specifies maximum number of nodes allocated to the instance. If set, this number
+                                  should be greater than or equal to min_nodes.
+                                type: number
+                              maxProcessingUnits:
+                                description: |-
+                                  Specifies maximum number of processing units allocated to the instance.
+                                  If set, this number should be multiples of 1000 and be greater than or equal to
+                                  min_processing_units.
+                                type: number
+                              minNodes:
+                                description: |-
+                                  Specifies number of nodes allocated to the instance. If set, this number
+                                  should be greater than or equal to 1.
+                                type: number
+                              minProcessingUnits:
+                                description: |-
+                                  Specifies minimum number of processing units allocated to the instance.
+                                  If set, this number should be multiples of 1000.
+                                type: number
+                            type: object
+                          type: array
+                        autoscalingTargets:
+                          description: |-
+                            Defines scale in controls to reduce the risk of response latency
+                            and outages due to abrupt scale-in events
+                            Structure is documented below.
+                          items:
+                            properties:
+                              highPriorityCpuUtilizationPercent:
+                                description: |-
+                                  Specifies the target high priority cpu utilization percentage that the autoscaler
+                                  should be trying to achieve for the instance.
+                                  This number is on a scale from 0 (no utilization) to 100 (full utilization)..
+                                type: number
+                              storageUtilizationPercent:
+                                description: |-
+                                  Specifies the target storage utilization percentage that the autoscaler
+                                  should be trying to achieve for the instance.
+                                  This number is on a scale from 0 (no utilization) to 100 (full utilization).
+                                type: number
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   config:
                     description: |-
                       The name of the instance's configuration (similar but not
@@ -361,6 +559,12 @@ spec:
                       The descriptive name for this instance as it appears in UIs. Must be
                       unique per project and between 4 and 30 characters in length.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   forceDestroy:
                     description: |-
                       When deleting a spanner instance, this boolean option will delete all backups of this instance.
@@ -392,6 +596,14 @@ spec:
                   state:
                     description: 'Instance status: CREATING or READY.'
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               conditions:
                 description: Conditions of the resource.

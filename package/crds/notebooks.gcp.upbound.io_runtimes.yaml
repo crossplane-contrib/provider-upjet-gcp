@@ -91,6 +91,18 @@ spec:
                           type: string
                       type: object
                     type: array
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The labels to associate with this runtime. Label keys must
+                      contain 1 to 63 characters, and must conform to [RFC 1035]
+                      (https://www.ietf.org/rfc/rfc1035.txt). Label values may be
+                      empty, but, if present, must contain 1 to 63 characters, and must
+                      conform to RFC 1035. No
+                      more than 32 labels can be associated with a cluster.
+                    type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: A reference to the zone where the machine resides.
                     type: string
@@ -440,6 +452,18 @@ spec:
                           type: string
                       type: object
                     type: array
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The labels to associate with this runtime. Label keys must
+                      contain 1 to 63 characters, and must conform to [RFC 1035]
+                      (https://www.ietf.org/rfc/rfc1035.txt). Label values may be
+                      empty, but, if present, must contain 1 to 63 characters, and must
+                      conform to RFC 1035. No
+                      more than 32 labels can be associated with a cluster.
+                    type: object
+                    x-kubernetes-map-type: granular
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -948,6 +972,12 @@ spec:
                           type: string
                       type: object
                     type: array
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   healthState:
                     description: |-
                       The health state of this runtime. For a list of possible output
@@ -956,6 +986,18 @@ spec:
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/runtimes/{{name}}
                     type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The labels to associate with this runtime. Label keys must
+                      contain 1 to 63 characters, and must conform to [RFC 1035]
+                      (https://www.ietf.org/rfc/rfc1035.txt). Label values may be
+                      empty, but, if present, must contain 1 to 63 characters, and must
+                      conform to RFC 1035. No
+                      more than 32 labels can be associated with a cluster.
+                    type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: A reference to the zone where the machine resides.
                     type: string
@@ -1053,6 +1095,14 @@ spec:
                   state:
                     description: The state of this runtime.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   virtualMachine:
                     description: |-
                       Use a Compute Engine VM image to start the managed notebook instance.

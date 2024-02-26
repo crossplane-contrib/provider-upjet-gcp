@@ -55,6 +55,8 @@ type ConnectionProfileInitParameters struct {
 	GcsProfile []GcsProfileInitParameters `json:"gcsProfile,omitempty" tf:"gcs_profile,omitempty"`
 
 	// Labels.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -87,6 +89,9 @@ type ConnectionProfileObservation struct {
 	// Display name.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// Forward SSH tunnel connectivity.
 	// Structure is documented below.
 	ForwardSSHConnectivity []ForwardSSHConnectivityObservation `json:"forwardSshConnectivity,omitempty" tf:"forward_ssh_connectivity,omitempty"`
@@ -99,6 +104,8 @@ type ConnectionProfileObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Labels.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -127,6 +134,11 @@ type ConnectionProfileObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type ConnectionProfileParameters struct {
@@ -150,6 +162,8 @@ type ConnectionProfileParameters struct {
 	GcsProfile []GcsProfileParameters `json:"gcsProfile,omitempty" tf:"gcs_profile,omitempty"`
 
 	// Labels.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`

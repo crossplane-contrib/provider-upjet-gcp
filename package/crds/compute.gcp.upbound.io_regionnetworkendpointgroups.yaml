@@ -35,7 +35,8 @@ spec:
     schema:
       openAPIV3Schema:
         description: RegionNetworkEndpointGroup is the Schema for the RegionNetworkEndpointGroups
-          API. A regional NEG that can support Serverless Products.
+          API. A regional NEG that can support Serverless Products and proxying traffic
+          to external backends.
         properties:
           apiVersion:
             description: |-
@@ -76,7 +77,7 @@ spec:
                 properties:
                   appEngine:
                     description: |-
-                      Only valid when networkEndpointType is "SERVERLESS".
+                      This field is only used for SERVERLESS NEGs.
                       Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
                       Structure is documented below.
                     items:
@@ -107,7 +108,7 @@ spec:
                     type: array
                   cloudFunction:
                     description: |-
-                      Only valid when networkEndpointType is "SERVERLESS".
+                      This field is only used for SERVERLESS NEGs.
                       Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
                       Structure is documented below.
                     items:
@@ -207,7 +208,7 @@ spec:
                     type: array
                   cloudRun:
                     description: |-
-                      Only valid when networkEndpointType is "SERVERLESS".
+                      This field is only used for SERVERLESS NEGs.
                       Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
                       Structure is documented below.
                     items:
@@ -320,15 +321,15 @@ spec:
                     type: string
                   network:
                     description: |-
-                      This field is only used for PSC.
+                      This field is only used for PSC and INTERNET NEGs.
                       The URL of the network to which all network endpoints in the NEG belong. Uses
                       "default" project network if unspecified.
                     type: string
                   networkEndpointType:
                     description: |-
-                      Type of network endpoints in this network endpoint group. Defaults to SERVERLESS
+                      Type of network endpoints in this network endpoint group. Defaults to SERVERLESS.
                       Default value is SERVERLESS.
-                      Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT.
+                      Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT, INTERNET_IP_PORT, INTERNET_FQDN_PORT.
                     type: string
                   networkRef:
                     description: Reference to a Network in compute to populate network.
@@ -411,6 +412,7 @@ spec:
                     type: string
                   pscTargetService:
                     description: |-
+                      This field is only used for PSC and INTERNET NEGs.
                       The target service url used to set up private service connection to
                       a Google API or a PSC Producer Service Attachment.
                     type: string
@@ -491,12 +493,12 @@ spec:
                         type: object
                     type: object
                   region:
-                    description: A reference to the region where the Serverless NEGs
-                      Reside.
+                    description: A reference to the region where the regional NEGs
+                      reside.
                     type: string
                   subnetwork:
                     description: |-
-                      This field is only used for PSC.
+                      This field is only used for PSC NEGs.
                       Optional URL of the subnetwork to which all network endpoints in the NEG belong.
                     type: string
                   subnetworkRef:
@@ -593,7 +595,7 @@ spec:
                 properties:
                   appEngine:
                     description: |-
-                      Only valid when networkEndpointType is "SERVERLESS".
+                      This field is only used for SERVERLESS NEGs.
                       Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
                       Structure is documented below.
                     items:
@@ -624,7 +626,7 @@ spec:
                     type: array
                   cloudFunction:
                     description: |-
-                      Only valid when networkEndpointType is "SERVERLESS".
+                      This field is only used for SERVERLESS NEGs.
                       Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
                       Structure is documented below.
                     items:
@@ -724,7 +726,7 @@ spec:
                     type: array
                   cloudRun:
                     description: |-
-                      Only valid when networkEndpointType is "SERVERLESS".
+                      This field is only used for SERVERLESS NEGs.
                       Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
                       Structure is documented below.
                     items:
@@ -837,15 +839,15 @@ spec:
                     type: string
                   network:
                     description: |-
-                      This field is only used for PSC.
+                      This field is only used for PSC and INTERNET NEGs.
                       The URL of the network to which all network endpoints in the NEG belong. Uses
                       "default" project network if unspecified.
                     type: string
                   networkEndpointType:
                     description: |-
-                      Type of network endpoints in this network endpoint group. Defaults to SERVERLESS
+                      Type of network endpoints in this network endpoint group. Defaults to SERVERLESS.
                       Default value is SERVERLESS.
-                      Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT.
+                      Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT, INTERNET_IP_PORT, INTERNET_FQDN_PORT.
                     type: string
                   networkRef:
                     description: Reference to a Network in compute to populate network.
@@ -928,6 +930,7 @@ spec:
                     type: string
                   pscTargetService:
                     description: |-
+                      This field is only used for PSC and INTERNET NEGs.
                       The target service url used to set up private service connection to
                       a Google API or a PSC Producer Service Attachment.
                     type: string
@@ -1009,7 +1012,7 @@ spec:
                     type: object
                   subnetwork:
                     description: |-
-                      This field is only used for PSC.
+                      This field is only used for PSC NEGs.
                       Optional URL of the subnetwork to which all network endpoints in the NEG belong.
                     type: string
                   subnetworkRef:
@@ -1264,7 +1267,7 @@ spec:
                 properties:
                   appEngine:
                     description: |-
-                      Only valid when networkEndpointType is "SERVERLESS".
+                      This field is only used for SERVERLESS NEGs.
                       Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
                       Structure is documented below.
                     items:
@@ -1295,7 +1298,7 @@ spec:
                     type: array
                   cloudFunction:
                     description: |-
-                      Only valid when networkEndpointType is "SERVERLESS".
+                      This field is only used for SERVERLESS NEGs.
                       Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
                       Structure is documented below.
                     items:
@@ -1319,7 +1322,7 @@ spec:
                     type: array
                   cloudRun:
                     description: |-
-                      Only valid when networkEndpointType is "SERVERLESS".
+                      This field is only used for SERVERLESS NEGs.
                       Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
                       Structure is documented below.
                     items:
@@ -1359,15 +1362,15 @@ spec:
                     type: string
                   network:
                     description: |-
-                      This field is only used for PSC.
+                      This field is only used for PSC and INTERNET NEGs.
                       The URL of the network to which all network endpoints in the NEG belong. Uses
                       "default" project network if unspecified.
                     type: string
                   networkEndpointType:
                     description: |-
-                      Type of network endpoints in this network endpoint group. Defaults to SERVERLESS
+                      Type of network endpoints in this network endpoint group. Defaults to SERVERLESS.
                       Default value is SERVERLESS.
-                      Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT.
+                      Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT, INTERNET_IP_PORT, INTERNET_FQDN_PORT.
                     type: string
                   project:
                     description: |-
@@ -1376,19 +1379,20 @@ spec:
                     type: string
                   pscTargetService:
                     description: |-
+                      This field is only used for PSC and INTERNET NEGs.
                       The target service url used to set up private service connection to
                       a Google API or a PSC Producer Service Attachment.
                     type: string
                   region:
-                    description: A reference to the region where the Serverless NEGs
-                      Reside.
+                    description: A reference to the region where the regional NEGs
+                      reside.
                     type: string
                   selfLink:
                     description: The URI of the created resource.
                     type: string
                   subnetwork:
                     description: |-
-                      This field is only used for PSC.
+                      This field is only used for PSC NEGs.
                       Optional URL of the subnetwork to which all network endpoints in the NEG belong.
                     type: string
                 type: object

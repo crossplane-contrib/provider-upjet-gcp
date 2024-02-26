@@ -34,7 +34,8 @@ type NetworkFirewallPolicyInitParameters struct {
 	// An optional description of this resource. Provide this property when you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -55,7 +56,8 @@ type NetworkFirewallPolicyObservation struct {
 	// The unique identifier for the resource. This identifier is defined by the server.
 	NetworkFirewallPolicyID *string `json:"networkFirewallPolicyId,omitempty" tf:"network_firewall_policy_id,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Total count of all firewall policy rule tuples. A firewall policy can not exceed a set number of tuples.
@@ -74,7 +76,8 @@ type NetworkFirewallPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }

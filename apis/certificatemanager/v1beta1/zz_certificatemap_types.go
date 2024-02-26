@@ -53,6 +53,10 @@ type CertificateMapObservation struct {
 	// A human-readable description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// for all of the labels present on the resource.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// A list of target proxies that use this Certificate Map
 	// Structure is documented below.
 	GclbTargets []GclbTargetsObservation `json:"gclbTargets,omitempty" tf:"gclb_targets,omitempty"`
@@ -67,6 +71,11 @@ type CertificateMapObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// Update timestamp of a Certificate Map. Timestamp is in RFC3339 UTC "Zulu" format,
 	// accurate to nanoseconds with up to nine fractional digits.

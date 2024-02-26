@@ -335,6 +335,12 @@ spec:
                   displayName:
                     description: An arbitrary user-provided name for the AppGateway.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   hostType:
                     description: |-
                       The type of hosting used by the AppGateway.
@@ -361,6 +367,14 @@ spec:
                   state:
                     description: Represents the different states of a AppGateway.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   type:
                     description: |-
                       The type of network connectivity used by the AppGateway.

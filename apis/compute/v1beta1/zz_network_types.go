@@ -129,6 +129,9 @@ type NetworkObservation struct {
 	// Possible values are: BEFORE_CLASSIC_FIREWALL, AFTER_CLASSIC_FIREWALL.
 	NetworkFirewallPolicyEnforcementOrder *string `json:"networkFirewallPolicyEnforcementOrder,omitempty" tf:"network_firewall_policy_enforcement_order,omitempty"`
 
+	// The unique identifier for the resource. This identifier is defined by the server.
+	NumericID *string `json:"numericId,omitempty" tf:"numeric_id,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`

@@ -30,9 +30,15 @@ import (
 )
 
 type BootDiskInitializeParamsInitParameters struct {
+	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
+
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
 
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
@@ -43,9 +49,15 @@ type BootDiskInitializeParamsInitParameters struct {
 }
 
 type BootDiskInitializeParamsObservation struct {
+	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
+
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
 
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
@@ -58,10 +70,19 @@ type BootDiskInitializeParamsObservation struct {
 type BootDiskInitializeParamsParameters struct {
 
 	// +kubebuilder:validation:Optional
+	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
@@ -352,6 +373,10 @@ type InstanceFromTemplateNetworkInterfaceInitParameters struct {
 
 	IPv6AccessConfig []NetworkInterfaceIPv6AccessConfigInitParameters `json:"ipv6AccessConfig,omitempty" tf:"ipv6_access_config,omitempty"`
 
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
+
+	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
+
 	// +crossplane:generate:reference:type=Network
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -394,6 +419,10 @@ type InstanceFromTemplateNetworkInterfaceObservation struct {
 
 	IPv6AccessType *string `json:"ipv6AccessType,omitempty" tf:"ipv6_access_type,omitempty"`
 
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
+
+	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
+
 	// A unique name for the resource, required by GCE.
 	// Changing this forces a new resource to be created.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -423,6 +452,12 @@ type InstanceFromTemplateNetworkInterfaceParameters struct {
 
 	// +kubebuilder:validation:Optional
 	IPv6AccessConfig []NetworkInterfaceIPv6AccessConfigParameters `json:"ipv6AccessConfig,omitempty" tf:"ipv6_access_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
 
 	// +crossplane:generate:reference:type=Network
 	// +kubebuilder:validation:Optional
@@ -502,6 +537,9 @@ type InstanceFromTemplateObservation struct {
 
 	DesiredStatus *string `json:"desiredStatus,omitempty" tf:"desired_status,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	EnableDisplay *bool `json:"enableDisplay,omitempty" tf:"enable_display,omitempty"`
 
 	GuestAccelerator []InstanceFromTemplateGuestAcceleratorObservation `json:"guestAccelerator,omitempty" tf:"guest_accelerator,omitempty"`
@@ -564,6 +602,9 @@ type InstanceFromTemplateObservation struct {
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	TagsFingerprint *string `json:"tagsFingerprint,omitempty" tf:"tags_fingerprint,omitempty"`
+
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// The zone that the machine should be created in. If not
 	// set, the provider zone is used.
@@ -792,18 +833,33 @@ type InstanceFromTemplateSchedulingParameters struct {
 }
 
 type InstanceFromTemplateScratchDiskInitParameters struct {
+
+	// A unique name for the resource, required by GCE.
+	// Changing this forces a new resource to be created.
+	DeviceName *string `json:"deviceName,omitempty" tf:"device_name"`
+
 	Interface *string `json:"interface,omitempty" tf:"interface"`
 
 	Size *float64 `json:"size,omitempty" tf:"size"`
 }
 
 type InstanceFromTemplateScratchDiskObservation struct {
+
+	// A unique name for the resource, required by GCE.
+	// Changing this forces a new resource to be created.
+	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
+
 	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
 
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 }
 
 type InstanceFromTemplateScratchDiskParameters struct {
+
+	// A unique name for the resource, required by GCE.
+	// Changing this forces a new resource to be created.
+	// +kubebuilder:validation:Optional
+	DeviceName *string `json:"deviceName,omitempty" tf:"device_name"`
 
 	// +kubebuilder:validation:Optional
 	Interface *string `json:"interface,omitempty" tf:"interface"`

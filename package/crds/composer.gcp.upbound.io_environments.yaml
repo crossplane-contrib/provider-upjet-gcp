@@ -78,6 +78,28 @@ spec:
                       is documented below.
                     items:
                       properties:
+                        dataRetentionConfig:
+                          description: |-
+                            Configuration setting for airflow data rentention mechanism. Structure is
+                            documented below.
+                          items:
+                            properties:
+                              taskLogsRetentionConfig:
+                                description: |-
+                                  The configuration setting for Task Logs. Structure is
+                                  documented below.
+                                items:
+                                  properties:
+                                    storageMode:
+                                      description: |-
+                                        The mode of storage for Airflow workers task logs. Values for storage mode are
+                                        CLOUD_LOGGING_ONLY to only store logs in cloud logging and
+                                        CLOUD_LOGGING_AND_CLOUD_STORAGE to store logs in cloud logging and cloud storage.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                         databaseConfig:
                           description: |-
                             The configuration settings for Cloud SQL instance used internally
@@ -90,6 +112,13 @@ spec:
                                   composer-n1-webserver-4 or composer-n1-webserver-8.
                                   Value custom is returned only in response, if Airflow web server parameters were
                                   manually changed to a non-standard values.
+                                type: string
+                              zone:
+                                description: |-
+                                  The Compute Engine zone in which to deploy the VMs running the
+                                  Apache Airflow software, specified as the zone name or
+                                  relative resource name (e.g. "projects/{project}/zones/{zone}"). Must
+                                  belong to the enclosing environment's project and region.
                                 type: string
                             type: object
                           type: array
@@ -152,8 +181,8 @@ spec:
                                 items:
                                   properties:
                                     cidrBlock:
-                                      description: '`cidr_block< must be specified
-                                        in CIDR notation.'
+                                      description: cidr_block must be specified in
+                                        CIDR notation.
                                       type: string
                                     displayName:
                                       description: display_name is a field for users
@@ -538,6 +567,11 @@ spec:
                                   tenant project will be reserved for Cloud SQL. Needs
                                   to be disjoint from web_server_ipv4_cidr_block
                                 type: string
+                              connectionType:
+                                description: |-
+                                  Mode of internal communication within the Composer environment. Must be one
+                                  of "VPC_PEERING" or "PRIVATE_SERVICE_CONNECT".
+                                type: string
                               enablePrivateEndpoint:
                                 description: |-
                                   If true, access to the public endpoint of the GKE cluster is denied.
@@ -714,6 +748,24 @@ spec:
                                     storageGb:
                                       description: The amount of storage (GB) for
                                         the Airflow web server.
+                                      type: number
+                                  type: object
+                                type: array
+                              triggerer:
+                                description: Configuration for resources used by Airflow
+                                  triggerer.
+                                items:
+                                  properties:
+                                    count:
+                                      description: The number of Airflow triggerers.
+                                      type: number
+                                    cpu:
+                                      description: The number of CPUs for a single
+                                        Airflow worker.
+                                      type: number
+                                    memoryGb:
+                                      description: The amount of memory (GB) for a
+                                        single Airflow worker.
                                       type: number
                                   type: object
                                 type: array
@@ -869,6 +921,17 @@ spec:
                   region:
                     description: The location or Compute Engine region for the environment.
                     type: string
+                  storageConfig:
+                    description: Configuration options for storage used by Composer
+                      environment. Structure is documented below.
+                    items:
+                      properties:
+                        bucket:
+                          description: Name of an existing Cloud Storage bucket to
+                            be used by the environment.
+                          type: string
+                      type: object
+                    type: array
                 required:
                 - region
                 type: object
@@ -890,6 +953,28 @@ spec:
                       is documented below.
                     items:
                       properties:
+                        dataRetentionConfig:
+                          description: |-
+                            Configuration setting for airflow data rentention mechanism. Structure is
+                            documented below.
+                          items:
+                            properties:
+                              taskLogsRetentionConfig:
+                                description: |-
+                                  The configuration setting for Task Logs. Structure is
+                                  documented below.
+                                items:
+                                  properties:
+                                    storageMode:
+                                      description: |-
+                                        The mode of storage for Airflow workers task logs. Values for storage mode are
+                                        CLOUD_LOGGING_ONLY to only store logs in cloud logging and
+                                        CLOUD_LOGGING_AND_CLOUD_STORAGE to store logs in cloud logging and cloud storage.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                         databaseConfig:
                           description: |-
                             The configuration settings for Cloud SQL instance used internally
@@ -902,6 +987,13 @@ spec:
                                   composer-n1-webserver-4 or composer-n1-webserver-8.
                                   Value custom is returned only in response, if Airflow web server parameters were
                                   manually changed to a non-standard values.
+                                type: string
+                              zone:
+                                description: |-
+                                  The Compute Engine zone in which to deploy the VMs running the
+                                  Apache Airflow software, specified as the zone name or
+                                  relative resource name (e.g. "projects/{project}/zones/{zone}"). Must
+                                  belong to the enclosing environment's project and region.
                                 type: string
                             type: object
                           type: array
@@ -964,8 +1056,8 @@ spec:
                                 items:
                                   properties:
                                     cidrBlock:
-                                      description: '`cidr_block< must be specified
-                                        in CIDR notation.'
+                                      description: cidr_block must be specified in
+                                        CIDR notation.
                                       type: string
                                     displayName:
                                       description: display_name is a field for users
@@ -1350,6 +1442,11 @@ spec:
                                   tenant project will be reserved for Cloud SQL. Needs
                                   to be disjoint from web_server_ipv4_cidr_block
                                 type: string
+                              connectionType:
+                                description: |-
+                                  Mode of internal communication within the Composer environment. Must be one
+                                  of "VPC_PEERING" or "PRIVATE_SERVICE_CONNECT".
+                                type: string
                               enablePrivateEndpoint:
                                 description: |-
                                   If true, access to the public endpoint of the GKE cluster is denied.
@@ -1529,6 +1626,24 @@ spec:
                                       type: number
                                   type: object
                                 type: array
+                              triggerer:
+                                description: Configuration for resources used by Airflow
+                                  triggerer.
+                                items:
+                                  properties:
+                                    count:
+                                      description: The number of Airflow triggerers.
+                                      type: number
+                                    cpu:
+                                      description: The number of CPUs for a single
+                                        Airflow worker.
+                                      type: number
+                                    memoryGb:
+                                      description: The amount of memory (GB) for a
+                                        single Airflow worker.
+                                      type: number
+                                  type: object
+                                type: array
                               webServer:
                                 description: Configuration for resources used by Airflow
                                   web server.
@@ -1678,6 +1793,17 @@ spec:
                             type: string
                         type: object
                     type: object
+                  storageConfig:
+                    description: Configuration options for storage used by Composer
+                      environment. Structure is documented below.
+                    items:
+                      properties:
+                        bucket:
+                          description: Name of an existing Cloud Storage bucket to
+                            be used by the environment.
+                          type: string
+                      type: object
+                    type: array
                 type: object
               managementPolicies:
                 default:
@@ -1869,6 +1995,28 @@ spec:
                             object name prefixes. DAG objects for this environment
                             reside in a simulated directory with this prefix.
                           type: string
+                        dataRetentionConfig:
+                          description: |-
+                            Configuration setting for airflow data rentention mechanism. Structure is
+                            documented below.
+                          items:
+                            properties:
+                              taskLogsRetentionConfig:
+                                description: |-
+                                  The configuration setting for Task Logs. Structure is
+                                  documented below.
+                                items:
+                                  properties:
+                                    storageMode:
+                                      description: |-
+                                        The mode of storage for Airflow workers task logs. Values for storage mode are
+                                        CLOUD_LOGGING_ONLY to only store logs in cloud logging and
+                                        CLOUD_LOGGING_AND_CLOUD_STORAGE to store logs in cloud logging and cloud storage.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                         databaseConfig:
                           description: |-
                             The configuration settings for Cloud SQL instance used internally
@@ -1881,6 +2029,13 @@ spec:
                                   composer-n1-webserver-4 or composer-n1-webserver-8.
                                   Value custom is returned only in response, if Airflow web server parameters were
                                   manually changed to a non-standard values.
+                                type: string
+                              zone:
+                                description: |-
+                                  The Compute Engine zone in which to deploy the VMs running the
+                                  Apache Airflow software, specified as the zone name or
+                                  relative resource name (e.g. "projects/{project}/zones/{zone}"). Must
+                                  belong to the enclosing environment's project and region.
                                 type: string
                             type: object
                           type: array
@@ -1947,8 +2102,8 @@ spec:
                                 items:
                                   properties:
                                     cidrBlock:
-                                      description: '`cidr_block< must be specified
-                                        in CIDR notation.'
+                                      description: cidr_block must be specified in
+                                        CIDR notation.
                                       type: string
                                     displayName:
                                       description: display_name is a field for users
@@ -2104,6 +2259,11 @@ spec:
                                 description: The CIDR block from which IP range in
                                   tenant project will be reserved for Cloud SQL. Needs
                                   to be disjoint from web_server_ipv4_cidr_block
+                                type: string
+                              connectionType:
+                                description: |-
+                                  Mode of internal communication within the Composer environment. Must be one
+                                  of "VPC_PEERING" or "PRIVATE_SERVICE_CONNECT".
                                 type: string
                               enablePrivateEndpoint:
                                 description: |-
@@ -2284,6 +2444,24 @@ spec:
                                       type: number
                                   type: object
                                 type: array
+                              triggerer:
+                                description: Configuration for resources used by Airflow
+                                  triggerer.
+                                items:
+                                  properties:
+                                    count:
+                                      description: The number of Airflow triggerers.
+                                      type: number
+                                    cpu:
+                                      description: The number of CPUs for a single
+                                        Airflow worker.
+                                      type: number
+                                    memoryGb:
+                                      description: The amount of memory (GB) for a
+                                        single Airflow worker.
+                                      type: number
+                                  type: object
+                                type: array
                               webServer:
                                 description: Configuration for resources used by Airflow
                                   web server.
@@ -2337,6 +2515,11 @@ spec:
                           type: array
                       type: object
                     type: array
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/environments/{{name}}
                     type: string
@@ -2363,6 +2546,24 @@ spec:
                   region:
                     description: The location or Compute Engine region for the environment.
                     type: string
+                  storageConfig:
+                    description: Configuration options for storage used by Composer
+                      environment. Structure is documented below.
+                    items:
+                      properties:
+                        bucket:
+                          description: Name of an existing Cloud Storage bucket to
+                            be used by the environment.
+                          type: string
+                      type: object
+                    type: array
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               conditions:
                 description: Conditions of the resource.

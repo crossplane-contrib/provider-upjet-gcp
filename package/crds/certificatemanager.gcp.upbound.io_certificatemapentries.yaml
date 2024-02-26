@@ -433,6 +433,12 @@ spec:
                   description:
                     description: A human-readable description of the resource.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   hostname:
                     description: |-
                       A Hostname (FQDN, e.g. example.com) or a wildcard hostname expression (*.example.com)
@@ -467,6 +473,14 @@ spec:
                   state:
                     description: A serving state of this Certificate Map Entry.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   updateTime:
                     description: |-
                       Update timestamp of a Certificate Map Entry. Timestamp in RFC3339 UTC "Zulu" format,

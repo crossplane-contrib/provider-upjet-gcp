@@ -33,7 +33,11 @@ type SchemaInitParameters struct {
 
 	// The definition of the schema.
 	// This should contain a string representing the full definition of the schema
-	// that is a valid schema definition of the type specified in type.
+	// that is a valid schema definition of the type specified in type. Changes
+	// to the definition commit new schema revisions.
+	// A schema can only have up to 20 revisions, so updates that fail with an
+	// error indicating that the limit has been reached require manually
+	// deleting old revisions.
 	Definition *string `json:"definition,omitempty" tf:"definition,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -50,7 +54,11 @@ type SchemaObservation struct {
 
 	// The definition of the schema.
 	// This should contain a string representing the full definition of the schema
-	// that is a valid schema definition of the type specified in type.
+	// that is a valid schema definition of the type specified in type. Changes
+	// to the definition commit new schema revisions.
+	// A schema can only have up to 20 revisions, so updates that fail with an
+	// error indicating that the limit has been reached require manually
+	// deleting old revisions.
 	Definition *string `json:"definition,omitempty" tf:"definition,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/schemas/{{name}}
@@ -70,7 +78,11 @@ type SchemaParameters struct {
 
 	// The definition of the schema.
 	// This should contain a string representing the full definition of the schema
-	// that is a valid schema definition of the type specified in type.
+	// that is a valid schema definition of the type specified in type. Changes
+	// to the definition commit new schema revisions.
+	// A schema can only have up to 20 revisions, so updates that fail with an
+	// error indicating that the limit has been reached require manually
+	// deleting old revisions.
 	// +kubebuilder:validation:Optional
 	Definition *string `json:"definition,omitempty" tf:"definition,omitempty"`
 

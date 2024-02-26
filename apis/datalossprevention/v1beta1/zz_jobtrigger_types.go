@@ -1478,7 +1478,7 @@ type InspectConfigRuleSetParameters struct {
 
 type InspectJobInitParameters struct {
 
-	// A task to execute on the completion of a job.
+	// Configuration block for the actions to execute on the completion of a job. Can be specified multiple times, but only one for each type. Each action block supports fields documented below. This argument is processed in attribute-as-blocks mode.
 	// Structure is documented below.
 	Actions []ActionsInitParameters `json:"actions,omitempty" tf:"actions,omitempty"`
 
@@ -1675,7 +1675,7 @@ type InspectJobInspectConfigParameters struct {
 
 type InspectJobObservation struct {
 
-	// A task to execute on the completion of a job.
+	// Configuration block for the actions to execute on the completion of a job. Can be specified multiple times, but only one for each type. Each action block supports fields documented below. This argument is processed in attribute-as-blocks mode.
 	// Structure is documented below.
 	Actions []ActionsObservation `json:"actions,omitempty" tf:"actions,omitempty"`
 
@@ -1693,7 +1693,7 @@ type InspectJobObservation struct {
 
 type InspectJobParameters struct {
 
-	// A task to execute on the completion of a job.
+	// Configuration block for the actions to execute on the completion of a job. Can be specified multiple times, but only one for each type. Each action block supports fields documented below. This argument is processed in attribute-as-blocks mode.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Actions []ActionsParameters `json:"actions,omitempty" tf:"actions,omitempty"`
@@ -2605,7 +2605,7 @@ type StorageConfigInitParameters struct {
 	// Structure is documented below.
 	HybridOptions []HybridOptionsInitParameters `json:"hybridOptions,omitempty" tf:"hybrid_options,omitempty"`
 
-	// Information on where to inspect
+	// Configuration of the timespan of the items to include in scanning
 	// Structure is documented below.
 	TimespanConfig []TimespanConfigInitParameters `json:"timespanConfig,omitempty" tf:"timespan_config,omitempty"`
 }
@@ -2628,7 +2628,7 @@ type StorageConfigObservation struct {
 	// Structure is documented below.
 	HybridOptions []HybridOptionsObservation `json:"hybridOptions,omitempty" tf:"hybrid_options,omitempty"`
 
-	// Information on where to inspect
+	// Configuration of the timespan of the items to include in scanning
 	// Structure is documented below.
 	TimespanConfig []TimespanConfigObservation `json:"timespanConfig,omitempty" tf:"timespan_config,omitempty"`
 }
@@ -2655,7 +2655,7 @@ type StorageConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	HybridOptions []HybridOptionsParameters `json:"hybridOptions,omitempty" tf:"hybrid_options,omitempty"`
 
-	// Information on where to inspect
+	// Configuration of the timespan of the items to include in scanning
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	TimespanConfig []TimespanConfigParameters `json:"timespanConfig,omitempty" tf:"timespan_config,omitempty"`
@@ -2853,16 +2853,17 @@ type TimespanConfigInitParameters struct {
 
 	// When the job is started by a JobTrigger we will automatically figure out a valid startTime to avoid
 	// scanning files that have not been modified since the last time the JobTrigger executed. This will
-	// be based on the time of the execution of the last run of the JobTrigger.
+	// be based on the time of the execution of the last run of the JobTrigger or the timespan endTime
+	// used in the last run of the JobTrigger.
 	EnableAutoPopulationOfTimespanConfig *bool `json:"enableAutoPopulationOfTimespanConfig,omitempty" tf:"enable_auto_population_of_timespan_config,omitempty"`
 
-	// Exclude files or rows newer than this value. If set to zero, no upper time limit is applied.
+	// Exclude files, tables, or rows newer than this value. If not set, no upper time limit is applied.
 	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
 
-	// Exclude files or rows older than this value.
+	// Exclude files, tables, or rows older than this value. If not set, no lower time limit is applied.
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 
-	// Information on where to inspect
+	// Specification of the field containing the timestamp of scanned items.
 	// Structure is documented below.
 	TimestampField []TimestampFieldInitParameters `json:"timestampField,omitempty" tf:"timestamp_field,omitempty"`
 }
@@ -2871,16 +2872,17 @@ type TimespanConfigObservation struct {
 
 	// When the job is started by a JobTrigger we will automatically figure out a valid startTime to avoid
 	// scanning files that have not been modified since the last time the JobTrigger executed. This will
-	// be based on the time of the execution of the last run of the JobTrigger.
+	// be based on the time of the execution of the last run of the JobTrigger or the timespan endTime
+	// used in the last run of the JobTrigger.
 	EnableAutoPopulationOfTimespanConfig *bool `json:"enableAutoPopulationOfTimespanConfig,omitempty" tf:"enable_auto_population_of_timespan_config,omitempty"`
 
-	// Exclude files or rows newer than this value. If set to zero, no upper time limit is applied.
+	// Exclude files, tables, or rows newer than this value. If not set, no upper time limit is applied.
 	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
 
-	// Exclude files or rows older than this value.
+	// Exclude files, tables, or rows older than this value. If not set, no lower time limit is applied.
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 
-	// Information on where to inspect
+	// Specification of the field containing the timestamp of scanned items.
 	// Structure is documented below.
 	TimestampField []TimestampFieldObservation `json:"timestampField,omitempty" tf:"timestamp_field,omitempty"`
 }
@@ -2889,22 +2891,23 @@ type TimespanConfigParameters struct {
 
 	// When the job is started by a JobTrigger we will automatically figure out a valid startTime to avoid
 	// scanning files that have not been modified since the last time the JobTrigger executed. This will
-	// be based on the time of the execution of the last run of the JobTrigger.
+	// be based on the time of the execution of the last run of the JobTrigger or the timespan endTime
+	// used in the last run of the JobTrigger.
 	// +kubebuilder:validation:Optional
 	EnableAutoPopulationOfTimespanConfig *bool `json:"enableAutoPopulationOfTimespanConfig,omitempty" tf:"enable_auto_population_of_timespan_config,omitempty"`
 
-	// Exclude files or rows newer than this value. If set to zero, no upper time limit is applied.
+	// Exclude files, tables, or rows newer than this value. If not set, no upper time limit is applied.
 	// +kubebuilder:validation:Optional
 	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
 
-	// Exclude files or rows older than this value.
+	// Exclude files, tables, or rows older than this value. If not set, no lower time limit is applied.
 	// +kubebuilder:validation:Optional
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 
-	// Information on where to inspect
+	// Specification of the field containing the timestamp of scanned items.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	TimestampField []TimestampFieldParameters `json:"timestampField" tf:"timestamp_field,omitempty"`
+	TimestampField []TimestampFieldParameters `json:"timestampField,omitempty" tf:"timestamp_field,omitempty"`
 }
 
 type TimestampFieldInitParameters struct {

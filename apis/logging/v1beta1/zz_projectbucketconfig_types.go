@@ -99,6 +99,38 @@ type ProjectBucketConfigCmekSettingsParameters struct {
 	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 }
 
+type ProjectBucketConfigIndexConfigsInitParameters struct {
+
+	// The LogEntry field path to index.
+	// Note that some paths are automatically indexed, and other paths are not eligible for indexing. See indexing documentation for details.
+	FieldPath *string `json:"fieldPath,omitempty" tf:"field_path,omitempty"`
+
+	// The type of data in this index. Allowed types include INDEX_TYPE_UNSPECIFIED, INDEX_TYPE_STRING and INDEX_TYPE_INTEGER.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type ProjectBucketConfigIndexConfigsObservation struct {
+
+	// The LogEntry field path to index.
+	// Note that some paths are automatically indexed, and other paths are not eligible for indexing. See indexing documentation for details.
+	FieldPath *string `json:"fieldPath,omitempty" tf:"field_path,omitempty"`
+
+	// The type of data in this index. Allowed types include INDEX_TYPE_UNSPECIFIED, INDEX_TYPE_STRING and INDEX_TYPE_INTEGER.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type ProjectBucketConfigIndexConfigsParameters struct {
+
+	// The LogEntry field path to index.
+	// Note that some paths are automatically indexed, and other paths are not eligible for indexing. See indexing documentation for details.
+	// +kubebuilder:validation:Optional
+	FieldPath *string `json:"fieldPath" tf:"field_path,omitempty"`
+
+	// The type of data in this index. Allowed types include INDEX_TYPE_UNSPECIFIED, INDEX_TYPE_STRING and INDEX_TYPE_INTEGER.
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type" tf:"type,omitempty"`
+}
+
 type ProjectBucketConfigInitParameters struct {
 
 	// The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. Structure is documented below.
@@ -109,6 +141,9 @@ type ProjectBucketConfigInitParameters struct {
 
 	// Whether or not Log Analytics is enabled. Logs for buckets with Log Analytics enabled can be queried in the Log Analytics page using SQL queries. Cannot be disabled once enabled.
 	EnableAnalytics *bool `json:"enableAnalytics,omitempty" tf:"enable_analytics,omitempty"`
+
+	// A list of indexed fields and related configuration data. Structure is documented below.
+	IndexConfigs []ProjectBucketConfigIndexConfigsInitParameters `json:"indexConfigs,omitempty" tf:"index_configs,omitempty"`
 
 	// Whether the bucket is locked. The retention period on a locked bucket cannot be changed. Locked buckets may only be deleted if they are empty.
 	Locked *bool `json:"locked,omitempty" tf:"locked,omitempty"`
@@ -133,6 +168,9 @@ type ProjectBucketConfigObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/buckets/{{bucket_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// A list of indexed fields and related configuration data. Structure is documented below.
+	IndexConfigs []ProjectBucketConfigIndexConfigsObservation `json:"indexConfigs,omitempty" tf:"index_configs,omitempty"`
 
 	// The bucket's lifecycle such as active or deleted. See LifecycleState.
 	LifecycleState *string `json:"lifecycleState,omitempty" tf:"lifecycle_state,omitempty"`
@@ -170,6 +208,10 @@ type ProjectBucketConfigParameters struct {
 	// Whether or not Log Analytics is enabled. Logs for buckets with Log Analytics enabled can be queried in the Log Analytics page using SQL queries. Cannot be disabled once enabled.
 	// +kubebuilder:validation:Optional
 	EnableAnalytics *bool `json:"enableAnalytics,omitempty" tf:"enable_analytics,omitempty"`
+
+	// A list of indexed fields and related configuration data. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	IndexConfigs []ProjectBucketConfigIndexConfigsParameters `json:"indexConfigs,omitempty" tf:"index_configs,omitempty"`
 
 	// The location of the bucket.
 	// +kubebuilder:validation:Required

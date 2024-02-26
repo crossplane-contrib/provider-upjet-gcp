@@ -175,7 +175,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: A set of key/value label pairs to assign to the project.
+                    description: |-
+                      A set of key/value label pairs to assign to the project.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field 'effective_labels' for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   name:
@@ -313,7 +316,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: A set of key/value label pairs to assign to the project.
+                    description: |-
+                      A set of key/value label pairs to assign to the project.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field 'effective_labels' for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   name:
@@ -532,6 +538,11 @@ spec:
                       See Google Cloud Billing API Access Control
                       for more details.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   folderId:
                     description: |-
                       The numeric ID of the folder this project should be
@@ -546,7 +557,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: A set of key/value label pairs to assign to the project.
+                    description: |-
+                      A set of key/value label pairs to assign to the project.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field 'effective_labels' for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   name:
@@ -571,6 +585,13 @@ spec:
                     type: string
                   skipDelete:
                     type: boolean
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               conditions:
                 description: Conditions of the resource.

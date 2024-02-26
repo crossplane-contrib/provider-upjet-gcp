@@ -81,6 +81,27 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 
 		}
 	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.LinkedVPCNetwork); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.LinkedVPCNetwork[i3].URI),
+				Extract:      resource.ExtractParamPath("self_link", true),
+				Reference:    mg.Spec.ForProvider.LinkedVPCNetwork[i3].URIRef,
+				Selector:     mg.Spec.ForProvider.LinkedVPCNetwork[i3].URISelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.LinkedVPCNetwork[i3].URI")
+		}
+		mg.Spec.ForProvider.LinkedVPCNetwork[i3].URI = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.LinkedVPCNetwork[i3].URIRef = rsp.ResolvedReference
+
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("networkconnectivity.gcp.upbound.io", "v1beta1", "Hub", "HubList")
 		if err != nil {
@@ -122,6 +143,27 @@ func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 			mg.Spec.InitProvider.LinkedRouterApplianceInstances[i3].Instances[i4].VirtualMachineRef = rsp.ResolvedReference
 
 		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.LinkedVPCNetwork); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LinkedVPCNetwork[i3].URI),
+				Extract:      resource.ExtractParamPath("self_link", true),
+				Reference:    mg.Spec.InitProvider.LinkedVPCNetwork[i3].URIRef,
+				Selector:     mg.Spec.InitProvider.LinkedVPCNetwork[i3].URISelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.LinkedVPCNetwork[i3].URI")
+		}
+		mg.Spec.InitProvider.LinkedVPCNetwork[i3].URI = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.LinkedVPCNetwork[i3].URIRef = rsp.ResolvedReference
+
 	}
 
 	return nil

@@ -46,8 +46,7 @@ type JobInitParameters struct {
 
 	// User labels to be specified for the job. Keys and values should follow the restrictions
 	// specified in the labeling restrictions page.
-	// NOTE: Google-provided Dataflow templates often provide default labels that begin with goog-dataflow-provided.
-	// Unless explicitly set in config, these labels will be ignored to prevent diffs on re-apply.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration. Please refer to the field effective_labels for all of the labels present on the resource.
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The machine type to use for the job.
@@ -102,6 +101,9 @@ type JobObservation struct {
 	// +listType=set
 	AdditionalExperiments []*string `json:"additionalExperiments,omitempty" tf:"additional_experiments,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// Enable/disable the use of Streaming Engine for the job. Note that Streaming Engine is enabled by default for pipelines developed against the Beam SDK for Python v2.21.0 or later when using Python 3.
 	EnableStreamingEngine *bool `json:"enableStreamingEngine,omitempty" tf:"enable_streaming_engine,omitempty"`
 
@@ -118,8 +120,7 @@ type JobObservation struct {
 
 	// User labels to be specified for the job. Keys and values should follow the restrictions
 	// specified in the labeling restrictions page.
-	// NOTE: Google-provided Dataflow templates often provide default labels that begin with goog-dataflow-provided.
-	// Unless explicitly set in config, these labels will be ignored to prevent diffs on re-apply.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration. Please refer to the field effective_labels for all of the labels present on the resource.
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The machine type to use for the job.
@@ -164,6 +165,10 @@ type JobObservation struct {
 	// The GCS path to the Dataflow job template.
 	TemplateGcsPath *string `json:"templateGcsPath,omitempty" tf:"template_gcs_path,omitempty"`
 
+	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
 	// Only applicable when updating a pipeline. Map of transform name prefixes of the job to be replaced with the corresponding name prefixes of the new job. This field is not used outside of update.
 	TransformNameMapping map[string]string `json:"transformNameMapping,omitempty" tf:"transform_name_mapping,omitempty"`
 
@@ -195,8 +200,7 @@ type JobParameters struct {
 
 	// User labels to be specified for the job. Keys and values should follow the restrictions
 	// specified in the labeling restrictions page.
-	// NOTE: Google-provided Dataflow templates often provide default labels that begin with goog-dataflow-provided.
-	// Unless explicitly set in config, these labels will be ignored to prevent diffs on re-apply.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration. Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
 

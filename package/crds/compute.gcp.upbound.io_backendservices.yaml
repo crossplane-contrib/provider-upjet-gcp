@@ -676,7 +676,7 @@ spec:
                       load balancing cannot be used with the other. For more information, refer to
                       Choosing a load balancer.
                       Default value is EXTERNAL.
-                      Possible values are: EXTERNAL, INTERNAL_SELF_MANAGED, EXTERNAL_MANAGED.
+                      Possible values are: EXTERNAL, INTERNAL_SELF_MANAGED, INTERNAL_MANAGED, EXTERNAL_MANAGED.
                     type: string
                   localityLbPolicies:
                     description: |-
@@ -763,8 +763,8 @@ spec:
                   outlierDetection:
                     description: |-
                       Settings controlling eviction of unhealthy hosts from the load balancing pool.
-                      This field is applicable only when the load_balancing_scheme is set
-                      to INTERNAL_SELF_MANAGED.
+                      Applicable backend service types can be a global backend service with the
+                      loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
                       Structure is documented below.
                     items:
                       properties:
@@ -887,8 +887,10 @@ spec:
                     description: |-
                       The protocol this BackendService uses to communicate with backends.
                       The default is HTTP. NOTE: HTTP2 is only valid for beta HTTP/2 load balancer
-                      types and may result in errors if used with the GA API.
-                      Possible values are: HTTP, HTTPS, HTTP2, TCP, SSL, GRPC.
+                      types and may result in errors if used with the GA API. NOTE: With protocol “UNSPECIFIED”,
+                      the backend service can be used by Layer 4 Internal Load Balancing or Network Load Balancing
+                      with TCP/UDP/L3_DEFAULT Forwarding Rule protocol.
+                      Possible values are: HTTP, HTTPS, HTTP2, TCP, SSL, GRPC, UNSPECIFIED.
                     type: string
                   securityPolicy:
                     description: The security policy associated with this backend
@@ -1525,7 +1527,7 @@ spec:
                       load balancing cannot be used with the other. For more information, refer to
                       Choosing a load balancer.
                       Default value is EXTERNAL.
-                      Possible values are: EXTERNAL, INTERNAL_SELF_MANAGED, EXTERNAL_MANAGED.
+                      Possible values are: EXTERNAL, INTERNAL_SELF_MANAGED, INTERNAL_MANAGED, EXTERNAL_MANAGED.
                     type: string
                   localityLbPolicies:
                     description: |-
@@ -1612,8 +1614,8 @@ spec:
                   outlierDetection:
                     description: |-
                       Settings controlling eviction of unhealthy hosts from the load balancing pool.
-                      This field is applicable only when the load_balancing_scheme is set
-                      to INTERNAL_SELF_MANAGED.
+                      Applicable backend service types can be a global backend service with the
+                      loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
                       Structure is documented below.
                     items:
                       properties:
@@ -1736,8 +1738,10 @@ spec:
                     description: |-
                       The protocol this BackendService uses to communicate with backends.
                       The default is HTTP. NOTE: HTTP2 is only valid for beta HTTP/2 load balancer
-                      types and may result in errors if used with the GA API.
-                      Possible values are: HTTP, HTTPS, HTTP2, TCP, SSL, GRPC.
+                      types and may result in errors if used with the GA API. NOTE: With protocol “UNSPECIFIED”,
+                      the backend service can be used by Layer 4 Internal Load Balancing or Network Load Balancing
+                      with TCP/UDP/L3_DEFAULT Forwarding Rule protocol.
+                      Possible values are: HTTP, HTTPS, HTTP2, TCP, SSL, GRPC, UNSPECIFIED.
                     type: string
                   securityPolicy:
                     description: The security policy associated with this backend
@@ -2395,7 +2399,7 @@ spec:
                       load balancing cannot be used with the other. For more information, refer to
                       Choosing a load balancer.
                       Default value is EXTERNAL.
-                      Possible values are: EXTERNAL, INTERNAL_SELF_MANAGED, EXTERNAL_MANAGED.
+                      Possible values are: EXTERNAL, INTERNAL_SELF_MANAGED, INTERNAL_MANAGED, EXTERNAL_MANAGED.
                     type: string
                   localityLbPolicies:
                     description: |-
@@ -2482,8 +2486,8 @@ spec:
                   outlierDetection:
                     description: |-
                       Settings controlling eviction of unhealthy hosts from the load balancing pool.
-                      This field is applicable only when the load_balancing_scheme is set
-                      to INTERNAL_SELF_MANAGED.
+                      Applicable backend service types can be a global backend service with the
+                      loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
                       Structure is documented below.
                     items:
                       properties:
@@ -2606,8 +2610,10 @@ spec:
                     description: |-
                       The protocol this BackendService uses to communicate with backends.
                       The default is HTTP. NOTE: HTTP2 is only valid for beta HTTP/2 load balancer
-                      types and may result in errors if used with the GA API.
-                      Possible values are: HTTP, HTTPS, HTTP2, TCP, SSL, GRPC.
+                      types and may result in errors if used with the GA API. NOTE: With protocol “UNSPECIFIED”,
+                      the backend service can be used by Layer 4 Internal Load Balancing or Network Load Balancing
+                      with TCP/UDP/L3_DEFAULT Forwarding Rule protocol.
+                      Possible values are: HTTP, HTTPS, HTTP2, TCP, SSL, GRPC, UNSPECIFIED.
                     type: string
                   securityPolicy:
                     description: The security policy associated with this backend

@@ -152,6 +152,10 @@ type DiskInitParameters struct {
 	// Structure is documented below.
 	DiskEncryptionKey []DiskEncryptionKeyInitParameters `json:"diskEncryptionKey,omitempty" tf:"disk_encryption_key,omitempty"`
 
+	// Whether this disk is using confidential compute mode.
+	// Note: Only supported on hyperdisk skus, disk_encryption_key is required when setting to true
+	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
+
 	// A list of features to enable on the guest operating system.
 	// Applicable only for bootable disks.
 	// Structure is documented below.
@@ -257,6 +261,17 @@ type DiskObservation struct {
 	// you do not need to provide a key to use the disk later.
 	// Structure is documented below.
 	DiskEncryptionKey []DiskEncryptionKeyObservation `json:"diskEncryptionKey,omitempty" tf:"disk_encryption_key,omitempty"`
+
+	// The unique identifier for the resource. This identifier is defined by the server.
+	DiskID *string `json:"diskId,omitempty" tf:"disk_id,omitempty"`
+
+	// for all of the labels present on the resource.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
+	// Whether this disk is using confidential compute mode.
+	// Note: Only supported on hyperdisk skus, disk_encryption_key is required when setting to true
+	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 
 	// A list of features to enable on the guest operating system.
 	// Applicable only for bootable disks.
@@ -370,6 +385,11 @@ type DiskObservation struct {
 	// used.
 	SourceSnapshotID *string `json:"sourceSnapshotId,omitempty" tf:"source_snapshot_id,omitempty"`
 
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
 	// URL of the disk type resource describing which disk type to use to
 	// create the disk. Provide this when creating the disk.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
@@ -406,6 +426,11 @@ type DiskParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	DiskEncryptionKey []DiskEncryptionKeyParameters `json:"diskEncryptionKey,omitempty" tf:"disk_encryption_key,omitempty"`
+
+	// Whether this disk is using confidential compute mode.
+	// Note: Only supported on hyperdisk skus, disk_encryption_key is required when setting to true
+	// +kubebuilder:validation:Optional
+	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 
 	// A list of features to enable on the guest operating system.
 	// Applicable only for bootable disks.

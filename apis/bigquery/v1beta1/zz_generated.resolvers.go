@@ -227,6 +227,29 @@ func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) er
 		mg.Spec.ForProvider.CloudSQL[i3].InstanceIDRef = rsp.ResolvedReference
 
 	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Spark); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Spark[i3].SparkHistoryServerConfig); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("dataproc.gcp.upbound.io", "v1beta1", "Cluster", "ClusterList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Spark[i3].SparkHistoryServerConfig[i4].DataprocCluster),
+					Extract:      resource.ExtractResourceID(),
+					Reference:    mg.Spec.ForProvider.Spark[i3].SparkHistoryServerConfig[i4].DataprocClusterRef,
+					Selector:     mg.Spec.ForProvider.Spark[i3].SparkHistoryServerConfig[i4].DataprocClusterSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.Spark[i3].SparkHistoryServerConfig[i4].DataprocCluster")
+			}
+			mg.Spec.ForProvider.Spark[i3].SparkHistoryServerConfig[i4].DataprocCluster = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Spark[i3].SparkHistoryServerConfig[i4].DataprocClusterRef = rsp.ResolvedReference
+
+		}
+	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.CloudSQL); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.InitProvider.CloudSQL[i3].Credential); i4++ {
 			{
@@ -291,6 +314,29 @@ func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) er
 		mg.Spec.InitProvider.CloudSQL[i3].InstanceID = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.InitProvider.CloudSQL[i3].InstanceIDRef = rsp.ResolvedReference
 
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Spark); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Spark[i3].SparkHistoryServerConfig); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("dataproc.gcp.upbound.io", "v1beta1", "Cluster", "ClusterList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Spark[i3].SparkHistoryServerConfig[i4].DataprocCluster),
+					Extract:      resource.ExtractResourceID(),
+					Reference:    mg.Spec.InitProvider.Spark[i3].SparkHistoryServerConfig[i4].DataprocClusterRef,
+					Selector:     mg.Spec.InitProvider.Spark[i3].SparkHistoryServerConfig[i4].DataprocClusterSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Spark[i3].SparkHistoryServerConfig[i4].DataprocCluster")
+			}
+			mg.Spec.InitProvider.Spark[i3].SparkHistoryServerConfig[i4].DataprocCluster = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Spark[i3].SparkHistoryServerConfig[i4].DataprocClusterRef = rsp.ResolvedReference
+
+		}
 	}
 
 	return nil
@@ -1600,6 +1646,49 @@ func (mg *Routine) ResolveReferences(ctx context.Context, c client.Reader) error
 	}
 	mg.Spec.ForProvider.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DatasetIDRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.SparkOptions); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta1", "Connection", "ConnectionList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SparkOptions[i3].Connection),
+				Extract:      resource.ExtractParamPath("name", true),
+				Reference:    mg.Spec.ForProvider.SparkOptions[i3].ConnectionRef,
+				Selector:     mg.Spec.ForProvider.SparkOptions[i3].ConnectionSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.SparkOptions[i3].Connection")
+		}
+		mg.Spec.ForProvider.SparkOptions[i3].Connection = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.SparkOptions[i3].ConnectionRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.SparkOptions); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta1", "Connection", "ConnectionList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SparkOptions[i3].Connection),
+				Extract:      resource.ExtractParamPath("name", true),
+				Reference:    mg.Spec.InitProvider.SparkOptions[i3].ConnectionRef,
+				Selector:     mg.Spec.InitProvider.SparkOptions[i3].ConnectionSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.SparkOptions[i3].Connection")
+		}
+		mg.Spec.InitProvider.SparkOptions[i3].Connection = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.SparkOptions[i3].ConnectionRef = rsp.ResolvedReference
+
+	}
 
 	return nil
 }

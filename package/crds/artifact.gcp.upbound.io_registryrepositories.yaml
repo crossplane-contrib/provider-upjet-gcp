@@ -73,6 +73,87 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  cleanupPolicies:
+                    description: |-
+                      Cleanup policies for this repository. Cleanup policies indicate when
+                      certain package versions can be automatically deleted.
+                      Map keys are policy IDs supplied by users during policy creation. They must
+                      unique within a repository and be under 128 characters in length.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        action:
+                          description: |-
+                            Policy action.
+                            Possible values are: DELETE, KEEP.
+                          type: string
+                        condition:
+                          description: |-
+                            Policy condition for matching versions.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              newerThan:
+                                description: Match versions newer than a duration.
+                                type: string
+                              olderThan:
+                                description: Match versions older than a duration.
+                                type: string
+                              packageNamePrefixes:
+                                description: Match versions by package prefix. Applied
+                                  on any prefix match.
+                                items:
+                                  type: string
+                                type: array
+                              tagPrefixes:
+                                description: Match versions by tag prefix. Applied
+                                  on any prefix match.
+                                items:
+                                  type: string
+                                type: array
+                              tagState:
+                                description: |-
+                                  Match versions by tag status.
+                                  Default value is ANY.
+                                  Possible values are: TAGGED, UNTAGGED, ANY.
+                                type: string
+                              versionNamePrefixes:
+                                description: Match versions by version name prefix.
+                                  Applied on any prefix match.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        id:
+                          description: The identifier for this object. Format specified
+                            above.
+                          type: string
+                        mostRecentVersions:
+                          description: |-
+                            Policy condition for retaining a minimum number of versions. May only be
+                            specified with a Keep action.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              keepCount:
+                                description: Minimum number of versions to keep.
+                                type: number
+                              packageNamePrefixes:
+                                description: Match versions by package prefix. Applied
+                                  on any prefix match.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  cleanupPolicyDryRun:
+                    description: |-
+                      If true, the cleanup pipeline is prevented from deleting versions in this
+                      repository.
+                    type: boolean
                   description:
                     description: The user-provided description of the repository.
                     type: string
@@ -156,6 +237,31 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        aptRepository:
+                          description: |-
+                            Specific settings for an Apt remote repository.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              publicRepository:
+                                description: |-
+                                  One of the publicly available Yum repositories supported by Artifact Registry.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    repositoryBase:
+                                      description: |-
+                                        A common public repository base for Yum.
+                                        Possible values are: CENTOS, CENTOS_DEBUG, CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.
+                                      type: string
+                                    repositoryPath:
+                                      description: Specific repository from the base,
+                                        e.g. "centos/8-stream/BaseOS/x86_64/os"
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                         description:
                           description: The description of the remote source.
                           type: string
@@ -167,9 +273,8 @@ spec:
                             properties:
                               publicRepository:
                                 description: |-
-                                  Address of the remote repository.
-                                  Default value is PYPI.
-                                  Possible values are: PYPI.
+                                  One of the publicly available Yum repositories supported by Artifact Registry.
+                                  Structure is documented below.
                                 type: string
                             type: object
                           type: array
@@ -181,9 +286,8 @@ spec:
                             properties:
                               publicRepository:
                                 description: |-
-                                  Address of the remote repository.
-                                  Default value is PYPI.
-                                  Possible values are: PYPI.
+                                  One of the publicly available Yum repositories supported by Artifact Registry.
+                                  Structure is documented below.
                                 type: string
                             type: object
                           type: array
@@ -195,9 +299,8 @@ spec:
                             properties:
                               publicRepository:
                                 description: |-
-                                  Address of the remote repository.
-                                  Default value is PYPI.
-                                  Possible values are: PYPI.
+                                  One of the publicly available Yum repositories supported by Artifact Registry.
+                                  Structure is documented below.
                                 type: string
                             type: object
                           type: array
@@ -209,10 +312,136 @@ spec:
                             properties:
                               publicRepository:
                                 description: |-
-                                  Address of the remote repository.
-                                  Default value is PYPI.
-                                  Possible values are: PYPI.
+                                  One of the publicly available Yum repositories supported by Artifact Registry.
+                                  Structure is documented below.
                                 type: string
+                            type: object
+                          type: array
+                        upstreamCredentials:
+                          description: |-
+                            The credentials used to access the remote repository.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              usernamePasswordCredentials:
+                                description: |-
+                                  Use username and password to access the remote repository.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    passwordSecretVersion:
+                                      description: |-
+                                        The Secret Manager key version that holds the password to access the
+                                        remote repository. Must be in the format of
+                                        projects/{project}/secrets/{secret}/versions/{version}.
+                                      type: string
+                                    passwordSecretVersionRef:
+                                      description: Reference to a SecretVersion in
+                                        secretmanager to populate passwordSecretVersion.
+                                      properties:
+                                        name:
+                                          description: Name of the referenced object.
+                                          type: string
+                                        policy:
+                                          description: Policies for referencing.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      required:
+                                      - name
+                                      type: object
+                                    passwordSecretVersionSelector:
+                                      description: Selector for a SecretVersion in
+                                        secretmanager to populate passwordSecretVersion.
+                                      properties:
+                                        matchControllerRef:
+                                          description: |-
+                                            MatchControllerRef ensures an object with the same controller reference
+                                            as the selecting object is selected.
+                                          type: boolean
+                                        matchLabels:
+                                          additionalProperties:
+                                            type: string
+                                          description: MatchLabels ensures an object
+                                            with matching labels is selected.
+                                          type: object
+                                        policy:
+                                          description: Policies for selection.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      type: object
+                                    username:
+                                      description: The username to access the remote
+                                        repository.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        yumRepository:
+                          description: |-
+                            Specific settings for an Yum remote repository.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              publicRepository:
+                                description: |-
+                                  One of the publicly available Yum repositories supported by Artifact Registry.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    repositoryBase:
+                                      description: |-
+                                        A common public repository base for Yum.
+                                        Possible values are: CENTOS, CENTOS_DEBUG, CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.
+                                      type: string
+                                    repositoryPath:
+                                      description: Specific repository from the base,
+                                        e.g. "centos/8-stream/BaseOS/x86_64/os"
+                                      type: string
+                                  type: object
+                                type: array
                             type: object
                           type: array
                       type: object
@@ -337,6 +566,87 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  cleanupPolicies:
+                    description: |-
+                      Cleanup policies for this repository. Cleanup policies indicate when
+                      certain package versions can be automatically deleted.
+                      Map keys are policy IDs supplied by users during policy creation. They must
+                      unique within a repository and be under 128 characters in length.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        action:
+                          description: |-
+                            Policy action.
+                            Possible values are: DELETE, KEEP.
+                          type: string
+                        condition:
+                          description: |-
+                            Policy condition for matching versions.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              newerThan:
+                                description: Match versions newer than a duration.
+                                type: string
+                              olderThan:
+                                description: Match versions older than a duration.
+                                type: string
+                              packageNamePrefixes:
+                                description: Match versions by package prefix. Applied
+                                  on any prefix match.
+                                items:
+                                  type: string
+                                type: array
+                              tagPrefixes:
+                                description: Match versions by tag prefix. Applied
+                                  on any prefix match.
+                                items:
+                                  type: string
+                                type: array
+                              tagState:
+                                description: |-
+                                  Match versions by tag status.
+                                  Default value is ANY.
+                                  Possible values are: TAGGED, UNTAGGED, ANY.
+                                type: string
+                              versionNamePrefixes:
+                                description: Match versions by version name prefix.
+                                  Applied on any prefix match.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        id:
+                          description: The identifier for this object. Format specified
+                            above.
+                          type: string
+                        mostRecentVersions:
+                          description: |-
+                            Policy condition for retaining a minimum number of versions. May only be
+                            specified with a Keep action.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              keepCount:
+                                description: Minimum number of versions to keep.
+                                type: number
+                              packageNamePrefixes:
+                                description: Match versions by package prefix. Applied
+                                  on any prefix match.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  cleanupPolicyDryRun:
+                    description: |-
+                      If true, the cleanup pipeline is prevented from deleting versions in this
+                      repository.
+                    type: boolean
                   description:
                     description: The user-provided description of the repository.
                     type: string
@@ -416,6 +726,31 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        aptRepository:
+                          description: |-
+                            Specific settings for an Apt remote repository.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              publicRepository:
+                                description: |-
+                                  One of the publicly available Yum repositories supported by Artifact Registry.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    repositoryBase:
+                                      description: |-
+                                        A common public repository base for Yum.
+                                        Possible values are: CENTOS, CENTOS_DEBUG, CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.
+                                      type: string
+                                    repositoryPath:
+                                      description: Specific repository from the base,
+                                        e.g. "centos/8-stream/BaseOS/x86_64/os"
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                         description:
                           description: The description of the remote source.
                           type: string
@@ -427,9 +762,8 @@ spec:
                             properties:
                               publicRepository:
                                 description: |-
-                                  Address of the remote repository.
-                                  Default value is PYPI.
-                                  Possible values are: PYPI.
+                                  One of the publicly available Yum repositories supported by Artifact Registry.
+                                  Structure is documented below.
                                 type: string
                             type: object
                           type: array
@@ -441,9 +775,8 @@ spec:
                             properties:
                               publicRepository:
                                 description: |-
-                                  Address of the remote repository.
-                                  Default value is PYPI.
-                                  Possible values are: PYPI.
+                                  One of the publicly available Yum repositories supported by Artifact Registry.
+                                  Structure is documented below.
                                 type: string
                             type: object
                           type: array
@@ -455,9 +788,8 @@ spec:
                             properties:
                               publicRepository:
                                 description: |-
-                                  Address of the remote repository.
-                                  Default value is PYPI.
-                                  Possible values are: PYPI.
+                                  One of the publicly available Yum repositories supported by Artifact Registry.
+                                  Structure is documented below.
                                 type: string
                             type: object
                           type: array
@@ -469,10 +801,136 @@ spec:
                             properties:
                               publicRepository:
                                 description: |-
-                                  Address of the remote repository.
-                                  Default value is PYPI.
-                                  Possible values are: PYPI.
+                                  One of the publicly available Yum repositories supported by Artifact Registry.
+                                  Structure is documented below.
                                 type: string
+                            type: object
+                          type: array
+                        upstreamCredentials:
+                          description: |-
+                            The credentials used to access the remote repository.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              usernamePasswordCredentials:
+                                description: |-
+                                  Use username and password to access the remote repository.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    passwordSecretVersion:
+                                      description: |-
+                                        The Secret Manager key version that holds the password to access the
+                                        remote repository. Must be in the format of
+                                        projects/{project}/secrets/{secret}/versions/{version}.
+                                      type: string
+                                    passwordSecretVersionRef:
+                                      description: Reference to a SecretVersion in
+                                        secretmanager to populate passwordSecretVersion.
+                                      properties:
+                                        name:
+                                          description: Name of the referenced object.
+                                          type: string
+                                        policy:
+                                          description: Policies for referencing.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      required:
+                                      - name
+                                      type: object
+                                    passwordSecretVersionSelector:
+                                      description: Selector for a SecretVersion in
+                                        secretmanager to populate passwordSecretVersion.
+                                      properties:
+                                        matchControllerRef:
+                                          description: |-
+                                            MatchControllerRef ensures an object with the same controller reference
+                                            as the selecting object is selected.
+                                          type: boolean
+                                        matchLabels:
+                                          additionalProperties:
+                                            type: string
+                                          description: MatchLabels ensures an object
+                                            with matching labels is selected.
+                                          type: object
+                                        policy:
+                                          description: Policies for selection.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      type: object
+                                    username:
+                                      description: The username to access the remote
+                                        repository.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        yumRepository:
+                          description: |-
+                            Specific settings for an Yum remote repository.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              publicRepository:
+                                description: |-
+                                  One of the publicly available Yum repositories supported by Artifact Registry.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    repositoryBase:
+                                      description: |-
+                                        A common public repository base for Yum.
+                                        Possible values are: CENTOS, CENTOS_DEBUG, CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.
+                                      type: string
+                                    repositoryPath:
+                                      description: Specific repository from the base,
+                                        e.g. "centos/8-stream/BaseOS/x86_64/os"
+                                      type: string
+                                  type: object
+                                type: array
                             type: object
                           type: array
                       type: object
@@ -761,6 +1219,87 @@ spec:
             properties:
               atProvider:
                 properties:
+                  cleanupPolicies:
+                    description: |-
+                      Cleanup policies for this repository. Cleanup policies indicate when
+                      certain package versions can be automatically deleted.
+                      Map keys are policy IDs supplied by users during policy creation. They must
+                      unique within a repository and be under 128 characters in length.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        action:
+                          description: |-
+                            Policy action.
+                            Possible values are: DELETE, KEEP.
+                          type: string
+                        condition:
+                          description: |-
+                            Policy condition for matching versions.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              newerThan:
+                                description: Match versions newer than a duration.
+                                type: string
+                              olderThan:
+                                description: Match versions older than a duration.
+                                type: string
+                              packageNamePrefixes:
+                                description: Match versions by package prefix. Applied
+                                  on any prefix match.
+                                items:
+                                  type: string
+                                type: array
+                              tagPrefixes:
+                                description: Match versions by tag prefix. Applied
+                                  on any prefix match.
+                                items:
+                                  type: string
+                                type: array
+                              tagState:
+                                description: |-
+                                  Match versions by tag status.
+                                  Default value is ANY.
+                                  Possible values are: TAGGED, UNTAGGED, ANY.
+                                type: string
+                              versionNamePrefixes:
+                                description: Match versions by version name prefix.
+                                  Applied on any prefix match.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        id:
+                          description: The identifier for this object. Format specified
+                            above.
+                          type: string
+                        mostRecentVersions:
+                          description: |-
+                            Policy condition for retaining a minimum number of versions. May only be
+                            specified with a Keep action.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              keepCount:
+                                description: Minimum number of versions to keep.
+                                type: number
+                              packageNamePrefixes:
+                                description: Match versions by package prefix. Applied
+                                  on any prefix match.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  cleanupPolicyDryRun:
+                    description: |-
+                      If true, the cleanup pipeline is prevented from deleting versions in this
+                      repository.
+                    type: boolean
                   createTime:
                     description: The time when the repository was created.
                     type: string
@@ -780,6 +1319,12 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   format:
                     description: |-
                       The format of packages that are stored in the repository. Supported formats
@@ -855,6 +1400,31 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        aptRepository:
+                          description: |-
+                            Specific settings for an Apt remote repository.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              publicRepository:
+                                description: |-
+                                  One of the publicly available Yum repositories supported by Artifact Registry.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    repositoryBase:
+                                      description: |-
+                                        A common public repository base for Yum.
+                                        Possible values are: CENTOS, CENTOS_DEBUG, CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.
+                                      type: string
+                                    repositoryPath:
+                                      description: Specific repository from the base,
+                                        e.g. "centos/8-stream/BaseOS/x86_64/os"
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                         description:
                           description: The description of the remote source.
                           type: string
@@ -866,9 +1436,8 @@ spec:
                             properties:
                               publicRepository:
                                 description: |-
-                                  Address of the remote repository.
-                                  Default value is PYPI.
-                                  Possible values are: PYPI.
+                                  One of the publicly available Yum repositories supported by Artifact Registry.
+                                  Structure is documented below.
                                 type: string
                             type: object
                           type: array
@@ -880,9 +1449,8 @@ spec:
                             properties:
                               publicRepository:
                                 description: |-
-                                  Address of the remote repository.
-                                  Default value is PYPI.
-                                  Possible values are: PYPI.
+                                  One of the publicly available Yum repositories supported by Artifact Registry.
+                                  Structure is documented below.
                                 type: string
                             type: object
                           type: array
@@ -894,9 +1462,8 @@ spec:
                             properties:
                               publicRepository:
                                 description: |-
-                                  Address of the remote repository.
-                                  Default value is PYPI.
-                                  Possible values are: PYPI.
+                                  One of the publicly available Yum repositories supported by Artifact Registry.
+                                  Structure is documented below.
                                 type: string
                             type: object
                           type: array
@@ -908,14 +1475,72 @@ spec:
                             properties:
                               publicRepository:
                                 description: |-
-                                  Address of the remote repository.
-                                  Default value is PYPI.
-                                  Possible values are: PYPI.
+                                  One of the publicly available Yum repositories supported by Artifact Registry.
+                                  Structure is documented below.
                                 type: string
+                            type: object
+                          type: array
+                        upstreamCredentials:
+                          description: |-
+                            The credentials used to access the remote repository.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              usernamePasswordCredentials:
+                                description: |-
+                                  Use username and password to access the remote repository.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    passwordSecretVersion:
+                                      description: |-
+                                        The Secret Manager key version that holds the password to access the
+                                        remote repository. Must be in the format of
+                                        projects/{project}/secrets/{secret}/versions/{version}.
+                                      type: string
+                                    username:
+                                      description: The username to access the remote
+                                        repository.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        yumRepository:
+                          description: |-
+                            Specific settings for an Yum remote repository.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              publicRepository:
+                                description: |-
+                                  One of the publicly available Yum repositories supported by Artifact Registry.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    repositoryBase:
+                                      description: |-
+                                        A common public repository base for Yum.
+                                        Possible values are: CENTOS, CENTOS_DEBUG, CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.
+                                      type: string
+                                    repositoryPath:
+                                      description: Specific repository from the base,
+                                        e.g. "centos/8-stream/BaseOS/x86_64/os"
+                                      type: string
+                                  type: object
+                                type: array
                             type: object
                           type: array
                       type: object
                     type: array
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   updateTime:
                     description: The time when the repository was last updated.
                     type: string

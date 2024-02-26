@@ -127,7 +127,7 @@ type RoutineInitParameters_2 struct {
 	ImportedLibraries []*string `json:"importedLibraries,omitempty" tf:"imported_libraries,omitempty"`
 
 	// The language of the routine.
-	// Possible values are: SQL, JAVASCRIPT.
+	// Possible values are: SQL, JAVASCRIPT, PYTHON, JAVA, SCALA.
 	Language *string `json:"language,omitempty" tf:"language,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -154,6 +154,10 @@ type RoutineInitParameters_2 struct {
 	// The type of routine.
 	// Possible values are: SCALAR_FUNCTION, PROCEDURE, TABLE_VALUED_FUNCTION.
 	RoutineType *string `json:"routineType,omitempty" tf:"routine_type,omitempty"`
+
+	// Optional. If language is one of "PYTHON", "JAVA", "SCALA", this field stores the options for spark stored procedure.
+	// Structure is documented below.
+	SparkOptions []SparkOptionsInitParameters `json:"sparkOptions,omitempty" tf:"spark_options,omitempty"`
 }
 
 type RoutineObservation_2 struct {
@@ -188,7 +192,7 @@ type RoutineObservation_2 struct {
 	ImportedLibraries []*string `json:"importedLibraries,omitempty" tf:"imported_libraries,omitempty"`
 
 	// The language of the routine.
-	// Possible values are: SQL, JAVASCRIPT.
+	// Possible values are: SQL, JAVASCRIPT, PYTHON, JAVA, SCALA.
 	Language *string `json:"language,omitempty" tf:"language,omitempty"`
 
 	// The time when this routine was modified, in milliseconds since the
@@ -219,6 +223,10 @@ type RoutineObservation_2 struct {
 	// The type of routine.
 	// Possible values are: SCALAR_FUNCTION, PROCEDURE, TABLE_VALUED_FUNCTION.
 	RoutineType *string `json:"routineType,omitempty" tf:"routine_type,omitempty"`
+
+	// Optional. If language is one of "PYTHON", "JAVA", "SCALA", this field stores the options for spark stored procedure.
+	// Structure is documented below.
+	SparkOptions []SparkOptionsObservation `json:"sparkOptions,omitempty" tf:"spark_options,omitempty"`
 }
 
 type RoutineParameters_2 struct {
@@ -261,7 +269,7 @@ type RoutineParameters_2 struct {
 	ImportedLibraries []*string `json:"importedLibraries,omitempty" tf:"imported_libraries,omitempty"`
 
 	// The language of the routine.
-	// Possible values are: SQL, JAVASCRIPT.
+	// Possible values are: SQL, JAVASCRIPT, PYTHON, JAVA, SCALA.
 	// +kubebuilder:validation:Optional
 	Language *string `json:"language,omitempty" tf:"language,omitempty"`
 
@@ -293,6 +301,161 @@ type RoutineParameters_2 struct {
 	// Possible values are: SCALAR_FUNCTION, PROCEDURE, TABLE_VALUED_FUNCTION.
 	// +kubebuilder:validation:Optional
 	RoutineType *string `json:"routineType,omitempty" tf:"routine_type,omitempty"`
+
+	// Optional. If language is one of "PYTHON", "JAVA", "SCALA", this field stores the options for spark stored procedure.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SparkOptions []SparkOptionsParameters `json:"sparkOptions,omitempty" tf:"spark_options,omitempty"`
+}
+
+type SparkOptionsInitParameters struct {
+
+	// Archive files to be extracted into the working directory of each executor. For more information about Apache Spark, see Apache Spark.
+	ArchiveUris []*string `json:"archiveUris,omitempty" tf:"archive_uris,omitempty"`
+
+	// Fully qualified name of the user-provided Spark connection object.
+	// Format: "projects/{projectId}/locations/{locationId}/connections/{connectionId}"
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Connection
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	Connection *string `json:"connection,omitempty" tf:"connection,omitempty"`
+
+	// Reference to a Connection in bigquery to populate connection.
+	// +kubebuilder:validation:Optional
+	ConnectionRef *v1.Reference `json:"connectionRef,omitempty" tf:"-"`
+
+	// Selector for a Connection in bigquery to populate connection.
+	// +kubebuilder:validation:Optional
+	ConnectionSelector *v1.Selector `json:"connectionSelector,omitempty" tf:"-"`
+
+	// Custom container image for the runtime environment.
+	ContainerImage *string `json:"containerImage,omitempty" tf:"container_image,omitempty"`
+
+	// Files to be placed in the working directory of each executor. For more information about Apache Spark, see Apache Spark.
+	FileUris []*string `json:"fileUris,omitempty" tf:"file_uris,omitempty"`
+
+	// JARs to include on the driver and executor CLASSPATH. For more information about Apache Spark, see Apache Spark.
+	JarUris []*string `json:"jarUris,omitempty" tf:"jar_uris,omitempty"`
+
+	// The fully qualified name of a class in jarUris, for example, com.example.wordcount.
+	// Exactly one of mainClass and main_jar_uri field should be set for Java/Scala language type.
+	MainClass *string `json:"mainClass,omitempty" tf:"main_class,omitempty"`
+
+	// The main file/jar URI of the Spark application.
+	// Exactly one of the definitionBody field and the mainFileUri field must be set for Python.
+	// Exactly one of mainClass and mainFileUri field should be set for Java/Scala language type.
+	MainFileURI *string `json:"mainFileUri,omitempty" tf:"main_file_uri,omitempty"`
+
+	// Configuration properties as a set of key/value pairs, which will be passed on to the Spark application.
+	// For more information, see Apache Spark and the procedure option list.
+	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +mapType=granular
+	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
+
+	// Python files to be placed on the PYTHONPATH for PySpark application. Supported file types: .py, .egg, and .zip. For more information about Apache Spark, see Apache Spark.
+	PyFileUris []*string `json:"pyFileUris,omitempty" tf:"py_file_uris,omitempty"`
+
+	// Runtime version. If not specified, the default runtime version is used.
+	RuntimeVersion *string `json:"runtimeVersion,omitempty" tf:"runtime_version,omitempty"`
+}
+
+type SparkOptionsObservation struct {
+
+	// Archive files to be extracted into the working directory of each executor. For more information about Apache Spark, see Apache Spark.
+	ArchiveUris []*string `json:"archiveUris,omitempty" tf:"archive_uris,omitempty"`
+
+	// Fully qualified name of the user-provided Spark connection object.
+	// Format: "projects/{projectId}/locations/{locationId}/connections/{connectionId}"
+	Connection *string `json:"connection,omitempty" tf:"connection,omitempty"`
+
+	// Custom container image for the runtime environment.
+	ContainerImage *string `json:"containerImage,omitempty" tf:"container_image,omitempty"`
+
+	// Files to be placed in the working directory of each executor. For more information about Apache Spark, see Apache Spark.
+	FileUris []*string `json:"fileUris,omitempty" tf:"file_uris,omitempty"`
+
+	// JARs to include on the driver and executor CLASSPATH. For more information about Apache Spark, see Apache Spark.
+	JarUris []*string `json:"jarUris,omitempty" tf:"jar_uris,omitempty"`
+
+	// The fully qualified name of a class in jarUris, for example, com.example.wordcount.
+	// Exactly one of mainClass and main_jar_uri field should be set for Java/Scala language type.
+	MainClass *string `json:"mainClass,omitempty" tf:"main_class,omitempty"`
+
+	// The main file/jar URI of the Spark application.
+	// Exactly one of the definitionBody field and the mainFileUri field must be set for Python.
+	// Exactly one of mainClass and mainFileUri field should be set for Java/Scala language type.
+	MainFileURI *string `json:"mainFileUri,omitempty" tf:"main_file_uri,omitempty"`
+
+	// Configuration properties as a set of key/value pairs, which will be passed on to the Spark application.
+	// For more information, see Apache Spark and the procedure option list.
+	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +mapType=granular
+	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
+
+	// Python files to be placed on the PYTHONPATH for PySpark application. Supported file types: .py, .egg, and .zip. For more information about Apache Spark, see Apache Spark.
+	PyFileUris []*string `json:"pyFileUris,omitempty" tf:"py_file_uris,omitempty"`
+
+	// Runtime version. If not specified, the default runtime version is used.
+	RuntimeVersion *string `json:"runtimeVersion,omitempty" tf:"runtime_version,omitempty"`
+}
+
+type SparkOptionsParameters struct {
+
+	// Archive files to be extracted into the working directory of each executor. For more information about Apache Spark, see Apache Spark.
+	// +kubebuilder:validation:Optional
+	ArchiveUris []*string `json:"archiveUris,omitempty" tf:"archive_uris,omitempty"`
+
+	// Fully qualified name of the user-provided Spark connection object.
+	// Format: "projects/{projectId}/locations/{locationId}/connections/{connectionId}"
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Connection
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +kubebuilder:validation:Optional
+	Connection *string `json:"connection,omitempty" tf:"connection,omitempty"`
+
+	// Reference to a Connection in bigquery to populate connection.
+	// +kubebuilder:validation:Optional
+	ConnectionRef *v1.Reference `json:"connectionRef,omitempty" tf:"-"`
+
+	// Selector for a Connection in bigquery to populate connection.
+	// +kubebuilder:validation:Optional
+	ConnectionSelector *v1.Selector `json:"connectionSelector,omitempty" tf:"-"`
+
+	// Custom container image for the runtime environment.
+	// +kubebuilder:validation:Optional
+	ContainerImage *string `json:"containerImage,omitempty" tf:"container_image,omitempty"`
+
+	// Files to be placed in the working directory of each executor. For more information about Apache Spark, see Apache Spark.
+	// +kubebuilder:validation:Optional
+	FileUris []*string `json:"fileUris,omitempty" tf:"file_uris,omitempty"`
+
+	// JARs to include on the driver and executor CLASSPATH. For more information about Apache Spark, see Apache Spark.
+	// +kubebuilder:validation:Optional
+	JarUris []*string `json:"jarUris,omitempty" tf:"jar_uris,omitempty"`
+
+	// The fully qualified name of a class in jarUris, for example, com.example.wordcount.
+	// Exactly one of mainClass and main_jar_uri field should be set for Java/Scala language type.
+	// +kubebuilder:validation:Optional
+	MainClass *string `json:"mainClass,omitempty" tf:"main_class,omitempty"`
+
+	// The main file/jar URI of the Spark application.
+	// Exactly one of the definitionBody field and the mainFileUri field must be set for Python.
+	// Exactly one of mainClass and mainFileUri field should be set for Java/Scala language type.
+	// +kubebuilder:validation:Optional
+	MainFileURI *string `json:"mainFileUri,omitempty" tf:"main_file_uri,omitempty"`
+
+	// Configuration properties as a set of key/value pairs, which will be passed on to the Spark application.
+	// For more information, see Apache Spark and the procedure option list.
+	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
+
+	// Python files to be placed on the PYTHONPATH for PySpark application. Supported file types: .py, .egg, and .zip. For more information about Apache Spark, see Apache Spark.
+	// +kubebuilder:validation:Optional
+	PyFileUris []*string `json:"pyFileUris,omitempty" tf:"py_file_uris,omitempty"`
+
+	// Runtime version. If not specified, the default runtime version is used.
+	// +kubebuilder:validation:Optional
+	RuntimeVersion *string `json:"runtimeVersion,omitempty" tf:"runtime_version,omitempty"`
 }
 
 // RoutineSpec defines the desired state of Routine
@@ -332,6 +495,7 @@ type Routine struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.definitionBody) || (has(self.initProvider) && has(self.initProvider.definitionBody))",message="spec.forProvider.definitionBody is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.routineType) || (has(self.initProvider) && has(self.initProvider.routineType))",message="spec.forProvider.routineType is a required parameter"
 	Spec   RoutineSpec   `json:"spec"`
 	Status RoutineStatus `json:"status,omitempty"`
 }

@@ -114,11 +114,26 @@ type ProjectSinkInitParameters struct {
 	// Options that affect sinks exporting data to BigQuery. Structure documented below.
 	BigqueryOptions []ProjectSinkBigqueryOptionsInitParameters `json:"bigqueryOptions,omitempty" tf:"bigquery_options,omitempty"`
 
+	// A user managed service account that will be used to write
+	// the log entries. The format must be serviceAccount:some@email. This field can only be specified if you are
+	// routing logs to a destination outside this sink's project. If not specified, a Logging service account
+	// will automatically be generated.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
+	CustomWriterIdentity *string `json:"customWriterIdentity,omitempty" tf:"custom_writer_identity,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate customWriterIdentity.
+	// +kubebuilder:validation:Optional
+	CustomWriterIdentityRef *v1.Reference `json:"customWriterIdentityRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate customWriterIdentity.
+	// +kubebuilder:validation:Optional
+	CustomWriterIdentitySelector *v1.Selector `json:"customWriterIdentitySelector,omitempty" tf:"-"`
+
 	// A description of this sink. The maximum length of the description is 8000 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The destination of the sink (or, in other words, where logs are written to). Can be a
-	// Cloud Storage bucket, a PubSub topic, a BigQuery dataset or a Cloud Logging bucket . Examples:
+	// The destination of the sink (or, in other words, where logs are written to). Can be a Cloud Storage bucket, a PubSub topic, a BigQuery dataset, a Cloud Logging bucket, or a Google Cloud project. Examples:
 	Destination *string `json:"destination,omitempty" tf:"destination,omitempty"`
 
 	// If set to True, then this sink is disabled and it does not export any log entries.
@@ -136,8 +151,7 @@ type ProjectSinkInitParameters struct {
 	// used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// Whether or not to create a unique identity associated with this sink. If false
-	// (the default), then the writer_identity used is serviceAccount:cloud-logs@system.gserviceaccount.com. If true,
+	// Whether or not to create a unique identity associated with this sink. If false, then the writer_identity used is serviceAccount:cloud-logs@system.gserviceaccount.com. If true (the default),
 	// then a unique service account is created and used for this sink. If you wish to publish logs across projects or utilize
 	// bigquery_options, you must set unique_writer_identity to true.
 	UniqueWriterIdentity *bool `json:"uniqueWriterIdentity,omitempty" tf:"unique_writer_identity,omitempty"`
@@ -148,11 +162,16 @@ type ProjectSinkObservation struct {
 	// Options that affect sinks exporting data to BigQuery. Structure documented below.
 	BigqueryOptions []ProjectSinkBigqueryOptionsObservation `json:"bigqueryOptions,omitempty" tf:"bigquery_options,omitempty"`
 
+	// A user managed service account that will be used to write
+	// the log entries. The format must be serviceAccount:some@email. This field can only be specified if you are
+	// routing logs to a destination outside this sink's project. If not specified, a Logging service account
+	// will automatically be generated.
+	CustomWriterIdentity *string `json:"customWriterIdentity,omitempty" tf:"custom_writer_identity,omitempty"`
+
 	// A description of this sink. The maximum length of the description is 8000 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The destination of the sink (or, in other words, where logs are written to). Can be a
-	// Cloud Storage bucket, a PubSub topic, a BigQuery dataset or a Cloud Logging bucket . Examples:
+	// The destination of the sink (or, in other words, where logs are written to). Can be a Cloud Storage bucket, a PubSub topic, a BigQuery dataset, a Cloud Logging bucket, or a Google Cloud project. Examples:
 	Destination *string `json:"destination,omitempty" tf:"destination,omitempty"`
 
 	// If set to True, then this sink is disabled and it does not export any log entries.
@@ -173,8 +192,7 @@ type ProjectSinkObservation struct {
 	// used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// Whether or not to create a unique identity associated with this sink. If false
-	// (the default), then the writer_identity used is serviceAccount:cloud-logs@system.gserviceaccount.com. If true,
+	// Whether or not to create a unique identity associated with this sink. If false, then the writer_identity used is serviceAccount:cloud-logs@system.gserviceaccount.com. If true (the default),
 	// then a unique service account is created and used for this sink. If you wish to publish logs across projects or utilize
 	// bigquery_options, you must set unique_writer_identity to true.
 	UniqueWriterIdentity *bool `json:"uniqueWriterIdentity,omitempty" tf:"unique_writer_identity,omitempty"`
@@ -190,12 +208,28 @@ type ProjectSinkParameters struct {
 	// +kubebuilder:validation:Optional
 	BigqueryOptions []ProjectSinkBigqueryOptionsParameters `json:"bigqueryOptions,omitempty" tf:"bigquery_options,omitempty"`
 
+	// A user managed service account that will be used to write
+	// the log entries. The format must be serviceAccount:some@email. This field can only be specified if you are
+	// routing logs to a destination outside this sink's project. If not specified, a Logging service account
+	// will automatically be generated.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
+	// +kubebuilder:validation:Optional
+	CustomWriterIdentity *string `json:"customWriterIdentity,omitempty" tf:"custom_writer_identity,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate customWriterIdentity.
+	// +kubebuilder:validation:Optional
+	CustomWriterIdentityRef *v1.Reference `json:"customWriterIdentityRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate customWriterIdentity.
+	// +kubebuilder:validation:Optional
+	CustomWriterIdentitySelector *v1.Selector `json:"customWriterIdentitySelector,omitempty" tf:"-"`
+
 	// A description of this sink. The maximum length of the description is 8000 characters.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The destination of the sink (or, in other words, where logs are written to). Can be a
-	// Cloud Storage bucket, a PubSub topic, a BigQuery dataset or a Cloud Logging bucket . Examples:
+	// The destination of the sink (or, in other words, where logs are written to). Can be a Cloud Storage bucket, a PubSub topic, a BigQuery dataset, a Cloud Logging bucket, or a Google Cloud project. Examples:
 	// +kubebuilder:validation:Optional
 	Destination *string `json:"destination,omitempty" tf:"destination,omitempty"`
 
@@ -218,8 +252,7 @@ type ProjectSinkParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// Whether or not to create a unique identity associated with this sink. If false
-	// (the default), then the writer_identity used is serviceAccount:cloud-logs@system.gserviceaccount.com. If true,
+	// Whether or not to create a unique identity associated with this sink. If false, then the writer_identity used is serviceAccount:cloud-logs@system.gserviceaccount.com. If true (the default),
 	// then a unique service account is created and used for this sink. If you wish to publish logs across projects or utilize
 	// bigquery_options, you must set unique_writer_identity to true.
 	// +kubebuilder:validation:Optional

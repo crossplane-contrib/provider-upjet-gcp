@@ -60,6 +60,8 @@ type ConditionParameters struct {
 type MembershipIAMMemberInitParameters struct {
 	Condition []ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/gkehub/v1beta1.Membership
@@ -85,6 +87,8 @@ type MembershipIAMMemberObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
 	MembershipID *string `json:"membershipId,omitempty" tf:"membership_id,omitempty"`
@@ -98,6 +102,9 @@ type MembershipIAMMemberParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Condition []ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`

@@ -73,6 +73,13 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  callLogLevel:
+                    description: |-
+                      Describes the level of platform logging to apply to calls and call responses during
+                      executions of this workflow. If both the workflow and the execution specify a logging level,
+                      the execution level takes precedence.
+                      Possible values are: CALL_LOG_LEVEL_UNSPECIFIED, LOG_ALL_CALLS, LOG_ERRORS_ONLY, LOG_NONE.
+                    type: string
                   cryptoKeyName:
                     description: |-
                       The KMS key used to encrypt workflow and execution data.
@@ -192,8 +199,17 @@ spec:
                         type: object
                     type: object
                   sourceContents:
-                    description: Workflow code to be executed. The size limit is 32KB.
+                    description: Workflow code to be executed. The size limit is 128KB.
                     type: string
+                  userEnvVars:
+                    additionalProperties:
+                      type: string
+                    description: User-defined environment variables associated with
+                      this workflow revision. This map has a maximum length of 20.
+                      Each string can take up to 4KiB. Keys cannot be empty strings
+                      and cannot start with “GOOGLE” or “WORKFLOWS".
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               initProvider:
                 description: |-
@@ -208,6 +224,13 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  callLogLevel:
+                    description: |-
+                      Describes the level of platform logging to apply to calls and call responses during
+                      executions of this workflow. If both the workflow and the execution specify a logging level,
+                      the execution level takes precedence.
+                      Possible values are: CALL_LOG_LEVEL_UNSPECIFIED, LOG_ALL_CALLS, LOG_ERRORS_ONLY, LOG_NONE.
+                    type: string
                   cryptoKeyName:
                     description: |-
                       The KMS key used to encrypt workflow and execution data.
@@ -327,8 +350,17 @@ spec:
                         type: object
                     type: object
                   sourceContents:
-                    description: Workflow code to be executed. The size limit is 32KB.
+                    description: Workflow code to be executed. The size limit is 128KB.
                     type: string
+                  userEnvVars:
+                    additionalProperties:
+                      type: string
+                    description: User-defined environment variables associated with
+                      this workflow revision. This map has a maximum length of 20.
+                      Each string can take up to 4KiB. Keys cannot be empty strings
+                      and cannot start with “GOOGLE” or “WORKFLOWS".
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               managementPolicies:
                 default:
@@ -502,6 +534,13 @@ spec:
             properties:
               atProvider:
                 properties:
+                  callLogLevel:
+                    description: |-
+                      Describes the level of platform logging to apply to calls and call responses during
+                      executions of this workflow. If both the workflow and the execution specify a logging level,
+                      the execution level takes precedence.
+                      Possible values are: CALL_LOG_LEVEL_UNSPECIFIED, LOG_ALL_CALLS, LOG_ERRORS_ONLY, LOG_NONE.
+                    type: string
                   createTime:
                     description: The timestamp of when the workflow was created in
                       RFC3339 UTC "Zulu" format, with nanosecond resolution and up
@@ -516,6 +555,12 @@ spec:
                     description: Description of the workflow provided by the user.
                       Must be at most 1000 unicode characters long.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/workflows/{{name}}
                     type: string
@@ -557,16 +602,33 @@ spec:
                       Modifying this field for an existing workflow results in a new workflow revision.
                     type: string
                   sourceContents:
-                    description: Workflow code to be executed. The size limit is 32KB.
+                    description: Workflow code to be executed. The size limit is 128KB.
                     type: string
                   state:
                     description: State of the workflow deployment.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   updateTime:
                     description: The timestamp of when the workflow was last updated
                       in RFC3339 UTC "Zulu" format, with nanosecond resolution and
                       up to nine fractional digits.
                     type: string
+                  userEnvVars:
+                    additionalProperties:
+                      type: string
+                    description: User-defined environment variables associated with
+                      this workflow revision. This map has a maximum length of 20.
+                      Each string can take up to 4KiB. Keys cannot be empty strings
+                      and cannot start with “GOOGLE” or “WORKFLOWS".
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               conditions:
                 description: Conditions of the resource.

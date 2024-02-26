@@ -173,6 +173,12 @@ spec:
                             type: string
                         type: object
                     type: object
+                  sslPolicy:
+                    description: |-
+                      A reference to the Region SslPolicy resource that will be associated with
+                      the TargetHttpsProxy resource. If not set, the TargetHttpsProxy
+                      resource will not have any SSL policy configured.
+                    type: string
                   urlMap:
                     description: |-
                       A reference to the RegionUrlMap resource that defines the mapping from URL
@@ -364,6 +370,12 @@ spec:
                             type: string
                         type: object
                     type: object
+                  sslPolicy:
+                    description: |-
+                      A reference to the Region SslPolicy resource that will be associated with
+                      the TargetHttpsProxy resource. If not set, the TargetHttpsProxy
+                      resource will not have any SSL policy configured.
+                    type: string
                   urlMap:
                     description: |-
                       A reference to the RegionUrlMap resource that defines the mapping from URL
@@ -652,6 +664,12 @@ spec:
                     items:
                       type: string
                     type: array
+                  sslPolicy:
+                    description: |-
+                      A reference to the Region SslPolicy resource that will be associated with
+                      the TargetHttpsProxy resource. If not set, the TargetHttpsProxy
+                      resource will not have any SSL policy configured.
+                    type: string
                   urlMap:
                     description: |-
                       A reference to the RegionUrlMap resource that defines the mapping from URL

@@ -76,8 +76,10 @@ spec:
                   annotations:
                     additionalProperties:
                       type: string
-                    description: Annotations to allow client tools to store small
-                      amount of arbitrary data. This is distinct from labels.
+                    description: |-
+                      Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels.
+                      Note: This field is non-authoritative, and will only manage the annotations present in your configuration.
+                      Please refer to the field effective_annotations for all of the annotations present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   availabilityType:
@@ -90,6 +92,31 @@ spec:
                       can have regional availability (nodes are present in 2 or more zones in a region).'
                       Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.
                     type: string
+                  clientConnectionConfig:
+                    description: |-
+                      Client connection specific configurations.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        requireConnectors:
+                          description: 'Configuration to enforce connectors only (ex:
+                            AuthProxy) connections to the database.'
+                          type: boolean
+                        sslConfig:
+                          description: |-
+                            SSL config option for this instance.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              sslMode:
+                                description: |-
+                                  SSL mode. Specifies client-server SSL/TLS connection behavior.
+                                  Possible values are: ENCRYPTED_ONLY, ALLOW_UNENCRYPTED_AND_ENCRYPTED.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   cluster:
                     description: |-
                       Identifies the alloydb cluster. Must be in the format
@@ -193,13 +220,94 @@ spec:
                     type: string
                   instanceType:
                     description: |-
-                      The type of the instance. If the instance type is READ_POOL, provide the associated PRIMARY instance in the depends_on meta-data attribute.
-                      Possible values are: PRIMARY, READ_POOL.
+                      The type of the instance.
+                      If the instance type is READ_POOL, provide the associated PRIMARY/SECONDARY instance in the depends_on meta-data attribute.
+                      If the instance type is SECONDARY, point to the cluster_type of the associated secondary cluster instead of mentioning SECONDARY.
+                      Example: {instance_type = google_alloydb_cluster.<secondary_cluster_name>.
+                      Use deletion_policy = "FORCE" in the associated secondary cluster and delete the cluster forcefully to delete the secondary cluster as well its associated secondary instance.
+                      Possible values are: PRIMARY, READ_POOL, SECONDARY.
                     type: string
+                  instanceTypeRef:
+                    description: Reference to a Cluster in alloydb to populate instanceType.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  instanceTypeSelector:
+                    description: Selector for a Cluster in alloydb to populate instanceType.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   labels:
                     additionalProperties:
                       type: string
-                    description: User-defined labels for the alloydb instance.
+                    description: |-
+                      User-defined labels for the alloydb instance.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   machineConfig:
@@ -213,9 +321,36 @@ spec:
                           type: number
                       type: object
                     type: array
+                  queryInsightsConfig:
+                    description: |-
+                      Configuration for query insights.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        queryPlansPerMinute:
+                          description: Number of query execution plans captured by
+                            Insights per minute for all queries combined. The default
+                            value is 5. Any integer between 0 and 20 is considered
+                            valid.
+                          type: number
+                        queryStringLength:
+                          description: Query string length. The default value is 1024.
+                            Any integer between 256 and 4500 is considered valid.
+                          type: number
+                        recordApplicationTags:
+                          description: Record application tags for an instance. This
+                            flag is turned "on" by default.
+                          type: boolean
+                        recordClientAddress:
+                          description: Record client address for an instance. Client
+                            address is PII information. This flag is turned "on" by
+                            default.
+                          type: boolean
+                      type: object
+                    type: array
                   readPoolConfig:
                     description: |-
-                      Read pool specific config.
+                      Read pool specific config. If the instance type is READ_POOL, this configuration must be provided.
                       Structure is documented below.
                     items:
                       properties:
@@ -242,8 +377,10 @@ spec:
                   annotations:
                     additionalProperties:
                       type: string
-                    description: Annotations to allow client tools to store small
-                      amount of arbitrary data. This is distinct from labels.
+                    description: |-
+                      Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels.
+                      Note: This field is non-authoritative, and will only manage the annotations present in your configuration.
+                      Please refer to the field effective_annotations for all of the annotations present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   availabilityType:
@@ -256,6 +393,31 @@ spec:
                       can have regional availability (nodes are present in 2 or more zones in a region).'
                       Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.
                     type: string
+                  clientConnectionConfig:
+                    description: |-
+                      Client connection specific configurations.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        requireConnectors:
+                          description: 'Configuration to enforce connectors only (ex:
+                            AuthProxy) connections to the database.'
+                          type: boolean
+                        sslConfig:
+                          description: |-
+                            SSL config option for this instance.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              sslMode:
+                                description: |-
+                                  SSL mode. Specifies client-server SSL/TLS connection behavior.
+                                  Possible values are: ENCRYPTED_ONLY, ALLOW_UNENCRYPTED_AND_ENCRYPTED.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   databaseFlags:
                     additionalProperties:
                       type: string
@@ -280,13 +442,94 @@ spec:
                     type: string
                   instanceType:
                     description: |-
-                      The type of the instance. If the instance type is READ_POOL, provide the associated PRIMARY instance in the depends_on meta-data attribute.
-                      Possible values are: PRIMARY, READ_POOL.
+                      The type of the instance.
+                      If the instance type is READ_POOL, provide the associated PRIMARY/SECONDARY instance in the depends_on meta-data attribute.
+                      If the instance type is SECONDARY, point to the cluster_type of the associated secondary cluster instead of mentioning SECONDARY.
+                      Example: {instance_type = google_alloydb_cluster.<secondary_cluster_name>.
+                      Use deletion_policy = "FORCE" in the associated secondary cluster and delete the cluster forcefully to delete the secondary cluster as well its associated secondary instance.
+                      Possible values are: PRIMARY, READ_POOL, SECONDARY.
                     type: string
+                  instanceTypeRef:
+                    description: Reference to a Cluster in alloydb to populate instanceType.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  instanceTypeSelector:
+                    description: Selector for a Cluster in alloydb to populate instanceType.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   labels:
                     additionalProperties:
                       type: string
-                    description: User-defined labels for the alloydb instance.
+                    description: |-
+                      User-defined labels for the alloydb instance.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   machineConfig:
@@ -300,9 +543,36 @@ spec:
                           type: number
                       type: object
                     type: array
+                  queryInsightsConfig:
+                    description: |-
+                      Configuration for query insights.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        queryPlansPerMinute:
+                          description: Number of query execution plans captured by
+                            Insights per minute for all queries combined. The default
+                            value is 5. Any integer between 0 and 20 is considered
+                            valid.
+                          type: number
+                        queryStringLength:
+                          description: Query string length. The default value is 1024.
+                            Any integer between 256 and 4500 is considered valid.
+                          type: number
+                        recordApplicationTags:
+                          description: Record application tags for an instance. This
+                            flag is turned "on" by default.
+                          type: boolean
+                        recordClientAddress:
+                          description: Record client address for an instance. Client
+                            address is PII information. This flag is turned "on" by
+                            default.
+                          type: boolean
+                      type: object
+                    type: array
                   readPoolConfig:
                     description: |-
-                      Read pool specific config.
+                      Read pool specific config. If the instance type is READ_POOL, this configuration must be provided.
                       Structure is documented below.
                     items:
                       properties:
@@ -480,11 +750,6 @@ spec:
             required:
             - forProvider
             type: object
-            x-kubernetes-validations:
-            - message: spec.forProvider.instanceType is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.instanceType)
-                || (has(self.initProvider) && has(self.initProvider.instanceType))'
           status:
             description: InstanceStatus defines the observed state of Instance.
             properties:
@@ -493,8 +758,10 @@ spec:
                   annotations:
                     additionalProperties:
                       type: string
-                    description: Annotations to allow client tools to store small
-                      amount of arbitrary data. This is distinct from labels.
+                    description: |-
+                      Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels.
+                      Note: This field is non-authoritative, and will only manage the annotations present in your configuration.
+                      Please refer to the field effective_annotations for all of the annotations present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   availabilityType:
@@ -507,6 +774,31 @@ spec:
                       can have regional availability (nodes are present in 2 or more zones in a region).'
                       Possible values are: AVAILABILITY_TYPE_UNSPECIFIED, ZONAL, REGIONAL.
                     type: string
+                  clientConnectionConfig:
+                    description: |-
+                      Client connection specific configurations.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        requireConnectors:
+                          description: 'Configuration to enforce connectors only (ex:
+                            AuthProxy) connections to the database.'
+                          type: boolean
+                        sslConfig:
+                          description: |-
+                            SSL config option for this instance.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              sslMode:
+                                description: |-
+                                  SSL mode. Specifies client-server SSL/TLS connection behavior.
+                                  Possible values are: ENCRYPTED_ONLY, ALLOW_UNENCRYPTED_AND_ENCRYPTED.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   cluster:
                     description: |-
                       Identifies the alloydb cluster. Must be in the format
@@ -529,6 +821,16 @@ spec:
                     description: User-settable and human-readable display name for
                       the Instance.
                     type: string
+                  effectiveAnnotations:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   gceZone:
                     description: The Compute Engine zone that the instance should
                       serve from, per https://cloud.google.com/compute/docs/regions-zones
@@ -542,8 +844,12 @@ spec:
                     type: string
                   instanceType:
                     description: |-
-                      The type of the instance. If the instance type is READ_POOL, provide the associated PRIMARY instance in the depends_on meta-data attribute.
-                      Possible values are: PRIMARY, READ_POOL.
+                      The type of the instance.
+                      If the instance type is READ_POOL, provide the associated PRIMARY/SECONDARY instance in the depends_on meta-data attribute.
+                      If the instance type is SECONDARY, point to the cluster_type of the associated secondary cluster instead of mentioning SECONDARY.
+                      Example: {instance_type = google_alloydb_cluster.<secondary_cluster_name>.
+                      Use deletion_policy = "FORCE" in the associated secondary cluster and delete the cluster forcefully to delete the secondary cluster as well its associated secondary instance.
+                      Possible values are: PRIMARY, READ_POOL, SECONDARY.
                     type: string
                   ipAddress:
                     description: The IP address for the Instance. This is the connection
@@ -552,7 +858,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: User-defined labels for the alloydb instance.
+                    description: |-
+                      User-defined labels for the alloydb instance.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   machineConfig:
@@ -569,9 +878,36 @@ spec:
                   name:
                     description: The name of the instance resource.
                     type: string
+                  queryInsightsConfig:
+                    description: |-
+                      Configuration for query insights.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        queryPlansPerMinute:
+                          description: Number of query execution plans captured by
+                            Insights per minute for all queries combined. The default
+                            value is 5. Any integer between 0 and 20 is considered
+                            valid.
+                          type: number
+                        queryStringLength:
+                          description: Query string length. The default value is 1024.
+                            Any integer between 256 and 4500 is considered valid.
+                          type: number
+                        recordApplicationTags:
+                          description: Record application tags for an instance. This
+                            flag is turned "on" by default.
+                          type: boolean
+                        recordClientAddress:
+                          description: Record client address for an instance. Client
+                            address is PII information. This flag is turned "on" by
+                            default.
+                          type: boolean
+                      type: object
+                    type: array
                   readPoolConfig:
                     description: |-
-                      Read pool specific config.
+                      Read pool specific config. If the instance type is READ_POOL, this configuration must be provided.
                       Structure is documented below.
                     items:
                       properties:
@@ -591,6 +927,14 @@ spec:
                   state:
                     description: The current state of the alloydb instance.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   uid:
                     description: The system-generated UID of the resource.
                     type: string

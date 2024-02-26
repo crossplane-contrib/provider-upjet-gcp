@@ -192,6 +192,19 @@ spec:
                           type: string
                       type: object
                     type: array
+                  standardIsolation:
+                    description: |-
+                      The standard options used for isolating this app profile's traffic from other use cases.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        priority:
+                          description: |-
+                            The priority of requests sent using this app profile.
+                            Possible values are: PRIORITY_LOW, PRIORITY_MEDIUM, PRIORITY_HIGH.
+                          type: string
+                      type: object
+                    type: array
                 type: object
               initProvider:
                 description: |-
@@ -243,6 +256,19 @@ spec:
                         clusterId:
                           description: The cluster to which read/write requests should
                             be routed.
+                          type: string
+                      type: object
+                    type: array
+                  standardIsolation:
+                    description: |-
+                      The standard options used for isolating this app profile's traffic from other use cases.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        priority:
+                          description: |-
+                            The priority of requests sent using this app profile.
+                            Possible values are: PRIORITY_LOW, PRIORITY_MEDIUM, PRIORITY_HIGH.
                           type: string
                       type: object
                     type: array
@@ -467,6 +493,19 @@ spec:
                         clusterId:
                           description: The cluster to which read/write requests should
                             be routed.
+                          type: string
+                      type: object
+                    type: array
+                  standardIsolation:
+                    description: |-
+                      The standard options used for isolating this app profile's traffic from other use cases.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        priority:
+                          description: |-
+                            The priority of requests sent using this app profile.
+                            Possible values are: PRIORITY_LOW, PRIORITY_MEDIUM, PRIORITY_HIGH.
                           type: string
                       type: object
                     type: array

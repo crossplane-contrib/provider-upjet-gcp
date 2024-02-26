@@ -92,9 +92,10 @@ spec:
                       the description is 8000 characters.
                     type: string
                   destination:
-                    description: |-
-                      The destination of the sink (or, in other words, where logs are written to). Can be a
-                      Cloud Storage bucket, a PubSub topic, a BigQuery dataset or a Cloud Logging bucket. Examples:
+                    description: 'The destination of the sink (or, in other words,
+                      where logs are written to). Can be a Cloud Storage bucket, a
+                      PubSub topic, a BigQuery dataset, a Cloud Logging bucket, or
+                      a Google Cloud project. Examples:'
                     type: string
                   disabled:
                     description: If set to True, then this sink is disabled and it
@@ -253,9 +254,10 @@ spec:
                       the description is 8000 characters.
                     type: string
                   destination:
-                    description: |-
-                      The destination of the sink (or, in other words, where logs are written to). Can be a
-                      Cloud Storage bucket, a PubSub topic, a BigQuery dataset or a Cloud Logging bucket. Examples:
+                    description: 'The destination of the sink (or, in other words,
+                      where logs are written to). Can be a Cloud Storage bucket, a
+                      PubSub topic, a BigQuery dataset, a Cloud Logging bucket, or
+                      a Google Cloud project. Examples:'
                     type: string
                   disabled:
                     description: If set to True, then this sink is disabled and it
@@ -497,9 +499,10 @@ spec:
                       the description is 8000 characters.
                     type: string
                   destination:
-                    description: |-
-                      The destination of the sink (or, in other words, where logs are written to). Can be a
-                      Cloud Storage bucket, a PubSub topic, a BigQuery dataset or a Cloud Logging bucket. Examples:
+                    description: 'The destination of the sink (or, in other words,
+                      where logs are written to). Can be a Cloud Storage bucket, a
+                      PubSub topic, a BigQuery dataset, a Cloud Logging bucket, or
+                      a Google Cloud project. Examples:'
                     type: string
                   disabled:
                     description: If set to True, then this sink is disabled and it

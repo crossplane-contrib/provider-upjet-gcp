@@ -8,6 +8,8 @@ metadata:
   name: tunnel1
 spec:
   forProvider:
+    labels:
+      foo: bar
     peerIp: 15.0.0.120
     sharedSecretSecretRef:
       key: example-key

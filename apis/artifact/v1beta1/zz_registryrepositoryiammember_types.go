@@ -29,7 +29,7 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type ConditionInitParameters struct {
+type RegistryRepositoryIAMMemberConditionInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
@@ -37,7 +37,7 @@ type ConditionInitParameters struct {
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
-type ConditionObservation struct {
+type RegistryRepositoryIAMMemberConditionObservation struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
@@ -45,7 +45,7 @@ type ConditionObservation struct {
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
-type ConditionParameters struct {
+type RegistryRepositoryIAMMemberConditionParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -58,7 +58,7 @@ type ConditionParameters struct {
 }
 
 type RegistryRepositoryIAMMemberInitParameters struct {
-	Condition []ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition []RegistryRepositoryIAMMemberConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
@@ -72,7 +72,7 @@ type RegistryRepositoryIAMMemberInitParameters struct {
 }
 
 type RegistryRepositoryIAMMemberObservation struct {
-	Condition []ConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition []RegistryRepositoryIAMMemberConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
@@ -92,7 +92,7 @@ type RegistryRepositoryIAMMemberObservation struct {
 type RegistryRepositoryIAMMemberParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Condition []ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition []RegistryRepositoryIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`

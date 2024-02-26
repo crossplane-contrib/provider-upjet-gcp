@@ -137,7 +137,7 @@ type GlobalForwardingRuleInitParameters struct {
 	// For more information about forwarding rules, refer to
 	// Forwarding rule concepts.
 	// Default value is EXTERNAL.
-	// Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL_SELF_MANAGED.
+	// Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED, INTERNAL_SELF_MANAGED.
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
 	// Opaque filter criteria used by Loadbalancer to restrict routing
@@ -180,7 +180,7 @@ type GlobalForwardingRuleInitParameters struct {
 	// This is used in PSC consumer ForwardingRule to control whether it should try to auto-generate a DNS zone or not. Non-PSC forwarding rules do not use this field.
 	NoAutomateDNSZone *bool `json:"noAutomateDnsZone,omitempty" tf:"no_automate_dns_zone,omitempty"`
 
-	// This field can only be used:
+	// The portRange field has the following limitations:
 	PortRange *string `json:"portRange,omitempty" tf:"port_range,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -197,8 +197,31 @@ type GlobalForwardingRuleInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
+	// Service Directory resources to register this forwarding rule with.
+	// Currently, only supports a single Service Directory resource.
+	// Structure is documented below.
+	ServiceDirectoryRegistrations []GlobalForwardingRuleServiceDirectoryRegistrationsInitParameters `json:"serviceDirectoryRegistrations,omitempty" tf:"service_directory_registrations,omitempty"`
+
 	// If not empty, this Forwarding Rule will only forward the traffic when the source IP address matches one of the IP addresses or CIDR ranges set here. Note that a Forwarding Rule can only have up to 64 source IP ranges, and this field can only be used with a regional Forwarding Rule whose scheme is EXTERNAL. Each sourceIpRange entry should be either an IP address (for example, 1.2.3.4) or a CIDR range (for example, 1.2.3.0/24).
 	SourceIPRanges []*string `json:"sourceIpRanges,omitempty" tf:"source_ip_ranges,omitempty"`
+
+	// This field identifies the subnetwork that the load balanced IP should
+	// belong to for this Forwarding Rule, used in internal load balancing and
+	// network load balancing with IPv6.
+	// If the network specified is in auto subnet mode, this field is optional.
+	// However, a subnetwork must be specified if the network is in custom subnet
+	// mode or when creating external forwarding rule with IPv6.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+
+	// Reference to a Subnetwork in compute to populate subnetwork.
+	// +kubebuilder:validation:Optional
+	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+
+	// Selector for a Subnetwork in compute to populate subnetwork.
+	// +kubebuilder:validation:Optional
+	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 
 	// The URL of the target resource to receive the matched traffic.  For
 	// regional forwarding rules, this target must be in the same region as the
@@ -226,6 +249,10 @@ type GlobalForwardingRuleObservation struct {
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// for all of the labels present on the resource.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/global/forwardingRules/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -264,7 +291,7 @@ type GlobalForwardingRuleObservation struct {
 	// For more information about forwarding rules, refer to
 	// Forwarding rule concepts.
 	// Default value is EXTERNAL.
-	// Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL_SELF_MANAGED.
+	// Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED, INTERNAL_SELF_MANAGED.
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
 	// Opaque filter criteria used by Loadbalancer to restrict routing
@@ -297,7 +324,7 @@ type GlobalForwardingRuleObservation struct {
 	// This is used in PSC consumer ForwardingRule to control whether it should try to auto-generate a DNS zone or not. Non-PSC forwarding rules do not use this field.
 	NoAutomateDNSZone *bool `json:"noAutomateDnsZone,omitempty" tf:"no_automate_dns_zone,omitempty"`
 
-	// This field can only be used:
+	// The portRange field has the following limitations:
 	PortRange *string `json:"portRange,omitempty" tf:"port_range,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -313,8 +340,21 @@ type GlobalForwardingRuleObservation struct {
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// Service Directory resources to register this forwarding rule with.
+	// Currently, only supports a single Service Directory resource.
+	// Structure is documented below.
+	ServiceDirectoryRegistrations []GlobalForwardingRuleServiceDirectoryRegistrationsObservation `json:"serviceDirectoryRegistrations,omitempty" tf:"service_directory_registrations,omitempty"`
+
 	// If not empty, this Forwarding Rule will only forward the traffic when the source IP address matches one of the IP addresses or CIDR ranges set here. Note that a Forwarding Rule can only have up to 64 source IP ranges, and this field can only be used with a regional Forwarding Rule whose scheme is EXTERNAL. Each sourceIpRange entry should be either an IP address (for example, 1.2.3.4) or a CIDR range (for example, 1.2.3.0/24).
 	SourceIPRanges []*string `json:"sourceIpRanges,omitempty" tf:"source_ip_ranges,omitempty"`
+
+	// This field identifies the subnetwork that the load balanced IP should
+	// belong to for this Forwarding Rule, used in internal load balancing and
+	// network load balancing with IPv6.
+	// If the network specified is in auto subnet mode, this field is optional.
+	// However, a subnetwork must be specified if the network is in custom subnet
+	// mode or when creating external forwarding rule with IPv6.
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// The URL of the target resource to receive the matched traffic.  For
 	// regional forwarding rules, this target must be in the same region as the
@@ -322,6 +362,11 @@ type GlobalForwardingRuleObservation struct {
 	// load balancing resource.
 	// The forwarded traffic must be of a type appropriate to the target object.
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type GlobalForwardingRuleParameters struct {
@@ -375,7 +420,7 @@ type GlobalForwardingRuleParameters struct {
 	// For more information about forwarding rules, refer to
 	// Forwarding rule concepts.
 	// Default value is EXTERNAL.
-	// Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL_SELF_MANAGED.
+	// Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED, INTERNAL_SELF_MANAGED.
 	// +kubebuilder:validation:Optional
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
@@ -422,7 +467,7 @@ type GlobalForwardingRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	NoAutomateDNSZone *bool `json:"noAutomateDnsZone,omitempty" tf:"no_automate_dns_zone,omitempty"`
 
-	// This field can only be used:
+	// The portRange field has the following limitations:
 	// +kubebuilder:validation:Optional
 	PortRange *string `json:"portRange,omitempty" tf:"port_range,omitempty"`
 
@@ -441,9 +486,34 @@ type GlobalForwardingRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
+	// Service Directory resources to register this forwarding rule with.
+	// Currently, only supports a single Service Directory resource.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ServiceDirectoryRegistrations []GlobalForwardingRuleServiceDirectoryRegistrationsParameters `json:"serviceDirectoryRegistrations,omitempty" tf:"service_directory_registrations,omitempty"`
+
 	// If not empty, this Forwarding Rule will only forward the traffic when the source IP address matches one of the IP addresses or CIDR ranges set here. Note that a Forwarding Rule can only have up to 64 source IP ranges, and this field can only be used with a regional Forwarding Rule whose scheme is EXTERNAL. Each sourceIpRange entry should be either an IP address (for example, 1.2.3.4) or a CIDR range (for example, 1.2.3.0/24).
 	// +kubebuilder:validation:Optional
 	SourceIPRanges []*string `json:"sourceIpRanges,omitempty" tf:"source_ip_ranges,omitempty"`
+
+	// This field identifies the subnetwork that the load balanced IP should
+	// belong to for this Forwarding Rule, used in internal load balancing and
+	// network load balancing with IPv6.
+	// If the network specified is in auto subnet mode, this field is optional.
+	// However, a subnetwork must be specified if the network is in custom subnet
+	// mode or when creating external forwarding rule with IPv6.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+
+	// Reference to a Subnetwork in compute to populate subnetwork.
+	// +kubebuilder:validation:Optional
+	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+
+	// Selector for a Subnetwork in compute to populate subnetwork.
+	// +kubebuilder:validation:Optional
+	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 
 	// The URL of the target resource to receive the matched traffic.  For
 	// regional forwarding rules, this target must be in the same region as the
@@ -462,6 +532,44 @@ type GlobalForwardingRuleParameters struct {
 	// Selector for a TargetSSLProxy in compute to populate target.
 	// +kubebuilder:validation:Optional
 	TargetSelector *v1.Selector `json:"targetSelector,omitempty" tf:"-"`
+}
+
+type GlobalForwardingRuleServiceDirectoryRegistrationsInitParameters struct {
+
+	// Service Directory namespace to register the forwarding rule under.
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// [Optional] Service Directory region to register this global forwarding rule under.
+	// Default to "us-central1". Only used for PSC for Google APIs. All PSC for
+	// Google APIs Forwarding Rules on the same network should use the same Service
+	// Directory region.
+	ServiceDirectoryRegion *string `json:"serviceDirectoryRegion,omitempty" tf:"service_directory_region,omitempty"`
+}
+
+type GlobalForwardingRuleServiceDirectoryRegistrationsObservation struct {
+
+	// Service Directory namespace to register the forwarding rule under.
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// [Optional] Service Directory region to register this global forwarding rule under.
+	// Default to "us-central1". Only used for PSC for Google APIs. All PSC for
+	// Google APIs Forwarding Rules on the same network should use the same Service
+	// Directory region.
+	ServiceDirectoryRegion *string `json:"serviceDirectoryRegion,omitempty" tf:"service_directory_region,omitempty"`
+}
+
+type GlobalForwardingRuleServiceDirectoryRegistrationsParameters struct {
+
+	// Service Directory namespace to register the forwarding rule under.
+	// +kubebuilder:validation:Optional
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// [Optional] Service Directory region to register this global forwarding rule under.
+	// Default to "us-central1". Only used for PSC for Google APIs. All PSC for
+	// Google APIs Forwarding Rules on the same network should use the same Service
+	// Directory region.
+	// +kubebuilder:validation:Optional
+	ServiceDirectoryRegion *string `json:"serviceDirectoryRegion,omitempty" tf:"service_directory_region,omitempty"`
 }
 
 type MetadataFiltersInitParameters struct {

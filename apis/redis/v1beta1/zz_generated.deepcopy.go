@@ -70,6 +70,16 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.AuthorizedNetworkRef != nil {
+		in, out := &in.AuthorizedNetworkRef, &out.AuthorizedNetworkRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.AuthorizedNetworkSelector != nil {
+		in, out := &in.AuthorizedNetworkSelector, &out.AuthorizedNetworkSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ConnectMode != nil {
 		in, out := &in.ConnectMode, &out.ConnectMode
 		*out = new(string)
@@ -278,6 +288,22 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.EffectiveLabels != nil {
+		in, out := &in.EffectiveLabels, &out.EffectiveLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.Host != nil {
 		in, out := &in.Host, &out.Host
 		*out = new(string)
@@ -420,6 +446,22 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.TerraformLabels != nil {
+		in, out := &in.TerraformLabels, &out.TerraformLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
 		*out = new(string)
@@ -459,6 +501,16 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 		in, out := &in.AuthorizedNetwork, &out.AuthorizedNetwork
 		*out = new(string)
 		**out = **in
+	}
+	if in.AuthorizedNetworkRef != nil {
+		in, out := &in.AuthorizedNetworkRef, &out.AuthorizedNetworkRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.AuthorizedNetworkSelector != nil {
+		in, out := &in.AuthorizedNetworkSelector, &out.AuthorizedNetworkSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ConnectMode != nil {
 		in, out := &in.ConnectMode, &out.ConnectMode

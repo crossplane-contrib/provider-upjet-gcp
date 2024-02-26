@@ -98,6 +98,9 @@ type CertificateTemplateObservation struct {
 	// Optional. A human-readable description of scenarios this template is intended for.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/certificateTemplates/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -119,6 +122,10 @@ type CertificateTemplateObservation struct {
 
 	// The project for the resource
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// Output only. The time at which this CertificateTemplate was updated.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`

@@ -553,6 +553,31 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.Template); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.Template[i3].Volumes); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.ForProvider.Template[i3].Volumes[i4].Gcs); i5++ {
+				{
+					m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta1", "Bucket", "BucketList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template[i3].Volumes[i4].Gcs[i5].Bucket),
+						Extract:      reference.ExternalName(),
+						Reference:    mg.Spec.ForProvider.Template[i3].Volumes[i4].Gcs[i5].BucketRef,
+						Selector:     mg.Spec.ForProvider.Template[i3].Volumes[i4].Gcs[i5].BucketSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.ForProvider.Template[i3].Volumes[i4].Gcs[i5].Bucket")
+				}
+				mg.Spec.ForProvider.Template[i3].Volumes[i4].Gcs[i5].Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.ForProvider.Template[i3].Volumes[i4].Gcs[i5].BucketRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Template); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Template[i3].Volumes); i4++ {
 			for i5 := 0; i5 < len(mg.Spec.ForProvider.Template[i3].Volumes[i4].Secret); i5++ {
 				{
 					m, l, err = apisresolver.GetManagedResource("secretmanager.gcp.upbound.io", "v1beta1", "Secret", "SecretList")
@@ -602,6 +627,31 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 
 					}
 				}
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Template); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Template[i3].Volumes); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.InitProvider.Template[i3].Volumes[i4].Gcs); i5++ {
+				{
+					m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta1", "Bucket", "BucketList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Template[i3].Volumes[i4].Gcs[i5].Bucket),
+						Extract:      reference.ExternalName(),
+						Reference:    mg.Spec.InitProvider.Template[i3].Volumes[i4].Gcs[i5].BucketRef,
+						Selector:     mg.Spec.InitProvider.Template[i3].Volumes[i4].Gcs[i5].BucketSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.InitProvider.Template[i3].Volumes[i4].Gcs[i5].Bucket")
+				}
+				mg.Spec.InitProvider.Template[i3].Volumes[i4].Gcs[i5].Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.Template[i3].Volumes[i4].Gcs[i5].BucketRef = rsp.ResolvedReference
+
 			}
 		}
 	}

@@ -305,6 +305,11 @@ spec:
                   description:
                     description: An optional description of the hub.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/global/hubs/{{name}}
                     type: string
@@ -339,6 +344,13 @@ spec:
                     description: 'Output only. The current lifecycle state of this
                       hub. Possible values: STATE_UNSPECIFIED, CREATING, ACTIVE, DELETING'
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   uniqueId:
                     description: Output only. The Google-generated UUID for the hub.
                       This value is unique across all hub resources. If a hub is deleted

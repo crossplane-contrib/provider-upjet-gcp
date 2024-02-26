@@ -73,6 +73,14 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  annotations:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128
+                      An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+                    type: object
+                    x-kubernetes-map-type: granular
                   automatedBackupPolicy:
                     description: |-
                       The automated backup policy for this cluster. AutomatedBackupPolicy is disabled by default.
@@ -180,6 +188,12 @@ spec:
                           type: array
                       type: object
                     type: array
+                  clusterType:
+                    description: |-
+                      The type of cluster. If not set, defaults to PRIMARY.
+                      Default value is PRIMARY.
+                      Possible values are: PRIMARY, SECONDARY.
+                    type: string
                   continuousBackupConfig:
                     description: |-
                       The continuous backup config for this cluster.
@@ -211,6 +225,17 @@ spec:
                           type: number
                       type: object
                     type: array
+                  databaseVersion:
+                    description: The database engine major version. This is an optional
+                      field and it's populated at the Cluster creation time. This
+                      field cannot be changed after cluster creation.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Policy to determine if the cluster should be deleted forcefully.
+                      Deleting a cluster forcefully, deletes the cluster and all its associated instances within the cluster.
+                      Deleting a Secondary cluster with a secondary instance REQUIRES setting deletion_policy = "FORCE" otherwise an error is returned. This is needed as there is no support to delete just the secondary instance, and the only way to delete secondary instance is to delete the associated secondary cluster forcefully which also deletes the secondary instance.
+                    type: string
                   displayName:
                     description: User-settable and human-readable display name for
                       the Cluster.
@@ -228,6 +253,9 @@ spec:
                           type: string
                       type: object
                     type: array
+                  etag:
+                    description: For Resource freshness validation (https://google.aip.dev/154)
+                    type: string
                   initialUser:
                     description: |-
                       Initial user to setup during cluster creation.
@@ -263,7 +291,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: User-defined labels for the alloydb cluster.
+                    description: |-
+                      User-defined labels for the alloydb cluster.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   location:
@@ -274,6 +305,24 @@ spec:
                       The relative resource name of the VPC network on which the instance can be accessed. It is specified in the following form:
                       "projects/{projectNumber}/global/networks/{network_id}".
                     type: string
+                  networkConfig:
+                    description: |-
+                      Metadata related to network configuration.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        allocatedIpRange:
+                          description: |-
+                            The name of the allocated IP range for the private IP AlloyDB cluster. For example: "google-managed-services-default".
+                            If set, the instance IPs for this cluster will be created in the allocated range.
+                          type: string
+                        network:
+                          description: |-
+                            The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster.
+                            It is specified in the form: "projects/{projectNumber}/global/networks/{network_id}".
+                          type: string
+                      type: object
+                    type: array
                   networkRef:
                     description: Reference to a Network in compute to populate network.
                     properties:
@@ -353,6 +402,275 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  restoreBackupSource:
+                    description: |-
+                      The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', both can't be set together.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        backupName:
+                          description: The name of the backup that this cluster is
+                            restored from.
+                          type: string
+                        backupNameRef:
+                          description: Reference to a Backup in alloydb to populate
+                            backupName.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        backupNameSelector:
+                          description: Selector for a Backup in alloydb to populate
+                            backupName.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                      type: object
+                    type: array
+                  restoreContinuousBackupSource:
+                    description: |-
+                      The source when restoring via point in time recovery (PITR). Conflicts with 'restore_backup_source', both can't be set together.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        cluster:
+                          description: The name of the source cluster that this cluster
+                            is restored from.
+                          type: string
+                        clusterRef:
+                          description: Reference to a Cluster in alloydb to populate
+                            cluster.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        clusterSelector:
+                          description: Selector for a Cluster in alloydb to populate
+                            cluster.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        pointInTime:
+                          description: The point in time that this cluster is restored
+                            to, in RFC 3339 format.
+                          type: string
+                      type: object
+                    type: array
+                  secondaryConfig:
+                    description: |-
+                      Configuration of the secondary cluster for Cross Region Replication. This should be set if and only if the cluster is of type SECONDARY.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        primaryClusterName:
+                          description: |-
+                            Name of the primary cluster must be in the format
+                            'projects/{project}/locations/{location}/clusters/{cluster_id}'
+                          type: string
+                        primaryClusterNameRef:
+                          description: Reference to a Cluster in alloydb to populate
+                            primaryClusterName.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        primaryClusterNameSelector:
+                          description: Selector for a Cluster in alloydb to populate
+                            primaryClusterName.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                      type: object
+                    type: array
                 required:
                 - location
                 type: object
@@ -369,6 +687,14 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  annotations:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128
+                      An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+                    type: object
+                    x-kubernetes-map-type: granular
                   automatedBackupPolicy:
                     description: |-
                       The automated backup policy for this cluster. AutomatedBackupPolicy is disabled by default.
@@ -471,6 +797,12 @@ spec:
                           type: array
                       type: object
                     type: array
+                  clusterType:
+                    description: |-
+                      The type of cluster. If not set, defaults to PRIMARY.
+                      Default value is PRIMARY.
+                      Possible values are: PRIMARY, SECONDARY.
+                    type: string
                   continuousBackupConfig:
                     description: |-
                       The continuous backup config for this cluster.
@@ -502,6 +834,17 @@ spec:
                           type: number
                       type: object
                     type: array
+                  databaseVersion:
+                    description: The database engine major version. This is an optional
+                      field and it's populated at the Cluster creation time. This
+                      field cannot be changed after cluster creation.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Policy to determine if the cluster should be deleted forcefully.
+                      Deleting a cluster forcefully, deletes the cluster and all its associated instances within the cluster.
+                      Deleting a Secondary cluster with a secondary instance REQUIRES setting deletion_policy = "FORCE" otherwise an error is returned. This is needed as there is no support to delete just the secondary instance, and the only way to delete secondary instance is to delete the associated secondary cluster forcefully which also deletes the secondary instance.
+                    type: string
                   displayName:
                     description: User-settable and human-readable display name for
                       the Cluster.
@@ -519,6 +862,9 @@ spec:
                           type: string
                       type: object
                     type: array
+                  etag:
+                    description: For Resource freshness validation (https://google.aip.dev/154)
+                    type: string
                   initialUser:
                     description: |-
                       Initial user to setup during cluster creation.
@@ -533,7 +879,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: User-defined labels for the alloydb cluster.
+                    description: |-
+                      User-defined labels for the alloydb cluster.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   network:
@@ -541,6 +890,24 @@ spec:
                       The relative resource name of the VPC network on which the instance can be accessed. It is specified in the following form:
                       "projects/{projectNumber}/global/networks/{network_id}".
                     type: string
+                  networkConfig:
+                    description: |-
+                      Metadata related to network configuration.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        allocatedIpRange:
+                          description: |-
+                            The name of the allocated IP range for the private IP AlloyDB cluster. For example: "google-managed-services-default".
+                            If set, the instance IPs for this cluster will be created in the allocated range.
+                          type: string
+                        network:
+                          description: |-
+                            The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster.
+                            It is specified in the form: "projects/{projectNumber}/global/networks/{network_id}".
+                          type: string
+                      type: object
+                    type: array
                   networkRef:
                     description: Reference to a Network in compute to populate network.
                     properties:
@@ -620,6 +987,275 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  restoreBackupSource:
+                    description: |-
+                      The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', both can't be set together.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        backupName:
+                          description: The name of the backup that this cluster is
+                            restored from.
+                          type: string
+                        backupNameRef:
+                          description: Reference to a Backup in alloydb to populate
+                            backupName.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        backupNameSelector:
+                          description: Selector for a Backup in alloydb to populate
+                            backupName.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                      type: object
+                    type: array
+                  restoreContinuousBackupSource:
+                    description: |-
+                      The source when restoring via point in time recovery (PITR). Conflicts with 'restore_backup_source', both can't be set together.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        cluster:
+                          description: The name of the source cluster that this cluster
+                            is restored from.
+                          type: string
+                        clusterRef:
+                          description: Reference to a Cluster in alloydb to populate
+                            cluster.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        clusterSelector:
+                          description: Selector for a Cluster in alloydb to populate
+                            cluster.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        pointInTime:
+                          description: The point in time that this cluster is restored
+                            to, in RFC 3339 format.
+                          type: string
+                      type: object
+                    type: array
+                  secondaryConfig:
+                    description: |-
+                      Configuration of the secondary cluster for Cross Region Replication. This should be set if and only if the cluster is of type SECONDARY.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        primaryClusterName:
+                          description: |-
+                            Name of the primary cluster must be in the format
+                            'projects/{project}/locations/{location}/clusters/{cluster_id}'
+                          type: string
+                        primaryClusterNameRef:
+                          description: Reference to a Cluster in alloydb to populate
+                            primaryClusterName.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        primaryClusterNameSelector:
+                          description: Selector for a Cluster in alloydb to populate
+                            primaryClusterName.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                      type: object
+                    type: array
                 type: object
               managementPolicies:
                 default:
@@ -793,6 +1429,14 @@ spec:
             properties:
               atProvider:
                 properties:
+                  annotations:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128
+                      An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+                    type: object
+                    x-kubernetes-map-type: granular
                   automatedBackupPolicy:
                     description: |-
                       The automated backup policy for this cluster. AutomatedBackupPolicy is disabled by default.
@@ -911,6 +1555,12 @@ spec:
                           type: string
                       type: object
                     type: array
+                  clusterType:
+                    description: |-
+                      The type of cluster. If not set, defaults to PRIMARY.
+                      Default value is PRIMARY.
+                      Possible values are: PRIMARY, SECONDARY.
+                    type: string
                   continuousBackupConfig:
                     description: |-
                       The continuous backup config for this cluster.
@@ -989,14 +1639,31 @@ spec:
                       type: object
                     type: array
                   databaseVersion:
-                    description: The database engine major version. This is an output-only
+                    description: The database engine major version. This is an optional
                       field and it's populated at the Cluster creation time. This
                       field cannot be changed after cluster creation.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Policy to determine if the cluster should be deleted forcefully.
+                      Deleting a cluster forcefully, deletes the cluster and all its associated instances within the cluster.
+                      Deleting a Secondary cluster with a secondary instance REQUIRES setting deletion_policy = "FORCE" otherwise an error is returned. This is needed as there is no support to delete just the secondary instance, and the only way to delete secondary instance is to delete the associated secondary cluster forcefully which also deletes the secondary instance.
                     type: string
                   displayName:
                     description: User-settable and human-readable display name for
                       the Cluster.
                     type: string
+                  effectiveAnnotations:
+                    additionalProperties:
+                      type: string
+                    description: for all of the annotations present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   encryptionConfig:
                     description: |-
                       EncryptionConfig describes the encryption config of a cluster or a backup that is encrypted with a CMEK (customer-managed encryption key).
@@ -1030,6 +1697,9 @@ spec:
                           type: array
                       type: object
                     type: array
+                  etag:
+                    description: For Resource freshness validation (https://google.aip.dev/154)
+                    type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/clusters/{{cluster_id}}
                     type: string
@@ -1047,7 +1717,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: User-defined labels for the alloydb cluster.
+                    description: |-
+                      User-defined labels for the alloydb cluster.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   location:
@@ -1080,11 +1753,87 @@ spec:
                       The relative resource name of the VPC network on which the instance can be accessed. It is specified in the following form:
                       "projects/{projectNumber}/global/networks/{network_id}".
                     type: string
+                  networkConfig:
+                    description: |-
+                      Metadata related to network configuration.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        allocatedIpRange:
+                          description: |-
+                            The name of the allocated IP range for the private IP AlloyDB cluster. For example: "google-managed-services-default".
+                            If set, the instance IPs for this cluster will be created in the allocated range.
+                          type: string
+                        network:
+                          description: |-
+                            The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster.
+                            It is specified in the form: "projects/{projectNumber}/global/networks/{network_id}".
+                          type: string
+                      type: object
+                    type: array
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  reconciling:
+                    description: |-
+                      Output only. Reconciling (https://google.aip.dev/128#reconciliation).
+                      Set to true if the current state of Cluster does not match the user's intended state, and the service is actively updating the resource to reconcile them.
+                      This can happen due to user-triggered updates or system actions like failover or maintenance.
+                    type: boolean
+                  restoreBackupSource:
+                    description: |-
+                      The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', both can't be set together.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        backupName:
+                          description: The name of the backup that this cluster is
+                            restored from.
+                          type: string
+                      type: object
+                    type: array
+                  restoreContinuousBackupSource:
+                    description: |-
+                      The source when restoring via point in time recovery (PITR). Conflicts with 'restore_backup_source', both can't be set together.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        cluster:
+                          description: The name of the source cluster that this cluster
+                            is restored from.
+                          type: string
+                        pointInTime:
+                          description: The point in time that this cluster is restored
+                            to, in RFC 3339 format.
+                          type: string
+                      type: object
+                    type: array
+                  secondaryConfig:
+                    description: |-
+                      Configuration of the secondary cluster for Cross Region Replication. This should be set if and only if the cluster is of type SECONDARY.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        primaryClusterName:
+                          description: |-
+                            Name of the primary cluster must be in the format
+                            'projects/{project}/locations/{location}/clusters/{cluster_id}'
+                          type: string
+                      type: object
+                    type: array
+                  state:
+                    description: Output only. The current serving state of the cluster.
+                    type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   uid:
                     description: The system-generated UID of the resource.
                     type: string

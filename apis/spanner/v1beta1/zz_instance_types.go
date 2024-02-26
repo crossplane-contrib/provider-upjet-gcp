@@ -29,7 +29,172 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AutoscalingConfigInitParameters struct {
+
+	// Defines scale in controls to reduce the risk of response latency
+	// and outages due to abrupt scale-in events. Users can define the minimum and
+	// maximum compute capacity allocated to the instance, and the autoscaler will
+	// only scale within that range. Users can either use nodes or processing
+	// units to specify the limits, but should use the same unit to set both the
+	// min_limit and max_limit.
+	// Structure is documented below.
+	AutoscalingLimits []AutoscalingLimitsInitParameters `json:"autoscalingLimits,omitempty" tf:"autoscaling_limits,omitempty"`
+
+	// Defines scale in controls to reduce the risk of response latency
+	// and outages due to abrupt scale-in events
+	// Structure is documented below.
+	AutoscalingTargets []AutoscalingTargetsInitParameters `json:"autoscalingTargets,omitempty" tf:"autoscaling_targets,omitempty"`
+}
+
+type AutoscalingConfigObservation struct {
+
+	// Defines scale in controls to reduce the risk of response latency
+	// and outages due to abrupt scale-in events. Users can define the minimum and
+	// maximum compute capacity allocated to the instance, and the autoscaler will
+	// only scale within that range. Users can either use nodes or processing
+	// units to specify the limits, but should use the same unit to set both the
+	// min_limit and max_limit.
+	// Structure is documented below.
+	AutoscalingLimits []AutoscalingLimitsObservation `json:"autoscalingLimits,omitempty" tf:"autoscaling_limits,omitempty"`
+
+	// Defines scale in controls to reduce the risk of response latency
+	// and outages due to abrupt scale-in events
+	// Structure is documented below.
+	AutoscalingTargets []AutoscalingTargetsObservation `json:"autoscalingTargets,omitempty" tf:"autoscaling_targets,omitempty"`
+}
+
+type AutoscalingConfigParameters struct {
+
+	// Defines scale in controls to reduce the risk of response latency
+	// and outages due to abrupt scale-in events. Users can define the minimum and
+	// maximum compute capacity allocated to the instance, and the autoscaler will
+	// only scale within that range. Users can either use nodes or processing
+	// units to specify the limits, but should use the same unit to set both the
+	// min_limit and max_limit.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AutoscalingLimits []AutoscalingLimitsParameters `json:"autoscalingLimits,omitempty" tf:"autoscaling_limits,omitempty"`
+
+	// Defines scale in controls to reduce the risk of response latency
+	// and outages due to abrupt scale-in events
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AutoscalingTargets []AutoscalingTargetsParameters `json:"autoscalingTargets,omitempty" tf:"autoscaling_targets,omitempty"`
+}
+
+type AutoscalingLimitsInitParameters struct {
+
+	// Specifies maximum number of nodes allocated to the instance. If set, this number
+	// should be greater than or equal to min_nodes.
+	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
+
+	// Specifies maximum number of processing units allocated to the instance.
+	// If set, this number should be multiples of 1000 and be greater than or equal to
+	// min_processing_units.
+	MaxProcessingUnits *float64 `json:"maxProcessingUnits,omitempty" tf:"max_processing_units,omitempty"`
+
+	// Specifies number of nodes allocated to the instance. If set, this number
+	// should be greater than or equal to 1.
+	MinNodes *float64 `json:"minNodes,omitempty" tf:"min_nodes,omitempty"`
+
+	// Specifies minimum number of processing units allocated to the instance.
+	// If set, this number should be multiples of 1000.
+	MinProcessingUnits *float64 `json:"minProcessingUnits,omitempty" tf:"min_processing_units,omitempty"`
+}
+
+type AutoscalingLimitsObservation struct {
+
+	// Specifies maximum number of nodes allocated to the instance. If set, this number
+	// should be greater than or equal to min_nodes.
+	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
+
+	// Specifies maximum number of processing units allocated to the instance.
+	// If set, this number should be multiples of 1000 and be greater than or equal to
+	// min_processing_units.
+	MaxProcessingUnits *float64 `json:"maxProcessingUnits,omitempty" tf:"max_processing_units,omitempty"`
+
+	// Specifies number of nodes allocated to the instance. If set, this number
+	// should be greater than or equal to 1.
+	MinNodes *float64 `json:"minNodes,omitempty" tf:"min_nodes,omitempty"`
+
+	// Specifies minimum number of processing units allocated to the instance.
+	// If set, this number should be multiples of 1000.
+	MinProcessingUnits *float64 `json:"minProcessingUnits,omitempty" tf:"min_processing_units,omitempty"`
+}
+
+type AutoscalingLimitsParameters struct {
+
+	// Specifies maximum number of nodes allocated to the instance. If set, this number
+	// should be greater than or equal to min_nodes.
+	// +kubebuilder:validation:Optional
+	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
+
+	// Specifies maximum number of processing units allocated to the instance.
+	// If set, this number should be multiples of 1000 and be greater than or equal to
+	// min_processing_units.
+	// +kubebuilder:validation:Optional
+	MaxProcessingUnits *float64 `json:"maxProcessingUnits,omitempty" tf:"max_processing_units,omitempty"`
+
+	// Specifies number of nodes allocated to the instance. If set, this number
+	// should be greater than or equal to 1.
+	// +kubebuilder:validation:Optional
+	MinNodes *float64 `json:"minNodes,omitempty" tf:"min_nodes,omitempty"`
+
+	// Specifies minimum number of processing units allocated to the instance.
+	// If set, this number should be multiples of 1000.
+	// +kubebuilder:validation:Optional
+	MinProcessingUnits *float64 `json:"minProcessingUnits,omitempty" tf:"min_processing_units,omitempty"`
+}
+
+type AutoscalingTargetsInitParameters struct {
+
+	// Specifies the target high priority cpu utilization percentage that the autoscaler
+	// should be trying to achieve for the instance.
+	// This number is on a scale from 0 (no utilization) to 100 (full utilization)..
+	HighPriorityCPUUtilizationPercent *float64 `json:"highPriorityCpuUtilizationPercent,omitempty" tf:"high_priority_cpu_utilization_percent,omitempty"`
+
+	// Specifies the target storage utilization percentage that the autoscaler
+	// should be trying to achieve for the instance.
+	// This number is on a scale from 0 (no utilization) to 100 (full utilization).
+	StorageUtilizationPercent *float64 `json:"storageUtilizationPercent,omitempty" tf:"storage_utilization_percent,omitempty"`
+}
+
+type AutoscalingTargetsObservation struct {
+
+	// Specifies the target high priority cpu utilization percentage that the autoscaler
+	// should be trying to achieve for the instance.
+	// This number is on a scale from 0 (no utilization) to 100 (full utilization)..
+	HighPriorityCPUUtilizationPercent *float64 `json:"highPriorityCpuUtilizationPercent,omitempty" tf:"high_priority_cpu_utilization_percent,omitempty"`
+
+	// Specifies the target storage utilization percentage that the autoscaler
+	// should be trying to achieve for the instance.
+	// This number is on a scale from 0 (no utilization) to 100 (full utilization).
+	StorageUtilizationPercent *float64 `json:"storageUtilizationPercent,omitempty" tf:"storage_utilization_percent,omitempty"`
+}
+
+type AutoscalingTargetsParameters struct {
+
+	// Specifies the target high priority cpu utilization percentage that the autoscaler
+	// should be trying to achieve for the instance.
+	// This number is on a scale from 0 (no utilization) to 100 (full utilization)..
+	// +kubebuilder:validation:Optional
+	HighPriorityCPUUtilizationPercent *float64 `json:"highPriorityCpuUtilizationPercent,omitempty" tf:"high_priority_cpu_utilization_percent,omitempty"`
+
+	// Specifies the target storage utilization percentage that the autoscaler
+	// should be trying to achieve for the instance.
+	// This number is on a scale from 0 (no utilization) to 100 (full utilization).
+	// +kubebuilder:validation:Optional
+	StorageUtilizationPercent *float64 `json:"storageUtilizationPercent,omitempty" tf:"storage_utilization_percent,omitempty"`
+}
+
 type InstanceInitParameters struct {
+
+	// The autoscaling configuration. Autoscaling is enabled if this field is set.
+	// When autoscaling is enabled, num_nodes and processing_units are treated as,
+	// OUTPUT_ONLY fields and reflect the current compute capacity allocated to
+	// the instance.
+	// Structure is documented below.
+	AutoscalingConfig []AutoscalingConfigInitParameters `json:"autoscalingConfig,omitempty" tf:"autoscaling_config,omitempty"`
 
 	// The name of the instance's configuration (similar but not
 	// quite the same as a region) which defines the geographic placement and
@@ -65,6 +230,13 @@ type InstanceInitParameters struct {
 
 type InstanceObservation struct {
 
+	// The autoscaling configuration. Autoscaling is enabled if this field is set.
+	// When autoscaling is enabled, num_nodes and processing_units are treated as,
+	// OUTPUT_ONLY fields and reflect the current compute capacity allocated to
+	// the instance.
+	// Structure is documented below.
+	AutoscalingConfig []AutoscalingConfigObservation `json:"autoscalingConfig,omitempty" tf:"autoscaling_config,omitempty"`
+
 	// The name of the instance's configuration (similar but not
 	// quite the same as a region) which defines the geographic placement and
 	// replication of your databases in this instance. It determines where your data
@@ -76,6 +248,10 @@ type InstanceObservation struct {
 	// The descriptive name for this instance as it appears in UIs. Must be
 	// unique per project and between 4 and 30 characters in length.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// for all of the labels present on the resource.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
 	// When deleting a spanner instance, this boolean option will delete all backups of this instance.
 	// This must be set to true if you created a backup manually in the console.
@@ -101,9 +277,22 @@ type InstanceObservation struct {
 
 	// Instance status: CREATING or READY.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type InstanceParameters struct {
+
+	// The autoscaling configuration. Autoscaling is enabled if this field is set.
+	// When autoscaling is enabled, num_nodes and processing_units are treated as,
+	// OUTPUT_ONLY fields and reflect the current compute capacity allocated to
+	// the instance.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AutoscalingConfig []AutoscalingConfigParameters `json:"autoscalingConfig,omitempty" tf:"autoscaling_config,omitempty"`
 
 	// The name of the instance's configuration (similar but not
 	// quite the same as a region) which defines the geographic placement and

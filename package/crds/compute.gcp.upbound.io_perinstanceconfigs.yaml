@@ -284,6 +284,66 @@ spec:
                                 type: object
                             type: object
                           type: array
+                        externalIp:
+                          description: |-
+                            Preserved external IPs defined for this instance. This map is keyed with the name of the network interface.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              autoDelete:
+                                description: |-
+                                  These stateful IPs will never be released during autohealing, update or VM instance recreate operations. This flag is used to configure if the IP reservation should be deleted after it is no longer used by the group, e.g. when the given instance or the whole group is deleted.
+                                  Default value is NEVER.
+                                  Possible values are: NEVER, ON_PERMANENT_INSTANCE_DELETION.
+                                type: string
+                              interfaceName:
+                                description: The identifier for this object. Format
+                                  specified above.
+                                type: string
+                              ipAddress:
+                                description: |-
+                                  Ip address representation
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    address:
+                                      description: The URL of the reservation for
+                                        this IP address.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        internalIp:
+                          description: |-
+                            Preserved internal IPs defined for this instance. This map is keyed with the name of the network interface.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              autoDelete:
+                                description: |-
+                                  These stateful IPs will never be released during autohealing, update or VM instance recreate operations. This flag is used to configure if the IP reservation should be deleted after it is no longer used by the group, e.g. when the given instance or the whole group is deleted.
+                                  Default value is NEVER.
+                                  Possible values are: NEVER, ON_PERMANENT_INSTANCE_DELETION.
+                                type: string
+                              interfaceName:
+                                description: The identifier for this object. Format
+                                  specified above.
+                                type: string
+                              ipAddress:
+                                description: |-
+                                  Ip address representation
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    address:
+                                      description: The URL of the reservation for
+                                        this IP address.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                         metadata:
                           additionalProperties:
                             type: string
@@ -298,6 +358,11 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  removeInstanceOnDestroy:
+                    description: |-
+                      When true, deleting this config will immediately remove the underlying instance.
+                      When false, deleting this config will use the behavior as determined by remove_instance_on_destroy.
+                    type: boolean
                   removeInstanceStateOnDestroy:
                     description: |-
                       When true, deleting this config will immediately remove any specified state from the underlying instance.
@@ -608,6 +673,66 @@ spec:
                                 type: object
                             type: object
                           type: array
+                        externalIp:
+                          description: |-
+                            Preserved external IPs defined for this instance. This map is keyed with the name of the network interface.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              autoDelete:
+                                description: |-
+                                  These stateful IPs will never be released during autohealing, update or VM instance recreate operations. This flag is used to configure if the IP reservation should be deleted after it is no longer used by the group, e.g. when the given instance or the whole group is deleted.
+                                  Default value is NEVER.
+                                  Possible values are: NEVER, ON_PERMANENT_INSTANCE_DELETION.
+                                type: string
+                              interfaceName:
+                                description: The identifier for this object. Format
+                                  specified above.
+                                type: string
+                              ipAddress:
+                                description: |-
+                                  Ip address representation
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    address:
+                                      description: The URL of the reservation for
+                                        this IP address.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        internalIp:
+                          description: |-
+                            Preserved internal IPs defined for this instance. This map is keyed with the name of the network interface.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              autoDelete:
+                                description: |-
+                                  These stateful IPs will never be released during autohealing, update or VM instance recreate operations. This flag is used to configure if the IP reservation should be deleted after it is no longer used by the group, e.g. when the given instance or the whole group is deleted.
+                                  Default value is NEVER.
+                                  Possible values are: NEVER, ON_PERMANENT_INSTANCE_DELETION.
+                                type: string
+                              interfaceName:
+                                description: The identifier for this object. Format
+                                  specified above.
+                                type: string
+                              ipAddress:
+                                description: |-
+                                  Ip address representation
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    address:
+                                      description: The URL of the reservation for
+                                        this IP address.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                         metadata:
                           additionalProperties:
                             type: string
@@ -622,6 +747,11 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  removeInstanceOnDestroy:
+                    description: |-
+                      When true, deleting this config will immediately remove the underlying instance.
+                      When false, deleting this config will use the behavior as determined by remove_instance_on_destroy.
+                    type: boolean
                   removeInstanceStateOnDestroy:
                     description: |-
                       When true, deleting this config will immediately remove any specified state from the underlying instance.
@@ -947,6 +1077,66 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        externalIp:
+                          description: |-
+                            Preserved external IPs defined for this instance. This map is keyed with the name of the network interface.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              autoDelete:
+                                description: |-
+                                  These stateful IPs will never be released during autohealing, update or VM instance recreate operations. This flag is used to configure if the IP reservation should be deleted after it is no longer used by the group, e.g. when the given instance or the whole group is deleted.
+                                  Default value is NEVER.
+                                  Possible values are: NEVER, ON_PERMANENT_INSTANCE_DELETION.
+                                type: string
+                              interfaceName:
+                                description: The identifier for this object. Format
+                                  specified above.
+                                type: string
+                              ipAddress:
+                                description: |-
+                                  Ip address representation
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    address:
+                                      description: The URL of the reservation for
+                                        this IP address.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        internalIp:
+                          description: |-
+                            Preserved internal IPs defined for this instance. This map is keyed with the name of the network interface.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              autoDelete:
+                                description: |-
+                                  These stateful IPs will never be released during autohealing, update or VM instance recreate operations. This flag is used to configure if the IP reservation should be deleted after it is no longer used by the group, e.g. when the given instance or the whole group is deleted.
+                                  Default value is NEVER.
+                                  Possible values are: NEVER, ON_PERMANENT_INSTANCE_DELETION.
+                                type: string
+                              interfaceName:
+                                description: The identifier for this object. Format
+                                  specified above.
+                                type: string
+                              ipAddress:
+                                description: |-
+                                  Ip address representation
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    address:
+                                      description: The URL of the reservation for
+                                        this IP address.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                         metadata:
                           additionalProperties:
                             type: string
@@ -961,6 +1151,11 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  removeInstanceOnDestroy:
+                    description: |-
+                      When true, deleting this config will immediately remove the underlying instance.
+                      When false, deleting this config will use the behavior as determined by remove_instance_on_destroy.
+                    type: boolean
                   removeInstanceStateOnDestroy:
                     description: |-
                       When true, deleting this config will immediately remove any specified state from the underlying instance.

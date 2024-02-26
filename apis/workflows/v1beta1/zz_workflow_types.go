@@ -31,6 +31,12 @@ import (
 
 type WorkflowInitParameters struct {
 
+	// Describes the level of platform logging to apply to calls and call responses during
+	// executions of this workflow. If both the workflow and the execution specify a logging level,
+	// the execution level takes precedence.
+	// Possible values are: CALL_LOG_LEVEL_UNSPECIFIED, LOG_ALL_CALLS, LOG_ERRORS_ONLY, LOG_NONE.
+	CallLogLevel *string `json:"callLogLevel,omitempty" tf:"call_log_level,omitempty"`
+
 	// The KMS key used to encrypt workflow and execution data.
 	// Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey}
 	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
@@ -75,11 +81,21 @@ type WorkflowInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
-	// Workflow code to be executed. The size limit is 32KB.
+	// Workflow code to be executed. The size limit is 128KB.
 	SourceContents *string `json:"sourceContents,omitempty" tf:"source_contents,omitempty"`
+
+	// User-defined environment variables associated with this workflow revision. This map has a maximum length of 20. Each string can take up to 4KiB. Keys cannot be empty strings and cannot start with “GOOGLE” or “WORKFLOWS".
+	// +mapType=granular
+	UserEnvVars map[string]*string `json:"userEnvVars,omitempty" tf:"user_env_vars,omitempty"`
 }
 
 type WorkflowObservation struct {
+
+	// Describes the level of platform logging to apply to calls and call responses during
+	// executions of this workflow. If both the workflow and the execution specify a logging level,
+	// the execution level takes precedence.
+	// Possible values are: CALL_LOG_LEVEL_UNSPECIFIED, LOG_ALL_CALLS, LOG_ERRORS_ONLY, LOG_NONE.
+	CallLogLevel *string `json:"callLogLevel,omitempty" tf:"call_log_level,omitempty"`
 
 	// The timestamp of when the workflow was created in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
@@ -90,6 +106,10 @@ type WorkflowObservation struct {
 
 	// Description of the workflow provided by the user. Must be at most 1000 unicode characters long.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// for all of the labels present on the resource.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/workflows/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -124,17 +144,33 @@ type WorkflowObservation struct {
 	// Modifying this field for an existing workflow results in a new workflow revision.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
-	// Workflow code to be executed. The size limit is 32KB.
+	// Workflow code to be executed. The size limit is 128KB.
 	SourceContents *string `json:"sourceContents,omitempty" tf:"source_contents,omitempty"`
 
 	// State of the workflow deployment.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
 	// The timestamp of when the workflow was last updated in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
+
+	// User-defined environment variables associated with this workflow revision. This map has a maximum length of 20. Each string can take up to 4KiB. Keys cannot be empty strings and cannot start with “GOOGLE” or “WORKFLOWS".
+	// +mapType=granular
+	UserEnvVars map[string]*string `json:"userEnvVars,omitempty" tf:"user_env_vars,omitempty"`
 }
 
 type WorkflowParameters struct {
+
+	// Describes the level of platform logging to apply to calls and call responses during
+	// executions of this workflow. If both the workflow and the execution specify a logging level,
+	// the execution level takes precedence.
+	// Possible values are: CALL_LOG_LEVEL_UNSPECIFIED, LOG_ALL_CALLS, LOG_ERRORS_ONLY, LOG_NONE.
+	// +kubebuilder:validation:Optional
+	CallLogLevel *string `json:"callLogLevel,omitempty" tf:"call_log_level,omitempty"`
 
 	// The KMS key used to encrypt workflow and execution data.
 	// Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey}
@@ -188,9 +224,14 @@ type WorkflowParameters struct {
 	// +kubebuilder:validation:Optional
 	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
-	// Workflow code to be executed. The size limit is 32KB.
+	// Workflow code to be executed. The size limit is 128KB.
 	// +kubebuilder:validation:Optional
 	SourceContents *string `json:"sourceContents,omitempty" tf:"source_contents,omitempty"`
+
+	// User-defined environment variables associated with this workflow revision. This map has a maximum length of 20. Each string can take up to 4KiB. Keys cannot be empty strings and cannot start with “GOOGLE” or “WORKFLOWS".
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	UserEnvVars map[string]*string `json:"userEnvVars,omitempty" tf:"user_env_vars,omitempty"`
 }
 
 // WorkflowSpec defines the desired state of Workflow

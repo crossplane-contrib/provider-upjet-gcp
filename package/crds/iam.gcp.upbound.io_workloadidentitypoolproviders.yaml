@@ -94,7 +94,7 @@ spec:
                     x-kubernetes-map-type: granular
                   aws:
                     description: |-
-                      An Amazon Web Services identity provider. Not compatible with the property oidc.
+                      An Amazon Web Services identity provider. Not compatible with the property oidc or saml.
                       Structure is documented below.
                     items:
                       properties:
@@ -118,7 +118,7 @@ spec:
                     type: string
                   oidc:
                     description: |-
-                      An OpenId Connect 1.0 identity provider. Not compatible with the property aws.
+                      An OpenId Connect 1.0 identity provider. Not compatible with the property aws or saml.
                       Structure is documented below.
                     items:
                       properties:
@@ -153,6 +153,18 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  saml:
+                    description: |-
+                      An SAML 2.0 identity provider. Not compatible with the property oidc or aws.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        idpMetadataXml:
+                          description: SAML Identity provider configuration metadata
+                            xml doc.
+                          type: string
+                      type: object
+                    type: array
                   workloadIdentityPoolId:
                     description: |-
                       The ID used for the pool, which is the final component of the pool resource name. This
@@ -269,7 +281,7 @@ spec:
                     x-kubernetes-map-type: granular
                   aws:
                     description: |-
-                      An Amazon Web Services identity provider. Not compatible with the property oidc.
+                      An Amazon Web Services identity provider. Not compatible with the property oidc or saml.
                       Structure is documented below.
                     items:
                       properties:
@@ -293,7 +305,7 @@ spec:
                     type: string
                   oidc:
                     description: |-
-                      An OpenId Connect 1.0 identity provider. Not compatible with the property aws.
+                      An OpenId Connect 1.0 identity provider. Not compatible with the property aws or saml.
                       Structure is documented below.
                     items:
                       properties:
@@ -328,6 +340,18 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  saml:
+                    description: |-
+                      An SAML 2.0 identity provider. Not compatible with the property oidc or aws.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        idpMetadataXml:
+                          description: SAML Identity provider configuration metadata
+                            xml doc.
+                          type: string
+                      type: object
+                    type: array
                 type: object
               managementPolicies:
                 default:
@@ -522,7 +546,7 @@ spec:
                     x-kubernetes-map-type: granular
                   aws:
                     description: |-
-                      An Amazon Web Services identity provider. Not compatible with the property oidc.
+                      An Amazon Web Services identity provider. Not compatible with the property oidc or saml.
                       Structure is documented below.
                     items:
                       properties:
@@ -554,7 +578,7 @@ spec:
                     type: string
                   oidc:
                     description: |-
-                      An OpenId Connect 1.0 identity provider. Not compatible with the property aws.
+                      An OpenId Connect 1.0 identity provider. Not compatible with the property aws or saml.
                       Structure is documented below.
                     items:
                       properties:
@@ -589,6 +613,18 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  saml:
+                    description: |-
+                      An SAML 2.0 identity provider. Not compatible with the property oidc or aws.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        idpMetadataXml:
+                          description: SAML Identity provider configuration metadata
+                            xml doc.
+                          type: string
+                      type: object
+                    type: array
                   state:
                     description: The state of the provider.
                     type: string

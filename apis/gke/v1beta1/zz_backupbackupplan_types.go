@@ -98,6 +98,10 @@ type BackupBackupPlanObservation struct {
 	// User specified descriptive string for this BackupPlan.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// for all of the labels present on the resource.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// etag is used for optimistic concurrency control as a way to help prevent simultaneous
 	// updates of a backup plan from overwriting each other. It is strongly suggested that
 	// systems make use of the 'etag' in the read-modify-write cycle to perform BackupPlan updates
@@ -134,6 +138,11 @@ type BackupBackupPlanObservation struct {
 
 	// Detailed description of why BackupPlan is in its current state.
 	StateReason *string `json:"stateReason,omitempty" tf:"state_reason,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// Server generated, unique identifier of UUID format.
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
