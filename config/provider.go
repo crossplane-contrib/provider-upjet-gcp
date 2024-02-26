@@ -189,7 +189,7 @@ func GetProvider(_ context.Context, generationProvider bool) (*tjconfig.Provider
 		tjconfig.WithShortName("gcp"),
 		// Comment out the following line to generate all resources.
 		tjconfig.WithIncludeList(resourceList(cliReconciledExternalNameConfigs)),
-		tjconfig.WithNoForkIncludeList(resourceList(noForkExternalNameConfigs)),
+		tjconfig.WithTerraformPluginSDKIncludeList(resourceList(terraformPluginSDKExternalNameConfigs)),
 		tjconfig.WithReferenceInjectors([]tjconfig.ReferenceInjector{reference.NewInjector(modulePath)}),
 		tjconfig.WithSkipList(skipList),
 		tjconfig.WithFeaturesPackage("internal/features"),
