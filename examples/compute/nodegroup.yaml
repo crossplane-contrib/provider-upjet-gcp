@@ -13,7 +13,7 @@ spec:
     nodeTemplateSelector:
       matchLabels:
         testing.upbound.io/example-name: node-group
-    size: 1
+    initialSize: 1
     zone: us-central1-a
 
 ---
