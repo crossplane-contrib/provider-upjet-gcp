@@ -39,6 +39,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
+	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
 	"github.com/upbound/provider-gcp/apis"
 	"github.com/upbound/provider-gcp/apis/v1alpha1"
@@ -46,6 +47,13 @@ import (
 	"github.com/upbound/provider-gcp/internal/clients"
 	"github.com/upbound/provider-gcp/internal/controller"
 	"github.com/upbound/provider-gcp/internal/features"
+)
+
+const (
+	webhookTLSCertDirEnvVar = "WEBHOOK_TLS_CERT_DIR"
+	tlsServerCertDirEnvVar  = "TLS_SERVER_CERTS_DIR"
+	certsDirEnvVar          = "CERTS_DIR"
+	tlsServerCertDir        = "/tls/server"
 )
 
 func deprecationAction(flagName string) kingpin.Action {
@@ -69,6 +77,14 @@ func main() {
 		essTLSCertsPath            = app.Flag("ess-tls-cert-dir", "Path of ESS TLS certificates.").Envar("ESS_TLS_CERTS_DIR").String()
 		enableExternalSecretStores = app.Flag("enable-external-secret-stores", "Enable support for ExternalSecretStores.").Default("false").Envar("ENABLE_EXTERNAL_SECRET_STORES").Bool()
 		enableManagementPolicies   = app.Flag("enable-management-policies", "Enable support for Management Policies.").Default("true").Envar("ENABLE_MANAGEMENT_POLICIES").Bool()
+
+		certsDirSet = false
+		// we record whether the command-line option "--certs-dir" was supplied
+		// in the registered PreAction for the flag.
+		certsDir = app.Flag("certs-dir", "The directory that contains the server key and certificate.").Default(tlsServerCertDir).Envar(certsDirEnvVar).PreAction(func(_ *kingpin.ParseContext) error {
+			certsDirSet = true
+			return nil
+		}).String()
 
 		// now deprecated command-line arguments with the Terraform SDK-based upjet architecture
 		_ = app.Flag("provider-ttl", "[DEPRECATED: This option is no longer used and it will be removed in a future release.] TTL for the native plugin processes before they are replaced. Changing the default may increase memory consumption.").Hidden().Action(deprecationAction("provider-ttl")).Int()
@@ -97,12 +113,38 @@ func main() {
 	cfg, err := ctrl.GetConfig()
 	kingpin.FatalIfError(err, "Cannot get API server rest config")
 
+	// Get the TLS certs directory from the environment variables set by
+	// Crossplane if they're available.
+	// In older XP versions we used WEBHOOK_TLS_CERT_DIR, in newer versions
+	// we use TLS_SERVER_CERTS_DIR. If an explicit certs dir is not supplied
+	// via the command-line options, then these environment variables are used
+	// instead.
+	if !certsDirSet {
+		// backwards-compatibility concerns
+		xpCertsDir := os.Getenv(certsDirEnvVar)
+		if xpCertsDir == "" {
+			xpCertsDir = os.Getenv(tlsServerCertDirEnvVar)
+		}
+		if xpCertsDir == "" {
+			xpCertsDir = os.Getenv(webhookTLSCertDirEnvVar)
+		}
+		// we probably don't need this condition but just to be on the
+		// safe side, if we are missing any kingpin machinery details...
+		if xpCertsDir != "" {
+			*certsDir = xpCertsDir
+		}
+	}
+
 	mgr, err := ctrl.NewManager(ratelimiter.LimitRESTConfig(cfg, *maxReconcileRate), ctrl.Options{
 		LeaderElection:   *leaderElection,
 		LeaderElectionID: "crossplane-leader-election-provider-gcp-datacatalog",
 		Cache: cache.Options{
 			SyncPeriod: syncInterval,
 		},
+		WebhookServer: webhook.NewServer(
+			webhook.Options{
+				CertDir: *certsDir,
+			}),
 		LeaderElectionResourceLock: resourcelock.LeasesResourceLock,
 		LeaseDuration:              func() *time.Duration { d := 60 * time.Second; return &d }(),
 		RenewDeadline:              func() *time.Duration { d := 50 * time.Second; return &d }(),
@@ -125,6 +167,7 @@ func main() {
 		SetupFn:               clients.TerraformSetupBuilder(provider.TerraformProvider),
 		PollJitter:            pollJitter,
 		OperationTrackerStore: tjcontroller.NewOperationStore(log),
+		StartWebhooks:         *certsDir != "",
 	}
 
 	if *enableManagementPolicies {
