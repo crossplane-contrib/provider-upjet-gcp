@@ -44,6 +44,7 @@ import (
 	"github.com/upbound/provider-gcp/apis"
 	"github.com/upbound/provider-gcp/apis/v1alpha1"
 	"github.com/upbound/provider-gcp/config"
+	resolverapis "github.com/upbound/provider-gcp/internal/apis"
 	"github.com/upbound/provider-gcp/internal/clients"
 	"github.com/upbound/provider-gcp/internal/controller"
 	"github.com/upbound/provider-gcp/internal/features"
@@ -151,6 +152,7 @@ func main() {
 	})
 	kingpin.FatalIfError(err, "Cannot create controller manager")
 	kingpin.FatalIfError(apis.AddToScheme(mgr.GetScheme()), "Cannot add GCP APIs to scheme")
+	kingpin.FatalIfError(resolverapis.BuildScheme(apis.AddToSchemes), "Cannot register the GCP APIs with the API resolver's runtime scheme")
 
 	ctx := context.Background()
 	provider, err := config.GetProvider(ctx, false)

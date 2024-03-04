@@ -42,6 +42,10 @@ limitations under the License.
 // Generate crossplane-runtime methodsets (resource.Claim, etc)
 //go:generate go run -tags generate github.com/crossplane/crossplane-tools/cmd/angryjet generate-methodsets --header-file=../hack/boilerplate.go.txt ./...
 
+// Run upjet's transformer for the generated resolvers to get rid of the cross
+// API-group imports and to prevent import cycles
+//go:generate go run github.com/crossplane/upjet/cmd/resolver -g gcp.upbound.io -a github.com/upbound/provider-gcp/internal/apis -s
+
 package apis
 
 import (
