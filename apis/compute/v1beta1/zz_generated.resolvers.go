@@ -3684,6 +3684,56 @@ func (mg *RegionInstanceGroupManager) ResolveReferences(ctx context.Context, c c
 	return nil
 }
 
+// ResolveReferences of this RegionNetworkEndpoint.
+func (mg *RegionNetworkEndpoint) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionNetworkEndpointGroup", "RegionNetworkEndpointGroupList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RegionNetworkEndpointGroup),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.ForProvider.RegionNetworkEndpointGroupRef,
+			Selector:     mg.Spec.ForProvider.RegionNetworkEndpointGroupSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.RegionNetworkEndpointGroup")
+	}
+	mg.Spec.ForProvider.RegionNetworkEndpointGroup = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.RegionNetworkEndpointGroupRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionNetworkEndpointGroup", "RegionNetworkEndpointGroupList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RegionNetworkEndpointGroup),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.InitProvider.RegionNetworkEndpointGroupRef,
+			Selector:     mg.Spec.InitProvider.RegionNetworkEndpointGroupSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.RegionNetworkEndpointGroup")
+	}
+	mg.Spec.InitProvider.RegionNetworkEndpointGroup = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.RegionNetworkEndpointGroupRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this RegionNetworkEndpointGroup.
 func (mg *RegionNetworkEndpointGroup) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
