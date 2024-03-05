@@ -3,6 +3,7 @@ package dataflow
 import (
 	"github.com/crossplane/upjet/pkg/config"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
 // Configure configures individual resources by adding custom
@@ -15,5 +16,12 @@ func Configure(p *config.Provider) {
 		r.TerraformResource.Schema["labels"].Elem = schema.TypeString
 		r.TerraformResource.Schema["parameters"].Elem = schema.TypeString
 		r.TerraformResource.Schema["transform_name_mapping"].Elem = schema.TypeString
+
+		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, _ *terraform.InstanceState, _ *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
+			if diff != nil {
+				delete(diff.Attributes, "additional_experiments.#")
+			}
+			return diff, nil
+		}
 	})
 }

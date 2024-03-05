@@ -10,6 +10,7 @@ metadata:
 spec:
   forProvider:
     name: dataflow-job
+    skipWaitOnJobTermination: true
     region: us-central1
     parameters:
       inputFile: gs://my-bucket/file.txt
