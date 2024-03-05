@@ -24,18 +24,16 @@ limitations under the License.
 //go:generate rm -rf ../package/crds
 
 // Remove generated Go files
-//go:generate bash -c "find . -iname 'zz_*' ! -iname 'zz_generated.managed*.go' -delete"
 //go:generate bash -c "find . -type d -empty -delete"
 //go:generate bash -c "find ../internal/controller -iname 'zz_*' -delete"
 //go:generate bash -c "find ../internal/controller -type d -empty -delete"
-//go:generate rm -rf ../examples-generated
 //go:generate bash -c "find ../cmd/provider -name 'zz_*' -type f -delete"
 //go:generate bash -c "find ../cmd/provider -type d -maxdepth 1 -mindepth 1 -empty -delete"
 
 // Scrape metadata from Terraform registry
 //go:generate go run github.com/crossplane/upjet/cmd/scraper -n hashicorp/terraform-provider-google -r ../.work/terraform-provider-google/website/docs/r -o ../config/provider-metadata.yaml --prelude-xpath "//text()[contains(., \"subcategory\")]" --resource-prefix google
 
-// Run Terrajet generator
+// Run upjet generator
 //go:generate go run ../cmd/generator/main.go ..
 
 // Generate deepcopy methodsets and CRD manifests
@@ -43,6 +41,10 @@ limitations under the License.
 
 // Generate crossplane-runtime methodsets (resource.Claim, etc)
 //go:generate go run -tags generate github.com/crossplane/crossplane-tools/cmd/angryjet generate-methodsets --header-file=../hack/boilerplate.go.txt ./...
+
+// Run upjet's transformer for the generated resolvers to get rid of the cross
+// API-group imports and to prevent import cycles
+//go:generate go run github.com/crossplane/upjet/cmd/resolver -g gcp.upbound.io -a github.com/upbound/provider-gcp/internal/apis -s
 
 package apis
 
