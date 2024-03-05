@@ -45,6 +45,9 @@ type DNSAuthorizationInitParameters struct {
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// The Certificate Manager location. If not specified, "global" is used.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -69,7 +72,7 @@ type DNSAuthorizationObservation struct {
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
-	// an identifier for the resource with format projects/{{project}}/locations/global/dnsAuthorizations/{{name}}
+	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/dnsAuthorizations/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Set of label tags associated with the DNS Authorization resource.
@@ -77,6 +80,9 @@ type DNSAuthorizationObservation struct {
 	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The Certificate Manager location. If not specified, "global" is used.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -106,6 +112,10 @@ type DNSAuthorizationParameters struct {
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The Certificate Manager location. If not specified, "global" is used.
+	// +kubebuilder:validation:Optional
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

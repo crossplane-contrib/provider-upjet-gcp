@@ -29,6 +29,41 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type RegionInstanceGroupManagerAllInstancesConfigInitParameters struct {
+
+	// , The label key-value pairs that you want to patch onto the instance.
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// , The metadata key-value pairs that you want to patch onto the instance. For more information, see Project and instance metadata.
+	// +mapType=granular
+	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type RegionInstanceGroupManagerAllInstancesConfigObservation struct {
+
+	// , The label key-value pairs that you want to patch onto the instance.
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// , The metadata key-value pairs that you want to patch onto the instance. For more information, see Project and instance metadata.
+	// +mapType=granular
+	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type RegionInstanceGroupManagerAllInstancesConfigParameters struct {
+
+	// , The label key-value pairs that you want to patch onto the instance.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// , The metadata key-value pairs that you want to patch onto the instance. For more information, see Project and instance metadata.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
 type RegionInstanceGroupManagerAutoHealingPoliciesInitParameters struct {
 
 	// The health check resource that signals autohealing.
@@ -82,6 +117,11 @@ type RegionInstanceGroupManagerAutoHealingPoliciesParameters struct {
 }
 
 type RegionInstanceGroupManagerInitParameters struct {
+
+	// Properties to set on all instances in the group. After setting
+	// allInstancesConfig on the group, you must update the group's instances to
+	// apply the configuration.
+	AllInstancesConfig []RegionInstanceGroupManagerAllInstancesConfigInitParameters `json:"allInstancesConfig,omitempty" tf:"all_instances_config,omitempty"`
 
 	// The autohealing policies for this managed instance
 	// group. You can specify only one value. Structure is documented below. For more information, see the official documentation.
@@ -234,6 +274,11 @@ type RegionInstanceGroupManagerNamedPortParameters struct {
 
 type RegionInstanceGroupManagerObservation struct {
 
+	// Properties to set on all instances in the group. After setting
+	// allInstancesConfig on the group, you must update the group's instances to
+	// apply the configuration.
+	AllInstancesConfig []RegionInstanceGroupManagerAllInstancesConfigObservation `json:"allInstancesConfig,omitempty" tf:"all_instances_config,omitempty"`
+
 	// The autohealing policies for this managed instance
 	// group. You can specify only one value. Structure is documented below. For more information, see the official documentation.
 	AutoHealingPolicies []RegionInstanceGroupManagerAutoHealingPoliciesObservation `json:"autoHealingPolicies,omitempty" tf:"auto_healing_policies,omitempty"`
@@ -342,6 +387,12 @@ type RegionInstanceGroupManagerObservation struct {
 }
 
 type RegionInstanceGroupManagerParameters struct {
+
+	// Properties to set on all instances in the group. After setting
+	// allInstancesConfig on the group, you must update the group's instances to
+	// apply the configuration.
+	// +kubebuilder:validation:Optional
+	AllInstancesConfig []RegionInstanceGroupManagerAllInstancesConfigParameters `json:"allInstancesConfig,omitempty" tf:"all_instances_config,omitempty"`
 
 	// The autohealing policies for this managed instance
 	// group. You can specify only one value. Structure is documented below. For more information, see the official documentation.
@@ -551,10 +602,25 @@ type RegionInstanceGroupManagerStatefulInternalIPParameters struct {
 	InterfaceName *string `json:"interfaceName,omitempty" tf:"interface_name,omitempty"`
 }
 
+type RegionInstanceGroupManagerStatusAllInstancesConfigInitParameters struct {
+}
+
+type RegionInstanceGroupManagerStatusAllInstancesConfigObservation struct {
+	Effective *bool `json:"effective,omitempty" tf:"effective,omitempty"`
+}
+
+type RegionInstanceGroupManagerStatusAllInstancesConfigParameters struct {
+}
+
 type RegionInstanceGroupManagerStatusInitParameters struct {
 }
 
 type RegionInstanceGroupManagerStatusObservation struct {
+
+	// Properties to set on all instances in the group. After setting
+	// allInstancesConfig on the group, you must update the group's instances to
+	// apply the configuration.
+	AllInstancesConfig []RegionInstanceGroupManagerStatusAllInstancesConfigObservation `json:"allInstancesConfig,omitempty" tf:"all_instances_config,omitempty"`
 
 	// A bit indicating whether the managed instance group is in a stable state. A stable state means that: none of the instances in the managed instance group is currently undergoing any type of change (for example, creation, restart, or deletion); no future changes are scheduled for instances in the managed instance group; and the managed instance group itself is not being modified.
 	IsStable *bool `json:"isStable,omitempty" tf:"is_stable,omitempty"`

@@ -1991,6 +1991,12 @@ type FleetObservation struct {
 	// The resource name of the fleet Membership resource associated to this cluster with format //gkehub.googleapis.com/projects/{{project}}/locations/{{location}}/memberships/{{name}}. See the official doc for fleet management.
 	Membership *string `json:"membership,omitempty" tf:"membership,omitempty"`
 
+	// The short name of the fleet membership, extracted from fleet.0.membership. You can use this field to configure membership_id under google_gkehub_feature_membership.
+	MembershipID *string `json:"membershipId,omitempty" tf:"membership_id,omitempty"`
+
+	// The location of the fleet membership,  extracted from fleet.0.membership. You can use this field to configure membership_location under google_gkehub_feature_membership.
+	MembershipLocation *string `json:"membershipLocation,omitempty" tf:"membership_location,omitempty"`
+
 	PreRegistered *bool `json:"preRegistered,omitempty" tf:"pre_registered,omitempty"`
 
 	// The name of the Fleet host project where this cluster will be registered.
@@ -3244,6 +3250,9 @@ type NodeConfigInitParameters struct {
 	// (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-standard'
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
 
+	// Enabling Confidential Storage will create boot disk with confidential mode. It is disabled by default.
+	EnableConfidentialStorage *bool `json:"enableConfidentialStorage,omitempty" tf:"enable_confidential_storage,omitempty"`
+
 	// Parameters for the ephemeral storage filesystem. If unspecified, ephemeral storage is backed by the boot disk. Structure is documented below.
 	EphemeralStorageLocalSsdConfig []EphemeralStorageLocalSsdConfigInitParameters `json:"ephemeralStorageLocalSsdConfig,omitempty" tf:"ephemeral_storage_local_ssd_config,omitempty"`
 
@@ -3342,6 +3351,10 @@ type NodeConfigInitParameters struct {
 	// for how these labels are applied to clusters, node pools and nodes.
 	// +mapType=granular
 	ResourceLabels map[string]*string `json:"resourceLabels,omitempty" tf:"resource_labels,omitempty"`
+
+	// A map of resource manager tag keys and values to be attached to the nodes for managing Compute Engine firewalls using Network Firewall Policies. Tags must be according to specifications found here. A maximum of 5 tag key-value pairs can be specified. Existing tags will be replaced with new values. Tags must be in one of the following formats ([KEY]=[VALUE]) 1. tagKeys/{tag_key_id}=tagValues/{tag_value_id} 2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// The service account to be used by the Node VMs.
 	// If not specified, the "default" service account is used.
@@ -3465,6 +3478,9 @@ type NodeConfigObservation struct {
 	// List of kubernetes taints applied to each node. Structure is documented above.
 	EffectiveTaints []EffectiveTaintsObservation `json:"effectiveTaints,omitempty" tf:"effective_taints,omitempty"`
 
+	// Enabling Confidential Storage will create boot disk with confidential mode. It is disabled by default.
+	EnableConfidentialStorage *bool `json:"enableConfidentialStorage,omitempty" tf:"enable_confidential_storage,omitempty"`
+
 	// Parameters for the ephemeral storage filesystem. If unspecified, ephemeral storage is backed by the boot disk. Structure is documented below.
 	EphemeralStorageLocalSsdConfig []EphemeralStorageLocalSsdConfigObservation `json:"ephemeralStorageLocalSsdConfig,omitempty" tf:"ephemeral_storage_local_ssd_config,omitempty"`
 
@@ -3564,6 +3580,10 @@ type NodeConfigObservation struct {
 	// +mapType=granular
 	ResourceLabels map[string]*string `json:"resourceLabels,omitempty" tf:"resource_labels,omitempty"`
 
+	// A map of resource manager tag keys and values to be attached to the nodes for managing Compute Engine firewalls using Network Firewall Policies. Tags must be according to specifications found here. A maximum of 5 tag key-value pairs can be specified. Existing tags will be replaced with new values. Tags must be in one of the following formats ([KEY]=[VALUE]) 1. tagKeys/{tag_key_id}=tagValues/{tag_value_id} 2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+
 	// The service account to be used by the Node VMs.
 	// If not specified, the "default" service account is used.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
@@ -3617,6 +3637,10 @@ type NodeConfigParameters struct {
 	// (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-standard'
 	// +kubebuilder:validation:Optional
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Enabling Confidential Storage will create boot disk with confidential mode. It is disabled by default.
+	// +kubebuilder:validation:Optional
+	EnableConfidentialStorage *bool `json:"enableConfidentialStorage,omitempty" tf:"enable_confidential_storage,omitempty"`
 
 	// Parameters for the ephemeral storage filesystem. If unspecified, ephemeral storage is backed by the boot disk. Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -3737,6 +3761,11 @@ type NodeConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	ResourceLabels map[string]*string `json:"resourceLabels,omitempty" tf:"resource_labels,omitempty"`
+
+	// A map of resource manager tag keys and values to be attached to the nodes for managing Compute Engine firewalls using Network Firewall Policies. Tags must be according to specifications found here. A maximum of 5 tag key-value pairs can be specified. Existing tags will be replaced with new values. Tags must be in one of the following formats ([KEY]=[VALUE]) 1. tagKeys/{tag_key_id}=tagValues/{tag_value_id} 2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// The service account to be used by the Node VMs.
 	// If not specified, the "default" service account is used.
@@ -3968,6 +3997,9 @@ type NodePoolNodeConfigObservation struct {
 	// List of kubernetes taints applied to each node. Structure is documented above.
 	EffectiveTaints []NodeConfigEffectiveTaintsObservation `json:"effectiveTaints,omitempty" tf:"effective_taints,omitempty"`
 
+	// Enabling Confidential Storage will create boot disk with confidential mode. It is disabled by default.
+	EnableConfidentialStorage *bool `json:"enableConfidentialStorage,omitempty" tf:"enable_confidential_storage,omitempty"`
+
 	// Parameters for the ephemeral storage filesystem. If unspecified, ephemeral storage is backed by the boot disk. Structure is documented below.
 	EphemeralStorageLocalSsdConfig []NodeConfigEphemeralStorageLocalSsdConfigObservation `json:"ephemeralStorageLocalSsdConfig,omitempty" tf:"ephemeral_storage_local_ssd_config,omitempty"`
 
@@ -4060,6 +4092,10 @@ type NodePoolNodeConfigObservation struct {
 	// The GCE resource labels (a map of key/value pairs) to be applied to the cluster.
 	// +mapType=granular
 	ResourceLabels map[string]*string `json:"resourceLabels,omitempty" tf:"resource_labels,omitempty"`
+
+	// A map of resource manager tag keys and values to be attached to the nodes for managing Compute Engine firewalls using Network Firewall Policies. Tags must be according to specifications found here. A maximum of 5 tag key-value pairs can be specified. Existing tags will be replaced with new values. Tags must be in one of the following formats ([KEY]=[VALUE]) 1. tagKeys/{tag_key_id}=tagValues/{tag_value_id} 2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// The service account to be used by the Node VMs.
 	// If not specified, the "default" service account is used.

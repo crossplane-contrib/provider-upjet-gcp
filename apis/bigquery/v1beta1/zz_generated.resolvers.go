@@ -1647,6 +1647,27 @@ func (mg *Routine) ResolveReferences(ctx context.Context, c client.Reader) error
 	mg.Spec.ForProvider.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DatasetIDRef = rsp.ResolvedReference
 
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.RemoteFunctionOptions); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta1", "Connection", "ConnectionList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RemoteFunctionOptions[i3].Connection),
+				Extract:      resource.ExtractParamPath("name", true),
+				Reference:    mg.Spec.ForProvider.RemoteFunctionOptions[i3].ConnectionRef,
+				Selector:     mg.Spec.ForProvider.RemoteFunctionOptions[i3].ConnectionSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.RemoteFunctionOptions[i3].Connection")
+		}
+		mg.Spec.ForProvider.RemoteFunctionOptions[i3].Connection = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.RemoteFunctionOptions[i3].ConnectionRef = rsp.ResolvedReference
+
+	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.SparkOptions); i3++ {
 		{
 			m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta1", "Connection", "ConnectionList")
@@ -1666,6 +1687,27 @@ func (mg *Routine) ResolveReferences(ctx context.Context, c client.Reader) error
 		}
 		mg.Spec.ForProvider.SparkOptions[i3].Connection = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.ForProvider.SparkOptions[i3].ConnectionRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.RemoteFunctionOptions); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta1", "Connection", "ConnectionList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RemoteFunctionOptions[i3].Connection),
+				Extract:      resource.ExtractParamPath("name", true),
+				Reference:    mg.Spec.InitProvider.RemoteFunctionOptions[i3].ConnectionRef,
+				Selector:     mg.Spec.InitProvider.RemoteFunctionOptions[i3].ConnectionSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.RemoteFunctionOptions[i3].Connection")
+		}
+		mg.Spec.InitProvider.RemoteFunctionOptions[i3].Connection = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.RemoteFunctionOptions[i3].ConnectionRef = rsp.ResolvedReference
 
 	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.SparkOptions); i3++ {

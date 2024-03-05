@@ -73,6 +73,30 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  allInstancesConfig:
+                    description: |-
+                      Properties to set on all instances in the group. After setting
+                      allInstancesConfig on the group, you must update the group's instances to
+                      apply the configuration.
+                    items:
+                      properties:
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: ', The label key-value pairs that you want
+                            to patch onto the instance.'
+                          type: object
+                          x-kubernetes-map-type: granular
+                        metadata:
+                          additionalProperties:
+                            type: string
+                          description: ', The metadata key-value pairs that you want
+                            to patch onto the instance. For more information, see
+                            Project and instance metadata.'
+                          type: object
+                          x-kubernetes-map-type: granular
+                      type: object
+                    type: array
                   autoHealingPolicies:
                     description: |-
                       The autohealing policies for this managed instance
@@ -590,6 +614,30 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  allInstancesConfig:
+                    description: |-
+                      Properties to set on all instances in the group. After setting
+                      allInstancesConfig on the group, you must update the group's instances to
+                      apply the configuration.
+                    items:
+                      properties:
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: ', The label key-value pairs that you want
+                            to patch onto the instance.'
+                          type: object
+                          x-kubernetes-map-type: granular
+                        metadata:
+                          additionalProperties:
+                            type: string
+                          description: ', The metadata key-value pairs that you want
+                            to patch onto the instance. For more information, see
+                            Project and instance metadata.'
+                          type: object
+                          x-kubernetes-map-type: granular
+                      type: object
+                    type: array
                   autoHealingPolicies:
                     description: |-
                       The autohealing policies for this managed instance
@@ -1269,6 +1317,30 @@ spec:
             properties:
               atProvider:
                 properties:
+                  allInstancesConfig:
+                    description: |-
+                      Properties to set on all instances in the group. After setting
+                      allInstancesConfig on the group, you must update the group's instances to
+                      apply the configuration.
+                    items:
+                      properties:
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: ', The label key-value pairs that you want
+                            to patch onto the instance.'
+                          type: object
+                          x-kubernetes-map-type: granular
+                        metadata:
+                          additionalProperties:
+                            type: string
+                          description: ', The metadata key-value pairs that you want
+                            to patch onto the instance. For more information, see
+                            Project and instance metadata.'
+                          type: object
+                          x-kubernetes-map-type: granular
+                      type: object
+                    type: array
                   autoHealingPolicies:
                     description: |-
                       The autohealing policies for this managed instance
@@ -1426,6 +1498,17 @@ spec:
                     description: The status of this managed instance group.
                     items:
                       properties:
+                        allInstancesConfig:
+                          description: |-
+                            Properties to set on all instances in the group. After setting
+                            allInstancesConfig on the group, you must update the group's instances to
+                            apply the configuration.
+                          items:
+                            properties:
+                              effective:
+                                type: boolean
+                            type: object
+                          type: array
                         isStable:
                           description: 'A bit indicating whether the managed instance
                             group is in a stable state. A stable state means that:

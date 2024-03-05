@@ -298,6 +298,8 @@ spec:
                           type: number
                         diskType:
                           type: string
+                        enableConfidentialStorage:
+                          type: boolean
                         ephemeralStorageLocalSsdConfig:
                           items:
                             properties:
@@ -458,6 +460,11 @@ spec:
                             type: object
                           type: array
                         resourceLabels:
+                          additionalProperties:
+                            type: string
+                          type: object
+                          x-kubernetes-map-type: granular
+                        resourceManagerTags:
                           additionalProperties:
                             type: string
                           type: object
@@ -858,6 +865,8 @@ spec:
                           type: number
                         diskType:
                           type: string
+                        enableConfidentialStorage:
+                          type: boolean
                         ephemeralStorageLocalSsdConfig:
                           items:
                             properties:
@@ -1018,6 +1027,11 @@ spec:
                             type: object
                           type: array
                         resourceLabels:
+                          additionalProperties:
+                            type: string
+                          type: object
+                          x-kubernetes-map-type: granular
+                        resourceManagerTags:
                           additionalProperties:
                             type: string
                           type: object
@@ -1612,6 +1626,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        enableConfidentialStorage:
+                          type: boolean
                         ephemeralStorageLocalSsdConfig:
                           items:
                             properties:
@@ -1772,6 +1788,11 @@ spec:
                             type: object
                           type: array
                         resourceLabels:
+                          additionalProperties:
+                            type: string
+                          type: object
+                          x-kubernetes-map-type: granular
+                        resourceManagerTags:
                           additionalProperties:
                             type: string
                           type: object

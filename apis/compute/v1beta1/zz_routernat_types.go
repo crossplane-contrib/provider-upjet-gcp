@@ -109,7 +109,7 @@ type RouterNATInitParameters struct {
 	// This field can only be set when enableDynamicPortAllocation is enabled.
 	MaxPortsPerVM *float64 `json:"maxPortsPerVm,omitempty" tf:"max_ports_per_vm,omitempty"`
 
-	// Minimum number of ports allocated to a VM from this NAT.
+	// Minimum number of ports allocated to a VM from this NAT. Defaults to 64 for static port allocation and 32 dynamic port allocation if not set.
 	MinPortsPerVM *float64 `json:"minPortsPerVm,omitempty" tf:"min_ports_per_vm,omitempty"`
 
 	// How external IPs should be allocated for this NAT. Valid values are
@@ -230,7 +230,7 @@ type RouterNATObservation struct {
 	// This field can only be set when enableDynamicPortAllocation is enabled.
 	MaxPortsPerVM *float64 `json:"maxPortsPerVm,omitempty" tf:"max_ports_per_vm,omitempty"`
 
-	// Minimum number of ports allocated to a VM from this NAT.
+	// Minimum number of ports allocated to a VM from this NAT. Defaults to 64 for static port allocation and 32 dynamic port allocation if not set.
 	MinPortsPerVM *float64 `json:"minPortsPerVm,omitempty" tf:"min_ports_per_vm,omitempty"`
 
 	// How external IPs should be allocated for this NAT. Valid values are
@@ -328,7 +328,7 @@ type RouterNATParameters struct {
 	// +kubebuilder:validation:Optional
 	MaxPortsPerVM *float64 `json:"maxPortsPerVm,omitempty" tf:"max_ports_per_vm,omitempty"`
 
-	// Minimum number of ports allocated to a VM from this NAT.
+	// Minimum number of ports allocated to a VM from this NAT. Defaults to 64 for static port allocation and 32 dynamic port allocation if not set.
 	// +kubebuilder:validation:Optional
 	MinPortsPerVM *float64 `json:"minPortsPerVm,omitempty" tf:"min_ports_per_vm,omitempty"`
 

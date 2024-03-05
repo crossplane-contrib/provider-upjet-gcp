@@ -91,6 +91,10 @@ spec:
                       Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
+                  location:
+                    description: The Certificate Manager location. If not specified,
+                      "global" is used.
+                    type: string
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -128,6 +132,10 @@ spec:
                       Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
+                  location:
+                    description: The Certificate Manager location. If not specified,
+                      "global" is used.
+                    type: string
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -352,7 +360,7 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   id:
-                    description: an identifier for the resource with format projects/{{project}}/locations/global/dnsAuthorizations/{{name}}
+                    description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/dnsAuthorizations/{{name}}
                     type: string
                   labels:
                     additionalProperties:
@@ -363,6 +371,10 @@ spec:
                       Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
+                  location:
+                    description: The Certificate Manager location. If not specified,
+                      "global" is used.
+                    type: string
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.

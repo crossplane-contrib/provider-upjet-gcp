@@ -8,7 +8,7 @@ metadata:
   name: appserver
 spec:
   forProvider:
-    all_instances_config:
+    allInstancesConfig:
     - labels:
         label_key: label_value
       metadata:

@@ -562,6 +562,8 @@ type NodePoolNodeConfigInitParameters_2 struct {
 
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
 
+	EnableConfidentialStorage *bool `json:"enableConfidentialStorage,omitempty" tf:"enable_confidential_storage,omitempty"`
+
 	EphemeralStorageLocalSsdConfig []NodePoolNodeConfigEphemeralStorageLocalSsdConfigInitParameters `json:"ephemeralStorageLocalSsdConfig,omitempty" tf:"ephemeral_storage_local_ssd_config,omitempty"`
 
 	FastSocket []NodePoolNodeConfigFastSocketInitParameters `json:"fastSocket,omitempty" tf:"fast_socket,omitempty"`
@@ -613,6 +615,9 @@ type NodePoolNodeConfigInitParameters_2 struct {
 
 	// +mapType=granular
 	ResourceLabels map[string]*string `json:"resourceLabels,omitempty" tf:"resource_labels,omitempty"`
+
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
@@ -726,6 +731,8 @@ type NodePoolNodeConfigObservation_2 struct {
 
 	EffectiveTaints []NodePoolNodeConfigEffectiveTaintsObservation `json:"effectiveTaints,omitempty" tf:"effective_taints,omitempty"`
 
+	EnableConfidentialStorage *bool `json:"enableConfidentialStorage,omitempty" tf:"enable_confidential_storage,omitempty"`
+
 	EphemeralStorageLocalSsdConfig []NodePoolNodeConfigEphemeralStorageLocalSsdConfigObservation `json:"ephemeralStorageLocalSsdConfig,omitempty" tf:"ephemeral_storage_local_ssd_config,omitempty"`
 
 	FastSocket []NodePoolNodeConfigFastSocketObservation `json:"fastSocket,omitempty" tf:"fast_socket,omitempty"`
@@ -778,6 +785,9 @@ type NodePoolNodeConfigObservation_2 struct {
 	// +mapType=granular
 	ResourceLabels map[string]*string `json:"resourceLabels,omitempty" tf:"resource_labels,omitempty"`
 
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	ShieldedInstanceConfig []NodePoolNodeConfigShieldedInstanceConfigObservation_2 `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
@@ -810,6 +820,9 @@ type NodePoolNodeConfigParameters_2 struct {
 
 	// +kubebuilder:validation:Optional
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	EnableConfidentialStorage *bool `json:"enableConfidentialStorage,omitempty" tf:"enable_confidential_storage,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	EphemeralStorageLocalSsdConfig []NodePoolNodeConfigEphemeralStorageLocalSsdConfigParameters `json:"ephemeralStorageLocalSsdConfig,omitempty" tf:"ephemeral_storage_local_ssd_config,omitempty"`
@@ -884,6 +897,10 @@ type NodePoolNodeConfigParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	ResourceLabels map[string]*string `json:"resourceLabels,omitempty" tf:"resource_labels,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)

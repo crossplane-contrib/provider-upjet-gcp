@@ -84,6 +84,8 @@ spec:
                       during build time.
                     type: object
                   buildWorkerPool:
+                    description: Name of the Cloud Build Custom Worker Pool that should
+                      be used to build the function.
                     type: string
                   description:
                     description: Description of the function.
@@ -488,6 +490,8 @@ spec:
                       during build time.
                     type: object
                   buildWorkerPool:
+                    description: Name of the Cloud Build Custom Worker Pool that should
+                      be used to build the function.
                     type: string
                   description:
                     description: Description of the function.
@@ -1050,6 +1054,8 @@ spec:
                       during build time.
                     type: object
                   buildWorkerPool:
+                    description: Name of the Cloud Build Custom Worker Pool that should
+                      be used to build the function.
                     type: string
                   description:
                     description: Description of the function.

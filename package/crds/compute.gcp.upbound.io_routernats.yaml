@@ -122,7 +122,8 @@ spec:
                     type: number
                   minPortsPerVm:
                     description: Minimum number of ports allocated to a VM from this
-                      NAT.
+                      NAT. Defaults to 64 for static port allocation and 32 dynamic
+                      port allocation if not set.
                     type: number
                   natIpAllocateOption:
                     description: |-
@@ -482,7 +483,8 @@ spec:
                     type: number
                   minPortsPerVm:
                     description: Minimum number of ports allocated to a VM from this
-                      NAT.
+                      NAT. Defaults to 64 for static port allocation and 32 dynamic
+                      port allocation if not set.
                     type: number
                   natIpAllocateOption:
                     description: |-
@@ -927,7 +929,8 @@ spec:
                     type: number
                   minPortsPerVm:
                     description: Minimum number of ports allocated to a VM from this
-                      NAT.
+                      NAT. Defaults to 64 for static port allocation and 32 dynamic
+                      port allocation if not set.
                     type: number
                   natIpAllocateOption:
                     description: |-

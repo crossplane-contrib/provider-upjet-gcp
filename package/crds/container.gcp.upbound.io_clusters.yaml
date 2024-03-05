@@ -1083,6 +1083,10 @@ spec:
                             Type of the disk attached to each node
                             (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-standard'
                           type: string
+                        enableConfidentialStorage:
+                          description: Enabling Confidential Storage will create boot
+                            disk with confidential mode. It is disabled by default.
+                          type: boolean
                         ephemeralStorageLocalSsdConfig:
                           description: Parameters for the ephemeral storage filesystem.
                             If unspecified, ephemeral storage is backed by the boot
@@ -1357,6 +1361,19 @@ spec:
                           description: |-
                             The GCP labels (key/value pairs) to be applied to each node. Refer here
                             for how these labels are applied to clusters, node pools and nodes.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        resourceManagerTags:
+                          additionalProperties:
+                            type: string
+                          description: A map of resource manager tag keys and values
+                            to be attached to the nodes for managing Compute Engine
+                            firewalls using Network Firewall Policies. Tags must be
+                            according to specifications found here. A maximum of 5
+                            tag key-value pairs can be specified. Existing tags will
+                            be replaced with new values. Tags must be in one of the
+                            following formats ([KEY]=[VALUE]) 1. tagKeys/{tag_key_id}=tagValues/{tag_value_id}
+                            2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
                           type: object
                           x-kubernetes-map-type: granular
                         serviceAccount:
@@ -2901,6 +2918,10 @@ spec:
                             Type of the disk attached to each node
                             (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-standard'
                           type: string
+                        enableConfidentialStorage:
+                          description: Enabling Confidential Storage will create boot
+                            disk with confidential mode. It is disabled by default.
+                          type: boolean
                         ephemeralStorageLocalSsdConfig:
                           description: Parameters for the ephemeral storage filesystem.
                             If unspecified, ephemeral storage is backed by the boot
@@ -3175,6 +3196,19 @@ spec:
                           description: |-
                             The GCP labels (key/value pairs) to be applied to each node. Refer here
                             for how these labels are applied to clusters, node pools and nodes.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        resourceManagerTags:
+                          additionalProperties:
+                            type: string
+                          description: A map of resource manager tag keys and values
+                            to be attached to the nodes for managing Compute Engine
+                            firewalls using Network Firewall Policies. Tags must be
+                            according to specifications found here. A maximum of 5
+                            tag key-value pairs can be specified. Existing tags will
+                            be replaced with new values. Tags must be in one of the
+                            following formats ([KEY]=[VALUE]) 1. tagKeys/{tag_key_id}=tagValues/{tag_value_id}
+                            2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
                           type: object
                           x-kubernetes-map-type: granular
                         serviceAccount:
@@ -4437,6 +4471,16 @@ spec:
                             associated to this cluster with format //gkehub.googleapis.com/projects/{{project}}/locations/{{location}}/memberships/{{name}}.
                             See the official doc for fleet management.
                           type: string
+                        membershipId:
+                          description: The short name of the fleet membership, extracted
+                            from fleet.0.membership. You can use this field to configure
+                            membership_id under google_gkehub_feature_membership.
+                          type: string
+                        membershipLocation:
+                          description: The location of the fleet membership,  extracted
+                            from fleet.0.membership. You can use this field to configure
+                            membership_location under google_gkehub_feature_membership.
+                          type: string
                         preRegistered:
                           type: boolean
                         project:
@@ -4878,6 +4922,10 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        enableConfidentialStorage:
+                          description: Enabling Confidential Storage will create boot
+                            disk with confidential mode. It is disabled by default.
+                          type: boolean
                         ephemeralStorageLocalSsdConfig:
                           description: Parameters for the ephemeral storage filesystem.
                             If unspecified, ephemeral storage is backed by the boot
@@ -5152,6 +5200,19 @@ spec:
                           description: |-
                             The GCP labels (key/value pairs) to be applied to each node. Refer here
                             for how these labels are applied to clusters, node pools and nodes.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        resourceManagerTags:
+                          additionalProperties:
+                            type: string
+                          description: A map of resource manager tag keys and values
+                            to be attached to the nodes for managing Compute Engine
+                            firewalls using Network Firewall Policies. Tags must be
+                            according to specifications found here. A maximum of 5
+                            tag key-value pairs can be specified. Existing tags will
+                            be replaced with new values. Tags must be in one of the
+                            following formats ([KEY]=[VALUE]) 1. tagKeys/{tag_key_id}=tagValues/{tag_value_id}
+                            2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
                           type: object
                           x-kubernetes-map-type: granular
                         serviceAccount:
@@ -5430,6 +5491,11 @@ spec:
                                       type: string
                                   type: object
                                 type: array
+                              enableConfidentialStorage:
+                                description: Enabling Confidential Storage will create
+                                  boot disk with confidential mode. It is disabled
+                                  by default.
+                                type: boolean
                               ephemeralStorageLocalSsdConfig:
                                 description: Parameters for the ephemeral storage
                                   filesystem. If unspecified, ephemeral storage is
@@ -5705,6 +5771,20 @@ spec:
                                   type: string
                                 description: The GCE resource labels (a map of key/value
                                   pairs) to be applied to the cluster.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              resourceManagerTags:
+                                additionalProperties:
+                                  type: string
+                                description: A map of resource manager tag keys and
+                                  values to be attached to the nodes for managing
+                                  Compute Engine firewalls using Network Firewall
+                                  Policies. Tags must be according to specifications
+                                  found here. A maximum of 5 tag key-value pairs can
+                                  be specified. Existing tags will be replaced with
+                                  new values. Tags must be in one of the following
+                                  formats ([KEY]=[VALUE]) 1. tagKeys/{tag_key_id}=tagValues/{tag_value_id}
+                                  2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
                                 type: object
                                 x-kubernetes-map-type: granular
                               serviceAccount:

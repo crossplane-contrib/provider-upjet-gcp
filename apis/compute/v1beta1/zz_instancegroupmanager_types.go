@@ -29,6 +29,41 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AllInstancesConfigInitParameters struct {
+
+	// , The label key-value pairs that you want to patch onto the instance.
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// , The metadata key-value pairs that you want to patch onto the instance. For more information, see Project and instance metadata.
+	// +mapType=granular
+	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type AllInstancesConfigObservation struct {
+
+	// , The label key-value pairs that you want to patch onto the instance.
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// , The metadata key-value pairs that you want to patch onto the instance. For more information, see Project and instance metadata.
+	// +mapType=granular
+	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type AllInstancesConfigParameters struct {
+
+	// , The label key-value pairs that you want to patch onto the instance.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// , The metadata key-value pairs that you want to patch onto the instance. For more information, see Project and instance metadata.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
 type AutoHealingPoliciesInitParameters struct {
 
 	// The health check resource that signals autohealing.
@@ -82,6 +117,11 @@ type AutoHealingPoliciesParameters struct {
 }
 
 type InstanceGroupManagerInitParameters struct {
+
+	// Properties to set on all instances in the group. After setting
+	// allInstancesConfig on the group, you must update the group's instances to
+	// apply the configuration.
+	AllInstancesConfig []AllInstancesConfigInitParameters `json:"allInstancesConfig,omitempty" tf:"all_instances_config,omitempty"`
 
 	// The autohealing policies for this managed instance
 	// group. You can specify only one value. Structure is documented below. For more information, see the official documentation.
@@ -198,6 +238,11 @@ type InstanceGroupManagerNamedPortParameters struct {
 
 type InstanceGroupManagerObservation struct {
 
+	// Properties to set on all instances in the group. After setting
+	// allInstancesConfig on the group, you must update the group's instances to
+	// apply the configuration.
+	AllInstancesConfig []AllInstancesConfigObservation `json:"allInstancesConfig,omitempty" tf:"all_instances_config,omitempty"`
+
 	// The autohealing policies for this managed instance
 	// group. You can specify only one value. Structure is documented below. For more information, see the official documentation.
 	AutoHealingPolicies []AutoHealingPoliciesObservation `json:"autoHealingPolicies,omitempty" tf:"auto_healing_policies,omitempty"`
@@ -296,6 +341,12 @@ type InstanceGroupManagerObservation struct {
 }
 
 type InstanceGroupManagerParameters struct {
+
+	// Properties to set on all instances in the group. After setting
+	// allInstancesConfig on the group, you must update the group's instances to
+	// apply the configuration.
+	// +kubebuilder:validation:Optional
+	AllInstancesConfig []AllInstancesConfigParameters `json:"allInstancesConfig,omitempty" tf:"all_instances_config,omitempty"`
 
 	// The autohealing policies for this managed instance
 	// group. You can specify only one value. Structure is documented below. For more information, see the official documentation.
@@ -535,10 +586,25 @@ type StatefulObservation struct {
 type StatefulParameters struct {
 }
 
+type StatusAllInstancesConfigInitParameters struct {
+}
+
+type StatusAllInstancesConfigObservation struct {
+	Effective *bool `json:"effective,omitempty" tf:"effective,omitempty"`
+}
+
+type StatusAllInstancesConfigParameters struct {
+}
+
 type StatusInitParameters struct {
 }
 
 type StatusObservation struct {
+
+	// Properties to set on all instances in the group. After setting
+	// allInstancesConfig on the group, you must update the group's instances to
+	// apply the configuration.
+	AllInstancesConfig []StatusAllInstancesConfigObservation `json:"allInstancesConfig,omitempty" tf:"all_instances_config,omitempty"`
 
 	// A bit indicating whether the managed instance group is in a stable state. A stable state means that: none of the instances in the managed instance group is currently undergoing any type of change (for example, creation, restart, or deletion); no future changes are scheduled for instances in the managed instance group; and the managed instance group itself is not being modified.
 	IsStable *bool `json:"isStable,omitempty" tf:"is_stable,omitempty"`

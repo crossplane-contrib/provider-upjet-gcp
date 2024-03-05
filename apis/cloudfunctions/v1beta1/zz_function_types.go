@@ -104,6 +104,7 @@ type FunctionInitParameters struct {
 	// A set of key/value environment variable pairs available during build time.
 	BuildEnvironmentVariables map[string]string `json:"buildEnvironmentVariables,omitempty" tf:"build_environment_variables,omitempty"`
 
+	// Name of the Cloud Build Custom Worker Pool that should be used to build the function.
 	BuildWorkerPool *string `json:"buildWorkerPool,omitempty" tf:"build_worker_pool,omitempty"`
 
 	// Description of the function.
@@ -212,6 +213,7 @@ type FunctionObservation struct {
 	// A set of key/value environment variable pairs available during build time.
 	BuildEnvironmentVariables map[string]string `json:"buildEnvironmentVariables,omitempty" tf:"build_environment_variables,omitempty"`
 
+	// Name of the Cloud Build Custom Worker Pool that should be used to build the function.
 	BuildWorkerPool *string `json:"buildWorkerPool,omitempty" tf:"build_worker_pool,omitempty"`
 
 	// Description of the function.
@@ -321,6 +323,7 @@ type FunctionParameters struct {
 	// +kubebuilder:validation:Optional
 	BuildEnvironmentVariables map[string]string `json:"buildEnvironmentVariables,omitempty" tf:"build_environment_variables,omitempty"`
 
+	// Name of the Cloud Build Custom Worker Pool that should be used to build the function.
 	// +kubebuilder:validation:Optional
 	BuildWorkerPool *string `json:"buildWorkerPool,omitempty" tf:"build_worker_pool,omitempty"`
 

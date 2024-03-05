@@ -3775,6 +3775,16 @@ func (in *FleetObservation) DeepCopyInto(out *FleetObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.MembershipID != nil {
+		in, out := &in.MembershipID, &out.MembershipID
+		*out = new(string)
+		**out = **in
+	}
+	if in.MembershipLocation != nil {
+		in, out := &in.MembershipLocation, &out.MembershipLocation
+		*out = new(string)
+		**out = **in
+	}
 	if in.PreRegistered != nil {
 		in, out := &in.PreRegistered, &out.PreRegistered
 		*out = new(bool)
@@ -7401,6 +7411,11 @@ func (in *NodeConfigInitParameters) DeepCopyInto(out *NodeConfigInitParameters) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.EnableConfidentialStorage != nil {
+		in, out := &in.EnableConfidentialStorage, &out.EnableConfidentialStorage
+		*out = new(bool)
+		**out = **in
+	}
 	if in.EphemeralStorageLocalSsdConfig != nil {
 		in, out := &in.EphemeralStorageLocalSsdConfig, &out.EphemeralStorageLocalSsdConfig
 		*out = make([]EphemeralStorageLocalSsdConfigInitParameters, len(*in))
@@ -7551,6 +7566,22 @@ func (in *NodeConfigInitParameters) DeepCopyInto(out *NodeConfigInitParameters) 
 	}
 	if in.ResourceLabels != nil {
 		in, out := &in.ResourceLabels, &out.ResourceLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.ResourceManagerTags != nil {
+		in, out := &in.ResourceManagerTags, &out.ResourceManagerTags
 		*out = make(map[string]*string, len(*in))
 		for key, val := range *in {
 			var outVal *string
@@ -7856,6 +7887,11 @@ func (in *NodeConfigObservation) DeepCopyInto(out *NodeConfigObservation) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.EnableConfidentialStorage != nil {
+		in, out := &in.EnableConfidentialStorage, &out.EnableConfidentialStorage
+		*out = new(bool)
+		**out = **in
+	}
 	if in.EphemeralStorageLocalSsdConfig != nil {
 		in, out := &in.EphemeralStorageLocalSsdConfig, &out.EphemeralStorageLocalSsdConfig
 		*out = make([]EphemeralStorageLocalSsdConfigObservation, len(*in))
@@ -8020,6 +8056,22 @@ func (in *NodeConfigObservation) DeepCopyInto(out *NodeConfigObservation) {
 			(*out)[key] = outVal
 		}
 	}
+	if in.ResourceManagerTags != nil {
+		in, out := &in.ResourceManagerTags, &out.ResourceManagerTags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ServiceAccount != nil {
 		in, out := &in.ServiceAccount, &out.ServiceAccount
 		*out = new(string)
@@ -8111,6 +8163,11 @@ func (in *NodeConfigParameters) DeepCopyInto(out *NodeConfigParameters) {
 	if in.DiskType != nil {
 		in, out := &in.DiskType, &out.DiskType
 		*out = new(string)
+		**out = **in
+	}
+	if in.EnableConfidentialStorage != nil {
+		in, out := &in.EnableConfidentialStorage, &out.EnableConfidentialStorage
+		*out = new(bool)
 		**out = **in
 	}
 	if in.EphemeralStorageLocalSsdConfig != nil {
@@ -8263,6 +8320,22 @@ func (in *NodeConfigParameters) DeepCopyInto(out *NodeConfigParameters) {
 	}
 	if in.ResourceLabels != nil {
 		in, out := &in.ResourceLabels, &out.ResourceLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.ResourceManagerTags != nil {
+		in, out := &in.ResourceManagerTags, &out.ResourceManagerTags
 		*out = make(map[string]*string, len(*in))
 		for key, val := range *in {
 			var outVal *string
@@ -10224,6 +10297,11 @@ func (in *NodePoolNodeConfigInitParameters_2) DeepCopyInto(out *NodePoolNodeConf
 		*out = new(string)
 		**out = **in
 	}
+	if in.EnableConfidentialStorage != nil {
+		in, out := &in.EnableConfidentialStorage, &out.EnableConfidentialStorage
+		*out = new(bool)
+		**out = **in
+	}
 	if in.EphemeralStorageLocalSsdConfig != nil {
 		in, out := &in.EphemeralStorageLocalSsdConfig, &out.EphemeralStorageLocalSsdConfig
 		*out = make([]NodePoolNodeConfigEphemeralStorageLocalSsdConfigInitParameters, len(*in))
@@ -10379,6 +10457,22 @@ func (in *NodePoolNodeConfigInitParameters_2) DeepCopyInto(out *NodePoolNodeConf
 	}
 	if in.ResourceLabels != nil {
 		in, out := &in.ResourceLabels, &out.ResourceLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.ResourceManagerTags != nil {
+		in, out := &in.ResourceManagerTags, &out.ResourceManagerTags
 		*out = make(map[string]*string, len(*in))
 		for key, val := range *in {
 			var outVal *string
@@ -10776,6 +10870,11 @@ func (in *NodePoolNodeConfigObservation) DeepCopyInto(out *NodePoolNodeConfigObs
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.EnableConfidentialStorage != nil {
+		in, out := &in.EnableConfidentialStorage, &out.EnableConfidentialStorage
+		*out = new(bool)
+		**out = **in
+	}
 	if in.EphemeralStorageLocalSsdConfig != nil {
 		in, out := &in.EphemeralStorageLocalSsdConfig, &out.EphemeralStorageLocalSsdConfig
 		*out = make([]NodeConfigEphemeralStorageLocalSsdConfigObservation, len(*in))
@@ -10940,6 +11039,22 @@ func (in *NodePoolNodeConfigObservation) DeepCopyInto(out *NodePoolNodeConfigObs
 			(*out)[key] = outVal
 		}
 	}
+	if in.ResourceManagerTags != nil {
+		in, out := &in.ResourceManagerTags, &out.ResourceManagerTags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ServiceAccount != nil {
 		in, out := &in.ServiceAccount, &out.ServiceAccount
 		*out = new(string)
@@ -11039,6 +11154,11 @@ func (in *NodePoolNodeConfigObservation_2) DeepCopyInto(out *NodePoolNodeConfigO
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.EnableConfidentialStorage != nil {
+		in, out := &in.EnableConfidentialStorage, &out.EnableConfidentialStorage
+		*out = new(bool)
+		**out = **in
 	}
 	if in.EphemeralStorageLocalSsdConfig != nil {
 		in, out := &in.EphemeralStorageLocalSsdConfig, &out.EphemeralStorageLocalSsdConfig
@@ -11209,6 +11329,22 @@ func (in *NodePoolNodeConfigObservation_2) DeepCopyInto(out *NodePoolNodeConfigO
 			(*out)[key] = outVal
 		}
 	}
+	if in.ResourceManagerTags != nil {
+		in, out := &in.ResourceManagerTags, &out.ResourceManagerTags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ServiceAccount != nil {
 		in, out := &in.ServiceAccount, &out.ServiceAccount
 		*out = new(string)
@@ -11315,6 +11451,11 @@ func (in *NodePoolNodeConfigParameters_2) DeepCopyInto(out *NodePoolNodeConfigPa
 	if in.DiskType != nil {
 		in, out := &in.DiskType, &out.DiskType
 		*out = new(string)
+		**out = **in
+	}
+	if in.EnableConfidentialStorage != nil {
+		in, out := &in.EnableConfidentialStorage, &out.EnableConfidentialStorage
+		*out = new(bool)
 		**out = **in
 	}
 	if in.EphemeralStorageLocalSsdConfig != nil {
@@ -11472,6 +11613,22 @@ func (in *NodePoolNodeConfigParameters_2) DeepCopyInto(out *NodePoolNodeConfigPa
 	}
 	if in.ResourceLabels != nil {
 		in, out := &in.ResourceLabels, &out.ResourceLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.ResourceManagerTags != nil {
+		in, out := &in.ResourceManagerTags, &out.ResourceManagerTags
 		*out = make(map[string]*string, len(*in))
 		for key, val := range *in {
 			var outVal *string

@@ -105,6 +105,102 @@ type ArgumentsParameters struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
+type RemoteFunctionOptionsInitParameters struct {
+
+	// Fully qualified name of the user-provided connection object which holds
+	// the authentication information to send requests to the remote service.
+	// Format: "projects/{projectId}/locations/{locationId}/connections/{connectionId}"
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Connection
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	Connection *string `json:"connection,omitempty" tf:"connection,omitempty"`
+
+	// Reference to a Connection in bigquery to populate connection.
+	// +kubebuilder:validation:Optional
+	ConnectionRef *v1.Reference `json:"connectionRef,omitempty" tf:"-"`
+
+	// Selector for a Connection in bigquery to populate connection.
+	// +kubebuilder:validation:Optional
+	ConnectionSelector *v1.Selector `json:"connectionSelector,omitempty" tf:"-"`
+
+	// Endpoint of the user-provided remote service, e.g.
+	// https://us-east1-my_gcf_project.cloudfunctions.net/remote_add
+	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
+
+	// Max number of rows in each batch sent to the remote service. If absent or if 0,
+	// BigQuery dynamically decides the number of rows in a batch.
+	MaxBatchingRows *string `json:"maxBatchingRows,omitempty" tf:"max_batching_rows,omitempty"`
+
+	// User-defined context as a set of key/value pairs, which will be sent as function
+	// invocation context together with batched arguments in the requests to the remote
+	// service. The total number of bytes of keys and values must be less than 8KB.
+	// An object containing a list of "key": value pairs. Example:
+	// { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +mapType=granular
+	UserDefinedContext map[string]*string `json:"userDefinedContext,omitempty" tf:"user_defined_context,omitempty"`
+}
+
+type RemoteFunctionOptionsObservation struct {
+
+	// Fully qualified name of the user-provided connection object which holds
+	// the authentication information to send requests to the remote service.
+	// Format: "projects/{projectId}/locations/{locationId}/connections/{connectionId}"
+	Connection *string `json:"connection,omitempty" tf:"connection,omitempty"`
+
+	// Endpoint of the user-provided remote service, e.g.
+	// https://us-east1-my_gcf_project.cloudfunctions.net/remote_add
+	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
+
+	// Max number of rows in each batch sent to the remote service. If absent or if 0,
+	// BigQuery dynamically decides the number of rows in a batch.
+	MaxBatchingRows *string `json:"maxBatchingRows,omitempty" tf:"max_batching_rows,omitempty"`
+
+	// User-defined context as a set of key/value pairs, which will be sent as function
+	// invocation context together with batched arguments in the requests to the remote
+	// service. The total number of bytes of keys and values must be less than 8KB.
+	// An object containing a list of "key": value pairs. Example:
+	// { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +mapType=granular
+	UserDefinedContext map[string]*string `json:"userDefinedContext,omitempty" tf:"user_defined_context,omitempty"`
+}
+
+type RemoteFunctionOptionsParameters struct {
+
+	// Fully qualified name of the user-provided connection object which holds
+	// the authentication information to send requests to the remote service.
+	// Format: "projects/{projectId}/locations/{locationId}/connections/{connectionId}"
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Connection
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +kubebuilder:validation:Optional
+	Connection *string `json:"connection,omitempty" tf:"connection,omitempty"`
+
+	// Reference to a Connection in bigquery to populate connection.
+	// +kubebuilder:validation:Optional
+	ConnectionRef *v1.Reference `json:"connectionRef,omitempty" tf:"-"`
+
+	// Selector for a Connection in bigquery to populate connection.
+	// +kubebuilder:validation:Optional
+	ConnectionSelector *v1.Selector `json:"connectionSelector,omitempty" tf:"-"`
+
+	// Endpoint of the user-provided remote service, e.g.
+	// https://us-east1-my_gcf_project.cloudfunctions.net/remote_add
+	// +kubebuilder:validation:Optional
+	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
+
+	// Max number of rows in each batch sent to the remote service. If absent or if 0,
+	// BigQuery dynamically decides the number of rows in a batch.
+	// +kubebuilder:validation:Optional
+	MaxBatchingRows *string `json:"maxBatchingRows,omitempty" tf:"max_batching_rows,omitempty"`
+
+	// User-defined context as a set of key/value pairs, which will be sent as function
+	// invocation context together with batched arguments in the requests to the remote
+	// service. The total number of bytes of keys and values must be less than 8KB.
+	// An object containing a list of "key": value pairs. Example:
+	// { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	UserDefinedContext map[string]*string `json:"userDefinedContext,omitempty" tf:"user_defined_context,omitempty"`
+}
+
 type RoutineInitParameters_2 struct {
 
 	// Input/output argument of a function or a stored procedure.
@@ -133,6 +229,10 @@ type RoutineInitParameters_2 struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Remote function specific options.
+	// Structure is documented below.
+	RemoteFunctionOptions []RemoteFunctionOptionsInitParameters `json:"remoteFunctionOptions,omitempty" tf:"remote_function_options,omitempty"`
 
 	// Optional. Can be set only if routineType = "TABLE_VALUED_FUNCTION".
 	// If absent, the return table type is inferred from definitionBody at query time in each query
@@ -202,6 +302,10 @@ type RoutineObservation_2 struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Remote function specific options.
+	// Structure is documented below.
+	RemoteFunctionOptions []RemoteFunctionOptionsObservation `json:"remoteFunctionOptions,omitempty" tf:"remote_function_options,omitempty"`
 
 	// Optional. Can be set only if routineType = "TABLE_VALUED_FUNCTION".
 	// If absent, the return table type is inferred from definitionBody at query time in each query
@@ -277,6 +381,11 @@ type RoutineParameters_2 struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Remote function specific options.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RemoteFunctionOptions []RemoteFunctionOptionsParameters `json:"remoteFunctionOptions,omitempty" tf:"remote_function_options,omitempty"`
 
 	// Optional. Can be set only if routineType = "TABLE_VALUED_FUNCTION".
 	// If absent, the return table type is inferred from definitionBody at query time in each query
