@@ -137,10 +137,6 @@ type MembershipInitParameters struct {
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// Location of the membership.
-	// The default value is global.
-	Location *string `json:"location,omitempty" tf:"location,omitempty"`
-
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`

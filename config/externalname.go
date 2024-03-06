@@ -498,8 +498,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 
 	// gkehub
 	//
-	// Imported by using the following format: projects/{{project}}/locations/global/memberships/{{membership_id}}
-	"google_gke_hub_membership": config.TemplatedStringAsIdentifier("membership_id", "projects/{{ .setup.configuration.project }}/locations/global/memberships/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/memberships/{{membership_id}}
+	"google_gke_hub_membership": config.TemplatedStringAsIdentifier("membership_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/memberships/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/{{location}}/memberships/{{membership_id}} roles/viewer user:jane@example.com
 	"google_gke_hub_membership_iam_member": config.IdentifierFromProvider,
 
