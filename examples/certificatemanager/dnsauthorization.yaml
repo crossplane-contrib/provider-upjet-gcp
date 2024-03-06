@@ -8,5 +8,6 @@ metadata:
   name: default
 spec:
   forProvider:
+    location: global
     description: The default dnss
     domain: hashicorptest.com

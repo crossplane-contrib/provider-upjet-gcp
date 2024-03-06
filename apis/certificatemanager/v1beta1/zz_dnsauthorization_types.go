@@ -45,9 +45,6 @@ type DNSAuthorizationInitParameters struct {
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// The Certificate Manager location. If not specified, "global" is used.
-	Location *string `json:"location,omitempty" tf:"location,omitempty"`
-
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
