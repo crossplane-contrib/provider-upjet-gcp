@@ -13,3 +13,4 @@ spec:
       - {}
     enableAutopilot: true
     enableIntranodeVisibility: true
+    deletionProtection: false
