@@ -207,9 +207,11 @@ spec:
                       properties:
                         autoRepair:
                           description: Whether the nodes will be automatically repaired.
+                            Enabled by default.
                           type: boolean
                         autoUpgrade:
                           description: Whether the nodes will be automatically upgraded.
+                            Enabled by default.
                           type: boolean
                       type: object
                     type: array
@@ -236,6 +238,13 @@ spec:
                         enablePrivateNodes:
                           description: Whether nodes have internal IP addresses only.
                           type: boolean
+                        networkPerformanceConfig:
+                          items:
+                            properties:
+                              totalEgressBandwidthTier:
+                                type: string
+                            type: object
+                          type: array
                         podCidrOverprovisionConfig:
                           items:
                             properties:
@@ -274,10 +283,23 @@ spec:
                           type: array
                         bootDiskKmsKey:
                           type: string
+                        confidentialNodes:
+                          description: Configuration for Confidential Nodes feature.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
+                                type: boolean
+                            type: object
+                          type: array
                         diskSizeGb:
                           type: number
                         diskType:
                           type: string
+                        enableConfidentialStorage:
+                          type: boolean
                         ephemeralStorageLocalSsdConfig:
                           items:
                             properties:
@@ -285,10 +307,21 @@ spec:
                                 type: number
                             type: object
                           type: array
+                        fastSocket:
+                          items:
+                            properties:
+                              enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
+                                type: boolean
+                            type: object
+                          type: array
                         gcfsConfig:
                           items:
                             properties:
                               enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
                                 type: boolean
                             type: object
                           type: array
@@ -331,6 +364,8 @@ spec:
                           items:
                             properties:
                               enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
                                 type: boolean
                             type: object
                           type: array
@@ -372,6 +407,8 @@ spec:
                             google_container_cluster for schema.
                           items:
                             properties:
+                              cgroupMode:
+                                type: string
                               sysctls:
                                 additionalProperties:
                                   type: string
@@ -423,6 +460,11 @@ spec:
                             type: object
                           type: array
                         resourceLabels:
+                          additionalProperties:
+                            type: string
+                          type: object
+                          x-kubernetes-map-type: granular
+                        resourceManagerTags:
                           additionalProperties:
                             type: string
                           type: object
@@ -587,6 +629,10 @@ spec:
                             If set, refers to the name of a custom resource policy supplied by the user.
                             The resource policy must be in the same project and region as the node pool.
                             If not found, InvalidArgument error is returned.
+                          type: string
+                        tpuTopology:
+                          description: The TPU placement topology for pod slice node
+                            pool.
                           type: string
                         type:
                           description: |-
@@ -728,9 +774,11 @@ spec:
                       properties:
                         autoRepair:
                           description: Whether the nodes will be automatically repaired.
+                            Enabled by default.
                           type: boolean
                         autoUpgrade:
                           description: Whether the nodes will be automatically upgraded.
+                            Enabled by default.
                           type: boolean
                       type: object
                     type: array
@@ -757,6 +805,13 @@ spec:
                         enablePrivateNodes:
                           description: Whether nodes have internal IP addresses only.
                           type: boolean
+                        networkPerformanceConfig:
+                          items:
+                            properties:
+                              totalEgressBandwidthTier:
+                                type: string
+                            type: object
+                          type: array
                         podCidrOverprovisionConfig:
                           items:
                             properties:
@@ -795,10 +850,23 @@ spec:
                           type: array
                         bootDiskKmsKey:
                           type: string
+                        confidentialNodes:
+                          description: Configuration for Confidential Nodes feature.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
+                                type: boolean
+                            type: object
+                          type: array
                         diskSizeGb:
                           type: number
                         diskType:
                           type: string
+                        enableConfidentialStorage:
+                          type: boolean
                         ephemeralStorageLocalSsdConfig:
                           items:
                             properties:
@@ -806,10 +874,21 @@ spec:
                                 type: number
                             type: object
                           type: array
+                        fastSocket:
+                          items:
+                            properties:
+                              enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
+                                type: boolean
+                            type: object
+                          type: array
                         gcfsConfig:
                           items:
                             properties:
                               enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
                                 type: boolean
                             type: object
                           type: array
@@ -852,6 +931,8 @@ spec:
                           items:
                             properties:
                               enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
                                 type: boolean
                             type: object
                           type: array
@@ -893,6 +974,8 @@ spec:
                             google_container_cluster for schema.
                           items:
                             properties:
+                              cgroupMode:
+                                type: string
                               sysctls:
                                 additionalProperties:
                                   type: string
@@ -944,6 +1027,11 @@ spec:
                             type: object
                           type: array
                         resourceLabels:
+                          additionalProperties:
+                            type: string
+                          type: object
+                          x-kubernetes-map-type: granular
+                        resourceManagerTags:
                           additionalProperties:
                             type: string
                           type: object
@@ -1108,6 +1196,10 @@ spec:
                             If set, refers to the name of a custom resource policy supplied by the user.
                             The resource policy must be in the same project and region as the node pool.
                             If not found, InvalidArgument error is returned.
+                          type: string
+                        tpuTopology:
+                          description: The TPU placement topology for pod slice node
+                            pool.
                           type: string
                         type:
                           description: |-
@@ -1432,9 +1524,11 @@ spec:
                       properties:
                         autoRepair:
                           description: Whether the nodes will be automatically repaired.
+                            Enabled by default.
                           type: boolean
                         autoUpgrade:
                           description: Whether the nodes will be automatically upgraded.
+                            Enabled by default.
                           type: boolean
                       type: object
                     type: array
@@ -1461,6 +1555,13 @@ spec:
                         enablePrivateNodes:
                           description: Whether nodes have internal IP addresses only.
                           type: boolean
+                        networkPerformanceConfig:
+                          items:
+                            properties:
+                              totalEgressBandwidthTier:
+                                type: string
+                            type: object
+                          type: array
                         podCidrOverprovisionConfig:
                           items:
                             properties:
@@ -1499,10 +1600,34 @@ spec:
                           type: array
                         bootDiskKmsKey:
                           type: string
+                        confidentialNodes:
+                          description: Configuration for Confidential Nodes feature.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
+                                type: boolean
+                            type: object
+                          type: array
                         diskSizeGb:
                           type: number
                         diskType:
                           type: string
+                        effectiveTaints:
+                          items:
+                            properties:
+                              effect:
+                                type: string
+                              key:
+                                type: string
+                              value:
+                                type: string
+                            type: object
+                          type: array
+                        enableConfidentialStorage:
+                          type: boolean
                         ephemeralStorageLocalSsdConfig:
                           items:
                             properties:
@@ -1510,10 +1635,21 @@ spec:
                                 type: number
                             type: object
                           type: array
+                        fastSocket:
+                          items:
+                            properties:
+                              enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
+                                type: boolean
+                            type: object
+                          type: array
                         gcfsConfig:
                           items:
                             properties:
                               enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
                                 type: boolean
                             type: object
                           type: array
@@ -1556,6 +1692,8 @@ spec:
                           items:
                             properties:
                               enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
                                 type: boolean
                             type: object
                           type: array
@@ -1597,6 +1735,8 @@ spec:
                             google_container_cluster for schema.
                           items:
                             properties:
+                              cgroupMode:
+                                type: string
                               sysctls:
                                 additionalProperties:
                                   type: string
@@ -1648,6 +1788,11 @@ spec:
                             type: object
                           type: array
                         resourceLabels:
+                          additionalProperties:
+                            type: string
+                          type: object
+                          x-kubernetes-map-type: granular
+                        resourceManagerTags:
                           additionalProperties:
                             type: string
                           type: object
@@ -1738,6 +1883,10 @@ spec:
                             If set, refers to the name of a custom resource policy supplied by the user.
                             The resource policy must be in the same project and region as the node pool.
                             If not found, InvalidArgument error is returned.
+                          type: string
+                        tpuTopology:
+                          description: The TPU placement topology for pod slice node
+                            pool.
                           type: string
                         type:
                           description: |-

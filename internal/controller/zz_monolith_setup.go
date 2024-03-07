@@ -75,8 +75,6 @@ import (
 	function "github.com/upbound/provider-gcp/internal/controller/cloudfunctions/function"
 	functioniammember "github.com/upbound/provider-gcp/internal/controller/cloudfunctions/functioniammember"
 	functioncloudfunctions2 "github.com/upbound/provider-gcp/internal/controller/cloudfunctions2/function"
-	device "github.com/upbound/provider-gcp/internal/controller/cloudiot/device"
-	registry "github.com/upbound/provider-gcp/internal/controller/cloudiot/registry"
 	folder "github.com/upbound/provider-gcp/internal/controller/cloudplatform/folder"
 	folderiammember "github.com/upbound/provider-gcp/internal/controller/cloudplatform/folderiammember"
 	organizationiamauditconfig "github.com/upbound/provider-gcp/internal/controller/cloudplatform/organizationiamauditconfig"
@@ -195,7 +193,7 @@ import (
 	vpntunnel "github.com/upbound/provider-gcp/internal/controller/compute/vpntunnel"
 	clustercontainer "github.com/upbound/provider-gcp/internal/controller/container/cluster"
 	nodepool "github.com/upbound/provider-gcp/internal/controller/container/nodepool"
-	registrycontainer "github.com/upbound/provider-gcp/internal/controller/container/registry"
+	registry "github.com/upbound/provider-gcp/internal/controller/container/registry"
 	note "github.com/upbound/provider-gcp/internal/controller/containeranalysis/note"
 	clustercontaineraws "github.com/upbound/provider-gcp/internal/controller/containeraws/cluster"
 	nodepoolcontaineraws "github.com/upbound/provider-gcp/internal/controller/containeraws/nodepool"
@@ -426,8 +424,6 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		function.Setup,
 		functioniammember.Setup,
 		functioncloudfunctions2.Setup,
-		device.Setup,
-		registry.Setup,
 		folder.Setup,
 		folderiammember.Setup,
 		organizationiamauditconfig.Setup,
@@ -546,7 +542,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		vpntunnel.Setup,
 		clustercontainer.Setup,
 		nodepool.Setup,
-		registrycontainer.Setup,
+		registry.Setup,
 		note.Setup,
 		clustercontaineraws.Setup,
 		nodepoolcontaineraws.Setup,

@@ -84,6 +84,8 @@ spec:
                           type: string
                       type: object
                     type: array
+                  location:
+                    type: string
                   member:
                     type: string
                   membershipId:
@@ -191,6 +193,8 @@ spec:
                           type: string
                       type: object
                     type: array
+                  location:
+                    type: string
                   member:
                     type: string
                   membershipId:
@@ -469,6 +473,8 @@ spec:
                   etag:
                     type: string
                   id:
+                    type: string
+                  location:
                     type: string
                   member:
                     type: string

@@ -339,6 +339,12 @@ type AlertPolicyInitParameters struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The severity of an alert policy indicates how important incidents generated
+	// by that policy are. The severity level will be displayed on the Incident
+	// detail page and in notifications.
+	// Possible values are: CRITICAL, ERROR, WARNING.
+	Severity *string `json:"severity,omitempty" tf:"severity,omitempty"`
+
 	// This field is intended to be used for organizing and identifying the AlertPolicy
 	// objects.The field can contain up to 64 entries. Each key and value is limited
 	// to 63 Unicode characters or 128 bytes, whichever is smaller. Labels and values
@@ -409,6 +415,12 @@ type AlertPolicyObservation struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The severity of an alert policy indicates how important incidents generated
+	// by that policy are. The severity level will be displayed on the Incident
+	// detail page and in notifications.
+	// Possible values are: CRITICAL, ERROR, WARNING.
+	Severity *string `json:"severity,omitempty" tf:"severity,omitempty"`
+
 	// This field is intended to be used for organizing and identifying the AlertPolicy
 	// objects.The field can contain up to 64 entries. Each key and value is limited
 	// to 63 Unicode characters or 128 bytes, whichever is smaller. Labels and values
@@ -473,6 +485,13 @@ type AlertPolicyParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The severity of an alert policy indicates how important incidents generated
+	// by that policy are. The severity level will be displayed on the Incident
+	// detail page and in notifications.
+	// Possible values are: CRITICAL, ERROR, WARNING.
+	// +kubebuilder:validation:Optional
+	Severity *string `json:"severity,omitempty" tf:"severity,omitempty"`
 
 	// This field is intended to be used for organizing and identifying the AlertPolicy
 	// objects.The field can contain up to 64 entries. Each key and value is limited
@@ -1033,9 +1052,7 @@ type ConditionPrometheusQueryLanguageInitParameters struct {
 	// in order to refer to the original Prometheus configuration file.
 	// The rule group name and the alert name are necessary to update the
 	// relevant AlertPolicies in case the definition of the rule group changes
-	// in the future.
-	// This field is optional. If this field is not empty, then it must be a
-	// valid Prometheus label name.
+	// in the future. This field is optional.
 	RuleGroup *string `json:"ruleGroup,omitempty" tf:"rule_group,omitempty"`
 }
 
@@ -1096,9 +1113,7 @@ type ConditionPrometheusQueryLanguageObservation struct {
 	// in order to refer to the original Prometheus configuration file.
 	// The rule group name and the alert name are necessary to update the
 	// relevant AlertPolicies in case the definition of the rule group changes
-	// in the future.
-	// This field is optional. If this field is not empty, then it must be a
-	// valid Prometheus label name.
+	// in the future. This field is optional.
 	RuleGroup *string `json:"ruleGroup,omitempty" tf:"rule_group,omitempty"`
 }
 
@@ -1140,7 +1155,7 @@ type ConditionPrometheusQueryLanguageParameters struct {
 	// alerting rule, then this value should be taken from the enclosing
 	// rule group.
 	// +kubebuilder:validation:Optional
-	EvaluationInterval *string `json:"evaluationInterval" tf:"evaluation_interval,omitempty"`
+	EvaluationInterval *string `json:"evaluationInterval,omitempty" tf:"evaluation_interval,omitempty"`
 
 	// Labels to add to or overwrite in the PromQL query result. Label names
 	// must be valid.
@@ -1164,9 +1179,7 @@ type ConditionPrometheusQueryLanguageParameters struct {
 	// in order to refer to the original Prometheus configuration file.
 	// The rule group name and the alert name are necessary to update the
 	// relevant AlertPolicies in case the definition of the rule group changes
-	// in the future.
-	// This field is optional. If this field is not empty, then it must be a
-	// valid Prometheus label name.
+	// in the future. This field is optional.
 	// +kubebuilder:validation:Optional
 	RuleGroup *string `json:"ruleGroup,omitempty" tf:"rule_group,omitempty"`
 }
@@ -1881,7 +1894,6 @@ type ConditionsInitParameters struct {
 	// Structure is documented below.
 	ConditionMonitoringQueryLanguage []ConditionMonitoringQueryLanguageInitParameters `json:"conditionMonitoringQueryLanguage,omitempty" tf:"condition_monitoring_query_language,omitempty"`
 
-	// A Monitoring Query Language query that outputs a boolean stream
 	// A condition type that allows alert policies to be defined using
 	// Prometheus Query Language (PromQL).
 	// The PrometheusQueryLanguageCondition message contains information
@@ -1918,7 +1930,6 @@ type ConditionsObservation struct {
 	// Structure is documented below.
 	ConditionMonitoringQueryLanguage []ConditionMonitoringQueryLanguageObservation `json:"conditionMonitoringQueryLanguage,omitempty" tf:"condition_monitoring_query_language,omitempty"`
 
-	// A Monitoring Query Language query that outputs a boolean stream
 	// A condition type that allows alert policies to be defined using
 	// Prometheus Query Language (PromQL).
 	// The PrometheusQueryLanguageCondition message contains information
@@ -1967,7 +1978,6 @@ type ConditionsParameters struct {
 	// +kubebuilder:validation:Optional
 	ConditionMonitoringQueryLanguage []ConditionMonitoringQueryLanguageParameters `json:"conditionMonitoringQueryLanguage,omitempty" tf:"condition_monitoring_query_language,omitempty"`
 
-	// A Monitoring Query Language query that outputs a boolean stream
 	// A condition type that allows alert policies to be defined using
 	// Prometheus Query Language (PromQL).
 	// The PrometheusQueryLanguageCondition message contains information
@@ -2281,6 +2291,12 @@ type DocumentationInitParameters struct {
 	// The format of the content field. Presently, only the value
 	// "text/markdown" is supported.
 	MimeType *string `json:"mimeType,omitempty" tf:"mime_type,omitempty"`
+
+	// The subject line of the notification. The subject line may not
+	// exceed 10,240 bytes. In notifications generated by this policy the contents
+	// of the subject line after variable expansion will be truncated to 255 bytes
+	// or shorter at the latest UTF-8 character boundary.
+	Subject *string `json:"subject,omitempty" tf:"subject,omitempty"`
 }
 
 type DocumentationObservation struct {
@@ -2294,6 +2310,12 @@ type DocumentationObservation struct {
 	// The format of the content field. Presently, only the value
 	// "text/markdown" is supported.
 	MimeType *string `json:"mimeType,omitempty" tf:"mime_type,omitempty"`
+
+	// The subject line of the notification. The subject line may not
+	// exceed 10,240 bytes. In notifications generated by this policy the contents
+	// of the subject line after variable expansion will be truncated to 255 bytes
+	// or shorter at the latest UTF-8 character boundary.
+	Subject *string `json:"subject,omitempty" tf:"subject,omitempty"`
 }
 
 type DocumentationParameters struct {
@@ -2309,6 +2331,13 @@ type DocumentationParameters struct {
 	// "text/markdown" is supported.
 	// +kubebuilder:validation:Optional
 	MimeType *string `json:"mimeType,omitempty" tf:"mime_type,omitempty"`
+
+	// The subject line of the notification. The subject line may not
+	// exceed 10,240 bytes. In notifications generated by this policy the contents
+	// of the subject line after variable expansion will be truncated to 255 bytes
+	// or shorter at the latest UTF-8 character boundary.
+	// +kubebuilder:validation:Optional
+	Subject *string `json:"subject,omitempty" tf:"subject,omitempty"`
 }
 
 type ForecastOptionsInitParameters struct {

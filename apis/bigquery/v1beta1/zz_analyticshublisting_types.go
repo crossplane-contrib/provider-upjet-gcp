@@ -67,6 +67,10 @@ type AnalyticsHubListingInitParameters struct {
 
 	// Email or URL of the request access of the listing. Subscribers can use this reference to request access.
 	RequestAccess *string `json:"requestAccess,omitempty" tf:"request_access,omitempty"`
+
+	// If set, restricted export configuration will be propagated and enforced on the linked dataset.
+	// Structure is documented below.
+	RestrictedExportConfig []RestrictedExportConfigInitParameters `json:"restrictedExportConfig,omitempty" tf:"restricted_export_config,omitempty"`
 }
 
 type AnalyticsHubListingObservation struct {
@@ -119,6 +123,10 @@ type AnalyticsHubListingObservation struct {
 
 	// Email or URL of the request access of the listing. Subscribers can use this reference to request access.
 	RequestAccess *string `json:"requestAccess,omitempty" tf:"request_access,omitempty"`
+
+	// If set, restricted export configuration will be propagated and enforced on the linked dataset.
+	// Structure is documented below.
+	RestrictedExportConfig []RestrictedExportConfigObservation `json:"restrictedExportConfig,omitempty" tf:"restricted_export_config,omitempty"`
 }
 
 type AnalyticsHubListingParameters struct {
@@ -188,6 +196,11 @@ type AnalyticsHubListingParameters struct {
 	// Email or URL of the request access of the listing. Subscribers can use this reference to request access.
 	// +kubebuilder:validation:Optional
 	RequestAccess *string `json:"requestAccess,omitempty" tf:"request_access,omitempty"`
+
+	// If set, restricted export configuration will be propagated and enforced on the linked dataset.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RestrictedExportConfig []RestrictedExportConfigParameters `json:"restrictedExportConfig,omitempty" tf:"restricted_export_config,omitempty"`
 }
 
 type BigqueryDatasetInitParameters struct {
@@ -285,6 +298,35 @@ type PublisherParameters struct {
 	// Email or URL of the listing publisher.
 	// +kubebuilder:validation:Optional
 	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
+}
+
+type RestrictedExportConfigInitParameters struct {
+
+	// If true, enable restricted export.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// If true, restrict export of query result derived from restricted linked dataset table.
+	RestrictQueryResult *bool `json:"restrictQueryResult,omitempty" tf:"restrict_query_result,omitempty"`
+}
+
+type RestrictedExportConfigObservation struct {
+
+	// If true, enable restricted export.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// If true, restrict export of query result derived from restricted linked dataset table.
+	RestrictQueryResult *bool `json:"restrictQueryResult,omitempty" tf:"restrict_query_result,omitempty"`
+}
+
+type RestrictedExportConfigParameters struct {
+
+	// If true, enable restricted export.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// If true, restrict export of query result derived from restricted linked dataset table.
+	// +kubebuilder:validation:Optional
+	RestrictQueryResult *bool `json:"restrictQueryResult,omitempty" tf:"restrict_query_result,omitempty"`
 }
 
 // AnalyticsHubListingSpec defines the desired state of AnalyticsHubListing

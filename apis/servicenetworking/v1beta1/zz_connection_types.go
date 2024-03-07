@@ -31,6 +31,9 @@ import (
 
 type ConnectionInitParameters struct {
 
+	// The deletion policy for the service networking connection. Setting to ABANDON allows the resource to be abandoned rather than deleted. Use with care as it can lead to dangling resources.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Name of VPC network connected with service producers using VPC peering.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
@@ -65,6 +68,10 @@ type ConnectionInitParameters struct {
 }
 
 type ConnectionObservation struct {
+
+	// The deletion policy for the service networking connection. Setting to ABANDON allows the resource to be abandoned rather than deleted. Use with care as it can lead to dangling resources.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Name of VPC network connected with service producers using VPC peering.
@@ -85,6 +92,10 @@ type ConnectionObservation struct {
 }
 
 type ConnectionParameters struct {
+
+	// The deletion policy for the service networking connection. Setting to ABANDON allows the resource to be abandoned rather than deleted. Use with care as it can lead to dangling resources.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Name of VPC network connected with service producers using VPC peering.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network

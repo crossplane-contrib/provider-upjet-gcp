@@ -29,16 +29,47 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AvroConfigInitParameters struct {
+
+	// When true, writes the Pub/Sub message metadata to
+	// x-goog-pubsub-<KEY>:<VAL> headers of the HTTP request. Writes the
+	// Pub/Sub message attributes to <KEY>:<VAL> headers of the HTTP request.
+	WriteMetadata *bool `json:"writeMetadata,omitempty" tf:"write_metadata,omitempty"`
+}
+
+type AvroConfigObservation struct {
+
+	// When true, writes the Pub/Sub message metadata to
+	// x-goog-pubsub-<KEY>:<VAL> headers of the HTTP request. Writes the
+	// Pub/Sub message attributes to <KEY>:<VAL> headers of the HTTP request.
+	WriteMetadata *bool `json:"writeMetadata,omitempty" tf:"write_metadata,omitempty"`
+}
+
+type AvroConfigParameters struct {
+
+	// When true, writes the Pub/Sub message metadata to
+	// x-goog-pubsub-<KEY>:<VAL> headers of the HTTP request. Writes the
+	// Pub/Sub message attributes to <KEY>:<VAL> headers of the HTTP request.
+	// +kubebuilder:validation:Optional
+	WriteMetadata *bool `json:"writeMetadata,omitempty" tf:"write_metadata,omitempty"`
+}
+
 type BigqueryConfigInitParameters struct {
 
-	// When true and useTopicSchema is true, any fields that are a part of the topic schema that are not part of the BigQuery table schema are dropped when writing to BigQuery.
-	// Otherwise, the schemas must be kept in sync and any messages with extra fields are not written and remain in the subscription's backlog.
+	// When true and use_topic_schema or use_table_schema is true, any fields that are a part of the topic schema or message schema that
+	// are not part of the BigQuery table schema are dropped when writing to BigQuery. Otherwise, the schemas must be kept in sync
+	// and any messages with extra fields are not written and remain in the subscription's backlog.
 	DropUnknownFields *bool `json:"dropUnknownFields,omitempty" tf:"drop_unknown_fields,omitempty"`
 
 	// The name of the table to which to write data, of the form {projectId}:{datasetId}.{tableId}
 	Table *string `json:"table,omitempty" tf:"table,omitempty"`
 
+	// When true, use the BigQuery table's schema as the columns to write to in BigQuery. Messages
+	// must be published in JSON format. Only one of use_topic_schema and use_table_schema can be set.
+	UseTableSchema *bool `json:"useTableSchema,omitempty" tf:"use_table_schema,omitempty"`
+
 	// When true, use the topic's schema as the columns to write to in BigQuery, if it exists.
+	// Only one of use_topic_schema and use_table_schema can be set.
 	UseTopicSchema *bool `json:"useTopicSchema,omitempty" tf:"use_topic_schema,omitempty"`
 
 	// When true, write the subscription name, messageId, publishTime, attributes, and orderingKey to additional columns in the table.
@@ -48,14 +79,20 @@ type BigqueryConfigInitParameters struct {
 
 type BigqueryConfigObservation struct {
 
-	// When true and useTopicSchema is true, any fields that are a part of the topic schema that are not part of the BigQuery table schema are dropped when writing to BigQuery.
-	// Otherwise, the schemas must be kept in sync and any messages with extra fields are not written and remain in the subscription's backlog.
+	// When true and use_topic_schema or use_table_schema is true, any fields that are a part of the topic schema or message schema that
+	// are not part of the BigQuery table schema are dropped when writing to BigQuery. Otherwise, the schemas must be kept in sync
+	// and any messages with extra fields are not written and remain in the subscription's backlog.
 	DropUnknownFields *bool `json:"dropUnknownFields,omitempty" tf:"drop_unknown_fields,omitempty"`
 
 	// The name of the table to which to write data, of the form {projectId}:{datasetId}.{tableId}
 	Table *string `json:"table,omitempty" tf:"table,omitempty"`
 
+	// When true, use the BigQuery table's schema as the columns to write to in BigQuery. Messages
+	// must be published in JSON format. Only one of use_topic_schema and use_table_schema can be set.
+	UseTableSchema *bool `json:"useTableSchema,omitempty" tf:"use_table_schema,omitempty"`
+
 	// When true, use the topic's schema as the columns to write to in BigQuery, if it exists.
+	// Only one of use_topic_schema and use_table_schema can be set.
 	UseTopicSchema *bool `json:"useTopicSchema,omitempty" tf:"use_topic_schema,omitempty"`
 
 	// When true, write the subscription name, messageId, publishTime, attributes, and orderingKey to additional columns in the table.
@@ -65,8 +102,9 @@ type BigqueryConfigObservation struct {
 
 type BigqueryConfigParameters struct {
 
-	// When true and useTopicSchema is true, any fields that are a part of the topic schema that are not part of the BigQuery table schema are dropped when writing to BigQuery.
-	// Otherwise, the schemas must be kept in sync and any messages with extra fields are not written and remain in the subscription's backlog.
+	// When true and use_topic_schema or use_table_schema is true, any fields that are a part of the topic schema or message schema that
+	// are not part of the BigQuery table schema are dropped when writing to BigQuery. Otherwise, the schemas must be kept in sync
+	// and any messages with extra fields are not written and remain in the subscription's backlog.
 	// +kubebuilder:validation:Optional
 	DropUnknownFields *bool `json:"dropUnknownFields,omitempty" tf:"drop_unknown_fields,omitempty"`
 
@@ -74,7 +112,13 @@ type BigqueryConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Table *string `json:"table" tf:"table,omitempty"`
 
+	// When true, use the BigQuery table's schema as the columns to write to in BigQuery. Messages
+	// must be published in JSON format. Only one of use_topic_schema and use_table_schema can be set.
+	// +kubebuilder:validation:Optional
+	UseTableSchema *bool `json:"useTableSchema,omitempty" tf:"use_table_schema,omitempty"`
+
 	// When true, use the topic's schema as the columns to write to in BigQuery, if it exists.
+	// Only one of use_topic_schema and use_table_schema can be set.
 	// +kubebuilder:validation:Optional
 	UseTopicSchema *bool `json:"useTopicSchema,omitempty" tf:"use_topic_schema,omitempty"`
 
@@ -82,6 +126,91 @@ type BigqueryConfigParameters struct {
 	// The subscription name, messageId, and publishTime fields are put in their own columns while all other message properties (other than data) are written to a JSON object in the attributes column.
 	// +kubebuilder:validation:Optional
 	WriteMetadata *bool `json:"writeMetadata,omitempty" tf:"write_metadata,omitempty"`
+}
+
+type CloudStorageConfigInitParameters struct {
+
+	// If set, message data will be written to Cloud Storage in Avro format.
+	// Structure is documented below.
+	AvroConfig []AvroConfigInitParameters `json:"avroConfig,omitempty" tf:"avro_config,omitempty"`
+
+	// User-provided name for the Cloud Storage bucket. The bucket must be created by the user. The bucket name must be without any prefix like "gs://".
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// User-provided prefix for Cloud Storage filename.
+	FilenamePrefix *string `json:"filenamePrefix,omitempty" tf:"filename_prefix,omitempty"`
+
+	// User-provided suffix for Cloud Storage filename. Must not end in "/".
+	FilenameSuffix *string `json:"filenameSuffix,omitempty" tf:"filename_suffix,omitempty"`
+
+	// The maximum bytes that can be written to a Cloud Storage file before a new file is created. Min 1 KB, max 10 GiB.
+	// The maxBytes limit may be exceeded in cases where messages are larger than the limit.
+	MaxBytes *float64 `json:"maxBytes,omitempty" tf:"max_bytes,omitempty"`
+
+	// The maximum duration that can elapse before a new Cloud Storage file is created. Min 1 minute, max 10 minutes, default 5 minutes.
+	// May not exceed the subscription's acknowledgement deadline.
+	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+	MaxDuration *string `json:"maxDuration,omitempty" tf:"max_duration,omitempty"`
+}
+
+type CloudStorageConfigObservation struct {
+
+	// If set, message data will be written to Cloud Storage in Avro format.
+	// Structure is documented below.
+	AvroConfig []AvroConfigObservation `json:"avroConfig,omitempty" tf:"avro_config,omitempty"`
+
+	// User-provided name for the Cloud Storage bucket. The bucket must be created by the user. The bucket name must be without any prefix like "gs://".
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// User-provided prefix for Cloud Storage filename.
+	FilenamePrefix *string `json:"filenamePrefix,omitempty" tf:"filename_prefix,omitempty"`
+
+	// User-provided suffix for Cloud Storage filename. Must not end in "/".
+	FilenameSuffix *string `json:"filenameSuffix,omitempty" tf:"filename_suffix,omitempty"`
+
+	// The maximum bytes that can be written to a Cloud Storage file before a new file is created. Min 1 KB, max 10 GiB.
+	// The maxBytes limit may be exceeded in cases where messages are larger than the limit.
+	MaxBytes *float64 `json:"maxBytes,omitempty" tf:"max_bytes,omitempty"`
+
+	// The maximum duration that can elapse before a new Cloud Storage file is created. Min 1 minute, max 10 minutes, default 5 minutes.
+	// May not exceed the subscription's acknowledgement deadline.
+	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+	MaxDuration *string `json:"maxDuration,omitempty" tf:"max_duration,omitempty"`
+
+	// (Output)
+	// An output-only field that indicates whether or not the subscription can receive messages.
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
+}
+
+type CloudStorageConfigParameters struct {
+
+	// If set, message data will be written to Cloud Storage in Avro format.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AvroConfig []AvroConfigParameters `json:"avroConfig,omitempty" tf:"avro_config,omitempty"`
+
+	// User-provided name for the Cloud Storage bucket. The bucket must be created by the user. The bucket name must be without any prefix like "gs://".
+	// +kubebuilder:validation:Optional
+	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
+
+	// User-provided prefix for Cloud Storage filename.
+	// +kubebuilder:validation:Optional
+	FilenamePrefix *string `json:"filenamePrefix,omitempty" tf:"filename_prefix,omitempty"`
+
+	// User-provided suffix for Cloud Storage filename. Must not end in "/".
+	// +kubebuilder:validation:Optional
+	FilenameSuffix *string `json:"filenameSuffix,omitempty" tf:"filename_suffix,omitempty"`
+
+	// The maximum bytes that can be written to a Cloud Storage file before a new file is created. Min 1 KB, max 10 GiB.
+	// The maxBytes limit may be exceeded in cases where messages are larger than the limit.
+	// +kubebuilder:validation:Optional
+	MaxBytes *float64 `json:"maxBytes,omitempty" tf:"max_bytes,omitempty"`
+
+	// The maximum duration that can elapse before a new Cloud Storage file is created. Min 1 minute, max 10 minutes, default 5 minutes.
+	// May not exceed the subscription's acknowledgement deadline.
+	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+	// +kubebuilder:validation:Optional
+	MaxDuration *string `json:"maxDuration,omitempty" tf:"max_duration,omitempty"`
 }
 
 type DeadLetterPolicyInitParameters struct {
@@ -457,10 +586,16 @@ type SubscriptionInitParameters struct {
 	AckDeadlineSeconds *float64 `json:"ackDeadlineSeconds,omitempty" tf:"ack_deadline_seconds,omitempty"`
 
 	// If delivery to BigQuery is used with this subscription, this field is used to configure it.
-	// Either pushConfig or bigQueryConfig can be set, but not both.
-	// If both are empty, then the subscriber will pull and ack messages using API methods.
+	// Either pushConfig, bigQueryConfig or cloudStorageConfig can be set, but not combined.
+	// If all three are empty, then the subscriber will pull and ack messages using API methods.
 	// Structure is documented below.
 	BigqueryConfig []BigqueryConfigInitParameters `json:"bigqueryConfig,omitempty" tf:"bigquery_config,omitempty"`
+
+	// If delivery to Cloud Storage is used with this subscription, this field is used to configure it.
+	// Either pushConfig, bigQueryConfig or cloudStorageConfig can be set, but not combined.
+	// If all three are empty, then the subscriber will pull and ack messages using API methods.
+	// Structure is documented below.
+	CloudStorageConfig []CloudStorageConfigInitParameters `json:"cloudStorageConfig,omitempty" tf:"cloud_storage_config,omitempty"`
 
 	// A policy that specifies the conditions for dead lettering messages in
 	// this subscription. If dead_letter_policy is not set, dead lettering
@@ -533,7 +668,9 @@ type SubscriptionInitParameters struct {
 	// Structure is documented below.
 	RetryPolicy []RetryPolicyInitParameters `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
 
-	// A reference to a Topic resource.
+	// A reference to a Topic resource, of the form projects/{project}/topics/{{name}}
+	// (as in the id property of a google_pubsub_topic), or just a topic name if
+	// the topic is in the same project as the subscription.
 	// +crossplane:generate:reference:type=Topic
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
@@ -566,10 +703,16 @@ type SubscriptionObservation struct {
 	AckDeadlineSeconds *float64 `json:"ackDeadlineSeconds,omitempty" tf:"ack_deadline_seconds,omitempty"`
 
 	// If delivery to BigQuery is used with this subscription, this field is used to configure it.
-	// Either pushConfig or bigQueryConfig can be set, but not both.
-	// If both are empty, then the subscriber will pull and ack messages using API methods.
+	// Either pushConfig, bigQueryConfig or cloudStorageConfig can be set, but not combined.
+	// If all three are empty, then the subscriber will pull and ack messages using API methods.
 	// Structure is documented below.
 	BigqueryConfig []BigqueryConfigObservation `json:"bigqueryConfig,omitempty" tf:"bigquery_config,omitempty"`
+
+	// If delivery to Cloud Storage is used with this subscription, this field is used to configure it.
+	// Either pushConfig, bigQueryConfig or cloudStorageConfig can be set, but not combined.
+	// If all three are empty, then the subscriber will pull and ack messages using API methods.
+	// Structure is documented below.
+	CloudStorageConfig []CloudStorageConfigObservation `json:"cloudStorageConfig,omitempty" tf:"cloud_storage_config,omitempty"`
 
 	// A policy that specifies the conditions for dead lettering messages in
 	// this subscription. If dead_letter_policy is not set, dead lettering
@@ -580,6 +723,10 @@ type SubscriptionObservation struct {
 	// permission to Acknowledge() messages on this subscription.
 	// Structure is documented below.
 	DeadLetterPolicy []DeadLetterPolicyObservation `json:"deadLetterPolicy,omitempty" tf:"dead_letter_policy,omitempty"`
+
+	// for all of the labels present on the resource.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
 	// If true, Pub/Sub provides the following guarantees for the delivery
 	// of a message with a given value of messageId on this Subscriptions':
@@ -645,7 +792,14 @@ type SubscriptionObservation struct {
 	// Structure is documented below.
 	RetryPolicy []RetryPolicyObservation `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
 
-	// A reference to a Topic resource.
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
+	// A reference to a Topic resource, of the form projects/{project}/topics/{{name}}
+	// (as in the id property of a google_pubsub_topic), or just a topic name if
+	// the topic is in the same project as the subscription.
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 }
 
@@ -670,11 +824,18 @@ type SubscriptionParameters struct {
 	AckDeadlineSeconds *float64 `json:"ackDeadlineSeconds,omitempty" tf:"ack_deadline_seconds,omitempty"`
 
 	// If delivery to BigQuery is used with this subscription, this field is used to configure it.
-	// Either pushConfig or bigQueryConfig can be set, but not both.
-	// If both are empty, then the subscriber will pull and ack messages using API methods.
+	// Either pushConfig, bigQueryConfig or cloudStorageConfig can be set, but not combined.
+	// If all three are empty, then the subscriber will pull and ack messages using API methods.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	BigqueryConfig []BigqueryConfigParameters `json:"bigqueryConfig,omitempty" tf:"bigquery_config,omitempty"`
+
+	// If delivery to Cloud Storage is used with this subscription, this field is used to configure it.
+	// Either pushConfig, bigQueryConfig or cloudStorageConfig can be set, but not combined.
+	// If all three are empty, then the subscriber will pull and ack messages using API methods.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CloudStorageConfig []CloudStorageConfigParameters `json:"cloudStorageConfig,omitempty" tf:"cloud_storage_config,omitempty"`
 
 	// A policy that specifies the conditions for dead lettering messages in
 	// this subscription. If dead_letter_policy is not set, dead lettering
@@ -758,7 +919,9 @@ type SubscriptionParameters struct {
 	// +kubebuilder:validation:Optional
 	RetryPolicy []RetryPolicyParameters `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
 
-	// A reference to a Topic resource.
+	// A reference to a Topic resource, of the form projects/{project}/topics/{{name}}
+	// (as in the id property of a google_pubsub_topic), or just a topic name if
+	// the topic is in the same project as the subscription.
 	// +crossplane:generate:reference:type=Topic
 	// +kubebuilder:validation:Optional
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`

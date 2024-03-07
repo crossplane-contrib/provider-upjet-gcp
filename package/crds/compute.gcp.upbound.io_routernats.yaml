@@ -92,8 +92,8 @@ spec:
                     type: boolean
                   enableEndpointIndependentMapping:
                     description: |-
-                      Specifies if endpoint independent mapping is enabled. This is enabled by default. For more information
-                      see the official documentation.
+                      Enable endpoint independent mapping.
+                      For more information see the official documentation.
                     type: boolean
                   icmpIdleTimeoutSec:
                     description: Timeout (in seconds) for ICMP connections. Defaults
@@ -122,7 +122,8 @@ spec:
                     type: number
                   minPortsPerVm:
                     description: Minimum number of ports allocated to a VM from this
-                      NAT.
+                      NAT. Defaults to 64 for static port allocation and 32 dynamic
+                      port allocation if not set.
                     type: number
                   natIpAllocateOption:
                     description: |-
@@ -452,8 +453,8 @@ spec:
                     type: boolean
                   enableEndpointIndependentMapping:
                     description: |-
-                      Specifies if endpoint independent mapping is enabled. This is enabled by default. For more information
-                      see the official documentation.
+                      Enable endpoint independent mapping.
+                      For more information see the official documentation.
                     type: boolean
                   icmpIdleTimeoutSec:
                     description: Timeout (in seconds) for ICMP connections. Defaults
@@ -482,7 +483,8 @@ spec:
                     type: number
                   minPortsPerVm:
                     description: Minimum number of ports allocated to a VM from this
-                      NAT.
+                      NAT. Defaults to 64 for static port allocation and 32 dynamic
+                      port allocation if not set.
                     type: number
                   natIpAllocateOption:
                     description: |-
@@ -865,10 +867,6 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
-            - message: spec.forProvider.natIpAllocateOption is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.natIpAllocateOption)
-                || (has(self.initProvider) && has(self.initProvider.natIpAllocateOption))'
             - message: spec.forProvider.sourceSubnetworkIpRangesToNat is a required
                 parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
@@ -898,8 +896,8 @@ spec:
                     type: boolean
                   enableEndpointIndependentMapping:
                     description: |-
-                      Specifies if endpoint independent mapping is enabled. This is enabled by default. For more information
-                      see the official documentation.
+                      Enable endpoint independent mapping.
+                      For more information see the official documentation.
                     type: boolean
                   icmpIdleTimeoutSec:
                     description: Timeout (in seconds) for ICMP connections. Defaults
@@ -931,7 +929,8 @@ spec:
                     type: number
                   minPortsPerVm:
                     description: Minimum number of ports allocated to a VM from this
-                      NAT.
+                      NAT. Defaults to 64 for static port allocation and 32 dynamic
+                      port allocation if not set.
                     type: number
                   natIpAllocateOption:
                     description: |-

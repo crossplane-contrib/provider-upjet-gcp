@@ -9,7 +9,9 @@ metadata:
 spec:
   forProvider:
     authorization:
-    - adminUsers:
+    - adminGroups:
+      - group: group@domain.com
+      adminUsers:
       - username: mmv2@google.com
     azureRegion: westus2
     client: projects/my-project-number/locations/us-west1/azureClients/${google_container_azure_client.basic.name}

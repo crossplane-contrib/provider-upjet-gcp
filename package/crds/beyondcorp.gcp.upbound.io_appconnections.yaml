@@ -578,6 +578,11 @@ spec:
                   displayName:
                     description: An arbitrary user-provided name for the AppConnection.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   gateway:
                     description: |-
                       Gateway used by the AppConnection.
@@ -625,6 +630,14 @@ spec:
                   region:
                     description: The region of the AppConnection.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   type:
                     description: |-
                       The type of hosting used by the gateway. Refer to

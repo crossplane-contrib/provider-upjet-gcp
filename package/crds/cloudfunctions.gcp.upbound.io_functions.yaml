@@ -84,6 +84,8 @@ spec:
                       during build time.
                     type: object
                   buildWorkerPool:
+                    description: Name of the Cloud Build Custom Worker Pool that should
+                      be used to build the function.
                     type: string
                   description:
                     description: Description of the function.
@@ -488,6 +490,8 @@ spec:
                       during build time.
                     type: object
                   buildWorkerPool:
+                    description: Name of the Cloud Build Custom Worker Pool that should
+                      be used to build the function.
                     type: string
                   description:
                     description: Description of the function.
@@ -1050,6 +1054,8 @@ spec:
                       during build time.
                     type: object
                   buildWorkerPool:
+                    description: Name of the Cloud Build Custom Worker Pool that should
+                      be used to build the function.
                     type: string
                   description:
                     description: Description of the function.
@@ -1067,6 +1073,11 @@ spec:
                       built by Cloud Build. If unspecified, Container Registry will
                       be used by default, unless specified otherwise by other means.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   entryPoint:
                     description: Name of the function that will be executed when the
                       Google Cloud Function is triggered.
@@ -1264,6 +1275,13 @@ spec:
                     type: array
                   status:
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   timeout:
                     description: Timeout (in seconds) for the function. Default value
                       is 60 seconds. Cannot be more than 540 seconds.
@@ -1275,6 +1293,9 @@ spec:
                       Endpoint is returned as https_trigger_url. Cannot be used with
                       event_trigger.'
                     type: boolean
+                  versionId:
+                    description: an identifier for the resource with format {{name}}
+                    type: string
                   vpcConnector:
                     description: The VPC Network Connector that this cloud function
                       can connect to. It should be set up as fully-qualified URI.

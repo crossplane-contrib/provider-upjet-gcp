@@ -86,6 +86,8 @@ type SnapshotInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Labels to apply to this Snapshot.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -151,6 +153,9 @@ type SnapshotObservation struct {
 	// Size of the snapshot, specified in GB.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/global/snapshots/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -159,6 +164,8 @@ type SnapshotObservation struct {
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
 
 	// Labels to apply to this Snapshot.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -208,6 +215,11 @@ type SnapshotObservation struct {
 	// Cloud Storage bucket storage location of the snapshot (regional or multi-regional).
 	StorageLocations []*string `json:"storageLocations,omitempty" tf:"storage_locations,omitempty"`
 
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
 	// A reference to the zone where the disk is hosted.
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
@@ -228,6 +240,8 @@ type SnapshotParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Labels to apply to this Snapshot.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`

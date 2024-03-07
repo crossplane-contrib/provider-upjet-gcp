@@ -139,12 +139,18 @@ spec:
                         initializeParams:
                           items:
                             properties:
+                              enableConfidentialCompute:
+                                type: boolean
                               image:
                                 type: string
                               labels:
                                 additionalProperties:
                                   type: string
                                 type: object
+                              provisionedIops:
+                                type: number
+                              provisionedThroughput:
+                                type: number
                               resourceManagerTags:
                                 additionalProperties:
                                   type: string
@@ -244,6 +250,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        internalIpv6PrefixLength:
+                          type: number
                         ipv6AccessConfig:
                           items:
                             properties:
@@ -265,6 +273,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        ipv6Address:
+                          type: string
                         network:
                           type: string
                         networkIp:
@@ -513,6 +523,11 @@ spec:
                   scratchDisk:
                     items:
                       properties:
+                        deviceName:
+                          description: |-
+                            A unique name for the resource, required by GCE.
+                            Changing this forces a new resource to be created.
+                          type: string
                         interface:
                           type: string
                         size:
@@ -694,12 +709,18 @@ spec:
                         initializeParams:
                           items:
                             properties:
+                              enableConfidentialCompute:
+                                type: boolean
                               image:
                                 type: string
                               labels:
                                 additionalProperties:
                                   type: string
                                 type: object
+                              provisionedIops:
+                                type: number
+                              provisionedThroughput:
+                                type: number
                               resourceManagerTags:
                                 additionalProperties:
                                   type: string
@@ -799,6 +820,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        internalIpv6PrefixLength:
+                          type: number
                         ipv6AccessConfig:
                           items:
                             properties:
@@ -820,6 +843,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        ipv6Address:
+                          type: string
                         network:
                           type: string
                         networkIp:
@@ -1068,6 +1093,11 @@ spec:
                   scratchDisk:
                     items:
                       properties:
+                        deviceName:
+                          description: |-
+                            A unique name for the resource, required by GCE.
+                            Changing this forces a new resource to be created.
+                          type: string
                         interface:
                           type: string
                         size:
@@ -1416,12 +1446,18 @@ spec:
                         initializeParams:
                           items:
                             properties:
+                              enableConfidentialCompute:
+                                type: boolean
                               image:
                                 type: string
                               labels:
                                 additionalProperties:
                                   type: string
                                 type: object
+                              provisionedIops:
+                                type: number
+                              provisionedThroughput:
+                                type: number
                               resourceManagerTags:
                                 additionalProperties:
                                   type: string
@@ -1460,6 +1496,11 @@ spec:
                     type: string
                   desiredStatus:
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   enableDisplay:
                     type: boolean
                   guestAccelerator:
@@ -1533,6 +1574,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        internalIpv6PrefixLength:
+                          type: number
                         ipv6AccessConfig:
                           items:
                             properties:
@@ -1555,6 +1598,8 @@ spec:
                             type: object
                           type: array
                         ipv6AccessType:
+                          type: string
+                        ipv6Address:
                           type: string
                         name:
                           description: |-
@@ -1661,6 +1706,11 @@ spec:
                   scratchDisk:
                     items:
                       properties:
+                        deviceName:
+                          description: |-
+                            A unique name for the resource, required by GCE.
+                            Changing this forces a new resource to be created.
+                          type: string
                         interface:
                           type: string
                         size:
@@ -1705,6 +1755,11 @@ spec:
                     x-kubernetes-list-type: set
                   tagsFingerprint:
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   zone:
                     description: |-
                       The zone that the machine should be created in. If not

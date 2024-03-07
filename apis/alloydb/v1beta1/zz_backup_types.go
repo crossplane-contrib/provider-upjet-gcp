@@ -31,6 +31,11 @@ import (
 
 type BackupInitParameters struct {
 
+	// Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128
+	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +mapType=granular
+	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
+
 	// The full resource name of the backup source cluster (e.g., projects/{project}/locations/{location}/clusters/{clusterId}).
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/alloydb/v1beta1.Cluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
@@ -47,29 +52,60 @@ type BackupInitParameters struct {
 	// User-provided description of the backup.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// User-settable and human-readable display name for the Backup.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
 	// EncryptionConfig describes the encryption config of a cluster or a backup that is encrypted with a CMEK (customer-managed encryption key).
 	// Structure is documented below.
 	EncryptionConfig []EncryptionConfigInitParameters `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
-	// User-defined labels for the alloydb backup.
+	// User-defined labels for the alloydb backup. An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The backup type, which suggests the trigger for the backup.
+	// Possible values are: TYPE_UNSPECIFIED, ON_DEMAND, AUTOMATED, CONTINUOUS.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type BackupObservation struct {
 
+	// Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128
+	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +mapType=granular
+	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
+
 	// The full resource name of the backup source cluster (e.g., projects/{project}/locations/{location}/clusters/{clusterId}).
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
-	// Time the Backup was created in UTC.
+	// Output only. The system-generated UID of the cluster which was used to create this resource.
+	ClusterUID *string `json:"clusterUid,omitempty" tf:"cluster_uid,omitempty"`
+
+	// Output only. Create time stamp. A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
+	// Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Output only. Delete time stamp. A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
+	// Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
+	DeleteTime *string `json:"deleteTime,omitempty" tf:"delete_time,omitempty"`
 
 	// User-provided description of the backup.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// User-settable and human-readable display name for the Backup.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// for all of the annotations present on the resource.
+	// +mapType=granular
+	EffectiveAnnotations map[string]*string `json:"effectiveAnnotations,omitempty" tf:"effective_annotations,omitempty"`
+
+	// for all of the labels present on the resource.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
 	// EncryptionConfig describes the encryption config of a cluster or a backup that is encrypted with a CMEK (customer-managed encryption key).
 	// Structure is documented below.
@@ -79,13 +115,22 @@ type BackupObservation struct {
 	// Structure is documented below.
 	EncryptionInfo []EncryptionInfoObservation `json:"encryptionInfo,omitempty" tf:"encryption_info,omitempty"`
 
-	// A hash of the resource.
+	// For Resource freshness validation (https://google.aip.dev/154)
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
+
+	// Output only. The QuantityBasedExpiry of the backup, specified by the backup's retention policy.
+	// Once the expiry quantity is over retention, the backup is eligible to be garbage collected.
+	// Structure is documented below.
+	ExpiryQuantity []ExpiryQuantityObservation `json:"expiryQuantity,omitempty" tf:"expiry_quantity,omitempty"`
+
+	// Output only. The time at which after the backup is eligible to be garbage collected.
+	// It is the duration specified by the backup's retention policy, added to the backup's createTime.
+	ExpiryTime *string `json:"expiryTime,omitempty" tf:"expiry_time,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/backups/{{backup_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// User-defined labels for the alloydb backup.
+	// User-defined labels for the alloydb backup. An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -99,20 +144,40 @@ type BackupObservation struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// If true, indicates that the service is actively updating the resource. This can happen due to user-triggered updates or system actions like failover or maintenance.
+	// Output only. Reconciling (https://google.aip.dev/128#reconciliation), if true, indicates that the service is actively updating the resource.
+	// This can happen due to user-triggered updates or system actions like failover or maintenance.
 	Reconciling *bool `json:"reconciling,omitempty" tf:"reconciling,omitempty"`
 
-	// The current state of the backup.
+	// Output only. The size of the backup in bytes.
+	SizeBytes *string `json:"sizeBytes,omitempty" tf:"size_bytes,omitempty"`
+
+	// Output only. The current state of the backup.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
+	// The backup type, which suggests the trigger for the backup.
+	// Possible values are: TYPE_UNSPECIFIED, ON_DEMAND, AUTOMATED, CONTINUOUS.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// Output only. The system-generated UID of the resource. The UID is assigned when the resource is created, and it is retained until it is deleted.
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
 
-	// Time the Backup was updated in UTC.
+	// Output only. Update time stamp. A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
+	// Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
 }
 
 type BackupParameters struct {
+
+	// Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128
+	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// The full resource name of the backup source cluster (e.g., projects/{project}/locations/{location}/clusters/{clusterId}).
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/alloydb/v1beta1.Cluster
@@ -132,12 +197,16 @@ type BackupParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// User-settable and human-readable display name for the Backup.
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
 	// EncryptionConfig describes the encryption config of a cluster or a backup that is encrypted with a CMEK (customer-managed encryption key).
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	EncryptionConfig []EncryptionConfigParameters `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
-	// User-defined labels for the alloydb backup.
+	// User-defined labels for the alloydb backup. An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
@@ -150,6 +219,11 @@ type BackupParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The backup type, which suggests the trigger for the backup.
+	// Possible values are: TYPE_UNSPECIFIED, ON_DEMAND, AUTOMATED, CONTINUOUS.
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type EncryptionConfigInitParameters struct {
@@ -186,6 +260,23 @@ type EncryptionInfoObservation struct {
 }
 
 type EncryptionInfoParameters struct {
+}
+
+type ExpiryQuantityInitParameters struct {
+}
+
+type ExpiryQuantityObservation struct {
+
+	// (Output)
+	// Output only. The backup's position among its backups with the same source cluster and type, by descending chronological order create time (i.e. newest first).
+	RetentionCount *float64 `json:"retentionCount,omitempty" tf:"retention_count,omitempty"`
+
+	// (Output)
+	// Output only. The length of the quantity-based queue, specified by the backup's retention policy.
+	TotalRetentionCount *float64 `json:"totalRetentionCount,omitempty" tf:"total_retention_count,omitempty"`
+}
+
+type ExpiryQuantityParameters struct {
 }
 
 // BackupSpec defines the desired state of Backup

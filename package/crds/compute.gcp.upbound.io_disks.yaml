@@ -236,6 +236,11 @@ spec:
                           type: object
                       type: object
                     type: array
+                  enableConfidentialCompute:
+                    description: |-
+                      Whether this disk is using confidential compute mode.
+                      Note: Only supported on hyperdisk skus, disk_encryption_key is required when setting to true
+                    type: boolean
                   guestOsFeatures:
                     description: |-
                       A list of features to enable on the guest operating system.
@@ -523,6 +528,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  enableConfidentialCompute:
+                    description: |-
+                      Whether this disk is using confidential compute mode.
+                      Note: Only supported on hyperdisk skus, disk_encryption_key is required when setting to true
+                    type: boolean
                   guestOsFeatures:
                     description: |-
                       A list of features to enable on the guest operating system.
@@ -897,6 +907,21 @@ spec:
                           type: string
                       type: object
                     type: array
+                  diskId:
+                    description: The unique identifier for the resource. This identifier
+                      is defined by the server.
+                    type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  enableConfidentialCompute:
+                    description: |-
+                      Whether this disk is using confidential compute mode.
+                      Note: Only supported on hyperdisk skus, disk_encryption_key is required when setting to true
+                    type: boolean
                   guestOsFeatures:
                     description: |-
                       A list of features to enable on the guest operating system.
@@ -1091,6 +1116,14 @@ spec:
                       snapshot ID would identify the exact version of the snapshot that was
                       used.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   type:
                     description: |-
                       URL of the disk type resource describing which disk type to use to

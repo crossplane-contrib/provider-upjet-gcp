@@ -33,6 +33,16 @@ func (in *BuildConfigInitParameters) DeepCopyInto(out *BuildConfigInitParameters
 		*out = new(string)
 		**out = **in
 	}
+	if in.DockerRepositoryRef != nil {
+		in, out := &in.DockerRepositoryRef, &out.DockerRepositoryRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.DockerRepositorySelector != nil {
+		in, out := &in.DockerRepositorySelector, &out.DockerRepositorySelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.EntryPoint != nil {
 		in, out := &in.EntryPoint, &out.EntryPoint
 		*out = new(string)
@@ -163,6 +173,16 @@ func (in *BuildConfigParameters) DeepCopyInto(out *BuildConfigParameters) {
 		in, out := &in.DockerRepository, &out.DockerRepository
 		*out = new(string)
 		**out = **in
+	}
+	if in.DockerRepositoryRef != nil {
+		in, out := &in.DockerRepositoryRef, &out.DockerRepositoryRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.DockerRepositorySelector != nil {
+		in, out := &in.DockerRepositorySelector, &out.DockerRepositorySelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.EntryPoint != nil {
 		in, out := &in.EntryPoint, &out.EntryPoint
@@ -569,6 +589,11 @@ func (in *FunctionInitParameters) DeepCopyInto(out *FunctionInitParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.KMSKeyName != nil {
+		in, out := &in.KMSKeyName, &out.KMSKeyName
+		*out = new(string)
+		**out = **in
+	}
 	if in.Labels != nil {
 		in, out := &in.Labels, &out.Labels
 		*out = make(map[string]*string, len(*in))
@@ -656,6 +681,22 @@ func (in *FunctionObservation) DeepCopyInto(out *FunctionObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.EffectiveLabels != nil {
+		in, out := &in.EffectiveLabels, &out.EffectiveLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.Environment != nil {
 		in, out := &in.Environment, &out.Environment
 		*out = new(string)
@@ -670,6 +711,11 @@ func (in *FunctionObservation) DeepCopyInto(out *FunctionObservation) {
 	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyName != nil {
+		in, out := &in.KMSKeyName, &out.KMSKeyName
 		*out = new(string)
 		**out = **in
 	}
@@ -710,6 +756,22 @@ func (in *FunctionObservation) DeepCopyInto(out *FunctionObservation) {
 		in, out := &in.State, &out.State
 		*out = new(string)
 		**out = **in
+	}
+	if in.TerraformLabels != nil {
+		in, out := &in.TerraformLabels, &out.TerraformLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.URL != nil {
 		in, out := &in.URL, &out.URL
@@ -754,6 +816,11 @@ func (in *FunctionParameters) DeepCopyInto(out *FunctionParameters) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.KMSKeyName != nil {
+		in, out := &in.KMSKeyName, &out.KMSKeyName
+		*out = new(string)
+		**out = **in
 	}
 	if in.Labels != nil {
 		in, out := &in.Labels, &out.Labels

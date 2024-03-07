@@ -75,7 +75,7 @@ spec:
                 properties:
                   checkerType:
                     description: |-
-                      The checker type to use for the check. If the monitored resource type is servicedirectory_service, checkerType must be set to VPC_CHECKERS.
+                      The checker type to use for the check. If the monitored resource type is servicedirectory_service, checker_type must be set to VPC_CHECKERS.
                       Possible values are: STATIC_IP_CHECKERS, VPC_CHECKERS.
                     type: string
                   contentMatchers:
@@ -177,19 +177,27 @@ spec:
                           type: array
                         body:
                           description: The request body associated with the HTTP POST
-                            request. If contentType is URL_ENCODED, the body passed
+                            request. If content_type is URL_ENCODED, the body passed
                             in must be URL-encoded. Users can provide a Content-Length
                             header via the headers field or the API will do so. If
-                            the requestMethod is GET and body is not empty, the API
+                            the request_method is GET and body is not empty, the API
                             will return an error. The maximum byte size is 1 megabyte.
                             Note - As with all bytes fields JSON representations are
-                            base64 encoded. e.g. "foo=bar" in URL-encoded form is
-                            "foo%3Dbar" and in base64 encoding is "Zm9vJTI1M0RiYXI=".
+                            base64 encoded. e.g. foo=bar in URL-encoded form is foo%3Dbar
+                            and in base64 encoding is Zm9vJTI1M0RiYXI=.
                           type: string
                         contentType:
                           description: |-
                             The content type to use for the check.
-                            Possible values are: TYPE_UNSPECIFIED, URL_ENCODED.
+                            Possible values are: TYPE_UNSPECIFIED, URL_ENCODED, USER_PROVIDED.
+                          type: string
+                        customContentType:
+                          description: A user provided content type header to use
+                            for the check. The invalid configurations outlined in
+                            the content_type field apply to custom_content_type, as
+                            well as the following 1. content_typeisURL_ENCODEDandcustom_content_typeis
+                            set. 2.content_typeisUSER_PROVIDEDandcustom_content_type`
+                            is not set.
                           type: string
                         headers:
                           additionalProperties:
@@ -198,11 +206,10 @@ spec:
                             uptime check request. If two headers have the same key
                             and different values, they should be entered as a single
                             header, with the value being a comma-separated list of
-                            all the desired values as described at https://www.w3.org/Protocols/rfc2616/rfc2616.txt
-                            (page 31). Entering two separate headers with the same
-                            key in a Create call will cause the first to be overwritten
-                            by the second. The maximum number of headers allowed is
-                            100.
+                            all the desired values as described in RFC 2616 (page
+                            31). Entering two separate headers with the same key in
+                            a Create call will cause the first to be overwritten by
+                            the second. The maximum number of headers allowed is 100.
                           type: object
                           x-kubernetes-map-type: granular
                         maskHeaders:
@@ -211,25 +218,37 @@ spec:
                             related to authentication that you do not wish to be seen
                             when retrieving the configuration. The server will be
                             responsible for encrypting the headers. On Get/List calls,
-                            if mask_headers is set to True then the headers will be
+                            if mask_headers is set to true then the headers will be
                             obscured with ******.
                           type: boolean
                         path:
                           description: The path to the page to run the check against.
                             Will be combined with the host (specified within the MonitoredResource)
                             and port to construct the full URL. If the provided path
-                            does not begin with "/", a "/" will be prepended automatically.
-                            Optional (defaults to "/").
+                            does not begin with /, a / will be prepended automatically.
+                            Optional (defaults to /).
                           type: string
+                        pingConfig:
+                          description: |-
+                            Contains information needed to add pings to an HTTP check.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              pingsCount:
+                                description: Number of ICMP pings. A maximum of 3
+                                  ICMP pings is currently supported.
+                                type: number
+                            type: object
+                          type: array
                         port:
                           description: The port to the page to run the check against.
-                            Will be combined with host (specified within the MonitoredResource)
+                            Will be combined with host (specified within the monitored_resource)
                             and path to construct the full URL. Optional (defaults
                             to 80 without SSL, or 443 with SSL).
                           type: number
                         requestMethod:
                           description: |-
-                            The HTTP request method to use for the check. If set to METHOD_UNSPECIFIED then requestMethod defaults to GET.
+                            The HTTP request method to use for the check. If set to METHOD_UNSPECIFIED then request_method defaults to GET.
                             Default value is GET.
                             Possible values are: METHOD_UNSPECIFIED, GET, POST.
                           type: string
@@ -240,16 +259,18 @@ spec:
                         validateSsl:
                           description: Boolean specifying whether to include SSL certificate
                             validation as a part of the Uptime check. Only applies
-                            to checks where monitoredResource is set to uptime_url.
-                            If useSsl is false, setting validateSsl to true has no
-                            effect.
+                            to checks where monitored_resource is set to uptime_url.
+                            If use_ssl is false, setting validate_ssl to true has
+                            no effect.
                           type: boolean
                       type: object
                     type: array
                   monitoredResource:
                     description: |-
-                      The monitored resource (https://cloud.google.com/monitoring/api/resources) associated with the configuration. The following monitored resource types are supported for uptime checks:  uptime_url  gce_instance  gae_app  aws_ec2_instance aws_elb_load_balancer  k8s_service  servicedirectory_service
-                      Structure is documented below.
+                      The [monitored resource]
+                      (https://cloud.google.com/monitoring/api/resources) associated with the
+                      configuration. The following monitored resource types are supported for
+                      uptime checks:
                     items:
                       properties:
                         labels:
@@ -257,18 +278,16 @@ spec:
                             type: string
                           description: Values for all of the labels listed in the
                             associated monitored resource descriptor. For example,
-                            Compute Engine VM instances use the labels "project_id",
-                            "instance_id", and "zone".
+                            Compute Engine VM instances use the labels project_id,
+                            instance_id, and zone.
                           type: object
                           x-kubernetes-map-type: granular
                         type:
                           description: The monitored resource type. This field must
                             match the type field of a MonitoredResourceDescriptor
-                            (https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.monitoredResourceDescriptors#MonitoredResourceDescriptor)
                             object. For example, the type of a Compute Engine VM instance
                             is gce_instance. For a list of types, see Monitoring resource
-                            types (https://cloud.google.com/monitoring/api/resources)
-                            and Logging resource types (https://cloud.google.com/logging/docs/api/v2/resource-list).
+                            types and Logging resource types.
                           type: string
                       type: object
                     type: array
@@ -386,24 +405,143 @@ spec:
                     items:
                       type: string
                     type: array
+                  syntheticMonitor:
+                    description: |-
+                      A Synthetic Monitor deployed to a Cloud Functions V2 instance.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        cloudFunctionV2:
+                          description: |-
+                            Target a Synthetic Monitor GCFv2 Instance
+                            Structure is documented below.
+                          items:
+                            properties:
+                              name:
+                                description: The fully qualified name of the cloud
+                                  function resource.
+                                type: string
+                              nameRef:
+                                description: Reference to a Function in cloudfunctions2
+                                  to populate name.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              nameSelector:
+                                description: Selector for a Function in cloudfunctions2
+                                  to populate name.
+                                properties:
+                                  matchControllerRef:
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   tcpCheck:
                     description: |-
                       Contains information needed to make a TCP check.
                       Structure is documented below.
                     items:
                       properties:
+                        pingConfig:
+                          description: |-
+                            Contains information needed to add pings to a TCP check.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              pingsCount:
+                                description: Number of ICMP pings. A maximum of 3
+                                  ICMP pings is currently supported.
+                                type: number
+                            type: object
+                          type: array
                         port:
                           description: The port to the page to run the check against.
-                            Will be combined with host (specified within the MonitoredResource)
+                            Will be combined with host (specified within the monitored_resource)
                             to construct the full URL.
                           type: number
                       type: object
                     type: array
                   timeout:
                     description: The maximum amount of time to wait for the request
-                      to complete (must be between 1 and 60 seconds). Accepted formats
-                      https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration
+                      to complete (must be between 1 and 60 seconds). See the accepted
+                      formats
                     type: string
+                  userLabels:
+                    additionalProperties:
+                      type: string
+                    description: User-supplied key/value data to be used for organizing
+                      and identifying the UptimeCheckConfig objects. The field can
+                      contain up to 64 entries. Each key and value is limited to 63
+                      Unicode characters or 128 bytes, whichever is smaller. Labels
+                      and values can contain only lowercase letters, numerals, underscores,
+                      and dashes. Keys must begin with a letter.
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               initProvider:
                 description: |-
@@ -420,7 +558,7 @@ spec:
                 properties:
                   checkerType:
                     description: |-
-                      The checker type to use for the check. If the monitored resource type is servicedirectory_service, checkerType must be set to VPC_CHECKERS.
+                      The checker type to use for the check. If the monitored resource type is servicedirectory_service, checker_type must be set to VPC_CHECKERS.
                       Possible values are: STATIC_IP_CHECKERS, VPC_CHECKERS.
                     type: string
                   contentMatchers:
@@ -501,19 +639,27 @@ spec:
                           type: array
                         body:
                           description: The request body associated with the HTTP POST
-                            request. If contentType is URL_ENCODED, the body passed
+                            request. If content_type is URL_ENCODED, the body passed
                             in must be URL-encoded. Users can provide a Content-Length
                             header via the headers field or the API will do so. If
-                            the requestMethod is GET and body is not empty, the API
+                            the request_method is GET and body is not empty, the API
                             will return an error. The maximum byte size is 1 megabyte.
                             Note - As with all bytes fields JSON representations are
-                            base64 encoded. e.g. "foo=bar" in URL-encoded form is
-                            "foo%3Dbar" and in base64 encoding is "Zm9vJTI1M0RiYXI=".
+                            base64 encoded. e.g. foo=bar in URL-encoded form is foo%3Dbar
+                            and in base64 encoding is Zm9vJTI1M0RiYXI=.
                           type: string
                         contentType:
                           description: |-
                             The content type to use for the check.
-                            Possible values are: TYPE_UNSPECIFIED, URL_ENCODED.
+                            Possible values are: TYPE_UNSPECIFIED, URL_ENCODED, USER_PROVIDED.
+                          type: string
+                        customContentType:
+                          description: A user provided content type header to use
+                            for the check. The invalid configurations outlined in
+                            the content_type field apply to custom_content_type, as
+                            well as the following 1. content_typeisURL_ENCODEDandcustom_content_typeis
+                            set. 2.content_typeisUSER_PROVIDEDandcustom_content_type`
+                            is not set.
                           type: string
                         headers:
                           additionalProperties:
@@ -522,11 +668,10 @@ spec:
                             uptime check request. If two headers have the same key
                             and different values, they should be entered as a single
                             header, with the value being a comma-separated list of
-                            all the desired values as described at https://www.w3.org/Protocols/rfc2616/rfc2616.txt
-                            (page 31). Entering two separate headers with the same
-                            key in a Create call will cause the first to be overwritten
-                            by the second. The maximum number of headers allowed is
-                            100.
+                            all the desired values as described in RFC 2616 (page
+                            31). Entering two separate headers with the same key in
+                            a Create call will cause the first to be overwritten by
+                            the second. The maximum number of headers allowed is 100.
                           type: object
                           x-kubernetes-map-type: granular
                         maskHeaders:
@@ -535,25 +680,37 @@ spec:
                             related to authentication that you do not wish to be seen
                             when retrieving the configuration. The server will be
                             responsible for encrypting the headers. On Get/List calls,
-                            if mask_headers is set to True then the headers will be
+                            if mask_headers is set to true then the headers will be
                             obscured with ******.
                           type: boolean
                         path:
                           description: The path to the page to run the check against.
                             Will be combined with the host (specified within the MonitoredResource)
                             and port to construct the full URL. If the provided path
-                            does not begin with "/", a "/" will be prepended automatically.
-                            Optional (defaults to "/").
+                            does not begin with /, a / will be prepended automatically.
+                            Optional (defaults to /).
                           type: string
+                        pingConfig:
+                          description: |-
+                            Contains information needed to add pings to an HTTP check.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              pingsCount:
+                                description: Number of ICMP pings. A maximum of 3
+                                  ICMP pings is currently supported.
+                                type: number
+                            type: object
+                          type: array
                         port:
                           description: The port to the page to run the check against.
-                            Will be combined with host (specified within the MonitoredResource)
+                            Will be combined with host (specified within the monitored_resource)
                             and path to construct the full URL. Optional (defaults
                             to 80 without SSL, or 443 with SSL).
                           type: number
                         requestMethod:
                           description: |-
-                            The HTTP request method to use for the check. If set to METHOD_UNSPECIFIED then requestMethod defaults to GET.
+                            The HTTP request method to use for the check. If set to METHOD_UNSPECIFIED then request_method defaults to GET.
                             Default value is GET.
                             Possible values are: METHOD_UNSPECIFIED, GET, POST.
                           type: string
@@ -564,16 +721,18 @@ spec:
                         validateSsl:
                           description: Boolean specifying whether to include SSL certificate
                             validation as a part of the Uptime check. Only applies
-                            to checks where monitoredResource is set to uptime_url.
-                            If useSsl is false, setting validateSsl to true has no
-                            effect.
+                            to checks where monitored_resource is set to uptime_url.
+                            If use_ssl is false, setting validate_ssl to true has
+                            no effect.
                           type: boolean
                       type: object
                     type: array
                   monitoredResource:
                     description: |-
-                      The monitored resource (https://cloud.google.com/monitoring/api/resources) associated with the configuration. The following monitored resource types are supported for uptime checks:  uptime_url  gce_instance  gae_app  aws_ec2_instance aws_elb_load_balancer  k8s_service  servicedirectory_service
-                      Structure is documented below.
+                      The [monitored resource]
+                      (https://cloud.google.com/monitoring/api/resources) associated with the
+                      configuration. The following monitored resource types are supported for
+                      uptime checks:
                     items:
                       properties:
                         labels:
@@ -581,18 +740,16 @@ spec:
                             type: string
                           description: Values for all of the labels listed in the
                             associated monitored resource descriptor. For example,
-                            Compute Engine VM instances use the labels "project_id",
-                            "instance_id", and "zone".
+                            Compute Engine VM instances use the labels project_id,
+                            instance_id, and zone.
                           type: object
                           x-kubernetes-map-type: granular
                         type:
                           description: The monitored resource type. This field must
                             match the type field of a MonitoredResourceDescriptor
-                            (https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.monitoredResourceDescriptors#MonitoredResourceDescriptor)
                             object. For example, the type of a Compute Engine VM instance
                             is gce_instance. For a list of types, see Monitoring resource
-                            types (https://cloud.google.com/monitoring/api/resources)
-                            and Logging resource types (https://cloud.google.com/logging/docs/api/v2/resource-list).
+                            types and Logging resource types.
                           type: string
                       type: object
                     type: array
@@ -710,24 +867,143 @@ spec:
                     items:
                       type: string
                     type: array
+                  syntheticMonitor:
+                    description: |-
+                      A Synthetic Monitor deployed to a Cloud Functions V2 instance.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        cloudFunctionV2:
+                          description: |-
+                            Target a Synthetic Monitor GCFv2 Instance
+                            Structure is documented below.
+                          items:
+                            properties:
+                              name:
+                                description: The fully qualified name of the cloud
+                                  function resource.
+                                type: string
+                              nameRef:
+                                description: Reference to a Function in cloudfunctions2
+                                  to populate name.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              nameSelector:
+                                description: Selector for a Function in cloudfunctions2
+                                  to populate name.
+                                properties:
+                                  matchControllerRef:
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   tcpCheck:
                     description: |-
                       Contains information needed to make a TCP check.
                       Structure is documented below.
                     items:
                       properties:
+                        pingConfig:
+                          description: |-
+                            Contains information needed to add pings to a TCP check.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              pingsCount:
+                                description: Number of ICMP pings. A maximum of 3
+                                  ICMP pings is currently supported.
+                                type: number
+                            type: object
+                          type: array
                         port:
                           description: The port to the page to run the check against.
-                            Will be combined with host (specified within the MonitoredResource)
+                            Will be combined with host (specified within the monitored_resource)
                             to construct the full URL.
                           type: number
                       type: object
                     type: array
                   timeout:
                     description: The maximum amount of time to wait for the request
-                      to complete (must be between 1 and 60 seconds). Accepted formats
-                      https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration
+                      to complete (must be between 1 and 60 seconds). See the accepted
+                      formats
                     type: string
+                  userLabels:
+                    additionalProperties:
+                      type: string
+                    description: User-supplied key/value data to be used for organizing
+                      and identifying the UptimeCheckConfig objects. The field can
+                      contain up to 64 entries. Each key and value is limited to 63
+                      Unicode characters or 128 bytes, whichever is smaller. Labels
+                      and values can contain only lowercase letters, numerals, underscores,
+                      and dashes. Keys must begin with a letter.
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               managementPolicies:
                 default:
@@ -912,7 +1188,7 @@ spec:
                 properties:
                   checkerType:
                     description: |-
-                      The checker type to use for the check. If the monitored resource type is servicedirectory_service, checkerType must be set to VPC_CHECKERS.
+                      The checker type to use for the check. If the monitored resource type is servicedirectory_service, checker_type must be set to VPC_CHECKERS.
                       Possible values are: STATIC_IP_CHECKERS, VPC_CHECKERS.
                     type: string
                   contentMatchers:
@@ -993,19 +1269,27 @@ spec:
                           type: array
                         body:
                           description: The request body associated with the HTTP POST
-                            request. If contentType is URL_ENCODED, the body passed
+                            request. If content_type is URL_ENCODED, the body passed
                             in must be URL-encoded. Users can provide a Content-Length
                             header via the headers field or the API will do so. If
-                            the requestMethod is GET and body is not empty, the API
+                            the request_method is GET and body is not empty, the API
                             will return an error. The maximum byte size is 1 megabyte.
                             Note - As with all bytes fields JSON representations are
-                            base64 encoded. e.g. "foo=bar" in URL-encoded form is
-                            "foo%3Dbar" and in base64 encoding is "Zm9vJTI1M0RiYXI=".
+                            base64 encoded. e.g. foo=bar in URL-encoded form is foo%3Dbar
+                            and in base64 encoding is Zm9vJTI1M0RiYXI=.
                           type: string
                         contentType:
                           description: |-
                             The content type to use for the check.
-                            Possible values are: TYPE_UNSPECIFIED, URL_ENCODED.
+                            Possible values are: TYPE_UNSPECIFIED, URL_ENCODED, USER_PROVIDED.
+                          type: string
+                        customContentType:
+                          description: A user provided content type header to use
+                            for the check. The invalid configurations outlined in
+                            the content_type field apply to custom_content_type, as
+                            well as the following 1. content_typeisURL_ENCODEDandcustom_content_typeis
+                            set. 2.content_typeisUSER_PROVIDEDandcustom_content_type`
+                            is not set.
                           type: string
                         headers:
                           additionalProperties:
@@ -1014,11 +1298,10 @@ spec:
                             uptime check request. If two headers have the same key
                             and different values, they should be entered as a single
                             header, with the value being a comma-separated list of
-                            all the desired values as described at https://www.w3.org/Protocols/rfc2616/rfc2616.txt
-                            (page 31). Entering two separate headers with the same
-                            key in a Create call will cause the first to be overwritten
-                            by the second. The maximum number of headers allowed is
-                            100.
+                            all the desired values as described in RFC 2616 (page
+                            31). Entering two separate headers with the same key in
+                            a Create call will cause the first to be overwritten by
+                            the second. The maximum number of headers allowed is 100.
                           type: object
                           x-kubernetes-map-type: granular
                         maskHeaders:
@@ -1027,25 +1310,37 @@ spec:
                             related to authentication that you do not wish to be seen
                             when retrieving the configuration. The server will be
                             responsible for encrypting the headers. On Get/List calls,
-                            if mask_headers is set to True then the headers will be
+                            if mask_headers is set to true then the headers will be
                             obscured with ******.
                           type: boolean
                         path:
                           description: The path to the page to run the check against.
                             Will be combined with the host (specified within the MonitoredResource)
                             and port to construct the full URL. If the provided path
-                            does not begin with "/", a "/" will be prepended automatically.
-                            Optional (defaults to "/").
+                            does not begin with /, a / will be prepended automatically.
+                            Optional (defaults to /).
                           type: string
+                        pingConfig:
+                          description: |-
+                            Contains information needed to add pings to an HTTP check.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              pingsCount:
+                                description: Number of ICMP pings. A maximum of 3
+                                  ICMP pings is currently supported.
+                                type: number
+                            type: object
+                          type: array
                         port:
                           description: The port to the page to run the check against.
-                            Will be combined with host (specified within the MonitoredResource)
+                            Will be combined with host (specified within the monitored_resource)
                             and path to construct the full URL. Optional (defaults
                             to 80 without SSL, or 443 with SSL).
                           type: number
                         requestMethod:
                           description: |-
-                            The HTTP request method to use for the check. If set to METHOD_UNSPECIFIED then requestMethod defaults to GET.
+                            The HTTP request method to use for the check. If set to METHOD_UNSPECIFIED then request_method defaults to GET.
                             Default value is GET.
                             Possible values are: METHOD_UNSPECIFIED, GET, POST.
                           type: string
@@ -1056,9 +1351,9 @@ spec:
                         validateSsl:
                           description: Boolean specifying whether to include SSL certificate
                             validation as a part of the Uptime check. Only applies
-                            to checks where monitoredResource is set to uptime_url.
-                            If useSsl is false, setting validateSsl to true has no
-                            effect.
+                            to checks where monitored_resource is set to uptime_url.
+                            If use_ssl is false, setting validate_ssl to true has
+                            no effect.
                           type: boolean
                       type: object
                     type: array
@@ -1067,8 +1362,10 @@ spec:
                     type: string
                   monitoredResource:
                     description: |-
-                      The monitored resource (https://cloud.google.com/monitoring/api/resources) associated with the configuration. The following monitored resource types are supported for uptime checks:  uptime_url  gce_instance  gae_app  aws_ec2_instance aws_elb_load_balancer  k8s_service  servicedirectory_service
-                      Structure is documented below.
+                      The [monitored resource]
+                      (https://cloud.google.com/monitoring/api/resources) associated with the
+                      configuration. The following monitored resource types are supported for
+                      uptime checks:
                     items:
                       properties:
                         labels:
@@ -1076,18 +1373,16 @@ spec:
                             type: string
                           description: Values for all of the labels listed in the
                             associated monitored resource descriptor. For example,
-                            Compute Engine VM instances use the labels "project_id",
-                            "instance_id", and "zone".
+                            Compute Engine VM instances use the labels project_id,
+                            instance_id, and zone.
                           type: object
                           x-kubernetes-map-type: granular
                         type:
                           description: The monitored resource type. This field must
                             match the type field of a MonitoredResourceDescriptor
-                            (https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.monitoredResourceDescriptors#MonitoredResourceDescriptor)
                             object. For example, the type of a Compute Engine VM instance
                             is gce_instance. For a list of types, see Monitoring resource
-                            types (https://cloud.google.com/monitoring/api/resources)
-                            and Logging resource types (https://cloud.google.com/logging/docs/api/v2/resource-list).
+                            types and Logging resource types.
                           type: string
                       type: object
                     type: array
@@ -1133,27 +1428,70 @@ spec:
                     items:
                       type: string
                     type: array
+                  syntheticMonitor:
+                    description: |-
+                      A Synthetic Monitor deployed to a Cloud Functions V2 instance.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        cloudFunctionV2:
+                          description: |-
+                            Target a Synthetic Monitor GCFv2 Instance
+                            Structure is documented below.
+                          items:
+                            properties:
+                              name:
+                                description: The fully qualified name of the cloud
+                                  function resource.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   tcpCheck:
                     description: |-
                       Contains information needed to make a TCP check.
                       Structure is documented below.
                     items:
                       properties:
+                        pingConfig:
+                          description: |-
+                            Contains information needed to add pings to a TCP check.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              pingsCount:
+                                description: Number of ICMP pings. A maximum of 3
+                                  ICMP pings is currently supported.
+                                type: number
+                            type: object
+                          type: array
                         port:
                           description: The port to the page to run the check against.
-                            Will be combined with host (specified within the MonitoredResource)
+                            Will be combined with host (specified within the monitored_resource)
                             to construct the full URL.
                           type: number
                       type: object
                     type: array
                   timeout:
                     description: The maximum amount of time to wait for the request
-                      to complete (must be between 1 and 60 seconds). Accepted formats
-                      https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration
+                      to complete (must be between 1 and 60 seconds). See the accepted
+                      formats
                     type: string
                   uptimeCheckId:
                     description: The id of the uptime check
                     type: string
+                  userLabels:
+                    additionalProperties:
+                      type: string
+                    description: User-supplied key/value data to be used for organizing
+                      and identifying the UptimeCheckConfig objects. The field can
+                      contain up to 64 entries. Each key and value is limited to 63
+                      Unicode characters or 128 bytes, whichever is smaller. Labels
+                      and values can contain only lowercase letters, numerals, underscores,
+                      and dashes. Keys must begin with a letter.
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               conditions:
                 description: Conditions of the resource.

@@ -92,6 +92,93 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        auxiliaryNodeGroups:
+                          description: |-
+                            A Dataproc NodeGroup resource is a group of Dataproc cluster nodes that execute an assigned role.
+                            Structure defined below.
+                          items:
+                            properties:
+                              nodeGroup:
+                                description: Node group configuration.
+                                items:
+                                  properties:
+                                    nodeGroupConfig:
+                                      description: The node group instance group configuration.
+                                      items:
+                                        properties:
+                                          accelerators:
+                                            description: The Compute Engine accelerator
+                                              configuration for these instances. Can
+                                              be specified multiple times.
+                                            items:
+                                              properties:
+                                                acceleratorCount:
+                                                  description: The number of the accelerator
+                                                    cards of this type exposed to
+                                                    this instance. Often restricted
+                                                    to one of 1, 2, 4, or 8.
+                                                  type: number
+                                                acceleratorType:
+                                                  description: The short name of the
+                                                    accelerator type to expose to
+                                                    this instance. For example, nvidia-tesla-k80.
+                                                  type: string
+                                              type: object
+                                            type: array
+                                          diskConfig:
+                                            description: Disk Config
+                                            items:
+                                              properties:
+                                                bootDiskSizeGb:
+                                                  description: |-
+                                                    Size of the primary disk attached to each node, specified
+                                                    in GB. The primary disk contains the boot volume and system libraries, and the
+                                                    smallest allowed disk size is 10GB. GCP will default to a predetermined
+                                                    computed value if not set (currently 500GB). Note: If SSDs are not
+                                                    attached, it also contains the HDFS data blocks and Hadoop working directories.
+                                                  type: number
+                                                bootDiskType:
+                                                  description: |-
+                                                    The disk type of the primary disk attached to each node.
+                                                    One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+                                                  type: string
+                                                numLocalSsds:
+                                                  description: |-
+                                                    The amount of local SSD disks that will be
+                                                    attached to each master cluster node. Defaults to 0.
+                                                  type: number
+                                              type: object
+                                            type: array
+                                          machineType:
+                                            description: The name of a Compute Engine
+                                              machine type.
+                                            type: string
+                                          minCpuPlatform:
+                                            description: |-
+                                              Minimum CPU platform to be used by this instance.
+                                              The instance may be scheduled on the specified or a newer CPU platform.
+                                              Specify the friendly names of CPU platforms, such as "Intel Haswell" or "Intel Sandy Bridge".
+                                            type: string
+                                          numInstances:
+                                            description: |-
+                                              Specifies the number of master nodes to create.
+                                              Please set a number greater than 0. Node Group must have at least 1 instance.
+                                            type: number
+                                        type: object
+                                      type: array
+                                    roles:
+                                      description: |-
+                                        The roles associated with the GKE node pool.
+                                        One of "DEFAULT", "CONTROLLER", "SPARK_DRIVER" or "SPARK_EXECUTOR".
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
+                              nodeGroupId:
+                                type: string
+                            type: object
+                          type: array
                         dataprocMetricConfig:
                           description: |-
                             The Compute Engine accelerator (GPU) configuration for these instances. Can be specified multiple times.
@@ -494,6 +581,37 @@ spec:
                                       type: number
                                   type: object
                                 type: array
+                              instanceFlexibilityPolicy:
+                                description: Instance flexibility Policy allowing
+                                  a mixture of VM shapes and provisioning models.
+                                items:
+                                  properties:
+                                    instanceSelectionList:
+                                      description: List of instance selection options
+                                        that the group will use when creating new
+                                        VMs.
+                                      items:
+                                        properties:
+                                          machineTypes:
+                                            description: Full machine-type names,
+                                              e.g. "n1-standard-16".
+                                            items:
+                                              type: string
+                                            type: array
+                                          rank:
+                                            description: Preference of this instance
+                                              selection. A lower number means higher
+                                              preference. Dataproc will first try
+                                              to create a VM based on the machine-type
+                                              with priority rank and fallback to next
+                                              rank based on availability. Machine
+                                              types and instance selections with the
+                                              same priority have the same preference.
+                                            type: number
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
                               numInstances:
                                 description: |-
                                   Specifies the number of preemptible nodes to create.
@@ -709,6 +827,13 @@ spec:
                                   for each zone. See the guide
                                   for details about which CPU families are available (and defaulted) for each zone.
                                 type: string
+                              minNumInstances:
+                                description: The minimum number of primary worker
+                                  instances to create.  If min_num_instances is set,
+                                  cluster creation will succeed if the number of primary
+                                  workers created is at least equal to the min_num_instances
+                                  number.
+                                type: number
                               numInstances:
                                 description: |-
                                   Specifies the number of worker nodes to create.
@@ -736,10 +861,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: |-
-                      The list of labels (key/value pairs) to be applied to
-                      instances in the cluster. GCP generates some itself including goog-dataproc-cluster-name
-                      which is the name of the cluster.
+                    description: 'Note: This field is non-authoritative, and will
+                      only manage the labels present in your configuration. Please
+                      refer to the field effective_labels for all of the labels present
+                      on the resource.'
                     type: object
                     x-kubernetes-map-type: granular
                   name:
@@ -980,6 +1105,93 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        auxiliaryNodeGroups:
+                          description: |-
+                            A Dataproc NodeGroup resource is a group of Dataproc cluster nodes that execute an assigned role.
+                            Structure defined below.
+                          items:
+                            properties:
+                              nodeGroup:
+                                description: Node group configuration.
+                                items:
+                                  properties:
+                                    nodeGroupConfig:
+                                      description: The node group instance group configuration.
+                                      items:
+                                        properties:
+                                          accelerators:
+                                            description: The Compute Engine accelerator
+                                              configuration for these instances. Can
+                                              be specified multiple times.
+                                            items:
+                                              properties:
+                                                acceleratorCount:
+                                                  description: The number of the accelerator
+                                                    cards of this type exposed to
+                                                    this instance. Often restricted
+                                                    to one of 1, 2, 4, or 8.
+                                                  type: number
+                                                acceleratorType:
+                                                  description: The short name of the
+                                                    accelerator type to expose to
+                                                    this instance. For example, nvidia-tesla-k80.
+                                                  type: string
+                                              type: object
+                                            type: array
+                                          diskConfig:
+                                            description: Disk Config
+                                            items:
+                                              properties:
+                                                bootDiskSizeGb:
+                                                  description: |-
+                                                    Size of the primary disk attached to each node, specified
+                                                    in GB. The primary disk contains the boot volume and system libraries, and the
+                                                    smallest allowed disk size is 10GB. GCP will default to a predetermined
+                                                    computed value if not set (currently 500GB). Note: If SSDs are not
+                                                    attached, it also contains the HDFS data blocks and Hadoop working directories.
+                                                  type: number
+                                                bootDiskType:
+                                                  description: |-
+                                                    The disk type of the primary disk attached to each node.
+                                                    One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+                                                  type: string
+                                                numLocalSsds:
+                                                  description: |-
+                                                    The amount of local SSD disks that will be
+                                                    attached to each master cluster node. Defaults to 0.
+                                                  type: number
+                                              type: object
+                                            type: array
+                                          machineType:
+                                            description: The name of a Compute Engine
+                                              machine type.
+                                            type: string
+                                          minCpuPlatform:
+                                            description: |-
+                                              Minimum CPU platform to be used by this instance.
+                                              The instance may be scheduled on the specified or a newer CPU platform.
+                                              Specify the friendly names of CPU platforms, such as "Intel Haswell" or "Intel Sandy Bridge".
+                                            type: string
+                                          numInstances:
+                                            description: |-
+                                              Specifies the number of master nodes to create.
+                                              Please set a number greater than 0. Node Group must have at least 1 instance.
+                                            type: number
+                                        type: object
+                                      type: array
+                                    roles:
+                                      description: |-
+                                        The roles associated with the GKE node pool.
+                                        One of "DEFAULT", "CONTROLLER", "SPARK_DRIVER" or "SPARK_EXECUTOR".
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
+                              nodeGroupId:
+                                type: string
+                            type: object
+                          type: array
                         dataprocMetricConfig:
                           description: |-
                             The Compute Engine accelerator (GPU) configuration for these instances. Can be specified multiple times.
@@ -1382,6 +1594,37 @@ spec:
                                       type: number
                                   type: object
                                 type: array
+                              instanceFlexibilityPolicy:
+                                description: Instance flexibility Policy allowing
+                                  a mixture of VM shapes and provisioning models.
+                                items:
+                                  properties:
+                                    instanceSelectionList:
+                                      description: List of instance selection options
+                                        that the group will use when creating new
+                                        VMs.
+                                      items:
+                                        properties:
+                                          machineTypes:
+                                            description: Full machine-type names,
+                                              e.g. "n1-standard-16".
+                                            items:
+                                              type: string
+                                            type: array
+                                          rank:
+                                            description: Preference of this instance
+                                              selection. A lower number means higher
+                                              preference. Dataproc will first try
+                                              to create a VM based on the machine-type
+                                              with priority rank and fallback to next
+                                              rank based on availability. Machine
+                                              types and instance selections with the
+                                              same priority have the same preference.
+                                            type: number
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
                               numInstances:
                                 description: |-
                                   Specifies the number of preemptible nodes to create.
@@ -1597,6 +1840,13 @@ spec:
                                   for each zone. See the guide
                                   for details about which CPU families are available (and defaulted) for each zone.
                                 type: string
+                              minNumInstances:
+                                description: The minimum number of primary worker
+                                  instances to create.  If min_num_instances is set,
+                                  cluster creation will succeed if the number of primary
+                                  workers created is at least equal to the min_num_instances
+                                  number.
+                                type: number
                               numInstances:
                                 description: |-
                                   Specifies the number of worker nodes to create.
@@ -1624,10 +1874,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: |-
-                      The list of labels (key/value pairs) to be applied to
-                      instances in the cluster. GCP generates some itself including goog-dataproc-cluster-name
-                      which is the name of the cluster.
+                    description: 'Note: This field is non-authoritative, and will
+                      only manage the labels present in your configuration. Please
+                      refer to the field effective_labels for all of the labels present
+                      on the resource.'
                     type: object
                     x-kubernetes-map-type: granular
                   name:
@@ -2032,6 +2282,105 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        auxiliaryNodeGroups:
+                          description: |-
+                            A Dataproc NodeGroup resource is a group of Dataproc cluster nodes that execute an assigned role.
+                            Structure defined below.
+                          items:
+                            properties:
+                              nodeGroup:
+                                description: Node group configuration.
+                                items:
+                                  properties:
+                                    name:
+                                      description: |-
+                                        The name of the cluster, unique within the project and
+                                        zone.
+                                      type: string
+                                    nodeGroupConfig:
+                                      description: The node group instance group configuration.
+                                      items:
+                                        properties:
+                                          accelerators:
+                                            description: The Compute Engine accelerator
+                                              configuration for these instances. Can
+                                              be specified multiple times.
+                                            items:
+                                              properties:
+                                                acceleratorCount:
+                                                  description: The number of the accelerator
+                                                    cards of this type exposed to
+                                                    this instance. Often restricted
+                                                    to one of 1, 2, 4, or 8.
+                                                  type: number
+                                                acceleratorType:
+                                                  description: The short name of the
+                                                    accelerator type to expose to
+                                                    this instance. For example, nvidia-tesla-k80.
+                                                  type: string
+                                              type: object
+                                            type: array
+                                          diskConfig:
+                                            description: Disk Config
+                                            items:
+                                              properties:
+                                                bootDiskSizeGb:
+                                                  description: |-
+                                                    Size of the primary disk attached to each node, specified
+                                                    in GB. The primary disk contains the boot volume and system libraries, and the
+                                                    smallest allowed disk size is 10GB. GCP will default to a predetermined
+                                                    computed value if not set (currently 500GB). Note: If SSDs are not
+                                                    attached, it also contains the HDFS data blocks and Hadoop working directories.
+                                                  type: number
+                                                bootDiskType:
+                                                  description: |-
+                                                    The disk type of the primary disk attached to each node.
+                                                    One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+                                                  type: string
+                                                numLocalSsds:
+                                                  description: |-
+                                                    The amount of local SSD disks that will be
+                                                    attached to each master cluster node. Defaults to 0.
+                                                  type: number
+                                              type: object
+                                            type: array
+                                          instanceNames:
+                                            description: |-
+                                              List of worker instance names which have been assigned
+                                              to the cluster.
+                                            items:
+                                              type: string
+                                            type: array
+                                          machineType:
+                                            description: The name of a Compute Engine
+                                              machine type.
+                                            type: string
+                                          minCpuPlatform:
+                                            description: |-
+                                              Minimum CPU platform to be used by this instance.
+                                              The instance may be scheduled on the specified or a newer CPU platform.
+                                              Specify the friendly names of CPU platforms, such as "Intel Haswell" or "Intel Sandy Bridge".
+                                            type: string
+                                          numInstances:
+                                            description: |-
+                                              Specifies the number of master nodes to create.
+                                              Please set a number greater than 0. Node Group must have at least 1 instance.
+                                            type: number
+                                        type: object
+                                      type: array
+                                    roles:
+                                      description: |-
+                                        The roles associated with the GKE node pool.
+                                        One of "DEFAULT", "CONTROLLER", "SPARK_DRIVER" or "SPARK_EXECUTOR".
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
+                              nodeGroupId:
+                                type: string
+                            type: object
+                          type: array
                         bucket:
                           description: |-
                             The name of the cloud storage bucket ultimately used to house the staging data
@@ -2384,6 +2733,48 @@ spec:
                                       type: number
                                   type: object
                                 type: array
+                              instanceFlexibilityPolicy:
+                                description: Instance flexibility Policy allowing
+                                  a mixture of VM shapes and provisioning models.
+                                items:
+                                  properties:
+                                    instanceSelectionList:
+                                      description: List of instance selection options
+                                        that the group will use when creating new
+                                        VMs.
+                                      items:
+                                        properties:
+                                          machineTypes:
+                                            description: Full machine-type names,
+                                              e.g. "n1-standard-16".
+                                            items:
+                                              type: string
+                                            type: array
+                                          rank:
+                                            description: Preference of this instance
+                                              selection. A lower number means higher
+                                              preference. Dataproc will first try
+                                              to create a VM based on the machine-type
+                                              with priority rank and fallback to next
+                                              rank based on availability. Machine
+                                              types and instance selections with the
+                                              same priority have the same preference.
+                                            type: number
+                                        type: object
+                                      type: array
+                                    instanceSelectionResults:
+                                      items:
+                                        properties:
+                                          machineType:
+                                            description: The name of a Compute Engine
+                                              machine type.
+                                            type: string
+                                          vmCount:
+                                            type: number
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
                               instanceNames:
                                 description: |-
                                   List of worker instance names which have been assigned
@@ -2620,6 +3011,13 @@ spec:
                                   for each zone. See the guide
                                   for details about which CPU families are available (and defaulted) for each zone.
                                 type: string
+                              minNumInstances:
+                                description: The minimum number of primary worker
+                                  instances to create.  If min_num_instances is set,
+                                  cluster creation will succeed if the number of primary
+                                  workers created is at least equal to the min_num_instances
+                                  number.
+                                type: number
                               numInstances:
                                 description: |-
                                   Specifies the number of worker nodes to create.
@@ -2634,6 +3032,15 @@ spec:
                           type: array
                       type: object
                     type: array
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      (Computed) The list of labels (key/value pairs) to be applied to
+                      instances in the cluster. GCP generates some itself including goog-dataproc-cluster-name
+                      which is the name of the cluster.
+                    type: object
+                    x-kubernetes-map-type: granular
                   gracefulDecommissionTimeout:
                     description: |-
                       Does not affect auto scaling decomissioning from an autoscaling policy.
@@ -2649,10 +3056,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: |-
-                      The list of labels (key/value pairs) to be applied to
-                      instances in the cluster. GCP generates some itself including goog-dataproc-cluster-name
-                      which is the name of the cluster.
+                    description: 'Note: This field is non-authoritative, and will
+                      only manage the labels present in your configuration. Please
+                      refer to the field effective_labels for all of the labels present
+                      on the resource.'
                     type: object
                     x-kubernetes-map-type: granular
                   name:
@@ -2670,6 +3077,13 @@ spec:
                       The region in which the cluster and associated nodes will be created in.
                       Defaults to global.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   virtualClusterConfig:
                     description: |-
                       Allows you to configure a virtual Dataproc on GKE cluster.

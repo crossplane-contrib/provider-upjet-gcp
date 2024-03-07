@@ -116,6 +116,9 @@ type ConnectivityTestObservation struct {
 	// Structure is documented below.
 	Destination []DestinationObservation `json:"destination,omitempty" tf:"destination,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/global/connectivityTests/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -158,6 +161,11 @@ type ConnectivityTestObservation struct {
 	// you don't intend to test.
 	// Structure is documented below.
 	Source []SourceObservation `json:"source,omitempty" tf:"source,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type ConnectivityTestParameters struct {

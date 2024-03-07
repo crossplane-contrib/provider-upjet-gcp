@@ -193,6 +193,11 @@ spec:
                             Structure is documented below.
                           items:
                             properties:
+                              enableConfidentialCompute:
+                                description: |-
+                                  Whether this disk is using confidential compute mode.
+                                  Note: Only supported on hyperdisk skus, disk_encryption_key is required when setting to true.
+                                type: boolean
                               image:
                                 description: |-
                                   The image from which to initialize this disk. This can be
@@ -282,9 +287,31 @@ spec:
                               labels:
                                 additionalProperties:
                                   type: string
-                                description: A map of key/value label pairs to assign
-                                  to the instance.
+                                description: |-
+                                  A map of key/value label pairs to assign to the instance.
+                                  Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                                  Please refer to the field 'effective_labels' for all of the labels present on the resource.
                                 type: object
+                              provisionedIops:
+                                description: |-
+                                  Indicates how many IOPS to provision for the disk.
+                                  This sets the number of I/O operations per second that the disk can handle.
+                                  For more details,see the Hyperdisk documentation.
+                                  Note: Updating currently is only supported for hyperdisk skus via disk update
+                                  api/gcloud without the need to delete and recreate the disk, hyperdisk allows
+                                  for an update of IOPS every 4 hours. To update your hyperdisk more frequently,
+                                  you'll need to manually delete and recreate it.
+                                type: number
+                              provisionedThroughput:
+                                description: |-
+                                  Indicates how much throughput to provision for the disk.
+                                  This sets the number of throughput mb per second that the disk can handle.
+                                  For more details,see the Hyperdisk documentation.
+                                  Note: Updating currently is only supported for hyperdisk skus via disk update
+                                  api/gcloud without the need to delete and recreate the disk, hyperdisk allows
+                                  for an update of throughput every 4 hours. To update your hyperdisk more
+                                  frequently, you'll need to manually delete and recreate it.
+                                type: number
                               resourceManagerTags:
                                 additionalProperties:
                                   type: string
@@ -301,8 +328,8 @@ spec:
                                   will inherit the size of its base image.
                                 type: number
                               type:
-                                description: The accelerator type resource to expose
-                                  to this instance. E.g. nvidia-tesla-k80.
+                                description: The type of reservation from which this
+                                  instance can consume resources.
                                 type: string
                             type: object
                           type: array
@@ -338,8 +365,9 @@ spec:
                       properties:
                         enableConfidentialCompute:
                           description: Defines whether the instance should have confidential
-                            compute enabled. on_host_maintenance has to be set to
-                            TERMINATE or this will fail to create the VM.
+                            compute enabled with AMD SEV. on_host_maintenance has
+                            to be set to TERMINATE or this will fail to create the
+                            VM.
                           type: boolean
                       type: object
                     type: array
@@ -391,7 +419,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: A map of key/value label pairs to assign to the instance.
+                    description: |-
+                      A map of key/value label pairs to assign to the instance.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field 'effective_labels' for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   machineType:
@@ -480,6 +511,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        internalIpv6PrefixLength:
+                          type: number
                         ipv6AccessConfig:
                           description: |-
                             An array of IPv6 access configurations for this interface.
@@ -515,6 +548,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        ipv6Address:
+                          type: string
                         network:
                           description: |-
                             The name or self_link of the network to attach this interface to.
@@ -869,7 +904,7 @@ spec:
                         provisioningModel:
                           description: |-
                             Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
-                            preemptible should be true and auto_restart should be
+                            preemptible should be true and automatic_restart should be
                             false. For more info about
                             SPOT, read here
                           type: string
@@ -881,6 +916,11 @@ spec:
                       specified multiple times for multiple scratch disks. Structure is documented below.
                     items:
                       properties:
+                        deviceName:
+                          description: |-
+                            Name with which attached disk will be accessible.
+                            On the instance, this device will be /dev/disk/by-id/google-{{device_name}}.
+                          type: string
                         interface:
                           description: The disk interface to use for attaching this
                             disk; either SCSI or NVME.
@@ -1119,6 +1159,11 @@ spec:
                             Structure is documented below.
                           items:
                             properties:
+                              enableConfidentialCompute:
+                                description: |-
+                                  Whether this disk is using confidential compute mode.
+                                  Note: Only supported on hyperdisk skus, disk_encryption_key is required when setting to true.
+                                type: boolean
                               image:
                                 description: |-
                                   The image from which to initialize this disk. This can be
@@ -1208,9 +1253,31 @@ spec:
                               labels:
                                 additionalProperties:
                                   type: string
-                                description: A map of key/value label pairs to assign
-                                  to the instance.
+                                description: |-
+                                  A map of key/value label pairs to assign to the instance.
+                                  Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                                  Please refer to the field 'effective_labels' for all of the labels present on the resource.
                                 type: object
+                              provisionedIops:
+                                description: |-
+                                  Indicates how many IOPS to provision for the disk.
+                                  This sets the number of I/O operations per second that the disk can handle.
+                                  For more details,see the Hyperdisk documentation.
+                                  Note: Updating currently is only supported for hyperdisk skus via disk update
+                                  api/gcloud without the need to delete and recreate the disk, hyperdisk allows
+                                  for an update of IOPS every 4 hours. To update your hyperdisk more frequently,
+                                  you'll need to manually delete and recreate it.
+                                type: number
+                              provisionedThroughput:
+                                description: |-
+                                  Indicates how much throughput to provision for the disk.
+                                  This sets the number of throughput mb per second that the disk can handle.
+                                  For more details,see the Hyperdisk documentation.
+                                  Note: Updating currently is only supported for hyperdisk skus via disk update
+                                  api/gcloud without the need to delete and recreate the disk, hyperdisk allows
+                                  for an update of throughput every 4 hours. To update your hyperdisk more
+                                  frequently, you'll need to manually delete and recreate it.
+                                type: number
                               resourceManagerTags:
                                 additionalProperties:
                                   type: string
@@ -1227,8 +1294,8 @@ spec:
                                   will inherit the size of its base image.
                                 type: number
                               type:
-                                description: The accelerator type resource to expose
-                                  to this instance. E.g. nvidia-tesla-k80.
+                                description: The type of reservation from which this
+                                  instance can consume resources.
                                 type: string
                             type: object
                           type: array
@@ -1264,8 +1331,9 @@ spec:
                       properties:
                         enableConfidentialCompute:
                           description: Defines whether the instance should have confidential
-                            compute enabled. on_host_maintenance has to be set to
-                            TERMINATE or this will fail to create the VM.
+                            compute enabled with AMD SEV. on_host_maintenance has
+                            to be set to TERMINATE or this will fail to create the
+                            VM.
                           type: boolean
                       type: object
                     type: array
@@ -1317,7 +1385,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: A map of key/value label pairs to assign to the instance.
+                    description: |-
+                      A map of key/value label pairs to assign to the instance.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field 'effective_labels' for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   machineType:
@@ -1406,6 +1477,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        internalIpv6PrefixLength:
+                          type: number
                         ipv6AccessConfig:
                           description: |-
                             An array of IPv6 access configurations for this interface.
@@ -1441,6 +1514,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        ipv6Address:
+                          type: string
                         network:
                           description: |-
                             The name or self_link of the network to attach this interface to.
@@ -1795,7 +1870,7 @@ spec:
                         provisioningModel:
                           description: |-
                             Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
-                            preemptible should be true and auto_restart should be
+                            preemptible should be true and automatic_restart should be
                             false. For more info about
                             SPOT, read here
                           type: string
@@ -1807,6 +1882,11 @@ spec:
                       specified multiple times for multiple scratch disks. Structure is documented below.
                     items:
                       properties:
+                        deviceName:
+                          description: |-
+                            Name with which attached disk will be accessible.
+                            On the instance, this device will be /dev/disk/by-id/google-{{device_name}}.
+                          type: string
                         interface:
                           description: The disk interface to use for attaching this
                             disk; either SCSI or NVME.
@@ -2223,6 +2303,11 @@ spec:
                             Structure is documented below.
                           items:
                             properties:
+                              enableConfidentialCompute:
+                                description: |-
+                                  Whether this disk is using confidential compute mode.
+                                  Note: Only supported on hyperdisk skus, disk_encryption_key is required when setting to true.
+                                type: boolean
                               image:
                                 description: |-
                                   The image from which to initialize this disk. This can be
@@ -2238,9 +2323,31 @@ spec:
                               labels:
                                 additionalProperties:
                                   type: string
-                                description: A map of key/value label pairs to assign
-                                  to the instance.
+                                description: |-
+                                  A map of key/value label pairs to assign to the instance.
+                                  Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                                  Please refer to the field 'effective_labels' for all of the labels present on the resource.
                                 type: object
+                              provisionedIops:
+                                description: |-
+                                  Indicates how many IOPS to provision for the disk.
+                                  This sets the number of I/O operations per second that the disk can handle.
+                                  For more details,see the Hyperdisk documentation.
+                                  Note: Updating currently is only supported for hyperdisk skus via disk update
+                                  api/gcloud without the need to delete and recreate the disk, hyperdisk allows
+                                  for an update of IOPS every 4 hours. To update your hyperdisk more frequently,
+                                  you'll need to manually delete and recreate it.
+                                type: number
+                              provisionedThroughput:
+                                description: |-
+                                  Indicates how much throughput to provision for the disk.
+                                  This sets the number of throughput mb per second that the disk can handle.
+                                  For more details,see the Hyperdisk documentation.
+                                  Note: Updating currently is only supported for hyperdisk skus via disk update
+                                  api/gcloud without the need to delete and recreate the disk, hyperdisk allows
+                                  for an update of throughput every 4 hours. To update your hyperdisk more
+                                  frequently, you'll need to manually delete and recreate it.
+                                type: number
                               resourceManagerTags:
                                 additionalProperties:
                                   type: string
@@ -2257,8 +2364,8 @@ spec:
                                   will inherit the size of its base image.
                                 type: number
                               type:
-                                description: The accelerator type resource to expose
-                                  to this instance. E.g. nvidia-tesla-k80.
+                                description: The type of reservation from which this
+                                  instance can consume resources.
                                 type: string
                             type: object
                           type: array
@@ -2294,8 +2401,9 @@ spec:
                       properties:
                         enableConfidentialCompute:
                           description: Defines whether the instance should have confidential
-                            compute enabled. on_host_maintenance has to be set to
-                            TERMINATE or this will fail to create the VM.
+                            compute enabled with AMD SEV. on_host_maintenance has
+                            to be set to TERMINATE or this will fail to create the
+                            VM.
                           type: boolean
                       type: object
                     type: array
@@ -2322,6 +2430,11 @@ spec:
                       Desired status of the instance. Either
                       "RUNNING" or "TERMINATED".
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   enableDisplay:
                     description: |-
                       Enable Virtual Displays on this instance.
@@ -2366,7 +2479,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: A map of key/value label pairs to assign to the instance.
+                    description: |-
+                      A map of key/value label pairs to assign to the instance.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field 'effective_labels' for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   machineType:
@@ -2458,6 +2574,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        internalIpv6PrefixLength:
+                          type: number
                         ipv6AccessConfig:
                           description: |-
                             An array of IPv6 access configurations for this interface.
@@ -2497,6 +2615,8 @@ spec:
                           description: |-
                             One of EXTERNAL, INTERNAL to indicate whether the IP can be accessed from the Internet.
                             This field is always inherited from its subnetwork.
+                          type: string
+                        ipv6Address:
                           type: string
                         name:
                           description: |-
@@ -2709,7 +2829,7 @@ spec:
                         provisioningModel:
                           description: |-
                             Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
-                            preemptible should be true and auto_restart should be
+                            preemptible should be true and automatic_restart should be
                             false. For more info about
                             SPOT, read here
                           type: string
@@ -2721,6 +2841,11 @@ spec:
                       specified multiple times for multiple scratch disks. Structure is documented below.
                     items:
                       properties:
+                        deviceName:
+                          description: |-
+                            Name with which attached disk will be accessible.
+                            On the instance, this device will be /dev/disk/by-id/google-{{device_name}}.
+                          type: string
                         interface:
                           description: The disk interface to use for attaching this
                             disk; either SCSI or NVME.
@@ -2792,6 +2917,13 @@ spec:
                   tagsFingerprint:
                     description: The unique fingerprint of the tags.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   zone:
                     description: The zone that the machine should be created in. If
                       it is not provided, the provider zone is used.

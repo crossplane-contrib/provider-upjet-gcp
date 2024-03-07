@@ -7485,6 +7485,11 @@ func (in *WeekDayOfMonthInitParameters) DeepCopyInto(out *WeekDayOfMonthInitPara
 		*out = new(string)
 		**out = **in
 	}
+	if in.DayOffset != nil {
+		in, out := &in.DayOffset, &out.DayOffset
+		*out = new(float64)
+		**out = **in
+	}
 	if in.WeekOrdinal != nil {
 		in, out := &in.WeekOrdinal, &out.WeekOrdinal
 		*out = new(float64)
@@ -7510,6 +7515,11 @@ func (in *WeekDayOfMonthObservation) DeepCopyInto(out *WeekDayOfMonthObservation
 		*out = new(string)
 		**out = **in
 	}
+	if in.DayOffset != nil {
+		in, out := &in.DayOffset, &out.DayOffset
+		*out = new(float64)
+		**out = **in
+	}
 	if in.WeekOrdinal != nil {
 		in, out := &in.WeekOrdinal, &out.WeekOrdinal
 		*out = new(float64)
@@ -7533,6 +7543,11 @@ func (in *WeekDayOfMonthParameters) DeepCopyInto(out *WeekDayOfMonthParameters) 
 	if in.DayOfWeek != nil {
 		in, out := &in.DayOfWeek, &out.DayOfWeek
 		*out = new(string)
+		**out = **in
+	}
+	if in.DayOffset != nil {
+		in, out := &in.DayOffset, &out.DayOffset
+		*out = new(float64)
 		**out = **in
 	}
 	if in.WeekOrdinal != nil {

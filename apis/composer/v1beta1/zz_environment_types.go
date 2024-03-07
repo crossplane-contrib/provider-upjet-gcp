@@ -69,7 +69,7 @@ type AllowedIPRangeParameters struct {
 
 type CidrBlocksInitParameters struct {
 
-	// `cidr_block< must be specified in CIDR notation.
+	// cidr_block must be specified in CIDR notation.
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
 	// display_name is a field for users to identify CIDR blocks.
@@ -78,7 +78,7 @@ type CidrBlocksInitParameters struct {
 
 type CidrBlocksObservation struct {
 
-	// `cidr_block< must be specified in CIDR notation.
+	// cidr_block must be specified in CIDR notation.
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
 	// display_name is a field for users to identify CIDR blocks.
@@ -87,7 +87,7 @@ type CidrBlocksObservation struct {
 
 type CidrBlocksParameters struct {
 
-	// `cidr_block< must be specified in CIDR notation.
+	// cidr_block must be specified in CIDR notation.
 	// +kubebuilder:validation:Optional
 	CidrBlock *string `json:"cidrBlock" tf:"cidr_block,omitempty"`
 
@@ -97,6 +97,10 @@ type CidrBlocksParameters struct {
 }
 
 type ConfigInitParameters struct {
+
+	// Configuration setting for airflow data rentention mechanism. Structure is
+	// documented below.
+	DataRetentionConfig []DataRetentionConfigInitParameters `json:"dataRetentionConfig,omitempty" tf:"data_retention_config,omitempty"`
 
 	// The configuration settings for Cloud SQL instance used internally
 	// by Apache Airflow software.
@@ -168,6 +172,10 @@ type ConfigObservation struct {
 	// reside in a simulated directory with this prefix.
 	DagGcsPrefix *string `json:"dagGcsPrefix,omitempty" tf:"dag_gcs_prefix,omitempty"`
 
+	// Configuration setting for airflow data rentention mechanism. Structure is
+	// documented below.
+	DataRetentionConfig []DataRetentionConfigObservation `json:"dataRetentionConfig,omitempty" tf:"data_retention_config,omitempty"`
+
 	// The configuration settings for Cloud SQL instance used internally
 	// by Apache Airflow software.
 	DatabaseConfig []DatabaseConfigObservation `json:"databaseConfig,omitempty" tf:"database_config,omitempty"`
@@ -229,6 +237,11 @@ type ConfigObservation struct {
 }
 
 type ConfigParameters struct {
+
+	// Configuration setting for airflow data rentention mechanism. Structure is
+	// documented below.
+	// +kubebuilder:validation:Optional
+	DataRetentionConfig []DataRetentionConfigParameters `json:"dataRetentionConfig,omitempty" tf:"data_retention_config,omitempty"`
 
 	// The configuration settings for Cloud SQL instance used internally
 	// by Apache Airflow software.
@@ -301,6 +314,28 @@ type ConfigParameters struct {
 	WorkloadsConfig []WorkloadsConfigParameters `json:"workloadsConfig,omitempty" tf:"workloads_config,omitempty"`
 }
 
+type DataRetentionConfigInitParameters struct {
+
+	// The configuration setting for Task Logs. Structure is
+	// documented below.
+	TaskLogsRetentionConfig []TaskLogsRetentionConfigInitParameters `json:"taskLogsRetentionConfig,omitempty" tf:"task_logs_retention_config,omitempty"`
+}
+
+type DataRetentionConfigObservation struct {
+
+	// The configuration setting for Task Logs. Structure is
+	// documented below.
+	TaskLogsRetentionConfig []TaskLogsRetentionConfigObservation `json:"taskLogsRetentionConfig,omitempty" tf:"task_logs_retention_config,omitempty"`
+}
+
+type DataRetentionConfigParameters struct {
+
+	// The configuration setting for Task Logs. Structure is
+	// documented below.
+	// +kubebuilder:validation:Optional
+	TaskLogsRetentionConfig []TaskLogsRetentionConfigParameters `json:"taskLogsRetentionConfig" tf:"task_logs_retention_config,omitempty"`
+}
+
 type DatabaseConfigInitParameters struct {
 
 	// Machine type on which Airflow web server is running. It has to be one of: composer-n1-webserver-2,
@@ -308,6 +343,12 @@ type DatabaseConfigInitParameters struct {
 	// Value custom is returned only in response, if Airflow web server parameters were
 	// manually changed to a non-standard values.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+
+	// The Compute Engine zone in which to deploy the VMs running the
+	// Apache Airflow software, specified as the zone name or
+	// relative resource name (e.g. "projects/{project}/zones/{zone}"). Must
+	// belong to the enclosing environment's project and region.
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
 type DatabaseConfigObservation struct {
@@ -317,6 +358,12 @@ type DatabaseConfigObservation struct {
 	// Value custom is returned only in response, if Airflow web server parameters were
 	// manually changed to a non-standard values.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+
+	// The Compute Engine zone in which to deploy the VMs running the
+	// Apache Airflow software, specified as the zone name or
+	// relative resource name (e.g. "projects/{project}/zones/{zone}"). Must
+	// belong to the enclosing environment's project and region.
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
 type DatabaseConfigParameters struct {
@@ -326,7 +373,14 @@ type DatabaseConfigParameters struct {
 	// Value custom is returned only in response, if Airflow web server parameters were
 	// manually changed to a non-standard values.
 	// +kubebuilder:validation:Optional
-	MachineType *string `json:"machineType" tf:"machine_type,omitempty"`
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+
+	// The Compute Engine zone in which to deploy the VMs running the
+	// Apache Airflow software, specified as the zone name or
+	// relative resource name (e.g. "projects/{project}/zones/{zone}"). Must
+	// belong to the enclosing environment's project and region.
+	// +kubebuilder:validation:Optional
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
 type EncryptionConfigInitParameters struct {
@@ -383,12 +437,18 @@ type EnvironmentInitParameters struct {
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+
+	// Configuration options for storage used by Composer environment. Structure is documented below.
+	StorageConfig []StorageConfigInitParameters `json:"storageConfig,omitempty" tf:"storage_config,omitempty"`
 }
 
 type EnvironmentObservation struct {
 
 	// Configuration parameters for this environment  Structure is documented below.
 	Config []ConfigObservation `json:"config,omitempty" tf:"config,omitempty"`
+
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/environments/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -411,6 +471,13 @@ type EnvironmentObservation struct {
 
 	// The location or Compute Engine region for the environment.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// Configuration options for storage used by Composer environment. Structure is documented below.
+	StorageConfig []StorageConfigObservation `json:"storageConfig,omitempty" tf:"storage_config,omitempty"`
+
+	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type EnvironmentParameters struct {
@@ -449,6 +516,10 @@ type EnvironmentParameters struct {
 	// The location or Compute Engine region for the environment.
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
+
+	// Configuration options for storage used by Composer environment. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	StorageConfig []StorageConfigParameters `json:"storageConfig,omitempty" tf:"storage_config,omitempty"`
 }
 
 type IPAllocationPolicyInitParameters struct {
@@ -904,6 +975,10 @@ type PrivateEnvironmentConfigInitParameters struct {
 	// The CIDR block from which IP range in tenant project will be reserved for Cloud SQL. Needs to be disjoint from web_server_ipv4_cidr_block
 	CloudSQLIPv4CidrBlock *string `json:"cloudSqlIpv4CidrBlock,omitempty" tf:"cloud_sql_ipv4_cidr_block,omitempty"`
 
+	// Mode of internal communication within the Composer environment. Must be one
+	// of "VPC_PEERING" or "PRIVATE_SERVICE_CONNECT".
+	ConnectionType *string `json:"connectionType,omitempty" tf:"connection_type,omitempty"`
+
 	// If true, access to the public endpoint of the GKE cluster is denied.
 	// If this field is set to true, the ip_allocation_policy.use_ip_aliases field must
 	// also be set to true for Cloud Composer 1 environments.
@@ -936,6 +1011,10 @@ type PrivateEnvironmentConfigObservation struct {
 
 	// The CIDR block from which IP range in tenant project will be reserved for Cloud SQL. Needs to be disjoint from web_server_ipv4_cidr_block
 	CloudSQLIPv4CidrBlock *string `json:"cloudSqlIpv4CidrBlock,omitempty" tf:"cloud_sql_ipv4_cidr_block,omitempty"`
+
+	// Mode of internal communication within the Composer environment. Must be one
+	// of "VPC_PEERING" or "PRIVATE_SERVICE_CONNECT".
+	ConnectionType *string `json:"connectionType,omitempty" tf:"connection_type,omitempty"`
 
 	// If true, access to the public endpoint of the GKE cluster is denied.
 	// If this field is set to true, the ip_allocation_policy.use_ip_aliases field must
@@ -972,6 +1051,11 @@ type PrivateEnvironmentConfigParameters struct {
 	// The CIDR block from which IP range in tenant project will be reserved for Cloud SQL. Needs to be disjoint from web_server_ipv4_cidr_block
 	// +kubebuilder:validation:Optional
 	CloudSQLIPv4CidrBlock *string `json:"cloudSqlIpv4CidrBlock,omitempty" tf:"cloud_sql_ipv4_cidr_block,omitempty"`
+
+	// Mode of internal communication within the Composer environment. Must be one
+	// of "VPC_PEERING" or "PRIVATE_SERVICE_CONNECT".
+	// +kubebuilder:validation:Optional
+	ConnectionType *string `json:"connectionType,omitempty" tf:"connection_type,omitempty"`
 
 	// If true, access to the public endpoint of the GKE cluster is denied.
 	// If this field is set to true, the ip_allocation_policy.use_ip_aliases field must
@@ -1213,6 +1297,89 @@ type SoftwareConfigParameters struct {
 	SchedulerCount *float64 `json:"schedulerCount,omitempty" tf:"scheduler_count,omitempty"`
 }
 
+type StorageConfigInitParameters struct {
+
+	// Name of an existing Cloud Storage bucket to be used by the environment.
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+}
+
+type StorageConfigObservation struct {
+
+	// Name of an existing Cloud Storage bucket to be used by the environment.
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+}
+
+type StorageConfigParameters struct {
+
+	// Name of an existing Cloud Storage bucket to be used by the environment.
+	// +kubebuilder:validation:Optional
+	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
+}
+
+type TaskLogsRetentionConfigInitParameters struct {
+
+	// The mode of storage for Airflow workers task logs. Values for storage mode are
+	// CLOUD_LOGGING_ONLY to only store logs in cloud logging and
+	// CLOUD_LOGGING_AND_CLOUD_STORAGE to store logs in cloud logging and cloud storage.
+	StorageMode *string `json:"storageMode,omitempty" tf:"storage_mode,omitempty"`
+}
+
+type TaskLogsRetentionConfigObservation struct {
+
+	// The mode of storage for Airflow workers task logs. Values for storage mode are
+	// CLOUD_LOGGING_ONLY to only store logs in cloud logging and
+	// CLOUD_LOGGING_AND_CLOUD_STORAGE to store logs in cloud logging and cloud storage.
+	StorageMode *string `json:"storageMode,omitempty" tf:"storage_mode,omitempty"`
+}
+
+type TaskLogsRetentionConfigParameters struct {
+
+	// The mode of storage for Airflow workers task logs. Values for storage mode are
+	// CLOUD_LOGGING_ONLY to only store logs in cloud logging and
+	// CLOUD_LOGGING_AND_CLOUD_STORAGE to store logs in cloud logging and cloud storage.
+	// +kubebuilder:validation:Optional
+	StorageMode *string `json:"storageMode,omitempty" tf:"storage_mode,omitempty"`
+}
+
+type TriggererInitParameters struct {
+
+	// The number of CPUs for a single Airflow worker.
+	CPU *float64 `json:"cpu,omitempty" tf:"cpu,omitempty"`
+
+	// The number of Airflow triggerers.
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+
+	// The amount of memory (GB) for a single Airflow worker.
+	MemoryGb *float64 `json:"memoryGb,omitempty" tf:"memory_gb,omitempty"`
+}
+
+type TriggererObservation struct {
+
+	// The number of CPUs for a single Airflow worker.
+	CPU *float64 `json:"cpu,omitempty" tf:"cpu,omitempty"`
+
+	// The number of Airflow triggerers.
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+
+	// The amount of memory (GB) for a single Airflow worker.
+	MemoryGb *float64 `json:"memoryGb,omitempty" tf:"memory_gb,omitempty"`
+}
+
+type TriggererParameters struct {
+
+	// The number of CPUs for a single Airflow worker.
+	// +kubebuilder:validation:Optional
+	CPU *float64 `json:"cpu" tf:"cpu,omitempty"`
+
+	// The number of Airflow triggerers.
+	// +kubebuilder:validation:Optional
+	Count *float64 `json:"count" tf:"count,omitempty"`
+
+	// The amount of memory (GB) for a single Airflow worker.
+	// +kubebuilder:validation:Optional
+	MemoryGb *float64 `json:"memoryGb" tf:"memory_gb,omitempty"`
+}
+
 type WebServerConfigInitParameters struct {
 
 	// Machine type on which Airflow web server is running. It has to be one of: composer-n1-webserver-2,
@@ -1372,6 +1539,9 @@ type WorkloadsConfigInitParameters struct {
 	// Configuration for resources used by Airflow schedulers.
 	Scheduler []SchedulerInitParameters `json:"scheduler,omitempty" tf:"scheduler,omitempty"`
 
+	// Configuration for resources used by Airflow triggerer.
+	Triggerer []TriggererInitParameters `json:"triggerer,omitempty" tf:"triggerer,omitempty"`
+
 	// Configuration for resources used by Airflow web server.
 	WebServer []WebServerInitParameters `json:"webServer,omitempty" tf:"web_server,omitempty"`
 
@@ -1383,6 +1553,9 @@ type WorkloadsConfigObservation struct {
 
 	// Configuration for resources used by Airflow schedulers.
 	Scheduler []SchedulerObservation `json:"scheduler,omitempty" tf:"scheduler,omitempty"`
+
+	// Configuration for resources used by Airflow triggerer.
+	Triggerer []TriggererObservation `json:"triggerer,omitempty" tf:"triggerer,omitempty"`
 
 	// Configuration for resources used by Airflow web server.
 	WebServer []WebServerObservation `json:"webServer,omitempty" tf:"web_server,omitempty"`
@@ -1396,6 +1569,10 @@ type WorkloadsConfigParameters struct {
 	// Configuration for resources used by Airflow schedulers.
 	// +kubebuilder:validation:Optional
 	Scheduler []SchedulerParameters `json:"scheduler,omitempty" tf:"scheduler,omitempty"`
+
+	// Configuration for resources used by Airflow triggerer.
+	// +kubebuilder:validation:Optional
+	Triggerer []TriggererParameters `json:"triggerer,omitempty" tf:"triggerer,omitempty"`
 
 	// Configuration for resources used by Airflow web server.
 	// +kubebuilder:validation:Optional

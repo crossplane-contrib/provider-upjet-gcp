@@ -168,19 +168,19 @@ type InstanceTemplateAdvancedMachineFeaturesParameters struct {
 
 type InstanceTemplateConfidentialInstanceConfigInitParameters struct {
 
-	// Defines whether the instance should have confidential compute enabled. on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
+	// Defines whether the instance should have confidential compute enabled with AMD SEV. on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 }
 
 type InstanceTemplateConfidentialInstanceConfigObservation struct {
 
-	// Defines whether the instance should have confidential compute enabled. on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
+	// Defines whether the instance should have confidential compute enabled with AMD SEV. on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 }
 
 type InstanceTemplateConfidentialInstanceConfigParameters struct {
 
-	// Defines whether the instance should have confidential compute enabled. on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
+	// Defines whether the instance should have confidential compute enabled with AMD SEV. on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
 	// +kubebuilder:validation:Optional
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute" tf:"enable_confidential_compute,omitempty"`
 }
@@ -230,6 +230,16 @@ type InstanceTemplateDiskInitParameters struct {
 	// or READ_ONLY. If you are attaching or creating a boot disk, this must
 	// read-write mode.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This
+	// sets the number of I/O operations per second that the disk can handle.
+	// Values must be between 10,000 and 120,000. For more details, see the
+	// Extreme persistent disk documentation.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// A set of key/value resource manager tag pairs to bind to this disk. Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// - A list (short name or id) of resource policies to attach to this disk for automatic snapshot creations. Currently a max of 1 resource policy is supported.
 	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
@@ -322,6 +332,16 @@ type InstanceTemplateDiskObservation struct {
 	// read-write mode.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
+	// Indicates how many IOPS to provision for the disk. This
+	// sets the number of I/O operations per second that the disk can handle.
+	// Values must be between 10,000 and 120,000. For more details, see the
+	// Extreme persistent disk documentation.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// A set of key/value resource manager tag pairs to bind to this disk. Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+
 	// - A list (short name or id) of resource policies to attach to this disk for automatic snapshot creations. Currently a max of 1 resource policy is supported.
 	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
 
@@ -413,6 +433,18 @@ type InstanceTemplateDiskParameters struct {
 	// read-write mode.
 	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This
+	// sets the number of I/O operations per second that the disk can handle.
+	// Values must be between 10,000 and 120,000. For more details, see the
+	// Extreme persistent disk documentation.
+	// +kubebuilder:validation:Optional
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// A set of key/value resource manager tag pairs to bind to this disk. Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/456.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// - A list (short name or id) of resource policies to attach to this disk for automatic snapshot creations. Currently a max of 1 resource policy is supported.
 	// +kubebuilder:validation:Optional
@@ -576,6 +608,10 @@ type InstanceTemplateInitParameters struct {
 	// Structure is documented below.
 	ReservationAffinity []InstanceTemplateReservationAffinityInitParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
+	// A set of key/value resource manager tag pairs to bind to the instances. Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+
 	// - A list of self_links of resource policies to attach to the instance. Modifying this list will cause the instance to recreate. Currently a max of 1 resource policy is supported.
 	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
 
@@ -728,6 +764,10 @@ type InstanceTemplateNetworkInterfaceInitParameters struct {
 	// specified, then this instance will have no external IPv6 Internet access. Structure documented below.
 	IPv6AccessConfig []InstanceTemplateNetworkInterfaceIPv6AccessConfigInitParameters `json:"ipv6AccessConfig,omitempty" tf:"ipv6_access_config,omitempty"`
 
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
+
+	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
+
 	// The name or self_link of the network to attach this interface to.
 	// Use network attribute for Legacy or Auto subnetted networks and
 	// subnetwork for custom subnetted networks.
@@ -793,6 +833,10 @@ type InstanceTemplateNetworkInterfaceObservation struct {
 
 	IPv6AccessType *string `json:"ipv6AccessType,omitempty" tf:"ipv6_access_type,omitempty"`
 
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
+
+	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
+
 	// The name of the instance template.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -843,6 +887,12 @@ type InstanceTemplateNetworkInterfaceParameters struct {
 	// specified, then this instance will have no external IPv6 Internet access. Structure documented below.
 	// +kubebuilder:validation:Optional
 	IPv6AccessConfig []InstanceTemplateNetworkInterfaceIPv6AccessConfigParameters `json:"ipv6AccessConfig,omitempty" tf:"ipv6_access_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
 
 	// The name or self_link of the network to attach this interface to.
 	// Use network attribute for Legacy or Auto subnetted networks and
@@ -936,6 +986,9 @@ type InstanceTemplateObservation struct {
 	// documented below.
 	Disk []InstanceTemplateDiskObservation `json:"disk,omitempty" tf:"disk,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// List of the type and count of accelerator cards attached to the instance. Structure documented below.
 	GuestAccelerator []InstanceTemplateGuestAcceleratorObservation `json:"guestAccelerator,omitempty" tf:"guest_accelerator,omitempty"`
 
@@ -1003,6 +1056,10 @@ type InstanceTemplateObservation struct {
 	// Structure is documented below.
 	ReservationAffinity []InstanceTemplateReservationAffinityObservation `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
+	// A set of key/value resource manager tag pairs to bind to the instances. Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+
 	// - A list of self_links of resource policies to attach to the instance. Modifying this list will cause the instance to recreate. Currently a max of 1 resource policy is supported.
 	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
 
@@ -1030,6 +1087,10 @@ type InstanceTemplateObservation struct {
 
 	// The unique fingerprint of the tags.
 	TagsFingerprint *string `json:"tagsFingerprint,omitempty" tf:"tags_fingerprint,omitempty"`
+
+	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type InstanceTemplateParameters struct {
@@ -1131,6 +1192,11 @@ type InstanceTemplateParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ReservationAffinity []InstanceTemplateReservationAffinityParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
+
+	// A set of key/value resource manager tag pairs to bind to the instances. Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/456.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// - A list of self_links of resource policies to attach to the instance. Modifying this list will cause the instance to recreate. Currently a max of 1 resource policy is supported.
 	// +kubebuilder:validation:Optional
@@ -1250,7 +1316,7 @@ type InstanceTemplateSchedulingInitParameters struct {
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
 	// Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
-	// preemptible should be true and auto_restart should be
+	// preemptible should be true and automatic_restart should be
 	// false. For more info about
 	// SPOT, read here
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
@@ -1378,7 +1444,7 @@ type InstanceTemplateSchedulingObservation struct {
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
 	// Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
-	// preemptible should be true and auto_restart should be
+	// preemptible should be true and automatic_restart should be
 	// false. For more info about
 	// SPOT, read here
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
@@ -1424,7 +1490,7 @@ type InstanceTemplateSchedulingParameters struct {
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
 	// Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
-	// preemptible should be true and auto_restart should be
+	// preemptible should be true and automatic_restart should be
 	// false. For more info about
 	// SPOT, read here
 	// +kubebuilder:validation:Optional

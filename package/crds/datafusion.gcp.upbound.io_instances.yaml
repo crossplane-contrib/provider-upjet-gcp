@@ -870,6 +870,12 @@ spec:
                   displayName:
                     description: Display name for an instance.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   enableRbac:
                     description: Option to enable granular role-based access control.
                     type: boolean
@@ -966,6 +972,14 @@ spec:
                   tenantProjectId:
                     description: The name of the tenant project.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   type:
                     description: |-
                       Represents the type of Data Fusion instance. Each type is configured with

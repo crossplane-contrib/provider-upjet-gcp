@@ -41,6 +41,11 @@ type FileSharesInitParameters struct {
 
 	// The name of the fileshare (16 characters or less)
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The resource name of the backup, in the format
+	// projects/{projectId}/locations/{locationId}/backups/{backupId},
+	// that this file share has been restored from.
+	SourceBackup *string `json:"sourceBackup,omitempty" tf:"source_backup,omitempty"`
 }
 
 type FileSharesObservation struct {
@@ -56,7 +61,6 @@ type FileSharesObservation struct {
 	// The name of the fileshare (16 characters or less)
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// (Output)
 	// The resource name of the backup, in the format
 	// projects/{projectId}/locations/{locationId}/backups/{backupId},
 	// that this file share has been restored from.
@@ -78,6 +82,12 @@ type FileSharesParameters struct {
 	// The name of the fileshare (16 characters or less)
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
+
+	// The resource name of the backup, in the format
+	// projects/{projectId}/locations/{locationId}/backups/{backupId},
+	// that this file share has been restored from.
+	// +kubebuilder:validation:Optional
+	SourceBackup *string `json:"sourceBackup,omitempty" tf:"source_backup,omitempty"`
 }
 
 type InstanceInitParameters struct {
@@ -117,7 +127,7 @@ type InstanceInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The service tier of the instance.
-	// Possible values include: STANDARD, PREMIUM, BASIC_HDD, BASIC_SSD, HIGH_SCALE_SSD and ENTERPRISE
+	// Possible values include: STANDARD, PREMIUM, BASIC_HDD, BASIC_SSD, HIGH_SCALE_SSD, ZONAL, REGIONAL and ENTERPRISE
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 
 	// The name of the Filestore zone of the instance.
@@ -131,6 +141,9 @@ type InstanceObservation struct {
 
 	// A description of the instance.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
 	// Server-specified ETag for the instance resource to prevent
 	// simultaneous updates from overwriting each other.
@@ -163,8 +176,13 @@ type InstanceObservation struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
 	// The service tier of the instance.
-	// Possible values include: STANDARD, PREMIUM, BASIC_HDD, BASIC_SSD, HIGH_SCALE_SSD and ENTERPRISE
+	// Possible values include: STANDARD, PREMIUM, BASIC_HDD, BASIC_SSD, HIGH_SCALE_SSD, ZONAL, REGIONAL and ENTERPRISE
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 
 	// The name of the Filestore zone of the instance.
@@ -218,7 +236,7 @@ type InstanceParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The service tier of the instance.
-	// Possible values include: STANDARD, PREMIUM, BASIC_HDD, BASIC_SSD, HIGH_SCALE_SSD and ENTERPRISE
+	// Possible values include: STANDARD, PREMIUM, BASIC_HDD, BASIC_SSD, HIGH_SCALE_SSD, ZONAL, REGIONAL and ENTERPRISE
 	// +kubebuilder:validation:Optional
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 

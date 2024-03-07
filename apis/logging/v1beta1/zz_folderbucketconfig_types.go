@@ -63,6 +63,9 @@ type FolderBucketConfigInitParameters struct {
 	// Describes this bucket.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// A list of indexed fields and related configuration data. Structure is documented below.
+	IndexConfigs []IndexConfigsInitParameters `json:"indexConfigs,omitempty" tf:"index_configs,omitempty"`
+
 	// Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used. Bucket retention can not be increased on buckets outside of projects.
 	RetentionDays *float64 `json:"retentionDays,omitempty" tf:"retention_days,omitempty"`
 }
@@ -82,6 +85,9 @@ type FolderBucketConfigObservation struct {
 
 	// an identifier for the resource with format folders/{{folder}}/locations/{{location}}/buckets/{{bucket_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// A list of indexed fields and related configuration data. Structure is documented below.
+	IndexConfigs []IndexConfigsObservation `json:"indexConfigs,omitempty" tf:"index_configs,omitempty"`
 
 	// The bucket's lifecycle such as active or deleted. See LifecycleState.
 	LifecycleState *string `json:"lifecycleState,omitempty" tf:"lifecycle_state,omitempty"`
@@ -123,6 +129,10 @@ type FolderBucketConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	FolderSelector *v1.Selector `json:"folderSelector,omitempty" tf:"-"`
 
+	// A list of indexed fields and related configuration data. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	IndexConfigs []IndexConfigsParameters `json:"indexConfigs,omitempty" tf:"index_configs,omitempty"`
+
 	// The location of the bucket.
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
@@ -130,6 +140,38 @@ type FolderBucketConfigParameters struct {
 	// Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used. Bucket retention can not be increased on buckets outside of projects.
 	// +kubebuilder:validation:Optional
 	RetentionDays *float64 `json:"retentionDays,omitempty" tf:"retention_days,omitempty"`
+}
+
+type IndexConfigsInitParameters struct {
+
+	// The LogEntry field path to index.
+	// Note that some paths are automatically indexed, and other paths are not eligible for indexing. See indexing documentation for details.
+	FieldPath *string `json:"fieldPath,omitempty" tf:"field_path,omitempty"`
+
+	// The type of data in this index. Allowed types include INDEX_TYPE_UNSPECIFIED, INDEX_TYPE_STRING and INDEX_TYPE_INTEGER.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type IndexConfigsObservation struct {
+
+	// The LogEntry field path to index.
+	// Note that some paths are automatically indexed, and other paths are not eligible for indexing. See indexing documentation for details.
+	FieldPath *string `json:"fieldPath,omitempty" tf:"field_path,omitempty"`
+
+	// The type of data in this index. Allowed types include INDEX_TYPE_UNSPECIFIED, INDEX_TYPE_STRING and INDEX_TYPE_INTEGER.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type IndexConfigsParameters struct {
+
+	// The LogEntry field path to index.
+	// Note that some paths are automatically indexed, and other paths are not eligible for indexing. See indexing documentation for details.
+	// +kubebuilder:validation:Optional
+	FieldPath *string `json:"fieldPath" tf:"field_path,omitempty"`
+
+	// The type of data in this index. Allowed types include INDEX_TYPE_UNSPECIFIED, INDEX_TYPE_STRING and INDEX_TYPE_INTEGER.
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 // FolderBucketConfigSpec defines the desired state of FolderBucketConfig

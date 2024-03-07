@@ -443,9 +443,6 @@ spec:
             properties:
               atProvider:
                 properties:
-                  cert:
-                    description: The actual certificate data for this client certificate.
-                    type: string
                   certSerialNumber:
                     description: The serial number extracted from the certificate
                       data.
@@ -476,10 +473,6 @@ spec:
                     description: |-
                       The ID of the project in which the resource belongs. If it
                       is not provided, the provider project is used.
-                    type: string
-                  serverCaCert:
-                    description: The CA cert of the server this client cert was generated
-                      from.
                     type: string
                   sha1Fingerprint:
                     description: The SHA1 Fingerprint of the certificate.

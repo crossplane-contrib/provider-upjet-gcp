@@ -271,7 +271,7 @@ type ConfigRootVolumeInitParameters struct {
 	// Optional. The size of the volume, in GiBs. When unspecified, a default value is provided. See the specific reference in the parent resource.
 	SizeGib *float64 `json:"sizeGib,omitempty" tf:"size_gib,omitempty"`
 
-	// Optional. The throughput to provision for the volume, in MiB/s. Only valid if the volume type is GP3.
+	// Optional. The throughput to provision for the volume, in MiB/s. Only valid if the volume type is GP3. If volume type is gp3 and throughput is not specified, the throughput will defaults to 125.
 	Throughput *float64 `json:"throughput,omitempty" tf:"throughput,omitempty"`
 
 	// Optional. Type of the EBS volume. When unspecified, it defaults to GP2 volume. Possible values: VOLUME_TYPE_UNSPECIFIED, GP2, GP3
@@ -289,7 +289,7 @@ type ConfigRootVolumeObservation struct {
 	// Optional. The size of the volume, in GiBs. When unspecified, a default value is provided. See the specific reference in the parent resource.
 	SizeGib *float64 `json:"sizeGib,omitempty" tf:"size_gib,omitempty"`
 
-	// Optional. The throughput to provision for the volume, in MiB/s. Only valid if the volume type is GP3.
+	// Optional. The throughput to provision for the volume, in MiB/s. Only valid if the volume type is GP3. If volume type is gp3 and throughput is not specified, the throughput will defaults to 125.
 	Throughput *float64 `json:"throughput,omitempty" tf:"throughput,omitempty"`
 
 	// Optional. Type of the EBS volume. When unspecified, it defaults to GP2 volume. Possible values: VOLUME_TYPE_UNSPECIFIED, GP2, GP3
@@ -310,7 +310,7 @@ type ConfigRootVolumeParameters struct {
 	// +kubebuilder:validation:Optional
 	SizeGib *float64 `json:"sizeGib,omitempty" tf:"size_gib,omitempty"`
 
-	// Optional. The throughput to provision for the volume, in MiB/s. Only valid if the volume type is GP3.
+	// Optional. The throughput to provision for the volume, in MiB/s. Only valid if the volume type is GP3. If volume type is gp3 and throughput is not specified, the throughput will defaults to 125.
 	// +kubebuilder:validation:Optional
 	Throughput *float64 `json:"throughput,omitempty" tf:"throughput,omitempty"`
 
@@ -336,6 +336,25 @@ type ConfigSSHConfigParameters struct {
 	// The name of the EC2 key pair used to login into cluster machines.
 	// +kubebuilder:validation:Optional
 	EC2KeyPair *string `json:"ec2KeyPair" tf:"ec2_key_pair,omitempty"`
+}
+
+type ManagementInitParameters struct {
+
+	// Optional. Whether or not the nodes will be automatically repaired.
+	AutoRepair *bool `json:"autoRepair,omitempty" tf:"auto_repair,omitempty"`
+}
+
+type ManagementObservation struct {
+
+	// Optional. Whether or not the nodes will be automatically repaired.
+	AutoRepair *bool `json:"autoRepair,omitempty" tf:"auto_repair,omitempty"`
+}
+
+type ManagementParameters struct {
+
+	// Optional. Whether or not the nodes will be automatically repaired.
+	// +kubebuilder:validation:Optional
+	AutoRepair *bool `json:"autoRepair,omitempty" tf:"auto_repair,omitempty"`
 }
 
 type MaxPodsConstraintInitParameters struct {
@@ -369,6 +388,9 @@ type NodePoolInitParameters struct {
 	// The configuration of the node pool.
 	Config []ConfigInitParameters `json:"config,omitempty" tf:"config,omitempty"`
 
+	// The Management configuration for this node pool.
+	Management []ManagementInitParameters `json:"management,omitempty" tf:"management,omitempty"`
+
 	// The constraint on the maximum number of pods that can be run simultaneously on a node in the node pool.
 	MaxPodsConstraint []MaxPodsConstraintInitParameters `json:"maxPodsConstraint,omitempty" tf:"max_pods_constraint,omitempty"`
 
@@ -377,6 +399,9 @@ type NodePoolInitParameters struct {
 
 	// The subnet where the node pool node run.
 	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
+
+	// Optional. Update settings control the speed and disruption of the node pool update.
+	UpdateSettings []UpdateSettingsInitParameters `json:"updateSettings,omitempty" tf:"update_settings,omitempty"`
 
 	// The Kubernetes version to run on this node pool (e.g. 1.19.10-gke.1000). You can list all supported versions on a given Google Cloud region by calling GetAwsServerConfig.
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
@@ -400,6 +425,9 @@ type NodePoolObservation struct {
 	// Output only. The time at which this node pool was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// +mapType=granular
+	EffectiveAnnotations map[string]*string `json:"effectiveAnnotations,omitempty" tf:"effective_annotations,omitempty"`
+
 	// Allows clients to perform consistent read-modify-writes through optimistic concurrency control. May be sent on update and delete requests to ensure the client has an up-to-date value before proceeding.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
@@ -408,6 +436,9 @@ type NodePoolObservation struct {
 
 	// The location for the resource
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// The Management configuration for this node pool.
+	Management []ManagementObservation `json:"management,omitempty" tf:"management,omitempty"`
 
 	// The constraint on the maximum number of pods that can be run simultaneously on a node in the node pool.
 	MaxPodsConstraint []MaxPodsConstraintObservation `json:"maxPodsConstraint,omitempty" tf:"max_pods_constraint,omitempty"`
@@ -426,6 +457,9 @@ type NodePoolObservation struct {
 
 	// Output only. A globally unique identifier for the node pool.
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
+
+	// Optional. Update settings control the speed and disruption of the node pool update.
+	UpdateSettings []UpdateSettingsObservation `json:"updateSettings,omitempty" tf:"update_settings,omitempty"`
 
 	// Output only. The time at which this node pool was last updated.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
@@ -466,6 +500,10 @@ type NodePoolParameters struct {
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 
+	// The Management configuration for this node pool.
+	// +kubebuilder:validation:Optional
+	Management []ManagementParameters `json:"management,omitempty" tf:"management,omitempty"`
+
 	// The constraint on the maximum number of pods that can be run simultaneously on a node in the node pool.
 	// +kubebuilder:validation:Optional
 	MaxPodsConstraint []MaxPodsConstraintParameters `json:"maxPodsConstraint,omitempty" tf:"max_pods_constraint,omitempty"`
@@ -478,9 +516,42 @@ type NodePoolParameters struct {
 	// +kubebuilder:validation:Optional
 	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
 
+	// Optional. Update settings control the speed and disruption of the node pool update.
+	// +kubebuilder:validation:Optional
+	UpdateSettings []UpdateSettingsParameters `json:"updateSettings,omitempty" tf:"update_settings,omitempty"`
+
 	// The Kubernetes version to run on this node pool (e.g. 1.19.10-gke.1000). You can list all supported versions on a given Google Cloud region by calling GetAwsServerConfig.
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type SurgeSettingsInitParameters struct {
+
+	// Optional. The maximum number of nodes that can be created beyond the current size of the node pool during the update process.
+	MaxSurge *float64 `json:"maxSurge,omitempty" tf:"max_surge,omitempty"`
+
+	// Optional. The maximum number of nodes that can be simultaneously unavailable during the update process. A node is considered unavailable if its status is not Ready.
+	MaxUnavailable *float64 `json:"maxUnavailable,omitempty" tf:"max_unavailable,omitempty"`
+}
+
+type SurgeSettingsObservation struct {
+
+	// Optional. The maximum number of nodes that can be created beyond the current size of the node pool during the update process.
+	MaxSurge *float64 `json:"maxSurge,omitempty" tf:"max_surge,omitempty"`
+
+	// Optional. The maximum number of nodes that can be simultaneously unavailable during the update process. A node is considered unavailable if its status is not Ready.
+	MaxUnavailable *float64 `json:"maxUnavailable,omitempty" tf:"max_unavailable,omitempty"`
+}
+
+type SurgeSettingsParameters struct {
+
+	// Optional. The maximum number of nodes that can be created beyond the current size of the node pool during the update process.
+	// +kubebuilder:validation:Optional
+	MaxSurge *float64 `json:"maxSurge,omitempty" tf:"max_surge,omitempty"`
+
+	// Optional. The maximum number of nodes that can be simultaneously unavailable during the update process. A node is considered unavailable if its status is not Ready.
+	// +kubebuilder:validation:Optional
+	MaxUnavailable *float64 `json:"maxUnavailable,omitempty" tf:"max_unavailable,omitempty"`
 }
 
 type TaintsInitParameters struct {
@@ -520,6 +591,25 @@ type TaintsParameters struct {
 	// Value for the taint.
 	// +kubebuilder:validation:Optional
 	Value *string `json:"value" tf:"value,omitempty"`
+}
+
+type UpdateSettingsInitParameters struct {
+
+	// Optional. Settings for surge update.
+	SurgeSettings []SurgeSettingsInitParameters `json:"surgeSettings,omitempty" tf:"surge_settings,omitempty"`
+}
+
+type UpdateSettingsObservation struct {
+
+	// Optional. Settings for surge update.
+	SurgeSettings []SurgeSettingsObservation `json:"surgeSettings,omitempty" tf:"surge_settings,omitempty"`
+}
+
+type UpdateSettingsParameters struct {
+
+	// Optional. Settings for surge update.
+	// +kubebuilder:validation:Optional
+	SurgeSettings []SurgeSettingsParameters `json:"surgeSettings,omitempty" tf:"surge_settings,omitempty"`
 }
 
 // NodePoolSpec defines the desired state of NodePool

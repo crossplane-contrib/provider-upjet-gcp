@@ -136,7 +136,8 @@ type TopicInitParameters struct {
 	// For instance, it allows any attached subscription to seek to a timestamp
 	// that is up to messageRetentionDuration in the past. If this field is not
 	// set, message retention is controlled by settings on individual subscriptions.
-	// Cannot be more than 31 days or less than 10 minutes.
+	// The rotation period has the format of a decimal number, followed by the
+	// letter s (seconds). Cannot be more than 31 days or less than 10 minutes.
 	MessageRetentionDuration *string `json:"messageRetentionDuration,omitempty" tf:"message_retention_duration,omitempty"`
 
 	// Policy constraining the set of Google Cloud Platform regions where
@@ -155,6 +156,10 @@ type TopicInitParameters struct {
 }
 
 type TopicObservation struct {
+
+	// for all of the labels present on the resource.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/topics/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -176,7 +181,8 @@ type TopicObservation struct {
 	// For instance, it allows any attached subscription to seek to a timestamp
 	// that is up to messageRetentionDuration in the past. If this field is not
 	// set, message retention is controlled by settings on individual subscriptions.
-	// Cannot be more than 31 days or less than 10 minutes.
+	// The rotation period has the format of a decimal number, followed by the
+	// letter s (seconds). Cannot be more than 31 days or less than 10 minutes.
 	MessageRetentionDuration *string `json:"messageRetentionDuration,omitempty" tf:"message_retention_duration,omitempty"`
 
 	// Policy constraining the set of Google Cloud Platform regions where
@@ -192,6 +198,11 @@ type TopicObservation struct {
 	// Settings for validating messages published against a schema.
 	// Structure is documented below.
 	SchemaSettings []SchemaSettingsObservation `json:"schemaSettings,omitempty" tf:"schema_settings,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type TopicParameters struct {
@@ -225,7 +236,8 @@ type TopicParameters struct {
 	// For instance, it allows any attached subscription to seek to a timestamp
 	// that is up to messageRetentionDuration in the past. If this field is not
 	// set, message retention is controlled by settings on individual subscriptions.
-	// Cannot be more than 31 days or less than 10 minutes.
+	// The rotation period has the format of a decimal number, followed by the
+	// letter s (seconds). Cannot be more than 31 days or less than 10 minutes.
 	// +kubebuilder:validation:Optional
 	MessageRetentionDuration *string `json:"messageRetentionDuration,omitempty" tf:"message_retention_duration,omitempty"`
 

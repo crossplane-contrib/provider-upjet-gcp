@@ -1171,6 +1171,12 @@ spec:
             properties:
               atProvider:
                 properties:
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/caPools/{{name}}
                     type: string
@@ -1626,6 +1632,14 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   tier:
                     description: |-
                       The Tier of this CaPool.

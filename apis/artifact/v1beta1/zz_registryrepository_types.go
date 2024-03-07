@@ -29,6 +29,164 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AptRepositoryInitParameters struct {
+
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
+	PublicRepository []PublicRepositoryInitParameters `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
+}
+
+type AptRepositoryObservation struct {
+
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
+	PublicRepository []PublicRepositoryObservation `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
+}
+
+type AptRepositoryParameters struct {
+
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PublicRepository []PublicRepositoryParameters `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
+}
+
+type CleanupPoliciesInitParameters struct {
+
+	// Policy action.
+	// Possible values are: DELETE, KEEP.
+	Action *string `json:"action,omitempty" tf:"action,omitempty"`
+
+	// Policy condition for matching versions.
+	// Structure is documented below.
+	Condition []ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+
+	// The identifier for this object. Format specified above.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Policy condition for retaining a minimum number of versions. May only be
+	// specified with a Keep action.
+	// Structure is documented below.
+	MostRecentVersions []MostRecentVersionsInitParameters `json:"mostRecentVersions,omitempty" tf:"most_recent_versions,omitempty"`
+}
+
+type CleanupPoliciesObservation struct {
+
+	// Policy action.
+	// Possible values are: DELETE, KEEP.
+	Action *string `json:"action,omitempty" tf:"action,omitempty"`
+
+	// Policy condition for matching versions.
+	// Structure is documented below.
+	Condition []ConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+
+	// The identifier for this object. Format specified above.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Policy condition for retaining a minimum number of versions. May only be
+	// specified with a Keep action.
+	// Structure is documented below.
+	MostRecentVersions []MostRecentVersionsObservation `json:"mostRecentVersions,omitempty" tf:"most_recent_versions,omitempty"`
+}
+
+type CleanupPoliciesParameters struct {
+
+	// Policy action.
+	// Possible values are: DELETE, KEEP.
+	// +kubebuilder:validation:Optional
+	Action *string `json:"action,omitempty" tf:"action,omitempty"`
+
+	// Policy condition for matching versions.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Condition []ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+
+	// The identifier for this object. Format specified above.
+	// +kubebuilder:validation:Optional
+	ID *string `json:"id" tf:"id,omitempty"`
+
+	// Policy condition for retaining a minimum number of versions. May only be
+	// specified with a Keep action.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MostRecentVersions []MostRecentVersionsParameters `json:"mostRecentVersions,omitempty" tf:"most_recent_versions,omitempty"`
+}
+
+type ConditionInitParameters struct {
+
+	// Match versions newer than a duration.
+	NewerThan *string `json:"newerThan,omitempty" tf:"newer_than,omitempty"`
+
+	// Match versions older than a duration.
+	OlderThan *string `json:"olderThan,omitempty" tf:"older_than,omitempty"`
+
+	// Match versions by package prefix. Applied on any prefix match.
+	PackageNamePrefixes []*string `json:"packageNamePrefixes,omitempty" tf:"package_name_prefixes,omitempty"`
+
+	// Match versions by tag prefix. Applied on any prefix match.
+	TagPrefixes []*string `json:"tagPrefixes,omitempty" tf:"tag_prefixes,omitempty"`
+
+	// Match versions by tag status.
+	// Default value is ANY.
+	// Possible values are: TAGGED, UNTAGGED, ANY.
+	TagState *string `json:"tagState,omitempty" tf:"tag_state,omitempty"`
+
+	// Match versions by version name prefix. Applied on any prefix match.
+	VersionNamePrefixes []*string `json:"versionNamePrefixes,omitempty" tf:"version_name_prefixes,omitempty"`
+}
+
+type ConditionObservation struct {
+
+	// Match versions newer than a duration.
+	NewerThan *string `json:"newerThan,omitempty" tf:"newer_than,omitempty"`
+
+	// Match versions older than a duration.
+	OlderThan *string `json:"olderThan,omitempty" tf:"older_than,omitempty"`
+
+	// Match versions by package prefix. Applied on any prefix match.
+	PackageNamePrefixes []*string `json:"packageNamePrefixes,omitempty" tf:"package_name_prefixes,omitempty"`
+
+	// Match versions by tag prefix. Applied on any prefix match.
+	TagPrefixes []*string `json:"tagPrefixes,omitempty" tf:"tag_prefixes,omitempty"`
+
+	// Match versions by tag status.
+	// Default value is ANY.
+	// Possible values are: TAGGED, UNTAGGED, ANY.
+	TagState *string `json:"tagState,omitempty" tf:"tag_state,omitempty"`
+
+	// Match versions by version name prefix. Applied on any prefix match.
+	VersionNamePrefixes []*string `json:"versionNamePrefixes,omitempty" tf:"version_name_prefixes,omitempty"`
+}
+
+type ConditionParameters struct {
+
+	// Match versions newer than a duration.
+	// +kubebuilder:validation:Optional
+	NewerThan *string `json:"newerThan,omitempty" tf:"newer_than,omitempty"`
+
+	// Match versions older than a duration.
+	// +kubebuilder:validation:Optional
+	OlderThan *string `json:"olderThan,omitempty" tf:"older_than,omitempty"`
+
+	// Match versions by package prefix. Applied on any prefix match.
+	// +kubebuilder:validation:Optional
+	PackageNamePrefixes []*string `json:"packageNamePrefixes,omitempty" tf:"package_name_prefixes,omitempty"`
+
+	// Match versions by tag prefix. Applied on any prefix match.
+	// +kubebuilder:validation:Optional
+	TagPrefixes []*string `json:"tagPrefixes,omitempty" tf:"tag_prefixes,omitempty"`
+
+	// Match versions by tag status.
+	// Default value is ANY.
+	// Possible values are: TAGGED, UNTAGGED, ANY.
+	// +kubebuilder:validation:Optional
+	TagState *string `json:"tagState,omitempty" tf:"tag_state,omitempty"`
+
+	// Match versions by version name prefix. Applied on any prefix match.
+	// +kubebuilder:validation:Optional
+	VersionNamePrefixes []*string `json:"versionNamePrefixes,omitempty" tf:"version_name_prefixes,omitempty"`
+}
+
 type DockerConfigInitParameters struct {
 
 	// The repository which enabled this flag prevents all tags from being modified, moved or deleted. This does not prevent tags from being created.
@@ -50,25 +208,22 @@ type DockerConfigParameters struct {
 
 type DockerRepositoryInitParameters struct {
 
-	// Address of the remote repository.
-	// Default value is PYPI.
-	// Possible values are: PYPI.
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
 type DockerRepositoryObservation struct {
 
-	// Address of the remote repository.
-	// Default value is PYPI.
-	// Possible values are: PYPI.
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
 type DockerRepositoryParameters struct {
 
-	// Address of the remote repository.
-	// Default value is PYPI.
-	// Possible values are: PYPI.
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
@@ -113,80 +268,143 @@ type MavenConfigParameters struct {
 
 type MavenRepositoryInitParameters struct {
 
-	// Address of the remote repository.
-	// Default value is PYPI.
-	// Possible values are: PYPI.
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
 type MavenRepositoryObservation struct {
 
-	// Address of the remote repository.
-	// Default value is PYPI.
-	// Possible values are: PYPI.
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
 type MavenRepositoryParameters struct {
 
-	// Address of the remote repository.
-	// Default value is PYPI.
-	// Possible values are: PYPI.
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
+type MostRecentVersionsInitParameters struct {
+
+	// Minimum number of versions to keep.
+	KeepCount *float64 `json:"keepCount,omitempty" tf:"keep_count,omitempty"`
+
+	// Match versions by package prefix. Applied on any prefix match.
+	PackageNamePrefixes []*string `json:"packageNamePrefixes,omitempty" tf:"package_name_prefixes,omitempty"`
+}
+
+type MostRecentVersionsObservation struct {
+
+	// Minimum number of versions to keep.
+	KeepCount *float64 `json:"keepCount,omitempty" tf:"keep_count,omitempty"`
+
+	// Match versions by package prefix. Applied on any prefix match.
+	PackageNamePrefixes []*string `json:"packageNamePrefixes,omitempty" tf:"package_name_prefixes,omitempty"`
+}
+
+type MostRecentVersionsParameters struct {
+
+	// Minimum number of versions to keep.
+	// +kubebuilder:validation:Optional
+	KeepCount *float64 `json:"keepCount,omitempty" tf:"keep_count,omitempty"`
+
+	// Match versions by package prefix. Applied on any prefix match.
+	// +kubebuilder:validation:Optional
+	PackageNamePrefixes []*string `json:"packageNamePrefixes,omitempty" tf:"package_name_prefixes,omitempty"`
+}
+
 type NpmRepositoryInitParameters struct {
 
-	// Address of the remote repository.
-	// Default value is PYPI.
-	// Possible values are: PYPI.
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
 type NpmRepositoryObservation struct {
 
-	// Address of the remote repository.
-	// Default value is PYPI.
-	// Possible values are: PYPI.
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
 type NpmRepositoryParameters struct {
 
-	// Address of the remote repository.
-	// Default value is PYPI.
-	// Possible values are: PYPI.
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
+type PublicRepositoryInitParameters struct {
+
+	// A common public repository base for Yum.
+	// Possible values are: CENTOS, CENTOS_DEBUG, CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.
+	RepositoryBase *string `json:"repositoryBase,omitempty" tf:"repository_base,omitempty"`
+
+	// Specific repository from the base, e.g. "centos/8-stream/BaseOS/x86_64/os"
+	RepositoryPath *string `json:"repositoryPath,omitempty" tf:"repository_path,omitempty"`
+}
+
+type PublicRepositoryObservation struct {
+
+	// A common public repository base for Yum.
+	// Possible values are: CENTOS, CENTOS_DEBUG, CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.
+	RepositoryBase *string `json:"repositoryBase,omitempty" tf:"repository_base,omitempty"`
+
+	// Specific repository from the base, e.g. "centos/8-stream/BaseOS/x86_64/os"
+	RepositoryPath *string `json:"repositoryPath,omitempty" tf:"repository_path,omitempty"`
+}
+
+type PublicRepositoryParameters struct {
+
+	// A common public repository base for Yum.
+	// Possible values are: CENTOS, CENTOS_DEBUG, CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.
+	// +kubebuilder:validation:Optional
+	RepositoryBase *string `json:"repositoryBase" tf:"repository_base,omitempty"`
+
+	// Specific repository from the base, e.g. "centos/8-stream/BaseOS/x86_64/os"
+	// +kubebuilder:validation:Optional
+	RepositoryPath *string `json:"repositoryPath" tf:"repository_path,omitempty"`
+}
+
 type PythonRepositoryInitParameters struct {
 
-	// Address of the remote repository.
-	// Default value is PYPI.
-	// Possible values are: PYPI.
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
 type PythonRepositoryObservation struct {
 
-	// Address of the remote repository.
-	// Default value is PYPI.
-	// Possible values are: PYPI.
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
 type PythonRepositoryParameters struct {
 
-	// Address of the remote repository.
-	// Default value is PYPI.
-	// Possible values are: PYPI.
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
 type RegistryRepositoryInitParameters struct {
+
+	// Cleanup policies for this repository. Cleanup policies indicate when
+	// certain package versions can be automatically deleted.
+	// Map keys are policy IDs supplied by users during policy creation. They must
+	// unique within a repository and be under 128 characters in length.
+	// Structure is documented below.
+	CleanupPolicies []CleanupPoliciesInitParameters `json:"cleanupPolicies,omitempty" tf:"cleanup_policies,omitempty"`
+
+	// If true, the cleanup pipeline is prevented from deleting versions in this
+	// repository.
+	CleanupPolicyDryRun *bool `json:"cleanupPolicyDryRun,omitempty" tf:"cleanup_policy_dry_run,omitempty"`
 
 	// The user-provided description of the repository.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -241,6 +459,17 @@ type RegistryRepositoryInitParameters struct {
 
 type RegistryRepositoryObservation struct {
 
+	// Cleanup policies for this repository. Cleanup policies indicate when
+	// certain package versions can be automatically deleted.
+	// Map keys are policy IDs supplied by users during policy creation. They must
+	// unique within a repository and be under 128 characters in length.
+	// Structure is documented below.
+	CleanupPolicies []CleanupPoliciesObservation `json:"cleanupPolicies,omitempty" tf:"cleanup_policies,omitempty"`
+
+	// If true, the cleanup pipeline is prevented from deleting versions in this
+	// repository.
+	CleanupPolicyDryRun *bool `json:"cleanupPolicyDryRun,omitempty" tf:"cleanup_policy_dry_run,omitempty"`
+
 	// The time when the repository was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
@@ -250,6 +479,10 @@ type RegistryRepositoryObservation struct {
 	// Docker repository config contains repository level configuration for the repositories of docker type.
 	// Structure is documented below.
 	DockerConfig []DockerConfigObservation `json:"dockerConfig,omitempty" tf:"docker_config,omitempty"`
+
+	// for all of the labels present on the resource.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
 	// The format of packages that are stored in the repository. Supported formats
 	// can be found here.
@@ -300,6 +533,11 @@ type RegistryRepositoryObservation struct {
 	// Structure is documented below.
 	RemoteRepositoryConfig []RemoteRepositoryConfigObservation `json:"remoteRepositoryConfig,omitempty" tf:"remote_repository_config,omitempty"`
 
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
 	// The time when the repository was last updated.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
 
@@ -309,6 +547,19 @@ type RegistryRepositoryObservation struct {
 }
 
 type RegistryRepositoryParameters struct {
+
+	// Cleanup policies for this repository. Cleanup policies indicate when
+	// certain package versions can be automatically deleted.
+	// Map keys are policy IDs supplied by users during policy creation. They must
+	// unique within a repository and be under 128 characters in length.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CleanupPolicies []CleanupPoliciesParameters `json:"cleanupPolicies,omitempty" tf:"cleanup_policies,omitempty"`
+
+	// If true, the cleanup pipeline is prevented from deleting versions in this
+	// repository.
+	// +kubebuilder:validation:Optional
+	CleanupPolicyDryRun *bool `json:"cleanupPolicyDryRun,omitempty" tf:"cleanup_policy_dry_run,omitempty"`
 
 	// The user-provided description of the repository.
 	// +kubebuilder:validation:Optional
@@ -377,6 +628,10 @@ type RegistryRepositoryParameters struct {
 
 type RemoteRepositoryConfigInitParameters struct {
 
+	// Specific settings for an Apt remote repository.
+	// Structure is documented below.
+	AptRepository []AptRepositoryInitParameters `json:"aptRepository,omitempty" tf:"apt_repository,omitempty"`
+
 	// The description of the remote source.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -395,9 +650,21 @@ type RemoteRepositoryConfigInitParameters struct {
 	// Specific settings for a Python remote repository.
 	// Structure is documented below.
 	PythonRepository []PythonRepositoryInitParameters `json:"pythonRepository,omitempty" tf:"python_repository,omitempty"`
+
+	// The credentials used to access the remote repository.
+	// Structure is documented below.
+	UpstreamCredentials []UpstreamCredentialsInitParameters `json:"upstreamCredentials,omitempty" tf:"upstream_credentials,omitempty"`
+
+	// Specific settings for an Yum remote repository.
+	// Structure is documented below.
+	YumRepository []YumRepositoryInitParameters `json:"yumRepository,omitempty" tf:"yum_repository,omitempty"`
 }
 
 type RemoteRepositoryConfigObservation struct {
+
+	// Specific settings for an Apt remote repository.
+	// Structure is documented below.
+	AptRepository []AptRepositoryObservation `json:"aptRepository,omitempty" tf:"apt_repository,omitempty"`
 
 	// The description of the remote source.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -417,9 +684,22 @@ type RemoteRepositoryConfigObservation struct {
 	// Specific settings for a Python remote repository.
 	// Structure is documented below.
 	PythonRepository []PythonRepositoryObservation `json:"pythonRepository,omitempty" tf:"python_repository,omitempty"`
+
+	// The credentials used to access the remote repository.
+	// Structure is documented below.
+	UpstreamCredentials []UpstreamCredentialsObservation `json:"upstreamCredentials,omitempty" tf:"upstream_credentials,omitempty"`
+
+	// Specific settings for an Yum remote repository.
+	// Structure is documented below.
+	YumRepository []YumRepositoryObservation `json:"yumRepository,omitempty" tf:"yum_repository,omitempty"`
 }
 
 type RemoteRepositoryConfigParameters struct {
+
+	// Specific settings for an Apt remote repository.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AptRepository []AptRepositoryParameters `json:"aptRepository,omitempty" tf:"apt_repository,omitempty"`
 
 	// The description of the remote source.
 	// +kubebuilder:validation:Optional
@@ -444,6 +724,38 @@ type RemoteRepositoryConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PythonRepository []PythonRepositoryParameters `json:"pythonRepository,omitempty" tf:"python_repository,omitempty"`
+
+	// The credentials used to access the remote repository.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	UpstreamCredentials []UpstreamCredentialsParameters `json:"upstreamCredentials,omitempty" tf:"upstream_credentials,omitempty"`
+
+	// Specific settings for an Yum remote repository.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	YumRepository []YumRepositoryParameters `json:"yumRepository,omitempty" tf:"yum_repository,omitempty"`
+}
+
+type UpstreamCredentialsInitParameters struct {
+
+	// Use username and password to access the remote repository.
+	// Structure is documented below.
+	UsernamePasswordCredentials []UsernamePasswordCredentialsInitParameters `json:"usernamePasswordCredentials,omitempty" tf:"username_password_credentials,omitempty"`
+}
+
+type UpstreamCredentialsObservation struct {
+
+	// Use username and password to access the remote repository.
+	// Structure is documented below.
+	UsernamePasswordCredentials []UsernamePasswordCredentialsObservation `json:"usernamePasswordCredentials,omitempty" tf:"username_password_credentials,omitempty"`
+}
+
+type UpstreamCredentialsParameters struct {
+
+	// Use username and password to access the remote repository.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	UsernamePasswordCredentials []UsernamePasswordCredentialsParameters `json:"usernamePasswordCredentials,omitempty" tf:"username_password_credentials,omitempty"`
 }
 
 type UpstreamPoliciesInitParameters struct {
@@ -508,6 +820,61 @@ type UpstreamPoliciesParameters struct {
 	RepositorySelector *v1.Selector `json:"repositorySelector,omitempty" tf:"-"`
 }
 
+type UsernamePasswordCredentialsInitParameters struct {
+
+	// The Secret Manager key version that holds the password to access the
+	// remote repository. Must be in the format of
+	// projects/{project}/secrets/{secret}/versions/{version}.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	PasswordSecretVersion *string `json:"passwordSecretVersion,omitempty" tf:"password_secret_version,omitempty"`
+
+	// Reference to a SecretVersion in secretmanager to populate passwordSecretVersion.
+	// +kubebuilder:validation:Optional
+	PasswordSecretVersionRef *v1.Reference `json:"passwordSecretVersionRef,omitempty" tf:"-"`
+
+	// Selector for a SecretVersion in secretmanager to populate passwordSecretVersion.
+	// +kubebuilder:validation:Optional
+	PasswordSecretVersionSelector *v1.Selector `json:"passwordSecretVersionSelector,omitempty" tf:"-"`
+
+	// The username to access the remote repository.
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+}
+
+type UsernamePasswordCredentialsObservation struct {
+
+	// The Secret Manager key version that holds the password to access the
+	// remote repository. Must be in the format of
+	// projects/{project}/secrets/{secret}/versions/{version}.
+	PasswordSecretVersion *string `json:"passwordSecretVersion,omitempty" tf:"password_secret_version,omitempty"`
+
+	// The username to access the remote repository.
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+}
+
+type UsernamePasswordCredentialsParameters struct {
+
+	// The Secret Manager key version that holds the password to access the
+	// remote repository. Must be in the format of
+	// projects/{project}/secrets/{secret}/versions/{version}.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +kubebuilder:validation:Optional
+	PasswordSecretVersion *string `json:"passwordSecretVersion,omitempty" tf:"password_secret_version,omitempty"`
+
+	// Reference to a SecretVersion in secretmanager to populate passwordSecretVersion.
+	// +kubebuilder:validation:Optional
+	PasswordSecretVersionRef *v1.Reference `json:"passwordSecretVersionRef,omitempty" tf:"-"`
+
+	// Selector for a SecretVersion in secretmanager to populate passwordSecretVersion.
+	// +kubebuilder:validation:Optional
+	PasswordSecretVersionSelector *v1.Selector `json:"passwordSecretVersionSelector,omitempty" tf:"-"`
+
+	// The username to access the remote repository.
+	// +kubebuilder:validation:Optional
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+}
+
 type VirtualRepositoryConfigInitParameters struct {
 
 	// Policies that configure the upstream artifacts distributed by the Virtual
@@ -531,6 +898,60 @@ type VirtualRepositoryConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	UpstreamPolicies []UpstreamPoliciesParameters `json:"upstreamPolicies,omitempty" tf:"upstream_policies,omitempty"`
+}
+
+type YumRepositoryInitParameters struct {
+
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
+	PublicRepository []YumRepositoryPublicRepositoryInitParameters `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
+}
+
+type YumRepositoryObservation struct {
+
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
+	PublicRepository []YumRepositoryPublicRepositoryObservation `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
+}
+
+type YumRepositoryParameters struct {
+
+	// One of the publicly available Yum repositories supported by Artifact Registry.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PublicRepository []YumRepositoryPublicRepositoryParameters `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
+}
+
+type YumRepositoryPublicRepositoryInitParameters struct {
+
+	// A common public repository base for Yum.
+	// Possible values are: CENTOS, CENTOS_DEBUG, CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.
+	RepositoryBase *string `json:"repositoryBase,omitempty" tf:"repository_base,omitempty"`
+
+	// Specific repository from the base, e.g. "centos/8-stream/BaseOS/x86_64/os"
+	RepositoryPath *string `json:"repositoryPath,omitempty" tf:"repository_path,omitempty"`
+}
+
+type YumRepositoryPublicRepositoryObservation struct {
+
+	// A common public repository base for Yum.
+	// Possible values are: CENTOS, CENTOS_DEBUG, CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.
+	RepositoryBase *string `json:"repositoryBase,omitempty" tf:"repository_base,omitempty"`
+
+	// Specific repository from the base, e.g. "centos/8-stream/BaseOS/x86_64/os"
+	RepositoryPath *string `json:"repositoryPath,omitempty" tf:"repository_path,omitempty"`
+}
+
+type YumRepositoryPublicRepositoryParameters struct {
+
+	// A common public repository base for Yum.
+	// Possible values are: CENTOS, CENTOS_DEBUG, CENTOS_VAULT, CENTOS_STREAM, ROCKY, EPEL.
+	// +kubebuilder:validation:Optional
+	RepositoryBase *string `json:"repositoryBase" tf:"repository_base,omitempty"`
+
+	// Specific repository from the base, e.g. "centos/8-stream/BaseOS/x86_64/os"
+	// +kubebuilder:validation:Optional
+	RepositoryPath *string `json:"repositoryPath" tf:"repository_path,omitempty"`
 }
 
 // RegistryRepositorySpec defines the desired state of RegistryRepository

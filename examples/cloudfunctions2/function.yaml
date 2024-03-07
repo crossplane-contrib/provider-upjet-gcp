@@ -3,6 +3,7 @@ kind: Function
 metadata:
   annotations:
     meta.upbound.io/example-id: cloudfunctions2/v1beta1/function
+    upjet.upbound.io/manual-intervention: "This resource requires a valid function-source.zip object in the created bucket resource."
   labels:
     testing.upbound.io/example-name: function
   name: function
@@ -10,35 +11,15 @@ spec:
   forProvider:
     buildConfig:
     - entryPoint: "helloHttp"
-      runtime: "nodejs16"
+      runtime: "nodejs20"
+      dockerRepository: "projects/official-provider-testing/locations/us-central1/repositories/gcf-artifacts"
       source:
       - storageSource:
         - bucketSelector:
             matchLabels:
-              testing.upbound.io/example-name: bucket
-          objectSelector:
-            matchLabels:
-              testing.upbound.io/example-name: bucket-object
+              testing.upbound.io/example-name: bucket-func2-test
+          object: function-source.zip
     location: us-central1
-
----
-
-apiVersion: storage.gcp.upbound.io/v1beta1
-kind: BucketObject
-metadata:
-  annotations:
-    meta.upbound.io/example-id: cloudfunctions2/v1beta1/function
-  labels:
-    testing.upbound.io/example-name: bucket-object
-  name: bucket-object
-spec:
-  forProvider:
-    bucketSelector:
-      matchLabels:
-        testing.upbound.io/example-name: bucket
-    name: bucket-object
-    content: "Upbound!"
-    contentType: text/plain
 
 ---
 
@@ -47,9 +28,10 @@ kind: Bucket
 metadata:
   annotations:
     meta.upbound.io/example-id: cloudfunctions2/v1beta1/function
+    upjet.upbound.io/manual-intervention: "This resource requires a valid function-source.zip object."
   labels:
-    testing.upbound.io/example-name: bucket
-  name: bucket-${Rand.RFC1123Subdomain}
+    testing.upbound.io/example-name: bucket-func2-test
+  name: bucket-func2-test
 spec:
   forProvider:
     cors:

@@ -238,6 +238,14 @@ spec:
                             type: string
                         type: object
                     type: object
+                  stackType:
+                    description: |-
+                      The stack type for this interconnect attachment to identify whether the IPv6
+                      feature is enabled or not. If not specified, IPV4_ONLY will be used.
+                      This field can be both set at interconnect attachments creation and update
+                      interconnect attachment operations.
+                      Possible values are: IPV4_IPV6, IPV4_ONLY.
+                    type: string
                   type:
                     description: |-
                       The type of InterconnectAttachment you wish to create. Defaults to
@@ -426,6 +434,14 @@ spec:
                             type: string
                         type: object
                     type: object
+                  stackType:
+                    description: |-
+                      The stack type for this interconnect attachment to identify whether the IPv6
+                      feature is enabled or not. If not specified, IPV4_ONLY will be used.
+                      This field can be both set at interconnect attachments creation and update
+                      interconnect attachment operations.
+                      Possible values are: IPV4_IPV6, IPV4_ONLY.
+                    type: string
                   type:
                     description: |-
                       The type of InterconnectAttachment you wish to create. Defaults to
@@ -752,6 +768,14 @@ spec:
                     type: string
                   selfLink:
                     description: The URI of the created resource.
+                    type: string
+                  stackType:
+                    description: |-
+                      The stack type for this interconnect attachment to identify whether the IPv6
+                      feature is enabled or not. If not specified, IPV4_ONLY will be used.
+                      This field can be both set at interconnect attachments creation and update
+                      interconnect attachment operations.
+                      Possible values are: IPV4_IPV6, IPV4_ONLY.
                     type: string
                   state:
                     description: '[Output Only] The current state of this attachment''s

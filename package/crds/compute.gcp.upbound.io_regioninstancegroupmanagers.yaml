@@ -74,6 +74,30 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  allInstancesConfig:
+                    description: |-
+                      Properties to set on all instances in the group. After setting
+                      allInstancesConfig on the group, you must update the group's instances to
+                      apply the configuration.
+                    items:
+                      properties:
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: ', The label key-value pairs that you want
+                            to patch onto the instance.'
+                          type: object
+                          x-kubernetes-map-type: granular
+                        metadata:
+                          additionalProperties:
+                            type: string
+                          description: ', The metadata key-value pairs that you want
+                            to patch onto the instance. For more information, see
+                            Project and instance metadata.'
+                          type: object
+                          x-kubernetes-map-type: granular
+                      type: object
+                    type: array
                   autoHealingPolicies:
                     description: |-
                       The autohealing policies for this managed instance
@@ -267,6 +291,50 @@ spec:
                           type: string
                       type: object
                     type: array
+                  statefulExternalIp:
+                    description: External network IPs assigned to the instances that
+                      will be preserved on instance delete, update, etc. This map
+                      is keyed with the network interface name. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        deleteRule:
+                          description: ', A value that prescribes what should happen
+                            to the external ip when the VM instance is deleted. The
+                            available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+                            NEVER - detach the ip when the VM is deleted, but do not
+                            delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete
+                            the external ip when the VM is permanently deleted from
+                            the instance group.'
+                          type: string
+                        interfaceName:
+                          description: ', The network interface name of the external
+                            Ip. Possible value: nic0.'
+                          type: string
+                      type: object
+                    type: array
+                  statefulInternalIp:
+                    description: Internal network IPs assigned to the instances that
+                      will be preserved on instance delete, update, etc. This map
+                      is keyed with the network interface name. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        deleteRule:
+                          description: ', A value that prescribes what should happen
+                            to the internal ip when the VM instance is deleted. The
+                            available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+                            NEVER - detach the ip when the VM is deleted, but do not
+                            delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete
+                            the internal ip when the VM is permanently deleted from
+                            the instance group.'
+                          type: string
+                        interfaceName:
+                          description: ', The network interface name of the internal
+                            Ip. Possible value: nic0.'
+                          type: string
+                      type: object
+                    type: array
                   targetPools:
                     description: |-
                       The full URL of all target pools to which new
@@ -356,8 +424,9 @@ spec:
                   targetSize:
                     description: |-
                       The target number of running instances for this managed
-                      instance group. This value should always be explicitly set unless this resource is attached to
-                      an autoscaler, in which case it should never be set. Defaults to 0.
+                      instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
+                      when using one. If a value is required, such as to specify a creation-time target size for the MIG,
+                      lifecycle. Defaults to 0.
                     type: number
                   updatePolicy:
                     description: The update policy for this managed instance group.
@@ -579,6 +648,30 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  allInstancesConfig:
+                    description: |-
+                      Properties to set on all instances in the group. After setting
+                      allInstancesConfig on the group, you must update the group's instances to
+                      apply the configuration.
+                    items:
+                      properties:
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: ', The label key-value pairs that you want
+                            to patch onto the instance.'
+                          type: object
+                          x-kubernetes-map-type: granular
+                        metadata:
+                          additionalProperties:
+                            type: string
+                          description: ', The metadata key-value pairs that you want
+                            to patch onto the instance. For more information, see
+                            Project and instance metadata.'
+                          type: object
+                          x-kubernetes-map-type: granular
+                      type: object
+                    type: array
                   autoHealingPolicies:
                     description: |-
                       The autohealing policies for this managed instance
@@ -772,6 +865,50 @@ spec:
                           type: string
                       type: object
                     type: array
+                  statefulExternalIp:
+                    description: External network IPs assigned to the instances that
+                      will be preserved on instance delete, update, etc. This map
+                      is keyed with the network interface name. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        deleteRule:
+                          description: ', A value that prescribes what should happen
+                            to the external ip when the VM instance is deleted. The
+                            available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+                            NEVER - detach the ip when the VM is deleted, but do not
+                            delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete
+                            the external ip when the VM is permanently deleted from
+                            the instance group.'
+                          type: string
+                        interfaceName:
+                          description: ', The network interface name of the external
+                            Ip. Possible value: nic0.'
+                          type: string
+                      type: object
+                    type: array
+                  statefulInternalIp:
+                    description: Internal network IPs assigned to the instances that
+                      will be preserved on instance delete, update, etc. This map
+                      is keyed with the network interface name. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        deleteRule:
+                          description: ', A value that prescribes what should happen
+                            to the internal ip when the VM instance is deleted. The
+                            available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+                            NEVER - detach the ip when the VM is deleted, but do not
+                            delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete
+                            the internal ip when the VM is permanently deleted from
+                            the instance group.'
+                          type: string
+                        interfaceName:
+                          description: ', The network interface name of the internal
+                            Ip. Possible value: nic0.'
+                          type: string
+                      type: object
+                    type: array
                   targetPools:
                     description: |-
                       The full URL of all target pools to which new
@@ -861,8 +998,9 @@ spec:
                   targetSize:
                     description: |-
                       The target number of running instances for this managed
-                      instance group. This value should always be explicitly set unless this resource is attached to
-                      an autoscaler, in which case it should never be set. Defaults to 0.
+                      instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
+                      when using one. If a value is required, such as to specify a creation-time target size for the MIG,
+                      lifecycle. Defaults to 0.
                     type: number
                   updatePolicy:
                     description: The update policy for this managed instance group.
@@ -1261,6 +1399,30 @@ spec:
             properties:
               atProvider:
                 properties:
+                  allInstancesConfig:
+                    description: |-
+                      Properties to set on all instances in the group. After setting
+                      allInstancesConfig on the group, you must update the group's instances to
+                      apply the configuration.
+                    items:
+                      properties:
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: ', The label key-value pairs that you want
+                            to patch onto the instance.'
+                          type: object
+                          x-kubernetes-map-type: granular
+                        metadata:
+                          additionalProperties:
+                            type: string
+                          description: ', The metadata key-value pairs that you want
+                            to patch onto the instance. For more information, see
+                            Project and instance metadata.'
+                          type: object
+                          x-kubernetes-map-type: granular
+                      type: object
+                    type: array
                   autoHealingPolicies:
                     description: |-
                       The autohealing policies for this managed instance
@@ -1286,6 +1448,8 @@ spec:
                       appending a hyphen and a random four-character string to the base instance
                       name.
                     type: string
+                  creationTimestamp:
+                    type: string
                   description:
                     description: |-
                       An optional textual description of the instance
@@ -1308,7 +1472,7 @@ spec:
                     description: The fingerprint of the instance group manager.
                     type: string
                   id:
-                    description: an identifier for the resource with format {{disk.name}}
+                    description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/instanceGroupManagers/{{name}}
                     type: string
                   instanceGroup:
                     description: The full URL of the instance group created by the
@@ -1393,9 +1557,64 @@ spec:
                           type: string
                       type: object
                     type: array
+                  statefulExternalIp:
+                    description: External network IPs assigned to the instances that
+                      will be preserved on instance delete, update, etc. This map
+                      is keyed with the network interface name. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        deleteRule:
+                          description: ', A value that prescribes what should happen
+                            to the external ip when the VM instance is deleted. The
+                            available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+                            NEVER - detach the ip when the VM is deleted, but do not
+                            delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete
+                            the external ip when the VM is permanently deleted from
+                            the instance group.'
+                          type: string
+                        interfaceName:
+                          description: ', The network interface name of the external
+                            Ip. Possible value: nic0.'
+                          type: string
+                      type: object
+                    type: array
+                  statefulInternalIp:
+                    description: Internal network IPs assigned to the instances that
+                      will be preserved on instance delete, update, etc. This map
+                      is keyed with the network interface name. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        deleteRule:
+                          description: ', A value that prescribes what should happen
+                            to the internal ip when the VM instance is deleted. The
+                            available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+                            NEVER - detach the ip when the VM is deleted, but do not
+                            delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete
+                            the internal ip when the VM is permanently deleted from
+                            the instance group.'
+                          type: string
+                        interfaceName:
+                          description: ', The network interface name of the internal
+                            Ip. Possible value: nic0.'
+                          type: string
+                      type: object
+                    type: array
                   status:
                     items:
                       properties:
+                        allInstancesConfig:
+                          description: |-
+                            Properties to set on all instances in the group. After setting
+                            allInstancesConfig on the group, you must update the group's instances to
+                            apply the configuration.
+                          items:
+                            properties:
+                              effective:
+                                type: boolean
+                            type: object
+                          type: array
                         isStable:
                           description: 'A bit indicating whether the managed instance
                             group is in a stable state. A stable state means that:
@@ -1459,8 +1678,9 @@ spec:
                   targetSize:
                     description: |-
                       The target number of running instances for this managed
-                      instance group. This value should always be explicitly set unless this resource is attached to
-                      an autoscaler, in which case it should never be set. Defaults to 0.
+                      instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
+                      when using one. If a value is required, such as to specify a creation-time target size for the MIG,
+                      lifecycle. Defaults to 0.
                     type: number
                   updatePolicy:
                     description: The update policy for this managed instance group.

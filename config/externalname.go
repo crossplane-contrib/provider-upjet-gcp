@@ -498,8 +498,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 
 	// gkehub
 	//
-	// Imported by using the following format: projects/{{project}}/locations/global/memberships/{{membership_id}}
-	"google_gke_hub_membership": config.TemplatedStringAsIdentifier("membership_id", "projects/{{ .setup.configuration.project }}/locations/global/memberships/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/memberships/{{membership_id}}
+	"google_gke_hub_membership": config.TemplatedStringAsIdentifier("membership_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/memberships/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/{{location}}/memberships/{{membership_id}} roles/viewer user:jane@example.com
 	"google_gke_hub_membership_iam_member": config.IdentifierFromProvider,
 
@@ -822,13 +822,6 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// projects/{{project}}/locations/{{location}}/workerPools/{{name}}
 	"google_cloudbuild_worker_pool": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/workerPools/{{ .external_name }}"),
 
-	// cloudiot
-	//
-	// {{registry}}/devices/{{name}}
-	"google_cloudiot_device": config.TemplatedStringAsIdentifier("name", "{{ .parameters.registry }}/devices/{{ .external_name }}"),
-	// {{project}}/locations/{{region}}/registries/{{name}}
-	"google_cloudiot_registry": config.IdentifierFromProvider,
-
 	// bigtable
 	//
 	// projects/{{project}}/instances/{{instance}}/appProfiles/{{app_profile_id}}
@@ -987,8 +980,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	//
 	// projects/{{project}}/locations/global/certificates/{{name}}
 	"google_certificate_manager_certificate": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/certificates/{{ .external_name }}"),
-	// projects/{{project}}/locations/global/dnsAuthorizations/{{name}}
-	"google_certificate_manager_dns_authorization": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/global/dnsAuthorizations/{{ .external_name }}"),
+	// projects/{{project}}/locations/{{location}}/dnsAuthorizations/{{name}}
+	"google_certificate_manager_dns_authorization": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/dnsAuthorizations/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/global/certificateMaps/{{map}}/certificateMapEntries/{{name}}
 	"google_certificate_manager_certificate_map_entry": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/global/certificateMaps/{{ .parameters.map }}/certificateMapEntries/{{ .external_name }}"),
 }

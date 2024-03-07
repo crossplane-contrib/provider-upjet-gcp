@@ -60,6 +60,7 @@ type FolderObservation struct {
 	// A folder’s display name must be unique amongst its siblings, e.g. no two folders with the same parent can share the same display name. The display name must start and end with a letter or digit, may contain letters, digits, spaces, hyphens and underscores and can be no longer than 30 characters.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// The folder id from the name "folders/{folder_id}"
 	FolderID *string `json:"folderId,omitempty" tf:"folder_id,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`

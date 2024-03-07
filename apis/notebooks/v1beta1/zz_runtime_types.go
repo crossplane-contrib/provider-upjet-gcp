@@ -432,6 +432,15 @@ type RuntimeInitParameters struct {
 	// Structure is documented below.
 	AccessConfig []AccessConfigInitParameters `json:"accessConfig,omitempty" tf:"access_config,omitempty"`
 
+	// The labels to associate with this runtime. Label keys must
+	// contain 1 to 63 characters, and must conform to [RFC 1035]
+	// (https://www.ietf.org/rfc/rfc1035.txt). Label values may be
+	// empty, but, if present, must contain 1 to 63 characters, and must
+	// conform to RFC 1035. No
+	// more than 32 labels can be associated with a cluster.
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -451,12 +460,25 @@ type RuntimeObservation struct {
 	// Structure is documented below.
 	AccessConfig []AccessConfigObservation `json:"accessConfig,omitempty" tf:"access_config,omitempty"`
 
+	// for all of the labels present on the resource.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// The health state of this runtime. For a list of possible output
 	// values, see https://cloud.google.com/vertex-ai/docs/workbench/ reference/rest/v1/projects.locations.runtimes#healthstate.
 	HealthState *string `json:"healthState,omitempty" tf:"health_state,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/runtimes/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The labels to associate with this runtime. Label keys must
+	// contain 1 to 63 characters, and must conform to [RFC 1035]
+	// (https://www.ietf.org/rfc/rfc1035.txt). Label values may be
+	// empty, but, if present, must contain 1 to 63 characters, and must
+	// conform to RFC 1035. No
+	// more than 32 labels can be associated with a cluster.
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// A reference to the zone where the machine resides.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
@@ -477,6 +499,11 @@ type RuntimeObservation struct {
 	// The state of this runtime.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
 	// Use a Compute Engine VM image to start the managed notebook instance.
 	// Structure is documented below.
 	VirtualMachine []VirtualMachineObservation `json:"virtualMachine,omitempty" tf:"virtual_machine,omitempty"`
@@ -488,6 +515,16 @@ type RuntimeParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AccessConfig []AccessConfigParameters `json:"accessConfig,omitempty" tf:"access_config,omitempty"`
+
+	// The labels to associate with this runtime. Label keys must
+	// contain 1 to 63 characters, and must conform to [RFC 1035]
+	// (https://www.ietf.org/rfc/rfc1035.txt). Label values may be
+	// empty, but, if present, must contain 1 to 63 characters, and must
+	// conform to RFC 1035. No
+	// more than 32 labels can be associated with a cluster.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// A reference to the zone where the machine resides.
 	// +kubebuilder:validation:Required

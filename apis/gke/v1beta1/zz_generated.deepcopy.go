@@ -198,6 +198,22 @@ func (in *BackupBackupPlanObservation) DeepCopyInto(out *BackupBackupPlanObserva
 		*out = new(string)
 		**out = **in
 	}
+	if in.EffectiveLabels != nil {
+		in, out := &in.EffectiveLabels, &out.EffectiveLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.Etag != nil {
 		in, out := &in.Etag, &out.Etag
 		*out = new(string)
@@ -255,6 +271,22 @@ func (in *BackupBackupPlanObservation) DeepCopyInto(out *BackupBackupPlanObserva
 		in, out := &in.StateReason, &out.StateReason
 		*out = new(string)
 		**out = **in
+	}
+	if in.TerraformLabels != nil {
+		in, out := &in.TerraformLabels, &out.TerraformLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.UID != nil {
 		in, out := &in.UID, &out.UID

@@ -37,7 +37,7 @@ func (mg *RouterPeer) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this RouterPeer
 func (tr *RouterPeer) GetConnectionDetailsMapping() map[string]string {
-	return nil
+	return map[string]string{"md5_authentication_key[*].key": "spec.forProvider.md5AuthenticationKey[*].keySecretRef"}
 }
 
 // GetObservation of this RouterPeer

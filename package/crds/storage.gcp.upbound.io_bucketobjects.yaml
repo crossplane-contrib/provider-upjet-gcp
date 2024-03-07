@@ -230,6 +230,22 @@ spec:
                     description: The name of the object. If you're interpolating the
                       name of this object, see output_name instead.
                     type: string
+                  retention:
+                    description: The object retention settings for the object. The
+                      retention settings allow an object to be retained until a provided
+                      date. Structure is documented below.
+                    items:
+                      properties:
+                        mode:
+                          description: The retention policy mode. Either Locked or
+                            Unlocked.
+                          type: string
+                        retainUntilTime:
+                          description: The time to retain the object until in RFC
+                            3339 format, for example 2012-11-15T16:19:00.094Z.
+                          type: string
+                      type: object
+                    type: array
                   source:
                     description: |-
                       A path to the data you want to upload. Must be defined
@@ -397,6 +413,22 @@ spec:
                     description: The name of the object. If you're interpolating the
                       name of this object, see output_name instead.
                     type: string
+                  retention:
+                    description: The object retention settings for the object. The
+                      retention settings allow an object to be retained until a provided
+                      date. Structure is documented below.
+                    items:
+                      properties:
+                        mode:
+                          description: The retention policy mode. Either Locked or
+                            Unlocked.
+                          type: string
+                        retainUntilTime:
+                          description: The time to retain the object until in RFC
+                            3339 format, for example 2012-11-15T16:19:00.094Z.
+                          type: string
+                      type: object
+                    type: array
                   source:
                     description: |-
                       A path to the data you want to upload. Must be defined
@@ -670,6 +702,22 @@ spec:
                       (Computed) The name of the object. Use this field in interpolations with google_storage_object_acl to recreate
                       google_storage_object_acl resources when your google_storage_bucket_object is recreated.
                     type: string
+                  retention:
+                    description: The object retention settings for the object. The
+                      retention settings allow an object to be retained until a provided
+                      date. Structure is documented below.
+                    items:
+                      properties:
+                        mode:
+                          description: The retention policy mode. Either Locked or
+                            Unlocked.
+                          type: string
+                        retainUntilTime:
+                          description: The time to retain the object until in RFC
+                            3339 format, for example 2012-11-15T16:19:00.094Z.
+                          type: string
+                      type: object
+                    type: array
                   selfLink:
                     description: (Computed) A url reference to this object.
                     type: string

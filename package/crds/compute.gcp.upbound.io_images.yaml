@@ -99,7 +99,7 @@ spec:
                         type:
                           description: |-
                             The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-                            Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.
+                            Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2.
                           type: string
                       type: object
                     type: array
@@ -128,7 +128,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: Labels to apply to this Image.
+                    description: |-
+                      Labels to apply to this Image.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   licenses:
@@ -234,7 +237,7 @@ spec:
                         type:
                           description: |-
                             The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-                            Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.
+                            Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2.
                           type: string
                       type: object
                     type: array
@@ -263,7 +266,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: Labels to apply to this Image.
+                    description: |-
+                      Labels to apply to this Image.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   licenses:
@@ -518,6 +524,11 @@ spec:
                     description: Size of the image when restored onto a persistent
                       disk (in GB).
                     type: number
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   family:
                     description: |-
                       The name of the image family to which this image belongs. You can
@@ -536,7 +547,7 @@ spec:
                         type:
                           description: |-
                             The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-                            Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.
+                            Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2.
                           type: string
                       type: object
                     type: array
@@ -573,7 +584,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: Labels to apply to this Image.
+                    description: |-
+                      Labels to apply to this Image.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   licenses:
@@ -641,6 +655,14 @@ spec:
                     items:
                       type: string
                     type: array
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               conditions:
                 description: Conditions of the resource.

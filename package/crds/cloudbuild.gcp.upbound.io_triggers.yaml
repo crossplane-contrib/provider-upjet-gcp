@@ -178,6 +178,58 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                              mavenArtifacts:
+                                description: |-
+                                  A Maven artifact to upload to Artifact Registry upon successful completion of all build steps.
+                                  The location and generation of the uploaded objects will be stored in the Build resource's results field.
+                                  If any objects fail to be pushed, the build is marked FAILURE.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    artifactId:
+                                      description: Maven artifactId value used when
+                                        uploading the artifact to Artifact Registry.
+                                      type: string
+                                    groupId:
+                                      description: Maven groupId value used when uploading
+                                        the artifact to Artifact Registry.
+                                      type: string
+                                    path:
+                                      description: |-
+                                        Path at which to mount the volume.
+                                        Paths must be absolute and cannot conflict with other volume paths on
+                                        the same build step or with certain reserved volume paths.
+                                      type: string
+                                    repository:
+                                      description: |-
+                                        The qualified resource name of the Repo API repository.
+                                        Either uri or repository can be specified and is required.
+                                      type: string
+                                    version:
+                                      description: Maven version value used when uploading
+                                        the artifact to Artifact Registry.
+                                      type: string
+                                  type: object
+                                type: array
+                              npmPackages:
+                                description: |-
+                                  Npm package to upload to Artifact Registry upon successful completion of all build steps.
+                                  The location and generation of the uploaded objects will be stored in the Build resource's results field.
+                                  If any objects fail to be pushed, the build is marked FAILURE.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    packagePath:
+                                      description: Path to the package.json. e.g.
+                                        workspace/path/to/package
+                                      type: string
+                                    repository:
+                                      description: |-
+                                        The qualified resource name of the Repo API repository.
+                                        Either uri or repository can be specified and is required.
+                                      type: string
+                                  type: object
+                                type: array
                               objects:
                                 description: |-
                                   A list of objects to be uploaded to Cloud Storage upon successful completion of all build steps.
@@ -196,10 +248,35 @@ spec:
                                       type: string
                                     paths:
                                       description: Path globs used to match files
-                                        in the build's workspace.
+                                        in the build's workspace. For Python/ Twine,
+                                        this is usually dist/*, and sometimes additionally
+                                        an .asc file.
                                       items:
                                         type: string
                                       type: array
+                                  type: object
+                                type: array
+                              pythonPackages:
+                                description: |-
+                                  Python package to upload to Artifact Registry upon successful completion of all build steps. A package can encapsulate multiple objects to be uploaded to a single repository.
+                                  The location and generation of the uploaded objects will be stored in the Build resource's results field.
+                                  If any objects fail to be pushed, the build is marked FAILURE.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    paths:
+                                      description: Path globs used to match files
+                                        in the build's workspace. For Python/ Twine,
+                                        this is usually dist/*, and sometimes additionally
+                                        an .asc file.
+                                      items:
+                                        type: string
+                                      type: array
+                                    repository:
+                                      description: |-
+                                        The qualified resource name of the Repo API repository.
+                                        Either uri or repository can be specified and is required.
+                                      type: string
                                   type: object
                                 type: array
                             type: object
@@ -629,6 +706,11 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        bitbucketServerConfig:
+                          description: |-
+                            The full resource name of the bitbucket server config.
+                            Format: projects/{project}/locations/{location}/bitbucketServerConfigs/{id}.
+                          type: string
                         githubEnterpriseConfig:
                           description: |-
                             The full resource name of the github enterprise config.
@@ -1024,6 +1106,11 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        bitbucketServerConfig:
+                          description: |-
+                            The full resource name of the bitbucket server config.
+                            Format: projects/{project}/locations/{location}/bitbucketServerConfigs/{id}.
+                          type: string
                         githubEnterpriseConfig:
                           description: |-
                             The full resource name of the github enterprise config.
@@ -1315,6 +1402,58 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                              mavenArtifacts:
+                                description: |-
+                                  A Maven artifact to upload to Artifact Registry upon successful completion of all build steps.
+                                  The location and generation of the uploaded objects will be stored in the Build resource's results field.
+                                  If any objects fail to be pushed, the build is marked FAILURE.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    artifactId:
+                                      description: Maven artifactId value used when
+                                        uploading the artifact to Artifact Registry.
+                                      type: string
+                                    groupId:
+                                      description: Maven groupId value used when uploading
+                                        the artifact to Artifact Registry.
+                                      type: string
+                                    path:
+                                      description: |-
+                                        Path at which to mount the volume.
+                                        Paths must be absolute and cannot conflict with other volume paths on
+                                        the same build step or with certain reserved volume paths.
+                                      type: string
+                                    repository:
+                                      description: |-
+                                        The qualified resource name of the Repo API repository.
+                                        Either uri or repository can be specified and is required.
+                                      type: string
+                                    version:
+                                      description: Maven version value used when uploading
+                                        the artifact to Artifact Registry.
+                                      type: string
+                                  type: object
+                                type: array
+                              npmPackages:
+                                description: |-
+                                  Npm package to upload to Artifact Registry upon successful completion of all build steps.
+                                  The location and generation of the uploaded objects will be stored in the Build resource's results field.
+                                  If any objects fail to be pushed, the build is marked FAILURE.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    packagePath:
+                                      description: Path to the package.json. e.g.
+                                        workspace/path/to/package
+                                      type: string
+                                    repository:
+                                      description: |-
+                                        The qualified resource name of the Repo API repository.
+                                        Either uri or repository can be specified and is required.
+                                      type: string
+                                  type: object
+                                type: array
                               objects:
                                 description: |-
                                   A list of objects to be uploaded to Cloud Storage upon successful completion of all build steps.
@@ -1333,10 +1472,35 @@ spec:
                                       type: string
                                     paths:
                                       description: Path globs used to match files
-                                        in the build's workspace.
+                                        in the build's workspace. For Python/ Twine,
+                                        this is usually dist/*, and sometimes additionally
+                                        an .asc file.
                                       items:
                                         type: string
                                       type: array
+                                  type: object
+                                type: array
+                              pythonPackages:
+                                description: |-
+                                  Python package to upload to Artifact Registry upon successful completion of all build steps. A package can encapsulate multiple objects to be uploaded to a single repository.
+                                  The location and generation of the uploaded objects will be stored in the Build resource's results field.
+                                  If any objects fail to be pushed, the build is marked FAILURE.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    paths:
+                                      description: Path globs used to match files
+                                        in the build's workspace. For Python/ Twine,
+                                        this is usually dist/*, and sometimes additionally
+                                        an .asc file.
+                                      items:
+                                        type: string
+                                      type: array
+                                    repository:
+                                      description: |-
+                                        The qualified resource name of the Repo API repository.
+                                        Either uri or repository can be specified and is required.
+                                      type: string
                                   type: object
                                 type: array
                             type: object
@@ -1766,6 +1930,11 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        bitbucketServerConfig:
+                          description: |-
+                            The full resource name of the bitbucket server config.
+                            Format: projects/{project}/locations/{location}/bitbucketServerConfigs/{id}.
+                          type: string
                         githubEnterpriseConfig:
                           description: |-
                             The full resource name of the github enterprise config.
@@ -2161,6 +2330,11 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        bitbucketServerConfig:
+                          description: |-
+                            The full resource name of the bitbucket server config.
+                            Format: projects/{project}/locations/{location}/bitbucketServerConfigs/{id}.
+                          type: string
                         githubEnterpriseConfig:
                           description: |-
                             The full resource name of the github enterprise config.
@@ -2611,6 +2785,58 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                              mavenArtifacts:
+                                description: |-
+                                  A Maven artifact to upload to Artifact Registry upon successful completion of all build steps.
+                                  The location and generation of the uploaded objects will be stored in the Build resource's results field.
+                                  If any objects fail to be pushed, the build is marked FAILURE.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    artifactId:
+                                      description: Maven artifactId value used when
+                                        uploading the artifact to Artifact Registry.
+                                      type: string
+                                    groupId:
+                                      description: Maven groupId value used when uploading
+                                        the artifact to Artifact Registry.
+                                      type: string
+                                    path:
+                                      description: |-
+                                        Path at which to mount the volume.
+                                        Paths must be absolute and cannot conflict with other volume paths on
+                                        the same build step or with certain reserved volume paths.
+                                      type: string
+                                    repository:
+                                      description: |-
+                                        The qualified resource name of the Repo API repository.
+                                        Either uri or repository can be specified and is required.
+                                      type: string
+                                    version:
+                                      description: Maven version value used when uploading
+                                        the artifact to Artifact Registry.
+                                      type: string
+                                  type: object
+                                type: array
+                              npmPackages:
+                                description: |-
+                                  Npm package to upload to Artifact Registry upon successful completion of all build steps.
+                                  The location and generation of the uploaded objects will be stored in the Build resource's results field.
+                                  If any objects fail to be pushed, the build is marked FAILURE.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    packagePath:
+                                      description: Path to the package.json. e.g.
+                                        workspace/path/to/package
+                                      type: string
+                                    repository:
+                                      description: |-
+                                        The qualified resource name of the Repo API repository.
+                                        Either uri or repository can be specified and is required.
+                                      type: string
+                                  type: object
+                                type: array
                               objects:
                                 description: |-
                                   A list of objects to be uploaded to Cloud Storage upon successful completion of all build steps.
@@ -2629,7 +2855,9 @@ spec:
                                       type: string
                                     paths:
                                       description: Path globs used to match files
-                                        in the build's workspace.
+                                        in the build's workspace. For Python/ Twine,
+                                        this is usually dist/*, and sometimes additionally
+                                        an .asc file.
                                       items:
                                         type: string
                                       type: array
@@ -2653,6 +2881,29 @@ spec:
                                             type: string
                                         type: object
                                       type: array
+                                  type: object
+                                type: array
+                              pythonPackages:
+                                description: |-
+                                  Python package to upload to Artifact Registry upon successful completion of all build steps. A package can encapsulate multiple objects to be uploaded to a single repository.
+                                  The location and generation of the uploaded objects will be stored in the Build resource's results field.
+                                  If any objects fail to be pushed, the build is marked FAILURE.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    paths:
+                                      description: Path globs used to match files
+                                        in the build's workspace. For Python/ Twine,
+                                        this is usually dist/*, and sometimes additionally
+                                        an .asc file.
+                                      items:
+                                        type: string
+                                      type: array
+                                    repository:
+                                      description: |-
+                                        The qualified resource name of the Repo API repository.
+                                        Either uri or repository can be specified and is required.
+                                      type: string
                                   type: object
                                 type: array
                             type: object
@@ -3085,6 +3336,11 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        bitbucketServerConfig:
+                          description: |-
+                            The full resource name of the bitbucket server config.
+                            Format: projects/{project}/locations/{location}/bitbucketServerConfigs/{id}.
+                          type: string
                         githubEnterpriseConfig:
                           description: |-
                             The full resource name of the github enterprise config.
@@ -3342,6 +3598,11 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        bitbucketServerConfig:
+                          description: |-
+                            The full resource name of the bitbucket server config.
+                            Format: projects/{project}/locations/{location}/bitbucketServerConfigs/{id}.
+                          type: string
                         githubEnterpriseConfig:
                           description: |-
                             The full resource name of the github enterprise config.

@@ -1238,6 +1238,25 @@ func (mg *GlobalForwardingRule) ResolveReferences(ctx context.Context, c client.
 	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
 	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Subnetwork", "SubnetworkList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Subnetwork),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.ForProvider.SubnetworkRef,
+			Selector:     mg.Spec.ForProvider.SubnetworkSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Subnetwork")
+	}
+	mg.Spec.ForProvider.Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.SubnetworkRef = rsp.ResolvedReference
+	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "TargetSSLProxy", "TargetSSLProxyList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
@@ -1313,6 +1332,25 @@ func (mg *GlobalForwardingRule) ResolveReferences(ctx context.Context, c client.
 	}
 	mg.Spec.InitProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ProjectRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Subnetwork", "SubnetworkList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Subnetwork),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.SubnetworkRef,
+			Selector:     mg.Spec.InitProvider.SubnetworkSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Subnetwork")
+	}
+	mg.Spec.InitProvider.Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.SubnetworkRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "TargetSSLProxy", "TargetSSLProxyList")
 		if err != nil {

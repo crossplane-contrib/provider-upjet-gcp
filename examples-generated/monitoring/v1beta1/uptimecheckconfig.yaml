@@ -18,8 +18,11 @@ spec:
     displayName: http-uptime-check
     httpCheck:
     - body: Zm9vJTI1M0RiYXI=
-      contentType: URL_ENCODED
+      contentType: USER_PROVIDED
+      customContentType: application/json
       path: some-path
+      pingConfig:
+      - pingsCount: 1
       port: "8010"
       requestMethod: POST
     monitoredResource:
@@ -28,3 +31,5 @@ spec:
         project_id: my-project-name
       type: uptime_url
     timeout: 60s
+    userLabels:
+      example-key: example-value

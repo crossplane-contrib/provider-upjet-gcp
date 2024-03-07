@@ -74,6 +74,54 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  advancedSettings:
+                    description: |-
+                      Hierarchical advanced settings for this agent. The settings exposed at the lower level overrides the settings exposed at the higher level.
+                      Hierarchy: Agent->Flow->Page->Fulfillment/Parameter.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        audioExportGcsDestination:
+                          description: 'If present, incoming audio is exported by
+                            Dialogflow to the configured Google Cloud Storage destination.
+                            Exposed at the following levels:'
+                          items:
+                            properties:
+                              uri:
+                                description: |-
+                                  The Google Cloud Storage URI for the exported objects. Whether a full object name, or just a prefix, its usage depends on the Dialogflow operation.
+                                  Format: gs://bucket/object-name-or-prefix
+                                type: string
+                            type: object
+                          type: array
+                        dtmfSettings:
+                          description: 'Define behaviors for DTMF (dual tone multi
+                            frequency). DTMF settings does not override each other.
+                            DTMF settings set at different levels define DTMF detections
+                            running in parallel. Exposed at the following levels:'
+                          items:
+                            properties:
+                              enabled:
+                                description: If true, incoming audio is processed
+                                  for DTMF (dual tone multi frequency) events. For
+                                  example, if the caller presses a button on their
+                                  telephone keypad and DTMF processing is enabled,
+                                  Dialogflow will detect the event (e.g. a "3" was
+                                  pressed) in the incoming audio and pass the event
+                                  to the bot to drive business logic (e.g. when 3
+                                  is pressed, return the account balance).
+                                type: boolean
+                              finishDigit:
+                                description: The digit that terminates a DTMF digit
+                                  sequence.
+                                type: string
+                              maxDigits:
+                                description: Max length of DTMF digits.
+                                type: number
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   avatarUri:
                     description: The URI of the agent's avatar. Avatars are used throughout
                       the Dialogflow console and in the self-hosted Web Demo integration.
@@ -99,6 +147,59 @@ spec:
                     description: Determines whether this agent should log conversation
                       queries.
                     type: boolean
+                  gitIntegrationSettings:
+                    description: |-
+                      Git integration settings for this agent.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        githubSettings:
+                          description: |-
+                            Settings of integration with GitHub.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              accessTokenSecretRef:
+                                description: |-
+                                  The access token used to authenticate the access to the GitHub repository.
+                                  Note: This property is sensitive and will not be displayed in the plan.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              branches:
+                                description: A list of branches configured to be used
+                                  from Dialogflow.
+                                items:
+                                  type: string
+                                type: array
+                              displayName:
+                                description: The unique repository display name for
+                                  the GitHub repository.
+                                type: string
+                              repositoryUri:
+                                description: The GitHub repository URI related to
+                                  the agent.
+                                type: string
+                              trackingBranch:
+                                description: The branch of the GitHub repository tracked
+                                  for this agent.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   location:
                     description: |-
                       The name of the location this agent is located in.
@@ -132,6 +233,19 @@ spec:
                       (except for the default_language_code).
                     items:
                       type: string
+                    type: array
+                  textToSpeechSettings:
+                    description: |-
+                      Settings related to speech synthesizing.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        synthesizeSpeechConfigs:
+                          description: |-
+                            Configuration of how speech should be synthesized, mapping from language to SynthesizeSpeechConfig.
+                            These settings affect:
+                          type: string
+                      type: object
                     type: array
                   timeZone:
                     description: |-
@@ -152,6 +266,54 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  advancedSettings:
+                    description: |-
+                      Hierarchical advanced settings for this agent. The settings exposed at the lower level overrides the settings exposed at the higher level.
+                      Hierarchy: Agent->Flow->Page->Fulfillment/Parameter.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        audioExportGcsDestination:
+                          description: 'If present, incoming audio is exported by
+                            Dialogflow to the configured Google Cloud Storage destination.
+                            Exposed at the following levels:'
+                          items:
+                            properties:
+                              uri:
+                                description: |-
+                                  The Google Cloud Storage URI for the exported objects. Whether a full object name, or just a prefix, its usage depends on the Dialogflow operation.
+                                  Format: gs://bucket/object-name-or-prefix
+                                type: string
+                            type: object
+                          type: array
+                        dtmfSettings:
+                          description: 'Define behaviors for DTMF (dual tone multi
+                            frequency). DTMF settings does not override each other.
+                            DTMF settings set at different levels define DTMF detections
+                            running in parallel. Exposed at the following levels:'
+                          items:
+                            properties:
+                              enabled:
+                                description: If true, incoming audio is processed
+                                  for DTMF (dual tone multi frequency) events. For
+                                  example, if the caller presses a button on their
+                                  telephone keypad and DTMF processing is enabled,
+                                  Dialogflow will detect the event (e.g. a "3" was
+                                  pressed) in the incoming audio and pass the event
+                                  to the bot to drive business logic (e.g. when 3
+                                  is pressed, return the account balance).
+                                type: boolean
+                              finishDigit:
+                                description: The digit that terminates a DTMF digit
+                                  sequence.
+                                type: string
+                              maxDigits:
+                                description: Max length of DTMF digits.
+                                type: number
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   avatarUri:
                     description: The URI of the agent's avatar. Avatars are used throughout
                       the Dialogflow console and in the self-hosted Web Demo integration.
@@ -177,6 +339,40 @@ spec:
                     description: Determines whether this agent should log conversation
                       queries.
                     type: boolean
+                  gitIntegrationSettings:
+                    description: |-
+                      Git integration settings for this agent.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        githubSettings:
+                          description: |-
+                            Settings of integration with GitHub.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              branches:
+                                description: A list of branches configured to be used
+                                  from Dialogflow.
+                                items:
+                                  type: string
+                                type: array
+                              displayName:
+                                description: The unique repository display name for
+                                  the GitHub repository.
+                                type: string
+                              repositoryUri:
+                                description: The GitHub repository URI related to
+                                  the agent.
+                                type: string
+                              trackingBranch:
+                                description: The branch of the GitHub repository tracked
+                                  for this agent.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   location:
                     description: |-
                       The name of the location this agent is located in.
@@ -210,6 +406,19 @@ spec:
                       (except for the default_language_code).
                     items:
                       type: string
+                    type: array
+                  textToSpeechSettings:
+                    description: |-
+                      Settings related to speech synthesizing.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        synthesizeSpeechConfigs:
+                          description: |-
+                            Configuration of how speech should be synthesized, mapping from language to SynthesizeSpeechConfig.
+                            These settings affect:
+                          type: string
+                      type: object
                     type: array
                   timeZone:
                     description: |-
@@ -406,6 +615,54 @@ spec:
             properties:
               atProvider:
                 properties:
+                  advancedSettings:
+                    description: |-
+                      Hierarchical advanced settings for this agent. The settings exposed at the lower level overrides the settings exposed at the higher level.
+                      Hierarchy: Agent->Flow->Page->Fulfillment/Parameter.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        audioExportGcsDestination:
+                          description: 'If present, incoming audio is exported by
+                            Dialogflow to the configured Google Cloud Storage destination.
+                            Exposed at the following levels:'
+                          items:
+                            properties:
+                              uri:
+                                description: |-
+                                  The Google Cloud Storage URI for the exported objects. Whether a full object name, or just a prefix, its usage depends on the Dialogflow operation.
+                                  Format: gs://bucket/object-name-or-prefix
+                                type: string
+                            type: object
+                          type: array
+                        dtmfSettings:
+                          description: 'Define behaviors for DTMF (dual tone multi
+                            frequency). DTMF settings does not override each other.
+                            DTMF settings set at different levels define DTMF detections
+                            running in parallel. Exposed at the following levels:'
+                          items:
+                            properties:
+                              enabled:
+                                description: If true, incoming audio is processed
+                                  for DTMF (dual tone multi frequency) events. For
+                                  example, if the caller presses a button on their
+                                  telephone keypad and DTMF processing is enabled,
+                                  Dialogflow will detect the event (e.g. a "3" was
+                                  pressed) in the incoming audio and pass the event
+                                  to the bot to drive business logic (e.g. when 3
+                                  is pressed, return the account balance).
+                                type: boolean
+                              finishDigit:
+                                description: The digit that terminates a DTMF digit
+                                  sequence.
+                                type: string
+                              maxDigits:
+                                description: Max length of DTMF digits.
+                                type: number
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   avatarUri:
                     description: The URI of the agent's avatar. Avatars are used throughout
                       the Dialogflow console and in the self-hosted Web Demo integration.
@@ -431,6 +688,40 @@ spec:
                     description: Determines whether this agent should log conversation
                       queries.
                     type: boolean
+                  gitIntegrationSettings:
+                    description: |-
+                      Git integration settings for this agent.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        githubSettings:
+                          description: |-
+                            Settings of integration with GitHub.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              branches:
+                                description: A list of branches configured to be used
+                                  from Dialogflow.
+                                items:
+                                  type: string
+                                type: array
+                              displayName:
+                                description: The unique repository display name for
+                                  the GitHub repository.
+                                type: string
+                              repositoryUri:
+                                description: The GitHub repository URI related to
+                                  the agent.
+                                type: string
+                              trackingBranch:
+                                description: The branch of the GitHub repository tracked
+                                  for this agent.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/agents/{{name}}
                     type: string
@@ -475,6 +766,19 @@ spec:
                       (except for the default_language_code).
                     items:
                       type: string
+                    type: array
+                  textToSpeechSettings:
+                    description: |-
+                      Settings related to speech synthesizing.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        synthesizeSpeechConfigs:
+                          description: |-
+                            Configuration of how speech should be synthesized, mapping from language to SynthesizeSpeechConfig.
+                            These settings affect:
+                          type: string
+                      type: object
                     type: array
                   timeZone:
                     description: |-

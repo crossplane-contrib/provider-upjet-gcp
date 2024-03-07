@@ -308,6 +308,6 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: ilb_network
     provider: ${google-beta}
-    purpose: INTERNAL_HTTPS_LOAD_BALANCER
+    purpose: REGIONAL_MANAGED_PROXY
     region: europe-west1
     role: ACTIVE

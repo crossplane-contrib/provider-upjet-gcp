@@ -89,9 +89,7 @@ spec:
                                   detection.
                                 type: boolean
                               ruleVisibility:
-                                description: 'Rule visibility can be one of the following:
-                                  STANDARD - opaque rules. (default) PREMIUM - transparent
-                                  rules.'
+                                description: 'Rule visibility can be one of the following:'
                                 type: string
                             type: object
                           type: array
@@ -128,6 +126,14 @@ spec:
                         logLevel:
                           description: Log level to use. Defaults to NORMAL.
                           type: string
+                        userIpRequestHeaders:
+                          description: An optional list of case-insensitive request
+                            header names to use for resolving the callers client IP
+                            address.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
                       type: object
                     type: array
                   description:
@@ -206,7 +212,10 @@ spec:
                                 items:
                                   properties:
                                     srcIpRanges:
-                                      description: field in config.
+                                      description: |-
+                                        Set of IP addresses or ranges (IPV4 or IPV6) in CIDR notation
+                                        to match against inbound traffic. There is a limit of 10 IP ranges per rule. A value of * matches all IPs
+                                        (can be used to override the default behavior).
                                       items:
                                         type: string
                                       type: array
@@ -245,21 +254,21 @@ spec:
                             Rules are evaluated from highest priority (lowest numerically) to lowest priority (highest numerically) in order.
                           type: number
                         rateLimitOptions:
-                          description: Must be specified if the action is "rate_based_ban"
-                            or "throttle". Cannot be specified for other actions.
-                            Structure is documented below.
+                          description: Must be specified if the action is rate_based_ban
+                            or throttle. Cannot be specified for other actions. Structure
+                            is documented below.
                           items:
                             properties:
                               banDurationSec:
                                 description: |-
-                                  Can only be specified if the action for the rule is "rate_based_ban".
+                                  Can only be specified if the action for the rule is rate_based_ban.
                                   If specified, determines the time (in seconds) the traffic will continue to be banned by the rate limit after the rate falls below the threshold.
                                 type: number
                               banThreshold:
                                 description: |-
-                                  Can only be specified if the action for the rule is "rate_based_ban".
-                                  If specified, the key will be banned for the configured 'ban_duration_sec' when the number of requests that exceed the 'rate_limit_threshold' also
-                                  exceed this 'ban_threshold'. Structure is documented below.
+                                  Can only be specified if the action for the rule is rate_based_ban.
+                                  If specified, the key will be banned for the configured ban_duration_sec when the number of requests that exceed the rate_limit_threshold also
+                                  exceed this ban_threshold. Structure is documented below.
                                 items:
                                   properties:
                                     count:
@@ -275,23 +284,20 @@ spec:
                               conformAction:
                                 description: Action to take for requests that are
                                   under the configured rate limit threshold. Valid
-                                  option is "allow" only.
+                                  option is allow only.
                                 type: string
                               enforceOnKey:
                                 description: Determines the key to enforce the rate_limit_threshold
-                                  on. If not specified, defaults to "ALL".
+                                  on. If not specified, defaults to ALL.
                                 type: string
                               enforceOnKeyName:
                                 description: 'Rate limit key name applicable only
-                                  for the following key types: HTTP_HEADER -- Name
-                                  of the HTTP header whose value is taken as the key
-                                  value. HTTP_COOKIE -- Name of the HTTP cookie whose
-                                  value is taken as the key value.'
+                                  for the following key types:'
                                 type: string
                               exceedAction:
                                 description: |-
                                   When a request is denied, returns the HTTP response code specified.
-                                  Valid options are "deny()" where valid values for status are 403, 404, 429, and 502.
+                                  Valid options are deny() where valid values for status are 403, 404, 429, and 502.
                                 type: string
                               exceedRedirectOptions:
                                 description: 'block supports:'
@@ -325,7 +331,7 @@ spec:
                             type: object
                           type: array
                         redirectOptions:
-                          description: Can be specified if the action is "redirect".
+                          description: Can be specified if the action is redirect.
                             Cannot be specified for other actions. Structure is documented
                             below.
                           items:
@@ -376,9 +382,7 @@ spec:
                                   detection.
                                 type: boolean
                               ruleVisibility:
-                                description: 'Rule visibility can be one of the following:
-                                  STANDARD - opaque rules. (default) PREMIUM - transparent
-                                  rules.'
+                                description: 'Rule visibility can be one of the following:'
                                 type: string
                             type: object
                           type: array
@@ -415,6 +419,14 @@ spec:
                         logLevel:
                           description: Log level to use. Defaults to NORMAL.
                           type: string
+                        userIpRequestHeaders:
+                          description: An optional list of case-insensitive request
+                            header names to use for resolving the callers client IP
+                            address.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
                       type: object
                     type: array
                   description:
@@ -493,7 +505,10 @@ spec:
                                 items:
                                   properties:
                                     srcIpRanges:
-                                      description: field in config.
+                                      description: |-
+                                        Set of IP addresses or ranges (IPV4 or IPV6) in CIDR notation
+                                        to match against inbound traffic. There is a limit of 10 IP ranges per rule. A value of * matches all IPs
+                                        (can be used to override the default behavior).
                                       items:
                                         type: string
                                       type: array
@@ -532,21 +547,21 @@ spec:
                             Rules are evaluated from highest priority (lowest numerically) to lowest priority (highest numerically) in order.
                           type: number
                         rateLimitOptions:
-                          description: Must be specified if the action is "rate_based_ban"
-                            or "throttle". Cannot be specified for other actions.
-                            Structure is documented below.
+                          description: Must be specified if the action is rate_based_ban
+                            or throttle. Cannot be specified for other actions. Structure
+                            is documented below.
                           items:
                             properties:
                               banDurationSec:
                                 description: |-
-                                  Can only be specified if the action for the rule is "rate_based_ban".
+                                  Can only be specified if the action for the rule is rate_based_ban.
                                   If specified, determines the time (in seconds) the traffic will continue to be banned by the rate limit after the rate falls below the threshold.
                                 type: number
                               banThreshold:
                                 description: |-
-                                  Can only be specified if the action for the rule is "rate_based_ban".
-                                  If specified, the key will be banned for the configured 'ban_duration_sec' when the number of requests that exceed the 'rate_limit_threshold' also
-                                  exceed this 'ban_threshold'. Structure is documented below.
+                                  Can only be specified if the action for the rule is rate_based_ban.
+                                  If specified, the key will be banned for the configured ban_duration_sec when the number of requests that exceed the rate_limit_threshold also
+                                  exceed this ban_threshold. Structure is documented below.
                                 items:
                                   properties:
                                     count:
@@ -562,23 +577,20 @@ spec:
                               conformAction:
                                 description: Action to take for requests that are
                                   under the configured rate limit threshold. Valid
-                                  option is "allow" only.
+                                  option is allow only.
                                 type: string
                               enforceOnKey:
                                 description: Determines the key to enforce the rate_limit_threshold
-                                  on. If not specified, defaults to "ALL".
+                                  on. If not specified, defaults to ALL.
                                 type: string
                               enforceOnKeyName:
                                 description: 'Rate limit key name applicable only
-                                  for the following key types: HTTP_HEADER -- Name
-                                  of the HTTP header whose value is taken as the key
-                                  value. HTTP_COOKIE -- Name of the HTTP cookie whose
-                                  value is taken as the key value.'
+                                  for the following key types:'
                                 type: string
                               exceedAction:
                                 description: |-
                                   When a request is denied, returns the HTTP response code specified.
-                                  Valid options are "deny()" where valid values for status are 403, 404, 429, and 502.
+                                  Valid options are deny() where valid values for status are 403, 404, 429, and 502.
                                 type: string
                               exceedRedirectOptions:
                                 description: 'block supports:'
@@ -612,7 +624,7 @@ spec:
                             type: object
                           type: array
                         redirectOptions:
-                          description: Can be specified if the action is "redirect".
+                          description: Can be specified if the action is redirect.
                             Cannot be specified for other actions. Structure is documented
                             below.
                           items:
@@ -822,9 +834,7 @@ spec:
                                   detection.
                                 type: boolean
                               ruleVisibility:
-                                description: 'Rule visibility can be one of the following:
-                                  STANDARD - opaque rules. (default) PREMIUM - transparent
-                                  rules.'
+                                description: 'Rule visibility can be one of the following:'
                                 type: string
                             type: object
                           type: array
@@ -861,6 +871,14 @@ spec:
                         logLevel:
                           description: Log level to use. Defaults to NORMAL.
                           type: string
+                        userIpRequestHeaders:
+                          description: An optional list of case-insensitive request
+                            header names to use for resolving the callers client IP
+                            address.
+                          items:
+                            type: string
+                          type: array
+                          x-kubernetes-list-type: set
                       type: object
                     type: array
                   description:
@@ -945,7 +963,10 @@ spec:
                                 items:
                                   properties:
                                     srcIpRanges:
-                                      description: field in config.
+                                      description: |-
+                                        Set of IP addresses or ranges (IPV4 or IPV6) in CIDR notation
+                                        to match against inbound traffic. There is a limit of 10 IP ranges per rule. A value of * matches all IPs
+                                        (can be used to override the default behavior).
                                       items:
                                         type: string
                                       type: array
@@ -984,21 +1005,21 @@ spec:
                             Rules are evaluated from highest priority (lowest numerically) to lowest priority (highest numerically) in order.
                           type: number
                         rateLimitOptions:
-                          description: Must be specified if the action is "rate_based_ban"
-                            or "throttle". Cannot be specified for other actions.
-                            Structure is documented below.
+                          description: Must be specified if the action is rate_based_ban
+                            or throttle. Cannot be specified for other actions. Structure
+                            is documented below.
                           items:
                             properties:
                               banDurationSec:
                                 description: |-
-                                  Can only be specified if the action for the rule is "rate_based_ban".
+                                  Can only be specified if the action for the rule is rate_based_ban.
                                   If specified, determines the time (in seconds) the traffic will continue to be banned by the rate limit after the rate falls below the threshold.
                                 type: number
                               banThreshold:
                                 description: |-
-                                  Can only be specified if the action for the rule is "rate_based_ban".
-                                  If specified, the key will be banned for the configured 'ban_duration_sec' when the number of requests that exceed the 'rate_limit_threshold' also
-                                  exceed this 'ban_threshold'. Structure is documented below.
+                                  Can only be specified if the action for the rule is rate_based_ban.
+                                  If specified, the key will be banned for the configured ban_duration_sec when the number of requests that exceed the rate_limit_threshold also
+                                  exceed this ban_threshold. Structure is documented below.
                                 items:
                                   properties:
                                     count:
@@ -1014,23 +1035,20 @@ spec:
                               conformAction:
                                 description: Action to take for requests that are
                                   under the configured rate limit threshold. Valid
-                                  option is "allow" only.
+                                  option is allow only.
                                 type: string
                               enforceOnKey:
                                 description: Determines the key to enforce the rate_limit_threshold
-                                  on. If not specified, defaults to "ALL".
+                                  on. If not specified, defaults to ALL.
                                 type: string
                               enforceOnKeyName:
                                 description: 'Rate limit key name applicable only
-                                  for the following key types: HTTP_HEADER -- Name
-                                  of the HTTP header whose value is taken as the key
-                                  value. HTTP_COOKIE -- Name of the HTTP cookie whose
-                                  value is taken as the key value.'
+                                  for the following key types:'
                                 type: string
                               exceedAction:
                                 description: |-
                                   When a request is denied, returns the HTTP response code specified.
-                                  Valid options are "deny()" where valid values for status are 403, 404, 429, and 502.
+                                  Valid options are deny() where valid values for status are 403, 404, 429, and 502.
                                 type: string
                               exceedRedirectOptions:
                                 description: 'block supports:'
@@ -1064,7 +1082,7 @@ spec:
                             type: object
                           type: array
                         redirectOptions:
-                          description: Can be specified if the action is "redirect".
+                          description: Can be specified if the action is redirect.
                             Cannot be specified for other actions. Structure is documented
                             below.
                           items:

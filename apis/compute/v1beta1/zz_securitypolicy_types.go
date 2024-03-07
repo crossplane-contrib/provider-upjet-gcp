@@ -59,6 +59,10 @@ type AdvancedOptionsConfigInitParameters struct {
 
 	// Log level to use. Defaults to NORMAL.
 	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
+
+	// An optional list of case-insensitive request header names to use for resolving the callers client IP address.
+	// +listType=set
+	UserIPRequestHeaders []*string `json:"userIpRequestHeaders,omitempty" tf:"user_ip_request_headers,omitempty"`
 }
 
 type AdvancedOptionsConfigObservation struct {
@@ -72,6 +76,10 @@ type AdvancedOptionsConfigObservation struct {
 
 	// Log level to use. Defaults to NORMAL.
 	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
+
+	// An optional list of case-insensitive request header names to use for resolving the callers client IP address.
+	// +listType=set
+	UserIPRequestHeaders []*string `json:"userIpRequestHeaders,omitempty" tf:"user_ip_request_headers,omitempty"`
 }
 
 type AdvancedOptionsConfigParameters struct {
@@ -88,6 +96,11 @@ type AdvancedOptionsConfigParameters struct {
 	// Log level to use. Defaults to NORMAL.
 	// +kubebuilder:validation:Optional
 	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
+
+	// An optional list of case-insensitive request header names to use for resolving the callers client IP address.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	UserIPRequestHeaders []*string `json:"userIpRequestHeaders,omitempty" tf:"user_ip_request_headers,omitempty"`
 }
 
 type BanThresholdInitParameters struct {
@@ -121,21 +134,27 @@ type BanThresholdParameters struct {
 
 type ConfigInitParameters struct {
 
-	// field in config.
+	// Set of IP addresses or ranges (IPV4 or IPV6) in CIDR notation
+	// to match against inbound traffic. There is a limit of 10 IP ranges per rule. A value of * matches all IPs
+	// (can be used to override the default behavior).
 	// +listType=set
 	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
 }
 
 type ConfigObservation struct {
 
-	// field in config.
+	// Set of IP addresses or ranges (IPV4 or IPV6) in CIDR notation
+	// to match against inbound traffic. There is a limit of 10 IP ranges per rule. A value of * matches all IPs
+	// (can be used to override the default behavior).
 	// +listType=set
 	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
 }
 
 type ConfigParameters struct {
 
-	// field in config.
+	// Set of IP addresses or ranges (IPV4 or IPV6) in CIDR notation
+	// to match against inbound traffic. There is a limit of 10 IP ranges per rule. A value of * matches all IPs
+	// (can be used to override the default behavior).
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	SrcIPRanges []*string `json:"srcIpRanges" tf:"src_ip_ranges,omitempty"`
@@ -228,7 +247,7 @@ type Layer7DdosDefenseConfigInitParameters struct {
 	// If set to true, enables CAAP for L7 DDoS detection.
 	Enable *bool `json:"enable,omitempty" tf:"enable,omitempty"`
 
-	// Rule visibility can be one of the following: STANDARD - opaque rules. (default) PREMIUM - transparent rules.
+	// Rule visibility can be one of the following:
 	RuleVisibility *string `json:"ruleVisibility,omitempty" tf:"rule_visibility,omitempty"`
 }
 
@@ -237,7 +256,7 @@ type Layer7DdosDefenseConfigObservation struct {
 	// If set to true, enables CAAP for L7 DDoS detection.
 	Enable *bool `json:"enable,omitempty" tf:"enable,omitempty"`
 
-	// Rule visibility can be one of the following: STANDARD - opaque rules. (default) PREMIUM - transparent rules.
+	// Rule visibility can be one of the following:
 	RuleVisibility *string `json:"ruleVisibility,omitempty" tf:"rule_visibility,omitempty"`
 }
 
@@ -247,33 +266,33 @@ type Layer7DdosDefenseConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Enable *bool `json:"enable,omitempty" tf:"enable,omitempty"`
 
-	// Rule visibility can be one of the following: STANDARD - opaque rules. (default) PREMIUM - transparent rules.
+	// Rule visibility can be one of the following:
 	// +kubebuilder:validation:Optional
 	RuleVisibility *string `json:"ruleVisibility,omitempty" tf:"rule_visibility,omitempty"`
 }
 
 type RateLimitOptionsInitParameters struct {
 
-	// Can only be specified if the action for the rule is "rate_based_ban".
+	// Can only be specified if the action for the rule is rate_based_ban.
 	// If specified, determines the time (in seconds) the traffic will continue to be banned by the rate limit after the rate falls below the threshold.
 	BanDurationSec *float64 `json:"banDurationSec,omitempty" tf:"ban_duration_sec,omitempty"`
 
-	// Can only be specified if the action for the rule is "rate_based_ban".
-	// If specified, the key will be banned for the configured 'ban_duration_sec' when the number of requests that exceed the 'rate_limit_threshold' also
-	// exceed this 'ban_threshold'. Structure is documented below.
+	// Can only be specified if the action for the rule is rate_based_ban.
+	// If specified, the key will be banned for the configured ban_duration_sec when the number of requests that exceed the rate_limit_threshold also
+	// exceed this ban_threshold. Structure is documented below.
 	BanThreshold []BanThresholdInitParameters `json:"banThreshold,omitempty" tf:"ban_threshold,omitempty"`
 
-	// Action to take for requests that are under the configured rate limit threshold. Valid option is "allow" only.
+	// Action to take for requests that are under the configured rate limit threshold. Valid option is allow only.
 	ConformAction *string `json:"conformAction,omitempty" tf:"conform_action,omitempty"`
 
-	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to "ALL".
+	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to ALL.
 	EnforceOnKey *string `json:"enforceOnKey,omitempty" tf:"enforce_on_key,omitempty"`
 
-	// Rate limit key name applicable only for the following key types: HTTP_HEADER -- Name of the HTTP header whose value is taken as the key value. HTTP_COOKIE -- Name of the HTTP cookie whose value is taken as the key value.
+	// Rate limit key name applicable only for the following key types:
 	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
 
 	// When a request is denied, returns the HTTP response code specified.
-	// Valid options are "deny()" where valid values for status are 403, 404, 429, and 502.
+	// Valid options are deny() where valid values for status are 403, 404, 429, and 502.
 	ExceedAction *string `json:"exceedAction,omitempty" tf:"exceed_action,omitempty"`
 
 	// block supports:
@@ -285,26 +304,26 @@ type RateLimitOptionsInitParameters struct {
 
 type RateLimitOptionsObservation struct {
 
-	// Can only be specified if the action for the rule is "rate_based_ban".
+	// Can only be specified if the action for the rule is rate_based_ban.
 	// If specified, determines the time (in seconds) the traffic will continue to be banned by the rate limit after the rate falls below the threshold.
 	BanDurationSec *float64 `json:"banDurationSec,omitempty" tf:"ban_duration_sec,omitempty"`
 
-	// Can only be specified if the action for the rule is "rate_based_ban".
-	// If specified, the key will be banned for the configured 'ban_duration_sec' when the number of requests that exceed the 'rate_limit_threshold' also
-	// exceed this 'ban_threshold'. Structure is documented below.
+	// Can only be specified if the action for the rule is rate_based_ban.
+	// If specified, the key will be banned for the configured ban_duration_sec when the number of requests that exceed the rate_limit_threshold also
+	// exceed this ban_threshold. Structure is documented below.
 	BanThreshold []BanThresholdObservation `json:"banThreshold,omitempty" tf:"ban_threshold,omitempty"`
 
-	// Action to take for requests that are under the configured rate limit threshold. Valid option is "allow" only.
+	// Action to take for requests that are under the configured rate limit threshold. Valid option is allow only.
 	ConformAction *string `json:"conformAction,omitempty" tf:"conform_action,omitempty"`
 
-	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to "ALL".
+	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to ALL.
 	EnforceOnKey *string `json:"enforceOnKey,omitempty" tf:"enforce_on_key,omitempty"`
 
-	// Rate limit key name applicable only for the following key types: HTTP_HEADER -- Name of the HTTP header whose value is taken as the key value. HTTP_COOKIE -- Name of the HTTP cookie whose value is taken as the key value.
+	// Rate limit key name applicable only for the following key types:
 	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
 
 	// When a request is denied, returns the HTTP response code specified.
-	// Valid options are "deny()" where valid values for status are 403, 404, 429, and 502.
+	// Valid options are deny() where valid values for status are 403, 404, 429, and 502.
 	ExceedAction *string `json:"exceedAction,omitempty" tf:"exceed_action,omitempty"`
 
 	// block supports:
@@ -316,31 +335,31 @@ type RateLimitOptionsObservation struct {
 
 type RateLimitOptionsParameters struct {
 
-	// Can only be specified if the action for the rule is "rate_based_ban".
+	// Can only be specified if the action for the rule is rate_based_ban.
 	// If specified, determines the time (in seconds) the traffic will continue to be banned by the rate limit after the rate falls below the threshold.
 	// +kubebuilder:validation:Optional
 	BanDurationSec *float64 `json:"banDurationSec,omitempty" tf:"ban_duration_sec,omitempty"`
 
-	// Can only be specified if the action for the rule is "rate_based_ban".
-	// If specified, the key will be banned for the configured 'ban_duration_sec' when the number of requests that exceed the 'rate_limit_threshold' also
-	// exceed this 'ban_threshold'. Structure is documented below.
+	// Can only be specified if the action for the rule is rate_based_ban.
+	// If specified, the key will be banned for the configured ban_duration_sec when the number of requests that exceed the rate_limit_threshold also
+	// exceed this ban_threshold. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	BanThreshold []BanThresholdParameters `json:"banThreshold,omitempty" tf:"ban_threshold,omitempty"`
 
-	// Action to take for requests that are under the configured rate limit threshold. Valid option is "allow" only.
+	// Action to take for requests that are under the configured rate limit threshold. Valid option is allow only.
 	// +kubebuilder:validation:Optional
 	ConformAction *string `json:"conformAction" tf:"conform_action,omitempty"`
 
-	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to "ALL".
+	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to ALL.
 	// +kubebuilder:validation:Optional
 	EnforceOnKey *string `json:"enforceOnKey,omitempty" tf:"enforce_on_key,omitempty"`
 
-	// Rate limit key name applicable only for the following key types: HTTP_HEADER -- Name of the HTTP header whose value is taken as the key value. HTTP_COOKIE -- Name of the HTTP cookie whose value is taken as the key value.
+	// Rate limit key name applicable only for the following key types:
 	// +kubebuilder:validation:Optional
 	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
 
 	// When a request is denied, returns the HTTP response code specified.
-	// Valid options are "deny()" where valid values for status are 403, 404, 429, and 502.
+	// Valid options are deny() where valid values for status are 403, 404, 429, and 502.
 	// +kubebuilder:validation:Optional
 	ExceedAction *string `json:"exceedAction" tf:"exceed_action,omitempty"`
 
@@ -501,10 +520,10 @@ type RuleInitParameters struct {
 	// Rules are evaluated from highest priority (lowest numerically) to lowest priority (highest numerically) in order.
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
-	// Must be specified if the action is "rate_based_ban" or "throttle". Cannot be specified for other actions. Structure is documented below.
+	// Must be specified if the action is rate_based_ban or throttle. Cannot be specified for other actions. Structure is documented below.
 	RateLimitOptions []RateLimitOptionsInitParameters `json:"rateLimitOptions,omitempty" tf:"rate_limit_options,omitempty"`
 
-	// Can be specified if the action is "redirect". Cannot be specified for other actions. Structure is documented below.
+	// Can be specified if the action is redirect. Cannot be specified for other actions. Structure is documented below.
 	RedirectOptions []RedirectOptionsInitParameters `json:"redirectOptions,omitempty" tf:"redirect_options,omitempty"`
 }
 
@@ -585,10 +604,10 @@ type RuleObservation struct {
 	// Rules are evaluated from highest priority (lowest numerically) to lowest priority (highest numerically) in order.
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
-	// Must be specified if the action is "rate_based_ban" or "throttle". Cannot be specified for other actions. Structure is documented below.
+	// Must be specified if the action is rate_based_ban or throttle. Cannot be specified for other actions. Structure is documented below.
 	RateLimitOptions []RateLimitOptionsObservation `json:"rateLimitOptions,omitempty" tf:"rate_limit_options,omitempty"`
 
-	// Can be specified if the action is "redirect". Cannot be specified for other actions. Structure is documented below.
+	// Can be specified if the action is redirect. Cannot be specified for other actions. Structure is documented below.
 	RedirectOptions []RedirectOptionsObservation `json:"redirectOptions,omitempty" tf:"redirect_options,omitempty"`
 }
 
@@ -621,11 +640,11 @@ type RuleParameters struct {
 	// +kubebuilder:validation:Optional
 	Priority *float64 `json:"priority" tf:"priority,omitempty"`
 
-	// Must be specified if the action is "rate_based_ban" or "throttle". Cannot be specified for other actions. Structure is documented below.
+	// Must be specified if the action is rate_based_ban or throttle. Cannot be specified for other actions. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RateLimitOptions []RateLimitOptionsParameters `json:"rateLimitOptions,omitempty" tf:"rate_limit_options,omitempty"`
 
-	// Can be specified if the action is "redirect". Cannot be specified for other actions. Structure is documented below.
+	// Can be specified if the action is redirect. Cannot be specified for other actions. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RedirectOptions []RedirectOptionsParameters `json:"redirectOptions,omitempty" tf:"redirect_options,omitempty"`
 }

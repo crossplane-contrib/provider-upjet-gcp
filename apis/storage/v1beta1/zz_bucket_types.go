@@ -62,12 +62,18 @@ type AutoclassInitParameters struct {
 
 	// While set to true, autoclass automatically transitions objects in your bucket to appropriate storage classes based on each object's access pattern.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// The storage class that objects in the bucket eventually transition to if they are not read for a certain length of time. Supported values include: NEARLINE, ARCHIVE.
+	TerminalStorageClass *string `json:"terminalStorageClass,omitempty" tf:"terminal_storage_class,omitempty"`
 }
 
 type AutoclassObservation struct {
 
 	// While set to true, autoclass automatically transitions objects in your bucket to appropriate storage classes based on each object's access pattern.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// The storage class that objects in the bucket eventually transition to if they are not read for a certain length of time. Supported values include: NEARLINE, ARCHIVE.
+	TerminalStorageClass *string `json:"terminalStorageClass,omitempty" tf:"terminal_storage_class,omitempty"`
 }
 
 type AutoclassParameters struct {
@@ -75,6 +81,10 @@ type AutoclassParameters struct {
 	// While set to true, autoclass automatically transitions objects in your bucket to appropriate storage classes based on each object's access pattern.
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+
+	// The storage class that objects in the bucket eventually transition to if they are not read for a certain length of time. Supported values include: NEARLINE, ARCHIVE.
+	// +kubebuilder:validation:Optional
+	TerminalStorageClass *string `json:"terminalStorageClass,omitempty" tf:"terminal_storage_class,omitempty"`
 }
 
 type BucketInitParameters struct {
@@ -90,6 +100,9 @@ type BucketInitParameters struct {
 
 	// Whether or not to automatically apply an eventBasedHold to new objects added to the bucket.
 	DefaultEventBasedHold *bool `json:"defaultEventBasedHold,omitempty" tf:"default_event_based_hold,omitempty"`
+
+	// Enables object retention on a storage bucket.
+	EnableObjectRetention *bool `json:"enableObjectRetention,omitempty" tf:"enable_object_retention,omitempty"`
 
 	// The bucket's encryption configuration. Structure is documented below.
 	Encryption []EncryptionInitParameters `json:"encryption,omitempty" tf:"encryption,omitempty"`
@@ -124,6 +137,9 @@ type BucketInitParameters struct {
 	// Configuration of the bucket's data retention policy for how long objects in the bucket should be retained. Structure is documented below.
 	RetentionPolicy []RetentionPolicyInitParameters `json:"retentionPolicy,omitempty" tf:"retention_policy,omitempty"`
 
+	// The recovery point objective for cross-region replication of the bucket. Applicable only for dual and multi-region buckets. "DEFAULT" sets default replication. "ASYNC_TURBO" value enables turbo replication, valid for dual-region buckets only. See Turbo Replication for more information. If rpo is not specified at bucket creation, it defaults to "DEFAULT" for dual and multi-region buckets. NOTE If used with single-region bucket, It will throw an error.
+	Rpo *string `json:"rpo,omitempty" tf:"rpo,omitempty"`
+
 	// The Storage Class of the new bucket. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE.
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
 
@@ -150,6 +166,13 @@ type BucketObservation struct {
 
 	// Whether or not to automatically apply an eventBasedHold to new objects added to the bucket.
 	DefaultEventBasedHold *bool `json:"defaultEventBasedHold,omitempty" tf:"default_event_based_hold,omitempty"`
+
+	// A map of key/value label pairs to assign to the bucket.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
+	// Enables object retention on a storage bucket.
+	EnableObjectRetention *bool `json:"enableObjectRetention,omitempty" tf:"enable_object_retention,omitempty"`
 
 	// The bucket's encryption configuration. Structure is documented below.
 	Encryption []EncryptionObservation `json:"encryption,omitempty" tf:"encryption,omitempty"`
@@ -186,11 +209,18 @@ type BucketObservation struct {
 	// Configuration of the bucket's data retention policy for how long objects in the bucket should be retained. Structure is documented below.
 	RetentionPolicy []RetentionPolicyObservation `json:"retentionPolicy,omitempty" tf:"retention_policy,omitempty"`
 
+	// The recovery point objective for cross-region replication of the bucket. Applicable only for dual and multi-region buckets. "DEFAULT" sets default replication. "ASYNC_TURBO" value enables turbo replication, valid for dual-region buckets only. See Turbo Replication for more information. If rpo is not specified at bucket creation, it defaults to "DEFAULT" for dual and multi-region buckets. NOTE If used with single-region bucket, It will throw an error.
+	Rpo *string `json:"rpo,omitempty" tf:"rpo,omitempty"`
+
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
 	// The Storage Class of the new bucket. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE.
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
+
+	// A map of key/value label pairs to assign to the bucket.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// The base URL of the bucket, in the format gs://<bucket-name>.
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
@@ -222,6 +252,10 @@ type BucketParameters struct {
 	// Whether or not to automatically apply an eventBasedHold to new objects added to the bucket.
 	// +kubebuilder:validation:Optional
 	DefaultEventBasedHold *bool `json:"defaultEventBasedHold,omitempty" tf:"default_event_based_hold,omitempty"`
+
+	// Enables object retention on a storage bucket.
+	// +kubebuilder:validation:Optional
+	EnableObjectRetention *bool `json:"enableObjectRetention,omitempty" tf:"enable_object_retention,omitempty"`
 
 	// The bucket's encryption configuration. Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -266,6 +300,10 @@ type BucketParameters struct {
 	// +kubebuilder:validation:Optional
 	RetentionPolicy []RetentionPolicyParameters `json:"retentionPolicy,omitempty" tf:"retention_policy,omitempty"`
 
+	// The recovery point objective for cross-region replication of the bucket. Applicable only for dual and multi-region buckets. "DEFAULT" sets default replication. "ASYNC_TURBO" value enables turbo replication, valid for dual-region buckets only. See Turbo Replication for more information. If rpo is not specified at bucket creation, it defaults to "DEFAULT" for dual and multi-region buckets. NOTE If used with single-region bucket, It will throw an error.
+	// +kubebuilder:validation:Optional
+	Rpo *string `json:"rpo,omitempty" tf:"rpo,omitempty"`
+
 	// The Storage Class of the new bucket. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE.
 	// +kubebuilder:validation:Optional
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
@@ -309,6 +347,9 @@ type ConditionInitParameters struct {
 	// One or more matching name suffixes to satisfy this condition.
 	MatchesSuffix []*string `json:"matchesSuffix,omitempty" tf:"matches_suffix,omitempty"`
 
+	// While set true, age value will be omitted. Note Required to set true when age is unset in the config file.
+	NoAge *bool `json:"noAge,omitempty" tf:"no_age,omitempty"`
+
 	// Relevant only for versioned objects. The date in RFC 3339 (e.g. 2017-06-13) when the object became nonconcurrent.
 	NoncurrentTimeBefore *string `json:"noncurrentTimeBefore,omitempty" tf:"noncurrent_time_before,omitempty"`
 
@@ -344,6 +385,9 @@ type ConditionObservation struct {
 
 	// One or more matching name suffixes to satisfy this condition.
 	MatchesSuffix []*string `json:"matchesSuffix,omitempty" tf:"matches_suffix,omitempty"`
+
+	// While set true, age value will be omitted. Note Required to set true when age is unset in the config file.
+	NoAge *bool `json:"noAge,omitempty" tf:"no_age,omitempty"`
 
 	// Relevant only for versioned objects. The date in RFC 3339 (e.g. 2017-06-13) when the object became nonconcurrent.
 	NoncurrentTimeBefore *string `json:"noncurrentTimeBefore,omitempty" tf:"noncurrent_time_before,omitempty"`
@@ -388,6 +432,10 @@ type ConditionParameters struct {
 	// One or more matching name suffixes to satisfy this condition.
 	// +kubebuilder:validation:Optional
 	MatchesSuffix []*string `json:"matchesSuffix,omitempty" tf:"matches_suffix,omitempty"`
+
+	// While set true, age value will be omitted. Note Required to set true when age is unset in the config file.
+	// +kubebuilder:validation:Optional
+	NoAge *bool `json:"noAge,omitempty" tf:"no_age,omitempty"`
 
 	// Relevant only for versioned objects. The date in RFC 3339 (e.g. 2017-06-13) when the object became nonconcurrent.
 	// +kubebuilder:validation:Optional

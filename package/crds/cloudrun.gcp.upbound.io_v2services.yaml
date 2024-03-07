@@ -108,6 +108,13 @@ spec:
                   clientVersion:
                     description: Arbitrary version identifier for the API client.
                     type: string
+                  customAudiences:
+                    description: |-
+                      One or more custom audiences that you want this service to support. Specify each custom audience as the full URL in a string. The custom audiences are encoded in the token and used to authenticate requests.
+                      For more information, see https://cloud.google.com/run/docs/configuring/custom-audiences.
+                    items:
+                      type: string
+                    type: array
                   description:
                     description: User-provided description of the Service. This field
                       currently has a 512-character limit.
@@ -191,6 +198,14 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                              dependsOn:
+                                description: Containers which should be started before
+                                  this container. If specified the container will
+                                  wait to start until all containers with the listed
+                                  names are healthy.
+                                items:
+                                  type: string
+                                type: array
                               env:
                                 description: |-
                                   List of environment variables to set in the container.
@@ -334,10 +349,10 @@ spec:
                                       items:
                                         properties:
                                           port:
-                                            description: Port number to access on
-                                              the container. Must be in the range
-                                              1 to 65535. If not specified, defaults
-                                              to 8080.
+                                            description: |-
+                                              Port number to access on the container. Must be in the range 1 to 65535.
+                                              If not specified, defaults to the exposed port of the container, which
+                                              is the value of container.ports[0].containerPort.
                                             type: number
                                           service:
                                             description: |-
@@ -368,14 +383,14 @@ spec:
                                               type: object
                                             type: array
                                           path:
-                                            description: The relative path of the
-                                              secret in the container.
+                                            description: Path that is exported by
+                                              the NFS server.
                                             type: string
                                           port:
-                                            description: Port number to access on
-                                              the container. Must be in the range
-                                              1 to 65535. If not specified, defaults
-                                              to 8080.
+                                            description: |-
+                                              Port number to access on the container. Must be in the range 1 to 65535.
+                                              If not specified, defaults to the exposed port of the container, which
+                                              is the value of container.ports[0].containerPort.
                                             type: number
                                         type: object
                                       type: array
@@ -401,10 +416,10 @@ spec:
                                       items:
                                         properties:
                                           port:
-                                            description: Port number to access on
-                                              the container. Must be in the range
-                                              1 to 65535. If not specified, defaults
-                                              to 8080.
+                                            description: |-
+                                              Port number to access on the container. Must be in the range 1 to 65535.
+                                              If not specified, defaults to the exposed port of the container, which
+                                              is the value of container.ports[0].containerPort.
                                             type: number
                                         type: object
                                       type: array
@@ -444,17 +459,19 @@ spec:
                                 items:
                                   properties:
                                     cpuIdle:
-                                      description: Determines whether CPU should be
-                                        throttled or not outside of requests.
+                                      description: |-
+                                        Determines whether CPU is only allocated during requests. True by default if the parent resources field is not set. However, if
+                                        resources is set, this field must be explicitly set to true to preserve the default behavior.
                                       type: boolean
                                     limits:
                                       additionalProperties:
                                         type: string
                                       description: 'Only memory and CPU are supported.
-                                        Note: The only supported values for CPU are
-                                        ''1'', ''2'', ''4'', and ''8''. Setting 4
-                                        CPU requires at least 2Gi of memory. The values
-                                        of the map is string form of the ''quantity''
+                                        Use key cpu for CPU limit and memory for memory
+                                        limit. Note: The only supported values for
+                                        CPU are ''1'', ''2'', ''4'', and ''8''. Setting
+                                        4 CPU requires at least 2Gi of memory. The
+                                        values of the map is string form of the ''quantity''
                                         k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                       type: object
                                       x-kubernetes-map-type: granular
@@ -485,10 +502,10 @@ spec:
                                       items:
                                         properties:
                                           port:
-                                            description: Port number to access on
-                                              the container. Must be in the range
-                                              1 to 65535. If not specified, defaults
-                                              to 8080.
+                                            description: |-
+                                              Port number to access on the container. Must be in the range 1 to 65535.
+                                              If not specified, defaults to the exposed port of the container, which
+                                              is the value of container.ports[0].containerPort.
                                             type: number
                                           service:
                                             description: |-
@@ -519,14 +536,14 @@ spec:
                                               type: object
                                             type: array
                                           path:
-                                            description: The relative path of the
-                                              secret in the container.
+                                            description: Path that is exported by
+                                              the NFS server.
                                             type: string
                                           port:
-                                            description: Port number to access on
-                                              the container. Must be in the range
-                                              1 to 65535. If not specified, defaults
-                                              to 8080.
+                                            description: |-
+                                              Port number to access on the container. Must be in the range 1 to 65535.
+                                              If not specified, defaults to the exposed port of the container, which
+                                              is the value of container.ports[0].containerPort.
                                             type: number
                                         type: object
                                       type: array
@@ -552,10 +569,10 @@ spec:
                                       items:
                                         properties:
                                           port:
-                                            description: Port number to access on
-                                              the container. Must be in the range
-                                              1 to 65535. If not specified, defaults
-                                              to 8080.
+                                            description: |-
+                                              Port number to access on the container. Must be in the range 1 to 65535.
+                                              If not specified, defaults to the exposed port of the container, which
+                                              is the value of container.ports[0].containerPort.
                                             type: number
                                         type: object
                                       type: array
@@ -678,11 +695,123 @@ spec:
                                       items:
                                         type: string
                                       type: array
+                                      x-kubernetes-list-type: set
+                                  type: object
+                                type: array
+                              gcs:
+                                description: |-
+                                  Represents a GCS Bucket mounted as a volume.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    bucket:
+                                      description: GCS Bucket name
+                                      type: string
+                                    bucketRef:
+                                      description: Reference to a Bucket in storage
+                                        to populate bucket.
+                                      properties:
+                                        name:
+                                          description: Name of the referenced object.
+                                          type: string
+                                        policy:
+                                          description: Policies for referencing.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      required:
+                                      - name
+                                      type: object
+                                    bucketSelector:
+                                      description: Selector for a Bucket in storage
+                                        to populate bucket.
+                                      properties:
+                                        matchControllerRef:
+                                          description: |-
+                                            MatchControllerRef ensures an object with the same controller reference
+                                            as the selecting object is selected.
+                                          type: boolean
+                                        matchLabels:
+                                          additionalProperties:
+                                            type: string
+                                          description: MatchLabels ensures an object
+                                            with matching labels is selected.
+                                          type: object
+                                        policy:
+                                          description: Policies for selection.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      type: object
+                                    readOnly:
+                                      description: If true, mount the NFS volume as
+                                        read only
+                                      type: boolean
                                   type: object
                                 type: array
                               name:
                                 description: Volume's name.
                                 type: string
+                              nfs:
+                                description: |-
+                                  Represents an NFS mount.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    path:
+                                      description: Path that is exported by the NFS
+                                        server.
+                                      type: string
+                                    readOnly:
+                                      description: If true, mount the NFS volume as
+                                        read only
+                                      type: boolean
+                                    server:
+                                      description: Hostname or IP address of the NFS
+                                        server
+                                      type: string
+                                  type: object
+                                type: array
                               secret:
                                 description: |-
                                   Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
@@ -709,8 +838,8 @@ spec:
                                               the Volume's default mode will be used.
                                             type: number
                                           path:
-                                            description: The relative path of the
-                                              secret in the container.
+                                            description: Path that is exported by
+                                              the NFS server.
                                             type: string
                                           version:
                                             description: The Cloud Secret Manager
@@ -820,6 +949,32 @@ spec:
                                   Traffic VPC egress settings.
                                   Possible values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.
                                 type: string
+                              networkInterfaces:
+                                description: |-
+                                  Direct VPC egress settings. Currently only single network interface is supported.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    network:
+                                      description: |-
+                                        The VPC network that the Cloud Run resource will be able to send traffic to. At least one of network or subnetwork must be specified. If both
+                                        network and subnetwork are specified, the given VPC subnetwork must belong to the given VPC network. If network is not specified, it will be
+                                        looked up from the subnetwork.
+                                      type: string
+                                    subnetwork:
+                                      description: |-
+                                        The VPC subnetwork that the Cloud Run resource will get IPs from. At least one of network or subnetwork must be specified. If both
+                                        network and subnetwork are specified, the given VPC subnetwork must belong to the given VPC network. If subnetwork is not specified, the
+                                        subnetwork with the same name with the network will be used.
+                                      type: string
+                                    tags:
+                                      description: Network tags applied to this Cloud
+                                        Run service.
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
                             type: object
                           type: array
                       type: object
@@ -849,6 +1004,8 @@ spec:
                           type: string
                       type: object
                     type: array
+                required:
+                - location
                 type: object
               initProvider:
                 description: |-
@@ -897,6 +1054,13 @@ spec:
                   clientVersion:
                     description: Arbitrary version identifier for the API client.
                     type: string
+                  customAudiences:
+                    description: |-
+                      One or more custom audiences that you want this service to support. Specify each custom audience as the full URL in a string. The custom audiences are encoded in the token and used to authenticate requests.
+                      For more information, see https://cloud.google.com/run/docs/configuring/custom-audiences.
+                    items:
+                      type: string
+                    type: array
                   description:
                     description: User-provided description of the Service. This field
                       currently has a 512-character limit.
@@ -977,6 +1141,14 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                              dependsOn:
+                                description: Containers which should be started before
+                                  this container. If specified the container will
+                                  wait to start until all containers with the listed
+                                  names are healthy.
+                                items:
+                                  type: string
+                                type: array
                               env:
                                 description: |-
                                   List of environment variables to set in the container.
@@ -1120,10 +1292,10 @@ spec:
                                       items:
                                         properties:
                                           port:
-                                            description: Port number to access on
-                                              the container. Must be in the range
-                                              1 to 65535. If not specified, defaults
-                                              to 8080.
+                                            description: |-
+                                              Port number to access on the container. Must be in the range 1 to 65535.
+                                              If not specified, defaults to the exposed port of the container, which
+                                              is the value of container.ports[0].containerPort.
                                             type: number
                                           service:
                                             description: |-
@@ -1154,14 +1326,14 @@ spec:
                                               type: object
                                             type: array
                                           path:
-                                            description: The relative path of the
-                                              secret in the container.
+                                            description: Path that is exported by
+                                              the NFS server.
                                             type: string
                                           port:
-                                            description: Port number to access on
-                                              the container. Must be in the range
-                                              1 to 65535. If not specified, defaults
-                                              to 8080.
+                                            description: |-
+                                              Port number to access on the container. Must be in the range 1 to 65535.
+                                              If not specified, defaults to the exposed port of the container, which
+                                              is the value of container.ports[0].containerPort.
                                             type: number
                                         type: object
                                       type: array
@@ -1187,10 +1359,10 @@ spec:
                                       items:
                                         properties:
                                           port:
-                                            description: Port number to access on
-                                              the container. Must be in the range
-                                              1 to 65535. If not specified, defaults
-                                              to 8080.
+                                            description: |-
+                                              Port number to access on the container. Must be in the range 1 to 65535.
+                                              If not specified, defaults to the exposed port of the container, which
+                                              is the value of container.ports[0].containerPort.
                                             type: number
                                         type: object
                                       type: array
@@ -1230,17 +1402,19 @@ spec:
                                 items:
                                   properties:
                                     cpuIdle:
-                                      description: Determines whether CPU should be
-                                        throttled or not outside of requests.
+                                      description: |-
+                                        Determines whether CPU is only allocated during requests. True by default if the parent resources field is not set. However, if
+                                        resources is set, this field must be explicitly set to true to preserve the default behavior.
                                       type: boolean
                                     limits:
                                       additionalProperties:
                                         type: string
                                       description: 'Only memory and CPU are supported.
-                                        Note: The only supported values for CPU are
-                                        ''1'', ''2'', ''4'', and ''8''. Setting 4
-                                        CPU requires at least 2Gi of memory. The values
-                                        of the map is string form of the ''quantity''
+                                        Use key cpu for CPU limit and memory for memory
+                                        limit. Note: The only supported values for
+                                        CPU are ''1'', ''2'', ''4'', and ''8''. Setting
+                                        4 CPU requires at least 2Gi of memory. The
+                                        values of the map is string form of the ''quantity''
                                         k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                       type: object
                                       x-kubernetes-map-type: granular
@@ -1271,10 +1445,10 @@ spec:
                                       items:
                                         properties:
                                           port:
-                                            description: Port number to access on
-                                              the container. Must be in the range
-                                              1 to 65535. If not specified, defaults
-                                              to 8080.
+                                            description: |-
+                                              Port number to access on the container. Must be in the range 1 to 65535.
+                                              If not specified, defaults to the exposed port of the container, which
+                                              is the value of container.ports[0].containerPort.
                                             type: number
                                           service:
                                             description: |-
@@ -1305,14 +1479,14 @@ spec:
                                               type: object
                                             type: array
                                           path:
-                                            description: The relative path of the
-                                              secret in the container.
+                                            description: Path that is exported by
+                                              the NFS server.
                                             type: string
                                           port:
-                                            description: Port number to access on
-                                              the container. Must be in the range
-                                              1 to 65535. If not specified, defaults
-                                              to 8080.
+                                            description: |-
+                                              Port number to access on the container. Must be in the range 1 to 65535.
+                                              If not specified, defaults to the exposed port of the container, which
+                                              is the value of container.ports[0].containerPort.
                                             type: number
                                         type: object
                                       type: array
@@ -1338,10 +1512,10 @@ spec:
                                       items:
                                         properties:
                                           port:
-                                            description: Port number to access on
-                                              the container. Must be in the range
-                                              1 to 65535. If not specified, defaults
-                                              to 8080.
+                                            description: |-
+                                              Port number to access on the container. Must be in the range 1 to 65535.
+                                              If not specified, defaults to the exposed port of the container, which
+                                              is the value of container.ports[0].containerPort.
                                             type: number
                                         type: object
                                       type: array
@@ -1464,11 +1638,123 @@ spec:
                                       items:
                                         type: string
                                       type: array
+                                      x-kubernetes-list-type: set
+                                  type: object
+                                type: array
+                              gcs:
+                                description: |-
+                                  Represents a GCS Bucket mounted as a volume.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    bucket:
+                                      description: GCS Bucket name
+                                      type: string
+                                    bucketRef:
+                                      description: Reference to a Bucket in storage
+                                        to populate bucket.
+                                      properties:
+                                        name:
+                                          description: Name of the referenced object.
+                                          type: string
+                                        policy:
+                                          description: Policies for referencing.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      required:
+                                      - name
+                                      type: object
+                                    bucketSelector:
+                                      description: Selector for a Bucket in storage
+                                        to populate bucket.
+                                      properties:
+                                        matchControllerRef:
+                                          description: |-
+                                            MatchControllerRef ensures an object with the same controller reference
+                                            as the selecting object is selected.
+                                          type: boolean
+                                        matchLabels:
+                                          additionalProperties:
+                                            type: string
+                                          description: MatchLabels ensures an object
+                                            with matching labels is selected.
+                                          type: object
+                                        policy:
+                                          description: Policies for selection.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      type: object
+                                    readOnly:
+                                      description: If true, mount the NFS volume as
+                                        read only
+                                      type: boolean
                                   type: object
                                 type: array
                               name:
                                 description: Volume's name.
                                 type: string
+                              nfs:
+                                description: |-
+                                  Represents an NFS mount.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    path:
+                                      description: Path that is exported by the NFS
+                                        server.
+                                      type: string
+                                    readOnly:
+                                      description: If true, mount the NFS volume as
+                                        read only
+                                      type: boolean
+                                    server:
+                                      description: Hostname or IP address of the NFS
+                                        server
+                                      type: string
+                                  type: object
+                                type: array
                               secret:
                                 description: |-
                                   Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
@@ -1495,8 +1781,8 @@ spec:
                                               the Volume's default mode will be used.
                                             type: number
                                           path:
-                                            description: The relative path of the
-                                              secret in the container.
+                                            description: Path that is exported by
+                                              the NFS server.
                                             type: string
                                           version:
                                             description: The Cloud Secret Manager
@@ -1606,6 +1892,32 @@ spec:
                                   Traffic VPC egress settings.
                                   Possible values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.
                                 type: string
+                              networkInterfaces:
+                                description: |-
+                                  Direct VPC egress settings. Currently only single network interface is supported.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    network:
+                                      description: |-
+                                        The VPC network that the Cloud Run resource will be able to send traffic to. At least one of network or subnetwork must be specified. If both
+                                        network and subnetwork are specified, the given VPC subnetwork must belong to the given VPC network. If network is not specified, it will be
+                                        looked up from the subnetwork.
+                                      type: string
+                                    subnetwork:
+                                      description: |-
+                                        The VPC subnetwork that the Cloud Run resource will get IPs from. At least one of network or subnetwork must be specified. If both
+                                        network and subnetwork are specified, the given VPC subnetwork must belong to the given VPC network. If subnetwork is not specified, the
+                                        subnetwork with the same name with the network will be used.
+                                      type: string
+                                    tags:
+                                      description: Network tags applied to this Cloud
+                                        Run service.
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
                             type: object
                           type: array
                       type: object
@@ -1896,14 +2208,44 @@ spec:
                           type: string
                       type: object
                     type: array
+                  createTime:
+                    description: The creation time.
+                    type: string
+                  creator:
+                    description: Email address of the authenticated creator.
+                    type: string
+                  customAudiences:
+                    description: |-
+                      One or more custom audiences that you want this service to support. Specify each custom audience as the full URL in a string. The custom audiences are encoded in the token and used to authenticate requests.
+                      For more information, see https://cloud.google.com/run/docs/configuring/custom-audiences.
+                    items:
+                      type: string
+                    type: array
+                  deleteTime:
+                    description: The deletion time.
+                    type: string
                   description:
                     description: User-provided description of the Service. This field
                       currently has a 512-character limit.
                     type: string
+                  effectiveAnnotations:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   etag:
                     description: A system-generated fingerprint for this version of
                       the resource. May be used to detect modification conflict during
                       updates.
+                    type: string
+                  expireTime:
+                    description: For a deleted resource, the time after which it will
+                      be permamently deleted.
                     type: string
                   generation:
                     description: A number that monotonically increases every time
@@ -1929,6 +2271,9 @@ spec:
                       All system labels in v1 now have a corresponding field in v2 RevisionTemplate.
                     type: object
                     x-kubernetes-map-type: granular
+                  lastModifier:
+                    description: Email address of the last authenticated modifier.
+                    type: string
                   latestCreatedRevision:
                     description: Name of the last created revision. See comments in
                       reconciling for additional information on reconciliation process
@@ -2017,6 +2362,14 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                              dependsOn:
+                                description: Containers which should be started before
+                                  this container. If specified the container will
+                                  wait to start until all containers with the listed
+                                  names are healthy.
+                                items:
+                                  type: string
+                                type: array
                               env:
                                 description: |-
                                   List of environment variables to set in the container.
@@ -2082,10 +2435,10 @@ spec:
                                       items:
                                         properties:
                                           port:
-                                            description: Port number to access on
-                                              the container. Must be in the range
-                                              1 to 65535. If not specified, defaults
-                                              to 8080.
+                                            description: |-
+                                              Port number to access on the container. Must be in the range 1 to 65535.
+                                              If not specified, defaults to the exposed port of the container, which
+                                              is the value of container.ports[0].containerPort.
                                             type: number
                                           service:
                                             description: |-
@@ -2116,14 +2469,14 @@ spec:
                                               type: object
                                             type: array
                                           path:
-                                            description: The relative path of the
-                                              secret in the container.
+                                            description: Path that is exported by
+                                              the NFS server.
                                             type: string
                                           port:
-                                            description: Port number to access on
-                                              the container. Must be in the range
-                                              1 to 65535. If not specified, defaults
-                                              to 8080.
+                                            description: |-
+                                              Port number to access on the container. Must be in the range 1 to 65535.
+                                              If not specified, defaults to the exposed port of the container, which
+                                              is the value of container.ports[0].containerPort.
                                             type: number
                                         type: object
                                       type: array
@@ -2149,10 +2502,10 @@ spec:
                                       items:
                                         properties:
                                           port:
-                                            description: Port number to access on
-                                              the container. Must be in the range
-                                              1 to 65535. If not specified, defaults
-                                              to 8080.
+                                            description: |-
+                                              Port number to access on the container. Must be in the range 1 to 65535.
+                                              If not specified, defaults to the exposed port of the container, which
+                                              is the value of container.ports[0].containerPort.
                                             type: number
                                         type: object
                                       type: array
@@ -2192,17 +2545,19 @@ spec:
                                 items:
                                   properties:
                                     cpuIdle:
-                                      description: Determines whether CPU should be
-                                        throttled or not outside of requests.
+                                      description: |-
+                                        Determines whether CPU is only allocated during requests. True by default if the parent resources field is not set. However, if
+                                        resources is set, this field must be explicitly set to true to preserve the default behavior.
                                       type: boolean
                                     limits:
                                       additionalProperties:
                                         type: string
                                       description: 'Only memory and CPU are supported.
-                                        Note: The only supported values for CPU are
-                                        ''1'', ''2'', ''4'', and ''8''. Setting 4
-                                        CPU requires at least 2Gi of memory. The values
-                                        of the map is string form of the ''quantity''
+                                        Use key cpu for CPU limit and memory for memory
+                                        limit. Note: The only supported values for
+                                        CPU are ''1'', ''2'', ''4'', and ''8''. Setting
+                                        4 CPU requires at least 2Gi of memory. The
+                                        values of the map is string form of the ''quantity''
                                         k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                       type: object
                                       x-kubernetes-map-type: granular
@@ -2233,10 +2588,10 @@ spec:
                                       items:
                                         properties:
                                           port:
-                                            description: Port number to access on
-                                              the container. Must be in the range
-                                              1 to 65535. If not specified, defaults
-                                              to 8080.
+                                            description: |-
+                                              Port number to access on the container. Must be in the range 1 to 65535.
+                                              If not specified, defaults to the exposed port of the container, which
+                                              is the value of container.ports[0].containerPort.
                                             type: number
                                           service:
                                             description: |-
@@ -2267,14 +2622,14 @@ spec:
                                               type: object
                                             type: array
                                           path:
-                                            description: The relative path of the
-                                              secret in the container.
+                                            description: Path that is exported by
+                                              the NFS server.
                                             type: string
                                           port:
-                                            description: Port number to access on
-                                              the container. Must be in the range
-                                              1 to 65535. If not specified, defaults
-                                              to 8080.
+                                            description: |-
+                                              Port number to access on the container. Must be in the range 1 to 65535.
+                                              If not specified, defaults to the exposed port of the container, which
+                                              is the value of container.ports[0].containerPort.
                                             type: number
                                         type: object
                                       type: array
@@ -2300,10 +2655,10 @@ spec:
                                       items:
                                         properties:
                                           port:
-                                            description: Port number to access on
-                                              the container. Must be in the range
-                                              1 to 65535. If not specified, defaults
-                                              to 8080.
+                                            description: |-
+                                              Port number to access on the container. Must be in the range 1 to 65535.
+                                              If not specified, defaults to the exposed port of the container, which
+                                              is the value of container.ports[0].containerPort.
                                             type: number
                                         type: object
                                       type: array
@@ -2426,11 +2781,47 @@ spec:
                                       items:
                                         type: string
                                       type: array
+                                      x-kubernetes-list-type: set
+                                  type: object
+                                type: array
+                              gcs:
+                                description: |-
+                                  Represents a GCS Bucket mounted as a volume.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    bucket:
+                                      description: GCS Bucket name
+                                      type: string
+                                    readOnly:
+                                      description: If true, mount the NFS volume as
+                                        read only
+                                      type: boolean
                                   type: object
                                 type: array
                               name:
                                 description: Volume's name.
                                 type: string
+                              nfs:
+                                description: |-
+                                  Represents an NFS mount.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    path:
+                                      description: Path that is exported by the NFS
+                                        server.
+                                      type: string
+                                    readOnly:
+                                      description: If true, mount the NFS volume as
+                                        read only
+                                      type: boolean
+                                    server:
+                                      description: Hostname or IP address of the NFS
+                                        server
+                                      type: string
+                                  type: object
+                                type: array
                               secret:
                                 description: |-
                                   Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
@@ -2457,8 +2848,8 @@ spec:
                                               the Volume's default mode will be used.
                                             type: number
                                           path:
-                                            description: The relative path of the
-                                              secret in the container.
+                                            description: Path that is exported by
+                                              the NFS server.
                                             type: string
                                           version:
                                             description: The Cloud Secret Manager
@@ -2492,6 +2883,32 @@ spec:
                                   Traffic VPC egress settings.
                                   Possible values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.
                                 type: string
+                              networkInterfaces:
+                                description: |-
+                                  Direct VPC egress settings. Currently only single network interface is supported.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    network:
+                                      description: |-
+                                        The VPC network that the Cloud Run resource will be able to send traffic to. At least one of network or subnetwork must be specified. If both
+                                        network and subnetwork are specified, the given VPC subnetwork must belong to the given VPC network. If network is not specified, it will be
+                                        looked up from the subnetwork.
+                                      type: string
+                                    subnetwork:
+                                      description: |-
+                                        The VPC subnetwork that the Cloud Run resource will get IPs from. At least one of network or subnetwork must be specified. If both
+                                        network and subnetwork are specified, the given VPC subnetwork must belong to the given VPC network. If subnetwork is not specified, the
+                                        subnetwork with the same name with the network will be used.
+                                      type: string
+                                    tags:
+                                      description: Network tags applied to this Cloud
+                                        Run service.
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
                             type: object
                           type: array
                       type: object
@@ -2544,6 +2961,14 @@ spec:
                           type: string
                       type: object
                     type: array
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   traffic:
                     description: |-
                       Specifies how to distribute traffic over a collection of Revisions belonging to the Service. If traffic is empty or not provided, defaults to 100% traffic to the latest Ready Revision.
@@ -2606,6 +3031,9 @@ spec:
                     description: Server assigned unique identifier for the trigger.
                       The value is a UUID4 string and guaranteed to remain unchanged
                       until the resource is deleted.
+                    type: string
+                  updateTime:
+                    description: The last-modified time.
                     type: string
                   uri:
                     description: The main URI in which this Service is serving traffic.

@@ -120,6 +120,25 @@ type OidcParameters struct {
 	JwksJSON *string `json:"jwksJson,omitempty" tf:"jwks_json,omitempty"`
 }
 
+type SAMLInitParameters struct {
+
+	// SAML Identity provider configuration metadata xml doc.
+	IdPMetadataXML *string `json:"idpMetadataXml,omitempty" tf:"idp_metadata_xml,omitempty"`
+}
+
+type SAMLObservation struct {
+
+	// SAML Identity provider configuration metadata xml doc.
+	IdPMetadataXML *string `json:"idpMetadataXml,omitempty" tf:"idp_metadata_xml,omitempty"`
+}
+
+type SAMLParameters struct {
+
+	// SAML Identity provider configuration metadata xml doc.
+	// +kubebuilder:validation:Optional
+	IdPMetadataXML *string `json:"idpMetadataXml" tf:"idp_metadata_xml,omitempty"`
+}
+
 type WorkloadIdentityPoolProviderInitParameters struct {
 
 	// A Common Expression Language expression, in
@@ -136,7 +155,7 @@ type WorkloadIdentityPoolProviderInitParameters struct {
 	// +mapType=granular
 	AttributeMapping map[string]*string `json:"attributeMapping,omitempty" tf:"attribute_mapping,omitempty"`
 
-	// An Amazon Web Services identity provider. Not compatible with the property oidc.
+	// An Amazon Web Services identity provider. Not compatible with the property oidc or saml.
 	// Structure is documented below.
 	Aws []AwsInitParameters `json:"aws,omitempty" tf:"aws,omitempty"`
 
@@ -150,13 +169,17 @@ type WorkloadIdentityPoolProviderInitParameters struct {
 	// A display name for the provider. Cannot exceed 32 characters.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// An OpenId Connect 1.0 identity provider. Not compatible with the property aws.
+	// An OpenId Connect 1.0 identity provider. Not compatible with the property aws or saml.
 	// Structure is documented below.
 	Oidc []OidcInitParameters `json:"oidc,omitempty" tf:"oidc,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// An SAML 2.0 identity provider. Not compatible with the property oidc or aws.
+	// Structure is documented below.
+	SAML []SAMLInitParameters `json:"saml,omitempty" tf:"saml,omitempty"`
 }
 
 type WorkloadIdentityPoolProviderObservation struct {
@@ -175,7 +198,7 @@ type WorkloadIdentityPoolProviderObservation struct {
 	// +mapType=granular
 	AttributeMapping map[string]*string `json:"attributeMapping,omitempty" tf:"attribute_mapping,omitempty"`
 
-	// An Amazon Web Services identity provider. Not compatible with the property oidc.
+	// An Amazon Web Services identity provider. Not compatible with the property oidc or saml.
 	// Structure is documented below.
 	Aws []AwsObservation `json:"aws,omitempty" tf:"aws,omitempty"`
 
@@ -196,13 +219,17 @@ type WorkloadIdentityPoolProviderObservation struct {
 	// projects/{project_number}/locations/global/workloadIdentityPools/{workload_identity_pool_id}/providers/{workload_identity_pool_provider_id}.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// An OpenId Connect 1.0 identity provider. Not compatible with the property aws.
+	// An OpenId Connect 1.0 identity provider. Not compatible with the property aws or saml.
 	// Structure is documented below.
 	Oidc []OidcObservation `json:"oidc,omitempty" tf:"oidc,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// An SAML 2.0 identity provider. Not compatible with the property oidc or aws.
+	// Structure is documented below.
+	SAML []SAMLObservation `json:"saml,omitempty" tf:"saml,omitempty"`
 
 	// The state of the provider.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -231,7 +258,7 @@ type WorkloadIdentityPoolProviderParameters struct {
 	// +mapType=granular
 	AttributeMapping map[string]*string `json:"attributeMapping,omitempty" tf:"attribute_mapping,omitempty"`
 
-	// An Amazon Web Services identity provider. Not compatible with the property oidc.
+	// An Amazon Web Services identity provider. Not compatible with the property oidc or saml.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Aws []AwsParameters `json:"aws,omitempty" tf:"aws,omitempty"`
@@ -249,7 +276,7 @@ type WorkloadIdentityPoolProviderParameters struct {
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// An OpenId Connect 1.0 identity provider. Not compatible with the property aws.
+	// An OpenId Connect 1.0 identity provider. Not compatible with the property aws or saml.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Oidc []OidcParameters `json:"oidc,omitempty" tf:"oidc,omitempty"`
@@ -258,6 +285,11 @@ type WorkloadIdentityPoolProviderParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// An SAML 2.0 identity provider. Not compatible with the property oidc or aws.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SAML []SAMLParameters `json:"saml,omitempty" tf:"saml,omitempty"`
 
 	// The ID used for the pool, which is the final component of the pool resource name. This
 	// value should be 4-32 characters, and may contain the characters [a-z0-9-]. The prefix

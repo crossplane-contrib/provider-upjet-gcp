@@ -37,8 +37,17 @@ type IntentInitParameters struct {
 	// The human-readable name of the intent, unique within the agent.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// Marks this as the Default Negative Intent for an agent. When you create an agent, a Default Negative Intent is created automatically.
+	// The Default Negative Intent cannot be deleted; deleting the google_dialogflow_cx_intent resource does nothing to the underlying GCP resources.
+	IsDefaultNegativeIntent *bool `json:"isDefaultNegativeIntent,omitempty" tf:"is_default_negative_intent,omitempty"`
+
+	// Marks this as the Default Welcome Intent for an agent. When you create an agent, a Default Welcome Intent is created automatically.
+	// The Default Welcome Intent cannot be deleted; deleting the google_dialogflow_cx_intent resource does nothing to the underlying GCP resources.
+	IsDefaultWelcomeIntent *bool `json:"isDefaultWelcomeIntent,omitempty" tf:"is_default_welcome_intent,omitempty"`
+
 	// Indicates whether this is a fallback intent. Currently only default fallback intent is allowed in the agent, which is added upon agent creation.
 	// Adding training phrases to fallback intent is useful in the case of requests that are mistakenly matched, since training phrases assigned to fallback intents act as negative examples that triggers no-match event.
+	// To manage the fallback intent, set is_default_negative_intent = true
 	IsFallback *bool `json:"isFallback,omitempty" tf:"is_fallback,omitempty"`
 
 	// The key/value metadata to label an intent. Labels can contain lowercase letters, digits and the symbols '-' and '_'. International characters are allowed, including letters from unicase alphabets. Keys must start with a letter. Keys and values can be no longer than 63 characters and no more than 128 bytes.
@@ -88,11 +97,24 @@ type IntentObservation struct {
 	// The human-readable name of the intent, unique within the agent.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// for all of the labels present on the resource.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format {{parent}}/intents/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Marks this as the Default Negative Intent for an agent. When you create an agent, a Default Negative Intent is created automatically.
+	// The Default Negative Intent cannot be deleted; deleting the google_dialogflow_cx_intent resource does nothing to the underlying GCP resources.
+	IsDefaultNegativeIntent *bool `json:"isDefaultNegativeIntent,omitempty" tf:"is_default_negative_intent,omitempty"`
+
+	// Marks this as the Default Welcome Intent for an agent. When you create an agent, a Default Welcome Intent is created automatically.
+	// The Default Welcome Intent cannot be deleted; deleting the google_dialogflow_cx_intent resource does nothing to the underlying GCP resources.
+	IsDefaultWelcomeIntent *bool `json:"isDefaultWelcomeIntent,omitempty" tf:"is_default_welcome_intent,omitempty"`
+
 	// Indicates whether this is a fallback intent. Currently only default fallback intent is allowed in the agent, which is added upon agent creation.
 	// Adding training phrases to fallback intent is useful in the case of requests that are mistakenly matched, since training phrases assigned to fallback intents act as negative examples that triggers no-match event.
+	// To manage the fallback intent, set is_default_negative_intent = true
 	IsFallback *bool `json:"isFallback,omitempty" tf:"is_fallback,omitempty"`
 
 	// The key/value metadata to label an intent. Labels can contain lowercase letters, digits and the symbols '-' and '_'. International characters are allowed, including letters from unicase alphabets. Keys must start with a letter. Keys and values can be no longer than 63 characters and no more than 128 bytes.
@@ -123,6 +145,11 @@ type IntentObservation struct {
 	// If the supplied value is negative, the intent is ignored in runtime detect intent requests.
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
 	// The collection of training phrases the agent is trained on to identify the intent.
 	// Structure is documented below.
 	TrainingPhrases []TrainingPhrasesObservation `json:"trainingPhrases,omitempty" tf:"training_phrases,omitempty"`
@@ -138,8 +165,19 @@ type IntentParameters struct {
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// Marks this as the Default Negative Intent for an agent. When you create an agent, a Default Negative Intent is created automatically.
+	// The Default Negative Intent cannot be deleted; deleting the google_dialogflow_cx_intent resource does nothing to the underlying GCP resources.
+	// +kubebuilder:validation:Optional
+	IsDefaultNegativeIntent *bool `json:"isDefaultNegativeIntent,omitempty" tf:"is_default_negative_intent,omitempty"`
+
+	// Marks this as the Default Welcome Intent for an agent. When you create an agent, a Default Welcome Intent is created automatically.
+	// The Default Welcome Intent cannot be deleted; deleting the google_dialogflow_cx_intent resource does nothing to the underlying GCP resources.
+	// +kubebuilder:validation:Optional
+	IsDefaultWelcomeIntent *bool `json:"isDefaultWelcomeIntent,omitempty" tf:"is_default_welcome_intent,omitempty"`
+
 	// Indicates whether this is a fallback intent. Currently only default fallback intent is allowed in the agent, which is added upon agent creation.
 	// Adding training phrases to fallback intent is useful in the case of requests that are mistakenly matched, since training phrases assigned to fallback intents act as negative examples that triggers no-match event.
+	// To manage the fallback intent, set is_default_negative_intent = true
 	// +kubebuilder:validation:Optional
 	IsFallback *bool `json:"isFallback,omitempty" tf:"is_fallback,omitempty"`
 

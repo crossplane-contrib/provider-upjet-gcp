@@ -59,6 +59,18 @@ type ArtifactsInitParameters struct {
 	// If any of the images fail to be pushed, the build status is marked FAILURE.
 	Images []*string `json:"images,omitempty" tf:"images,omitempty"`
 
+	// A Maven artifact to upload to Artifact Registry upon successful completion of all build steps.
+	// The location and generation of the uploaded objects will be stored in the Build resource's results field.
+	// If any objects fail to be pushed, the build is marked FAILURE.
+	// Structure is documented below.
+	MavenArtifacts []MavenArtifactsInitParameters `json:"mavenArtifacts,omitempty" tf:"maven_artifacts,omitempty"`
+
+	// Npm package to upload to Artifact Registry upon successful completion of all build steps.
+	// The location and generation of the uploaded objects will be stored in the Build resource's results field.
+	// If any objects fail to be pushed, the build is marked FAILURE.
+	// Structure is documented below.
+	NpmPackages []NpmPackagesInitParameters `json:"npmPackages,omitempty" tf:"npm_packages,omitempty"`
+
 	// A list of objects to be uploaded to Cloud Storage upon successful completion of all build steps.
 	// Files in the workspace matching specified paths globs will be uploaded to the
 	// Cloud Storage location using the builder service account's credentials.
@@ -66,6 +78,12 @@ type ArtifactsInitParameters struct {
 	// If any objects fail to be pushed, the build is marked FAILURE.
 	// Structure is documented below.
 	Objects []ObjectsInitParameters `json:"objects,omitempty" tf:"objects,omitempty"`
+
+	// Python package to upload to Artifact Registry upon successful completion of all build steps. A package can encapsulate multiple objects to be uploaded to a single repository.
+	// The location and generation of the uploaded objects will be stored in the Build resource's results field.
+	// If any objects fail to be pushed, the build is marked FAILURE.
+	// Structure is documented below.
+	PythonPackages []PythonPackagesInitParameters `json:"pythonPackages,omitempty" tf:"python_packages,omitempty"`
 }
 
 type ArtifactsObservation struct {
@@ -76,6 +94,18 @@ type ArtifactsObservation struct {
 	// If any of the images fail to be pushed, the build status is marked FAILURE.
 	Images []*string `json:"images,omitempty" tf:"images,omitempty"`
 
+	// A Maven artifact to upload to Artifact Registry upon successful completion of all build steps.
+	// The location and generation of the uploaded objects will be stored in the Build resource's results field.
+	// If any objects fail to be pushed, the build is marked FAILURE.
+	// Structure is documented below.
+	MavenArtifacts []MavenArtifactsObservation `json:"mavenArtifacts,omitempty" tf:"maven_artifacts,omitempty"`
+
+	// Npm package to upload to Artifact Registry upon successful completion of all build steps.
+	// The location and generation of the uploaded objects will be stored in the Build resource's results field.
+	// If any objects fail to be pushed, the build is marked FAILURE.
+	// Structure is documented below.
+	NpmPackages []NpmPackagesObservation `json:"npmPackages,omitempty" tf:"npm_packages,omitempty"`
+
 	// A list of objects to be uploaded to Cloud Storage upon successful completion of all build steps.
 	// Files in the workspace matching specified paths globs will be uploaded to the
 	// Cloud Storage location using the builder service account's credentials.
@@ -83,6 +113,12 @@ type ArtifactsObservation struct {
 	// If any objects fail to be pushed, the build is marked FAILURE.
 	// Structure is documented below.
 	Objects []ObjectsObservation `json:"objects,omitempty" tf:"objects,omitempty"`
+
+	// Python package to upload to Artifact Registry upon successful completion of all build steps. A package can encapsulate multiple objects to be uploaded to a single repository.
+	// The location and generation of the uploaded objects will be stored in the Build resource's results field.
+	// If any objects fail to be pushed, the build is marked FAILURE.
+	// Structure is documented below.
+	PythonPackages []PythonPackagesObservation `json:"pythonPackages,omitempty" tf:"python_packages,omitempty"`
 }
 
 type ArtifactsParameters struct {
@@ -94,6 +130,20 @@ type ArtifactsParameters struct {
 	// +kubebuilder:validation:Optional
 	Images []*string `json:"images,omitempty" tf:"images,omitempty"`
 
+	// A Maven artifact to upload to Artifact Registry upon successful completion of all build steps.
+	// The location and generation of the uploaded objects will be stored in the Build resource's results field.
+	// If any objects fail to be pushed, the build is marked FAILURE.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MavenArtifacts []MavenArtifactsParameters `json:"mavenArtifacts,omitempty" tf:"maven_artifacts,omitempty"`
+
+	// Npm package to upload to Artifact Registry upon successful completion of all build steps.
+	// The location and generation of the uploaded objects will be stored in the Build resource's results field.
+	// If any objects fail to be pushed, the build is marked FAILURE.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NpmPackages []NpmPackagesParameters `json:"npmPackages,omitempty" tf:"npm_packages,omitempty"`
+
 	// A list of objects to be uploaded to Cloud Storage upon successful completion of all build steps.
 	// Files in the workspace matching specified paths globs will be uploaded to the
 	// Cloud Storage location using the builder service account's credentials.
@@ -102,6 +152,13 @@ type ArtifactsParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Objects []ObjectsParameters `json:"objects,omitempty" tf:"objects,omitempty"`
+
+	// Python package to upload to Artifact Registry upon successful completion of all build steps. A package can encapsulate multiple objects to be uploaded to a single repository.
+	// The location and generation of the uploaded objects will be stored in the Build resource's results field.
+	// If any objects fail to be pushed, the build is marked FAILURE.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PythonPackages []PythonPackagesParameters `json:"pythonPackages,omitempty" tf:"python_packages,omitempty"`
 }
 
 type AvailableSecretsInitParameters struct {
@@ -382,6 +439,10 @@ type BuildParameters struct {
 
 type GitFileSourceInitParameters struct {
 
+	// The full resource name of the bitbucket server config.
+	// Format: projects/{project}/locations/{location}/bitbucketServerConfigs/{id}.
+	BitbucketServerConfig *string `json:"bitbucketServerConfig,omitempty" tf:"bitbucket_server_config,omitempty"`
+
 	// The full resource name of the github enterprise config.
 	// Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}. projects/{project}/githubEnterpriseConfigs/{id}.
 	GithubEnterpriseConfig *string `json:"githubEnterpriseConfig,omitempty" tf:"github_enterprise_config,omitempty"`
@@ -410,6 +471,10 @@ type GitFileSourceInitParameters struct {
 
 type GitFileSourceObservation struct {
 
+	// The full resource name of the bitbucket server config.
+	// Format: projects/{project}/locations/{location}/bitbucketServerConfigs/{id}.
+	BitbucketServerConfig *string `json:"bitbucketServerConfig,omitempty" tf:"bitbucket_server_config,omitempty"`
+
 	// The full resource name of the github enterprise config.
 	// Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}. projects/{project}/githubEnterpriseConfigs/{id}.
 	GithubEnterpriseConfig *string `json:"githubEnterpriseConfig,omitempty" tf:"github_enterprise_config,omitempty"`
@@ -437,6 +502,11 @@ type GitFileSourceObservation struct {
 }
 
 type GitFileSourceParameters struct {
+
+	// The full resource name of the bitbucket server config.
+	// Format: projects/{project}/locations/{location}/bitbucketServerConfigs/{id}.
+	// +kubebuilder:validation:Optional
+	BitbucketServerConfig *string `json:"bitbucketServerConfig,omitempty" tf:"bitbucket_server_config,omitempty"`
 
 	// The full resource name of the github enterprise config.
 	// Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}. projects/{project}/githubEnterpriseConfigs/{id}.
@@ -643,6 +713,106 @@ type GithubPushParameters struct {
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 }
 
+type MavenArtifactsInitParameters struct {
+
+	// Maven artifactId value used when uploading the artifact to Artifact Registry.
+	ArtifactID *string `json:"artifactId,omitempty" tf:"artifact_id,omitempty"`
+
+	// Maven groupId value used when uploading the artifact to Artifact Registry.
+	GroupID *string `json:"groupId,omitempty" tf:"group_id,omitempty"`
+
+	// Path at which to mount the volume.
+	// Paths must be absolute and cannot conflict with other volume paths on
+	// the same build step or with certain reserved volume paths.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// The qualified resource name of the Repo API repository.
+	// Either uri or repository can be specified and is required.
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
+
+	// Maven version value used when uploading the artifact to Artifact Registry.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type MavenArtifactsObservation struct {
+
+	// Maven artifactId value used when uploading the artifact to Artifact Registry.
+	ArtifactID *string `json:"artifactId,omitempty" tf:"artifact_id,omitempty"`
+
+	// Maven groupId value used when uploading the artifact to Artifact Registry.
+	GroupID *string `json:"groupId,omitempty" tf:"group_id,omitempty"`
+
+	// Path at which to mount the volume.
+	// Paths must be absolute and cannot conflict with other volume paths on
+	// the same build step or with certain reserved volume paths.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// The qualified resource name of the Repo API repository.
+	// Either uri or repository can be specified and is required.
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
+
+	// Maven version value used when uploading the artifact to Artifact Registry.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type MavenArtifactsParameters struct {
+
+	// Maven artifactId value used when uploading the artifact to Artifact Registry.
+	// +kubebuilder:validation:Optional
+	ArtifactID *string `json:"artifactId,omitempty" tf:"artifact_id,omitempty"`
+
+	// Maven groupId value used when uploading the artifact to Artifact Registry.
+	// +kubebuilder:validation:Optional
+	GroupID *string `json:"groupId,omitempty" tf:"group_id,omitempty"`
+
+	// Path at which to mount the volume.
+	// Paths must be absolute and cannot conflict with other volume paths on
+	// the same build step or with certain reserved volume paths.
+	// +kubebuilder:validation:Optional
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// The qualified resource name of the Repo API repository.
+	// Either uri or repository can be specified and is required.
+	// +kubebuilder:validation:Optional
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
+
+	// Maven version value used when uploading the artifact to Artifact Registry.
+	// +kubebuilder:validation:Optional
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type NpmPackagesInitParameters struct {
+
+	// Path to the package.json. e.g. workspace/path/to/package
+	PackagePath *string `json:"packagePath,omitempty" tf:"package_path,omitempty"`
+
+	// The qualified resource name of the Repo API repository.
+	// Either uri or repository can be specified and is required.
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
+}
+
+type NpmPackagesObservation struct {
+
+	// Path to the package.json. e.g. workspace/path/to/package
+	PackagePath *string `json:"packagePath,omitempty" tf:"package_path,omitempty"`
+
+	// The qualified resource name of the Repo API repository.
+	// Either uri or repository can be specified and is required.
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
+}
+
+type NpmPackagesParameters struct {
+
+	// Path to the package.json. e.g. workspace/path/to/package
+	// +kubebuilder:validation:Optional
+	PackagePath *string `json:"packagePath,omitempty" tf:"package_path,omitempty"`
+
+	// The qualified resource name of the Repo API repository.
+	// Either uri or repository can be specified and is required.
+	// +kubebuilder:validation:Optional
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
+}
+
 type ObjectsInitParameters struct {
 
 	// Cloud Storage bucket and optional object path, in the form "gs://bucket/path/to/somewhere/".
@@ -650,7 +820,7 @@ type ObjectsInitParameters struct {
 	// this location as a prefix.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
-	// Path globs used to match files in the build's workspace.
+	// Path globs used to match files in the build's workspace. For Python/ Twine, this is usually dist/*, and sometimes additionally an .asc file.
 	Paths []*string `json:"paths,omitempty" tf:"paths,omitempty"`
 }
 
@@ -661,7 +831,7 @@ type ObjectsObservation struct {
 	// this location as a prefix.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
-	// Path globs used to match files in the build's workspace.
+	// Path globs used to match files in the build's workspace. For Python/ Twine, this is usually dist/*, and sometimes additionally an .asc file.
 	Paths []*string `json:"paths,omitempty" tf:"paths,omitempty"`
 
 	// Output only. Stores timing information for executing this
@@ -677,7 +847,7 @@ type ObjectsParameters struct {
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
-	// Path globs used to match files in the build's workspace.
+	// Path globs used to match files in the build's workspace. For Python/ Twine, this is usually dist/*, and sometimes additionally an .asc file.
 	// +kubebuilder:validation:Optional
 	Paths []*string `json:"paths,omitempty" tf:"paths,omitempty"`
 }
@@ -1041,6 +1211,38 @@ type PushParameters struct {
 	// RE2 and described at https://github.com/google/re2/wiki/Syntax
 	// +kubebuilder:validation:Optional
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+}
+
+type PythonPackagesInitParameters struct {
+
+	// Path globs used to match files in the build's workspace. For Python/ Twine, this is usually dist/*, and sometimes additionally an .asc file.
+	Paths []*string `json:"paths,omitempty" tf:"paths,omitempty"`
+
+	// The qualified resource name of the Repo API repository.
+	// Either uri or repository can be specified and is required.
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
+}
+
+type PythonPackagesObservation struct {
+
+	// Path globs used to match files in the build's workspace. For Python/ Twine, this is usually dist/*, and sometimes additionally an .asc file.
+	Paths []*string `json:"paths,omitempty" tf:"paths,omitempty"`
+
+	// The qualified resource name of the Repo API repository.
+	// Either uri or repository can be specified and is required.
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
+}
+
+type PythonPackagesParameters struct {
+
+	// Path globs used to match files in the build's workspace. For Python/ Twine, this is usually dist/*, and sometimes additionally an .asc file.
+	// +kubebuilder:validation:Optional
+	Paths []*string `json:"paths,omitempty" tf:"paths,omitempty"`
+
+	// The qualified resource name of the Repo API repository.
+	// Either uri or repository can be specified and is required.
+	// +kubebuilder:validation:Optional
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
 }
 
 type RepoSourceInitParameters struct {
@@ -1413,6 +1615,10 @@ type SourceParameters struct {
 
 type SourceToBuildInitParameters struct {
 
+	// The full resource name of the bitbucket server config.
+	// Format: projects/{project}/locations/{location}/bitbucketServerConfigs/{id}.
+	BitbucketServerConfig *string `json:"bitbucketServerConfig,omitempty" tf:"bitbucket_server_config,omitempty"`
+
 	// The full resource name of the github enterprise config.
 	// Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}. projects/{project}/githubEnterpriseConfigs/{id}.
 	GithubEnterpriseConfig *string `json:"githubEnterpriseConfig,omitempty" tf:"github_enterprise_config,omitempty"`
@@ -1435,6 +1641,10 @@ type SourceToBuildInitParameters struct {
 
 type SourceToBuildObservation struct {
 
+	// The full resource name of the bitbucket server config.
+	// Format: projects/{project}/locations/{location}/bitbucketServerConfigs/{id}.
+	BitbucketServerConfig *string `json:"bitbucketServerConfig,omitempty" tf:"bitbucket_server_config,omitempty"`
+
 	// The full resource name of the github enterprise config.
 	// Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}. projects/{project}/githubEnterpriseConfigs/{id}.
 	GithubEnterpriseConfig *string `json:"githubEnterpriseConfig,omitempty" tf:"github_enterprise_config,omitempty"`
@@ -1456,6 +1666,11 @@ type SourceToBuildObservation struct {
 }
 
 type SourceToBuildParameters struct {
+
+	// The full resource name of the bitbucket server config.
+	// Format: projects/{project}/locations/{location}/bitbucketServerConfigs/{id}.
+	// +kubebuilder:validation:Optional
+	BitbucketServerConfig *string `json:"bitbucketServerConfig,omitempty" tf:"bitbucket_server_config,omitempty"`
 
 	// The full resource name of the github enterprise config.
 	// Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}. projects/{project}/githubEnterpriseConfigs/{id}.

@@ -211,6 +211,8 @@ type JobInitParameters struct {
 	HiveConfig []HiveConfigInitParameters `json:"hiveConfig,omitempty" tf:"hive_config,omitempty"`
 
 	// The list of labels (key/value pairs) to add to the job.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field 'effective_labels' for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -257,6 +259,9 @@ type JobObservation struct {
 	// A URI pointing to the location of the stdout of the job's driver program.
 	DriverOutputResourceURI *string `json:"driverOutputResourceUri,omitempty" tf:"driver_output_resource_uri,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// By default, you can only delete inactive jobs within
 	// Dataproc. Setting this to true, and calling destroy, will ensure that the
 	// job is first cancelled before issuing the delete.
@@ -269,6 +274,8 @@ type JobObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The list of labels (key/value pairs) to add to the job.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field 'effective_labels' for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -297,6 +304,10 @@ type JobObservation struct {
 	SparksqlConfig []SparksqlConfigObservation `json:"sparksqlConfig,omitempty" tf:"sparksql_config,omitempty"`
 
 	Status []StatusObservation `json:"status,omitempty" tf:"status,omitempty"`
+
+	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type JobParameters struct {
@@ -314,6 +325,8 @@ type JobParameters struct {
 	HiveConfig []HiveConfigParameters `json:"hiveConfig,omitempty" tf:"hive_config,omitempty"`
 
 	// The list of labels (key/value pairs) to add to the job.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field 'effective_labels' for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`

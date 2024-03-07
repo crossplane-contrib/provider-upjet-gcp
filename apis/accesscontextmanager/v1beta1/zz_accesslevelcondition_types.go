@@ -177,6 +177,10 @@ type AccessLevelConditionInitParameters struct {
 	// granted for the Condition to be true.
 	// Format: accessPolicies/{policy_id}/accessLevels/{short_name}
 	RequiredAccessLevels []*string `json:"requiredAccessLevels,omitempty" tf:"required_access_levels,omitempty"`
+
+	// The request must originate from one of the provided VPC networks in Google Cloud. Cannot specify this field together with ip_subnetworks.
+	// Structure is documented below.
+	VPCNetworkSources []AccessLevelConditionVPCNetworkSourcesInitParameters `json:"vpcNetworkSources,omitempty" tf:"vpc_network_sources,omitempty"`
 }
 
 type AccessLevelConditionObservation struct {
@@ -230,6 +234,10 @@ type AccessLevelConditionObservation struct {
 	// granted for the Condition to be true.
 	// Format: accessPolicies/{policy_id}/accessLevels/{short_name}
 	RequiredAccessLevels []*string `json:"requiredAccessLevels,omitempty" tf:"required_access_levels,omitempty"`
+
+	// The request must originate from one of the provided VPC networks in Google Cloud. Cannot specify this field together with ip_subnetworks.
+	// Structure is documented below.
+	VPCNetworkSources []AccessLevelConditionVPCNetworkSourcesObservation `json:"vpcNetworkSources,omitempty" tf:"vpc_network_sources,omitempty"`
 }
 
 type AccessLevelConditionParameters struct {
@@ -297,6 +305,33 @@ type AccessLevelConditionParameters struct {
 	// Format: accessPolicies/{policy_id}/accessLevels/{short_name}
 	// +kubebuilder:validation:Optional
 	RequiredAccessLevels []*string `json:"requiredAccessLevels,omitempty" tf:"required_access_levels,omitempty"`
+
+	// The request must originate from one of the provided VPC networks in Google Cloud. Cannot specify this field together with ip_subnetworks.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	VPCNetworkSources []AccessLevelConditionVPCNetworkSourcesParameters `json:"vpcNetworkSources,omitempty" tf:"vpc_network_sources,omitempty"`
+}
+
+type AccessLevelConditionVPCNetworkSourcesInitParameters struct {
+
+	// Sub networks within a VPC network.
+	// Structure is documented below.
+	VPCSubnetwork []VPCNetworkSourcesVPCSubnetworkInitParameters `json:"vpcSubnetwork,omitempty" tf:"vpc_subnetwork,omitempty"`
+}
+
+type AccessLevelConditionVPCNetworkSourcesObservation struct {
+
+	// Sub networks within a VPC network.
+	// Structure is documented below.
+	VPCSubnetwork []VPCNetworkSourcesVPCSubnetworkObservation `json:"vpcSubnetwork,omitempty" tf:"vpc_subnetwork,omitempty"`
+}
+
+type AccessLevelConditionVPCNetworkSourcesParameters struct {
+
+	// Sub networks within a VPC network.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	VPCSubnetwork []VPCNetworkSourcesVPCSubnetworkParameters `json:"vpcSubnetwork,omitempty" tf:"vpc_subnetwork,omitempty"`
 }
 
 type DevicePolicyOsConstraintsInitParameters struct {
@@ -335,6 +370,35 @@ type DevicePolicyOsConstraintsParameters struct {
 	// Possible values are: OS_UNSPECIFIED, DESKTOP_MAC, DESKTOP_WINDOWS, DESKTOP_LINUX, DESKTOP_CHROME_OS, ANDROID, IOS.
 	// +kubebuilder:validation:Optional
 	OsType *string `json:"osType" tf:"os_type,omitempty"`
+}
+
+type VPCNetworkSourcesVPCSubnetworkInitParameters struct {
+
+	// Required. Network name to be allowed by this Access Level. Networks of foreign organizations requires compute.network.get permission to be granted to caller.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// CIDR block IP subnetwork specification. Must be IPv4.
+	VPCIPSubnetworks []*string `json:"vpcIpSubnetworks,omitempty" tf:"vpc_ip_subnetworks,omitempty"`
+}
+
+type VPCNetworkSourcesVPCSubnetworkObservation struct {
+
+	// Required. Network name to be allowed by this Access Level. Networks of foreign organizations requires compute.network.get permission to be granted to caller.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// CIDR block IP subnetwork specification. Must be IPv4.
+	VPCIPSubnetworks []*string `json:"vpcIpSubnetworks,omitempty" tf:"vpc_ip_subnetworks,omitempty"`
+}
+
+type VPCNetworkSourcesVPCSubnetworkParameters struct {
+
+	// Required. Network name to be allowed by this Access Level. Networks of foreign organizations requires compute.network.get permission to be granted to caller.
+	// +kubebuilder:validation:Optional
+	Network *string `json:"network" tf:"network,omitempty"`
+
+	// CIDR block IP subnetwork specification. Must be IPv4.
+	// +kubebuilder:validation:Optional
+	VPCIPSubnetworks []*string `json:"vpcIpSubnetworks,omitempty" tf:"vpc_ip_subnetworks,omitempty"`
 }
 
 // AccessLevelConditionSpec defines the desired state of AccessLevelCondition

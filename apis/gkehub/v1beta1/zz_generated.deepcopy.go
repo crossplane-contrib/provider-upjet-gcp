@@ -385,6 +385,11 @@ func (in *MembershipIAMMemberInitParameters) DeepCopyInto(out *MembershipIAMMemb
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
 	if in.Member != nil {
 		in, out := &in.Member, &out.Member
 		*out = new(string)
@@ -479,6 +484,11 @@ func (in *MembershipIAMMemberObservation) DeepCopyInto(out *MembershipIAMMemberO
 		*out = new(string)
 		**out = **in
 	}
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
 	if in.Member != nil {
 		in, out := &in.Member, &out.Member
 		*out = new(string)
@@ -520,6 +530,11 @@ func (in *MembershipIAMMemberParameters) DeepCopyInto(out *MembershipIAMMemberPa
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
 	}
 	if in.Member != nil {
 		in, out := &in.Member, &out.Member
@@ -690,6 +705,22 @@ func (in *MembershipObservation) DeepCopyInto(out *MembershipObservation) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.EffectiveLabels != nil {
+		in, out := &in.EffectiveLabels, &out.EffectiveLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.Endpoint != nil {
 		in, out := &in.Endpoint, &out.Endpoint
 		*out = make([]EndpointObservation, len(*in))
@@ -718,6 +749,11 @@ func (in *MembershipObservation) DeepCopyInto(out *MembershipObservation) {
 			(*out)[key] = outVal
 		}
 	}
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
 		*out = new(string)
@@ -727,6 +763,22 @@ func (in *MembershipObservation) DeepCopyInto(out *MembershipObservation) {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
 		**out = **in
+	}
+	if in.TerraformLabels != nil {
+		in, out := &in.TerraformLabels, &out.TerraformLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 }
 
@@ -772,6 +824,11 @@ func (in *MembershipParameters) DeepCopyInto(out *MembershipParameters) {
 			}
 			(*out)[key] = outVal
 		}
+	}
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
 	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project

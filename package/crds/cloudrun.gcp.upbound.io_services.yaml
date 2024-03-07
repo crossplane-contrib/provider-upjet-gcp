@@ -2015,6 +2015,16 @@ spec:
                             keys to configure features on a Revision template:
                           type: object
                           x-kubernetes-map-type: granular
+                        effectiveAnnotations:
+                          additionalProperties:
+                            type: string
+                          type: object
+                          x-kubernetes-map-type: granular
+                        effectiveLabels:
+                          additionalProperties:
+                            type: string
+                          type: object
+                          x-kubernetes-map-type: granular
                         generation:
                           description: |-
                             (Output)
@@ -2047,6 +2057,15 @@ spec:
                             (Output)
                             SelfLink is a URL representing this object.
                           type: string
+                        terraformLabels:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            (Output)
+                            The combination of labels configured directly on the resource
+                            and default labels configured on the provider.
+                          type: object
+                          x-kubernetes-map-type: granular
                         uid:
                           description: |-
                             (Output)

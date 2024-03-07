@@ -59,6 +59,8 @@ type ModelInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// One or more labels that you can add, to organize your models.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -90,10 +92,15 @@ type ModelObservation struct {
 	// The description specified for the model when it was created.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/models/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// One or more labels that you can add, to organize your models.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -113,6 +120,11 @@ type ModelObservation struct {
 	// The list of regions where the model is going to be deployed.
 	// Currently only one region per model is supported
 	Regions []*string `json:"regions,omitempty" tf:"regions,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type ModelParameters struct {
@@ -128,6 +140,8 @@ type ModelParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// One or more labels that you can add, to organize your models.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`

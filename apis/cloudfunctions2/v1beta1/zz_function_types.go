@@ -32,7 +32,17 @@ import (
 type BuildConfigInitParameters struct {
 
 	// User managed repository created in Artifact Registry optionally with a customer managed encryption key.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/artifact/v1beta1.RegistryRepository
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	DockerRepository *string `json:"dockerRepository,omitempty" tf:"docker_repository,omitempty"`
+
+	// Reference to a RegistryRepository in artifact to populate dockerRepository.
+	// +kubebuilder:validation:Optional
+	DockerRepositoryRef *v1.Reference `json:"dockerRepositoryRef,omitempty" tf:"-"`
+
+	// Selector for a RegistryRepository in artifact to populate dockerRepository.
+	// +kubebuilder:validation:Optional
+	DockerRepositorySelector *v1.Selector `json:"dockerRepositorySelector,omitempty" tf:"-"`
 
 	// The name of the function (as defined in source code) that will be executed.
 	// Defaults to the resource name suffix, if not specified. For backward
@@ -103,8 +113,18 @@ type BuildConfigObservation struct {
 type BuildConfigParameters struct {
 
 	// User managed repository created in Artifact Registry optionally with a customer managed encryption key.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/artifact/v1beta1.RegistryRepository
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	DockerRepository *string `json:"dockerRepository,omitempty" tf:"docker_repository,omitempty"`
+
+	// Reference to a RegistryRepository in artifact to populate dockerRepository.
+	// +kubebuilder:validation:Optional
+	DockerRepositoryRef *v1.Reference `json:"dockerRepositoryRef,omitempty" tf:"-"`
+
+	// Selector for a RegistryRepository in artifact to populate dockerRepository.
+	// +kubebuilder:validation:Optional
+	DockerRepositorySelector *v1.Selector `json:"dockerRepositorySelector,omitempty" tf:"-"`
 
 	// The name of the function (as defined in source code) that will be executed.
 	// Defaults to the resource name suffix, if not specified. For backward
@@ -250,7 +270,9 @@ type EventTriggerInitParameters struct {
 	// Possible values are: RETRY_POLICY_UNSPECIFIED, RETRY_POLICY_DO_NOT_RETRY, RETRY_POLICY_RETRY.
 	RetryPolicy *string `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
 
-	// The email of the service account for this function.
+	// Optional. The email of the trigger's service account. The service account
+	// must have permission to invoke Cloud Run services. If empty, defaults to the
+	// Compute Engine default service account: {project_number}-compute@developer.gserviceaccount.com.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
@@ -288,7 +310,9 @@ type EventTriggerObservation struct {
 	// Possible values are: RETRY_POLICY_UNSPECIFIED, RETRY_POLICY_DO_NOT_RETRY, RETRY_POLICY_RETRY.
 	RetryPolicy *string `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
 
-	// The email of the service account for this function.
+	// Optional. The email of the trigger's service account. The service account
+	// must have permission to invoke Cloud Run services. If empty, defaults to the
+	// Compute Engine default service account: {project_number}-compute@developer.gserviceaccount.com.
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// (Output)
@@ -334,7 +358,9 @@ type EventTriggerParameters struct {
 	// +kubebuilder:validation:Optional
 	RetryPolicy *string `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
 
-	// The email of the service account for this function.
+	// Optional. The email of the trigger's service account. The service account
+	// must have permission to invoke Cloud Run services. If empty, defaults to the
+	// Compute Engine default service account: {project_number}-compute@developer.gserviceaccount.com.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
@@ -371,6 +397,10 @@ type FunctionInitParameters struct {
 	// Structure is documented below.
 	EventTrigger []EventTriggerInitParameters `json:"eventTrigger,omitempty" tf:"event_trigger,omitempty"`
 
+	// Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt function resources.
+	// It must match the pattern projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
 	// A set of key/value label pairs associated with this Cloud Function.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
@@ -394,6 +424,10 @@ type FunctionObservation struct {
 	// User-provided description of a function.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// for all of the labels present on the resource.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// The environment the function is hosted on.
 	Environment *string `json:"environment,omitempty" tf:"environment,omitempty"`
 
@@ -404,6 +438,10 @@ type FunctionObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/functions/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt function resources.
+	// It must match the pattern projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// A set of key/value label pairs associated with this Cloud Function.
 	// +mapType=granular
@@ -422,6 +460,11 @@ type FunctionObservation struct {
 
 	// Describes the current state of the function.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// Output only. The deployed url for the function.
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
@@ -448,14 +491,19 @@ type FunctionParameters struct {
 	// +kubebuilder:validation:Optional
 	EventTrigger []EventTriggerParameters `json:"eventTrigger,omitempty" tf:"event_trigger,omitempty"`
 
+	// Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt function resources.
+	// It must match the pattern projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}.
+	// +kubebuilder:validation:Optional
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
 	// A set of key/value label pairs associated with this Cloud Function.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location of this cloud function.
-	// +kubebuilder:validation:Optional
-	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+	// +kubebuilder:validation:Required
+	Location *string `json:"location" tf:"location,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

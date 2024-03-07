@@ -89,6 +89,19 @@ spec:
                     description: Configuration related to the cluster RBAC settings.
                     items:
                       properties:
+                        adminGroups:
+                          description: Groups of users that can perform operations
+                            as a cluster admin. A managed ClusterRoleBinding will
+                            be created to grant the cluster-admin ClusterRole to the
+                            groups. Up to ten admin groups can be provided. For more
+                            info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
+                          items:
+                            properties:
+                              group:
+                                description: The name of the group, e.g. my-group@domain.com.
+                                type: string
+                            type: object
+                          type: array
                         adminUsers:
                           description: Users to perform operations as a cluster admin.
                             A managed ClusterRoleBinding will be created to grant
@@ -110,6 +123,17 @@ spec:
                       call to list all supported AWS regions within a given Google
                       Cloud region.
                     type: string
+                  binaryAuthorization:
+                    description: Configuration options for the Binary Authorization
+                      feature.
+                    items:
+                      properties:
+                        evaluationMode:
+                          description: 'Mode of operation for Binary Authorization
+                            policy evaluation. Possible values: DISABLED, PROJECT_SINGLETON_POLICY_ENFORCE'
+                          type: string
+                      type: object
+                    type: array
                   controlPlane:
                     description: Configuration related to the cluster control plane.
                     items:
@@ -194,7 +218,9 @@ spec:
                               throughput:
                                 description: Optional. The throughput to provision
                                   for the volume, in MiB/s. Only valid if the volume
-                                  type is GP3.
+                                  type is GP3. If volume type is gp3 and throughput
+                                  is not specified, the throughput will defaults to
+                                  125.
                                 type: number
                               volumeType:
                                 description: 'Optional. Type of the EBS volume. When
@@ -244,7 +270,9 @@ spec:
                               throughput:
                                 description: Optional. The throughput to provision
                                   for the volume, in MiB/s. Only valid if the volume
-                                  type is GP3.
+                                  type is GP3. If volume type is gp3 and throughput
+                                  is not specified, the throughput will defaults to
+                                  125.
                                 type: number
                               volumeType:
                                 description: 'Optional. Type of the EBS volume. When
@@ -383,6 +411,19 @@ spec:
                     description: Configuration related to the cluster RBAC settings.
                     items:
                       properties:
+                        adminGroups:
+                          description: Groups of users that can perform operations
+                            as a cluster admin. A managed ClusterRoleBinding will
+                            be created to grant the cluster-admin ClusterRole to the
+                            groups. Up to ten admin groups can be provided. For more
+                            info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
+                          items:
+                            properties:
+                              group:
+                                description: The name of the group, e.g. my-group@domain.com.
+                                type: string
+                            type: object
+                          type: array
                         adminUsers:
                           description: Users to perform operations as a cluster admin.
                             A managed ClusterRoleBinding will be created to grant
@@ -404,6 +445,17 @@ spec:
                       call to list all supported AWS regions within a given Google
                       Cloud region.
                     type: string
+                  binaryAuthorization:
+                    description: Configuration options for the Binary Authorization
+                      feature.
+                    items:
+                      properties:
+                        evaluationMode:
+                          description: 'Mode of operation for Binary Authorization
+                            policy evaluation. Possible values: DISABLED, PROJECT_SINGLETON_POLICY_ENFORCE'
+                          type: string
+                      type: object
+                    type: array
                   controlPlane:
                     description: Configuration related to the cluster control plane.
                     items:
@@ -488,7 +540,9 @@ spec:
                               throughput:
                                 description: Optional. The throughput to provision
                                   for the volume, in MiB/s. Only valid if the volume
-                                  type is GP3.
+                                  type is GP3. If volume type is gp3 and throughput
+                                  is not specified, the throughput will defaults to
+                                  125.
                                 type: number
                               volumeType:
                                 description: 'Optional. Type of the EBS volume. When
@@ -538,7 +592,9 @@ spec:
                               throughput:
                                 description: Optional. The throughput to provision
                                   for the volume, in MiB/s. Only valid if the volume
-                                  type is GP3.
+                                  type is GP3. If volume type is gp3 and throughput
+                                  is not specified, the throughput will defaults to
+                                  125.
                                 type: number
                               volumeType:
                                 description: 'Optional. Type of the EBS volume. When
@@ -852,6 +908,19 @@ spec:
                     description: Configuration related to the cluster RBAC settings.
                     items:
                       properties:
+                        adminGroups:
+                          description: Groups of users that can perform operations
+                            as a cluster admin. A managed ClusterRoleBinding will
+                            be created to grant the cluster-admin ClusterRole to the
+                            groups. Up to ten admin groups can be provided. For more
+                            info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
+                          items:
+                            properties:
+                              group:
+                                description: The name of the group, e.g. my-group@domain.com.
+                                type: string
+                            type: object
+                          type: array
                         adminUsers:
                           description: Users to perform operations as a cluster admin.
                             A managed ClusterRoleBinding will be created to grant
@@ -873,6 +942,17 @@ spec:
                       call to list all supported AWS regions within a given Google
                       Cloud region.
                     type: string
+                  binaryAuthorization:
+                    description: Configuration options for the Binary Authorization
+                      feature.
+                    items:
+                      properties:
+                        evaluationMode:
+                          description: 'Mode of operation for Binary Authorization
+                            policy evaluation. Possible values: DISABLED, PROJECT_SINGLETON_POLICY_ENFORCE'
+                          type: string
+                      type: object
+                    type: array
                   controlPlane:
                     description: Configuration related to the cluster control plane.
                     items:
@@ -957,7 +1037,9 @@ spec:
                               throughput:
                                 description: Optional. The throughput to provision
                                   for the volume, in MiB/s. Only valid if the volume
-                                  type is GP3.
+                                  type is GP3. If volume type is gp3 and throughput
+                                  is not specified, the throughput will defaults to
+                                  125.
                                 type: number
                               volumeType:
                                 description: 'Optional. Type of the EBS volume. When
@@ -1007,7 +1089,9 @@ spec:
                               throughput:
                                 description: Optional. The throughput to provision
                                   for the volume, in MiB/s. Only valid if the volume
-                                  type is GP3.
+                                  type is GP3. If volume type is gp3 and throughput
+                                  is not specified, the throughput will defaults to
+                                  125.
                                 type: number
                               volumeType:
                                 description: 'Optional. Type of the EBS volume. When
@@ -1067,6 +1151,11 @@ spec:
                     description: Optional. A human readable description of this cluster.
                       Cannot be longer than 255 UTF-8 encoded bytes.
                     type: string
+                  effectiveAnnotations:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   endpoint:
                     description: Output only. The endpoint of the cluster's API server.
                     type: string

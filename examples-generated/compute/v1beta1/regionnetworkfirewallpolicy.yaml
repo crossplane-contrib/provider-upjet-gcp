@@ -4,10 +4,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: compute/v1beta1/regionnetworkfirewallpolicy
   labels:
-    testing.upbound.io/example-name: primary
-  name: primary
+    testing.upbound.io/example-name: policy
+  name: policy
 spec:
   forProvider:
-    description: Sample regional network firewall policy
-    project: my-project-name
-    region: us-west1
+    description: Terraform test

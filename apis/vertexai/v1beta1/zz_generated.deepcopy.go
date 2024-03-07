@@ -215,6 +215,22 @@ func (in *DatasetObservation) DeepCopyInto(out *DatasetObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.EffectiveLabels != nil {
+		in, out := &in.EffectiveLabels, &out.EffectiveLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.EncryptionSpec != nil {
 		in, out := &in.EncryptionSpec, &out.EncryptionSpec
 		*out = make([]EncryptionSpecObservation, len(*in))
@@ -262,6 +278,22 @@ func (in *DatasetObservation) DeepCopyInto(out *DatasetObservation) {
 		in, out := &in.Region, &out.Region
 		*out = new(string)
 		**out = **in
+	}
+	if in.TerraformLabels != nil {
+		in, out := &in.TerraformLabels, &out.TerraformLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.UpdateTime != nil {
 		in, out := &in.UpdateTime, &out.UpdateTime
@@ -655,6 +687,22 @@ func (in *FeaturestoreEntitytypeObservation) DeepCopyInto(out *FeaturestoreEntit
 		*out = new(string)
 		**out = **in
 	}
+	if in.EffectiveLabels != nil {
+		in, out := &in.EffectiveLabels, &out.EffectiveLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.Etag != nil {
 		in, out := &in.Etag, &out.Etag
 		*out = new(string)
@@ -702,6 +750,22 @@ func (in *FeaturestoreEntitytypeObservation) DeepCopyInto(out *FeaturestoreEntit
 		in, out := &in.Region, &out.Region
 		*out = new(string)
 		**out = **in
+	}
+	if in.TerraformLabels != nil {
+		in, out := &in.TerraformLabels, &out.TerraformLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.UpdateTime != nil {
 		in, out := &in.UpdateTime, &out.UpdateTime
@@ -923,6 +987,22 @@ func (in *FeaturestoreObservation) DeepCopyInto(out *FeaturestoreObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.EffectiveLabels != nil {
+		in, out := &in.EffectiveLabels, &out.EffectiveLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.EncryptionSpec != nil {
 		in, out := &in.EncryptionSpec, &out.EncryptionSpec
 		*out = make([]FeaturestoreEncryptionSpecObservation, len(*in))
@@ -982,6 +1062,22 @@ func (in *FeaturestoreObservation) DeepCopyInto(out *FeaturestoreObservation) {
 		in, out := &in.Region, &out.Region
 		*out = new(string)
 		**out = **in
+	}
+	if in.TerraformLabels != nil {
+		in, out := &in.TerraformLabels, &out.TerraformLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.UpdateTime != nil {
 		in, out := &in.UpdateTime, &out.UpdateTime
@@ -1795,6 +1891,22 @@ func (in *TensorboardObservation) DeepCopyInto(out *TensorboardObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.EffectiveLabels != nil {
+		in, out := &in.EffectiveLabels, &out.EffectiveLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.EncryptionSpec != nil {
 		in, out := &in.EncryptionSpec, &out.EncryptionSpec
 		*out = make([]TensorboardEncryptionSpecObservation, len(*in))
@@ -1842,6 +1954,22 @@ func (in *TensorboardObservation) DeepCopyInto(out *TensorboardObservation) {
 		in, out := &in.RunCount, &out.RunCount
 		*out = new(string)
 		**out = **in
+	}
+	if in.TerraformLabels != nil {
+		in, out := &in.TerraformLabels, &out.TerraformLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.UpdateTime != nil {
 		in, out := &in.UpdateTime, &out.UpdateTime

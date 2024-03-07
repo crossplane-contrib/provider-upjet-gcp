@@ -114,6 +114,13 @@ type InterconnectAttachmentInitParameters struct {
 	// +kubebuilder:validation:Optional
 	RouterSelector *v1.Selector `json:"routerSelector,omitempty" tf:"-"`
 
+	// The stack type for this interconnect attachment to identify whether the IPv6
+	// feature is enabled or not. If not specified, IPV4_ONLY will be used.
+	// This field can be both set at interconnect attachments creation and update
+	// interconnect attachment operations.
+	// Possible values are: IPV4_IPV6, IPV4_ONLY.
+	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
+
 	// The type of InterconnectAttachment you wish to create. Defaults to
 	// DEDICATED.
 	// Possible values are: DEDICATED, PARTNER, PARTNER_PROVIDER.
@@ -238,6 +245,13 @@ type InterconnectAttachmentObservation struct {
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// The stack type for this interconnect attachment to identify whether the IPv6
+	// feature is enabled or not. If not specified, IPV4_ONLY will be used.
+	// This field can be both set at interconnect attachments creation and update
+	// interconnect attachment operations.
+	// Possible values are: IPV4_IPV6, IPV4_ONLY.
+	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
+
 	// [Output Only] The current state of this attachment's functionality.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
@@ -350,6 +364,14 @@ type InterconnectAttachmentParameters struct {
 	// Selector for a Router to populate router.
 	// +kubebuilder:validation:Optional
 	RouterSelector *v1.Selector `json:"routerSelector,omitempty" tf:"-"`
+
+	// The stack type for this interconnect attachment to identify whether the IPv6
+	// feature is enabled or not. If not specified, IPV4_ONLY will be used.
+	// This field can be both set at interconnect attachments creation and update
+	// interconnect attachment operations.
+	// Possible values are: IPV4_IPV6, IPV4_ONLY.
+	// +kubebuilder:validation:Optional
+	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
 
 	// The type of InterconnectAttachment you wish to create. Defaults to
 	// DEDICATED.

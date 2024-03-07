@@ -181,6 +181,22 @@ func (in *AssetObservation) DeepCopyInto(out *AssetObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.EffectiveLabels != nil {
+		in, out := &in.EffectiveLabels, &out.EffectiveLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
@@ -242,6 +258,22 @@ func (in *AssetObservation) DeepCopyInto(out *AssetObservation) {
 		in, out := &in.State, &out.State
 		*out = new(string)
 		**out = **in
+	}
+	if in.TerraformLabels != nil {
+		in, out := &in.TerraformLabels, &out.TerraformLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.UID != nil {
 		in, out := &in.UID, &out.UID
@@ -1212,6 +1244,22 @@ func (in *LakeObservation) DeepCopyInto(out *LakeObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.EffectiveLabels != nil {
+		in, out := &in.EffectiveLabels, &out.EffectiveLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
@@ -1266,6 +1314,22 @@ func (in *LakeObservation) DeepCopyInto(out *LakeObservation) {
 		in, out := &in.State, &out.State
 		*out = new(string)
 		**out = **in
+	}
+	if in.TerraformLabels != nil {
+		in, out := &in.TerraformLabels, &out.TerraformLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.UID != nil {
 		in, out := &in.UID, &out.UID
@@ -1515,6 +1579,11 @@ func (in *ResourceSpecInitParameters) DeepCopyInto(out *ResourceSpecInitParamete
 		*out = new(string)
 		**out = **in
 	}
+	if in.ReadAccessMode != nil {
+		in, out := &in.ReadAccessMode, &out.ReadAccessMode
+		*out = new(string)
+		**out = **in
+	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
@@ -1540,6 +1609,11 @@ func (in *ResourceSpecObservation) DeepCopyInto(out *ResourceSpecObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ReadAccessMode != nil {
+		in, out := &in.ReadAccessMode, &out.ReadAccessMode
+		*out = new(string)
+		**out = **in
+	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
@@ -1562,6 +1636,11 @@ func (in *ResourceSpecParameters) DeepCopyInto(out *ResourceSpecParameters) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+	if in.ReadAccessMode != nil {
+		in, out := &in.ReadAccessMode, &out.ReadAccessMode
 		*out = new(string)
 		**out = **in
 	}
@@ -2166,6 +2245,22 @@ func (in *ZoneObservation) DeepCopyInto(out *ZoneObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.EffectiveLabels != nil {
+		in, out := &in.EffectiveLabels, &out.EffectiveLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
@@ -2213,6 +2308,22 @@ func (in *ZoneObservation) DeepCopyInto(out *ZoneObservation) {
 		in, out := &in.State, &out.State
 		*out = new(string)
 		**out = **in
+	}
+	if in.TerraformLabels != nil {
+		in, out := &in.TerraformLabels, &out.TerraformLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type

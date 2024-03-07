@@ -78,7 +78,9 @@ spec:
                       this property when you create the resource.
                     type: string
                   project:
-                    description: The project for the resource
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                 type: object
               initProvider:
@@ -99,7 +101,9 @@ spec:
                       this property when you create the resource.
                     type: string
                   project:
-                    description: The project for the resource
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                 type: object
               managementPolicies:
@@ -294,7 +298,9 @@ spec:
                       is defined by the server.
                     type: string
                   project:
-                    description: The project for the resource
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   ruleTupleCount:
                     description: Total count of all firewall policy rule tuples. A

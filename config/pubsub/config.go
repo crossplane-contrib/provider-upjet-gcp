@@ -31,6 +31,7 @@ func Configure(p *config.Provider) {
 			Type: "Topic",
 		}
 		r.Sensitive.AdditionalConnectionDetailsFn = pubsubConnectionDetails
+		delete(r.References, "cloud_storage_config.bucket")
 	})
 
 	p.AddResourceConfigurator("google_pubsub_subscription_iam_member", func(r *config.Resource) {

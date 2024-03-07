@@ -38,7 +38,7 @@ type ProjectIAMCustomRoleInitParameters struct {
 	// +listType=set
 	Permissions []*string `json:"permissions,omitempty" tf:"permissions,omitempty"`
 
-	// The project that the service account will be created in.
+	// The project that the custom role will be created in.
 	// Defaults to the provider project configuration.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -69,7 +69,7 @@ type ProjectIAMCustomRoleObservation struct {
 	// +listType=set
 	Permissions []*string `json:"permissions,omitempty" tf:"permissions,omitempty"`
 
-	// The project that the service account will be created in.
+	// The project that the custom role will be created in.
 	// Defaults to the provider project configuration.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -93,7 +93,7 @@ type ProjectIAMCustomRoleParameters struct {
 	// +listType=set
 	Permissions []*string `json:"permissions,omitempty" tf:"permissions,omitempty"`
 
-	// The project that the service account will be created in.
+	// The project that the custom role will be created in.
 	// Defaults to the provider project configuration.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`

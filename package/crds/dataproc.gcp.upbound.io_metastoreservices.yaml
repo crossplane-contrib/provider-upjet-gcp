@@ -175,6 +175,33 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        auxiliaryVersions:
+                          description: |-
+                            A mapping of Hive metastore version to the auxiliary version configuration.
+                            When specified, a secondary Hive metastore service is created along with the primary service.
+                            All auxiliary versions must be less than the service's primary version.
+                            The key is the auxiliary service name and it must match the regular expression a-z?.
+                            This means that the first character must be a lowercase letter, and all the following characters must be hyphens, lowercase letters, or digits, except the last character, which cannot be a hyphen.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              configOverrides:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  A mapping of Hive metastore configuration key-value pairs to apply to the Hive metastore (configured in hive-site.xml).
+                                  The mappings override system defaults (some keys cannot be overridden)
+                                type: object
+                                x-kubernetes-map-type: granular
+                              key:
+                                description: The identifier for this object. Format
+                                  specified above.
+                                type: string
+                              version:
+                                description: The Hive metastore schema version.
+                                type: string
+                            type: object
+                          type: array
                         configOverrides:
                           additionalProperties:
                             type: string
@@ -183,6 +210,12 @@ spec:
                             The mappings override system defaults (some keys cannot be overridden)
                           type: object
                           x-kubernetes-map-type: granular
+                        endpointProtocol:
+                          description: |-
+                            The protocol to use for the metastore service endpoint. If unspecified, defaults to THRIFT.
+                            Default value is THRIFT.
+                            Possible values are: THRIFT, GRPC.
+                          type: string
                         kerberosConfig:
                           description: |-
                             Information used to configure the Hive metastore service as a service principal in a Kerberos realm.
@@ -224,7 +257,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: User-defined labels for the metastore service.
+                    description: |-
+                      User-defined labels for the metastore service.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   location:
@@ -248,6 +284,28 @@ spec:
                         hourOfDay:
                           description: The hour of day (0-23) when the window starts.
                           type: number
+                      type: object
+                    type: array
+                  metadataIntegration:
+                    description: |-
+                      The setting that defines how metastore metadata should be integrated with external services and systems.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        dataCatalogConfig:
+                          description: |-
+                            The integration config for the Data Catalog service.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              enabled:
+                                description: Defines whether the metastore metadata
+                                  should be synced to Data Catalog. The default value
+                                  is to disable syncing metastore metadata to Data
+                                  Catalog.
+                                type: boolean
+                            type: object
+                          type: array
                       type: object
                     type: array
                   network:
@@ -369,6 +427,24 @@ spec:
                       Default value is STABLE.
                       Possible values are: CANARY, STABLE.
                     type: string
+                  scalingConfig:
+                    description: |-
+                      Represents the scaling configuration of a metastore service.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        instanceSize:
+                          description: |-
+                            Metastore instance sizes.
+                            Possible values are: EXTRA_SMALL, SMALL, MEDIUM, LARGE, EXTRA_LARGE.
+                          type: string
+                        scalingFactor:
+                          description: Scaling factor, in increments of 0.1 for values
+                            less than 1.0, and increments of 1.0 for values greater
+                            than 1.0.
+                          type: number
+                      type: object
+                    type: array
                   telemetryConfig:
                     description: |-
                       The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
@@ -504,6 +580,33 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        auxiliaryVersions:
+                          description: |-
+                            A mapping of Hive metastore version to the auxiliary version configuration.
+                            When specified, a secondary Hive metastore service is created along with the primary service.
+                            All auxiliary versions must be less than the service's primary version.
+                            The key is the auxiliary service name and it must match the regular expression a-z?.
+                            This means that the first character must be a lowercase letter, and all the following characters must be hyphens, lowercase letters, or digits, except the last character, which cannot be a hyphen.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              configOverrides:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  A mapping of Hive metastore configuration key-value pairs to apply to the Hive metastore (configured in hive-site.xml).
+                                  The mappings override system defaults (some keys cannot be overridden)
+                                type: object
+                                x-kubernetes-map-type: granular
+                              key:
+                                description: The identifier for this object. Format
+                                  specified above.
+                                type: string
+                              version:
+                                description: The Hive metastore schema version.
+                                type: string
+                            type: object
+                          type: array
                         configOverrides:
                           additionalProperties:
                             type: string
@@ -512,6 +615,12 @@ spec:
                             The mappings override system defaults (some keys cannot be overridden)
                           type: object
                           x-kubernetes-map-type: granular
+                        endpointProtocol:
+                          description: |-
+                            The protocol to use for the metastore service endpoint. If unspecified, defaults to THRIFT.
+                            Default value is THRIFT.
+                            Possible values are: THRIFT, GRPC.
+                          type: string
                         kerberosConfig:
                           description: |-
                             Information used to configure the Hive metastore service as a service principal in a Kerberos realm.
@@ -553,7 +662,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: User-defined labels for the metastore service.
+                    description: |-
+                      User-defined labels for the metastore service.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   maintenanceWindow:
@@ -572,6 +684,28 @@ spec:
                         hourOfDay:
                           description: The hour of day (0-23) when the window starts.
                           type: number
+                      type: object
+                    type: array
+                  metadataIntegration:
+                    description: |-
+                      The setting that defines how metastore metadata should be integrated with external services and systems.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        dataCatalogConfig:
+                          description: |-
+                            The integration config for the Data Catalog service.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              enabled:
+                                description: Defines whether the metastore metadata
+                                  should be synced to Data Catalog. The default value
+                                  is to disable syncing metastore metadata to Data
+                                  Catalog.
+                                type: boolean
+                            type: object
+                          type: array
                       type: object
                     type: array
                   network:
@@ -693,6 +827,24 @@ spec:
                       Default value is STABLE.
                       Possible values are: CANARY, STABLE.
                     type: string
+                  scalingConfig:
+                    description: |-
+                      Represents the scaling configuration of a metastore service.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        instanceSize:
+                          description: |-
+                            Metastore instance sizes.
+                            Possible values are: EXTRA_SMALL, SMALL, MEDIUM, LARGE, EXTRA_LARGE.
+                          type: string
+                        scalingFactor:
+                          description: Scaling factor, in increments of 0.1 for values
+                            less than 1.0, and increments of 1.0 for values greater
+                            than 1.0.
+                          type: number
+                      type: object
+                    type: array
                   telemetryConfig:
                     description: |-
                       The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
@@ -895,6 +1047,11 @@ spec:
                       Default value is MYSQL.
                       Possible values are: MYSQL, SPANNER.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   encryptionConfig:
                     description: |-
                       Information used to configure the Dataproc Metastore service to encrypt
@@ -919,6 +1076,33 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        auxiliaryVersions:
+                          description: |-
+                            A mapping of Hive metastore version to the auxiliary version configuration.
+                            When specified, a secondary Hive metastore service is created along with the primary service.
+                            All auxiliary versions must be less than the service's primary version.
+                            The key is the auxiliary service name and it must match the regular expression a-z?.
+                            This means that the first character must be a lowercase letter, and all the following characters must be hyphens, lowercase letters, or digits, except the last character, which cannot be a hyphen.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              configOverrides:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  A mapping of Hive metastore configuration key-value pairs to apply to the Hive metastore (configured in hive-site.xml).
+                                  The mappings override system defaults (some keys cannot be overridden)
+                                type: object
+                                x-kubernetes-map-type: granular
+                              key:
+                                description: The identifier for this object. Format
+                                  specified above.
+                                type: string
+                              version:
+                                description: The Hive metastore schema version.
+                                type: string
+                            type: object
+                          type: array
                         configOverrides:
                           additionalProperties:
                             type: string
@@ -927,6 +1111,12 @@ spec:
                             The mappings override system defaults (some keys cannot be overridden)
                           type: object
                           x-kubernetes-map-type: granular
+                        endpointProtocol:
+                          description: |-
+                            The protocol to use for the metastore service endpoint. If unspecified, defaults to THRIFT.
+                            Default value is THRIFT.
+                            Possible values are: THRIFT, GRPC.
+                          type: string
                         kerberosConfig:
                           description: |-
                             Information used to configure the Hive metastore service as a service principal in a Kerberos realm.
@@ -971,7 +1161,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: User-defined labels for the metastore service.
+                    description: |-
+                      User-defined labels for the metastore service.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   location:
@@ -997,6 +1190,28 @@ spec:
                           type: number
                       type: object
                     type: array
+                  metadataIntegration:
+                    description: |-
+                      The setting that defines how metastore metadata should be integrated with external services and systems.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        dataCatalogConfig:
+                          description: |-
+                            The integration config for the Data Catalog service.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              enabled:
+                                description: Defines whether the metastore metadata
+                                  should be synced to Data Catalog. The default value
+                                  is to disable syncing metastore metadata to Data
+                                  Catalog.
+                                type: boolean
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   name:
                     description: The relative resource name of the metastore service.
                     type: string
@@ -1018,9 +1233,8 @@ spec:
                           items:
                             properties:
                               endpointUri:
-                                description: |-
-                                  (Output)
-                                  The URI of the endpoint used to access the metastore service.
+                                description: The URI of the endpoint used to access
+                                  the metastore service.
                                 type: string
                               subnetwork:
                                 description: |-
@@ -1048,6 +1262,24 @@ spec:
                       Default value is STABLE.
                       Possible values are: CANARY, STABLE.
                     type: string
+                  scalingConfig:
+                    description: |-
+                      Represents the scaling configuration of a metastore service.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        instanceSize:
+                          description: |-
+                            Metastore instance sizes.
+                            Possible values are: EXTRA_SMALL, SMALL, MEDIUM, LARGE, EXTRA_LARGE.
+                          type: string
+                        scalingFactor:
+                          description: Scaling factor, in increments of 0.1 for values
+                            less than 1.0, and increments of 1.0 for values greater
+                            than 1.0.
+                          type: number
+                      type: object
+                    type: array
                   state:
                     description: The current state of the metastore service.
                     type: string
@@ -1069,6 +1301,14 @@ spec:
                           type: string
                       type: object
                     type: array
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   tier:
                     description: |-
                       The tier of the service.

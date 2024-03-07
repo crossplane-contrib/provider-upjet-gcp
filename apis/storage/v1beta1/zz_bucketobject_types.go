@@ -82,6 +82,9 @@ type BucketObjectInitParameters struct {
 	// The name of the object. If you're interpolating the name of this object, see output_name instead.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The object retention settings for the object. The retention settings allow an object to be retained until a provided date. Structure is documented below.
+	Retention []RetentionInitParameters `json:"retention,omitempty" tf:"retention,omitempty"`
+
 	// A path to the data you want to upload. Must be defined
 	// if content is not.
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`
@@ -153,6 +156,9 @@ type BucketObjectObservation struct {
 	// (Computed) The name of the object. Use this field in interpolations with google_storage_object_acl to recreate
 	// google_storage_object_acl resources when your google_storage_bucket_object is recreated.
 	OutputName *string `json:"outputName,omitempty" tf:"output_name,omitempty"`
+
+	// The object retention settings for the object. The retention settings allow an object to be retained until a provided date. Structure is documented below.
+	Retention []RetentionObservation `json:"retention,omitempty" tf:"retention,omitempty"`
 
 	// (Computed) A url reference to this object.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
@@ -236,6 +242,10 @@ type BucketObjectParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The object retention settings for the object. The retention settings allow an object to be retained until a provided date. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Retention []RetentionParameters `json:"retention,omitempty" tf:"retention,omitempty"`
+
 	// A path to the data you want to upload. Must be defined
 	// if content is not.
 	// +kubebuilder:validation:Optional
@@ -273,6 +283,35 @@ type CustomerEncryptionParameters struct {
 	// Base64 encoded Customer-Supplied Encryption Key.
 	// +kubebuilder:validation:Required
 	EncryptionKeySecretRef v1.SecretKeySelector `json:"encryptionKeySecretRef" tf:"-"`
+}
+
+type RetentionInitParameters struct {
+
+	// The retention policy mode. Either Locked or Unlocked.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// The time to retain the object until in RFC 3339 format, for example 2012-11-15T16:19:00.094Z.
+	RetainUntilTime *string `json:"retainUntilTime,omitempty" tf:"retain_until_time,omitempty"`
+}
+
+type RetentionObservation struct {
+
+	// The retention policy mode. Either Locked or Unlocked.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// The time to retain the object until in RFC 3339 format, for example 2012-11-15T16:19:00.094Z.
+	RetainUntilTime *string `json:"retainUntilTime,omitempty" tf:"retain_until_time,omitempty"`
+}
+
+type RetentionParameters struct {
+
+	// The retention policy mode. Either Locked or Unlocked.
+	// +kubebuilder:validation:Optional
+	Mode *string `json:"mode" tf:"mode,omitempty"`
+
+	// The time to retain the object until in RFC 3339 format, for example 2012-11-15T16:19:00.094Z.
+	// +kubebuilder:validation:Optional
+	RetainUntilTime *string `json:"retainUntilTime" tf:"retain_until_time,omitempty"`
 }
 
 // BucketObjectSpec defines the desired state of BucketObject

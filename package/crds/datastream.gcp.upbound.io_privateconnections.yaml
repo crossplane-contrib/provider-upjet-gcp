@@ -80,7 +80,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: Labels.
+                    description: |-
+                      Labels.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   location:
@@ -207,7 +210,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: Labels.
+                    description: |-
+                      Labels.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   project:
@@ -493,6 +499,11 @@ spec:
                   displayName:
                     description: Display name.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   error:
                     description: |-
                       The PrivateConnection error in case of failure.
@@ -517,7 +528,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: Labels.
+                    description: |-
+                      Labels.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   location:
@@ -535,6 +549,14 @@ spec:
                   state:
                     description: State of the PrivateConnection.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   vpcPeeringConfig:
                     description: |-
                       The VPC Peering configuration is used to create VPC peering

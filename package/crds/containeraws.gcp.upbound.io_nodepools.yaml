@@ -273,7 +273,9 @@ spec:
                               throughput:
                                 description: Optional. The throughput to provision
                                   for the volume, in MiB/s. Only valid if the volume
-                                  type is GP3.
+                                  type is GP3. If volume type is gp3 and throughput
+                                  is not specified, the throughput will defaults to
+                                  125.
                                 type: number
                               volumeType:
                                 description: 'Optional. Type of the EBS volume. When
@@ -332,6 +334,16 @@ spec:
                   location:
                     description: The location for the resource
                     type: string
+                  management:
+                    description: The Management configuration for this node pool.
+                    items:
+                      properties:
+                        autoRepair:
+                          description: Optional. Whether or not the nodes will be
+                            automatically repaired.
+                          type: boolean
+                      type: object
+                    type: array
                   maxPodsConstraint:
                     description: The constraint on the maximum number of pods that
                       can be run simultaneously on a node in the node pool.
@@ -349,6 +361,30 @@ spec:
                   subnetId:
                     description: The subnet where the node pool node run.
                     type: string
+                  updateSettings:
+                    description: Optional. Update settings control the speed and disruption
+                      of the node pool update.
+                    items:
+                      properties:
+                        surgeSettings:
+                          description: Optional. Settings for surge update.
+                          items:
+                            properties:
+                              maxSurge:
+                                description: Optional. The maximum number of nodes
+                                  that can be created beyond the current size of the
+                                  node pool during the update process.
+                                type: number
+                              maxUnavailable:
+                                description: Optional. The maximum number of nodes
+                                  that can be simultaneously unavailable during the
+                                  update process. A node is considered unavailable
+                                  if its status is not Ready.
+                                type: number
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   version:
                     description: The Kubernetes version to run on this node pool (e.g.
                       1.19.10-gke.1000). You can list all supported versions on a
@@ -493,7 +529,9 @@ spec:
                               throughput:
                                 description: Optional. The throughput to provision
                                   for the volume, in MiB/s. Only valid if the volume
-                                  type is GP3.
+                                  type is GP3. If volume type is gp3 and throughput
+                                  is not specified, the throughput will defaults to
+                                  125.
                                 type: number
                               volumeType:
                                 description: 'Optional. Type of the EBS volume. When
@@ -549,6 +587,16 @@ spec:
                           type: array
                       type: object
                     type: array
+                  management:
+                    description: The Management configuration for this node pool.
+                    items:
+                      properties:
+                        autoRepair:
+                          description: Optional. Whether or not the nodes will be
+                            automatically repaired.
+                          type: boolean
+                      type: object
+                    type: array
                   maxPodsConstraint:
                     description: The constraint on the maximum number of pods that
                       can be run simultaneously on a node in the node pool.
@@ -566,6 +614,30 @@ spec:
                   subnetId:
                     description: The subnet where the node pool node run.
                     type: string
+                  updateSettings:
+                    description: Optional. Update settings control the speed and disruption
+                      of the node pool update.
+                    items:
+                      properties:
+                        surgeSettings:
+                          description: Optional. Settings for surge update.
+                          items:
+                            properties:
+                              maxSurge:
+                                description: Optional. The maximum number of nodes
+                                  that can be created beyond the current size of the
+                                  node pool during the update process.
+                                type: number
+                              maxUnavailable:
+                                description: Optional. The maximum number of nodes
+                                  that can be simultaneously unavailable during the
+                                  update process. A node is considered unavailable
+                                  if its status is not Ready.
+                                type: number
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   version:
                     description: The Kubernetes version to run on this node pool (e.g.
                       1.19.10-gke.1000). You can list all supported versions on a
@@ -891,7 +963,9 @@ spec:
                               throughput:
                                 description: Optional. The throughput to provision
                                   for the volume, in MiB/s. Only valid if the volume
-                                  type is GP3.
+                                  type is GP3. If volume type is gp3 and throughput
+                                  is not specified, the throughput will defaults to
+                                  125.
                                 type: number
                               volumeType:
                                 description: 'Optional. Type of the EBS volume. When
@@ -951,6 +1025,11 @@ spec:
                     description: Output only. The time at which this node pool was
                       created.
                     type: string
+                  effectiveAnnotations:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   etag:
                     description: Allows clients to perform consistent read-modify-writes
                       through optimistic concurrency control. May be sent on update
@@ -963,6 +1042,16 @@ spec:
                   location:
                     description: The location for the resource
                     type: string
+                  management:
+                    description: The Management configuration for this node pool.
+                    items:
+                      properties:
+                        autoRepair:
+                          description: Optional. Whether or not the nodes will be
+                            automatically repaired.
+                          type: boolean
+                      type: object
+                    type: array
                   maxPodsConstraint:
                     description: The constraint on the maximum number of pods that
                       can be run simultaneously on a node in the node pool.
@@ -993,6 +1082,30 @@ spec:
                     description: Output only. A globally unique identifier for the
                       node pool.
                     type: string
+                  updateSettings:
+                    description: Optional. Update settings control the speed and disruption
+                      of the node pool update.
+                    items:
+                      properties:
+                        surgeSettings:
+                          description: Optional. Settings for surge update.
+                          items:
+                            properties:
+                              maxSurge:
+                                description: Optional. The maximum number of nodes
+                                  that can be created beyond the current size of the
+                                  node pool during the update process.
+                                type: number
+                              maxUnavailable:
+                                description: Optional. The maximum number of nodes
+                                  that can be simultaneously unavailable during the
+                                  update process. A node is considered unavailable
+                                  if its status is not Ready.
+                                type: number
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   updateTime:
                     description: Output only. The time at which this node pool was
                       last updated.

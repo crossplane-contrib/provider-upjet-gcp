@@ -78,8 +78,8 @@ spec:
                       type: string
                     description: |-
                       Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects.
-                      Cloud Run API v2 does not support annotations with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected on new resources.
-                      All system annotations in v1 now have a corresponding field in v2 Job.
+                      Cloud Run API v2 does not support annotations with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+                      All system annotations in v1 now have a corresponding field in v2 ExecutionTemplate.
                       This field follows Kubernetes annotations' namespacing, limits, and rules.
                     type: object
                     x-kubernetes-map-type: granular
@@ -111,10 +111,11 @@ spec:
                     additionalProperties:
                       type: string
                     description: |-
-                      Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component,
-                      environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+                      Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter,
+                      or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or
+                      https://cloud.google.com/run/docs/configuring/labels.
                       Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
-                      All system labels in v1 now have a corresponding field in v2 Job.
+                      All system labels in v1 now have a corresponding field in v2 ExecutionTemplate.
                     type: object
                     x-kubernetes-map-type: granular
                   launchStage:
@@ -226,7 +227,18 @@ spec:
                                             description: Volume's name.
                                             type: string
                                           value:
-                                            description: The header field value
+                                            description: 'Variable references $(VAR_NAME)
+                                              are expanded using the previous defined
+                                              environment variables in the container
+                                              and any route environment variables.
+                                              If a variable cannot be resolved, the
+                                              reference in the input string will be
+                                              unchanged. The $(VAR_NAME) syntax can
+                                              be escaped with a double $$, ie: $$(VAR_NAME).
+                                              Escaped references will never be expanded,
+                                              regardless of whether the variable exists
+                                              or not. Defaults to "", and the maximum
+                                              length is 32768 bytes'
                                             type: string
                                           valueSource:
                                             description: |-
@@ -345,86 +357,6 @@ spec:
                                         Google Container Registry or Google Artifact
                                         Registry. More info: https://kubernetes.io/docs/concepts/containers/images'
                                       type: string
-                                    livenessProbe:
-                                      description: |-
-                                        Periodic probe of container liveness. Container will be restarted if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-                                        This field is not supported in Cloud Run Job currently.
-                                        Structure is documented below.
-                                      items:
-                                        properties:
-                                          failureThreshold:
-                                            description: Minimum consecutive failures
-                                              for the probe to be considered failed
-                                              after having succeeded. Defaults to
-                                              3. Minimum value is 1.
-                                            type: number
-                                          httpGet:
-                                            description: |-
-                                              HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
-                                              Structure is documented below.
-                                            items:
-                                              properties:
-                                                httpHeaders:
-                                                  description: |-
-                                                    Custom headers to set in the request. HTTP allows repeated headers.
-                                                    Structure is documented below.
-                                                  items:
-                                                    properties:
-                                                      name:
-                                                        description: Volume's name.
-                                                        type: string
-                                                      value:
-                                                        description: The header field
-                                                          value
-                                                        type: string
-                                                    type: object
-                                                  type: array
-                                                path:
-                                                  description: The relative path of
-                                                    the secret in the container.
-                                                  type: string
-                                              type: object
-                                            type: array
-                                          initialDelaySeconds:
-                                            description: 'Number of seconds after
-                                              the container has started before the
-                                              probe is initiated. Defaults to 0 seconds.
-                                              Minimum value is 0. Maximum value for
-                                              liveness probe is 3600. Maximum value
-                                              for startup probe is 240. More info:
-                                              https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
-                                            type: number
-                                          periodSeconds:
-                                            description: How often (in seconds) to
-                                              perform the probe. Default to 10 seconds.
-                                              Minimum value is 1. Maximum value for
-                                              liveness probe is 3600. Maximum value
-                                              for startup probe is 240. Must be greater
-                                              or equal than timeoutSeconds
-                                            type: number
-                                          tcpSocket:
-                                            description: |-
-                                              TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
-                                              Structure is documented below.
-                                            items:
-                                              properties:
-                                                port:
-                                                  description: Port number to access
-                                                    on the container. Must be in the
-                                                    range 1 to 65535. If not specified,
-                                                    defaults to 8080.
-                                                  type: number
-                                              type: object
-                                            type: array
-                                          timeoutSeconds:
-                                            description: 'Number of seconds after
-                                              which the probe times out. Defaults
-                                              to 1 second. Minimum value is 1. Maximum
-                                              value is 3600. Must be smaller than
-                                              periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
-                                            type: number
-                                        type: object
-                                      type: array
                                     name:
                                       description: Volume's name.
                                       type: string
@@ -455,94 +387,15 @@ spec:
                                             additionalProperties:
                                               type: string
                                             description: 'Only memory and CPU are
-                                              supported. Note: The only supported
-                                              values for CPU are ''1'', ''2'', ''4'',
-                                              and ''8''. Setting 4 CPU requires at
-                                              least 2Gi of memory. The values of the
-                                              map is string form of the ''quantity''
-                                              k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
+                                              supported. Use key cpu for CPU limit
+                                              and memory for memory limit. Note: The
+                                              only supported values for CPU are ''1'',
+                                              ''2'', ''4'', and ''8''. Setting 4 CPU
+                                              requires at least 2Gi of memory. The
+                                              values of the map is string form of
+                                              the ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                             type: object
                                             x-kubernetes-map-type: granular
-                                        type: object
-                                      type: array
-                                    startupProbe:
-                                      description: |-
-                                        Startup probe of application within the container. All other probes are disabled if a startup probe is provided, until it succeeds. Container will not be added to service endpoints if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-                                        This field is not supported in Cloud Run Job currently.
-                                        Structure is documented below.
-                                      items:
-                                        properties:
-                                          failureThreshold:
-                                            description: Minimum consecutive failures
-                                              for the probe to be considered failed
-                                              after having succeeded. Defaults to
-                                              3. Minimum value is 1.
-                                            type: number
-                                          httpGet:
-                                            description: |-
-                                              HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
-                                              Structure is documented below.
-                                            items:
-                                              properties:
-                                                httpHeaders:
-                                                  description: |-
-                                                    Custom headers to set in the request. HTTP allows repeated headers.
-                                                    Structure is documented below.
-                                                  items:
-                                                    properties:
-                                                      name:
-                                                        description: Volume's name.
-                                                        type: string
-                                                      value:
-                                                        description: The header field
-                                                          value
-                                                        type: string
-                                                    type: object
-                                                  type: array
-                                                path:
-                                                  description: The relative path of
-                                                    the secret in the container.
-                                                  type: string
-                                              type: object
-                                            type: array
-                                          initialDelaySeconds:
-                                            description: 'Number of seconds after
-                                              the container has started before the
-                                              probe is initiated. Defaults to 0 seconds.
-                                              Minimum value is 0. Maximum value for
-                                              liveness probe is 3600. Maximum value
-                                              for startup probe is 240. More info:
-                                              https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
-                                            type: number
-                                          periodSeconds:
-                                            description: How often (in seconds) to
-                                              perform the probe. Default to 10 seconds.
-                                              Minimum value is 1. Maximum value for
-                                              liveness probe is 3600. Maximum value
-                                              for startup probe is 240. Must be greater
-                                              or equal than timeoutSeconds
-                                            type: number
-                                          tcpSocket:
-                                            description: |-
-                                              TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
-                                              Structure is documented below.
-                                            items:
-                                              properties:
-                                                port:
-                                                  description: Port number to access
-                                                    on the container. Must be in the
-                                                    range 1 to 65535. If not specified,
-                                                    defaults to 8080.
-                                                  type: number
-                                              type: object
-                                            type: array
-                                          timeoutSeconds:
-                                            description: 'Number of seconds after
-                                              which the probe times out. Defaults
-                                              to 1 second. Minimum value is 1. Maximum
-                                              value is 3600. Must be smaller than
-                                              periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
-                                            type: number
                                         type: object
                                       type: array
                                     volumeMounts:
@@ -769,12 +622,40 @@ spec:
                                         Traffic VPC egress settings.
                                         Possible values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.
                                       type: string
+                                    networkInterfaces:
+                                      description: |-
+                                        Direct VPC egress settings. Currently only single network interface is supported.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          network:
+                                            description: |-
+                                              The VPC network that the Cloud Run resource will be able to send traffic to. At least one of network or subnetwork must be specified. If both
+                                              network and subnetwork are specified, the given VPC subnetwork must belong to the given VPC network. If network is not specified, it will be
+                                              looked up from the subnetwork.
+                                            type: string
+                                          subnetwork:
+                                            description: |-
+                                              The VPC subnetwork that the Cloud Run resource will get IPs from. At least one of network or subnetwork must be specified. If both
+                                              network and subnetwork are specified, the given VPC subnetwork must belong to the given VPC network. If subnetwork is not specified, the
+                                              subnetwork with the same name with the network will be used.
+                                            type: string
+                                          tags:
+                                            description: Network tags applied to this
+                                              Cloud Run job.
+                                            items:
+                                              type: string
+                                            type: array
+                                        type: object
+                                      type: array
                                   type: object
                                 type: array
                             type: object
                           type: array
                       type: object
                     type: array
+                required:
+                - location
                 type: object
               initProvider:
                 description: |-
@@ -794,8 +675,8 @@ spec:
                       type: string
                     description: |-
                       Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects.
-                      Cloud Run API v2 does not support annotations with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected on new resources.
-                      All system annotations in v1 now have a corresponding field in v2 Job.
+                      Cloud Run API v2 does not support annotations with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+                      All system annotations in v1 now have a corresponding field in v2 ExecutionTemplate.
                       This field follows Kubernetes annotations' namespacing, limits, and rules.
                     type: object
                     x-kubernetes-map-type: granular
@@ -827,10 +708,11 @@ spec:
                     additionalProperties:
                       type: string
                     description: |-
-                      Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component,
-                      environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+                      Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter,
+                      or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or
+                      https://cloud.google.com/run/docs/configuring/labels.
                       Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
-                      All system labels in v1 now have a corresponding field in v2 Job.
+                      All system labels in v1 now have a corresponding field in v2 ExecutionTemplate.
                     type: object
                     x-kubernetes-map-type: granular
                   launchStage:
@@ -939,7 +821,18 @@ spec:
                                             description: Volume's name.
                                             type: string
                                           value:
-                                            description: The header field value
+                                            description: 'Variable references $(VAR_NAME)
+                                              are expanded using the previous defined
+                                              environment variables in the container
+                                              and any route environment variables.
+                                              If a variable cannot be resolved, the
+                                              reference in the input string will be
+                                              unchanged. The $(VAR_NAME) syntax can
+                                              be escaped with a double $$, ie: $$(VAR_NAME).
+                                              Escaped references will never be expanded,
+                                              regardless of whether the variable exists
+                                              or not. Defaults to "", and the maximum
+                                              length is 32768 bytes'
                                             type: string
                                           valueSource:
                                             description: |-
@@ -1058,86 +951,6 @@ spec:
                                         Google Container Registry or Google Artifact
                                         Registry. More info: https://kubernetes.io/docs/concepts/containers/images'
                                       type: string
-                                    livenessProbe:
-                                      description: |-
-                                        Periodic probe of container liveness. Container will be restarted if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-                                        This field is not supported in Cloud Run Job currently.
-                                        Structure is documented below.
-                                      items:
-                                        properties:
-                                          failureThreshold:
-                                            description: Minimum consecutive failures
-                                              for the probe to be considered failed
-                                              after having succeeded. Defaults to
-                                              3. Minimum value is 1.
-                                            type: number
-                                          httpGet:
-                                            description: |-
-                                              HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
-                                              Structure is documented below.
-                                            items:
-                                              properties:
-                                                httpHeaders:
-                                                  description: |-
-                                                    Custom headers to set in the request. HTTP allows repeated headers.
-                                                    Structure is documented below.
-                                                  items:
-                                                    properties:
-                                                      name:
-                                                        description: Volume's name.
-                                                        type: string
-                                                      value:
-                                                        description: The header field
-                                                          value
-                                                        type: string
-                                                    type: object
-                                                  type: array
-                                                path:
-                                                  description: The relative path of
-                                                    the secret in the container.
-                                                  type: string
-                                              type: object
-                                            type: array
-                                          initialDelaySeconds:
-                                            description: 'Number of seconds after
-                                              the container has started before the
-                                              probe is initiated. Defaults to 0 seconds.
-                                              Minimum value is 0. Maximum value for
-                                              liveness probe is 3600. Maximum value
-                                              for startup probe is 240. More info:
-                                              https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
-                                            type: number
-                                          periodSeconds:
-                                            description: How often (in seconds) to
-                                              perform the probe. Default to 10 seconds.
-                                              Minimum value is 1. Maximum value for
-                                              liveness probe is 3600. Maximum value
-                                              for startup probe is 240. Must be greater
-                                              or equal than timeoutSeconds
-                                            type: number
-                                          tcpSocket:
-                                            description: |-
-                                              TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
-                                              Structure is documented below.
-                                            items:
-                                              properties:
-                                                port:
-                                                  description: Port number to access
-                                                    on the container. Must be in the
-                                                    range 1 to 65535. If not specified,
-                                                    defaults to 8080.
-                                                  type: number
-                                              type: object
-                                            type: array
-                                          timeoutSeconds:
-                                            description: 'Number of seconds after
-                                              which the probe times out. Defaults
-                                              to 1 second. Minimum value is 1. Maximum
-                                              value is 3600. Must be smaller than
-                                              periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
-                                            type: number
-                                        type: object
-                                      type: array
                                     name:
                                       description: Volume's name.
                                       type: string
@@ -1168,94 +981,15 @@ spec:
                                             additionalProperties:
                                               type: string
                                             description: 'Only memory and CPU are
-                                              supported. Note: The only supported
-                                              values for CPU are ''1'', ''2'', ''4'',
-                                              and ''8''. Setting 4 CPU requires at
-                                              least 2Gi of memory. The values of the
-                                              map is string form of the ''quantity''
-                                              k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
+                                              supported. Use key cpu for CPU limit
+                                              and memory for memory limit. Note: The
+                                              only supported values for CPU are ''1'',
+                                              ''2'', ''4'', and ''8''. Setting 4 CPU
+                                              requires at least 2Gi of memory. The
+                                              values of the map is string form of
+                                              the ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                             type: object
                                             x-kubernetes-map-type: granular
-                                        type: object
-                                      type: array
-                                    startupProbe:
-                                      description: |-
-                                        Startup probe of application within the container. All other probes are disabled if a startup probe is provided, until it succeeds. Container will not be added to service endpoints if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-                                        This field is not supported in Cloud Run Job currently.
-                                        Structure is documented below.
-                                      items:
-                                        properties:
-                                          failureThreshold:
-                                            description: Minimum consecutive failures
-                                              for the probe to be considered failed
-                                              after having succeeded. Defaults to
-                                              3. Minimum value is 1.
-                                            type: number
-                                          httpGet:
-                                            description: |-
-                                              HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
-                                              Structure is documented below.
-                                            items:
-                                              properties:
-                                                httpHeaders:
-                                                  description: |-
-                                                    Custom headers to set in the request. HTTP allows repeated headers.
-                                                    Structure is documented below.
-                                                  items:
-                                                    properties:
-                                                      name:
-                                                        description: Volume's name.
-                                                        type: string
-                                                      value:
-                                                        description: The header field
-                                                          value
-                                                        type: string
-                                                    type: object
-                                                  type: array
-                                                path:
-                                                  description: The relative path of
-                                                    the secret in the container.
-                                                  type: string
-                                              type: object
-                                            type: array
-                                          initialDelaySeconds:
-                                            description: 'Number of seconds after
-                                              the container has started before the
-                                              probe is initiated. Defaults to 0 seconds.
-                                              Minimum value is 0. Maximum value for
-                                              liveness probe is 3600. Maximum value
-                                              for startup probe is 240. More info:
-                                              https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
-                                            type: number
-                                          periodSeconds:
-                                            description: How often (in seconds) to
-                                              perform the probe. Default to 10 seconds.
-                                              Minimum value is 1. Maximum value for
-                                              liveness probe is 3600. Maximum value
-                                              for startup probe is 240. Must be greater
-                                              or equal than timeoutSeconds
-                                            type: number
-                                          tcpSocket:
-                                            description: |-
-                                              TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
-                                              Structure is documented below.
-                                            items:
-                                              properties:
-                                                port:
-                                                  description: Port number to access
-                                                    on the container. Must be in the
-                                                    range 1 to 65535. If not specified,
-                                                    defaults to 8080.
-                                                  type: number
-                                              type: object
-                                            type: array
-                                          timeoutSeconds:
-                                            description: 'Number of seconds after
-                                              which the probe times out. Defaults
-                                              to 1 second. Minimum value is 1. Maximum
-                                              value is 3600. Must be smaller than
-                                              periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
-                                            type: number
                                         type: object
                                       type: array
                                     volumeMounts:
@@ -1482,6 +1216,32 @@ spec:
                                         Traffic VPC egress settings.
                                         Possible values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.
                                       type: string
+                                    networkInterfaces:
+                                      description: |-
+                                        Direct VPC egress settings. Currently only single network interface is supported.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          network:
+                                            description: |-
+                                              The VPC network that the Cloud Run resource will be able to send traffic to. At least one of network or subnetwork must be specified. If both
+                                              network and subnetwork are specified, the given VPC subnetwork must belong to the given VPC network. If network is not specified, it will be
+                                              looked up from the subnetwork.
+                                            type: string
+                                          subnetwork:
+                                            description: |-
+                                              The VPC subnetwork that the Cloud Run resource will get IPs from. At least one of network or subnetwork must be specified. If both
+                                              network and subnetwork are specified, the given VPC subnetwork must belong to the given VPC network. If subnetwork is not specified, the
+                                              subnetwork with the same name with the network will be used.
+                                            type: string
+                                          tags:
+                                            description: Network tags applied to this
+                                              Cloud Run job.
+                                            items:
+                                              type: string
+                                            type: array
+                                        type: object
+                                      type: array
                                   type: object
                                 type: array
                             type: object
@@ -1671,8 +1431,8 @@ spec:
                       type: string
                     description: |-
                       Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects.
-                      Cloud Run API v2 does not support annotations with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected on new resources.
-                      All system annotations in v1 now have a corresponding field in v2 Job.
+                      Cloud Run API v2 does not support annotations with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
+                      All system annotations in v1 now have a corresponding field in v2 ExecutionTemplate.
                       This field follows Kubernetes annotations' namespacing, limits, and rules.
                     type: object
                     x-kubernetes-map-type: granular
@@ -1749,6 +1509,25 @@ spec:
                           type: string
                       type: object
                     type: array
+                  createTime:
+                    description: The creation time.
+                    type: string
+                  creator:
+                    description: Email address of the authenticated creator.
+                    type: string
+                  deleteTime:
+                    description: The deletion time.
+                    type: string
+                  effectiveAnnotations:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   etag:
                     description: A system-generated fingerprint for this version of
                       the resource. May be used to detect modification conflict during
@@ -1757,6 +1536,10 @@ spec:
                   executionCount:
                     description: Number of executions created for this job.
                     type: number
+                  expireTime:
+                    description: For a deleted resource, the time after which it will
+                      be permamently deleted.
+                    type: string
                   generation:
                     description: A number that monotonically increases every time
                       the user modifies the desired state.
@@ -1768,12 +1551,16 @@ spec:
                     additionalProperties:
                       type: string
                     description: |-
-                      Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component,
-                      environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+                      Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter,
+                      or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or
+                      https://cloud.google.com/run/docs/configuring/labels.
                       Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
-                      All system labels in v1 now have a corresponding field in v2 Job.
+                      All system labels in v1 now have a corresponding field in v2 ExecutionTemplate.
                     type: object
                     x-kubernetes-map-type: granular
+                  lastModifier:
+                    description: Email address of the last authenticated modifier.
+                    type: string
                   latestCreatedExecution:
                     description: |-
                       Name of the last created execution.
@@ -1920,7 +1707,18 @@ spec:
                                             description: Volume's name.
                                             type: string
                                           value:
-                                            description: The header field value
+                                            description: 'Variable references $(VAR_NAME)
+                                              are expanded using the previous defined
+                                              environment variables in the container
+                                              and any route environment variables.
+                                              If a variable cannot be resolved, the
+                                              reference in the input string will be
+                                              unchanged. The $(VAR_NAME) syntax can
+                                              be escaped with a double $$, ie: $$(VAR_NAME).
+                                              Escaped references will never be expanded,
+                                              regardless of whether the variable exists
+                                              or not. Defaults to "", and the maximum
+                                              length is 32768 bytes'
                                             type: string
                                           valueSource:
                                             description: |-
@@ -1957,86 +1755,6 @@ spec:
                                         Google Container Registry or Google Artifact
                                         Registry. More info: https://kubernetes.io/docs/concepts/containers/images'
                                       type: string
-                                    livenessProbe:
-                                      description: |-
-                                        Periodic probe of container liveness. Container will be restarted if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-                                        This field is not supported in Cloud Run Job currently.
-                                        Structure is documented below.
-                                      items:
-                                        properties:
-                                          failureThreshold:
-                                            description: Minimum consecutive failures
-                                              for the probe to be considered failed
-                                              after having succeeded. Defaults to
-                                              3. Minimum value is 1.
-                                            type: number
-                                          httpGet:
-                                            description: |-
-                                              HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
-                                              Structure is documented below.
-                                            items:
-                                              properties:
-                                                httpHeaders:
-                                                  description: |-
-                                                    Custom headers to set in the request. HTTP allows repeated headers.
-                                                    Structure is documented below.
-                                                  items:
-                                                    properties:
-                                                      name:
-                                                        description: Volume's name.
-                                                        type: string
-                                                      value:
-                                                        description: The header field
-                                                          value
-                                                        type: string
-                                                    type: object
-                                                  type: array
-                                                path:
-                                                  description: The relative path of
-                                                    the secret in the container.
-                                                  type: string
-                                              type: object
-                                            type: array
-                                          initialDelaySeconds:
-                                            description: 'Number of seconds after
-                                              the container has started before the
-                                              probe is initiated. Defaults to 0 seconds.
-                                              Minimum value is 0. Maximum value for
-                                              liveness probe is 3600. Maximum value
-                                              for startup probe is 240. More info:
-                                              https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
-                                            type: number
-                                          periodSeconds:
-                                            description: How often (in seconds) to
-                                              perform the probe. Default to 10 seconds.
-                                              Minimum value is 1. Maximum value for
-                                              liveness probe is 3600. Maximum value
-                                              for startup probe is 240. Must be greater
-                                              or equal than timeoutSeconds
-                                            type: number
-                                          tcpSocket:
-                                            description: |-
-                                              TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
-                                              Structure is documented below.
-                                            items:
-                                              properties:
-                                                port:
-                                                  description: Port number to access
-                                                    on the container. Must be in the
-                                                    range 1 to 65535. If not specified,
-                                                    defaults to 8080.
-                                                  type: number
-                                              type: object
-                                            type: array
-                                          timeoutSeconds:
-                                            description: 'Number of seconds after
-                                              which the probe times out. Defaults
-                                              to 1 second. Minimum value is 1. Maximum
-                                              value is 3600. Must be smaller than
-                                              periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
-                                            type: number
-                                        type: object
-                                      type: array
                                     name:
                                       description: Volume's name.
                                       type: string
@@ -2067,94 +1785,15 @@ spec:
                                             additionalProperties:
                                               type: string
                                             description: 'Only memory and CPU are
-                                              supported. Note: The only supported
-                                              values for CPU are ''1'', ''2'', ''4'',
-                                              and ''8''. Setting 4 CPU requires at
-                                              least 2Gi of memory. The values of the
-                                              map is string form of the ''quantity''
-                                              k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
+                                              supported. Use key cpu for CPU limit
+                                              and memory for memory limit. Note: The
+                                              only supported values for CPU are ''1'',
+                                              ''2'', ''4'', and ''8''. Setting 4 CPU
+                                              requires at least 2Gi of memory. The
+                                              values of the map is string form of
+                                              the ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                             type: object
                                             x-kubernetes-map-type: granular
-                                        type: object
-                                      type: array
-                                    startupProbe:
-                                      description: |-
-                                        Startup probe of application within the container. All other probes are disabled if a startup probe is provided, until it succeeds. Container will not be added to service endpoints if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-                                        This field is not supported in Cloud Run Job currently.
-                                        Structure is documented below.
-                                      items:
-                                        properties:
-                                          failureThreshold:
-                                            description: Minimum consecutive failures
-                                              for the probe to be considered failed
-                                              after having succeeded. Defaults to
-                                              3. Minimum value is 1.
-                                            type: number
-                                          httpGet:
-                                            description: |-
-                                              HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
-                                              Structure is documented below.
-                                            items:
-                                              properties:
-                                                httpHeaders:
-                                                  description: |-
-                                                    Custom headers to set in the request. HTTP allows repeated headers.
-                                                    Structure is documented below.
-                                                  items:
-                                                    properties:
-                                                      name:
-                                                        description: Volume's name.
-                                                        type: string
-                                                      value:
-                                                        description: The header field
-                                                          value
-                                                        type: string
-                                                    type: object
-                                                  type: array
-                                                path:
-                                                  description: The relative path of
-                                                    the secret in the container.
-                                                  type: string
-                                              type: object
-                                            type: array
-                                          initialDelaySeconds:
-                                            description: 'Number of seconds after
-                                              the container has started before the
-                                              probe is initiated. Defaults to 0 seconds.
-                                              Minimum value is 0. Maximum value for
-                                              liveness probe is 3600. Maximum value
-                                              for startup probe is 240. More info:
-                                              https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
-                                            type: number
-                                          periodSeconds:
-                                            description: How often (in seconds) to
-                                              perform the probe. Default to 10 seconds.
-                                              Minimum value is 1. Maximum value for
-                                              liveness probe is 3600. Maximum value
-                                              for startup probe is 240. Must be greater
-                                              or equal than timeoutSeconds
-                                            type: number
-                                          tcpSocket:
-                                            description: |-
-                                              TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
-                                              Structure is documented below.
-                                            items:
-                                              properties:
-                                                port:
-                                                  description: Port number to access
-                                                    on the container. Must be in the
-                                                    range 1 to 65535. If not specified,
-                                                    defaults to 8080.
-                                                  type: number
-                                              type: object
-                                            type: array
-                                          timeoutSeconds:
-                                            description: 'Number of seconds after
-                                              which the probe times out. Defaults
-                                              to 1 second. Minimum value is 1. Maximum
-                                              value is 3600. Must be smaller than
-                                              periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
-                                            type: number
                                         type: object
                                       type: array
                                     volumeMounts:
@@ -2304,6 +1943,32 @@ spec:
                                         Traffic VPC egress settings.
                                         Possible values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.
                                       type: string
+                                    networkInterfaces:
+                                      description: |-
+                                        Direct VPC egress settings. Currently only single network interface is supported.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          network:
+                                            description: |-
+                                              The VPC network that the Cloud Run resource will be able to send traffic to. At least one of network or subnetwork must be specified. If both
+                                              network and subnetwork are specified, the given VPC subnetwork must belong to the given VPC network. If network is not specified, it will be
+                                              looked up from the subnetwork.
+                                            type: string
+                                          subnetwork:
+                                            description: |-
+                                              The VPC subnetwork that the Cloud Run resource will get IPs from. At least one of network or subnetwork must be specified. If both
+                                              network and subnetwork are specified, the given VPC subnetwork must belong to the given VPC network. If subnetwork is not specified, the
+                                              subnetwork with the same name with the network will be used.
+                                            type: string
+                                          tags:
+                                            description: Network tags applied to this
+                                              Cloud Run job.
+                                            items:
+                                              type: string
+                                            type: array
+                                        type: object
+                                      type: array
                                   type: object
                                 type: array
                             type: object
@@ -2359,10 +2024,21 @@ spec:
                           type: string
                       type: object
                     type: array
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   uid:
                     description: Server assigned unique identifier for the Execution.
                       The value is a UUID4 string and guaranteed to remain unchanged
                       until the resource is deleted.
+                    type: string
+                  updateTime:
+                    description: The last-modified time.
                     type: string
                 type: object
               conditions:

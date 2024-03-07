@@ -99,8 +99,9 @@ spec:
                       the external server.
                     type: string
                   host:
-                    description: The externally accessible IPv4 address for the source
-                      database server.
+                    description: The IPv4 address and port for the external server,
+                      or the the DNS address for the external server. If the external
+                      server is hosted on Cloud SQL, the port is 5432.
                     type: string
                   passwordSecretRef:
                     description: |-
@@ -177,8 +178,9 @@ spec:
                       the external server.
                     type: string
                   host:
-                    description: The externally accessible IPv4 address for the source
-                      database server.
+                    description: The IPv4 address and port for the external server,
+                      or the the DNS address for the external server. If the external
+                      server is hosted on Cloud SQL, the port is 5432.
                     type: string
                   port:
                     description: |-
@@ -405,8 +407,9 @@ spec:
                       the external server.
                     type: string
                   host:
-                    description: The externally accessible IPv4 address for the source
-                      database server.
+                    description: The IPv4 address and port for the external server,
+                      or the the DNS address for the external server. If the external
+                      server is hosted on Cloud SQL, the port is 5432.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/instances/{{name}}

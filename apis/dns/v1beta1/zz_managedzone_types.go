@@ -296,7 +296,7 @@ type ManagedZoneInitParameters struct {
 	PeeringConfig []PeeringConfigInitParameters `json:"peeringConfig,omitempty" tf:"peering_config,omitempty"`
 
 	// For privately visible zones, the set of Virtual Private Cloud
-	// resources that the zone is visible from.
+	// resources that the zone is visible from. At least one of gke_clusters or networks must be specified.
 	// Structure is documented below.
 	PrivateVisibilityConfig []PrivateVisibilityConfigInitParameters `json:"privateVisibilityConfig,omitempty" tf:"private_visibility_config,omitempty"`
 
@@ -331,6 +331,10 @@ type ManagedZoneObservation struct {
 	// A textual description field.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// for all of the labels present on the resource.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// Set this true to delete all records in the zone.
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
 
@@ -360,13 +364,18 @@ type ManagedZoneObservation struct {
 	PeeringConfig []PeeringConfigObservation `json:"peeringConfig,omitempty" tf:"peering_config,omitempty"`
 
 	// For privately visible zones, the set of Virtual Private Cloud
-	// resources that the zone is visible from.
+	// resources that the zone is visible from. At least one of gke_clusters or networks must be specified.
 	// Structure is documented below.
 	PrivateVisibilityConfig []PrivateVisibilityConfigObservation `json:"privateVisibilityConfig,omitempty" tf:"private_visibility_config,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// The zone's visibility: public zones are exposed to the Internet,
 	// while private zones are visible only to Virtual Private Cloud resources.
@@ -418,7 +427,7 @@ type ManagedZoneParameters struct {
 	PeeringConfig []PeeringConfigParameters `json:"peeringConfig,omitempty" tf:"peering_config,omitempty"`
 
 	// For privately visible zones, the set of Virtual Private Cloud
-	// resources that the zone is visible from.
+	// resources that the zone is visible from. At least one of gke_clusters or networks must be specified.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PrivateVisibilityConfig []PrivateVisibilityConfigParameters `json:"privateVisibilityConfig,omitempty" tf:"private_visibility_config,omitempty"`
@@ -541,7 +550,7 @@ type PrivateVisibilityConfigParameters struct {
 	// blocks in an update and then apply another update adding all of them back simultaneously.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Networks []NetworksParameters `json:"networks" tf:"networks,omitempty"`
+	Networks []NetworksParameters `json:"networks,omitempty" tf:"networks,omitempty"`
 }
 
 type TargetNameServersInitParameters struct {

@@ -29,7 +29,41 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AdvancedSettingsInitParameters struct {
+
+	// If present, incoming audio is exported by Dialogflow to the configured Google Cloud Storage destination. Exposed at the following levels:
+	AudioExportGcsDestination []AudioExportGcsDestinationInitParameters `json:"audioExportGcsDestination,omitempty" tf:"audio_export_gcs_destination,omitempty"`
+
+	// Define behaviors for DTMF (dual tone multi frequency). DTMF settings does not override each other. DTMF settings set at different levels define DTMF detections running in parallel. Exposed at the following levels:
+	DtmfSettings []DtmfSettingsInitParameters `json:"dtmfSettings,omitempty" tf:"dtmf_settings,omitempty"`
+}
+
+type AdvancedSettingsObservation struct {
+
+	// If present, incoming audio is exported by Dialogflow to the configured Google Cloud Storage destination. Exposed at the following levels:
+	AudioExportGcsDestination []AudioExportGcsDestinationObservation `json:"audioExportGcsDestination,omitempty" tf:"audio_export_gcs_destination,omitempty"`
+
+	// Define behaviors for DTMF (dual tone multi frequency). DTMF settings does not override each other. DTMF settings set at different levels define DTMF detections running in parallel. Exposed at the following levels:
+	DtmfSettings []DtmfSettingsObservation `json:"dtmfSettings,omitempty" tf:"dtmf_settings,omitempty"`
+}
+
+type AdvancedSettingsParameters struct {
+
+	// If present, incoming audio is exported by Dialogflow to the configured Google Cloud Storage destination. Exposed at the following levels:
+	// +kubebuilder:validation:Optional
+	AudioExportGcsDestination []AudioExportGcsDestinationParameters `json:"audioExportGcsDestination,omitempty" tf:"audio_export_gcs_destination,omitempty"`
+
+	// Define behaviors for DTMF (dual tone multi frequency). DTMF settings does not override each other. DTMF settings set at different levels define DTMF detections running in parallel. Exposed at the following levels:
+	// +kubebuilder:validation:Optional
+	DtmfSettings []DtmfSettingsParameters `json:"dtmfSettings,omitempty" tf:"dtmf_settings,omitempty"`
+}
+
 type AgentInitParameters struct {
+
+	// Hierarchical advanced settings for this agent. The settings exposed at the lower level overrides the settings exposed at the higher level.
+	// Hierarchy: Agent->Flow->Page->Fulfillment/Parameter.
+	// Structure is documented below.
+	AdvancedSettings []AdvancedSettingsInitParameters `json:"advancedSettings,omitempty" tf:"advanced_settings,omitempty"`
 
 	// The URI of the agent's avatar. Avatars are used throughout the Dialogflow console and in the self-hosted Web Demo integration.
 	AvatarURI *string `json:"avatarUri,omitempty" tf:"avatar_uri,omitempty"`
@@ -49,6 +83,10 @@ type AgentInitParameters struct {
 
 	// Determines whether this agent should log conversation queries.
 	EnableStackdriverLogging *bool `json:"enableStackdriverLogging,omitempty" tf:"enable_stackdriver_logging,omitempty"`
+
+	// Git integration settings for this agent.
+	// Structure is documented below.
+	GitIntegrationSettings []GitIntegrationSettingsInitParameters `json:"gitIntegrationSettings,omitempty" tf:"git_integration_settings,omitempty"`
 
 	// The name of the location this agent is located in.
 	// ~> Note: The first time you are deploying an Agent in your project you must configure location settings.
@@ -70,12 +108,21 @@ type AgentInitParameters struct {
 	// The list of all languages supported by this agent (except for the default_language_code).
 	SupportedLanguageCodes []*string `json:"supportedLanguageCodes,omitempty" tf:"supported_language_codes,omitempty"`
 
+	// Settings related to speech synthesizing.
+	// Structure is documented below.
+	TextToSpeechSettings []TextToSpeechSettingsInitParameters `json:"textToSpeechSettings,omitempty" tf:"text_to_speech_settings,omitempty"`
+
 	// The time zone of this agent from the time zone database, e.g., America/New_York,
 	// Europe/Paris.
 	TimeZone *string `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
 }
 
 type AgentObservation struct {
+
+	// Hierarchical advanced settings for this agent. The settings exposed at the lower level overrides the settings exposed at the higher level.
+	// Hierarchy: Agent->Flow->Page->Fulfillment/Parameter.
+	// Structure is documented below.
+	AdvancedSettings []AdvancedSettingsObservation `json:"advancedSettings,omitempty" tf:"advanced_settings,omitempty"`
 
 	// The URI of the agent's avatar. Avatars are used throughout the Dialogflow console and in the self-hosted Web Demo integration.
 	AvatarURI *string `json:"avatarUri,omitempty" tf:"avatar_uri,omitempty"`
@@ -95,6 +142,10 @@ type AgentObservation struct {
 
 	// Determines whether this agent should log conversation queries.
 	EnableStackdriverLogging *bool `json:"enableStackdriverLogging,omitempty" tf:"enable_stackdriver_logging,omitempty"`
+
+	// Git integration settings for this agent.
+	// Structure is documented below.
+	GitIntegrationSettings []GitIntegrationSettingsObservation `json:"gitIntegrationSettings,omitempty" tf:"git_integration_settings,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/agents/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -125,12 +176,22 @@ type AgentObservation struct {
 	// The list of all languages supported by this agent (except for the default_language_code).
 	SupportedLanguageCodes []*string `json:"supportedLanguageCodes,omitempty" tf:"supported_language_codes,omitempty"`
 
+	// Settings related to speech synthesizing.
+	// Structure is documented below.
+	TextToSpeechSettings []TextToSpeechSettingsObservation `json:"textToSpeechSettings,omitempty" tf:"text_to_speech_settings,omitempty"`
+
 	// The time zone of this agent from the time zone database, e.g., America/New_York,
 	// Europe/Paris.
 	TimeZone *string `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
 }
 
 type AgentParameters struct {
+
+	// Hierarchical advanced settings for this agent. The settings exposed at the lower level overrides the settings exposed at the higher level.
+	// Hierarchy: Agent->Flow->Page->Fulfillment/Parameter.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AdvancedSettings []AdvancedSettingsParameters `json:"advancedSettings,omitempty" tf:"advanced_settings,omitempty"`
 
 	// The URI of the agent's avatar. Avatars are used throughout the Dialogflow console and in the self-hosted Web Demo integration.
 	// +kubebuilder:validation:Optional
@@ -157,6 +218,11 @@ type AgentParameters struct {
 	// +kubebuilder:validation:Optional
 	EnableStackdriverLogging *bool `json:"enableStackdriverLogging,omitempty" tf:"enable_stackdriver_logging,omitempty"`
 
+	// Git integration settings for this agent.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GitIntegrationSettings []GitIntegrationSettingsParameters `json:"gitIntegrationSettings,omitempty" tf:"git_integration_settings,omitempty"`
+
 	// The name of the location this agent is located in.
 	// ~> Note: The first time you are deploying an Agent in your project you must configure location settings.
 	// This is a one time step but at the moment you can only configure location settings via the Dialogflow CX console.
@@ -182,10 +248,152 @@ type AgentParameters struct {
 	// +kubebuilder:validation:Optional
 	SupportedLanguageCodes []*string `json:"supportedLanguageCodes,omitempty" tf:"supported_language_codes,omitempty"`
 
+	// Settings related to speech synthesizing.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TextToSpeechSettings []TextToSpeechSettingsParameters `json:"textToSpeechSettings,omitempty" tf:"text_to_speech_settings,omitempty"`
+
 	// The time zone of this agent from the time zone database, e.g., America/New_York,
 	// Europe/Paris.
 	// +kubebuilder:validation:Optional
 	TimeZone *string `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
+}
+
+type AudioExportGcsDestinationInitParameters struct {
+
+	// The Google Cloud Storage URI for the exported objects. Whether a full object name, or just a prefix, its usage depends on the Dialogflow operation.
+	// Format: gs://bucket/object-name-or-prefix
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type AudioExportGcsDestinationObservation struct {
+
+	// The Google Cloud Storage URI for the exported objects. Whether a full object name, or just a prefix, its usage depends on the Dialogflow operation.
+	// Format: gs://bucket/object-name-or-prefix
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type AudioExportGcsDestinationParameters struct {
+
+	// The Google Cloud Storage URI for the exported objects. Whether a full object name, or just a prefix, its usage depends on the Dialogflow operation.
+	// Format: gs://bucket/object-name-or-prefix
+	// +kubebuilder:validation:Optional
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type DtmfSettingsInitParameters struct {
+
+	// If true, incoming audio is processed for DTMF (dual tone multi frequency) events. For example, if the caller presses a button on their telephone keypad and DTMF processing is enabled, Dialogflow will detect the event (e.g. a "3" was pressed) in the incoming audio and pass the event to the bot to drive business logic (e.g. when 3 is pressed, return the account balance).
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// The digit that terminates a DTMF digit sequence.
+	FinishDigit *string `json:"finishDigit,omitempty" tf:"finish_digit,omitempty"`
+
+	// Max length of DTMF digits.
+	MaxDigits *float64 `json:"maxDigits,omitempty" tf:"max_digits,omitempty"`
+}
+
+type DtmfSettingsObservation struct {
+
+	// If true, incoming audio is processed for DTMF (dual tone multi frequency) events. For example, if the caller presses a button on their telephone keypad and DTMF processing is enabled, Dialogflow will detect the event (e.g. a "3" was pressed) in the incoming audio and pass the event to the bot to drive business logic (e.g. when 3 is pressed, return the account balance).
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// The digit that terminates a DTMF digit sequence.
+	FinishDigit *string `json:"finishDigit,omitempty" tf:"finish_digit,omitempty"`
+
+	// Max length of DTMF digits.
+	MaxDigits *float64 `json:"maxDigits,omitempty" tf:"max_digits,omitempty"`
+}
+
+type DtmfSettingsParameters struct {
+
+	// If true, incoming audio is processed for DTMF (dual tone multi frequency) events. For example, if the caller presses a button on their telephone keypad and DTMF processing is enabled, Dialogflow will detect the event (e.g. a "3" was pressed) in the incoming audio and pass the event to the bot to drive business logic (e.g. when 3 is pressed, return the account balance).
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// The digit that terminates a DTMF digit sequence.
+	// +kubebuilder:validation:Optional
+	FinishDigit *string `json:"finishDigit,omitempty" tf:"finish_digit,omitempty"`
+
+	// Max length of DTMF digits.
+	// +kubebuilder:validation:Optional
+	MaxDigits *float64 `json:"maxDigits,omitempty" tf:"max_digits,omitempty"`
+}
+
+type GitIntegrationSettingsInitParameters struct {
+
+	// Settings of integration with GitHub.
+	// Structure is documented below.
+	GithubSettings []GithubSettingsInitParameters `json:"githubSettings,omitempty" tf:"github_settings,omitempty"`
+}
+
+type GitIntegrationSettingsObservation struct {
+
+	// Settings of integration with GitHub.
+	// Structure is documented below.
+	GithubSettings []GithubSettingsObservation `json:"githubSettings,omitempty" tf:"github_settings,omitempty"`
+}
+
+type GitIntegrationSettingsParameters struct {
+
+	// Settings of integration with GitHub.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GithubSettings []GithubSettingsParameters `json:"githubSettings,omitempty" tf:"github_settings,omitempty"`
+}
+
+type GithubSettingsInitParameters struct {
+
+	// A list of branches configured to be used from Dialogflow.
+	Branches []*string `json:"branches,omitempty" tf:"branches,omitempty"`
+
+	// The unique repository display name for the GitHub repository.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The GitHub repository URI related to the agent.
+	RepositoryURI *string `json:"repositoryUri,omitempty" tf:"repository_uri,omitempty"`
+
+	// The branch of the GitHub repository tracked for this agent.
+	TrackingBranch *string `json:"trackingBranch,omitempty" tf:"tracking_branch,omitempty"`
+}
+
+type GithubSettingsObservation struct {
+
+	// A list of branches configured to be used from Dialogflow.
+	Branches []*string `json:"branches,omitempty" tf:"branches,omitempty"`
+
+	// The unique repository display name for the GitHub repository.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The GitHub repository URI related to the agent.
+	RepositoryURI *string `json:"repositoryUri,omitempty" tf:"repository_uri,omitempty"`
+
+	// The branch of the GitHub repository tracked for this agent.
+	TrackingBranch *string `json:"trackingBranch,omitempty" tf:"tracking_branch,omitempty"`
+}
+
+type GithubSettingsParameters struct {
+
+	// The access token used to authenticate the access to the GitHub repository.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
+	AccessTokenSecretRef *v1.SecretKeySelector `json:"accessTokenSecretRef,omitempty" tf:"-"`
+
+	// A list of branches configured to be used from Dialogflow.
+	// +kubebuilder:validation:Optional
+	Branches []*string `json:"branches,omitempty" tf:"branches,omitempty"`
+
+	// The unique repository display name for the GitHub repository.
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The GitHub repository URI related to the agent.
+	// +kubebuilder:validation:Optional
+	RepositoryURI *string `json:"repositoryUri,omitempty" tf:"repository_uri,omitempty"`
+
+	// The branch of the GitHub repository tracked for this agent.
+	// +kubebuilder:validation:Optional
+	TrackingBranch *string `json:"trackingBranch,omitempty" tf:"tracking_branch,omitempty"`
 }
 
 type SpeechToTextSettingsInitParameters struct {
@@ -205,6 +413,28 @@ type SpeechToTextSettingsParameters struct {
 	// Whether to use speech adaptation for speech recognition.
 	// +kubebuilder:validation:Optional
 	EnableSpeechAdaptation *bool `json:"enableSpeechAdaptation,omitempty" tf:"enable_speech_adaptation,omitempty"`
+}
+
+type TextToSpeechSettingsInitParameters struct {
+
+	// Configuration of how speech should be synthesized, mapping from language to SynthesizeSpeechConfig.
+	// These settings affect:
+	SynthesizeSpeechConfigs *string `json:"synthesizeSpeechConfigs,omitempty" tf:"synthesize_speech_configs,omitempty"`
+}
+
+type TextToSpeechSettingsObservation struct {
+
+	// Configuration of how speech should be synthesized, mapping from language to SynthesizeSpeechConfig.
+	// These settings affect:
+	SynthesizeSpeechConfigs *string `json:"synthesizeSpeechConfigs,omitempty" tf:"synthesize_speech_configs,omitempty"`
+}
+
+type TextToSpeechSettingsParameters struct {
+
+	// Configuration of how speech should be synthesized, mapping from language to SynthesizeSpeechConfig.
+	// These settings affect:
+	// +kubebuilder:validation:Optional
+	SynthesizeSpeechConfigs *string `json:"synthesizeSpeechConfigs,omitempty" tf:"synthesize_speech_configs,omitempty"`
 }
 
 // AgentSpec defines the desired state of Agent

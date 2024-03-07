@@ -337,6 +337,12 @@ spec:
                             lake. For example: projects/{project_number}/buckets/{bucket_id}
                             projects/{project_number}/datasets/{dataset_id}'
                           type: string
+                        readAccessMode:
+                          description: 'Optional. Determines how read permissions
+                            are handled for each asset and their associated tables.
+                            Only available to storage buckets assets. Possible values:
+                            DIRECT, MANAGED'
+                          type: string
                         type:
                           description: 'Required. Immutable. Type of resource. Possible
                             values: STORAGE_BUCKET, BIGQUERY_DATASET'
@@ -466,6 +472,12 @@ spec:
                             that contains the data that is being managed within a
                             lake. For example: projects/{project_number}/buckets/{bucket_id}
                             projects/{project_number}/datasets/{dataset_id}'
+                          type: string
+                        readAccessMode:
+                          description: 'Optional. Determines how read permissions
+                            are handled for each asset and their associated tables.
+                            Only available to storage buckets assets. Possible values:
+                            DIRECT, MANAGED'
                           type: string
                         type:
                           description: 'Required. Immutable. Type of resource. Possible
@@ -784,6 +796,11 @@ spec:
                   displayName:
                     description: Optional. User friendly display name.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/lakes/{{lake}}/zones/{{dataplex_zone}}/assets/{{name}}
                     type: string
@@ -812,6 +829,12 @@ spec:
                             that contains the data that is being managed within a
                             lake. For example: projects/{project_number}/buckets/{bucket_id}
                             projects/{project_number}/datasets/{dataset_id}'
+                          type: string
+                        readAccessMode:
+                          description: 'Optional. Determines how read permissions
+                            are handled for each asset and their associated tables.
+                            Only available to storage buckets assets. Possible values:
+                            DIRECT, MANAGED'
                           type: string
                         type:
                           description: 'Required. Immutable. Type of resource. Possible
@@ -859,6 +882,13 @@ spec:
                     description: 'Output only. Current state of the asset. Possible
                       values: STATE_UNSPECIFIED, ACTIVE, CREATING, DELETING, ACTION_REQUIRED'
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   uid:
                     description: Output only. System generated globally unique ID
                       for the asset. This ID will be different if the asset is deleted

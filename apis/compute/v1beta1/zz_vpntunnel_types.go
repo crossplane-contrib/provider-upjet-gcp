@@ -39,6 +39,12 @@ type VPNTunnelInitParameters struct {
 	// Acceptable IKE versions are 1 or 2. Default version is 2.
 	IkeVersion *float64 `json:"ikeVersion,omitempty" tf:"ike_version,omitempty"`
 
+	// Labels to apply to this VpnTunnel.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
 	// Local traffic selector to use when establishing the VPN tunnel with
 	// peer VPN gateway. The value should be a CIDR formatted string,
 	// for example 192.168.0.0/16. The ranges should be disjoint.
@@ -136,6 +142,9 @@ type VPNTunnelObservation struct {
 	// Detailed status message for the VPN tunnel.
 	DetailedStatus *string `json:"detailedStatus,omitempty" tf:"detailed_status,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/vpnTunnels/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -143,6 +152,16 @@ type VPNTunnelObservation struct {
 	// peer VPN gateway.
 	// Acceptable IKE versions are 1 or 2. Default version is 2.
 	IkeVersion *float64 `json:"ikeVersion,omitempty" tf:"ike_version,omitempty"`
+
+	// The fingerprint used for optimistic locking of this resource.  Used
+	// internally during updates.
+	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
+
+	// Labels to apply to this VpnTunnel.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Local traffic selector to use when establishing the VPN tunnel with
 	// peer VPN gateway. The value should be a CIDR formatted string,
@@ -193,6 +212,11 @@ type VPNTunnelObservation struct {
 	// associated.
 	TargetVPNGateway *string `json:"targetVpnGateway,omitempty" tf:"target_vpn_gateway,omitempty"`
 
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
 	// The unique identifier for the resource. This identifier is defined by the server.
 	TunnelID *string `json:"tunnelId,omitempty" tf:"tunnel_id,omitempty"`
 
@@ -216,6 +240,13 @@ type VPNTunnelParameters struct {
 	// Acceptable IKE versions are 1 or 2. Default version is 2.
 	// +kubebuilder:validation:Optional
 	IkeVersion *float64 `json:"ikeVersion,omitempty" tf:"ike_version,omitempty"`
+
+	// Labels to apply to this VpnTunnel.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Local traffic selector to use when establishing the VPN tunnel with
 	// peer VPN gateway. The value should be a CIDR formatted string,

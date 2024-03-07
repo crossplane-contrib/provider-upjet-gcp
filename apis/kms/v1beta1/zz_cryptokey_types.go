@@ -69,6 +69,10 @@ type CryptoKeyObservation struct {
 	// If not specified at creation time, the default duration is 24 hours.
 	DestroyScheduledDuration *string `json:"destroyScheduledDuration,omitempty" tf:"destroy_scheduled_duration,omitempty"`
 
+	// for all of the labels present on the resource.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format {{key_ring}}/cryptoKeys/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -82,6 +86,11 @@ type CryptoKeyObservation struct {
 	// Labels with user-defined metadata to apply to this resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// A copy of the primary CryptoKeyVersion that will be used by cryptoKeys.encrypt when this CryptoKey is given in EncryptRequest.name.
+	// Keys with purpose ENCRYPT_DECRYPT may have a primary. For other keys, this field will be unset.
+	// Structure is documented below.
+	Primary []PrimaryObservation `json:"primary,omitempty" tf:"primary,omitempty"`
 
 	// The immutable purpose of this CryptoKey. See the
 	// purpose reference
@@ -98,6 +107,11 @@ type CryptoKeyObservation struct {
 	// If set to true, the request will create a CryptoKey without any CryptoKeyVersions.
 	// You must use the google_kms_key_ring_import_job resource to import the CryptoKeyVersion.
 	SkipInitialVersionCreation *bool `json:"skipInitialVersionCreation,omitempty" tf:"skip_initial_version_creation,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// A template describing settings for new crypto key versions.
 	// Structure is documented below.
@@ -158,6 +172,23 @@ type CryptoKeyParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	VersionTemplate []VersionTemplateParameters `json:"versionTemplate,omitempty" tf:"version_template,omitempty"`
+}
+
+type PrimaryInitParameters struct {
+}
+
+type PrimaryObservation struct {
+
+	// (Output)
+	// The resource name for this CryptoKeyVersion.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Output)
+	// The current state of the CryptoKeyVersion.
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
+}
+
+type PrimaryParameters struct {
 }
 
 type VersionTemplateInitParameters struct {

@@ -1476,6 +1476,11 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DesiredState != nil {
+		in, out := &in.DesiredState, &out.DesiredState
+		*out = new(string)
+		**out = **in
+	}
 	if in.DiskEncryption != nil {
 		in, out := &in.DiskEncryption, &out.DiskEncryption
 		*out = new(string)
@@ -1718,10 +1723,31 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DesiredState != nil {
+		in, out := &in.DesiredState, &out.DesiredState
+		*out = new(string)
+		**out = **in
+	}
 	if in.DiskEncryption != nil {
 		in, out := &in.DiskEncryption, &out.DiskEncryption
 		*out = new(string)
 		**out = **in
+	}
+	if in.EffectiveLabels != nil {
+		in, out := &in.EffectiveLabels, &out.EffectiveLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
@@ -1882,6 +1908,22 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 			}
 		}
 	}
+	if in.TerraformLabels != nil {
+		in, out := &in.TerraformLabels, &out.TerraformLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.UpdateTime != nil {
 		in, out := &in.UpdateTime, &out.UpdateTime
 		*out = new(string)
@@ -1945,6 +1987,11 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.DataDiskType != nil {
 		in, out := &in.DataDiskType, &out.DataDiskType
+		*out = new(string)
+		**out = **in
+	}
+	if in.DesiredState != nil {
+		in, out := &in.DesiredState, &out.DesiredState
 		*out = new(string)
 		**out = **in
 	}
@@ -2877,6 +2924,22 @@ func (in *RuntimeInitParameters) DeepCopyInto(out *RuntimeInitParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.Labels != nil {
+		in, out := &in.Labels, &out.Labels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
@@ -2950,6 +3013,22 @@ func (in *RuntimeObservation) DeepCopyInto(out *RuntimeObservation) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.EffectiveLabels != nil {
+		in, out := &in.EffectiveLabels, &out.EffectiveLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.HealthState != nil {
 		in, out := &in.HealthState, &out.HealthState
 		*out = new(string)
@@ -2959,6 +3038,22 @@ func (in *RuntimeObservation) DeepCopyInto(out *RuntimeObservation) {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
 		**out = **in
+	}
+	if in.Labels != nil {
+		in, out := &in.Labels, &out.Labels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
@@ -2989,6 +3084,22 @@ func (in *RuntimeObservation) DeepCopyInto(out *RuntimeObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.TerraformLabels != nil {
+		in, out := &in.TerraformLabels, &out.TerraformLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.VirtualMachine != nil {
 		in, out := &in.VirtualMachine, &out.VirtualMachine
 		*out = make([]VirtualMachineObservation, len(*in))
@@ -3016,6 +3127,22 @@ func (in *RuntimeParameters) DeepCopyInto(out *RuntimeParameters) {
 		*out = make([]AccessConfigParameters, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.Labels != nil {
+		in, out := &in.Labels, &out.Labels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
 		}
 	}
 	if in.Location != nil {

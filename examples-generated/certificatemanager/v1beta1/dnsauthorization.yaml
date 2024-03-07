@@ -8,5 +8,6 @@ metadata:
   name: default
 spec:
   forProvider:
-    description: The default dnss
+    description: The default dns
     domain: subdomain.hashicorptest.com
+    location: global

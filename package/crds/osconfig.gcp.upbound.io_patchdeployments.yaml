@@ -541,6 +541,11 @@ spec:
                                         IANA Time Zone Database time zone, e.g. "America/New_York".
                                         Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
                                       type: string
+                                    dayOffset:
+                                      description: Represents the number of days before
+                                        or after the given week day of month that
+                                        the patch deployment is scheduled for.
+                                      type: number
                                     weekOrdinal:
                                       description: Week number in a month. 1-4 indicates
                                         the 1st to 4th week of the month. -1 indicates
@@ -1127,6 +1132,11 @@ spec:
                                         IANA Time Zone Database time zone, e.g. "America/New_York".
                                         Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
                                       type: string
+                                    dayOffset:
+                                      description: Represents the number of days before
+                                        or after the given week day of month that
+                                        the patch deployment is scheduled for.
+                                      type: number
                                     weekOrdinal:
                                       description: Week number in a month. 1-4 indicates
                                         the 1st to 4th week of the month. -1 indicates
@@ -1901,6 +1911,11 @@ spec:
                                         IANA Time Zone Database time zone, e.g. "America/New_York".
                                         Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
                                       type: string
+                                    dayOffset:
+                                      description: Represents the number of days before
+                                        or after the given week day of month that
+                                        the patch deployment is scheduled for.
+                                      type: number
                                     weekOrdinal:
                                       description: Week number in a month. 1-4 indicates
                                         the 1st to 4th week of the month. -1 indicates

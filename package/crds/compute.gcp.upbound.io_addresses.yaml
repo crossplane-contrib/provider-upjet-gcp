@@ -101,6 +101,13 @@ spec:
                       the external IPv6 address reservation.
                       Possible values are: VM, NETLB.
                     type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Labels to apply to this address.  A list of key->value
+                      pairs.
+                    type: object
+                    x-kubernetes-map-type: granular
                   network:
                     description: |-
                       The URL of the network in which to reserve the address. This field
@@ -331,6 +338,13 @@ spec:
                       the external IPv6 address reservation.
                       Possible values are: VM, NETLB.
                     type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Labels to apply to this address.  A list of key->value
+                      pairs.
+                    type: object
+                    x-kubernetes-map-type: granular
                   network:
                     description: |-
                       The URL of the network in which to reserve the address. This field
@@ -704,6 +718,12 @@ spec:
                   description:
                     description: An optional description of this resource.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   id:
                     description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/addresses/{{name}}
                     type: string
@@ -719,6 +739,18 @@ spec:
                       the external IPv6 address reservation.
                       Possible values are: VM, NETLB.
                     type: string
+                  labelFingerprint:
+                    description: |-
+                      The fingerprint used for optimistic locking of this resource.  Used
+                      internally during updates.
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Labels to apply to this address.  A list of key->value
+                      pairs.
+                    type: object
+                    x-kubernetes-map-type: granular
                   network:
                     description: |-
                       The URL of the network in which to reserve the address. This field
@@ -760,6 +792,14 @@ spec:
                       This field can only be used with INTERNAL type with
                       GCE_ENDPOINT/DNS_RESOLVER purposes.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   users:
                     description: The URLs of the resources that are using this address.
                     items:

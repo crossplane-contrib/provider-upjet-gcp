@@ -104,6 +104,7 @@ type FunctionInitParameters struct {
 	// A set of key/value environment variable pairs available during build time.
 	BuildEnvironmentVariables map[string]string `json:"buildEnvironmentVariables,omitempty" tf:"build_environment_variables,omitempty"`
 
+	// Name of the Cloud Build Custom Worker Pool that should be used to build the function.
 	BuildWorkerPool *string `json:"buildWorkerPool,omitempty" tf:"build_worker_pool,omitempty"`
 
 	// Description of the function.
@@ -212,6 +213,7 @@ type FunctionObservation struct {
 	// A set of key/value environment variable pairs available during build time.
 	BuildEnvironmentVariables map[string]string `json:"buildEnvironmentVariables,omitempty" tf:"build_environment_variables,omitempty"`
 
+	// Name of the Cloud Build Custom Worker Pool that should be used to build the function.
 	BuildWorkerPool *string `json:"buildWorkerPool,omitempty" tf:"build_worker_pool,omitempty"`
 
 	// Description of the function.
@@ -222,6 +224,9 @@ type FunctionObservation struct {
 
 	// User managed repository created in Artifact Registry optionally with a customer managed encryption key. If specified, deployments will use Artifact Registry. This is the repository to which the function docker image will be pushed after it is built by Cloud Build. If unspecified, Container Registry will be used by default, unless specified otherwise by other means.
 	DockerRepository *string `json:"dockerRepository,omitempty" tf:"docker_repository,omitempty"`
+
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
 	// Name of the function that will be executed when the Google Cloud Function is triggered.
 	EntryPoint *string `json:"entryPoint,omitempty" tf:"entry_point,omitempty"`
@@ -288,6 +293,10 @@ type FunctionObservation struct {
 
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
+	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
 	// Timeout (in seconds) for the function. Default value is 60 seconds. Cannot be more than 540 seconds.
 	Timeout *float64 `json:"timeout,omitempty" tf:"timeout,omitempty"`
 
@@ -299,6 +308,9 @@ type FunctionObservation struct {
 
 	// The egress settings for the connector, controlling what traffic is diverted through it. Allowed values are ALL_TRAFFIC and PRIVATE_RANGES_ONLY. Defaults to PRIVATE_RANGES_ONLY. If unset, this field preserves the previously set value.
 	VPCConnectorEgressSettings *string `json:"vpcConnectorEgressSettings,omitempty" tf:"vpc_connector_egress_settings,omitempty"`
+
+	// an identifier for the resource with format {{name}}
+	VersionID *string `json:"versionId,omitempty" tf:"version_id,omitempty"`
 }
 
 type FunctionParameters struct {
@@ -311,6 +323,7 @@ type FunctionParameters struct {
 	// +kubebuilder:validation:Optional
 	BuildEnvironmentVariables map[string]string `json:"buildEnvironmentVariables,omitempty" tf:"build_environment_variables,omitempty"`
 
+	// Name of the Cloud Build Custom Worker Pool that should be used to build the function.
 	// +kubebuilder:validation:Optional
 	BuildWorkerPool *string `json:"buildWorkerPool,omitempty" tf:"build_worker_pool,omitempty"`
 

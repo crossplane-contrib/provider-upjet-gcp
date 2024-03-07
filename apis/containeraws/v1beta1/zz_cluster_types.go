@@ -29,6 +29,25 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AdminGroupsInitParameters struct {
+
+	// The name of the group, e.g. my-group@domain.com.
+	Group *string `json:"group,omitempty" tf:"group,omitempty"`
+}
+
+type AdminGroupsObservation struct {
+
+	// The name of the group, e.g. my-group@domain.com.
+	Group *string `json:"group,omitempty" tf:"group,omitempty"`
+}
+
+type AdminGroupsParameters struct {
+
+	// The name of the group, e.g. my-group@domain.com.
+	// +kubebuilder:validation:Optional
+	Group *string `json:"group" tf:"group,omitempty"`
+}
+
 type AdminUsersInitParameters struct {
 
 	// The name of the user, e.g. my-gcp-id@gmail.com.
@@ -50,17 +69,27 @@ type AdminUsersParameters struct {
 
 type AuthorizationInitParameters struct {
 
+	// Groups of users that can perform operations as a cluster admin. A managed ClusterRoleBinding will be created to grant the cluster-admin ClusterRole to the groups. Up to ten admin groups can be provided. For more info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
+	AdminGroups []AdminGroupsInitParameters `json:"adminGroups,omitempty" tf:"admin_groups,omitempty"`
+
 	// Users to perform operations as a cluster admin. A managed ClusterRoleBinding will be created to grant the cluster-admin ClusterRole to the users. Up to ten admin users can be provided. For more info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
 	AdminUsers []AdminUsersInitParameters `json:"adminUsers,omitempty" tf:"admin_users,omitempty"`
 }
 
 type AuthorizationObservation struct {
 
+	// Groups of users that can perform operations as a cluster admin. A managed ClusterRoleBinding will be created to grant the cluster-admin ClusterRole to the groups. Up to ten admin groups can be provided. For more info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
+	AdminGroups []AdminGroupsObservation `json:"adminGroups,omitempty" tf:"admin_groups,omitempty"`
+
 	// Users to perform operations as a cluster admin. A managed ClusterRoleBinding will be created to grant the cluster-admin ClusterRole to the users. Up to ten admin users can be provided. For more info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
 	AdminUsers []AdminUsersObservation `json:"adminUsers,omitempty" tf:"admin_users,omitempty"`
 }
 
 type AuthorizationParameters struct {
+
+	// Groups of users that can perform operations as a cluster admin. A managed ClusterRoleBinding will be created to grant the cluster-admin ClusterRole to the groups. Up to ten admin groups can be provided. For more info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
+	// +kubebuilder:validation:Optional
+	AdminGroups []AdminGroupsParameters `json:"adminGroups,omitempty" tf:"admin_groups,omitempty"`
 
 	// Users to perform operations as a cluster admin. A managed ClusterRoleBinding will be created to grant the cluster-admin ClusterRole to the users. Up to ten admin users can be provided. For more info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
 	// +kubebuilder:validation:Optional
@@ -96,6 +125,25 @@ type AwsServicesAuthenticationParameters struct {
 	RoleSessionName *string `json:"roleSessionName,omitempty" tf:"role_session_name,omitempty"`
 }
 
+type BinaryAuthorizationInitParameters struct {
+
+	// Mode of operation for Binary Authorization policy evaluation. Possible values: DISABLED, PROJECT_SINGLETON_POLICY_ENFORCE
+	EvaluationMode *string `json:"evaluationMode,omitempty" tf:"evaluation_mode,omitempty"`
+}
+
+type BinaryAuthorizationObservation struct {
+
+	// Mode of operation for Binary Authorization policy evaluation. Possible values: DISABLED, PROJECT_SINGLETON_POLICY_ENFORCE
+	EvaluationMode *string `json:"evaluationMode,omitempty" tf:"evaluation_mode,omitempty"`
+}
+
+type BinaryAuthorizationParameters struct {
+
+	// Mode of operation for Binary Authorization policy evaluation. Possible values: DISABLED, PROJECT_SINGLETON_POLICY_ENFORCE
+	// +kubebuilder:validation:Optional
+	EvaluationMode *string `json:"evaluationMode,omitempty" tf:"evaluation_mode,omitempty"`
+}
+
 type ClusterInitParameters struct {
 
 	// Optional. Annotations on the cluster. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix  and name , separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between.
@@ -107,6 +155,9 @@ type ClusterInitParameters struct {
 
 	// The AWS region where the cluster runs. Each Google Cloud region supports a subset of nearby AWS regions. You can call to list all supported AWS regions within a given Google Cloud region.
 	AwsRegion *string `json:"awsRegion,omitempty" tf:"aws_region,omitempty"`
+
+	// Configuration options for the Binary Authorization feature.
+	BinaryAuthorization []BinaryAuthorizationInitParameters `json:"binaryAuthorization,omitempty" tf:"binary_authorization,omitempty"`
 
 	// Configuration related to the cluster control plane.
 	ControlPlane []ControlPlaneInitParameters `json:"controlPlane,omitempty" tf:"control_plane,omitempty"`
@@ -136,6 +187,9 @@ type ClusterObservation struct {
 	// The AWS region where the cluster runs. Each Google Cloud region supports a subset of nearby AWS regions. You can call to list all supported AWS regions within a given Google Cloud region.
 	AwsRegion *string `json:"awsRegion,omitempty" tf:"aws_region,omitempty"`
 
+	// Configuration options for the Binary Authorization feature.
+	BinaryAuthorization []BinaryAuthorizationObservation `json:"binaryAuthorization,omitempty" tf:"binary_authorization,omitempty"`
+
 	// Configuration related to the cluster control plane.
 	ControlPlane []ControlPlaneObservation `json:"controlPlane,omitempty" tf:"control_plane,omitempty"`
 
@@ -144,6 +198,9 @@ type ClusterObservation struct {
 
 	// Optional. A human readable description of this cluster. Cannot be longer than 255 UTF-8 encoded bytes.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// +mapType=granular
+	EffectiveAnnotations map[string]*string `json:"effectiveAnnotations,omitempty" tf:"effective_annotations,omitempty"`
 
 	// Output only. The endpoint of the cluster's API server.
 	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
@@ -196,6 +253,10 @@ type ClusterParameters struct {
 	// The AWS region where the cluster runs. Each Google Cloud region supports a subset of nearby AWS regions. You can call to list all supported AWS regions within a given Google Cloud region.
 	// +kubebuilder:validation:Optional
 	AwsRegion *string `json:"awsRegion,omitempty" tf:"aws_region,omitempty"`
+
+	// Configuration options for the Binary Authorization feature.
+	// +kubebuilder:validation:Optional
+	BinaryAuthorization []BinaryAuthorizationParameters `json:"binaryAuthorization,omitempty" tf:"binary_authorization,omitempty"`
 
 	// Configuration related to the cluster control plane.
 	// +kubebuilder:validation:Optional
@@ -435,7 +496,7 @@ type MainVolumeInitParameters struct {
 	// Optional. The size of the volume, in GiBs. When unspecified, a default value is provided. See the specific reference in the parent resource.
 	SizeGib *float64 `json:"sizeGib,omitempty" tf:"size_gib,omitempty"`
 
-	// Optional. The throughput to provision for the volume, in MiB/s. Only valid if the volume type is GP3.
+	// Optional. The throughput to provision for the volume, in MiB/s. Only valid if the volume type is GP3. If volume type is gp3 and throughput is not specified, the throughput will defaults to 125.
 	Throughput *float64 `json:"throughput,omitempty" tf:"throughput,omitempty"`
 
 	// Optional. Type of the EBS volume. When unspecified, it defaults to GP2 volume. Possible values: VOLUME_TYPE_UNSPECIFIED, GP2, GP3
@@ -453,7 +514,7 @@ type MainVolumeObservation struct {
 	// Optional. The size of the volume, in GiBs. When unspecified, a default value is provided. See the specific reference in the parent resource.
 	SizeGib *float64 `json:"sizeGib,omitempty" tf:"size_gib,omitempty"`
 
-	// Optional. The throughput to provision for the volume, in MiB/s. Only valid if the volume type is GP3.
+	// Optional. The throughput to provision for the volume, in MiB/s. Only valid if the volume type is GP3. If volume type is gp3 and throughput is not specified, the throughput will defaults to 125.
 	Throughput *float64 `json:"throughput,omitempty" tf:"throughput,omitempty"`
 
 	// Optional. Type of the EBS volume. When unspecified, it defaults to GP2 volume. Possible values: VOLUME_TYPE_UNSPECIFIED, GP2, GP3
@@ -474,7 +535,7 @@ type MainVolumeParameters struct {
 	// +kubebuilder:validation:Optional
 	SizeGib *float64 `json:"sizeGib,omitempty" tf:"size_gib,omitempty"`
 
-	// Optional. The throughput to provision for the volume, in MiB/s. Only valid if the volume type is GP3.
+	// Optional. The throughput to provision for the volume, in MiB/s. Only valid if the volume type is GP3. If volume type is gp3 and throughput is not specified, the throughput will defaults to 125.
 	// +kubebuilder:validation:Optional
 	Throughput *float64 `json:"throughput,omitempty" tf:"throughput,omitempty"`
 
@@ -572,7 +633,7 @@ type RootVolumeInitParameters struct {
 	// Optional. The size of the volume, in GiBs. When unspecified, a default value is provided. See the specific reference in the parent resource.
 	SizeGib *float64 `json:"sizeGib,omitempty" tf:"size_gib,omitempty"`
 
-	// Optional. The throughput to provision for the volume, in MiB/s. Only valid if the volume type is GP3.
+	// Optional. The throughput to provision for the volume, in MiB/s. Only valid if the volume type is GP3. If volume type is gp3 and throughput is not specified, the throughput will defaults to 125.
 	Throughput *float64 `json:"throughput,omitempty" tf:"throughput,omitempty"`
 
 	// Optional. Type of the EBS volume. When unspecified, it defaults to GP2 volume. Possible values: VOLUME_TYPE_UNSPECIFIED, GP2, GP3
@@ -590,7 +651,7 @@ type RootVolumeObservation struct {
 	// Optional. The size of the volume, in GiBs. When unspecified, a default value is provided. See the specific reference in the parent resource.
 	SizeGib *float64 `json:"sizeGib,omitempty" tf:"size_gib,omitempty"`
 
-	// Optional. The throughput to provision for the volume, in MiB/s. Only valid if the volume type is GP3.
+	// Optional. The throughput to provision for the volume, in MiB/s. Only valid if the volume type is GP3. If volume type is gp3 and throughput is not specified, the throughput will defaults to 125.
 	Throughput *float64 `json:"throughput,omitempty" tf:"throughput,omitempty"`
 
 	// Optional. Type of the EBS volume. When unspecified, it defaults to GP2 volume. Possible values: VOLUME_TYPE_UNSPECIFIED, GP2, GP3
@@ -611,7 +672,7 @@ type RootVolumeParameters struct {
 	// +kubebuilder:validation:Optional
 	SizeGib *float64 `json:"sizeGib,omitempty" tf:"size_gib,omitempty"`
 
-	// Optional. The throughput to provision for the volume, in MiB/s. Only valid if the volume type is GP3.
+	// Optional. The throughput to provision for the volume, in MiB/s. Only valid if the volume type is GP3. If volume type is gp3 and throughput is not specified, the throughput will defaults to 125.
 	// +kubebuilder:validation:Optional
 	Throughput *float64 `json:"throughput,omitempty" tf:"throughput,omitempty"`
 

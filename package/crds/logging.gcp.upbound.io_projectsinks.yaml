@@ -87,14 +87,98 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  customWriterIdentity:
+                    description: |-
+                      A user managed service account that will be used to write
+                      the log entries. The format must be serviceAccount:some@email. This field can only be specified if you are
+                      routing logs to a destination outside this sink's project. If not specified, a Logging service account
+                      will automatically be generated.
+                    type: string
+                  customWriterIdentityRef:
+                    description: Reference to a ServiceAccount in cloudplatform to
+                      populate customWriterIdentity.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  customWriterIdentitySelector:
+                    description: Selector for a ServiceAccount in cloudplatform to
+                      populate customWriterIdentity.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   description:
                     description: A description of this sink. The maximum length of
                       the description is 8000 characters.
                     type: string
                   destination:
-                    description: |-
-                      The destination of the sink (or, in other words, where logs are written to). Can be a
-                      Cloud Storage bucket, a PubSub topic, a BigQuery dataset or a Cloud Logging bucket . Examples:
+                    description: 'The destination of the sink (or, in other words,
+                      where logs are written to). Can be a Cloud Storage bucket, a
+                      PubSub topic, a BigQuery dataset, a Cloud Logging bucket, or
+                      a Google Cloud project. Examples:'
                     type: string
                   disabled:
                     description: If set to True, then this sink is disabled and it
@@ -141,8 +225,7 @@ spec:
                     type: string
                   uniqueWriterIdentity:
                     description: |-
-                      Whether or not to create a unique identity associated with this sink. If false
-                      (the default), then the writer_identity used is serviceAccount:cloud-logs@system.gserviceaccount.com. If true,
+                      Whether or not to create a unique identity associated with this sink. If false, then the writer_identity used is serviceAccount:cloud-logs@system.gserviceaccount.com. If true (the default),
                       then a unique service account is created and used for this sink. If you wish to publish logs across projects or utilize
                       bigquery_options, you must set unique_writer_identity to true.
                     type: boolean
@@ -174,14 +257,98 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  customWriterIdentity:
+                    description: |-
+                      A user managed service account that will be used to write
+                      the log entries. The format must be serviceAccount:some@email. This field can only be specified if you are
+                      routing logs to a destination outside this sink's project. If not specified, a Logging service account
+                      will automatically be generated.
+                    type: string
+                  customWriterIdentityRef:
+                    description: Reference to a ServiceAccount in cloudplatform to
+                      populate customWriterIdentity.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  customWriterIdentitySelector:
+                    description: Selector for a ServiceAccount in cloudplatform to
+                      populate customWriterIdentity.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   description:
                     description: A description of this sink. The maximum length of
                       the description is 8000 characters.
                     type: string
                   destination:
-                    description: |-
-                      The destination of the sink (or, in other words, where logs are written to). Can be a
-                      Cloud Storage bucket, a PubSub topic, a BigQuery dataset or a Cloud Logging bucket . Examples:
+                    description: 'The destination of the sink (or, in other words,
+                      where logs are written to). Can be a Cloud Storage bucket, a
+                      PubSub topic, a BigQuery dataset, a Cloud Logging bucket, or
+                      a Google Cloud project. Examples:'
                     type: string
                   disabled:
                     description: If set to True, then this sink is disabled and it
@@ -228,8 +395,7 @@ spec:
                     type: string
                   uniqueWriterIdentity:
                     description: |-
-                      Whether or not to create a unique identity associated with this sink. If false
-                      (the default), then the writer_identity used is serviceAccount:cloud-logs@system.gserviceaccount.com. If true,
+                      Whether or not to create a unique identity associated with this sink. If false, then the writer_identity used is serviceAccount:cloud-logs@system.gserviceaccount.com. If true (the default),
                       then a unique service account is created and used for this sink. If you wish to publish logs across projects or utilize
                       bigquery_options, you must set unique_writer_identity to true.
                     type: boolean
@@ -425,14 +591,22 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  customWriterIdentity:
+                    description: |-
+                      A user managed service account that will be used to write
+                      the log entries. The format must be serviceAccount:some@email. This field can only be specified if you are
+                      routing logs to a destination outside this sink's project. If not specified, a Logging service account
+                      will automatically be generated.
+                    type: string
                   description:
                     description: A description of this sink. The maximum length of
                       the description is 8000 characters.
                     type: string
                   destination:
-                    description: |-
-                      The destination of the sink (or, in other words, where logs are written to). Can be a
-                      Cloud Storage bucket, a PubSub topic, a BigQuery dataset or a Cloud Logging bucket . Examples:
+                    description: 'The destination of the sink (or, in other words,
+                      where logs are written to). Can be a Cloud Storage bucket, a
+                      PubSub topic, a BigQuery dataset, a Cloud Logging bucket, or
+                      a Google Cloud project. Examples:'
                     type: string
                   disabled:
                     description: If set to True, then this sink is disabled and it
@@ -482,8 +656,7 @@ spec:
                     type: string
                   uniqueWriterIdentity:
                     description: |-
-                      Whether or not to create a unique identity associated with this sink. If false
-                      (the default), then the writer_identity used is serviceAccount:cloud-logs@system.gserviceaccount.com. If true,
+                      Whether or not to create a unique identity associated with this sink. If false, then the writer_identity used is serviceAccount:cloud-logs@system.gserviceaccount.com. If true (the default),
                       then a unique service account is created and used for this sink. If you wish to publish logs across projects or utilize
                       bigquery_options, you must set unique_writer_identity to true.
                     type: boolean

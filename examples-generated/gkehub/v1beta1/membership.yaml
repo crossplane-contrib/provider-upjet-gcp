@@ -13,6 +13,7 @@ spec:
       - resourceLinkSelector:
           matchLabels:
             testing.upbound.io/example-name: primary
+    location: us-west1
 
 ---
 
@@ -26,5 +27,12 @@ metadata:
   name: primary
 spec:
   forProvider:
+    deletionProtection: false
     initialNodeCount: 1
     location: us-central1-a
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    subnetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

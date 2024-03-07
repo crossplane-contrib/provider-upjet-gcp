@@ -40,7 +40,7 @@ spec:
     - shell: node ./app.js
     envVariables:
       port: "8080"
-    runtime: nodejs10
+    runtime: nodejs20
     service: admin
 
 ---
@@ -73,4 +73,4 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: bucket
     name: hello-world.zip
-    source: ./test-fixtures/appengine/hello-world.zip
+    source: ./test-fixtures/hello-world.zip

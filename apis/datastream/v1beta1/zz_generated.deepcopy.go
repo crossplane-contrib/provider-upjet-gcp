@@ -230,6 +230,22 @@ func (in *ConnectionProfileObservation) DeepCopyInto(out *ConnectionProfileObser
 		*out = new(string)
 		**out = **in
 	}
+	if in.EffectiveLabels != nil {
+		in, out := &in.EffectiveLabels, &out.EffectiveLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ForwardSSHConnectivity != nil {
 		in, out := &in.ForwardSSHConnectivity, &out.ForwardSSHConnectivity
 		*out = make([]ForwardSSHConnectivityObservation, len(*in))
@@ -307,6 +323,22 @@ func (in *ConnectionProfileObservation) DeepCopyInto(out *ConnectionProfileObser
 		in, out := &in.Project, &out.Project
 		*out = new(string)
 		**out = **in
+	}
+	if in.TerraformLabels != nil {
+		in, out := &in.TerraformLabels, &out.TerraformLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 }
 
@@ -1234,6 +1266,22 @@ func (in *PrivateConnectionObservation) DeepCopyInto(out *PrivateConnectionObser
 		*out = new(string)
 		**out = **in
 	}
+	if in.EffectiveLabels != nil {
+		in, out := &in.EffectiveLabels, &out.EffectiveLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.Error != nil {
 		in, out := &in.Error, &out.Error
 		*out = make([]ErrorObservation, len(*in))
@@ -1281,6 +1329,22 @@ func (in *PrivateConnectionObservation) DeepCopyInto(out *PrivateConnectionObser
 		in, out := &in.State, &out.State
 		*out = new(string)
 		**out = **in
+	}
+	if in.TerraformLabels != nil {
+		in, out := &in.TerraformLabels, &out.TerraformLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.VPCPeeringConfig != nil {
 		in, out := &in.VPCPeeringConfig, &out.VPCPeeringConfig

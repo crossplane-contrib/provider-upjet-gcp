@@ -87,7 +87,7 @@ spec:
                       properties:
                         actions:
                           description: |-
-                            A task to execute on the completion of a job.
+                            Configuration block for the actions to execute on the completion of a job. Can be specified multiple times, but only one for each type. Each action block supports fields documented below. This argument is processed in attribute-as-blocks mode.
                             Structure is documented below.
                           items:
                             properties:
@@ -1288,7 +1288,7 @@ spec:
                                 type: array
                               timespanConfig:
                                 description: |-
-                                  Information on where to inspect
+                                  Configuration of the timespan of the items to include in scanning
                                   Structure is documented below.
                                 items:
                                   properties:
@@ -1296,20 +1296,22 @@ spec:
                                       description: |-
                                         When the job is started by a JobTrigger we will automatically figure out a valid startTime to avoid
                                         scanning files that have not been modified since the last time the JobTrigger executed. This will
-                                        be based on the time of the execution of the last run of the JobTrigger.
+                                        be based on the time of the execution of the last run of the JobTrigger or the timespan endTime
+                                        used in the last run of the JobTrigger.
                                       type: boolean
                                     endTime:
-                                      description: Exclude files or rows newer than
-                                        this value. If set to zero, no upper time
-                                        limit is applied.
+                                      description: Exclude files, tables, or rows
+                                        newer than this value. If not set, no upper
+                                        time limit is applied.
                                       type: string
                                     startTime:
-                                      description: Exclude files or rows older than
-                                        this value.
+                                      description: Exclude files, tables, or rows
+                                        older than this value. If not set, no lower
+                                        time limit is applied.
                                       type: string
                                     timestampField:
                                       description: |-
-                                        Information on where to inspect
+                                        Specification of the field containing the timestamp of scanned items.
                                         Structure is documented below.
                                       items:
                                         properties:
@@ -1404,7 +1406,7 @@ spec:
                       properties:
                         actions:
                           description: |-
-                            A task to execute on the completion of a job.
+                            Configuration block for the actions to execute on the completion of a job. Can be specified multiple times, but only one for each type. Each action block supports fields documented below. This argument is processed in attribute-as-blocks mode.
                             Structure is documented below.
                           items:
                             properties:
@@ -2605,7 +2607,7 @@ spec:
                                 type: array
                               timespanConfig:
                                 description: |-
-                                  Information on where to inspect
+                                  Configuration of the timespan of the items to include in scanning
                                   Structure is documented below.
                                 items:
                                   properties:
@@ -2613,20 +2615,22 @@ spec:
                                       description: |-
                                         When the job is started by a JobTrigger we will automatically figure out a valid startTime to avoid
                                         scanning files that have not been modified since the last time the JobTrigger executed. This will
-                                        be based on the time of the execution of the last run of the JobTrigger.
+                                        be based on the time of the execution of the last run of the JobTrigger or the timespan endTime
+                                        used in the last run of the JobTrigger.
                                       type: boolean
                                     endTime:
-                                      description: Exclude files or rows newer than
-                                        this value. If set to zero, no upper time
-                                        limit is applied.
+                                      description: Exclude files, tables, or rows
+                                        newer than this value. If not set, no upper
+                                        time limit is applied.
                                       type: string
                                     startTime:
-                                      description: Exclude files or rows older than
-                                        this value.
+                                      description: Exclude files, tables, or rows
+                                        older than this value. If not set, no lower
+                                        time limit is applied.
                                       type: string
                                     timestampField:
                                       description: |-
-                                        Information on where to inspect
+                                        Specification of the field containing the timestamp of scanned items.
                                         Structure is documented below.
                                       items:
                                         properties:
@@ -2896,7 +2900,7 @@ spec:
                       properties:
                         actions:
                           description: |-
-                            A task to execute on the completion of a job.
+                            Configuration block for the actions to execute on the completion of a job. Can be specified multiple times, but only one for each type. Each action block supports fields documented below. This argument is processed in attribute-as-blocks mode.
                             Structure is documented below.
                           items:
                             properties:
@@ -3946,7 +3950,7 @@ spec:
                                 type: array
                               timespanConfig:
                                 description: |-
-                                  Information on where to inspect
+                                  Configuration of the timespan of the items to include in scanning
                                   Structure is documented below.
                                 items:
                                   properties:
@@ -3954,20 +3958,22 @@ spec:
                                       description: |-
                                         When the job is started by a JobTrigger we will automatically figure out a valid startTime to avoid
                                         scanning files that have not been modified since the last time the JobTrigger executed. This will
-                                        be based on the time of the execution of the last run of the JobTrigger.
+                                        be based on the time of the execution of the last run of the JobTrigger or the timespan endTime
+                                        used in the last run of the JobTrigger.
                                       type: boolean
                                     endTime:
-                                      description: Exclude files or rows newer than
-                                        this value. If set to zero, no upper time
-                                        limit is applied.
+                                      description: Exclude files, tables, or rows
+                                        newer than this value. If not set, no upper
+                                        time limit is applied.
                                       type: string
                                     startTime:
-                                      description: Exclude files or rows older than
-                                        this value.
+                                      description: Exclude files, tables, or rows
+                                        older than this value. If not set, no lower
+                                        time limit is applied.
                                       type: string
                                     timestampField:
                                       description: |-
-                                        Information on where to inspect
+                                        Specification of the field containing the timestamp of scanned items.
                                         Structure is documented below.
                                       items:
                                         properties:

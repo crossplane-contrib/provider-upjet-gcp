@@ -98,6 +98,12 @@ spec:
                           description: The timestamp of the point in time that should
                             be restored.
                           type: string
+                        preferredZone:
+                          description: (Point-in-time recovery for PostgreSQL only)
+                            Clone to an instance in the specified zone. If no zone
+                            is specified, clone to the same zone as the source instance.
+                            clone-unavailable-instance
+                          type: string
                         sourceInstanceName:
                           description: Name of the source instance which will be cloned.
                           type: string
@@ -214,6 +220,7 @@ spec:
                           - namespace
                           type: object
                         sslCipher:
+                          description: Permissible ciphers for use in SSL encryption.
                           type: string
                         username:
                           description: Username for replication connection.
@@ -364,9 +371,9 @@ spec:
                           items:
                             properties:
                               dataCacheEnabled:
-                                description: |-
-                                  Whether data cache is enabled for the instance. Defaults to false
-                                  Can only be used with MYSQL.
+                                description: Whether data cache is enabled for the
+                                  instance. Defaults to false. Can be used with MYSQL
+                                  and PostgreSQL only.
                                 type: boolean
                             type: object
                           type: array
@@ -591,10 +598,39 @@ spec:
                                         type: string
                                     type: object
                                 type: object
+                              pscConfig:
+                                items:
+                                  properties:
+                                    allowedConsumerProjects:
+                                      description: List of consumer projects that
+                                        are allow-listed for PSC connections to this
+                                        instance. This instance can be connected to
+                                        with PSC from any network in these projects.
+                                        Each consumer project in this list may be
+                                        represented by a project number (numeric)
+                                        or by a project id (alphanumeric).
+                                      items:
+                                        type: string
+                                      type: array
+                                      x-kubernetes-list-type: set
+                                    pscEnabled:
+                                      description: Whether PSC connectivity is enabled
+                                        for this instance.
+                                      type: boolean
+                                  type: object
+                                type: array
                               requireSsl:
                                 description: Whether SSL connections over IP are enforced
-                                  or not.
+                                  or not. To change this field, also set the corresponding
+                                  value in ssl_mode.
                                 type: boolean
+                              sslMode:
+                                description: Specify how SSL connection should be
+                                  enforced in DB connections. This field provides
+                                  more SSL enforcment options compared to require_ssl.
+                                  To change this field, also set the correspoding
+                                  value in require_ssl.
+                                type: string
                             type: object
                           type: array
                         locationPreference:
@@ -745,6 +781,12 @@ spec:
                           description: The timestamp of the point in time that should
                             be restored.
                           type: string
+                        preferredZone:
+                          description: (Point-in-time recovery for PostgreSQL only)
+                            Clone to an instance in the specified zone. If no zone
+                            is specified, clone to the same zone as the source instance.
+                            clone-unavailable-instance
+                          type: string
                         sourceInstanceName:
                           description: Name of the source instance which will be cloned.
                           type: string
@@ -844,6 +886,7 @@ spec:
                             heartbeats.
                           type: number
                         sslCipher:
+                          description: Permissible ciphers for use in SSL encryption.
                           type: string
                         username:
                           description: Username for replication connection.
@@ -976,9 +1019,9 @@ spec:
                           items:
                             properties:
                               dataCacheEnabled:
-                                description: |-
-                                  Whether data cache is enabled for the instance. Defaults to false
-                                  Can only be used with MYSQL.
+                                description: Whether data cache is enabled for the
+                                  instance. Defaults to false. Can be used with MYSQL
+                                  and PostgreSQL only.
                                 type: boolean
                             type: object
                           type: array
@@ -1203,10 +1246,39 @@ spec:
                                         type: string
                                     type: object
                                 type: object
+                              pscConfig:
+                                items:
+                                  properties:
+                                    allowedConsumerProjects:
+                                      description: List of consumer projects that
+                                        are allow-listed for PSC connections to this
+                                        instance. This instance can be connected to
+                                        with PSC from any network in these projects.
+                                        Each consumer project in this list may be
+                                        represented by a project number (numeric)
+                                        or by a project id (alphanumeric).
+                                      items:
+                                        type: string
+                                      type: array
+                                      x-kubernetes-list-type: set
+                                    pscEnabled:
+                                      description: Whether PSC connectivity is enabled
+                                        for this instance.
+                                      type: boolean
+                                  type: object
+                                type: array
                               requireSsl:
                                 description: Whether SSL connections over IP are enforced
-                                  or not.
+                                  or not. To change this field, also set the corresponding
+                                  value in ssl_mode.
                                 type: boolean
+                              sslMode:
+                                description: Specify how SSL connection should be
+                                  enforced in DB connections. This field provides
+                                  more SSL enforcment options compared to require_ssl.
+                                  To change this field, also set the correspoding
+                                  value in require_ssl.
+                                type: string
                             type: object
                           type: array
                         locationPreference:
@@ -1527,6 +1599,12 @@ spec:
                           description: The timestamp of the point in time that should
                             be restored.
                           type: string
+                        preferredZone:
+                          description: (Point-in-time recovery for PostgreSQL only)
+                            Clone to an instance in the specified zone. If no zone
+                            is specified, clone to the same zone as the source instance.
+                            clone-unavailable-instance
+                          type: string
                         sourceInstanceName:
                           description: Name of the source instance which will be cloned.
                           type: string
@@ -1552,6 +1630,11 @@ spec:
                   deletionProtection:
                     description: Defaults to true.
                     type: boolean
+                  dnsName:
+                    description: |-
+                      The name of the instance. This is done because after a name is used, it cannot be reused for
+                      up to one week.
+                    type: string
                   encryptionKeyName:
                     description: |-
                       The full path to the encryption key used for the CMEK disk encryption.
@@ -1611,6 +1694,10 @@ spec:
                       The ID of the project in which the resource belongs. If it
                       is not provided, the provider project is used.
                     type: string
+                  pscServiceAttachmentLink:
+                    description: the URI that points to the service attachment of
+                      the instance.
+                    type: string
                   publicIpAddress:
                     description: The first public (PRIMARY) IPv4 address assigned.
                     type: string
@@ -1664,6 +1751,7 @@ spec:
                             heartbeats.
                           type: number
                         sslCipher:
+                          description: Permissible ciphers for use in SSL encryption.
                           type: string
                         username:
                           description: Username for replication connection.
@@ -1697,29 +1785,6 @@ spec:
                   selfLink:
                     description: The URI of the created resource.
                     type: string
-                  serverCaCert:
-                    items:
-                      properties:
-                        cert:
-                          description: The CA Certificate used to connect to the SQL
-                            Instance via SSL.
-                          type: string
-                        commonName:
-                          description: The CN valid for the CA Cert.
-                          type: string
-                        createTime:
-                          description: Creation time of the CA Cert.
-                          type: string
-                        expirationTime:
-                          description: |-
-                            The RFC 3339
-                            formatted date time string indicating when this whitelist expires.
-                          type: string
-                        sha1Fingerprint:
-                          description: SHA Fingerprint of the CA Cert.
-                          type: string
-                      type: object
-                    type: array
                   serviceAccountEmailAddress:
                     description: |-
                       The service account email address assigned to the
@@ -1827,9 +1892,9 @@ spec:
                           items:
                             properties:
                               dataCacheEnabled:
-                                description: |-
-                                  Whether data cache is enabled for the instance. Defaults to false
-                                  Can only be used with MYSQL.
+                                description: Whether data cache is enabled for the
+                                  instance. Defaults to false. Can be used with MYSQL
+                                  and PostgreSQL only.
                                 type: boolean
                             type: object
                           type: array
@@ -1978,10 +2043,39 @@ spec:
                                   At least ipv4_enabled must be enabled or a private_network must be configured.
                                   This setting can be updated, but it cannot be removed after it is set.
                                 type: string
+                              pscConfig:
+                                items:
+                                  properties:
+                                    allowedConsumerProjects:
+                                      description: List of consumer projects that
+                                        are allow-listed for PSC connections to this
+                                        instance. This instance can be connected to
+                                        with PSC from any network in these projects.
+                                        Each consumer project in this list may be
+                                        represented by a project number (numeric)
+                                        or by a project id (alphanumeric).
+                                      items:
+                                        type: string
+                                      type: array
+                                      x-kubernetes-list-type: set
+                                    pscEnabled:
+                                      description: Whether PSC connectivity is enabled
+                                        for this instance.
+                                      type: boolean
+                                  type: object
+                                type: array
                               requireSsl:
                                 description: Whether SSL connections over IP are enforced
-                                  or not.
+                                  or not. To change this field, also set the corresponding
+                                  value in ssl_mode.
                                 type: boolean
+                              sslMode:
+                                description: Specify how SSL connection should be
+                                  enforced in DB connections. This field provides
+                                  more SSL enforcment options compared to require_ssl.
+                                  To change this field, also set the correspoding
+                                  value in require_ssl.
+                                type: string
                             type: object
                           type: array
                         locationPreference:

@@ -106,6 +106,32 @@ type AutoscalingParameters struct {
 	MinNodeCount *float64 `json:"minNodeCount,omitempty" tf:"min_node_count,omitempty"`
 }
 
+type AuxiliaryNodeGroupsInitParameters struct {
+
+	// Node group configuration.
+	NodeGroup []NodeGroupInitParameters `json:"nodeGroup,omitempty" tf:"node_group,omitempty"`
+
+	NodeGroupID *string `json:"nodeGroupId,omitempty" tf:"node_group_id,omitempty"`
+}
+
+type AuxiliaryNodeGroupsObservation struct {
+
+	// Node group configuration.
+	NodeGroup []NodeGroupObservation `json:"nodeGroup,omitempty" tf:"node_group,omitempty"`
+
+	NodeGroupID *string `json:"nodeGroupId,omitempty" tf:"node_group_id,omitempty"`
+}
+
+type AuxiliaryNodeGroupsParameters struct {
+
+	// Node group configuration.
+	// +kubebuilder:validation:Optional
+	NodeGroup []NodeGroupParameters `json:"nodeGroup" tf:"node_group,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NodeGroupID *string `json:"nodeGroupId,omitempty" tf:"node_group_id,omitempty"`
+}
+
 type AuxiliaryServicesConfigInitParameters struct {
 
 	// The config setting for metastore service with the cluster.
@@ -164,6 +190,10 @@ type ClusterConfigInitParameters struct {
 	// only be removed by setting policy_uri = "", rather than removing the whole block.
 	// Structure defined below.
 	AutoscalingConfig []AutoscalingConfigInitParameters `json:"autoscalingConfig,omitempty" tf:"autoscaling_config,omitempty"`
+
+	// A Dataproc NodeGroup resource is a group of Dataproc cluster nodes that execute an assigned role.
+	// Structure defined below.
+	AuxiliaryNodeGroups []AuxiliaryNodeGroupsInitParameters `json:"auxiliaryNodeGroups,omitempty" tf:"auxiliary_node_groups,omitempty"`
 
 	// The Compute Engine accelerator (GPU) configuration for these instances. Can be specified multiple times.
 	// Structure defined below.
@@ -234,6 +264,10 @@ type ClusterConfigObservation struct {
 	// only be removed by setting policy_uri = "", rather than removing the whole block.
 	// Structure defined below.
 	AutoscalingConfig []AutoscalingConfigObservation `json:"autoscalingConfig,omitempty" tf:"autoscaling_config,omitempty"`
+
+	// A Dataproc NodeGroup resource is a group of Dataproc cluster nodes that execute an assigned role.
+	// Structure defined below.
+	AuxiliaryNodeGroups []AuxiliaryNodeGroupsObservation `json:"auxiliaryNodeGroups,omitempty" tf:"auxiliary_node_groups,omitempty"`
 
 	// The name of the cloud storage bucket ultimately used to house the staging data
 	// for the cluster. If staging_bucket is specified, it will contain this value, otherwise
@@ -310,6 +344,11 @@ type ClusterConfigParameters struct {
 	// Structure defined below.
 	// +kubebuilder:validation:Optional
 	AutoscalingConfig []AutoscalingConfigParameters `json:"autoscalingConfig,omitempty" tf:"autoscaling_config,omitempty"`
+
+	// A Dataproc NodeGroup resource is a group of Dataproc cluster nodes that execute an assigned role.
+	// Structure defined below.
+	// +kubebuilder:validation:Optional
+	AuxiliaryNodeGroups []AuxiliaryNodeGroupsParameters `json:"auxiliaryNodeGroups,omitempty" tf:"auxiliary_node_groups,omitempty"`
 
 	// The Compute Engine accelerator (GPU) configuration for these instances. Can be specified multiple times.
 	// Structure defined below.
@@ -410,6 +449,9 @@ type ClusterConfigWorkerConfigInitParameters struct {
 	// for details about which CPU families are available (and defaulted) for each zone.
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
+	// The minimum number of primary worker instances to create.  If min_num_instances is set, cluster creation will succeed if the number of primary workers created is at least equal to the min_num_instances number.
+	MinNumInstances *float64 `json:"minNumInstances,omitempty" tf:"min_num_instances,omitempty"`
+
 	// Specifies the number of worker nodes to create.
 	// If not specified, GCP will default to a predetermined computed value (currently 2).
 	// There is currently a beta feature which allows you to run a
@@ -446,6 +488,9 @@ type ClusterConfigWorkerConfigObservation struct {
 	// for each zone. See the guide
 	// for details about which CPU families are available (and defaulted) for each zone.
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
+
+	// The minimum number of primary worker instances to create.  If min_num_instances is set, cluster creation will succeed if the number of primary workers created is at least equal to the min_num_instances number.
+	MinNumInstances *float64 `json:"minNumInstances,omitempty" tf:"min_num_instances,omitempty"`
 
 	// Specifies the number of worker nodes to create.
 	// If not specified, GCP will default to a predetermined computed value (currently 2).
@@ -485,6 +530,10 @@ type ClusterConfigWorkerConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
+	// The minimum number of primary worker instances to create.  If min_num_instances is set, cluster creation will succeed if the number of primary workers created is at least equal to the min_num_instances number.
+	// +kubebuilder:validation:Optional
+	MinNumInstances *float64 `json:"minNumInstances,omitempty" tf:"min_num_instances,omitempty"`
+
 	// Specifies the number of worker nodes to create.
 	// If not specified, GCP will default to a predetermined computed value (currently 2).
 	// There is currently a beta feature which allows you to run a
@@ -511,9 +560,7 @@ type ClusterInitParameters struct {
 	// For more context see the docs
 	GracefulDecommissionTimeout *string `json:"gracefulDecommissionTimeout,omitempty" tf:"graceful_decommission_timeout,omitempty"`
 
-	// The list of labels (key/value pairs) to be applied to
-	// instances in the cluster. GCP generates some itself including goog-dataproc-cluster-name
-	// which is the name of the cluster.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration. Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -540,6 +587,12 @@ type ClusterObservation struct {
 	// Structure defined below.
 	ClusterConfig []ClusterConfigObservation `json:"clusterConfig,omitempty" tf:"cluster_config,omitempty"`
 
+	// (Computed) The list of labels (key/value pairs) to be applied to
+	// instances in the cluster. GCP generates some itself including goog-dataproc-cluster-name
+	// which is the name of the cluster.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// Does not affect auto scaling decomissioning from an autoscaling policy.
 	// Graceful decommissioning allows removing nodes from the cluster without interrupting jobs in progress.
 	// Timeout specifies how long to wait for jobs in progress to finish before forcefully removing nodes (and potentially interrupting jobs).
@@ -551,9 +604,7 @@ type ClusterObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The list of labels (key/value pairs) to be applied to
-	// instances in the cluster. GCP generates some itself including goog-dataproc-cluster-name
-	// which is the name of the cluster.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration. Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -568,6 +619,10 @@ type ClusterObservation struct {
 	// The region in which the cluster and associated nodes will be created in.
 	// Defaults to global.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// Allows you to configure a virtual Dataproc on GKE cluster.
 	// Structure defined below.
@@ -591,9 +646,7 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	GracefulDecommissionTimeout *string `json:"gracefulDecommissionTimeout,omitempty" tf:"graceful_decommission_timeout,omitempty"`
 
-	// The list of labels (key/value pairs) to be applied to
-	// instances in the cluster. GCP generates some itself including goog-dataproc-cluster-name
-	// which is the name of the cluster.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration. Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
@@ -1102,6 +1155,70 @@ type InitializationActionParameters struct {
 	TimeoutSec *float64 `json:"timeoutSec,omitempty" tf:"timeout_sec,omitempty"`
 }
 
+type InstanceFlexibilityPolicyInitParameters struct {
+
+	// List of instance selection options that the group will use when creating new VMs.
+	InstanceSelectionList []InstanceSelectionListInitParameters `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
+}
+
+type InstanceFlexibilityPolicyObservation struct {
+
+	// List of instance selection options that the group will use when creating new VMs.
+	InstanceSelectionList []InstanceSelectionListObservation `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
+
+	InstanceSelectionResults []InstanceSelectionResultsObservation `json:"instanceSelectionResults,omitempty" tf:"instance_selection_results,omitempty"`
+}
+
+type InstanceFlexibilityPolicyParameters struct {
+
+	// List of instance selection options that the group will use when creating new VMs.
+	// +kubebuilder:validation:Optional
+	InstanceSelectionList []InstanceSelectionListParameters `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
+}
+
+type InstanceSelectionListInitParameters struct {
+
+	// Full machine-type names, e.g. "n1-standard-16".
+	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
+
+	// Preference of this instance selection. A lower number means higher preference. Dataproc will first try to create a VM based on the machine-type with priority rank and fallback to next rank based on availability. Machine types and instance selections with the same priority have the same preference.
+	Rank *float64 `json:"rank,omitempty" tf:"rank,omitempty"`
+}
+
+type InstanceSelectionListObservation struct {
+
+	// Full machine-type names, e.g. "n1-standard-16".
+	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
+
+	// Preference of this instance selection. A lower number means higher preference. Dataproc will first try to create a VM based on the machine-type with priority rank and fallback to next rank based on availability. Machine types and instance selections with the same priority have the same preference.
+	Rank *float64 `json:"rank,omitempty" tf:"rank,omitempty"`
+}
+
+type InstanceSelectionListParameters struct {
+
+	// Full machine-type names, e.g. "n1-standard-16".
+	// +kubebuilder:validation:Optional
+	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
+
+	// Preference of this instance selection. A lower number means higher preference. Dataproc will first try to create a VM based on the machine-type with priority rank and fallback to next rank based on availability. Machine types and instance selections with the same priority have the same preference.
+	// +kubebuilder:validation:Optional
+	Rank *float64 `json:"rank,omitempty" tf:"rank,omitempty"`
+}
+
+type InstanceSelectionResultsInitParameters struct {
+}
+
+type InstanceSelectionResultsObservation struct {
+
+	// The name of a Compute Engine machine type.
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+
+	VMCount *float64 `json:"vmCount,omitempty" tf:"vm_count,omitempty"`
+}
+
+type InstanceSelectionResultsParameters struct {
+}
+
 type KerberosConfigInitParameters struct {
 
 	// The admin server (IP or hostname) for the
@@ -1440,13 +1557,99 @@ type LifecycleConfigParameters struct {
 	IdleDeleteTTL *string `json:"idleDeleteTtl,omitempty" tf:"idle_delete_ttl,omitempty"`
 }
 
+type MasterConfigAcceleratorsInitParameters struct {
+
+	// The number of the accelerator cards of this type exposed to this instance. Often restricted to one of 1, 2, 4, or 8.
+	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
+
+	// The short name of the accelerator type to expose to this instance. For example, nvidia-tesla-k80.
+	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
+}
+
+type MasterConfigAcceleratorsObservation struct {
+
+	// The number of the accelerator cards of this type exposed to this instance. Often restricted to one of 1, 2, 4, or 8.
+	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
+
+	// The short name of the accelerator type to expose to this instance. For example, nvidia-tesla-k80.
+	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
+}
+
+type MasterConfigAcceleratorsParameters struct {
+
+	// The number of the accelerator cards of this type exposed to this instance. Often restricted to one of 1, 2, 4, or 8.
+	// +kubebuilder:validation:Optional
+	AcceleratorCount *float64 `json:"acceleratorCount" tf:"accelerator_count,omitempty"`
+
+	// The short name of the accelerator type to expose to this instance. For example, nvidia-tesla-k80.
+	// +kubebuilder:validation:Optional
+	AcceleratorType *string `json:"acceleratorType" tf:"accelerator_type,omitempty"`
+}
+
+type MasterConfigDiskConfigInitParameters struct {
+
+	// Size of the primary disk attached to each node, specified
+	// in GB. The primary disk contains the boot volume and system libraries, and the
+	// smallest allowed disk size is 10GB. GCP will default to a predetermined
+	// computed value if not set (currently 500GB). Note: If SSDs are not
+	// attached, it also contains the HDFS data blocks and Hadoop working directories.
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// The disk type of the primary disk attached to each node.
+	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// The amount of local SSD disks that will be
+	// attached to each master cluster node. Defaults to 0.
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
+type MasterConfigDiskConfigObservation struct {
+
+	// Size of the primary disk attached to each node, specified
+	// in GB. The primary disk contains the boot volume and system libraries, and the
+	// smallest allowed disk size is 10GB. GCP will default to a predetermined
+	// computed value if not set (currently 500GB). Note: If SSDs are not
+	// attached, it also contains the HDFS data blocks and Hadoop working directories.
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// The disk type of the primary disk attached to each node.
+	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// The amount of local SSD disks that will be
+	// attached to each master cluster node. Defaults to 0.
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
+type MasterConfigDiskConfigParameters struct {
+
+	// Size of the primary disk attached to each node, specified
+	// in GB. The primary disk contains the boot volume and system libraries, and the
+	// smallest allowed disk size is 10GB. GCP will default to a predetermined
+	// computed value if not set (currently 500GB). Note: If SSDs are not
+	// attached, it also contains the HDFS data blocks and Hadoop working directories.
+	// +kubebuilder:validation:Optional
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// The disk type of the primary disk attached to each node.
+	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+	// +kubebuilder:validation:Optional
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// The amount of local SSD disks that will be
+	// attached to each master cluster node. Defaults to 0.
+	// +kubebuilder:validation:Optional
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
 type MasterConfigInitParameters struct {
 
 	// The Compute Engine accelerator (GPU) configuration for these instances. Can be specified multiple times.
-	Accelerators []AcceleratorsInitParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
+	Accelerators []MasterConfigAcceleratorsInitParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
 	// Disk Config
-	DiskConfig []DiskConfigInitParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+	DiskConfig []MasterConfigDiskConfigInitParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
 	// The URI for the image to use for this worker.  See the guide
 	// for more information.
@@ -1471,10 +1674,10 @@ type MasterConfigInitParameters struct {
 type MasterConfigObservation struct {
 
 	// The Compute Engine accelerator (GPU) configuration for these instances. Can be specified multiple times.
-	Accelerators []AcceleratorsObservation `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
+	Accelerators []MasterConfigAcceleratorsObservation `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
 	// Disk Config
-	DiskConfig []DiskConfigObservation `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+	DiskConfig []MasterConfigDiskConfigObservation `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
 	// The URI for the image to use for this worker.  See the guide
 	// for more information.
@@ -1504,11 +1707,11 @@ type MasterConfigParameters struct {
 
 	// The Compute Engine accelerator (GPU) configuration for these instances. Can be specified multiple times.
 	// +kubebuilder:validation:Optional
-	Accelerators []AcceleratorsParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
+	Accelerators []MasterConfigAcceleratorsParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
 	// Disk Config
 	// +kubebuilder:validation:Optional
-	DiskConfig []DiskConfigParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+	DiskConfig []MasterConfigDiskConfigParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
 	// The URI for the image to use for this worker.  See the guide
 	// for more information.
@@ -1602,6 +1805,114 @@ type NodeGroupAffinityParameters struct {
 	// The URI of a sole-tenant node group resource that the cluster will be created on.
 	// +kubebuilder:validation:Optional
 	NodeGroupURI *string `json:"nodeGroupUri" tf:"node_group_uri,omitempty"`
+}
+
+type NodeGroupConfigInitParameters struct {
+
+	// The Compute Engine accelerator configuration for these instances. Can be specified multiple times.
+	Accelerators []AcceleratorsInitParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
+
+	// Disk Config
+	DiskConfig []DiskConfigInitParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+
+	// The name of a Compute Engine machine type.
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+
+	// Minimum CPU platform to be used by this instance.
+	// The instance may be scheduled on the specified or a newer CPU platform.
+	// Specify the friendly names of CPU platforms, such as "Intel Haswell" or "Intel Sandy Bridge".
+	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
+
+	// Specifies the number of master nodes to create.
+	// Please set a number greater than 0. Node Group must have at least 1 instance.
+	NumInstances *float64 `json:"numInstances,omitempty" tf:"num_instances,omitempty"`
+}
+
+type NodeGroupConfigObservation struct {
+
+	// The Compute Engine accelerator configuration for these instances. Can be specified multiple times.
+	Accelerators []AcceleratorsObservation `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
+
+	// Disk Config
+	DiskConfig []DiskConfigObservation `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+
+	// List of worker instance names which have been assigned
+	// to the cluster.
+	InstanceNames []*string `json:"instanceNames,omitempty" tf:"instance_names,omitempty"`
+
+	// The name of a Compute Engine machine type.
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+
+	// Minimum CPU platform to be used by this instance.
+	// The instance may be scheduled on the specified or a newer CPU platform.
+	// Specify the friendly names of CPU platforms, such as "Intel Haswell" or "Intel Sandy Bridge".
+	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
+
+	// Specifies the number of master nodes to create.
+	// Please set a number greater than 0. Node Group must have at least 1 instance.
+	NumInstances *float64 `json:"numInstances,omitempty" tf:"num_instances,omitempty"`
+}
+
+type NodeGroupConfigParameters struct {
+
+	// The Compute Engine accelerator configuration for these instances. Can be specified multiple times.
+	// +kubebuilder:validation:Optional
+	Accelerators []AcceleratorsParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
+
+	// Disk Config
+	// +kubebuilder:validation:Optional
+	DiskConfig []DiskConfigParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+
+	// The name of a Compute Engine machine type.
+	// +kubebuilder:validation:Optional
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+
+	// Minimum CPU platform to be used by this instance.
+	// The instance may be scheduled on the specified or a newer CPU platform.
+	// Specify the friendly names of CPU platforms, such as "Intel Haswell" or "Intel Sandy Bridge".
+	// +kubebuilder:validation:Optional
+	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
+
+	// Specifies the number of master nodes to create.
+	// Please set a number greater than 0. Node Group must have at least 1 instance.
+	// +kubebuilder:validation:Optional
+	NumInstances *float64 `json:"numInstances,omitempty" tf:"num_instances,omitempty"`
+}
+
+type NodeGroupInitParameters struct {
+
+	// The node group instance group configuration.
+	NodeGroupConfig []NodeGroupConfigInitParameters `json:"nodeGroupConfig,omitempty" tf:"node_group_config,omitempty"`
+
+	// The roles associated with the GKE node pool.
+	// One of "DEFAULT", "CONTROLLER", "SPARK_DRIVER" or "SPARK_EXECUTOR".
+	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
+}
+
+type NodeGroupObservation struct {
+
+	// The name of the cluster, unique within the project and
+	// zone.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The node group instance group configuration.
+	NodeGroupConfig []NodeGroupConfigObservation `json:"nodeGroupConfig,omitempty" tf:"node_group_config,omitempty"`
+
+	// The roles associated with the GKE node pool.
+	// One of "DEFAULT", "CONTROLLER", "SPARK_DRIVER" or "SPARK_EXECUTOR".
+	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
+}
+
+type NodeGroupParameters struct {
+
+	// The node group instance group configuration.
+	// +kubebuilder:validation:Optional
+	NodeGroupConfig []NodeGroupConfigParameters `json:"nodeGroupConfig,omitempty" tf:"node_group_config,omitempty"`
+
+	// The roles associated with the GKE node pool.
+	// One of "DEFAULT", "CONTROLLER", "SPARK_DRIVER" or "SPARK_EXECUTOR".
+	// +kubebuilder:validation:Optional
+	Roles []*string `json:"roles" tf:"roles,omitempty"`
 }
 
 type NodePoolConfigInitParameters struct {
@@ -1768,6 +2079,9 @@ type PreemptibleWorkerConfigInitParameters struct {
 	// Disk Config
 	DiskConfig []PreemptibleWorkerConfigDiskConfigInitParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
+	// Instance flexibility Policy allowing a mixture of VM shapes and provisioning models.
+	InstanceFlexibilityPolicy []InstanceFlexibilityPolicyInitParameters `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
+
 	// Specifies the number of preemptible nodes to create.
 	// Defaults to 0.
 	NumInstances *float64 `json:"numInstances,omitempty" tf:"num_instances,omitempty"`
@@ -1781,6 +2095,9 @@ type PreemptibleWorkerConfigObservation struct {
 
 	// Disk Config
 	DiskConfig []PreemptibleWorkerConfigDiskConfigObservation `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+
+	// Instance flexibility Policy allowing a mixture of VM shapes and provisioning models.
+	InstanceFlexibilityPolicy []InstanceFlexibilityPolicyObservation `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
 
 	// List of worker instance names which have been assigned
 	// to the cluster.
@@ -1800,6 +2117,10 @@ type PreemptibleWorkerConfigParameters struct {
 	// Disk Config
 	// +kubebuilder:validation:Optional
 	DiskConfig []PreemptibleWorkerConfigDiskConfigParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+
+	// Instance flexibility Policy allowing a mixture of VM shapes and provisioning models.
+	// +kubebuilder:validation:Optional
+	InstanceFlexibilityPolicy []InstanceFlexibilityPolicyParameters `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
 
 	// Specifies the number of preemptible nodes to create.
 	// Defaults to 0.

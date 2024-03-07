@@ -79,8 +79,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: Set of label tags associated with the Certificate
-                      resource.
+                    description: |-
+                      Set of label tags associated with the Certificate resource.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   location:
@@ -127,9 +129,10 @@ spec:
                       The scope of the certificate.
                       DEFAULT: Certificates with default scope are served from core Google data centers.
                       If unsure, choose this option.
-                      EDGE_CACHE: Certificates with scope EDGE_CACHE are special-purposed certificates,
-                      served from non-core Google data centers.
-                      Currently allowed only for managed certificates.
+                      EDGE_CACHE: Certificates with scope EDGE_CACHE are special-purposed certificates, served from Edge Points of Presence.
+                      See https://cloud.google.com/vpc/docs/edge-locations.
+                      ALL_REGIONS: Certificates with ALL_REGIONS scope are served from all GCP regions (You can only use ALL_REGIONS with global certs).
+                      See https://cloud.google.com/compute/docs/regions-zones
                     type: string
                   selfManaged:
                     description: |-
@@ -141,7 +144,7 @@ spec:
                       properties:
                         certificatePemSecretRef:
                           description: |-
-                            Deprecated The certificate chain in PEM-encoded form.
+                            The certificate chain in PEM-encoded form.
                             Leaf certificate comes first, followed by intermediate ones if any.
                             Note: This property is sensitive and will not be displayed in the plan.
                           properties:
@@ -185,7 +188,7 @@ spec:
                           type: object
                         privateKeyPemSecretRef:
                           description: |-
-                            Deprecated The private key of the leaf certificate in PEM-encoded form.
+                            The private key of the leaf certificate in PEM-encoded form.
                             Note: This property is sensitive and will not be displayed in the plan.
                           properties:
                             key:
@@ -224,8 +227,10 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: Set of label tags associated with the Certificate
-                      resource.
+                    description: |-
+                      Set of label tags associated with the Certificate resource.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   managed:
@@ -268,9 +273,10 @@ spec:
                       The scope of the certificate.
                       DEFAULT: Certificates with default scope are served from core Google data centers.
                       If unsure, choose this option.
-                      EDGE_CACHE: Certificates with scope EDGE_CACHE are special-purposed certificates,
-                      served from non-core Google data centers.
-                      Currently allowed only for managed certificates.
+                      EDGE_CACHE: Certificates with scope EDGE_CACHE are special-purposed certificates, served from Edge Points of Presence.
+                      See https://cloud.google.com/vpc/docs/edge-locations.
+                      ALL_REGIONS: Certificates with ALL_REGIONS scope are served from all GCP regions (You can only use ALL_REGIONS with global certs).
+                      See https://cloud.google.com/compute/docs/regions-zones
                     type: string
                   selfManaged:
                     description: |-
@@ -463,14 +469,21 @@ spec:
                   description:
                     description: A human-readable description of the resource.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/certificates/{{name}}
                     type: string
                   labels:
                     additionalProperties:
                       type: string
-                    description: Set of label tags associated with the Certificate
-                      resource.
+                    description: |-
+                      Set of label tags associated with the Certificate resource.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   location:
@@ -575,9 +588,10 @@ spec:
                       The scope of the certificate.
                       DEFAULT: Certificates with default scope are served from core Google data centers.
                       If unsure, choose this option.
-                      EDGE_CACHE: Certificates with scope EDGE_CACHE are special-purposed certificates,
-                      served from non-core Google data centers.
-                      Currently allowed only for managed certificates.
+                      EDGE_CACHE: Certificates with scope EDGE_CACHE are special-purposed certificates, served from Edge Points of Presence.
+                      See https://cloud.google.com/vpc/docs/edge-locations.
+                      ALL_REGIONS: Certificates with ALL_REGIONS scope are served from all GCP regions (You can only use ALL_REGIONS with global certs).
+                      See https://cloud.google.com/compute/docs/regions-zones
                     type: string
                   selfManaged:
                     description: |-
@@ -594,6 +608,14 @@ spec:
                           type: string
                       type: object
                     type: array
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               conditions:
                 description: Conditions of the resource.

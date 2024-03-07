@@ -29,6 +29,51 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AuxiliaryVersionsInitParameters struct {
+
+	// A mapping of Hive metastore configuration key-value pairs to apply to the Hive metastore (configured in hive-site.xml).
+	// The mappings override system defaults (some keys cannot be overridden)
+	// +mapType=granular
+	ConfigOverrides map[string]*string `json:"configOverrides,omitempty" tf:"config_overrides,omitempty"`
+
+	// The identifier for this object. Format specified above.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The Hive metastore schema version.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type AuxiliaryVersionsObservation struct {
+
+	// A mapping of Hive metastore configuration key-value pairs to apply to the Hive metastore (configured in hive-site.xml).
+	// The mappings override system defaults (some keys cannot be overridden)
+	// +mapType=granular
+	ConfigOverrides map[string]*string `json:"configOverrides,omitempty" tf:"config_overrides,omitempty"`
+
+	// The identifier for this object. Format specified above.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The Hive metastore schema version.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type AuxiliaryVersionsParameters struct {
+
+	// A mapping of Hive metastore configuration key-value pairs to apply to the Hive metastore (configured in hive-site.xml).
+	// The mappings override system defaults (some keys cannot be overridden)
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ConfigOverrides map[string]*string `json:"configOverrides,omitempty" tf:"config_overrides,omitempty"`
+
+	// The identifier for this object. Format specified above.
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// The Hive metastore schema version.
+	// +kubebuilder:validation:Optional
+	Version *string `json:"version" tf:"version,omitempty"`
+}
+
 type ConsumersInitParameters struct {
 
 	// The subnetwork of the customer project from which an IP address is reserved and used as the Dataproc Metastore service's endpoint.
@@ -50,7 +95,6 @@ type ConsumersInitParameters struct {
 
 type ConsumersObservation struct {
 
-	// (Output)
 	// The URI of the endpoint used to access the metastore service.
 	EndpointURI *string `json:"endpointUri,omitempty" tf:"endpoint_uri,omitempty"`
 
@@ -81,12 +125,44 @@ type ConsumersParameters struct {
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
 
+type DataCatalogConfigInitParameters struct {
+
+	// Defines whether the metastore metadata should be synced to Data Catalog. The default value is to disable syncing metastore metadata to Data Catalog.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type DataCatalogConfigObservation struct {
+
+	// Defines whether the metastore metadata should be synced to Data Catalog. The default value is to disable syncing metastore metadata to Data Catalog.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type DataCatalogConfigParameters struct {
+
+	// Defines whether the metastore metadata should be synced to Data Catalog. The default value is to disable syncing metastore metadata to Data Catalog.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
 type HiveMetastoreConfigInitParameters struct {
+
+	// A mapping of Hive metastore version to the auxiliary version configuration.
+	// When specified, a secondary Hive metastore service is created along with the primary service.
+	// All auxiliary versions must be less than the service's primary version.
+	// The key is the auxiliary service name and it must match the regular expression a-z?.
+	// This means that the first character must be a lowercase letter, and all the following characters must be hyphens, lowercase letters, or digits, except the last character, which cannot be a hyphen.
+	// Structure is documented below.
+	AuxiliaryVersions []AuxiliaryVersionsInitParameters `json:"auxiliaryVersions,omitempty" tf:"auxiliary_versions,omitempty"`
 
 	// A mapping of Hive metastore configuration key-value pairs to apply to the Hive metastore (configured in hive-site.xml).
 	// The mappings override system defaults (some keys cannot be overridden)
 	// +mapType=granular
 	ConfigOverrides map[string]*string `json:"configOverrides,omitempty" tf:"config_overrides,omitempty"`
+
+	// The protocol to use for the metastore service endpoint. If unspecified, defaults to THRIFT.
+	// Default value is THRIFT.
+	// Possible values are: THRIFT, GRPC.
+	EndpointProtocol *string `json:"endpointProtocol,omitempty" tf:"endpoint_protocol,omitempty"`
 
 	// Information used to configure the Hive metastore service as a service principal in a Kerberos realm.
 	// Structure is documented below.
@@ -140,10 +216,23 @@ type HiveMetastoreConfigKerberosConfigParameters struct {
 
 type HiveMetastoreConfigObservation struct {
 
+	// A mapping of Hive metastore version to the auxiliary version configuration.
+	// When specified, a secondary Hive metastore service is created along with the primary service.
+	// All auxiliary versions must be less than the service's primary version.
+	// The key is the auxiliary service name and it must match the regular expression a-z?.
+	// This means that the first character must be a lowercase letter, and all the following characters must be hyphens, lowercase letters, or digits, except the last character, which cannot be a hyphen.
+	// Structure is documented below.
+	AuxiliaryVersions []AuxiliaryVersionsObservation `json:"auxiliaryVersions,omitempty" tf:"auxiliary_versions,omitempty"`
+
 	// A mapping of Hive metastore configuration key-value pairs to apply to the Hive metastore (configured in hive-site.xml).
 	// The mappings override system defaults (some keys cannot be overridden)
 	// +mapType=granular
 	ConfigOverrides map[string]*string `json:"configOverrides,omitempty" tf:"config_overrides,omitempty"`
+
+	// The protocol to use for the metastore service endpoint. If unspecified, defaults to THRIFT.
+	// Default value is THRIFT.
+	// Possible values are: THRIFT, GRPC.
+	EndpointProtocol *string `json:"endpointProtocol,omitempty" tf:"endpoint_protocol,omitempty"`
 
 	// Information used to configure the Hive metastore service as a service principal in a Kerberos realm.
 	// Structure is documented below.
@@ -155,11 +244,26 @@ type HiveMetastoreConfigObservation struct {
 
 type HiveMetastoreConfigParameters struct {
 
+	// A mapping of Hive metastore version to the auxiliary version configuration.
+	// When specified, a secondary Hive metastore service is created along with the primary service.
+	// All auxiliary versions must be less than the service's primary version.
+	// The key is the auxiliary service name and it must match the regular expression a-z?.
+	// This means that the first character must be a lowercase letter, and all the following characters must be hyphens, lowercase letters, or digits, except the last character, which cannot be a hyphen.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AuxiliaryVersions []AuxiliaryVersionsParameters `json:"auxiliaryVersions,omitempty" tf:"auxiliary_versions,omitempty"`
+
 	// A mapping of Hive metastore configuration key-value pairs to apply to the Hive metastore (configured in hive-site.xml).
 	// The mappings override system defaults (some keys cannot be overridden)
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	ConfigOverrides map[string]*string `json:"configOverrides,omitempty" tf:"config_overrides,omitempty"`
+
+	// The protocol to use for the metastore service endpoint. If unspecified, defaults to THRIFT.
+	// Default value is THRIFT.
+	// Possible values are: THRIFT, GRPC.
+	// +kubebuilder:validation:Optional
+	EndpointProtocol *string `json:"endpointProtocol,omitempty" tf:"endpoint_protocol,omitempty"`
 
 	// Information used to configure the Hive metastore service as a service principal in a Kerberos realm.
 	// Structure is documented below.
@@ -225,6 +329,28 @@ type MaintenanceWindowParameters struct {
 	HourOfDay *float64 `json:"hourOfDay" tf:"hour_of_day,omitempty"`
 }
 
+type MetadataIntegrationInitParameters struct {
+
+	// The integration config for the Data Catalog service.
+	// Structure is documented below.
+	DataCatalogConfig []DataCatalogConfigInitParameters `json:"dataCatalogConfig,omitempty" tf:"data_catalog_config,omitempty"`
+}
+
+type MetadataIntegrationObservation struct {
+
+	// The integration config for the Data Catalog service.
+	// Structure is documented below.
+	DataCatalogConfig []DataCatalogConfigObservation `json:"dataCatalogConfig,omitempty" tf:"data_catalog_config,omitempty"`
+}
+
+type MetadataIntegrationParameters struct {
+
+	// The integration config for the Data Catalog service.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DataCatalogConfig []DataCatalogConfigParameters `json:"dataCatalogConfig" tf:"data_catalog_config,omitempty"`
+}
+
 type MetastoreServiceEncryptionConfigInitParameters struct {
 
 	// The fully qualified customer provided Cloud KMS key name to use for customer data encryption.
@@ -284,6 +410,8 @@ type MetastoreServiceInitParameters struct {
 	HiveMetastoreConfig []HiveMetastoreConfigInitParameters `json:"hiveMetastoreConfig,omitempty" tf:"hive_metastore_config,omitempty"`
 
 	// User-defined labels for the metastore service.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -292,6 +420,10 @@ type MetastoreServiceInitParameters struct {
 	// Maintenance window is not needed for services with the SPANNER database type.
 	// Structure is documented below.
 	MaintenanceWindow []MaintenanceWindowInitParameters `json:"maintenanceWindow,omitempty" tf:"maintenance_window,omitempty"`
+
+	// The setting that defines how metastore metadata should be integrated with external services and systems.
+	// Structure is documented below.
+	MetadataIntegration []MetadataIntegrationInitParameters `json:"metadataIntegration,omitempty" tf:"metadata_integration,omitempty"`
 
 	// The relative resource name of the VPC network on which the instance can be accessed. It is specified in the following form:
 	// "projects/{projectNumber}/global/networks/{network_id}".
@@ -313,6 +445,10 @@ type MetastoreServiceInitParameters struct {
 	// Possible values are: CANARY, STABLE.
 	ReleaseChannel *string `json:"releaseChannel,omitempty" tf:"release_channel,omitempty"`
 
+	// Represents the scaling configuration of a metastore service.
+	// Structure is documented below.
+	ScalingConfig []ScalingConfigInitParameters `json:"scalingConfig,omitempty" tf:"scaling_config,omitempty"`
+
 	// The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
 	// Structure is documented below.
 	TelemetryConfig []TelemetryConfigInitParameters `json:"telemetryConfig,omitempty" tf:"telemetry_config,omitempty"`
@@ -332,6 +468,9 @@ type MetastoreServiceObservation struct {
 	// Possible values are: MYSQL, SPANNER.
 	DatabaseType *string `json:"databaseType,omitempty" tf:"database_type,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// Information used to configure the Dataproc Metastore service to encrypt
 	// customer data at rest.
 	// Structure is documented below.
@@ -348,6 +487,8 @@ type MetastoreServiceObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// User-defined labels for the metastore service.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -360,6 +501,10 @@ type MetastoreServiceObservation struct {
 	// Maintenance window is not needed for services with the SPANNER database type.
 	// Structure is documented below.
 	MaintenanceWindow []MaintenanceWindowObservation `json:"maintenanceWindow,omitempty" tf:"maintenance_window,omitempty"`
+
+	// The setting that defines how metastore metadata should be integrated with external services and systems.
+	// Structure is documented below.
+	MetadataIntegration []MetadataIntegrationObservation `json:"metadataIntegration,omitempty" tf:"metadata_integration,omitempty"`
 
 	// The relative resource name of the metastore service.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -384,6 +529,10 @@ type MetastoreServiceObservation struct {
 	// Possible values are: CANARY, STABLE.
 	ReleaseChannel *string `json:"releaseChannel,omitempty" tf:"release_channel,omitempty"`
 
+	// Represents the scaling configuration of a metastore service.
+	// Structure is documented below.
+	ScalingConfig []ScalingConfigObservation `json:"scalingConfig,omitempty" tf:"scaling_config,omitempty"`
+
 	// The current state of the metastore service.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
@@ -393,6 +542,11 @@ type MetastoreServiceObservation struct {
 	// The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
 	// Structure is documented below.
 	TelemetryConfig []TelemetryConfigObservation `json:"telemetryConfig,omitempty" tf:"telemetry_config,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// The tier of the service.
 	// Possible values are: DEVELOPER, ENTERPRISE.
@@ -422,6 +576,8 @@ type MetastoreServiceParameters struct {
 	HiveMetastoreConfig []HiveMetastoreConfigParameters `json:"hiveMetastoreConfig,omitempty" tf:"hive_metastore_config,omitempty"`
 
 	// User-defined labels for the metastore service.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
@@ -437,6 +593,11 @@ type MetastoreServiceParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MaintenanceWindow []MaintenanceWindowParameters `json:"maintenanceWindow,omitempty" tf:"maintenance_window,omitempty"`
+
+	// The setting that defines how metastore metadata should be integrated with external services and systems.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MetadataIntegration []MetadataIntegrationParameters `json:"metadataIntegration,omitempty" tf:"metadata_integration,omitempty"`
 
 	// The relative resource name of the VPC network on which the instance can be accessed. It is specified in the following form:
 	// "projects/{projectNumber}/global/networks/{network_id}".
@@ -462,6 +623,11 @@ type MetastoreServiceParameters struct {
 	// Possible values are: CANARY, STABLE.
 	// +kubebuilder:validation:Optional
 	ReleaseChannel *string `json:"releaseChannel,omitempty" tf:"release_channel,omitempty"`
+
+	// Represents the scaling configuration of a metastore service.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ScalingConfig []ScalingConfigParameters `json:"scalingConfig,omitempty" tf:"scaling_config,omitempty"`
 
 	// The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
 	// Structure is documented below.
@@ -494,6 +660,38 @@ type NetworkConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Consumers []ConsumersParameters `json:"consumers" tf:"consumers,omitempty"`
+}
+
+type ScalingConfigInitParameters struct {
+
+	// Metastore instance sizes.
+	// Possible values are: EXTRA_SMALL, SMALL, MEDIUM, LARGE, EXTRA_LARGE.
+	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
+
+	// Scaling factor, in increments of 0.1 for values less than 1.0, and increments of 1.0 for values greater than 1.0.
+	ScalingFactor *float64 `json:"scalingFactor,omitempty" tf:"scaling_factor,omitempty"`
+}
+
+type ScalingConfigObservation struct {
+
+	// Metastore instance sizes.
+	// Possible values are: EXTRA_SMALL, SMALL, MEDIUM, LARGE, EXTRA_LARGE.
+	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
+
+	// Scaling factor, in increments of 0.1 for values less than 1.0, and increments of 1.0 for values greater than 1.0.
+	ScalingFactor *float64 `json:"scalingFactor,omitempty" tf:"scaling_factor,omitempty"`
+}
+
+type ScalingConfigParameters struct {
+
+	// Metastore instance sizes.
+	// Possible values are: EXTRA_SMALL, SMALL, MEDIUM, LARGE, EXTRA_LARGE.
+	// +kubebuilder:validation:Optional
+	InstanceSize *string `json:"instanceSize,omitempty" tf:"instance_size,omitempty"`
+
+	// Scaling factor, in increments of 0.1 for values less than 1.0, and increments of 1.0 for values greater than 1.0.
+	// +kubebuilder:validation:Optional
+	ScalingFactor *float64 `json:"scalingFactor,omitempty" tf:"scaling_factor,omitempty"`
 }
 
 type TelemetryConfigInitParameters struct {

@@ -195,6 +195,11 @@ spec:
                           description: An email address of a Google Group to grant
                             access to.
                           type: string
+                        iamMember:
+                          description: |-
+                            Some other type of member that appears in the IAM Policy but isn't a user,
+                            group, domain, or special group. For example: allUsers
+                          type: string
                         role:
                           description: |-
                             Describes the rights granted to the user specified by the other
@@ -705,7 +710,7 @@ spec:
                       type: string
                     description: |-
                       The labels associated with this dataset. You can use these to
-                      organize and group your datasets
+                      organize and group your datasets.
                     type: object
                     x-kubernetes-map-type: granular
                   location:
@@ -865,6 +870,11 @@ spec:
                           description: An email address of a Google Group to grant
                             access to.
                           type: string
+                        iamMember:
+                          description: |-
+                            Some other type of member that appears in the IAM Policy but isn't a user,
+                            group, domain, or special group. For example: allUsers
+                          type: string
                         role:
                           description: |-
                             Describes the rights granted to the user specified by the other
@@ -1375,7 +1385,7 @@ spec:
                       type: string
                     description: |-
                       The labels associated with this dataset. You can use these to
-                      organize and group your datasets
+                      organize and group your datasets.
                     type: object
                     x-kubernetes-map-type: granular
                   location:
@@ -1613,6 +1623,11 @@ spec:
                           description: An email address of a Google Group to grant
                             access to.
                           type: string
+                        iamMember:
+                          description: |-
+                            Some other type of member that appears in the IAM Policy but isn't a user,
+                            group, domain, or special group. For example: allUsers
+                          type: string
                         role:
                           description: |-
                             Describes the rights granted to the user specified by the other
@@ -1734,6 +1749,12 @@ spec:
                   description:
                     description: A user-friendly description of the dataset
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   etag:
                     description: A hash of the resource.
                     type: string
@@ -1754,7 +1775,7 @@ spec:
                       type: string
                     description: |-
                       The labels associated with this dataset. You can use these to
-                      organize and group your datasets
+                      organize and group your datasets.
                     type: object
                     x-kubernetes-map-type: granular
                   lastModifiedTime:
@@ -1786,6 +1807,14 @@ spec:
                       or to PHYSICAL to use physical bytes instead.
                       LOGICAL is the default if this flag isn't specified.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               conditions:
                 description: Conditions of the resource.

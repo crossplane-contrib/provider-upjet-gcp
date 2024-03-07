@@ -36,7 +36,7 @@ spec:
       openAPIV3Schema:
         description: Service is the Schema for the Services API. A Service is a discrete,
           autonomous, and network-accessible unit, designed to solve an individual
-          concern (Wikipedia).
+          concern.
         properties:
           apiVersion:
             description: |-

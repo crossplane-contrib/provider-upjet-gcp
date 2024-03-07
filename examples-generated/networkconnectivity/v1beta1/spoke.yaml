@@ -14,43 +14,15 @@ spec:
         testing.upbound.io/example-name: basic_hub
     labels:
       label-one: value-one
-    linkedRouterApplianceInstances:
-    - instances:
-      - ipAddress: 10.0.0.2
-        virtualMachineSelector:
-          matchLabels:
-            testing.upbound.io/example-name: instance
-      siteToSiteDataTransfer: true
-    location: us-west1
-    name: name
-
----
-
-apiVersion: compute.gcp.upbound.io/v1beta1
-kind: Instance
-metadata:
-  annotations:
-    meta.upbound.io/example-id: networkconnectivity/v1beta1/spoke
-  labels:
-    testing.upbound.io/example-name: instance
-  name: instance
-spec:
-  forProvider:
-    bootDisk:
-    - initializeParams:
-      - imageSelector:
-          matchLabels:
-            testing.upbound.io/example-name: example
-    canIpForward: true
-    machineType: e2-medium
-    networkInterface:
-    - accessConfig:
-      - networkTier: PREMIUM
-      networkIp: 10.0.0.2
-      subnetworkSelector:
+    linkedVpcNetwork:
+    - excludeExportRanges:
+      - 198.51.100.0/24
+      - 10.10.0.0/16
+      uriSelector:
         matchLabels:
-          testing.upbound.io/example-name: example
-    zone: us-west1-a
+          testing.upbound.io/example-name: network
+    location: global
+    name: name
 
 ---
 
@@ -65,24 +37,6 @@ metadata:
 spec:
   forProvider:
     autoCreateSubnetworks: false
-
----
-
-apiVersion: compute.gcp.upbound.io/v1beta1
-kind: Subnetwork
-metadata:
-  annotations:
-    meta.upbound.io/example-id: networkconnectivity/v1beta1/spoke
-  labels:
-    testing.upbound.io/example-name: subnetwork
-  name: subnetwork
-spec:
-  forProvider:
-    ipCidrRange: 10.0.0.0/28
-    networkSelector:
-      matchLabels:
-        testing.upbound.io/example-name: network
-    region: us-west1
 
 ---
 

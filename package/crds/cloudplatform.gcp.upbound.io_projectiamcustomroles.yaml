@@ -85,7 +85,7 @@ spec:
                     x-kubernetes-list-type: set
                   project:
                     description: |-
-                      The project that the service account will be created in.
+                      The project that the custom role will be created in.
                       Defaults to the provider project configuration.
                     type: string
                   stage:
@@ -123,7 +123,7 @@ spec:
                     x-kubernetes-list-type: set
                   project:
                     description: |-
-                      The project that the service account will be created in.
+                      The project that the custom role will be created in.
                       Defaults to the provider project configuration.
                     type: string
                   stage:
@@ -341,7 +341,7 @@ spec:
                     x-kubernetes-list-type: set
                   project:
                     description: |-
-                      The project that the service account will be created in.
+                      The project that the custom role will be created in.
                       Defaults to the provider project configuration.
                     type: string
                   stage:

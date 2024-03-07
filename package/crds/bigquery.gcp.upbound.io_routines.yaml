@@ -206,13 +206,124 @@ spec:
                   language:
                     description: |-
                       The language of the routine.
-                      Possible values are: SQL, JAVASCRIPT.
+                      Possible values are: SQL, JAVASCRIPT, PYTHON, JAVA, SCALA.
                     type: string
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  remoteFunctionOptions:
+                    description: |-
+                      Remote function specific options.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        connection:
+                          description: |-
+                            Fully qualified name of the user-provided connection object which holds
+                            the authentication information to send requests to the remote service.
+                            Format: "projects/{projectId}/locations/{locationId}/connections/{connectionId}"
+                          type: string
+                        connectionRef:
+                          description: Reference to a Connection in bigquery to populate
+                            connection.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        connectionSelector:
+                          description: Selector for a Connection in bigquery to populate
+                            connection.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        endpoint:
+                          description: |-
+                            Endpoint of the user-provided remote service, e.g.
+                            https://us-east1-my_gcf_project.cloudfunctions.net/remote_add
+                          type: string
+                        maxBatchingRows:
+                          description: |-
+                            Max number of rows in each batch sent to the remote service. If absent or if 0,
+                            BigQuery dynamically decides the number of rows in a batch.
+                          type: string
+                        userDefinedContext:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            User-defined context as a set of key/value pairs, which will be sent as function
+                            invocation context together with batched arguments in the requests to the remote
+                            service. The total number of bytes of keys and values must be less than 8KB.
+                            An object containing a list of "key": value pairs. Example:
+                            { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+                          type: object
+                          x-kubernetes-map-type: granular
+                      type: object
+                    type: array
                   returnTableType:
                     description: |-
                       Optional. Can be set only if routineType = "TABLE_VALUED_FUNCTION".
@@ -237,6 +348,151 @@ spec:
                       The type of routine.
                       Possible values are: SCALAR_FUNCTION, PROCEDURE, TABLE_VALUED_FUNCTION.
                     type: string
+                  sparkOptions:
+                    description: |-
+                      Optional. If language is one of "PYTHON", "JAVA", "SCALA", this field stores the options for spark stored procedure.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        archiveUris:
+                          description: Archive files to be extracted into the working
+                            directory of each executor. For more information about
+                            Apache Spark, see Apache Spark.
+                          items:
+                            type: string
+                          type: array
+                        connection:
+                          description: |-
+                            Fully qualified name of the user-provided Spark connection object.
+                            Format: "projects/{projectId}/locations/{locationId}/connections/{connectionId}"
+                          type: string
+                        connectionRef:
+                          description: Reference to a Connection in bigquery to populate
+                            connection.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        connectionSelector:
+                          description: Selector for a Connection in bigquery to populate
+                            connection.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        containerImage:
+                          description: Custom container image for the runtime environment.
+                          type: string
+                        fileUris:
+                          description: Files to be placed in the working directory
+                            of each executor. For more information about Apache Spark,
+                            see Apache Spark.
+                          items:
+                            type: string
+                          type: array
+                        jarUris:
+                          description: JARs to include on the driver and executor
+                            CLASSPATH. For more information about Apache Spark, see
+                            Apache Spark.
+                          items:
+                            type: string
+                          type: array
+                        mainClass:
+                          description: |-
+                            The fully qualified name of a class in jarUris, for example, com.example.wordcount.
+                            Exactly one of mainClass and main_jar_uri field should be set for Java/Scala language type.
+                          type: string
+                        mainFileUri:
+                          description: |-
+                            The main file/jar URI of the Spark application.
+                            Exactly one of the definitionBody field and the mainFileUri field must be set for Python.
+                            Exactly one of mainClass and mainFileUri field should be set for Java/Scala language type.
+                          type: string
+                        properties:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            Configuration properties as a set of key/value pairs, which will be passed on to the Spark application.
+                            For more information, see Apache Spark and the procedure option list.
+                            An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        pyFileUris:
+                          description: 'Python files to be placed on the PYTHONPATH
+                            for PySpark application. Supported file types: .py, .egg,
+                            and .zip. For more information about Apache Spark, see
+                            Apache Spark.'
+                          items:
+                            type: string
+                          type: array
+                        runtimeVersion:
+                          description: Runtime version. If not specified, the default
+                            runtime version is used.
+                          type: string
+                      type: object
+                    type: array
                 type: object
               initProvider:
                 description: |-
@@ -307,13 +563,124 @@ spec:
                   language:
                     description: |-
                       The language of the routine.
-                      Possible values are: SQL, JAVASCRIPT.
+                      Possible values are: SQL, JAVASCRIPT, PYTHON, JAVA, SCALA.
                     type: string
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  remoteFunctionOptions:
+                    description: |-
+                      Remote function specific options.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        connection:
+                          description: |-
+                            Fully qualified name of the user-provided connection object which holds
+                            the authentication information to send requests to the remote service.
+                            Format: "projects/{projectId}/locations/{locationId}/connections/{connectionId}"
+                          type: string
+                        connectionRef:
+                          description: Reference to a Connection in bigquery to populate
+                            connection.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        connectionSelector:
+                          description: Selector for a Connection in bigquery to populate
+                            connection.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        endpoint:
+                          description: |-
+                            Endpoint of the user-provided remote service, e.g.
+                            https://us-east1-my_gcf_project.cloudfunctions.net/remote_add
+                          type: string
+                        maxBatchingRows:
+                          description: |-
+                            Max number of rows in each batch sent to the remote service. If absent or if 0,
+                            BigQuery dynamically decides the number of rows in a batch.
+                          type: string
+                        userDefinedContext:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            User-defined context as a set of key/value pairs, which will be sent as function
+                            invocation context together with batched arguments in the requests to the remote
+                            service. The total number of bytes of keys and values must be less than 8KB.
+                            An object containing a list of "key": value pairs. Example:
+                            { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+                          type: object
+                          x-kubernetes-map-type: granular
+                      type: object
+                    type: array
                   returnTableType:
                     description: |-
                       Optional. Can be set only if routineType = "TABLE_VALUED_FUNCTION".
@@ -338,6 +705,151 @@ spec:
                       The type of routine.
                       Possible values are: SCALAR_FUNCTION, PROCEDURE, TABLE_VALUED_FUNCTION.
                     type: string
+                  sparkOptions:
+                    description: |-
+                      Optional. If language is one of "PYTHON", "JAVA", "SCALA", this field stores the options for spark stored procedure.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        archiveUris:
+                          description: Archive files to be extracted into the working
+                            directory of each executor. For more information about
+                            Apache Spark, see Apache Spark.
+                          items:
+                            type: string
+                          type: array
+                        connection:
+                          description: |-
+                            Fully qualified name of the user-provided Spark connection object.
+                            Format: "projects/{projectId}/locations/{locationId}/connections/{connectionId}"
+                          type: string
+                        connectionRef:
+                          description: Reference to a Connection in bigquery to populate
+                            connection.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        connectionSelector:
+                          description: Selector for a Connection in bigquery to populate
+                            connection.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        containerImage:
+                          description: Custom container image for the runtime environment.
+                          type: string
+                        fileUris:
+                          description: Files to be placed in the working directory
+                            of each executor. For more information about Apache Spark,
+                            see Apache Spark.
+                          items:
+                            type: string
+                          type: array
+                        jarUris:
+                          description: JARs to include on the driver and executor
+                            CLASSPATH. For more information about Apache Spark, see
+                            Apache Spark.
+                          items:
+                            type: string
+                          type: array
+                        mainClass:
+                          description: |-
+                            The fully qualified name of a class in jarUris, for example, com.example.wordcount.
+                            Exactly one of mainClass and main_jar_uri field should be set for Java/Scala language type.
+                          type: string
+                        mainFileUri:
+                          description: |-
+                            The main file/jar URI of the Spark application.
+                            Exactly one of the definitionBody field and the mainFileUri field must be set for Python.
+                            Exactly one of mainClass and mainFileUri field should be set for Java/Scala language type.
+                          type: string
+                        properties:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            Configuration properties as a set of key/value pairs, which will be passed on to the Spark application.
+                            For more information, see Apache Spark and the procedure option list.
+                            An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        pyFileUris:
+                          description: 'Python files to be placed on the PYTHONPATH
+                            for PySpark application. Supported file types: .py, .egg,
+                            and .zip. For more information about Apache Spark, see
+                            Apache Spark.'
+                          items:
+                            type: string
+                          type: array
+                        runtimeVersion:
+                          description: Runtime version. If not specified, the default
+                            runtime version is used.
+                          type: string
+                      type: object
+                    type: array
                 type: object
               managementPolicies:
                 default:
@@ -511,6 +1023,10 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.definitionBody)
                 || (has(self.initProvider) && has(self.initProvider.definitionBody))'
+            - message: spec.forProvider.routineType is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.routineType)
+                || (has(self.initProvider) && has(self.initProvider.routineType))'
           status:
             description: RoutineStatus defines the observed state of Routine.
             properties:
@@ -583,7 +1099,7 @@ spec:
                   language:
                     description: |-
                       The language of the routine.
-                      Possible values are: SQL, JAVASCRIPT.
+                      Possible values are: SQL, JAVASCRIPT, PYTHON, JAVA, SCALA.
                     type: string
                   lastModifiedTime:
                     description: |-
@@ -595,6 +1111,41 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  remoteFunctionOptions:
+                    description: |-
+                      Remote function specific options.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        connection:
+                          description: |-
+                            Fully qualified name of the user-provided connection object which holds
+                            the authentication information to send requests to the remote service.
+                            Format: "projects/{projectId}/locations/{locationId}/connections/{connectionId}"
+                          type: string
+                        endpoint:
+                          description: |-
+                            Endpoint of the user-provided remote service, e.g.
+                            https://us-east1-my_gcf_project.cloudfunctions.net/remote_add
+                          type: string
+                        maxBatchingRows:
+                          description: |-
+                            Max number of rows in each batch sent to the remote service. If absent or if 0,
+                            BigQuery dynamically decides the number of rows in a batch.
+                          type: string
+                        userDefinedContext:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            User-defined context as a set of key/value pairs, which will be sent as function
+                            invocation context together with batched arguments in the requests to the remote
+                            service. The total number of bytes of keys and values must be less than 8KB.
+                            An object containing a list of "key": value pairs. Example:
+                            { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+                          type: object
+                          x-kubernetes-map-type: granular
+                      type: object
+                    type: array
                   returnTableType:
                     description: |-
                       Optional. Can be set only if routineType = "TABLE_VALUED_FUNCTION".
@@ -619,6 +1170,75 @@ spec:
                       The type of routine.
                       Possible values are: SCALAR_FUNCTION, PROCEDURE, TABLE_VALUED_FUNCTION.
                     type: string
+                  sparkOptions:
+                    description: |-
+                      Optional. If language is one of "PYTHON", "JAVA", "SCALA", this field stores the options for spark stored procedure.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        archiveUris:
+                          description: Archive files to be extracted into the working
+                            directory of each executor. For more information about
+                            Apache Spark, see Apache Spark.
+                          items:
+                            type: string
+                          type: array
+                        connection:
+                          description: |-
+                            Fully qualified name of the user-provided Spark connection object.
+                            Format: "projects/{projectId}/locations/{locationId}/connections/{connectionId}"
+                          type: string
+                        containerImage:
+                          description: Custom container image for the runtime environment.
+                          type: string
+                        fileUris:
+                          description: Files to be placed in the working directory
+                            of each executor. For more information about Apache Spark,
+                            see Apache Spark.
+                          items:
+                            type: string
+                          type: array
+                        jarUris:
+                          description: JARs to include on the driver and executor
+                            CLASSPATH. For more information about Apache Spark, see
+                            Apache Spark.
+                          items:
+                            type: string
+                          type: array
+                        mainClass:
+                          description: |-
+                            The fully qualified name of a class in jarUris, for example, com.example.wordcount.
+                            Exactly one of mainClass and main_jar_uri field should be set for Java/Scala language type.
+                          type: string
+                        mainFileUri:
+                          description: |-
+                            The main file/jar URI of the Spark application.
+                            Exactly one of the definitionBody field and the mainFileUri field must be set for Python.
+                            Exactly one of mainClass and mainFileUri field should be set for Java/Scala language type.
+                          type: string
+                        properties:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            Configuration properties as a set of key/value pairs, which will be passed on to the Spark application.
+                            For more information, see Apache Spark and the procedure option list.
+                            An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        pyFileUris:
+                          description: 'Python files to be placed on the PYTHONPATH
+                            for PySpark application. Supported file types: .py, .egg,
+                            and .zip. For more information about Apache Spark, see
+                            Apache Spark.'
+                          items:
+                            type: string
+                          type: array
+                        runtimeVersion:
+                          description: Runtime version. If not specified, the default
+                            runtime version is used.
+                          type: string
+                      type: object
+                    type: array
                 type: object
               conditions:
                 description: Conditions of the resource.

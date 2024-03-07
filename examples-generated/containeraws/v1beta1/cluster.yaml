@@ -11,7 +11,9 @@ spec:
     annotations:
       label-one: value-one
     authorization:
-    - adminUsers:
+    - adminGroups:
+      - group: group@domain.com
+      adminUsers:
       - username: my@service-account.com
     awsRegion: my-aws-region
     controlPlane:
