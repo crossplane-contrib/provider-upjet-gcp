@@ -65,6 +65,7 @@ import (
 	regiondiskresourcepolicyattachment "github.com/upbound/provider-gcp/internal/controller/compute/regiondiskresourcepolicyattachment"
 	regionhealthcheck "github.com/upbound/provider-gcp/internal/controller/compute/regionhealthcheck"
 	regioninstancegroupmanager "github.com/upbound/provider-gcp/internal/controller/compute/regioninstancegroupmanager"
+	regionnetworkendpoint "github.com/upbound/provider-gcp/internal/controller/compute/regionnetworkendpoint"
 	regionnetworkendpointgroup "github.com/upbound/provider-gcp/internal/controller/compute/regionnetworkendpointgroup"
 	regionnetworkfirewallpolicy "github.com/upbound/provider-gcp/internal/controller/compute/regionnetworkfirewallpolicy"
 	regionnetworkfirewallpolicyassociation "github.com/upbound/provider-gcp/internal/controller/compute/regionnetworkfirewallpolicyassociation"
@@ -163,6 +164,7 @@ func Setup_compute(mgr ctrl.Manager, o controller.Options) error {
 		regiondiskresourcepolicyattachment.Setup,
 		regionhealthcheck.Setup,
 		regioninstancegroupmanager.Setup,
+		regionnetworkendpoint.Setup,
 		regionnetworkendpointgroup.Setup,
 		regionnetworkfirewallpolicy.Setup,
 		regionnetworkfirewallpolicyassociation.Setup,

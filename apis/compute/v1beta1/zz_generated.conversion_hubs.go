@@ -191,6 +191,9 @@ func (tr *RegionHealthCheck) Hub() {}
 func (tr *RegionInstanceGroupManager) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *RegionNetworkEndpoint) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *RegionNetworkEndpointGroup) Hub() {}
 
 // Hub marks this type as a conversion hub.

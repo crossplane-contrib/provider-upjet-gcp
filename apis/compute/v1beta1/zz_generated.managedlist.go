@@ -532,6 +532,15 @@ func (l *RegionNetworkEndpointGroupList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this RegionNetworkEndpointList.
+func (l *RegionNetworkEndpointList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this RegionNetworkFirewallPolicyAssociationList.
 func (l *RegionNetworkFirewallPolicyAssociationList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
