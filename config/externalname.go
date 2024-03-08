@@ -236,7 +236,7 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_compute_region_health_check": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/healthChecks/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/networkEndpointGroups/{{name}}
 	"google_compute_region_network_endpoint_group": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/networkEndpointGroups/{{ .external_name }}"),
-	// Imported by using the following format: projects/{{project}}/regions/{{region}}/networkEndpointGroups/{{name}}
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/networkEndpointGroups/{{region_network_endpoint_group}}/{{ip_address}}/{{fqdn}}/{{port}}
 	"google_compute_region_network_endpoint": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/instanceGroupManagers/{{region_instance_group_manager}}/{{name}}
 	"google_compute_region_per_instance_config": config.IdentifierFromProvider,
