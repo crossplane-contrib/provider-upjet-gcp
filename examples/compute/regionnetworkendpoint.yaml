@@ -13,7 +13,7 @@ spec:
     region: us-central1
     regionNetworkEndpointGroupSelector:
       matchLabels:
-        testing.upbound.io/example-name: group
+        testing.upbound.io/example-name: region-network-endpoint-group
 
 ---
 
@@ -23,8 +23,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: compute/v1beta1/regionnetworkendpoint
   labels:
-    testing.upbound.io/example-name: default
-  name: default
+    testing.upbound.io/example-name: region-network-endpoint-network
+  name: region-network-endpoint-network
 spec:
   forProvider:
     autoCreateSubnetworks: false
@@ -37,12 +37,12 @@ metadata:
   annotations:
     meta.upbound.io/example-id: compute/v1beta1/regionnetworkendpoint
   labels:
-    testing.upbound.io/example-name: group
-  name: group
+    testing.upbound.io/example-name: region-network-endpoint-group
+  name: region-network-endpoint-group
 spec:
   forProvider:
     networkEndpointType: INTERNET_IP_PORT
     networkSelector:
       matchLabels:
-        testing.upbound.io/example-name: default
+        testing.upbound.io/example-name: region-network-endpoint-network
     region: us-central1
