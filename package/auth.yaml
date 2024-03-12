@@ -44,7 +44,7 @@ sources:
       To access GCP resources, pool identities will need to be granted access to a service account.
       The service account email will be used to create the ProviderConfig.
 
-      Create the service account by following the steps in [Create a GCP Service Account](https://docs.upbound.io/quickstart/gcp-deploy/#create-a-gcp-service-account).
+      Create the service account by following the steps in [Create a GCP Service Account](https://docs.upbound.io/quickstart/#create-a-gcp-service-account).
 
       To add the service account to the Workload Identity pool:
 
@@ -53,7 +53,7 @@ sources:
       3. Select the new service account, upbound-service-account.
       4. Under Select principals use All identities in the pool.
 
-      See the [Upbound documentation](https://docs.upbound.io/quickstart/gcp-deploy/#connect-to-gcp-with-oidc)
+      See the [Upbound documentation](https://docs.upbound.io/quickstart/#connect-to-your-cloud-provider-with-openid-connect)
       for more information on configuring OIDC with Upbound and GCP.
     showFields:
       - spec.credentials.upbound
