@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 # terraform-provider-azurerm does not support ad applications 
 az ad app create --display-name containerazure-gcp-upbound
 export APPLICATION_ID=$(az ad app list --all \

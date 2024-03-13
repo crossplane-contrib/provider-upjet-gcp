@@ -1,7 +1,7 @@
 ---
 name: Feature Request
 about: Help us make Official GCP Provider more useful
-labels: enhancement,needs:triage
+labels: enhancement
 title: 
 ---
 <!--
