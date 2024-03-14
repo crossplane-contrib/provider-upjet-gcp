@@ -33,6 +33,7 @@ import (
 	v1beta1compute "github.com/upbound/provider-gcp/apis/compute/v1beta1"
 	v1beta1container "github.com/upbound/provider-gcp/apis/container/v1beta1"
 	v1beta1containeranalysis "github.com/upbound/provider-gcp/apis/containeranalysis/v1beta1"
+	v1beta1containerattached "github.com/upbound/provider-gcp/apis/containerattached/v1beta1"
 	v1beta1containeraws "github.com/upbound/provider-gcp/apis/containeraws/v1beta1"
 	v1beta1containerazure "github.com/upbound/provider-gcp/apis/containerazure/v1beta1"
 	v1beta1datacatalog "github.com/upbound/provider-gcp/apis/datacatalog/v1beta1"
@@ -110,6 +111,7 @@ func init() {
 		v1beta1compute.SchemeBuilder.AddToScheme,
 		v1beta1container.SchemeBuilder.AddToScheme,
 		v1beta1containeranalysis.SchemeBuilder.AddToScheme,
+		v1beta1containerattached.SchemeBuilder.AddToScheme,
 		v1beta1containeraws.SchemeBuilder.AddToScheme,
 		v1beta1containerazure.SchemeBuilder.AddToScheme,
 		v1beta1datacatalog.SchemeBuilder.AddToScheme,
