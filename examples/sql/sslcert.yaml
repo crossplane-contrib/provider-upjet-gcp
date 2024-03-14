@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 apiVersion: sql.gcp.upbound.io/v1beta1
 kind: SSLCert
 metadata:
@@ -35,4 +39,3 @@ spec:
       - tier: "db-f1-micro"
         diskSize: 20
     deletionProtection: false # allow crossplane to delete the instance automatically
-

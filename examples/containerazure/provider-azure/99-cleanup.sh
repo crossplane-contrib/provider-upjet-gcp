@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 # Should be run only after all manifests have been deleted
 export SERVICE_PRINCIPAL_ID=$(az ad sp list --all  --output tsv \
     --query "[?displayName=='containerazure-gcp-upbound'].{id:id}")
