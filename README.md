@@ -48,7 +48,7 @@ open an [issue](https://github.com/crossplane-contrib/provider-upjet-gcp/issues)
 
 ## Contact
 
-[#upbound-provider-aws](https://crossplane.slack.com/archives/C05E7EVM459) channel in
+[#upbound-provider-gcp](https://crossplane.slack.com/archives/C05E7EVM459) channel in
 [Crossplane Slack](https://slack.crossplane.io)
 
 ## Licensing
