@@ -67,6 +67,7 @@ UPTEST_VERSION = v0.8.0
 # dependency for up
 UP_VERSION = v0.20.0
 UP_CHANNEL = stable
+UXP_VERSION = 1.14.6-up.1
 
 export UP_VERSION := $(UP_VERSION)
 export UP_CHANNEL := $(UP_CHANNEL)
