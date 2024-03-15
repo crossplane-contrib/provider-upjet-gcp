@@ -7463,6 +7463,11 @@ func (in *NodeConfigInitParameters) DeepCopyInto(out *NodeConfigInitParameters) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.Index != nil {
+		in, out := &in.Index, &out.Index
+		*out = new(string)
+		**out = **in
+	}
 	if in.KubeletConfig != nil {
 		in, out := &in.KubeletConfig, &out.KubeletConfig
 		*out = make([]KubeletConfigInitParameters, len(*in))
@@ -7939,6 +7944,11 @@ func (in *NodeConfigObservation) DeepCopyInto(out *NodeConfigObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Index != nil {
+		in, out := &in.Index, &out.Index
+		*out = new(string)
+		**out = **in
+	}
 	if in.KubeletConfig != nil {
 		in, out := &in.KubeletConfig, &out.KubeletConfig
 		*out = make([]KubeletConfigObservation, len(*in))
@@ -8214,6 +8224,11 @@ func (in *NodeConfigParameters) DeepCopyInto(out *NodeConfigParameters) {
 	}
 	if in.ImageType != nil {
 		in, out := &in.ImageType, &out.ImageType
+		*out = new(string)
+		**out = **in
+	}
+	if in.Index != nil {
+		in, out := &in.Index, &out.Index
 		*out = new(string)
 		**out = **in
 	}
