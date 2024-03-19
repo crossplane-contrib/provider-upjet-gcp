@@ -13,9 +13,3 @@ metadata:
 spec:
   forProvider:
     region: us-east1
-    config:
-      - nodeConfig:
-        - ipAllocationPolicy:
-            - useIpAliases: true
-              clusterIpv4CidrBlock: 10.80.0.0/14
-              servicesIpv4CidrBlock: 10.84.0.0/20
