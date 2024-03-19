@@ -22,6 +22,8 @@ require (
 	sigs.k8s.io/controller-tools v0.14.0
 )
 
+replace github.com/crossplane/upjet => github.com/sergenyalcin/upjet v0.0.0-20240319122659-36a16b298cba
+
 require (
 	bitbucket.org/creachadair/stringset v0.0.8 // indirect
 	cloud.google.com/go v0.112.0 // indirect

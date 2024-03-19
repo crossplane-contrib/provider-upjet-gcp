@@ -27,6 +27,6 @@ func Configure(p *config.Provider) {
 		r.References["private_environment_config.cloud_composer_connection_subnetwork"] = config.Reference{
 			Type: "github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork",
 		}
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 }
