@@ -10,7 +10,7 @@ require (
 	dario.cat/mergo v1.0.0
 	github.com/crossplane/crossplane-runtime v1.15.1
 	github.com/crossplane/crossplane-tools v0.0.0-20230925130601-628280f8bf79
-	github.com/crossplane/upjet v1.1.5
+	github.com/crossplane/upjet v1.1.6
 	github.com/hashicorp/terraform-json v0.18.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.31.0
 	github.com/hashicorp/terraform-provider-google v1.20.1-0.20240304172718-a9e2f2c89f14
@@ -21,8 +21,6 @@ require (
 	sigs.k8s.io/controller-runtime v0.17.2
 	sigs.k8s.io/controller-tools v0.14.0
 )
-
-replace github.com/crossplane/upjet => github.com/sergenyalcin/upjet v0.0.0-20240319122659-36a16b298cba
 
 require (
 	bitbucket.org/creachadair/stringset v0.0.8 // indirect
