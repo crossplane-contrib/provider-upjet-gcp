@@ -31,6 +31,7 @@ import (
 	"github.com/upbound/provider-gcp/config/cloudtasks"
 	"github.com/upbound/provider-gcp/config/compute"
 	"github.com/upbound/provider-gcp/config/container"
+	"github.com/upbound/provider-gcp/config/containerattached"
 	"github.com/upbound/provider-gcp/config/containeraws"
 	"github.com/upbound/provider-gcp/config/containerazure"
 	"github.com/upbound/provider-gcp/config/dataflow"
@@ -196,6 +197,7 @@ func GetProvider(_ context.Context, generationProvider bool) (*tjconfig.Provider
 		cloudrun.Configure,
 		cloudscheduler.Configure,
 		cloudtasks.Configure,
+		containerattached.Configure,
 		containeraws.Configure,
 		containerazure.Configure,
 		compute.Configure,

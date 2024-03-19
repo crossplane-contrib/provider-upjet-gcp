@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: containerattached.gcp.upbound.io/v1beta1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: containerattached/v1beta1/cluster
+    upjet.upbound.io/manual-intervention: "This resource requires a valid issuerUrl value from the AKS or EKS cluster."
+  labels:
+    testing.upbound.io/example-name: primary
+  name: primary
+spec:
+  forProvider:
+    description: Test cluster
+    distribution: aks
+    fleet:
+    - project: projects/${data.google_project.project.number}
+    location: us-west1
+    oidcConfig:
+    - issuerUrl: https://oidc.issuer.url
+    platformVersion: ${data.google_container_attached_versions.versions.valid_versions[0]}
+    project: ${data.google_project.project.project_id}

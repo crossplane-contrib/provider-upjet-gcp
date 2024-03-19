@@ -310,11 +310,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// Imported by using the following projects/{{project}}/global/sslPolicies/{{name}}
 	"google_compute_ssl_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/sslPolicies/{{ .external_name }}"),
 
-	// containerattached
-	//
-	// Imported by using the following projects/{{project}}/locations/{{location}}/attachedClusters/{{name}}
-	"google_container_attached_cluster": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/attachedClusters/{{ .external_name }}"),
-
 	// datafusion
 	//
 	// Imported by using the following projects/{{project}}/locations/{{location}}/instances/{{instance}} roles/viewer user:jane@example.com
