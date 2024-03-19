@@ -29,7 +29,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	//  all resources separately and no complex logic here.
 
 	p.AddResourceConfigurator("google_compute_autoscaler", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "zone")
+		r.MarkAsRequired("zone")
 	})
 
 	p.AddResourceConfigurator("google_compute_backend_service", func(r *config.Resource) {
@@ -164,7 +164,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		r.References["boot_disk.initialize_params.image"] = config.Reference{
 			Type: "Image",
 		}
-		config.MarkAsRequired(r.TerraformResource, "zone")
+		r.MarkAsRequired("zone")
 	})
 
 	p.AddResourceConfigurator("google_compute_instance_iam_member", func(r *config.Resource) {
@@ -206,7 +206,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			Type:      "Network",
 			Extractor: common.PathSelfLinkExtractor,
 		}
-		config.MarkAsRequired(r.TerraformResource, "zone")
+		r.MarkAsRequired("zone")
 	})
 
 	p.AddResourceConfigurator("google_compute_global_address", func(r *config.Resource) {
@@ -244,7 +244,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			Type:      "TargetPool",
 			Extractor: common.PathSelfLinkExtractor,
 		}
-		config.MarkAsRequired(r.TerraformResource, "zone")
+		r.MarkAsRequired("zone")
 	})
 
 	p.AddResourceConfigurator("google_compute_interconnect_attachment", func(r *config.Resource) {
@@ -264,11 +264,11 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			Type:      "Subnetwork",
 			Extractor: common.ExtractResourceIDFuncPath,
 		}
-		config.MarkAsRequired(r.TerraformResource, "zone")
+		r.MarkAsRequired("zone")
 	})
 
 	p.AddResourceConfigurator("google_compute_resource_policy", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_compute_target_pool", func(r *config.Resource) {
@@ -277,7 +277,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		r.References["health_checks"] = config.Reference{
 			Type: "HTTPHealthCheck",
 		}
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_compute_network_endpoint", func(r *config.Resource) {
@@ -347,7 +347,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			Type:      "TargetPool",
 			Extractor: common.PathSelfLinkExtractor,
 		}
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_compute_region_target_http_proxy", func(r *config.Resource) {
@@ -374,7 +374,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 	p.AddResourceConfigurator("google_compute_region_autoscaler", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_compute_region_disk", func(r *config.Resource) {
@@ -392,10 +392,6 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	})
 
 	p.AddResourceConfigurator("google_compute_region_health_check", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "region")
-	})
-
-	p.AddResourceConfigurator("google_compute_region_per_instance_config", func(r *config.Resource) {
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
@@ -469,7 +465,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		r.References["nat_subnets"] = config.Reference{
 			Type: "Subnetwork",
 		}
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_compute_route", func(r *config.Resource) {
