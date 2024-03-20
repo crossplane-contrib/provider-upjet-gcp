@@ -16,6 +16,6 @@ func Configure(p *config.Provider) {
 			// Note(donovanmuller): What about support for 'pubsub/v1beta1.LiteTopic' reference?
 			Type: "github.com/upbound/provider-gcp/apis/pubsub/v1beta1.Topic",
 		}
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 }

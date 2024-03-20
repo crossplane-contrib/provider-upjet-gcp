@@ -12,6 +12,6 @@ import (
 // ResourceConfigurators.
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_data_catalog_entry_group", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 }
