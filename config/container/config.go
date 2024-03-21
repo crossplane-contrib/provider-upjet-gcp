@@ -125,6 +125,17 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			Type:      "github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork",
 			Extractor: common.PathSelfLinkExtractor,
 		}
+		r.ServerSideApplyMergeStrategies["node_config"] = config.MergeStrategy{
+			ListMergeStrategy: config.ListMergeStrategy{
+				MergeStrategy: config.ListTypeMap,
+				ListMapKeys: config.ListMapKeys{
+					InjectedKey: config.InjectedKey{
+						Key:          "index",
+						DefaultValue: `"0"`,
+					},
+				},
+			},
+		}
 		config.MarkAsRequired(r.TerraformResource, "location")
 	})
 

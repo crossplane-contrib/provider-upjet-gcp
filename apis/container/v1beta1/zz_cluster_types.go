@@ -894,6 +894,8 @@ type ClusterInitParameters struct {
 	NetworkingMode *string `json:"networkingMode,omitempty" tf:"networking_mode,omitempty"`
 
 	// Parameters used in creating the default node pool. Structure is documented below.
+	// +listType=map
+	// +listMapKey=index
 	NodeConfig []NodeConfigInitParameters `json:"nodeConfig,omitempty" tf:"node_config,omitempty"`
 
 	// The list of zones in which the cluster's nodes
@@ -1196,6 +1198,8 @@ type ClusterObservation struct {
 	NetworkingMode *string `json:"networkingMode,omitempty" tf:"networking_mode,omitempty"`
 
 	// Parameters used in creating the default node pool. Structure is documented below.
+	// +listType=map
+	// +listMapKey=index
 	NodeConfig []NodeConfigObservation `json:"nodeConfig,omitempty" tf:"node_config,omitempty"`
 
 	// The list of zones in which the cluster's nodes
@@ -1550,6 +1554,8 @@ type ClusterParameters struct {
 
 	// Parameters used in creating the default node pool. Structure is documented below.
 	// +kubebuilder:validation:Optional
+	// +listType=map
+	// +listMapKey=index
 	NodeConfig []NodeConfigParameters `json:"nodeConfig,omitempty" tf:"node_config,omitempty"`
 
 	// The list of zones in which the cluster's nodes
@@ -3274,6 +3280,10 @@ type NodeConfigInitParameters struct {
 	// will delete and recreate all nodes in the node pool.
 	ImageType *string `json:"imageType,omitempty" tf:"image_type,omitempty"`
 
+	// This is an injected field with a default value for being able to merge items of the parent object list.
+	// +kubebuilder:default:="0"
+	Index *string `json:"index,omitempty" tf:"-"`
+
 	// Kubelet configuration, currently supported attributes can be found here.
 	// Structure is documented below.
 	KubeletConfig []KubeletConfigInitParameters `json:"kubeletConfig,omitempty" tf:"kubelet_config,omitempty"`
@@ -3502,6 +3512,10 @@ type NodeConfigObservation struct {
 	// will delete and recreate all nodes in the node pool.
 	ImageType *string `json:"imageType,omitempty" tf:"image_type,omitempty"`
 
+	// This is an injected field with a default value for being able to merge items of the parent object list.
+	// +kubebuilder:default:="0"
+	Index *string `json:"index,omitempty" tf:"-"`
+
 	// Kubelet configuration, currently supported attributes can be found here.
 	// Structure is documented below.
 	KubeletConfig []KubeletConfigObservation `json:"kubeletConfig,omitempty" tf:"kubelet_config,omitempty"`
@@ -3669,6 +3683,11 @@ type NodeConfigParameters struct {
 	// will delete and recreate all nodes in the node pool.
 	// +kubebuilder:validation:Optional
 	ImageType *string `json:"imageType,omitempty" tf:"image_type,omitempty"`
+
+	// This is an injected field with a default value for being able to merge items of the parent object list.
+	// +kubebuilder:validation:Optional
+	// +kubebuilder:default:="0"
+	Index *string `json:"index" tf:"-"`
 
 	// Kubelet configuration, currently supported attributes can be found here.
 	// Structure is documented below.
