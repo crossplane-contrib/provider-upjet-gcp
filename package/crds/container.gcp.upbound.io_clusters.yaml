@@ -1121,6 +1121,11 @@ spec:
                             The image type to use for this node. Note that changing the image type
                             will delete and recreate all nodes in the node pool.
                           type: string
+                        index:
+                          default: "0"
+                          description: This is an injected field with a default value
+                            for being able to merge items of the parent object list.
+                          type: string
                         kubeletConfig:
                           description: |-
                             Kubelet configuration, currently supported attributes can be found here.
@@ -1445,6 +1450,9 @@ spec:
                           type: array
                       type: object
                     type: array
+                    x-kubernetes-list-map-keys:
+                    - index
+                    x-kubernetes-list-type: map
                   nodeLocations:
                     description: |-
                       The list of zones in which the cluster's nodes
@@ -2834,6 +2842,11 @@ spec:
                             The image type to use for this node. Note that changing the image type
                             will delete and recreate all nodes in the node pool.
                           type: string
+                        index:
+                          default: "0"
+                          description: This is an injected field with a default value
+                            for being able to merge items of the parent object list.
+                          type: string
                         kubeletConfig:
                           description: |-
                             Kubelet configuration, currently supported attributes can be found here.
@@ -3158,6 +3171,9 @@ spec:
                           type: array
                       type: object
                     type: array
+                    x-kubernetes-list-map-keys:
+                    - index
+                    x-kubernetes-list-type: map
                   nodeLocations:
                     description: |-
                       The list of zones in which the cluster's nodes
@@ -4682,6 +4698,11 @@ spec:
                             The image type to use for this node. Note that changing the image type
                             will delete and recreate all nodes in the node pool.
                           type: string
+                        index:
+                          default: "0"
+                          description: This is an injected field with a default value
+                            for being able to merge items of the parent object list.
+                          type: string
                         kubeletConfig:
                           description: |-
                             Kubelet configuration, currently supported attributes can be found here.
@@ -4930,6 +4951,9 @@ spec:
                           type: array
                       type: object
                     type: array
+                    x-kubernetes-list-map-keys:
+                    - index
+                    x-kubernetes-list-type: map
                   nodeLocations:
                     description: |-
                       The list of zones in which the cluster's nodes
