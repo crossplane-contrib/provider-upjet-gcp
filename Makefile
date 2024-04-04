@@ -317,7 +317,7 @@ load-pkg: $(UP) build.all
 	@for p in $(PLATFORMS); do \
 		mkdir -p "$(XPKG_OUTPUT_DIR)/$$p"; \
 	done
-	@$(UP) xpkg batch --smaller-providers $$(echo -n $(SUBPACKAGES) | tr ' ' ',') \
+	@$(UP) xpkg batch --smaller-providers $$(echo -n "$(SUBPACKAGES) config" | tr ' ' ',') \
 		--family-base-image $(BUILD_REGISTRY)/$(PROJECT_NAME) \
 		--platform $(BATCH_PLATFORMS) \
 		--provider-name $(PROJECT_NAME) \
@@ -325,7 +325,7 @@ load-pkg: $(UP) build.all
 		--package-repo-override monolith=$(PROJECT_NAME) --package-repo-override config=provider-family-$(PROVIDER_NAME) \
 		--provider-bin-root $(OUTPUT_DIR)/bin \
 		--output-dir $(XPKG_OUTPUT_DIR) \
-		--store-packages $$(echo -n $(SUBPACKAGES) | tr ' ' ',') \
+		--store-packages $$(echo -n "$(SUBPACKAGES) config" | tr ' ' ',') \
 		--build-only=true \
 		--examples-root $(ROOT_DIR)/examples \
 		--examples-group-override monolith=* --examples-group-override config=providerconfig \
@@ -337,7 +337,12 @@ load-pkg: $(UP) build.all
 		--push-retry 10 || $(FAIL)
 
 	@for p in $(PLATFORMS); do \
+		docker tag $$(docker load -qi $(XPKG_OUTPUT_DIR)/$$p/$(PROJECT_NAME)-config-$(VERSION).xpkg | awk -F: '{print $$3}') $(XPKG_REG_ORGS)/provider-family-$(PROVIDER_NAME)-$${p#"linux_"}:$(VERSION); \
+		echo Loaded the provider package "provider-family-$(PROVIDER_NAME)-$${p#"linux_"}:$(VERSION)" into the Docker daemon; \
 		for s in $(SUBPACKAGES); do \
+			if [ "$$s" = "config" ]; then \
+				continue; \
+			fi; \
 			docker tag $$(docker load -qi $(XPKG_OUTPUT_DIR)/$$p/$(PROJECT_NAME)-$$s-$(VERSION).xpkg | awk -F: '{print $$3}') $(XPKG_REG_ORGS)/$(PROJECT_NAME)-$$s-$${p#"linux_"}:$(VERSION); \
 			echo Loaded the provider package "$(PROJECT_NAME)-$$s-$${p#"linux_"}:$(VERSION)" into the Docker daemon; \
 		done \
