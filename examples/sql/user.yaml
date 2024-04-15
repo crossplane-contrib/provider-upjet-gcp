@@ -19,6 +19,9 @@ spec:
     instanceSelector:
       matchLabels:
         testing.upbound.io/example-name: example_instance
+  writeConnectionSecretToRef:
+    name: example-sql-db-user-secret
+    namespace: upbound-system
 
 ---
 

@@ -117,6 +117,14 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		r.References["instance"] = config.Reference{
 			Type: "DatabaseInstance",
 		}
+
+		r.Sensitive.AdditionalConnectionDetailsFn = func(attr map[string]any) (map[string][]byte, error) {
+			conn := map[string][]byte{}
+			if a, ok := attr["password"].(string); ok {
+				conn["password"] = []byte(a)
+			}
+			return conn, nil
+		}
 	})
 	p.AddResourceConfigurator("google_sql_ssl_cert", func(r *config.Resource) {
 		r.References["instance"] = config.Reference{
