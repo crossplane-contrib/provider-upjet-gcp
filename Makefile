@@ -312,6 +312,10 @@ DEP_CONSTRAINT ?= >= 0.0.0
 ifeq (-,$(findstring -,$(VERSION)))
     DEP_CONSTRAINT = >= 0.0.0-0
 endif
+# Define SUBPACKAGES variable and set its value from PROVIDERS
+SUBPACKAGES := $(PROVIDERS)
+# Define XPKG_REG_ORGS variable and set its value from REPO
+XPKG_REG_ORGS := $(REPO)
 load-pkg: $(UP) build.all
 	@$(INFO) Loading the family providers into the Docker daemon: $(SUBPACKAGES)
 	@for p in $(PLATFORMS); do \
