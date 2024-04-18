@@ -17,7 +17,7 @@ SPDX-License-Identifier: CC-BY-4.0
 
 </div>
 
-`provider-gcp` is a [Crossplane](https://crossplane.io/) provider that
+Provider GCP is a [Crossplane](https://crossplane.io/) provider that
 is built using [Upjet](https://github.com/crossplane/upjet) code
 generation tools and exposes XRM-conformant managed resources for the 
 GCP API.
@@ -43,16 +43,30 @@ Follow the guide [here](https://github.com/crossplane/upjet/blob/v0.10.0/docs/ad
 
 ### Local Development
 
-For building provider images locally, follow the guide [here](https://github.com/upbound/upjet/blob/main/docs/buliding-provider-images.md).
+1. Check out the provider repo, crossplane-contrib/provider-upjet-gcp, and go to the project
+directory on your local machine.
+
+2. Do the necessary changes locally and please make sure you have comitted all of them.
+
+3. Run the `make load-pkg` command for family providers as follows.
+
+If you want to build any of the family resource providers (e.g., `provider-gcp-cloudplatform`, `provider-gcp-container`),  you can do:
+
+```shell
+make load-pkg PROVIDERS="cloudplatform container" REPO="index.docker.io/<your-dockerhub-org>"
+```
+*Note: Installable images for the family config provider will be created by default.*
+
+For more information, follow the guide [here](https://marketplace.upbound.io/providers/upbound/provider-family-gcp/latest/docs/development).
 
 ## Report a Bug
 
 For filing bugs, suggesting improvements, or requesting new features, please
-open an [issue](https://github.com/crossplane-contrib/provider-upjet-gcp/issues).
+open an [issue](https://github.com/crossplane-contrib/provider-upjet-gcp/issues/new/choose).
 
 ## Contact
 
-[#upbound-provider-gcp](https://crossplane.slack.com/archives/C05E7EVM459) channel in
+[#upjet-provider-gcp](https://crossplane.slack.com/archives/C05E7EVM459) channel in
 [Crossplane Slack](https://slack.crossplane.io)
 
 ## Licensing
