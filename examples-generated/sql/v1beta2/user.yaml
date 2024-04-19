@@ -1,0 +1,34 @@
+apiVersion: sql.gcp.upbound.io/v1beta2
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sql/v1beta2/user
+  labels:
+    testing.upbound.io/example-name: users
+  name: users
+spec:
+  forProvider:
+    host: me.com
+    instanceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: main
+    passwordSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: upbound-system
+
+---
+
+apiVersion: sql.gcp.upbound.io/v1beta2
+kind: DatabaseInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sql/v1beta2/user
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+spec:
+  forProvider:
+    databaseVersion: MYSQL_5_7
+    settings:
+    - tier: db-f1-micro

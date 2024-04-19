@@ -1547,3 +1547,1466 @@ spec:
     storage: true
     subresources:
       status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta2
+    schema:
+      openAPIV3Schema:
+        description: ConnectionProfile is the Schema for the ConnectionProfiles API.
+          A set of reusable connection configurations to be used as a source or destination
+          for a stream.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ConnectionProfileSpec defines the desired state of ConnectionProfile
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  bigqueryProfile:
+                    description: BigQuery warehouse profile.
+                    type: object
+                  displayName:
+                    description: Display name.
+                    type: string
+                  forwardSshConnectivity:
+                    description: |-
+                      Forward SSH tunnel connectivity.
+                      Structure is documented below.
+                    properties:
+                      hostname:
+                        description: Hostname for the SSH tunnel.
+                        type: string
+                      passwordSecretRef:
+                        description: |-
+                          SSH password.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                      port:
+                        description: Port for the SSH tunnel.
+                        type: number
+                      privateKeySecretRef:
+                        description: |-
+                          SSH private key.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                      username:
+                        description: Username for the SSH tunnel.
+                        type: string
+                    type: object
+                  gcsProfile:
+                    description: |-
+                      Cloud Storage bucket profile.
+                      Structure is documented below.
+                    properties:
+                      bucket:
+                        description: The Cloud Storage bucket name.
+                        type: string
+                      rootPath:
+                        description: The root path inside the Cloud Storage bucket.
+                        type: string
+                    type: object
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Labels.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  location:
+                    description: The name of the location this connection profile
+                      is located in.
+                    type: string
+                  mysqlProfile:
+                    description: |-
+                      MySQL database profile.
+                      Structure is documented below.
+                    properties:
+                      hostname:
+                        description: Hostname for the MySQL connection.
+                        type: string
+                      passwordSecretRef:
+                        description: |-
+                          Password for the MySQL connection.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                      port:
+                        description: Port for the MySQL connection.
+                        type: number
+                      sslConfig:
+                        description: |-
+                          SSL configuration for the MySQL connection.
+                          Structure is documented below.
+                        properties:
+                          caCertificateSecretRef:
+                            description: |-
+                              PEM-encoded certificate of the CA that signed the source database
+                              server's certificate.
+                              Note: This property is sensitive and will not be displayed in the plan.
+                            properties:
+                              key:
+                                description: The key to select.
+                                type: string
+                              name:
+                                description: Name of the secret.
+                                type: string
+                              namespace:
+                                description: Namespace of the secret.
+                                type: string
+                            required:
+                            - key
+                            - name
+                            - namespace
+                            type: object
+                          clientCertificateSecretRef:
+                            description: |-
+                              PEM-encoded certificate that will be used by the replica to
+                              authenticate against the source database server. If this field
+                              is used then the 'clientKey' and the 'caCertificate' fields are
+                              mandatory.
+                              Note: This property is sensitive and will not be displayed in the plan.
+                            properties:
+                              key:
+                                description: The key to select.
+                                type: string
+                              name:
+                                description: Name of the secret.
+                                type: string
+                              namespace:
+                                description: Namespace of the secret.
+                                type: string
+                            required:
+                            - key
+                            - name
+                            - namespace
+                            type: object
+                          clientKeySecretRef:
+                            description: |-
+                              PEM-encoded private key associated with the Client Certificate.
+                              If this field is used then the 'client_certificate' and the
+                              'ca_certificate' fields are mandatory.
+                              Note: This property is sensitive and will not be displayed in the plan.
+                            properties:
+                              key:
+                                description: The key to select.
+                                type: string
+                              name:
+                                description: Name of the secret.
+                                type: string
+                              namespace:
+                                description: Namespace of the secret.
+                                type: string
+                            required:
+                            - key
+                            - name
+                            - namespace
+                            type: object
+                        type: object
+                      username:
+                        description: Username for the MySQL connection.
+                        type: string
+                    required:
+                    - passwordSecretRef
+                    type: object
+                  oracleProfile:
+                    description: |-
+                      Oracle database profile.
+                      Structure is documented below.
+                    properties:
+                      connectionAttributes:
+                        additionalProperties:
+                          type: string
+                        description: Connection string attributes
+                        type: object
+                        x-kubernetes-map-type: granular
+                      databaseService:
+                        description: Database for the Oracle connection.
+                        type: string
+                      hostname:
+                        description: Hostname for the Oracle connection.
+                        type: string
+                      passwordSecretRef:
+                        description: |-
+                          Password for the Oracle connection.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                      port:
+                        description: Port for the Oracle connection.
+                        type: number
+                      username:
+                        description: Username for the Oracle connection.
+                        type: string
+                    required:
+                    - passwordSecretRef
+                    type: object
+                  postgresqlProfile:
+                    description: |-
+                      PostgreSQL database profile.
+                      Structure is documented below.
+                    properties:
+                      database:
+                        description: Database for the PostgreSQL connection.
+                        type: string
+                      databaseRef:
+                        description: Reference to a Database in sql to populate database.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      databaseSelector:
+                        description: Selector for a Database in sql to populate database.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                      hostname:
+                        description: Hostname for the PostgreSQL connection.
+                        type: string
+                      hostnameRef:
+                        description: Reference to a DatabaseInstance in sql to populate
+                          hostname.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      hostnameSelector:
+                        description: Selector for a DatabaseInstance in sql to populate
+                          hostname.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                      passwordSecretRef:
+                        description: |-
+                          Password for the PostgreSQL connection.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                      port:
+                        description: Port for the PostgreSQL connection.
+                        type: number
+                      username:
+                        description: Username for the PostgreSQL connection.
+                        type: string
+                      usernameRef:
+                        description: Reference to a User in sql to populate username.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      usernameSelector:
+                        description: Selector for a User in sql to populate username.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                    required:
+                    - passwordSecretRef
+                    type: object
+                  privateConnectivity:
+                    description: |-
+                      Private connectivity.
+                      Structure is documented below.
+                    properties:
+                      privateConnection:
+                        description: 'A reference to a private connection resource.
+                          Format: projects/{project}/locations/{location}/privateConnections/{name}'
+                        type: string
+                      privateConnectionRef:
+                        description: Reference to a PrivateConnection in datastream
+                          to populate privateConnection.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      privateConnectionSelector:
+                        description: Selector for a PrivateConnection in datastream
+                          to populate privateConnection.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                required:
+                - location
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  bigqueryProfile:
+                    description: BigQuery warehouse profile.
+                    type: object
+                  displayName:
+                    description: Display name.
+                    type: string
+                  forwardSshConnectivity:
+                    description: |-
+                      Forward SSH tunnel connectivity.
+                      Structure is documented below.
+                    properties:
+                      hostname:
+                        description: Hostname for the SSH tunnel.
+                        type: string
+                      port:
+                        description: Port for the SSH tunnel.
+                        type: number
+                      username:
+                        description: Username for the SSH tunnel.
+                        type: string
+                    type: object
+                  gcsProfile:
+                    description: |-
+                      Cloud Storage bucket profile.
+                      Structure is documented below.
+                    properties:
+                      bucket:
+                        description: The Cloud Storage bucket name.
+                        type: string
+                      rootPath:
+                        description: The root path inside the Cloud Storage bucket.
+                        type: string
+                    type: object
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Labels.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  mysqlProfile:
+                    description: |-
+                      MySQL database profile.
+                      Structure is documented below.
+                    properties:
+                      hostname:
+                        description: Hostname for the MySQL connection.
+                        type: string
+                      port:
+                        description: Port for the MySQL connection.
+                        type: number
+                      sslConfig:
+                        description: |-
+                          SSL configuration for the MySQL connection.
+                          Structure is documented below.
+                        type: object
+                      username:
+                        description: Username for the MySQL connection.
+                        type: string
+                    type: object
+                  oracleProfile:
+                    description: |-
+                      Oracle database profile.
+                      Structure is documented below.
+                    properties:
+                      connectionAttributes:
+                        additionalProperties:
+                          type: string
+                        description: Connection string attributes
+                        type: object
+                        x-kubernetes-map-type: granular
+                      databaseService:
+                        description: Database for the Oracle connection.
+                        type: string
+                      hostname:
+                        description: Hostname for the Oracle connection.
+                        type: string
+                      port:
+                        description: Port for the Oracle connection.
+                        type: number
+                      username:
+                        description: Username for the Oracle connection.
+                        type: string
+                    type: object
+                  postgresqlProfile:
+                    description: |-
+                      PostgreSQL database profile.
+                      Structure is documented below.
+                    properties:
+                      database:
+                        description: Database for the PostgreSQL connection.
+                        type: string
+                      databaseRef:
+                        description: Reference to a Database in sql to populate database.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      databaseSelector:
+                        description: Selector for a Database in sql to populate database.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                      hostname:
+                        description: Hostname for the PostgreSQL connection.
+                        type: string
+                      hostnameRef:
+                        description: Reference to a DatabaseInstance in sql to populate
+                          hostname.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      hostnameSelector:
+                        description: Selector for a DatabaseInstance in sql to populate
+                          hostname.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                      port:
+                        description: Port for the PostgreSQL connection.
+                        type: number
+                      username:
+                        description: Username for the PostgreSQL connection.
+                        type: string
+                      usernameRef:
+                        description: Reference to a User in sql to populate username.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      usernameSelector:
+                        description: Selector for a User in sql to populate username.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  privateConnectivity:
+                    description: |-
+                      Private connectivity.
+                      Structure is documented below.
+                    properties:
+                      privateConnection:
+                        description: 'A reference to a private connection resource.
+                          Format: projects/{project}/locations/{location}/privateConnections/{name}'
+                        type: string
+                      privateConnectionRef:
+                        description: Reference to a PrivateConnection in datastream
+                          to populate privateConnection.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      privateConnectionSelector:
+                        description: Selector for a PrivateConnection in datastream
+                          to populate privateConnection.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.displayName is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)
+                || (has(self.initProvider) && has(self.initProvider.displayName))'
+          status:
+            description: ConnectionProfileStatus defines the observed state of ConnectionProfile.
+            properties:
+              atProvider:
+                properties:
+                  bigqueryProfile:
+                    description: BigQuery warehouse profile.
+                    type: object
+                  displayName:
+                    description: Display name.
+                    type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
+                  forwardSshConnectivity:
+                    description: |-
+                      Forward SSH tunnel connectivity.
+                      Structure is documented below.
+                    properties:
+                      hostname:
+                        description: Hostname for the SSH tunnel.
+                        type: string
+                      port:
+                        description: Port for the SSH tunnel.
+                        type: number
+                      username:
+                        description: Username for the SSH tunnel.
+                        type: string
+                    type: object
+                  gcsProfile:
+                    description: |-
+                      Cloud Storage bucket profile.
+                      Structure is documented below.
+                    properties:
+                      bucket:
+                        description: The Cloud Storage bucket name.
+                        type: string
+                      rootPath:
+                        description: The root path inside the Cloud Storage bucket.
+                        type: string
+                    type: object
+                  id:
+                    description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/connectionProfiles/{{connection_profile_id}}
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Labels.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  location:
+                    description: The name of the location this connection profile
+                      is located in.
+                    type: string
+                  mysqlProfile:
+                    description: |-
+                      MySQL database profile.
+                      Structure is documented below.
+                    properties:
+                      hostname:
+                        description: Hostname for the MySQL connection.
+                        type: string
+                      port:
+                        description: Port for the MySQL connection.
+                        type: number
+                      sslConfig:
+                        description: |-
+                          SSL configuration for the MySQL connection.
+                          Structure is documented below.
+                        properties:
+                          caCertificateSet:
+                            description: |-
+                              (Output)
+                              Indicates whether the clientKey field is set.
+                            type: boolean
+                          clientCertificateSet:
+                            description: |-
+                              (Output)
+                              Indicates whether the clientCertificate field is set.
+                            type: boolean
+                          clientKeySet:
+                            description: |-
+                              (Output)
+                              Indicates whether the clientKey field is set.
+                            type: boolean
+                        type: object
+                      username:
+                        description: Username for the MySQL connection.
+                        type: string
+                    type: object
+                  name:
+                    description: The resource's name.
+                    type: string
+                  oracleProfile:
+                    description: |-
+                      Oracle database profile.
+                      Structure is documented below.
+                    properties:
+                      connectionAttributes:
+                        additionalProperties:
+                          type: string
+                        description: Connection string attributes
+                        type: object
+                        x-kubernetes-map-type: granular
+                      databaseService:
+                        description: Database for the Oracle connection.
+                        type: string
+                      hostname:
+                        description: Hostname for the Oracle connection.
+                        type: string
+                      port:
+                        description: Port for the Oracle connection.
+                        type: number
+                      username:
+                        description: Username for the Oracle connection.
+                        type: string
+                    type: object
+                  postgresqlProfile:
+                    description: |-
+                      PostgreSQL database profile.
+                      Structure is documented below.
+                    properties:
+                      database:
+                        description: Database for the PostgreSQL connection.
+                        type: string
+                      hostname:
+                        description: Hostname for the PostgreSQL connection.
+                        type: string
+                      port:
+                        description: Port for the PostgreSQL connection.
+                        type: number
+                      username:
+                        description: Username for the PostgreSQL connection.
+                        type: string
+                    type: object
+                  privateConnectivity:
+                    description: |-
+                      Private connectivity.
+                      Structure is documented below.
+                    properties:
+                      privateConnection:
+                        description: 'A reference to a private connection resource.
+                          Format: projects/{project}/locations/{location}/privateConnections/{name}'
+                        type: string
+                    type: object
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}

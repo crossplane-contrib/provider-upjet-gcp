@@ -120,7 +120,7 @@ func (mg *LogView) ResolveReferences(ctx context.Context, c client.Reader) error
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("logging.gcp.upbound.io", "v1beta1", "ProjectBucketConfig", "ProjectBucketConfigList")
+		m, l, err = apisresolver.GetManagedResource("logging.gcp.upbound.io", "v1beta2", "ProjectBucketConfig", "ProjectBucketConfigList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}

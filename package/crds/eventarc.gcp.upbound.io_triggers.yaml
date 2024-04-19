@@ -1079,3 +1079,992 @@ spec:
     storage: true
     subresources:
       status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta2
+    schema:
+      openAPIV3Schema:
+        description: Trigger is the Schema for the Triggers API. The Eventarc Trigger
+          resource
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: TriggerSpec defines the desired state of Trigger
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  channel:
+                    description: Optional. The name of the channel associated with
+                      the trigger in projects/{project}/locations/{location}/channels/{channel}
+                      format. You must provide a channel to receive events from Eventarc
+                      SaaS partners.
+                    type: string
+                  destination:
+                    description: Required. Destination specifies where the events
+                      should be sent to.
+                    properties:
+                      cloudRunService:
+                        description: Cloud Run fully-managed service that receives
+                          the events. The service should be running in the same project
+                          of the trigger.
+                        properties:
+                          path:
+                            description: 'Optional. The relative path on the GKE service
+                              the events should be sent to. The value must conform
+                              to the definition of a URI path segment (section 3.3
+                              of RFC2396). Examples: "/route", "route", "route/subroute".'
+                            type: string
+                          region:
+                            description: Required. The region the Cloud Run service
+                              is deployed in.
+                            type: string
+                          service:
+                            description: Required. Name of the GKE service.
+                            type: string
+                          serviceRef:
+                            description: Reference to a Service in cloudrun to populate
+                              service.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          serviceSelector:
+                            description: Selector for a Service in cloudrun to populate
+                              service.
+                            properties:
+                              matchControllerRef:
+                                description: |-
+                                  MatchControllerRef ensures an object with the same controller reference
+                                  as the selecting object is selected.
+                                type: boolean
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                description: MatchLabels ensures an object with matching
+                                  labels is selected.
+                                type: object
+                              policy:
+                                description: Policies for selection.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            type: object
+                        type: object
+                      gke:
+                        description: A GKE service capable of receiving events. The
+                          service should be running in the same project as the trigger.
+                        properties:
+                          cluster:
+                            description: Required. The name of the cluster the GKE
+                              service is running in. The cluster must be running in
+                              the same project as the trigger being created.
+                            type: string
+                          location:
+                            description: The location for the resource
+                            type: string
+                          namespace:
+                            description: Required. The namespace the GKE service is
+                              running in.
+                            type: string
+                          path:
+                            description: 'Optional. The relative path on the GKE service
+                              the events should be sent to. The value must conform
+                              to the definition of a URI path segment (section 3.3
+                              of RFC2396). Examples: "/route", "route", "route/subroute".'
+                            type: string
+                          service:
+                            description: Required. Name of the GKE service.
+                            type: string
+                        required:
+                        - location
+                        type: object
+                      httpEndpoint:
+                        description: An HTTP endpoint destination described by an
+                          URI.
+                        properties:
+                          uri:
+                            description: 'Required. The URI of the HTTP enpdoint.
+                              The value must be a RFC2396 URI string. Examples: http://10.10.10.8:80/route,
+                              http://svc.us-central1.p.local:8080/. Only HTTP and
+                              HTTPS protocols are supported. The host can be either
+                              a static IP addressable from the VPC specified by the
+                              network config, or an internal DNS hostname of the service
+                              resolvable via Cloud DNS.'
+                            type: string
+                        type: object
+                      networkConfig:
+                        description: Optional. Network config is used to configure
+                          how Eventarc resolves and connect to a destination. This
+                          should only be used with HttpEndpoint destination type.
+                        properties:
+                          networkAttachment:
+                            description: 'Required. Name of the NetworkAttachment
+                              that allows access to the destination VPC. Format: projects/{PROJECT_ID}/regions/{REGION}/networkAttachments/{NETWORK_ATTACHMENT_NAME}'
+                            type: string
+                        type: object
+                      workflow:
+                        description: 'The resource name of the Workflow whose Executions
+                          are triggered by the events. The Workflow resource should
+                          be deployed in the same project as the trigger. Format:
+                          projects/{project}/locations/{location}/workflows/{workflow}'
+                        type: string
+                    type: object
+                  eventDataContentType:
+                    description: Optional. EventDataContentType specifies the type
+                      of payload in MIME format that is expected from the CloudEvent
+                      data field. This is set to application/json if the value is
+                      not defined.
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Optional. User labels attached to the triggers that
+                      can be used to group resources.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  location:
+                    description: The location for the resource
+                    type: string
+                  matchingCriteria:
+                    description: Required. null The list of filters that applies to
+                      event attributes. Only events that match all the provided filters
+                      will be sent to the destination.
+                    items:
+                      properties:
+                        attribute:
+                          description: Required. The name of a CloudEvents attribute.
+                            Currently, only a subset of attributes are supported for
+                            filtering. All triggers MUST provide a filter for the
+                            'type' attribute.
+                          type: string
+                        operator:
+                          description: Optional. The operator used for matching the
+                            events with the value of the filter. If not specified,
+                            only events that have an exact key-value pair specified
+                            in the filter are matched. The only allowed value is match-path-pattern.
+                          type: string
+                        value:
+                          description: Required. The value for the attribute. See
+                            https://cloud.google.com/eventarc/docs/creating-triggers#trigger-gcloud
+                            for available values.
+                          type: string
+                      type: object
+                    type: array
+                  project:
+                    description: The project for the resource
+                    type: string
+                  serviceAccount:
+                    description: Optional. The IAM service account email associated
+                      with the trigger. The service account represents the identity
+                      of the trigger. The principal who calls this API must have iam.serviceAccounts.actAs
+                      permission in the service account. See https://cloud.google.com/iam/docs/understanding-service-accounts#sa_common
+                      for more information. For Cloud Run destinations, this service
+                      account is used to generate identity tokens when invoking the
+                      service. See https://cloud.google.com/run/docs/triggering/pubsub-push#create-service-account
+                      for information on how to invoke authenticated Cloud Run services.
+                      In order to create Audit Log triggers, the service account should
+                      also have roles/eventarc.eventReceiver IAM role.
+                    type: string
+                  transport:
+                    description: Optional. In order to deliver messages, Eventarc
+                      may use other GCP products as transport intermediary. This field
+                      contains a reference to that transport intermediary. This information
+                      can be used for debugging purposes.
+                    properties:
+                      pubsub:
+                        description: The Pub/Sub topic and subscription used by Eventarc
+                          as delivery intermediary.
+                        properties:
+                          topic:
+                            description: 'Optional. The name of the Pub/Sub topic
+                              created and managed by Eventarc system as a transport
+                              for the event delivery. Format: projects/{PROJECT_ID}/topics/{TOPIC_NAME}.
+                              You may set an existing topic for triggers of the type
+                              google.cloud.pubsub.topic.v1.messagePublished only.
+                              The topic you provide here will not be deleted by Eventarc
+                              at trigger deletion.'
+                            type: string
+                        type: object
+                    type: object
+                required:
+                - location
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  channel:
+                    description: Optional. The name of the channel associated with
+                      the trigger in projects/{project}/locations/{location}/channels/{channel}
+                      format. You must provide a channel to receive events from Eventarc
+                      SaaS partners.
+                    type: string
+                  destination:
+                    description: Required. Destination specifies where the events
+                      should be sent to.
+                    properties:
+                      cloudRunService:
+                        description: Cloud Run fully-managed service that receives
+                          the events. The service should be running in the same project
+                          of the trigger.
+                        properties:
+                          path:
+                            description: 'Optional. The relative path on the GKE service
+                              the events should be sent to. The value must conform
+                              to the definition of a URI path segment (section 3.3
+                              of RFC2396). Examples: "/route", "route", "route/subroute".'
+                            type: string
+                          region:
+                            description: Required. The region the Cloud Run service
+                              is deployed in.
+                            type: string
+                          service:
+                            description: Required. Name of the GKE service.
+                            type: string
+                          serviceRef:
+                            description: Reference to a Service in cloudrun to populate
+                              service.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          serviceSelector:
+                            description: Selector for a Service in cloudrun to populate
+                              service.
+                            properties:
+                              matchControllerRef:
+                                description: |-
+                                  MatchControllerRef ensures an object with the same controller reference
+                                  as the selecting object is selected.
+                                type: boolean
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                description: MatchLabels ensures an object with matching
+                                  labels is selected.
+                                type: object
+                              policy:
+                                description: Policies for selection.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            type: object
+                        type: object
+                      gke:
+                        description: A GKE service capable of receiving events. The
+                          service should be running in the same project as the trigger.
+                        properties:
+                          cluster:
+                            description: Required. The name of the cluster the GKE
+                              service is running in. The cluster must be running in
+                              the same project as the trigger being created.
+                            type: string
+                          namespace:
+                            description: Required. The namespace the GKE service is
+                              running in.
+                            type: string
+                          path:
+                            description: 'Optional. The relative path on the GKE service
+                              the events should be sent to. The value must conform
+                              to the definition of a URI path segment (section 3.3
+                              of RFC2396). Examples: "/route", "route", "route/subroute".'
+                            type: string
+                          service:
+                            description: Required. Name of the GKE service.
+                            type: string
+                        type: object
+                      httpEndpoint:
+                        description: An HTTP endpoint destination described by an
+                          URI.
+                        properties:
+                          uri:
+                            description: 'Required. The URI of the HTTP enpdoint.
+                              The value must be a RFC2396 URI string. Examples: http://10.10.10.8:80/route,
+                              http://svc.us-central1.p.local:8080/. Only HTTP and
+                              HTTPS protocols are supported. The host can be either
+                              a static IP addressable from the VPC specified by the
+                              network config, or an internal DNS hostname of the service
+                              resolvable via Cloud DNS.'
+                            type: string
+                        type: object
+                      networkConfig:
+                        description: Optional. Network config is used to configure
+                          how Eventarc resolves and connect to a destination. This
+                          should only be used with HttpEndpoint destination type.
+                        properties:
+                          networkAttachment:
+                            description: 'Required. Name of the NetworkAttachment
+                              that allows access to the destination VPC. Format: projects/{PROJECT_ID}/regions/{REGION}/networkAttachments/{NETWORK_ATTACHMENT_NAME}'
+                            type: string
+                        type: object
+                      workflow:
+                        description: 'The resource name of the Workflow whose Executions
+                          are triggered by the events. The Workflow resource should
+                          be deployed in the same project as the trigger. Format:
+                          projects/{project}/locations/{location}/workflows/{workflow}'
+                        type: string
+                    type: object
+                  eventDataContentType:
+                    description: Optional. EventDataContentType specifies the type
+                      of payload in MIME format that is expected from the CloudEvent
+                      data field. This is set to application/json if the value is
+                      not defined.
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Optional. User labels attached to the triggers that
+                      can be used to group resources.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  matchingCriteria:
+                    description: Required. null The list of filters that applies to
+                      event attributes. Only events that match all the provided filters
+                      will be sent to the destination.
+                    items:
+                      properties:
+                        attribute:
+                          description: Required. The name of a CloudEvents attribute.
+                            Currently, only a subset of attributes are supported for
+                            filtering. All triggers MUST provide a filter for the
+                            'type' attribute.
+                          type: string
+                        operator:
+                          description: Optional. The operator used for matching the
+                            events with the value of the filter. If not specified,
+                            only events that have an exact key-value pair specified
+                            in the filter are matched. The only allowed value is match-path-pattern.
+                          type: string
+                        value:
+                          description: Required. The value for the attribute. See
+                            https://cloud.google.com/eventarc/docs/creating-triggers#trigger-gcloud
+                            for available values.
+                          type: string
+                      type: object
+                    type: array
+                  project:
+                    description: The project for the resource
+                    type: string
+                  serviceAccount:
+                    description: Optional. The IAM service account email associated
+                      with the trigger. The service account represents the identity
+                      of the trigger. The principal who calls this API must have iam.serviceAccounts.actAs
+                      permission in the service account. See https://cloud.google.com/iam/docs/understanding-service-accounts#sa_common
+                      for more information. For Cloud Run destinations, this service
+                      account is used to generate identity tokens when invoking the
+                      service. See https://cloud.google.com/run/docs/triggering/pubsub-push#create-service-account
+                      for information on how to invoke authenticated Cloud Run services.
+                      In order to create Audit Log triggers, the service account should
+                      also have roles/eventarc.eventReceiver IAM role.
+                    type: string
+                  transport:
+                    description: Optional. In order to deliver messages, Eventarc
+                      may use other GCP products as transport intermediary. This field
+                      contains a reference to that transport intermediary. This information
+                      can be used for debugging purposes.
+                    properties:
+                      pubsub:
+                        description: The Pub/Sub topic and subscription used by Eventarc
+                          as delivery intermediary.
+                        properties:
+                          topic:
+                            description: 'Optional. The name of the Pub/Sub topic
+                              created and managed by Eventarc system as a transport
+                              for the event delivery. Format: projects/{PROJECT_ID}/topics/{TOPIC_NAME}.
+                              You may set an existing topic for triggers of the type
+                              google.cloud.pubsub.topic.v1.messagePublished only.
+                              The topic you provide here will not be deleted by Eventarc
+                              at trigger deletion.'
+                            type: string
+                        type: object
+                    type: object
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.destination is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.destination)
+                || (has(self.initProvider) && has(self.initProvider.destination))'
+            - message: spec.forProvider.matchingCriteria is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.matchingCriteria)
+                || (has(self.initProvider) && has(self.initProvider.matchingCriteria))'
+          status:
+            description: TriggerStatus defines the observed state of Trigger.
+            properties:
+              atProvider:
+                properties:
+                  channel:
+                    description: Optional. The name of the channel associated with
+                      the trigger in projects/{project}/locations/{location}/channels/{channel}
+                      format. You must provide a channel to receive events from Eventarc
+                      SaaS partners.
+                    type: string
+                  conditions:
+                    additionalProperties:
+                      type: string
+                    description: Output only. The reason(s) why a trigger is in FAILED
+                      state.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  createTime:
+                    description: Output only. The creation time.
+                    type: string
+                  destination:
+                    description: Required. Destination specifies where the events
+                      should be sent to.
+                    properties:
+                      cloudFunction:
+                        description: The Cloud Function resource name. Only Cloud
+                          Functions V2 is supported. Format projects/{project}/locations/{location}/functions/{function}
+                          This is a read-only field. [WARNING] Creating Cloud Functions
+                          V2 triggers is only supported via the Cloud Functions product.
+                          An error will be returned if the user sets this value.
+                        type: string
+                      cloudRunService:
+                        description: Cloud Run fully-managed service that receives
+                          the events. The service should be running in the same project
+                          of the trigger.
+                        properties:
+                          path:
+                            description: 'Optional. The relative path on the GKE service
+                              the events should be sent to. The value must conform
+                              to the definition of a URI path segment (section 3.3
+                              of RFC2396). Examples: "/route", "route", "route/subroute".'
+                            type: string
+                          region:
+                            description: Required. The region the Cloud Run service
+                              is deployed in.
+                            type: string
+                          service:
+                            description: Required. Name of the GKE service.
+                            type: string
+                        type: object
+                      gke:
+                        description: A GKE service capable of receiving events. The
+                          service should be running in the same project as the trigger.
+                        properties:
+                          cluster:
+                            description: Required. The name of the cluster the GKE
+                              service is running in. The cluster must be running in
+                              the same project as the trigger being created.
+                            type: string
+                          location:
+                            description: The location for the resource
+                            type: string
+                          namespace:
+                            description: Required. The namespace the GKE service is
+                              running in.
+                            type: string
+                          path:
+                            description: 'Optional. The relative path on the GKE service
+                              the events should be sent to. The value must conform
+                              to the definition of a URI path segment (section 3.3
+                              of RFC2396). Examples: "/route", "route", "route/subroute".'
+                            type: string
+                          service:
+                            description: Required. Name of the GKE service.
+                            type: string
+                        type: object
+                      httpEndpoint:
+                        description: An HTTP endpoint destination described by an
+                          URI.
+                        properties:
+                          uri:
+                            description: 'Required. The URI of the HTTP enpdoint.
+                              The value must be a RFC2396 URI string. Examples: http://10.10.10.8:80/route,
+                              http://svc.us-central1.p.local:8080/. Only HTTP and
+                              HTTPS protocols are supported. The host can be either
+                              a static IP addressable from the VPC specified by the
+                              network config, or an internal DNS hostname of the service
+                              resolvable via Cloud DNS.'
+                            type: string
+                        type: object
+                      networkConfig:
+                        description: Optional. Network config is used to configure
+                          how Eventarc resolves and connect to a destination. This
+                          should only be used with HttpEndpoint destination type.
+                        properties:
+                          networkAttachment:
+                            description: 'Required. Name of the NetworkAttachment
+                              that allows access to the destination VPC. Format: projects/{PROJECT_ID}/regions/{REGION}/networkAttachments/{NETWORK_ATTACHMENT_NAME}'
+                            type: string
+                        type: object
+                      workflow:
+                        description: 'The resource name of the Workflow whose Executions
+                          are triggered by the events. The Workflow resource should
+                          be deployed in the same project as the trigger. Format:
+                          projects/{project}/locations/{location}/workflows/{workflow}'
+                        type: string
+                    type: object
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
+                  etag:
+                    description: Output only. This checksum is computed by the server
+                      based on the value of other fields, and may be sent only on
+                      create requests to ensure the client has an up-to-date value
+                      before proceeding.
+                    type: string
+                  eventDataContentType:
+                    description: Optional. EventDataContentType specifies the type
+                      of payload in MIME format that is expected from the CloudEvent
+                      data field. This is set to application/json if the value is
+                      not defined.
+                    type: string
+                  id:
+                    description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/triggers/{{name}}
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Optional. User labels attached to the triggers that
+                      can be used to group resources.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  location:
+                    description: The location for the resource
+                    type: string
+                  matchingCriteria:
+                    description: Required. null The list of filters that applies to
+                      event attributes. Only events that match all the provided filters
+                      will be sent to the destination.
+                    items:
+                      properties:
+                        attribute:
+                          description: Required. The name of a CloudEvents attribute.
+                            Currently, only a subset of attributes are supported for
+                            filtering. All triggers MUST provide a filter for the
+                            'type' attribute.
+                          type: string
+                        operator:
+                          description: Optional. The operator used for matching the
+                            events with the value of the filter. If not specified,
+                            only events that have an exact key-value pair specified
+                            in the filter are matched. The only allowed value is match-path-pattern.
+                          type: string
+                        value:
+                          description: Required. The value for the attribute. See
+                            https://cloud.google.com/eventarc/docs/creating-triggers#trigger-gcloud
+                            for available values.
+                          type: string
+                      type: object
+                    type: array
+                  project:
+                    description: The project for the resource
+                    type: string
+                  serviceAccount:
+                    description: Optional. The IAM service account email associated
+                      with the trigger. The service account represents the identity
+                      of the trigger. The principal who calls this API must have iam.serviceAccounts.actAs
+                      permission in the service account. See https://cloud.google.com/iam/docs/understanding-service-accounts#sa_common
+                      for more information. For Cloud Run destinations, this service
+                      account is used to generate identity tokens when invoking the
+                      service. See https://cloud.google.com/run/docs/triggering/pubsub-push#create-service-account
+                      for information on how to invoke authenticated Cloud Run services.
+                      In order to create Audit Log triggers, the service account should
+                      also have roles/eventarc.eventReceiver IAM role.
+                    type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  transport:
+                    description: Optional. In order to deliver messages, Eventarc
+                      may use other GCP products as transport intermediary. This field
+                      contains a reference to that transport intermediary. This information
+                      can be used for debugging purposes.
+                    properties:
+                      pubsub:
+                        description: The Pub/Sub topic and subscription used by Eventarc
+                          as delivery intermediary.
+                        properties:
+                          subscription:
+                            description: 'Output only. The name of the Pub/Sub subscription
+                              created and managed by Eventarc system as a transport
+                              for the event delivery. Format: projects/{PROJECT_ID}/subscriptions/{SUBSCRIPTION_NAME}.'
+                            type: string
+                          topic:
+                            description: 'Optional. The name of the Pub/Sub topic
+                              created and managed by Eventarc system as a transport
+                              for the event delivery. Format: projects/{PROJECT_ID}/topics/{TOPIC_NAME}.
+                              You may set an existing topic for triggers of the type
+                              google.cloud.pubsub.topic.v1.messagePublished only.
+                              The topic you provide here will not be deleted by Eventarc
+                              at trigger deletion.'
+                            type: string
+                        type: object
+                    type: object
+                  uid:
+                    description: Output only. Server assigned unique identifier for
+                      the trigger. The value is a UUID4 string and guaranteed to remain
+                      unchanged until the resource is deleted.
+                    type: string
+                  updateTime:
+                    description: Output only. The last-modified time.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}

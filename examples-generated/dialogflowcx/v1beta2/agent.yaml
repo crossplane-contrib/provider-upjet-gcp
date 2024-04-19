@@ -1,0 +1,71 @@
+apiVersion: dialogflowcx.gcp.upbound.io/v1beta2
+kind: Agent
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dialogflowcx/v1beta2/agent
+  labels:
+    testing.upbound.io/example-name: full_agent
+  name: full-agent
+spec:
+  forProvider:
+    advancedSettings:
+    - audioExportGcsDestination:
+      - uri: ${google_storage_bucket.bucket.url}/prefix-
+      dtmfSettings:
+      - enabled: true
+        finishDigit: '#'
+        maxDigits: 1
+    avatarUri: https://cloud.google.com/_static/images/cloud/icons/favicons/onecloud/super_cloud.png
+    defaultLanguageCode: en
+    description: Example description.
+    displayName: dialogflowcx-agent
+    enableSpellCorrection: true
+    enableStackdriverLogging: true
+    gitIntegrationSettings:
+    - githubSettings:
+      - accessTokenSecretRef:
+          key: example-key
+          name: example-secret
+          namespace: upbound-system
+        branches:
+        - main
+        displayName: Github Repo
+        repositoryUri: https://api.github.com/repos/githubtraining/hellogitworld
+        trackingBranch: main
+    location: global
+    speechToTextSettings:
+    - enableSpeechAdaptation: true
+    supportedLanguageCodes:
+    - fr
+    - de
+    - es
+    textToSpeechSettings:
+    - synthesizeSpeechConfigs: |-
+        ${jsonencode({
+              en = {
+                voice = {
+                  name = "en-US-Neural2-A"
+                }
+              }
+              fr = {
+                voice = {
+                  name = "fr-CA-Neural2-A",
+                }
+              }
+            })}
+    timeZone: America/New_York
+
+---
+
+apiVersion: storage.gcp.upbound.io/v1beta2
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dialogflowcx/v1beta2/agent
+  labels:
+    testing.upbound.io/example-name: bucket
+  name: bucket
+spec:
+  forProvider:
+    location: US
+    uniformBucketLevelAccess: true

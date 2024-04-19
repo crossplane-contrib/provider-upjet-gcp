@@ -125,17 +125,6 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			TerraformName: "google_compute_subnetwork",
 			Extractor:     common.PathSelfLinkExtractor,
 		}
-		r.ServerSideApplyMergeStrategies["node_config"] = config.MergeStrategy{
-			ListMergeStrategy: config.ListMergeStrategy{
-				MergeStrategy: config.ListTypeMap,
-				ListMapKeys: config.ListMapKeys{
-					InjectedKey: config.InjectedKey{
-						Key:          "index",
-						DefaultValue: `"0"`,
-					},
-				},
-			},
-		}
 		config.MarkAsRequired(r.TerraformResource, "location")
 	})
 
@@ -149,18 +138,6 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		r.References["cluster"] = config.Reference{
 			TerraformName: "google_container_cluster",
 			Extractor:     common.ExtractResourceIDFuncPath,
-		}
-
-		r.ServerSideApplyMergeStrategies["node_config"] = config.MergeStrategy{
-			ListMergeStrategy: config.ListMergeStrategy{
-				MergeStrategy: config.ListTypeMap,
-				ListMapKeys: config.ListMapKeys{
-					InjectedKey: config.InjectedKey{
-						Key:          "index",
-						DefaultValue: `"0"`,
-					},
-				},
-			},
 		}
 
 		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, _ *terraform.InstanceState, _ *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {

@@ -16,7 +16,7 @@ spec:
 
 ---
 
-apiVersion: logging.gcp.upbound.io/v1beta1
+apiVersion: logging.gcp.upbound.io/v1beta2
 kind: ProjectBucketConfig
 metadata:
   annotations:

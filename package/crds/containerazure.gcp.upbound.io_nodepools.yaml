@@ -873,3 +873,797 @@ spec:
     storage: true
     subresources:
       status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta2
+    schema:
+      openAPIV3Schema:
+        description: NodePool is the Schema for the NodePools API. An Anthos node
+          pool running on Azure.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: NodePoolSpec defines the desired state of NodePool
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  annotations:
+                    additionalProperties:
+                      type: string
+                    description: 'Optional. Annotations on the node pool. This field
+                      has the same restrictions as Kubernetes annotations. The total
+                      size of all keys and values combined is limited to 256k. Keys
+                      can have 2 segments: prefix  and name , separated by a slash
+                      (/). Prefix must be a DNS subdomain. Name must be 63 characters
+                      or less, begin and end with alphanumerics, with dashes (-),
+                      underscores (_), dots (.), and alphanumerics between.'
+                    type: object
+                    x-kubernetes-map-type: granular
+                  autoscaling:
+                    description: Autoscaler configuration for this node pool.
+                    properties:
+                      maxNodeCount:
+                        description: Maximum number of nodes in the node pool. Must
+                          be >= min_node_count.
+                        type: number
+                      minNodeCount:
+                        description: Minimum number of nodes in the node pool. Must
+                          be >= 1 and <= max_node_count.
+                        type: number
+                    type: object
+                  azureAvailabilityZone:
+                    description: Optional. The Azure availability zone of the nodes
+                      in this nodepool. When unspecified, it defaults to 1.
+                    type: string
+                  cluster:
+                    description: The azureCluster for the resource
+                    type: string
+                  clusterRef:
+                    description: Reference to a Cluster to populate cluster.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  clusterSelector:
+                    description: Selector for a Cluster to populate cluster.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  config:
+                    description: The node configuration of the node pool.
+                    properties:
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: 'Optional. The initial labels assigned to nodes
+                          of this node pool. An object containing a list of "key":
+                          value pairs. Example: { "name": "wrench", "mass": "1.3kg",
+                          "count": "3" }.'
+                        type: object
+                        x-kubernetes-map-type: granular
+                      proxyConfig:
+                        description: Proxy configuration for outbound HTTP(S) traffic.
+                        properties:
+                          resourceGroupId:
+                            description: The ARM ID the of the resource group containing
+                              proxy keyvault. Resource group ids are formatted as
+                              /subscriptions/<subscription-id>/resourceGroups/<resource-group-name>
+                            type: string
+                          secretId:
+                            description: The URL the of the proxy setting secret with
+                              its version. Secret ids are formatted as https:<key-vault-name>.vault.azure.net/secrets/<secret-name>/<secret-version>.
+                            type: string
+                        type: object
+                      rootVolume:
+                        description: Optional. Configuration related to the root volume
+                          provisioned for each node pool machine. When unspecified,
+                          it defaults to a 32-GiB Azure Disk.
+                        properties:
+                          sizeGib:
+                            description: Optional. The size of the disk, in GiBs.
+                              When unspecified, a default value is provided. See the
+                              specific reference in the parent resource.
+                            type: number
+                        type: object
+                      sshConfig:
+                        description: SSH configuration for how to access the node
+                          pool machines.
+                        properties:
+                          authorizedKey:
+                            description: The SSH public key data for VMs managed by
+                              Anthos. This accepts the authorized_keys file format
+                              used in OpenSSH according to the sshd(8) manual page.
+                            type: string
+                        type: object
+                      tags:
+                        additionalProperties:
+                          type: string
+                        description: Optional. A set of tags to apply to all underlying
+                          Azure resources for this node pool. This currently only
+                          includes Virtual Machine Scale Sets. Specify at most 50
+                          pairs containing alphanumerics, spaces, and symbols (.+-=_:@/).
+                          Keys can be up to 127 Unicode characters. Values can be
+                          up to 255 Unicode characters.
+                        type: object
+                        x-kubernetes-map-type: granular
+                      vmSize:
+                        description: 'Optional. The Azure VM size name. Example: Standard_DS2_v2.
+                          See (/anthos/clusters/docs/azure/reference/supported-vms)
+                          for options. When unspecified, it defaults to Standard_DS2_v2.'
+                        type: string
+                    type: object
+                  location:
+                    description: The location for the resource
+                    type: string
+                  management:
+                    description: The Management configuration for this node pool.
+                    properties:
+                      autoRepair:
+                        description: Optional. Whether or not the nodes will be automatically
+                          repaired.
+                        type: boolean
+                    type: object
+                  maxPodsConstraint:
+                    description: The constraint on the maximum number of pods that
+                      can be run simultaneously on a node in the node pool.
+                    properties:
+                      maxPodsPerNode:
+                        description: The maximum number of pods to schedule on a single
+                          node.
+                        type: number
+                    type: object
+                  project:
+                    description: The project for the resource
+                    type: string
+                  subnetId:
+                    description: The ARM ID of the subnet where the node pool VMs
+                      run. Make sure it's a subnet under the virtual network in the
+                      cluster configuration.
+                    type: string
+                  version:
+                    description: The Kubernetes version (e.g. 1.19.10-gke.1000) running
+                      on this node pool.
+                    type: string
+                required:
+                - location
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  annotations:
+                    additionalProperties:
+                      type: string
+                    description: 'Optional. Annotations on the node pool. This field
+                      has the same restrictions as Kubernetes annotations. The total
+                      size of all keys and values combined is limited to 256k. Keys
+                      can have 2 segments: prefix  and name , separated by a slash
+                      (/). Prefix must be a DNS subdomain. Name must be 63 characters
+                      or less, begin and end with alphanumerics, with dashes (-),
+                      underscores (_), dots (.), and alphanumerics between.'
+                    type: object
+                    x-kubernetes-map-type: granular
+                  autoscaling:
+                    description: Autoscaler configuration for this node pool.
+                    properties:
+                      maxNodeCount:
+                        description: Maximum number of nodes in the node pool. Must
+                          be >= min_node_count.
+                        type: number
+                      minNodeCount:
+                        description: Minimum number of nodes in the node pool. Must
+                          be >= 1 and <= max_node_count.
+                        type: number
+                    type: object
+                  azureAvailabilityZone:
+                    description: Optional. The Azure availability zone of the nodes
+                      in this nodepool. When unspecified, it defaults to 1.
+                    type: string
+                  config:
+                    description: The node configuration of the node pool.
+                    properties:
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: 'Optional. The initial labels assigned to nodes
+                          of this node pool. An object containing a list of "key":
+                          value pairs. Example: { "name": "wrench", "mass": "1.3kg",
+                          "count": "3" }.'
+                        type: object
+                        x-kubernetes-map-type: granular
+                      proxyConfig:
+                        description: Proxy configuration for outbound HTTP(S) traffic.
+                        properties:
+                          resourceGroupId:
+                            description: The ARM ID the of the resource group containing
+                              proxy keyvault. Resource group ids are formatted as
+                              /subscriptions/<subscription-id>/resourceGroups/<resource-group-name>
+                            type: string
+                          secretId:
+                            description: The URL the of the proxy setting secret with
+                              its version. Secret ids are formatted as https:<key-vault-name>.vault.azure.net/secrets/<secret-name>/<secret-version>.
+                            type: string
+                        type: object
+                      rootVolume:
+                        description: Optional. Configuration related to the root volume
+                          provisioned for each node pool machine. When unspecified,
+                          it defaults to a 32-GiB Azure Disk.
+                        properties:
+                          sizeGib:
+                            description: Optional. The size of the disk, in GiBs.
+                              When unspecified, a default value is provided. See the
+                              specific reference in the parent resource.
+                            type: number
+                        type: object
+                      sshConfig:
+                        description: SSH configuration for how to access the node
+                          pool machines.
+                        properties:
+                          authorizedKey:
+                            description: The SSH public key data for VMs managed by
+                              Anthos. This accepts the authorized_keys file format
+                              used in OpenSSH according to the sshd(8) manual page.
+                            type: string
+                        type: object
+                      tags:
+                        additionalProperties:
+                          type: string
+                        description: Optional. A set of tags to apply to all underlying
+                          Azure resources for this node pool. This currently only
+                          includes Virtual Machine Scale Sets. Specify at most 50
+                          pairs containing alphanumerics, spaces, and symbols (.+-=_:@/).
+                          Keys can be up to 127 Unicode characters. Values can be
+                          up to 255 Unicode characters.
+                        type: object
+                        x-kubernetes-map-type: granular
+                      vmSize:
+                        description: 'Optional. The Azure VM size name. Example: Standard_DS2_v2.
+                          See (/anthos/clusters/docs/azure/reference/supported-vms)
+                          for options. When unspecified, it defaults to Standard_DS2_v2.'
+                        type: string
+                    type: object
+                  management:
+                    description: The Management configuration for this node pool.
+                    properties:
+                      autoRepair:
+                        description: Optional. Whether or not the nodes will be automatically
+                          repaired.
+                        type: boolean
+                    type: object
+                  maxPodsConstraint:
+                    description: The constraint on the maximum number of pods that
+                      can be run simultaneously on a node in the node pool.
+                    properties:
+                      maxPodsPerNode:
+                        description: The maximum number of pods to schedule on a single
+                          node.
+                        type: number
+                    type: object
+                  project:
+                    description: The project for the resource
+                    type: string
+                  subnetId:
+                    description: The ARM ID of the subnet where the node pool VMs
+                      run. Make sure it's a subnet under the virtual network in the
+                      cluster configuration.
+                    type: string
+                  version:
+                    description: The Kubernetes version (e.g. 1.19.10-gke.1000) running
+                      on this node pool.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.autoscaling is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.autoscaling)
+                || (has(self.initProvider) && has(self.initProvider.autoscaling))'
+            - message: spec.forProvider.config is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.config)
+                || (has(self.initProvider) && has(self.initProvider.config))'
+            - message: spec.forProvider.maxPodsConstraint is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.maxPodsConstraint)
+                || (has(self.initProvider) && has(self.initProvider.maxPodsConstraint))'
+            - message: spec.forProvider.subnetId is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.subnetId)
+                || (has(self.initProvider) && has(self.initProvider.subnetId))'
+            - message: spec.forProvider.version is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.version)
+                || (has(self.initProvider) && has(self.initProvider.version))'
+          status:
+            description: NodePoolStatus defines the observed state of NodePool.
+            properties:
+              atProvider:
+                properties:
+                  annotations:
+                    additionalProperties:
+                      type: string
+                    description: 'Optional. Annotations on the node pool. This field
+                      has the same restrictions as Kubernetes annotations. The total
+                      size of all keys and values combined is limited to 256k. Keys
+                      can have 2 segments: prefix  and name , separated by a slash
+                      (/). Prefix must be a DNS subdomain. Name must be 63 characters
+                      or less, begin and end with alphanumerics, with dashes (-),
+                      underscores (_), dots (.), and alphanumerics between.'
+                    type: object
+                    x-kubernetes-map-type: granular
+                  autoscaling:
+                    description: Autoscaler configuration for this node pool.
+                    properties:
+                      maxNodeCount:
+                        description: Maximum number of nodes in the node pool. Must
+                          be >= min_node_count.
+                        type: number
+                      minNodeCount:
+                        description: Minimum number of nodes in the node pool. Must
+                          be >= 1 and <= max_node_count.
+                        type: number
+                    type: object
+                  azureAvailabilityZone:
+                    description: Optional. The Azure availability zone of the nodes
+                      in this nodepool. When unspecified, it defaults to 1.
+                    type: string
+                  cluster:
+                    description: The azureCluster for the resource
+                    type: string
+                  config:
+                    description: The node configuration of the node pool.
+                    properties:
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: 'Optional. The initial labels assigned to nodes
+                          of this node pool. An object containing a list of "key":
+                          value pairs. Example: { "name": "wrench", "mass": "1.3kg",
+                          "count": "3" }.'
+                        type: object
+                        x-kubernetes-map-type: granular
+                      proxyConfig:
+                        description: Proxy configuration for outbound HTTP(S) traffic.
+                        properties:
+                          resourceGroupId:
+                            description: The ARM ID the of the resource group containing
+                              proxy keyvault. Resource group ids are formatted as
+                              /subscriptions/<subscription-id>/resourceGroups/<resource-group-name>
+                            type: string
+                          secretId:
+                            description: The URL the of the proxy setting secret with
+                              its version. Secret ids are formatted as https:<key-vault-name>.vault.azure.net/secrets/<secret-name>/<secret-version>.
+                            type: string
+                        type: object
+                      rootVolume:
+                        description: Optional. Configuration related to the root volume
+                          provisioned for each node pool machine. When unspecified,
+                          it defaults to a 32-GiB Azure Disk.
+                        properties:
+                          sizeGib:
+                            description: Optional. The size of the disk, in GiBs.
+                              When unspecified, a default value is provided. See the
+                              specific reference in the parent resource.
+                            type: number
+                        type: object
+                      sshConfig:
+                        description: SSH configuration for how to access the node
+                          pool machines.
+                        properties:
+                          authorizedKey:
+                            description: The SSH public key data for VMs managed by
+                              Anthos. This accepts the authorized_keys file format
+                              used in OpenSSH according to the sshd(8) manual page.
+                            type: string
+                        type: object
+                      tags:
+                        additionalProperties:
+                          type: string
+                        description: Optional. A set of tags to apply to all underlying
+                          Azure resources for this node pool. This currently only
+                          includes Virtual Machine Scale Sets. Specify at most 50
+                          pairs containing alphanumerics, spaces, and symbols (.+-=_:@/).
+                          Keys can be up to 127 Unicode characters. Values can be
+                          up to 255 Unicode characters.
+                        type: object
+                        x-kubernetes-map-type: granular
+                      vmSize:
+                        description: 'Optional. The Azure VM size name. Example: Standard_DS2_v2.
+                          See (/anthos/clusters/docs/azure/reference/supported-vms)
+                          for options. When unspecified, it defaults to Standard_DS2_v2.'
+                        type: string
+                    type: object
+                  createTime:
+                    description: Output only. The time at which this node pool was
+                      created.
+                    type: string
+                  effectiveAnnotations:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
+                  etag:
+                    description: Allows clients to perform consistent read-modify-writes
+                      through optimistic concurrency control. May be sent on update
+                      and delete requests to ensure the client has an up-to-date value
+                      before proceeding.
+                    type: string
+                  id:
+                    description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/azureClusters/{{cluster}}/azureNodePools/{{name}}
+                    type: string
+                  location:
+                    description: The location for the resource
+                    type: string
+                  management:
+                    description: The Management configuration for this node pool.
+                    properties:
+                      autoRepair:
+                        description: Optional. Whether or not the nodes will be automatically
+                          repaired.
+                        type: boolean
+                    type: object
+                  maxPodsConstraint:
+                    description: The constraint on the maximum number of pods that
+                      can be run simultaneously on a node in the node pool.
+                    properties:
+                      maxPodsPerNode:
+                        description: The maximum number of pods to schedule on a single
+                          node.
+                        type: number
+                    type: object
+                  project:
+                    description: The project for the resource
+                    type: string
+                  reconciling:
+                    description: Output only. If set, there are currently pending
+                      changes to the node pool.
+                    type: boolean
+                  state:
+                    description: 'Output only. The current state of the node pool.
+                      Possible values: STATE_UNSPECIFIED, PROVISIONING, RUNNING, RECONCILING,
+                      STOPPING, ERROR, DEGRADED'
+                    type: string
+                  subnetId:
+                    description: The ARM ID of the subnet where the node pool VMs
+                      run. Make sure it's a subnet under the virtual network in the
+                      cluster configuration.
+                    type: string
+                  uid:
+                    description: Output only. A globally unique identifier for the
+                      node pool.
+                    type: string
+                  updateTime:
+                    description: Output only. The time at which this node pool was
+                      last updated.
+                    type: string
+                  version:
+                    description: The Kubernetes version (e.g. 1.19.10-gke.1000) running
+                      on this node pool.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}

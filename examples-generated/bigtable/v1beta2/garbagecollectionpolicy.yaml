@@ -1,0 +1,61 @@
+apiVersion: bigtable.gcp.upbound.io/v1beta2
+kind: GarbageCollectionPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigtable/v1beta2/garbagecollectionpolicy
+  labels:
+    testing.upbound.io/example-name: policy
+  name: policy
+spec:
+  forProvider:
+    columnFamily: name
+    deletionPolicy: ABANDON
+    gcRules: |2
+        {
+          "rules": [
+            {
+              "max_age": "168h"
+            }
+          ]
+        }
+    instanceNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: instance
+    tableSelector:
+      matchLabels:
+        testing.upbound.io/example-name: table
+
+---
+
+apiVersion: bigtable.gcp.upbound.io/v1beta2
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigtable/v1beta2/garbagecollectionpolicy
+  labels:
+    testing.upbound.io/example-name: instance
+  name: instance
+spec:
+  forProvider:
+    cluster:
+    - clusterId: tf-instance-cluster
+      numNodes: 3
+      storageType: HDD
+
+---
+
+apiVersion: bigtable.gcp.upbound.io/v1beta1
+kind: Table
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigtable/v1beta2/garbagecollectionpolicy
+  labels:
+    testing.upbound.io/example-name: table
+  name: table
+spec:
+  forProvider:
+    columnFamily:
+    - family: name
+    instanceNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

@@ -117,7 +117,7 @@ func (mg *AttachedDisk) ResolveReferences(ctx context.Context, c client.Reader) 
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Disk", "DiskList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Disk", "DiskList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -136,7 +136,7 @@ func (mg *AttachedDisk) ResolveReferences(ctx context.Context, c client.Reader) 
 	mg.Spec.ForProvider.Disk = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DiskRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Instance", "InstanceList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Instance", "InstanceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -155,7 +155,7 @@ func (mg *AttachedDisk) ResolveReferences(ctx context.Context, c client.Reader) 
 	mg.Spec.ForProvider.Instance = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.InstanceRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Disk", "DiskList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Disk", "DiskList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -174,7 +174,7 @@ func (mg *AttachedDisk) ResolveReferences(ctx context.Context, c client.Reader) 
 	mg.Spec.InitProvider.Disk = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.DiskRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Instance", "InstanceList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Instance", "InstanceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -343,7 +343,7 @@ func (mg *BackendBucketSignedURLKey) ResolveReferences(ctx context.Context, c cl
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendBucket", "BackendBucketList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendBucket", "BackendBucketList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -362,7 +362,7 @@ func (mg *BackendBucketSignedURLKey) ResolveReferences(ctx context.Context, c cl
 	mg.Spec.ForProvider.BackendBucket = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.BackendBucketRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendBucket", "BackendBucketList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendBucket", "BackendBucketList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -486,7 +486,7 @@ func (mg *BackendServiceSignedURLKey) ResolveReferences(ctx context.Context, c c
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendService", "BackendServiceList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendService", "BackendServiceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -505,7 +505,7 @@ func (mg *BackendServiceSignedURLKey) ResolveReferences(ctx context.Context, c c
 	mg.Spec.ForProvider.BackendService = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.BackendServiceRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendService", "BackendServiceList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendService", "BackendServiceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -641,7 +641,7 @@ func (mg *DiskResourcePolicyAttachment) ResolveReferences(ctx context.Context, c
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Disk", "DiskList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Disk", "DiskList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -660,7 +660,7 @@ func (mg *DiskResourcePolicyAttachment) ResolveReferences(ctx context.Context, c
 	mg.Spec.ForProvider.Disk = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DiskRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "ResourcePolicy", "ResourcePolicyList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "ResourcePolicy", "ResourcePolicyList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -679,7 +679,7 @@ func (mg *DiskResourcePolicyAttachment) ResolveReferences(ctx context.Context, c
 	mg.Spec.ForProvider.Name = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NameRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Disk", "DiskList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Disk", "DiskList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -698,7 +698,7 @@ func (mg *DiskResourcePolicyAttachment) ResolveReferences(ctx context.Context, c
 	mg.Spec.InitProvider.Disk = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.DiskRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "ResourcePolicy", "ResourcePolicyList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "ResourcePolicy", "ResourcePolicyList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -2350,7 +2350,7 @@ func (mg *NetworkEndpoint) ResolveReferences(ctx context.Context, c client.Reade
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Instance", "InstanceList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Instance", "InstanceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -2388,7 +2388,7 @@ func (mg *NetworkEndpoint) ResolveReferences(ctx context.Context, c client.Reade
 	mg.Spec.ForProvider.NetworkEndpointGroup = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NetworkEndpointGroupRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Instance", "InstanceList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Instance", "InstanceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -3457,7 +3457,7 @@ func (mg *RegionDiskResourcePolicyAttachment) ResolveReferences(ctx context.Cont
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionDisk", "RegionDiskList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionDisk", "RegionDiskList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -3476,7 +3476,7 @@ func (mg *RegionDiskResourcePolicyAttachment) ResolveReferences(ctx context.Cont
 	mg.Spec.ForProvider.Disk = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DiskRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "ResourcePolicy", "ResourcePolicyList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "ResourcePolicy", "ResourcePolicyList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -3495,7 +3495,7 @@ func (mg *RegionDiskResourcePolicyAttachment) ResolveReferences(ctx context.Cont
 	mg.Spec.ForProvider.Name = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NameRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionDisk", "RegionDiskList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionDisk", "RegionDiskList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -3514,7 +3514,7 @@ func (mg *RegionDiskResourcePolicyAttachment) ResolveReferences(ctx context.Cont
 	mg.Spec.InitProvider.Disk = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.DiskRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "ResourcePolicy", "ResourcePolicyList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "ResourcePolicy", "ResourcePolicyList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -3681,7 +3681,7 @@ func (mg *RegionNetworkEndpoint) ResolveReferences(ctx context.Context, c client
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionNetworkEndpointGroup", "RegionNetworkEndpointGroupList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionNetworkEndpointGroup", "RegionNetworkEndpointGroupList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -3700,7 +3700,7 @@ func (mg *RegionNetworkEndpoint) ResolveReferences(ctx context.Context, c client
 	mg.Spec.ForProvider.RegionNetworkEndpointGroup = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.RegionNetworkEndpointGroupRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionNetworkEndpointGroup", "RegionNetworkEndpointGroupList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionNetworkEndpointGroup", "RegionNetworkEndpointGroupList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -4214,7 +4214,7 @@ func (mg *RegionTargetHTTPSProxy) ResolveReferences(ctx context.Context, c clien
 	mg.Spec.ForProvider.SSLCertificates = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.ForProvider.SSLCertificatesRefs = mrsp.ResolvedReferences
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionURLMap", "RegionURLMapList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionURLMap", "RegionURLMapList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -4252,7 +4252,7 @@ func (mg *RegionTargetHTTPSProxy) ResolveReferences(ctx context.Context, c clien
 	mg.Spec.InitProvider.SSLCertificates = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.InitProvider.SSLCertificatesRefs = mrsp.ResolvedReferences
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionURLMap", "RegionURLMapList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionURLMap", "RegionURLMapList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -4283,7 +4283,7 @@ func (mg *RegionTargetTCPProxy) ResolveReferences(ctx context.Context, c client.
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionBackendService", "RegionBackendServiceList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -4302,7 +4302,7 @@ func (mg *RegionTargetTCPProxy) ResolveReferences(ctx context.Context, c client.
 	mg.Spec.ForProvider.BackendService = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.BackendServiceRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "RegionBackendService", "RegionBackendServiceList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -4779,7 +4779,7 @@ func (mg *Route) ResolveReferences(ctx context.Context, c client.Reader) error {
 	mg.Spec.ForProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NetworkRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "ForwardingRule", "ForwardingRuleList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "ForwardingRule", "ForwardingRuleList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -4836,7 +4836,7 @@ func (mg *Route) ResolveReferences(ctx context.Context, c client.Reader) error {
 	mg.Spec.InitProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.NetworkRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "ForwardingRule", "ForwardingRuleList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "ForwardingRule", "ForwardingRuleList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -5301,7 +5301,7 @@ func (mg *ServiceAttachment) ResolveReferences(ctx context.Context, c client.Rea
 	mg.Spec.ForProvider.NATSubnets = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.ForProvider.NATSubnetsRefs = mrsp.ResolvedReferences
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "ForwardingRule", "ForwardingRuleList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "ForwardingRule", "ForwardingRuleList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -5339,7 +5339,7 @@ func (mg *ServiceAttachment) ResolveReferences(ctx context.Context, c client.Rea
 	mg.Spec.InitProvider.NATSubnets = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.InitProvider.NATSubnetsRefs = mrsp.ResolvedReferences
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "ForwardingRule", "ForwardingRuleList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "ForwardingRule", "ForwardingRuleList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -5658,7 +5658,7 @@ func (mg *TargetGRPCProxy) ResolveReferences(ctx context.Context, c client.Reade
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "URLMap", "URLMapList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "URLMap", "URLMapList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -5677,7 +5677,7 @@ func (mg *TargetGRPCProxy) ResolveReferences(ctx context.Context, c client.Reade
 	mg.Spec.ForProvider.URLMap = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.URLMapRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "URLMap", "URLMapList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "URLMap", "URLMapList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -5708,7 +5708,7 @@ func (mg *TargetHTTPProxy) ResolveReferences(ctx context.Context, c client.Reade
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "URLMap", "URLMapList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "URLMap", "URLMapList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -5727,7 +5727,7 @@ func (mg *TargetHTTPProxy) ResolveReferences(ctx context.Context, c client.Reade
 	mg.Spec.ForProvider.URLMap = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.URLMapRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "URLMap", "URLMapList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "URLMap", "URLMapList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -5778,7 +5778,7 @@ func (mg *TargetHTTPSProxy) ResolveReferences(ctx context.Context, c client.Read
 	mg.Spec.ForProvider.SSLCertificates = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.ForProvider.SSLCertificatesRefs = mrsp.ResolvedReferences
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "URLMap", "URLMapList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "URLMap", "URLMapList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -5816,7 +5816,7 @@ func (mg *TargetHTTPSProxy) ResolveReferences(ctx context.Context, c client.Read
 	mg.Spec.InitProvider.SSLCertificates = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.InitProvider.SSLCertificatesRefs = mrsp.ResolvedReferences
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "URLMap", "URLMapList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "URLMap", "URLMapList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -5847,7 +5847,7 @@ func (mg *TargetInstance) ResolveReferences(ctx context.Context, c client.Reader
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Instance", "InstanceList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Instance", "InstanceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -5866,7 +5866,7 @@ func (mg *TargetInstance) ResolveReferences(ctx context.Context, c client.Reader
 	mg.Spec.ForProvider.Instance = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.InstanceRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Instance", "InstanceList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Instance", "InstanceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -5948,7 +5948,7 @@ func (mg *TargetSSLProxy) ResolveReferences(ctx context.Context, c client.Reader
 	var mrsp reference.MultiResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendService", "BackendServiceList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendService", "BackendServiceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -5986,7 +5986,7 @@ func (mg *TargetSSLProxy) ResolveReferences(ctx context.Context, c client.Reader
 	mg.Spec.ForProvider.SSLCertificates = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.ForProvider.SSLCertificatesRefs = mrsp.ResolvedReferences
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendService", "BackendServiceList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendService", "BackendServiceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -6036,7 +6036,7 @@ func (mg *TargetTCPProxy) ResolveReferences(ctx context.Context, c client.Reader
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendService", "BackendServiceList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendService", "BackendServiceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -6055,7 +6055,7 @@ func (mg *TargetTCPProxy) ResolveReferences(ctx context.Context, c client.Reader
 	mg.Spec.ForProvider.BackendService = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.BackendServiceRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendService", "BackendServiceList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendService", "BackendServiceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}

@@ -22,7 +22,7 @@ spec:
 
 ---
 
-apiVersion: bigtable.gcp.upbound.io/v1beta1
+apiVersion: bigtable.gcp.upbound.io/v1beta2
 kind: Instance
 metadata:
   annotations:

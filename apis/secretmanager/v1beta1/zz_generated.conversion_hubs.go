@@ -7,10 +7,4 @@
 package v1beta1
 
 // Hub marks this type as a conversion hub.
-func (tr *Secret) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *SecretIAMMember) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *SecretVersion) Hub() {}

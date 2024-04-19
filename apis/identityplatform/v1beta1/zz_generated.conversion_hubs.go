@@ -10,22 +10,13 @@ package v1beta1
 func (tr *DefaultSupportedIdPConfig) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *InboundSAMLConfig) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *OAuthIdPConfig) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *ProjectDefaultConfig) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Tenant) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *TenantDefaultSupportedIdPConfig) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *TenantInboundSAMLConfig) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *TenantOAuthIdPConfig) Hub() {}

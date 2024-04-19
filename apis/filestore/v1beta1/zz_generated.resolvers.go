@@ -27,7 +27,7 @@ func (mg *Backup) ResolveReferences(ctx context.Context, c client.Reader) error 
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("filestore.gcp.upbound.io", "v1beta1", "Instance", "InstanceList")
+		m, l, err = apisresolver.GetManagedResource("filestore.gcp.upbound.io", "v1beta2", "Instance", "InstanceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -46,7 +46,7 @@ func (mg *Backup) ResolveReferences(ctx context.Context, c client.Reader) error 
 	mg.Spec.ForProvider.SourceInstance = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SourceInstanceRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("filestore.gcp.upbound.io", "v1beta1", "Instance", "InstanceList")
+		m, l, err = apisresolver.GetManagedResource("filestore.gcp.upbound.io", "v1beta2", "Instance", "InstanceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -127,7 +127,7 @@ func (mg *Snapshot) ResolveReferences(ctx context.Context, c client.Reader) erro
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("filestore.gcp.upbound.io", "v1beta1", "Instance", "InstanceList")
+		m, l, err = apisresolver.GetManagedResource("filestore.gcp.upbound.io", "v1beta2", "Instance", "InstanceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}

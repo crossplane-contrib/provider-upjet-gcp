@@ -49,7 +49,7 @@ type RouteInitParameters struct {
 	// With the GA provider you can only specify the forwarding
 	// rule as a partial or full URL. For example, the following
 	// are all valid values:
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	NextHopIlb *string `json:"nextHopIlb,omitempty" tf:"next_hop_ilb,omitempty"`
 
@@ -201,7 +201,7 @@ type RouteParameters struct {
 	// With the GA provider you can only specify the forwarding
 	// rule as a partial or full URL. For example, the following
 	// are all valid values:
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	NextHopIlb *string `json:"nextHopIlb,omitempty" tf:"next_hop_ilb,omitempty"`

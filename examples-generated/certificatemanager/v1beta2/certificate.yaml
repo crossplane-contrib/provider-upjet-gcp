@@ -1,0 +1,51 @@
+apiVersion: certificatemanager.gcp.upbound.io/v1beta2
+kind: Certificate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: certificatemanager/v1beta2/certificate
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: The default cert
+    labels:
+      env: test
+    managed:
+    - dnsAuthorizations:
+      - ${google_certificate_manager_dns_authorization.instance.id}
+      - ${google_certificate_manager_dns_authorization.instance2.id}
+      domains:
+      - ${google_certificate_manager_dns_authorization.instance.domain}
+      - ${google_certificate_manager_dns_authorization.instance2.domain}
+    scope: EDGE_CACHE
+
+---
+
+apiVersion: certificatemanager.gcp.upbound.io/v1beta1
+kind: DNSAuthorization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: certificatemanager/v1beta2/certificate
+  labels:
+    testing.upbound.io/example-name: instance
+  name: instance
+spec:
+  forProvider:
+    description: The default dnss
+    domain: subdomain.hashicorptest.com
+
+---
+
+apiVersion: certificatemanager.gcp.upbound.io/v1beta1
+kind: DNSAuthorization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: certificatemanager/v1beta2/certificate
+  labels:
+    testing.upbound.io/example-name: instance2
+  name: instance2
+spec:
+  forProvider:
+    description: The default dnss
+    domain: subdomain2.hashicorptest.com

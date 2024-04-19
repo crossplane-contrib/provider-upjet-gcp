@@ -507,6 +507,16 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	p.AddResourceConfigurator("google_compute_project_metadata_item", func(r *config.Resource) {
 		r.MetaResource.ArgumentDocs["id"] = "an identifier for the resource with format `{{key}}`"
 	})
+	p.AddResourceConfigurator("google_compute_http_health_check", func(r *config.Resource) {
+		r.OverrideFieldNames["HTTPHealthCheckInitParameters"] = "HTTPHealthCheckInitParameters_2"
+		r.OverrideFieldNames["HTTPHealthCheckParameters"] = "HTTPHealthCheckParameters_2"
+		r.OverrideFieldNames["HTTPHealthCheckObservation"] = "HTTPHealthCheckObservation_2"
+	})
+	p.AddResourceConfigurator("google_compute_https_health_check", func(r *config.Resource) {
+		r.OverrideFieldNames["HTTPSHealthCheckInitParameters"] = "HTTPSHealthCheckInitParameters_2"
+		r.OverrideFieldNames["HTTPSHealthCheckParameters"] = "HTTPSHealthCheckParameters_2"
+		r.OverrideFieldNames["HTTPSHealthCheckObservation"] = "HTTPSHealthCheckObservation_2"
+	})
 }
 
 // InstanceGroupExtractor extracts Instance Group from

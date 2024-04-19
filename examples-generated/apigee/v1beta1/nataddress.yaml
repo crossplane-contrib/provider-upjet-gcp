@@ -36,7 +36,7 @@ spec:
 
 ---
 
-apiVersion: apigee.gcp.upbound.io/v1beta1
+apiVersion: apigee.gcp.upbound.io/v1beta2
 kind: Organization
 metadata:
   annotations:
@@ -91,7 +91,7 @@ spec:
 
 ---
 
-apiVersion: kms.gcp.upbound.io/v1beta1
+apiVersion: kms.gcp.upbound.io/v1beta2
 kind: CryptoKey
 metadata:
   annotations:

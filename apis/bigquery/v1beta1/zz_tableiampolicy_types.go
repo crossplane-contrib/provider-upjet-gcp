@@ -15,7 +15,7 @@ import (
 
 type TableIAMPolicyInitParameters struct {
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta2.Dataset
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
 	// Reference to a Dataset in bigquery to populate datasetId.
@@ -34,7 +34,7 @@ type TableIAMPolicyInitParameters struct {
 	// If it is not provided, the project will be parsed from the identifier of the parent resource. If no project is provided in the parent identifier and no project is specified, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Table
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta2.Table
 	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
 
 	// Reference to a Table in bigquery to populate tableId.
@@ -67,7 +67,7 @@ type TableIAMPolicyObservation struct {
 
 type TableIAMPolicyParameters struct {
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta2.Dataset
 	// +kubebuilder:validation:Optional
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
@@ -89,7 +89,7 @@ type TableIAMPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Table
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta2.Table
 	// +kubebuilder:validation:Optional
 	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
 

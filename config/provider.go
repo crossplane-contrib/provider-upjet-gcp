@@ -6,10 +6,15 @@ package config
 
 import (
 	"context"
+
+	"github.com/upbound/provider-gcp/config/dialogflowcx"
+
+	"github.com/crossplane/upjet/pkg/config/conversion"
+
 	// Note(ezgidemirel): we are importing this to embed provider schema document
 	_ "embed"
 
-	tjconfig "github.com/crossplane/upjet/pkg/config"
+	ujconfig "github.com/crossplane/upjet/pkg/config"
 	"github.com/crossplane/upjet/pkg/registry/reference"
 	conversiontfjson "github.com/crossplane/upjet/pkg/types/conversion/tfjson"
 	"github.com/crossplane/upjet/pkg/types/name"
@@ -155,7 +160,7 @@ func getProviderSchema(s string) (*schema.Provider, error) {
 }
 
 // GetProvider returns provider configuration
-func GetProvider(_ context.Context, generationProvider bool) (*tjconfig.Provider, error) {
+func GetProvider(_ context.Context, generationProvider bool) (*ujconfig.Provider, error) {
 	var p *schema.Provider
 	var err error
 	if generationProvider {
@@ -167,27 +172,29 @@ func GetProvider(_ context.Context, generationProvider bool) (*tjconfig.Provider
 		return nil, errors.Wrapf(err, "cannot get the Terraform provider schema with generation mode set to %t", generationProvider)
 	}
 
-	pc := tjconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, providerMetadata,
-		tjconfig.WithDefaultResourceOptions(
+	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, providerMetadata,
+		ujconfig.WithDefaultResourceOptions(
 			groupOverrides(),
 			externalNameConfig(),
 			defaultVersion(),
 			resourceConfigurator(),
 			descriptionOverrides(),
 		),
-		tjconfig.WithRootGroup("gcp.upbound.io"),
-		tjconfig.WithShortName("gcp"),
+		ujconfig.WithRootGroup("gcp.upbound.io"),
+		ujconfig.WithShortName("gcp"),
 		// Comment out the following line to generate all resources.
-		tjconfig.WithIncludeList(resourceList(cliReconciledExternalNameConfigs)),
-		tjconfig.WithTerraformPluginSDKIncludeList(resourceList(terraformPluginSDKExternalNameConfigs)),
-		tjconfig.WithReferenceInjectors([]tjconfig.ReferenceInjector{reference.NewInjector(modulePath)}),
-		tjconfig.WithSkipList(skipList),
-		tjconfig.WithFeaturesPackage("internal/features"),
-		tjconfig.WithMainTemplate(hack.MainTemplate),
-		tjconfig.WithTerraformProvider(p),
+		ujconfig.WithIncludeList(resourceList(cliReconciledExternalNameConfigs)),
+		ujconfig.WithTerraformPluginSDKIncludeList(resourceList(terraformPluginSDKExternalNameConfigs)),
+		ujconfig.WithReferenceInjectors([]ujconfig.ReferenceInjector{reference.NewInjector(modulePath)}),
+		ujconfig.WithSkipList(skipList),
+		ujconfig.WithFeaturesPackage("internal/features"),
+		ujconfig.WithMainTemplate(hack.MainTemplate),
+		ujconfig.WithTerraformProvider(p),
+		ujconfig.WithSchemaTraversers(&ujconfig.SingletonListEmbedder{}),
 	)
 
-	for _, configure := range []func(provider *tjconfig.Provider){
+	bumpVersionsWithEmbeddedLists(pc)
+	for _, configure := range []func(provider *ujconfig.Provider){
 		accessapproval.Configure,
 		accesscontextmanager.Configure,
 		bigtable.Configure,
@@ -204,6 +211,7 @@ func GetProvider(_ context.Context, generationProvider bool) (*tjconfig.Provider
 		container.Configure,
 		dataflow.Configure,
 		dataproc.Configure,
+		dialogflowcx.Configure,
 		dns.Configure,
 		endpoints.Configure,
 		firebaserules.Configure,
@@ -243,7 +251,7 @@ func GetProvider(_ context.Context, generationProvider bool) (*tjconfig.Provider
 
 // resourceList returns the list of resources that have external
 // name configured in the specified table.
-func resourceList(t map[string]tjconfig.ExternalName) []string {
+func resourceList(t map[string]ujconfig.ExternalName) []string {
 	l := make([]string, len(t))
 	i := 0
 	for n := range t {
@@ -252,6 +260,26 @@ func resourceList(t map[string]tjconfig.ExternalName) []string {
 		i++
 	}
 	return l
+}
+
+func bumpVersionsWithEmbeddedLists(pc *ujconfig.Provider) {
+	for _, r := range pc.Resources {
+		// nothing to do if no singleton list has been converted to
+		// an embedded object
+		crdPaths := r.CRDListConversionPaths()
+		if len(crdPaths) == 0 {
+			continue
+		}
+		r.Version = "v1beta2"
+		// we would like to set the storage version to v1beta1 to facilitate
+		// downgrades.
+		r.SetCRDStorageVersion("v1beta1")
+		r.Conversions = []conversion.Conversion{
+			conversion.NewIdentityConversionExpandPaths("v1beta1", "v1beta2", []string{"spec.forProvider", "spec.initProvider", "status.atProvider"}, crdPaths...),
+			conversion.NewIdentityConversionExpandPaths("v1beta2", "v1beta1", []string{"spec.forProvider", "spec.initProvider", "status.atProvider"}, crdPaths...),
+			conversion.NewSingletonListConversion("v1beta1", "v1beta2", crdPaths, conversion.ToEmbeddedObject),
+			conversion.NewSingletonListConversion("v1beta2", "v1beta1", crdPaths, conversion.ToSingletonList)}
+	}
 }
 
 func init() {

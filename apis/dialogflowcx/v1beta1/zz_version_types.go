@@ -23,7 +23,7 @@ type VersionInitParameters struct {
 
 	// The Flow to create an Version for.
 	// Format: projects//locations//agents//flows/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dialogflowcx/v1beta1.Agent
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dialogflowcx/v1beta2.Agent
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("start_flow",true)
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
@@ -96,7 +96,7 @@ type VersionParameters struct {
 
 	// The Flow to create an Version for.
 	// Format: projects//locations//agents//flows/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dialogflowcx/v1beta1.Agent
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dialogflowcx/v1beta2.Agent
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("start_flow",true)
 	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`

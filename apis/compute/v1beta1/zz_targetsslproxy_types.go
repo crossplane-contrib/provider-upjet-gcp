@@ -16,7 +16,7 @@ import (
 type TargetSSLProxyInitParameters struct {
 
 	// A reference to the BackendService resource.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.BackendService
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.BackendService
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
@@ -115,7 +115,7 @@ type TargetSSLProxyObservation struct {
 type TargetSSLProxyParameters struct {
 
 	// A reference to the BackendService resource.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.BackendService
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.BackendService
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`

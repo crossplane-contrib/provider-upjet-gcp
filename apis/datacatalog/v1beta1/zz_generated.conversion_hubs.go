@@ -7,13 +7,7 @@
 package v1beta1
 
 // Hub marks this type as a conversion hub.
-func (tr *Entry) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *EntryGroup) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Tag) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *TagTemplate) Hub() {}

@@ -19,7 +19,7 @@ spec:
 
 ---
 
-apiVersion: storage.gcp.upbound.io/v1beta1
+apiVersion: storage.gcp.upbound.io/v1beta2
 kind: Bucket
 metadata:
   annotations:
@@ -33,7 +33,7 @@ spec:
 
 ---
 
-apiVersion: storage.gcp.upbound.io/v1beta1
+apiVersion: storage.gcp.upbound.io/v1beta2
 kind: BucketObject
 metadata:
   annotations:

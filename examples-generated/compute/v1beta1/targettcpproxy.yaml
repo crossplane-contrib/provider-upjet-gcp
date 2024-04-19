@@ -14,7 +14,7 @@ spec:
 
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: BackendService
 metadata:
   annotations:
@@ -31,7 +31,7 @@ spec:
 
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: HealthCheck
 metadata:
   annotations:

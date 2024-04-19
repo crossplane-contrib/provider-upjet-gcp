@@ -23,7 +23,7 @@ spec:
 
 ---
 
-apiVersion: pubsub.gcp.upbound.io/v1beta1
+apiVersion: pubsub.gcp.upbound.io/v1beta2
 kind: Topic
 metadata:
   annotations:
@@ -36,7 +36,7 @@ spec:
 
 ---
 
-apiVersion: storage.gcp.upbound.io/v1beta1
+apiVersion: storage.gcp.upbound.io/v1beta2
 kind: Bucket
 metadata:
   annotations:

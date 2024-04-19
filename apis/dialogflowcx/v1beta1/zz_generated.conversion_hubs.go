@@ -7,25 +7,13 @@
 package v1beta1
 
 // Hub marks this type as a conversion hub.
-func (tr *Agent) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *EntityType) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Environment) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *Flow) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *Intent) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *Page) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *Version) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *Webhook) Hub() {}

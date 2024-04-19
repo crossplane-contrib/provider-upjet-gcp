@@ -7,31 +7,10 @@
 package v1beta1
 
 // Hub marks this type as a conversion hub.
-func (tr *AppProfile) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *GarbageCollectionPolicy) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *Instance) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *InstanceIAMBinding) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *InstanceIAMMember) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *InstanceIAMPolicy) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Table) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *TableIAMBinding) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *TableIAMMember) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *TableIAMPolicy) Hub() {}

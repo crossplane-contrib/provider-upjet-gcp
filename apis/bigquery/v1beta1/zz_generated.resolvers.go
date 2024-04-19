@@ -1081,7 +1081,7 @@ func (mg *DatasetIAMPolicy) ResolveReferences(ctx context.Context, c client.Read
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta1", "Dataset", "DatasetList")
+		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Dataset", "DatasetList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -1585,7 +1585,7 @@ func (mg *ReservationAssignment) ResolveReferences(ctx context.Context, c client
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta1", "Reservation", "ReservationList")
+		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Reservation", "ReservationList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -1901,7 +1901,7 @@ func (mg *TableIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta1", "Dataset", "DatasetList")
+		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Dataset", "DatasetList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -1920,7 +1920,7 @@ func (mg *TableIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader
 	mg.Spec.ForProvider.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DatasetIDRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta1", "Table", "TableList")
+		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Table", "TableList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -1939,7 +1939,7 @@ func (mg *TableIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader
 	mg.Spec.ForProvider.TableID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TableIDRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta1", "Dataset", "DatasetList")
+		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Dataset", "DatasetList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -1958,7 +1958,7 @@ func (mg *TableIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader
 	mg.Spec.InitProvider.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.DatasetIDRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta1", "Table", "TableList")
+		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.upbound.io", "v1beta2", "Table", "TableList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}

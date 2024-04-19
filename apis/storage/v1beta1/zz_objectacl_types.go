@@ -16,7 +16,7 @@ import (
 type ObjectACLInitParameters struct {
 
 	// The name of the bucket the object is stored in.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta1.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta2.Bucket
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
@@ -28,7 +28,7 @@ type ObjectACLInitParameters struct {
 	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The name of the object to apply the acl to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta1.BucketObject
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta2.BucketObject
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("output_name",true)
 	Object *string `json:"object,omitempty" tf:"object,omitempty"`
 
@@ -71,7 +71,7 @@ type ObjectACLObservation struct {
 type ObjectACLParameters struct {
 
 	// The name of the bucket the object is stored in.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta1.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta2.Bucket
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
@@ -84,7 +84,7 @@ type ObjectACLParameters struct {
 	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The name of the object to apply the acl to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta1.BucketObject
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta2.BucketObject
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("output_name",true)
 	// +kubebuilder:validation:Optional
 	Object *string `json:"object,omitempty" tf:"object,omitempty"`

@@ -7,28 +7,7 @@
 package v1beta1
 
 // Hub marks this type as a conversion hub.
-func (tr *AlertPolicy) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *CustomService) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *Dashboard) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Group) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *MetricDescriptor) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *NotificationChannel) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *Service) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *SLO) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *UptimeCheckConfig) Hub() {}

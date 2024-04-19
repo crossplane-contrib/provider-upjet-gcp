@@ -1,0 +1,34 @@
+apiVersion: spanner.gcp.upbound.io/v1beta2
+kind: Database
+metadata:
+  annotations:
+    meta.upbound.io/example-id: spanner/v1beta2/database
+  labels:
+    testing.upbound.io/example-name: database
+  name: database
+spec:
+  forProvider:
+    ddl:
+    - CREATE TABLE t1 (t1 INT64 NOT NULL,) PRIMARY KEY(t1)
+    - CREATE TABLE t2 (t2 INT64 NOT NULL,) PRIMARY KEY(t2)
+    deletionProtection: false
+    instanceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: main
+    versionRetentionPeriod: 3d
+
+---
+
+apiVersion: spanner.gcp.upbound.io/v1beta2
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: spanner/v1beta2/database
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+spec:
+  forProvider:
+    config: regional-europe-west1
+    displayName: main-instance
+    numNodes: 1

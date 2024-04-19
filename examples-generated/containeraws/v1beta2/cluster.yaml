@@ -1,0 +1,61 @@
+apiVersion: containeraws.gcp.upbound.io/v1beta2
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: containeraws/v1beta2/cluster
+  labels:
+    testing.upbound.io/example-name: primary
+  name: primary
+spec:
+  forProvider:
+    annotations:
+      label-one: value-one
+    authorization:
+    - adminGroups:
+      - group: group@domain.com
+      adminUsers:
+      - username: my@service-account.com
+    awsRegion: my-aws-region
+    controlPlane:
+    - awsServicesAuthentication:
+      - roleArn: arn:aws:iam::012345678910:role/my--1p-dev-oneplatform
+        roleSessionName: my--1p-dev-session
+      configEncryption:
+      - kmsKeyArn: arn:aws:kms:my-aws-region:012345678910:key/12345678-1234-1234-1234-123456789111
+      databaseEncryption:
+      - kmsKeyArn: arn:aws:kms:my-aws-region:012345678910:key/12345678-1234-1234-1234-123456789111
+      iamInstanceProfile: my--1p-dev-controlplane
+      instanceType: t3.medium
+      mainVolume:
+      - iops: 3000
+        kmsKeyArn: arn:aws:kms:my-aws-region:012345678910:key/12345678-1234-1234-1234-123456789111
+        sizeGib: 10
+        volumeType: GP3
+      proxyConfig:
+      - secretArn: arn:aws:secretsmanager:us-west-2:126285863215:secret:proxy_config20210824150329476300000001-ABCDEF
+        secretVersion: 12345678-ABCD-EFGH-IJKL-987654321098
+      rootVolume:
+      - iops: 3000
+        kmsKeyArn: arn:aws:kms:my-aws-region:012345678910:key/12345678-1234-1234-1234-123456789111
+        sizeGib: 10
+        volumeType: GP3
+      securityGroupIds:
+      - sg-00000000000000000
+      sshConfig:
+      - ec2KeyPair: my--1p-dev-ssh
+      subnetIds:
+      - subnet-00000000000000000
+      tags:
+        owner: my@service-account.com
+      version: ${data.google_container_aws_versions.versions.valid_versions[0]}
+    description: A sample aws cluster
+    fleet:
+    - project: my-project-number
+    location: us-west1
+    networking:
+    - podAddressCidrBlocks:
+      - 10.2.0.0/16
+      serviceAddressCidrBlocks:
+      - 10.1.0.0/16
+      vpcId: vpc-00000000000000000
+    project: my-project-name

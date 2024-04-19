@@ -21,7 +21,7 @@ spec:
 
 ---
 
-apiVersion: certificatemanager.gcp.upbound.io/v1beta1
+apiVersion: certificatemanager.gcp.upbound.io/v1beta2
 kind: Certificate
 metadata:
   annotations:

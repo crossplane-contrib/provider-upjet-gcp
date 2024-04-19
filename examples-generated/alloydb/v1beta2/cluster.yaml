@@ -1,0 +1,27 @@
+apiVersion: alloydb.gcp.upbound.io/v1beta2
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alloydb/v1beta2/cluster
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    location: us-central1
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alloydb/v1beta2/cluster
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider: {}

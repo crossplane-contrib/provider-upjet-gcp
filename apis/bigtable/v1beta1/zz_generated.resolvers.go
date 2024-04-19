@@ -9,8 +9,9 @@ package v1beta1
 import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	errors "github.com/pkg/errors"
+
+	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -143,7 +144,7 @@ func (mg *Table) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("bigtable.gcp.upbound.io", "v1beta1", "Instance", "InstanceList")
+		m, l, err = apisresolver.GetManagedResource("bigtable.gcp.upbound.io", "v1beta2", "Instance", "InstanceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}

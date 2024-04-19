@@ -11,6 +11,3 @@ func (tr *Channel) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *GoogleChannelConfig) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *Trigger) Hub() {}

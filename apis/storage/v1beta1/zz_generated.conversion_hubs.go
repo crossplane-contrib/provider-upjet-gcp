@@ -7,19 +7,10 @@
 package v1beta1
 
 // Hub marks this type as a conversion hub.
-func (tr *Bucket) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *BucketAccessControl) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *BucketACL) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *BucketIAMMember) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *BucketObject) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *DefaultObjectAccessControl) Hub() {}

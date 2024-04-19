@@ -2047,3 +2047,1895 @@ spec:
     storage: true
     subresources:
       status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta2
+    schema:
+      openAPIV3Schema:
+        description: SLO is the Schema for the SLOs API. A Service-Level Objective
+          (SLO) describes the level of desired good service.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: SLOSpec defines the desired state of SLO
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  basicSli:
+                    description: |-
+                      Basic Service-Level Indicator (SLI) on a well-known service type.
+                      Performance will be computed on the basis of pre-defined metrics.
+                      SLIs are used to measure and calculate the quality of the Service's
+                      performance with respect to a single aspect of service quality.
+                      Exactly one of the following must be set:
+                      basic_sli, request_based_sli, windows_based_sli
+                      Structure is documented below.
+                    properties:
+                      availability:
+                        description: |-
+                          Availability based SLI, dervied from count of requests made to this service that return successfully.
+                          Structure is documented below.
+                        properties:
+                          enabled:
+                            description: Whether an availability SLI is enabled or
+                              not. Must be set to true. Defaults to true.
+                            type: boolean
+                        type: object
+                      latency:
+                        description: |-
+                          Parameters for a latency threshold SLI.
+                          Structure is documented below.
+                        properties:
+                          threshold:
+                            description: |-
+                              A duration string, e.g. 10s.
+                              Good service is defined to be the count of requests made to
+                              this service that return in no more than threshold.
+                            type: string
+                        type: object
+                      location:
+                        description: |-
+                          An optional set of locations to which this SLI is relevant.
+                          Telemetry from other locations will not be used to calculate
+                          performance for this SLI. If omitted, this SLI applies to all
+                          locations in which the Service has activity. For service types
+                          that don't support breaking down by location, setting this
+                          field will result in an error.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                      method:
+                        description: |-
+                          An optional set of RPCs to which this SLI is relevant.
+                          Telemetry from other methods will not be used to calculate
+                          performance for this SLI. If omitted, this SLI applies to all
+                          the Service's methods. For service types that don't support
+                          breaking down by method, setting this field will result in an
+                          error.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                      version:
+                        description: |-
+                          The set of API versions to which this SLI is relevant.
+                          Telemetry from other API versions will not be used to
+                          calculate performance for this SLI. If omitted,
+                          this SLI applies to all API versions. For service types
+                          that don't support breaking down by version, setting this
+                          field will result in an error.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                    type: object
+                  calendarPeriod:
+                    description: |-
+                      A calendar period, semantically "since the start of the current
+                      ".
+                      Possible values are: DAY, WEEK, FORTNIGHT, MONTH.
+                    type: string
+                  displayName:
+                    description: Name used for UI elements listing this SLO.
+                    type: string
+                  goal:
+                    description: |-
+                      The fraction of service that must be good in order for this objective
+                      to be met. 0 < goal <= 0.999
+                    type: number
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  requestBasedSli:
+                    description: |-
+                      A request-based SLI defines a SLI for which atomic units of
+                      service are counted directly.
+                      A SLI describes a good service.
+                      It is used to measure and calculate the quality of the Service's
+                      performance with respect to a single aspect of service quality.
+                      Exactly one of the following must be set:
+                      basic_sli, request_based_sli, windows_based_sli
+                      Structure is documented below.
+                    properties:
+                      distributionCut:
+                        description: |-
+                          Used when good_service is defined by a count of values aggregated in a
+                          Distribution that fall into a good range. The total_service is the
+                          total count of all values aggregated in the Distribution.
+                          Defines a distribution TimeSeries filter and thresholds used for
+                          measuring good service and total service.
+                          Exactly one of distribution_cut or good_total_ratio can be set.
+                          Structure is documented below.
+                        properties:
+                          distributionFilter:
+                            description: |-
+                              A TimeSeries monitoring filter
+                              aggregating values to quantify the good service provided.
+                              Must have ValueType = DISTRIBUTION and
+                              MetricKind = DELTA or MetricKind = CUMULATIVE.
+                            type: string
+                          range:
+                            description: |-
+                              Range of numerical values. The computed good_service
+                              will be the count of values x in the Distribution such
+                              that range.min <= x <= range.max. inclusive of min and
+                              max. Open ranges can be defined by setting
+                              just one of min or max. Summed value X should satisfy
+                              range.min <= X <= range.max for a good window.
+                              Structure is documented below.
+                            properties:
+                              max:
+                                description: |-
+                                  max value for the range (inclusive). If not given,
+                                  will be set to 0
+                                type: number
+                              min:
+                                description: |-
+                                  Min value for the range (inclusive). If not given,
+                                  will be set to 0
+                                type: number
+                            type: object
+                        type: object
+                      goodTotalRatio:
+                        description: |-
+                          A means to compute a ratio of good_service to total_service.
+                          Defines computing this ratio with two TimeSeries monitoring filters
+                          Must specify exactly two of good, bad, and total service filters.
+                          The relationship good_service + bad_service = total_service
+                          will be assumed.
+                          Exactly one of distribution_cut or good_total_ratio can be set.
+                          Structure is documented below.
+                        properties:
+                          badServiceFilter:
+                            description: |-
+                              A TimeSeries monitoring filter
+                              quantifying bad service provided, either demanded service that
+                              was not provided or demanded service that was of inadequate
+                              quality.
+                              Must have ValueType = DOUBLE or ValueType = INT64 and
+                              must have MetricKind = DELTA or MetricKind = CUMULATIVE.
+                              Exactly two of good_service_filter,bad_service_filter,total_service_filter
+                              must be set (good + bad = total is assumed).
+                            type: string
+                          goodServiceFilter:
+                            description: |-
+                              A TimeSeries monitoring filter
+                              quantifying good service provided.
+                              Must have ValueType = DOUBLE or ValueType = INT64 and
+                              must have MetricKind = DELTA or MetricKind = CUMULATIVE.
+                              Exactly two of good_service_filter,bad_service_filter,total_service_filter
+                              must be set (good + bad = total is assumed).
+                            type: string
+                          totalServiceFilter:
+                            description: |-
+                              A TimeSeries monitoring filter
+                              quantifying total demanded service.
+                              Must have ValueType = DOUBLE or ValueType = INT64 and
+                              must have MetricKind = DELTA or MetricKind = CUMULATIVE.
+                              Exactly two of good_service_filter,bad_service_filter,total_service_filter
+                              must be set (good + bad = total is assumed).
+                            type: string
+                        type: object
+                    type: object
+                  rollingPeriodDays:
+                    description: |-
+                      A rolling time period, semantically "in the past X days".
+                      Must be between 1 to 30 days, inclusive.
+                    type: number
+                  service:
+                    description: ID of the service to which this SLO belongs.
+                    type: string
+                  serviceRef:
+                    description: Reference to a CustomService in monitoring to populate
+                      service.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  serviceSelector:
+                    description: Selector for a CustomService in monitoring to populate
+                      service.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  sloId:
+                    description: The id to use for this ServiceLevelObjective. If
+                      omitted, an id will be generated instead.
+                    type: string
+                  userLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      This field is intended to be used for organizing and identifying the AlertPolicy
+                      objects.The field can contain up to 64 entries. Each key and value is limited
+                      to 63 Unicode characters or 128 bytes, whichever is smaller. Labels and values
+                      can contain only lowercase letters, numerals, underscores, and dashes. Keys
+                      must begin with a letter.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  windowsBasedSli:
+                    description: |-
+                      A windows-based SLI defines the criteria for time windows.
+                      good_service is defined based off the count of these time windows
+                      for which the provided service was of good quality.
+                      A SLI describes a good service. It is used to measure and calculate
+                      the quality of the Service's performance with respect to a single
+                      aspect of service quality.
+                      Exactly one of the following must be set:
+                      basic_sli, request_based_sli, windows_based_sli
+                      Structure is documented below.
+                    properties:
+                      goodBadMetricFilter:
+                        description: |-
+                          A TimeSeries monitoring filter
+                          with ValueType = BOOL. The window is good if any true values
+                          appear in the window. One of good_bad_metric_filter,
+                          good_total_ratio_threshold, metric_mean_in_range,
+                          metric_sum_in_range must be set for windows_based_sli.
+                        type: string
+                      goodTotalRatioThreshold:
+                        description: |-
+                          Criterion that describes a window as good if its performance is
+                          high enough. One of good_bad_metric_filter,
+                          good_total_ratio_threshold, metric_mean_in_range,
+                          metric_sum_in_range must be set for windows_based_sli.
+                          Structure is documented below.
+                        properties:
+                          basicSliPerformance:
+                            description: |-
+                              Basic SLI to evaluate to judge window quality.
+                              Structure is documented below.
+                            properties:
+                              availability:
+                                description: |-
+                                  Availability based SLI, dervied from count of requests made to this service that return successfully.
+                                  Structure is documented below.
+                                properties:
+                                  enabled:
+                                    description: Whether an availability SLI is enabled
+                                      or not. Must be set to true. Defaults to true.
+                                    type: boolean
+                                type: object
+                              latency:
+                                description: |-
+                                  Parameters for a latency threshold SLI.
+                                  Structure is documented below.
+                                properties:
+                                  threshold:
+                                    description: |-
+                                      A duration string, e.g. 10s.
+                                      Good service is defined to be the count of requests made to
+                                      this service that return in no more than threshold.
+                                    type: string
+                                type: object
+                              location:
+                                description: |-
+                                  An optional set of locations to which this SLI is relevant.
+                                  Telemetry from other locations will not be used to calculate
+                                  performance for this SLI. If omitted, this SLI applies to all
+                                  locations in which the Service has activity. For service types
+                                  that don't support breaking down by location, setting this
+                                  field will result in an error.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                              method:
+                                description: |-
+                                  An optional set of RPCs to which this SLI is relevant.
+                                  Telemetry from other methods will not be used to calculate
+                                  performance for this SLI. If omitted, this SLI applies to all
+                                  the Service's methods. For service types that don't support
+                                  breaking down by method, setting this field will result in an
+                                  error.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                              version:
+                                description: |-
+                                  The set of API versions to which this SLI is relevant.
+                                  Telemetry from other API versions will not be used to
+                                  calculate performance for this SLI. If omitted,
+                                  this SLI applies to all API versions. For service types
+                                  that don't support breaking down by version, setting this
+                                  field will result in an error.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                            type: object
+                          performance:
+                            description: |-
+                              Request-based SLI to evaluate to judge window quality.
+                              Structure is documented below.
+                            properties:
+                              distributionCut:
+                                description: |-
+                                  Used when good_service is defined by a count of values aggregated in a
+                                  Distribution that fall into a good range. The total_service is the
+                                  total count of all values aggregated in the Distribution.
+                                  Defines a distribution TimeSeries filter and thresholds used for
+                                  measuring good service and total service.
+                                  Exactly one of distribution_cut or good_total_ratio can be set.
+                                  Structure is documented below.
+                                properties:
+                                  distributionFilter:
+                                    description: |-
+                                      A TimeSeries monitoring filter
+                                      aggregating values to quantify the good service provided.
+                                      Must have ValueType = DISTRIBUTION and
+                                      MetricKind = DELTA or MetricKind = CUMULATIVE.
+                                    type: string
+                                  range:
+                                    description: |-
+                                      Range of numerical values. The computed good_service
+                                      will be the count of values x in the Distribution such
+                                      that range.min <= x <= range.max. inclusive of min and
+                                      max. Open ranges can be defined by setting
+                                      just one of min or max. Summed value X should satisfy
+                                      range.min <= X <= range.max for a good window.
+                                      Structure is documented below.
+                                    properties:
+                                      max:
+                                        description: |-
+                                          max value for the range (inclusive). If not given,
+                                          will be set to 0
+                                        type: number
+                                      min:
+                                        description: |-
+                                          Min value for the range (inclusive). If not given,
+                                          will be set to 0
+                                        type: number
+                                    type: object
+                                type: object
+                              goodTotalRatio:
+                                description: |-
+                                  A means to compute a ratio of good_service to total_service.
+                                  Defines computing this ratio with two TimeSeries monitoring filters
+                                  Must specify exactly two of good, bad, and total service filters.
+                                  The relationship good_service + bad_service = total_service
+                                  will be assumed.
+                                  Exactly one of distribution_cut or good_total_ratio can be set.
+                                  Structure is documented below.
+                                properties:
+                                  badServiceFilter:
+                                    description: |-
+                                      A TimeSeries monitoring filter
+                                      quantifying bad service provided, either demanded service that
+                                      was not provided or demanded service that was of inadequate
+                                      quality.
+                                      Must have ValueType = DOUBLE or ValueType = INT64 and
+                                      must have MetricKind = DELTA or MetricKind = CUMULATIVE.
+                                      Exactly two of good_service_filter,bad_service_filter,total_service_filter
+                                      must be set (good + bad = total is assumed).
+                                    type: string
+                                  goodServiceFilter:
+                                    description: |-
+                                      A TimeSeries monitoring filter
+                                      quantifying good service provided.
+                                      Must have ValueType = DOUBLE or ValueType = INT64 and
+                                      must have MetricKind = DELTA or MetricKind = CUMULATIVE.
+                                      Exactly two of good_service_filter,bad_service_filter,total_service_filter
+                                      must be set (good + bad = total is assumed).
+                                    type: string
+                                  totalServiceFilter:
+                                    description: |-
+                                      A TimeSeries monitoring filter
+                                      quantifying total demanded service.
+                                      Must have ValueType = DOUBLE or ValueType = INT64 and
+                                      must have MetricKind = DELTA or MetricKind = CUMULATIVE.
+                                      Exactly two of good_service_filter,bad_service_filter,total_service_filter
+                                      must be set (good + bad = total is assumed).
+                                    type: string
+                                type: object
+                            type: object
+                          threshold:
+                            description: |-
+                              A duration string, e.g. 10s.
+                              Good service is defined to be the count of requests made to
+                              this service that return in no more than threshold.
+                            type: number
+                        type: object
+                      metricMeanInRange:
+                        description: |-
+                          Criterion that describes a window as good if the metric's value
+                          is in a good range, averaged across returned streams.
+                          One of good_bad_metric_filter,
+                          good_total_ratio_threshold, metric_mean_in_range,
+                          metric_sum_in_range must be set for windows_based_sli.
+                          Average value X of time_series should satisfy
+                          range.min <= X <= range.max for a good window.
+                          Structure is documented below.
+                        properties:
+                          range:
+                            description: |-
+                              Range of numerical values. The computed good_service
+                              will be the count of values x in the Distribution such
+                              that range.min <= x <= range.max. inclusive of min and
+                              max. Open ranges can be defined by setting
+                              just one of min or max. Summed value X should satisfy
+                              range.min <= X <= range.max for a good window.
+                              Structure is documented below.
+                            properties:
+                              max:
+                                description: |-
+                                  max value for the range (inclusive). If not given,
+                                  will be set to 0
+                                type: number
+                              min:
+                                description: |-
+                                  Min value for the range (inclusive). If not given,
+                                  will be set to 0
+                                type: number
+                            type: object
+                          timeSeries:
+                            description: |-
+                              A monitoring filter
+                              specifying the TimeSeries to use for evaluating window
+                              quality. The provided TimeSeries must have
+                              ValueType = INT64 or ValueType = DOUBLE and
+                              MetricKind = GAUGE.
+                              Summed value X should satisfy
+                              range.min <= X <= range.max for a good window.
+                            type: string
+                        type: object
+                      metricSumInRange:
+                        description: |-
+                          Criterion that describes a window as good if the metric's value
+                          is in a good range, summed across returned streams.
+                          Summed value X of time_series should satisfy
+                          range.min <= X <= range.max for a good window.
+                          One of good_bad_metric_filter,
+                          good_total_ratio_threshold, metric_mean_in_range,
+                          metric_sum_in_range must be set for windows_based_sli.
+                          Structure is documented below.
+                        properties:
+                          range:
+                            description: |-
+                              Range of numerical values. The computed good_service
+                              will be the count of values x in the Distribution such
+                              that range.min <= x <= range.max. inclusive of min and
+                              max. Open ranges can be defined by setting
+                              just one of min or max. Summed value X should satisfy
+                              range.min <= X <= range.max for a good window.
+                              Structure is documented below.
+                            properties:
+                              max:
+                                description: |-
+                                  max value for the range (inclusive). If not given,
+                                  will be set to 0
+                                type: number
+                              min:
+                                description: |-
+                                  Min value for the range (inclusive). If not given,
+                                  will be set to 0
+                                type: number
+                            type: object
+                          timeSeries:
+                            description: |-
+                              A monitoring filter
+                              specifying the TimeSeries to use for evaluating window
+                              quality. The provided TimeSeries must have
+                              ValueType = INT64 or ValueType = DOUBLE and
+                              MetricKind = GAUGE.
+                              Summed value X should satisfy
+                              range.min <= X <= range.max for a good window.
+                            type: string
+                        type: object
+                      windowPeriod:
+                        description: |-
+                          Duration over which window quality is evaluated, given as a
+                          duration string "{X}s" representing X seconds. Must be an
+                          integer fraction of a day and at least 60s.
+                        type: string
+                    type: object
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  basicSli:
+                    description: |-
+                      Basic Service-Level Indicator (SLI) on a well-known service type.
+                      Performance will be computed on the basis of pre-defined metrics.
+                      SLIs are used to measure and calculate the quality of the Service's
+                      performance with respect to a single aspect of service quality.
+                      Exactly one of the following must be set:
+                      basic_sli, request_based_sli, windows_based_sli
+                      Structure is documented below.
+                    properties:
+                      availability:
+                        description: |-
+                          Availability based SLI, dervied from count of requests made to this service that return successfully.
+                          Structure is documented below.
+                        properties:
+                          enabled:
+                            description: Whether an availability SLI is enabled or
+                              not. Must be set to true. Defaults to true.
+                            type: boolean
+                        type: object
+                      latency:
+                        description: |-
+                          Parameters for a latency threshold SLI.
+                          Structure is documented below.
+                        properties:
+                          threshold:
+                            description: |-
+                              A duration string, e.g. 10s.
+                              Good service is defined to be the count of requests made to
+                              this service that return in no more than threshold.
+                            type: string
+                        type: object
+                      location:
+                        description: |-
+                          An optional set of locations to which this SLI is relevant.
+                          Telemetry from other locations will not be used to calculate
+                          performance for this SLI. If omitted, this SLI applies to all
+                          locations in which the Service has activity. For service types
+                          that don't support breaking down by location, setting this
+                          field will result in an error.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                      method:
+                        description: |-
+                          An optional set of RPCs to which this SLI is relevant.
+                          Telemetry from other methods will not be used to calculate
+                          performance for this SLI. If omitted, this SLI applies to all
+                          the Service's methods. For service types that don't support
+                          breaking down by method, setting this field will result in an
+                          error.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                      version:
+                        description: |-
+                          The set of API versions to which this SLI is relevant.
+                          Telemetry from other API versions will not be used to
+                          calculate performance for this SLI. If omitted,
+                          this SLI applies to all API versions. For service types
+                          that don't support breaking down by version, setting this
+                          field will result in an error.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                    type: object
+                  calendarPeriod:
+                    description: |-
+                      A calendar period, semantically "since the start of the current
+                      ".
+                      Possible values are: DAY, WEEK, FORTNIGHT, MONTH.
+                    type: string
+                  displayName:
+                    description: Name used for UI elements listing this SLO.
+                    type: string
+                  goal:
+                    description: |-
+                      The fraction of service that must be good in order for this objective
+                      to be met. 0 < goal <= 0.999
+                    type: number
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  requestBasedSli:
+                    description: |-
+                      A request-based SLI defines a SLI for which atomic units of
+                      service are counted directly.
+                      A SLI describes a good service.
+                      It is used to measure and calculate the quality of the Service's
+                      performance with respect to a single aspect of service quality.
+                      Exactly one of the following must be set:
+                      basic_sli, request_based_sli, windows_based_sli
+                      Structure is documented below.
+                    properties:
+                      distributionCut:
+                        description: |-
+                          Used when good_service is defined by a count of values aggregated in a
+                          Distribution that fall into a good range. The total_service is the
+                          total count of all values aggregated in the Distribution.
+                          Defines a distribution TimeSeries filter and thresholds used for
+                          measuring good service and total service.
+                          Exactly one of distribution_cut or good_total_ratio can be set.
+                          Structure is documented below.
+                        properties:
+                          distributionFilter:
+                            description: |-
+                              A TimeSeries monitoring filter
+                              aggregating values to quantify the good service provided.
+                              Must have ValueType = DISTRIBUTION and
+                              MetricKind = DELTA or MetricKind = CUMULATIVE.
+                            type: string
+                          range:
+                            description: |-
+                              Range of numerical values. The computed good_service
+                              will be the count of values x in the Distribution such
+                              that range.min <= x <= range.max. inclusive of min and
+                              max. Open ranges can be defined by setting
+                              just one of min or max. Summed value X should satisfy
+                              range.min <= X <= range.max for a good window.
+                              Structure is documented below.
+                            properties:
+                              max:
+                                description: |-
+                                  max value for the range (inclusive). If not given,
+                                  will be set to 0
+                                type: number
+                              min:
+                                description: |-
+                                  Min value for the range (inclusive). If not given,
+                                  will be set to 0
+                                type: number
+                            type: object
+                        type: object
+                      goodTotalRatio:
+                        description: |-
+                          A means to compute a ratio of good_service to total_service.
+                          Defines computing this ratio with two TimeSeries monitoring filters
+                          Must specify exactly two of good, bad, and total service filters.
+                          The relationship good_service + bad_service = total_service
+                          will be assumed.
+                          Exactly one of distribution_cut or good_total_ratio can be set.
+                          Structure is documented below.
+                        properties:
+                          badServiceFilter:
+                            description: |-
+                              A TimeSeries monitoring filter
+                              quantifying bad service provided, either demanded service that
+                              was not provided or demanded service that was of inadequate
+                              quality.
+                              Must have ValueType = DOUBLE or ValueType = INT64 and
+                              must have MetricKind = DELTA or MetricKind = CUMULATIVE.
+                              Exactly two of good_service_filter,bad_service_filter,total_service_filter
+                              must be set (good + bad = total is assumed).
+                            type: string
+                          goodServiceFilter:
+                            description: |-
+                              A TimeSeries monitoring filter
+                              quantifying good service provided.
+                              Must have ValueType = DOUBLE or ValueType = INT64 and
+                              must have MetricKind = DELTA or MetricKind = CUMULATIVE.
+                              Exactly two of good_service_filter,bad_service_filter,total_service_filter
+                              must be set (good + bad = total is assumed).
+                            type: string
+                          totalServiceFilter:
+                            description: |-
+                              A TimeSeries monitoring filter
+                              quantifying total demanded service.
+                              Must have ValueType = DOUBLE or ValueType = INT64 and
+                              must have MetricKind = DELTA or MetricKind = CUMULATIVE.
+                              Exactly two of good_service_filter,bad_service_filter,total_service_filter
+                              must be set (good + bad = total is assumed).
+                            type: string
+                        type: object
+                    type: object
+                  rollingPeriodDays:
+                    description: |-
+                      A rolling time period, semantically "in the past X days".
+                      Must be between 1 to 30 days, inclusive.
+                    type: number
+                  service:
+                    description: ID of the service to which this SLO belongs.
+                    type: string
+                  serviceRef:
+                    description: Reference to a CustomService in monitoring to populate
+                      service.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  serviceSelector:
+                    description: Selector for a CustomService in monitoring to populate
+                      service.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  sloId:
+                    description: The id to use for this ServiceLevelObjective. If
+                      omitted, an id will be generated instead.
+                    type: string
+                  userLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      This field is intended to be used for organizing and identifying the AlertPolicy
+                      objects.The field can contain up to 64 entries. Each key and value is limited
+                      to 63 Unicode characters or 128 bytes, whichever is smaller. Labels and values
+                      can contain only lowercase letters, numerals, underscores, and dashes. Keys
+                      must begin with a letter.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  windowsBasedSli:
+                    description: |-
+                      A windows-based SLI defines the criteria for time windows.
+                      good_service is defined based off the count of these time windows
+                      for which the provided service was of good quality.
+                      A SLI describes a good service. It is used to measure and calculate
+                      the quality of the Service's performance with respect to a single
+                      aspect of service quality.
+                      Exactly one of the following must be set:
+                      basic_sli, request_based_sli, windows_based_sli
+                      Structure is documented below.
+                    properties:
+                      goodBadMetricFilter:
+                        description: |-
+                          A TimeSeries monitoring filter
+                          with ValueType = BOOL. The window is good if any true values
+                          appear in the window. One of good_bad_metric_filter,
+                          good_total_ratio_threshold, metric_mean_in_range,
+                          metric_sum_in_range must be set for windows_based_sli.
+                        type: string
+                      goodTotalRatioThreshold:
+                        description: |-
+                          Criterion that describes a window as good if its performance is
+                          high enough. One of good_bad_metric_filter,
+                          good_total_ratio_threshold, metric_mean_in_range,
+                          metric_sum_in_range must be set for windows_based_sli.
+                          Structure is documented below.
+                        properties:
+                          basicSliPerformance:
+                            description: |-
+                              Basic SLI to evaluate to judge window quality.
+                              Structure is documented below.
+                            properties:
+                              availability:
+                                description: |-
+                                  Availability based SLI, dervied from count of requests made to this service that return successfully.
+                                  Structure is documented below.
+                                properties:
+                                  enabled:
+                                    description: Whether an availability SLI is enabled
+                                      or not. Must be set to true. Defaults to true.
+                                    type: boolean
+                                type: object
+                              latency:
+                                description: |-
+                                  Parameters for a latency threshold SLI.
+                                  Structure is documented below.
+                                properties:
+                                  threshold:
+                                    description: |-
+                                      A duration string, e.g. 10s.
+                                      Good service is defined to be the count of requests made to
+                                      this service that return in no more than threshold.
+                                    type: string
+                                type: object
+                              location:
+                                description: |-
+                                  An optional set of locations to which this SLI is relevant.
+                                  Telemetry from other locations will not be used to calculate
+                                  performance for this SLI. If omitted, this SLI applies to all
+                                  locations in which the Service has activity. For service types
+                                  that don't support breaking down by location, setting this
+                                  field will result in an error.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                              method:
+                                description: |-
+                                  An optional set of RPCs to which this SLI is relevant.
+                                  Telemetry from other methods will not be used to calculate
+                                  performance for this SLI. If omitted, this SLI applies to all
+                                  the Service's methods. For service types that don't support
+                                  breaking down by method, setting this field will result in an
+                                  error.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                              version:
+                                description: |-
+                                  The set of API versions to which this SLI is relevant.
+                                  Telemetry from other API versions will not be used to
+                                  calculate performance for this SLI. If omitted,
+                                  this SLI applies to all API versions. For service types
+                                  that don't support breaking down by version, setting this
+                                  field will result in an error.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                            type: object
+                          performance:
+                            description: |-
+                              Request-based SLI to evaluate to judge window quality.
+                              Structure is documented below.
+                            properties:
+                              distributionCut:
+                                description: |-
+                                  Used when good_service is defined by a count of values aggregated in a
+                                  Distribution that fall into a good range. The total_service is the
+                                  total count of all values aggregated in the Distribution.
+                                  Defines a distribution TimeSeries filter and thresholds used for
+                                  measuring good service and total service.
+                                  Exactly one of distribution_cut or good_total_ratio can be set.
+                                  Structure is documented below.
+                                properties:
+                                  distributionFilter:
+                                    description: |-
+                                      A TimeSeries monitoring filter
+                                      aggregating values to quantify the good service provided.
+                                      Must have ValueType = DISTRIBUTION and
+                                      MetricKind = DELTA or MetricKind = CUMULATIVE.
+                                    type: string
+                                  range:
+                                    description: |-
+                                      Range of numerical values. The computed good_service
+                                      will be the count of values x in the Distribution such
+                                      that range.min <= x <= range.max. inclusive of min and
+                                      max. Open ranges can be defined by setting
+                                      just one of min or max. Summed value X should satisfy
+                                      range.min <= X <= range.max for a good window.
+                                      Structure is documented below.
+                                    properties:
+                                      max:
+                                        description: |-
+                                          max value for the range (inclusive). If not given,
+                                          will be set to 0
+                                        type: number
+                                      min:
+                                        description: |-
+                                          Min value for the range (inclusive). If not given,
+                                          will be set to 0
+                                        type: number
+                                    type: object
+                                type: object
+                              goodTotalRatio:
+                                description: |-
+                                  A means to compute a ratio of good_service to total_service.
+                                  Defines computing this ratio with two TimeSeries monitoring filters
+                                  Must specify exactly two of good, bad, and total service filters.
+                                  The relationship good_service + bad_service = total_service
+                                  will be assumed.
+                                  Exactly one of distribution_cut or good_total_ratio can be set.
+                                  Structure is documented below.
+                                properties:
+                                  badServiceFilter:
+                                    description: |-
+                                      A TimeSeries monitoring filter
+                                      quantifying bad service provided, either demanded service that
+                                      was not provided or demanded service that was of inadequate
+                                      quality.
+                                      Must have ValueType = DOUBLE or ValueType = INT64 and
+                                      must have MetricKind = DELTA or MetricKind = CUMULATIVE.
+                                      Exactly two of good_service_filter,bad_service_filter,total_service_filter
+                                      must be set (good + bad = total is assumed).
+                                    type: string
+                                  goodServiceFilter:
+                                    description: |-
+                                      A TimeSeries monitoring filter
+                                      quantifying good service provided.
+                                      Must have ValueType = DOUBLE or ValueType = INT64 and
+                                      must have MetricKind = DELTA or MetricKind = CUMULATIVE.
+                                      Exactly two of good_service_filter,bad_service_filter,total_service_filter
+                                      must be set (good + bad = total is assumed).
+                                    type: string
+                                  totalServiceFilter:
+                                    description: |-
+                                      A TimeSeries monitoring filter
+                                      quantifying total demanded service.
+                                      Must have ValueType = DOUBLE or ValueType = INT64 and
+                                      must have MetricKind = DELTA or MetricKind = CUMULATIVE.
+                                      Exactly two of good_service_filter,bad_service_filter,total_service_filter
+                                      must be set (good + bad = total is assumed).
+                                    type: string
+                                type: object
+                            type: object
+                          threshold:
+                            description: |-
+                              A duration string, e.g. 10s.
+                              Good service is defined to be the count of requests made to
+                              this service that return in no more than threshold.
+                            type: number
+                        type: object
+                      metricMeanInRange:
+                        description: |-
+                          Criterion that describes a window as good if the metric's value
+                          is in a good range, averaged across returned streams.
+                          One of good_bad_metric_filter,
+                          good_total_ratio_threshold, metric_mean_in_range,
+                          metric_sum_in_range must be set for windows_based_sli.
+                          Average value X of time_series should satisfy
+                          range.min <= X <= range.max for a good window.
+                          Structure is documented below.
+                        properties:
+                          range:
+                            description: |-
+                              Range of numerical values. The computed good_service
+                              will be the count of values x in the Distribution such
+                              that range.min <= x <= range.max. inclusive of min and
+                              max. Open ranges can be defined by setting
+                              just one of min or max. Summed value X should satisfy
+                              range.min <= X <= range.max for a good window.
+                              Structure is documented below.
+                            properties:
+                              max:
+                                description: |-
+                                  max value for the range (inclusive). If not given,
+                                  will be set to 0
+                                type: number
+                              min:
+                                description: |-
+                                  Min value for the range (inclusive). If not given,
+                                  will be set to 0
+                                type: number
+                            type: object
+                          timeSeries:
+                            description: |-
+                              A monitoring filter
+                              specifying the TimeSeries to use for evaluating window
+                              quality. The provided TimeSeries must have
+                              ValueType = INT64 or ValueType = DOUBLE and
+                              MetricKind = GAUGE.
+                              Summed value X should satisfy
+                              range.min <= X <= range.max for a good window.
+                            type: string
+                        type: object
+                      metricSumInRange:
+                        description: |-
+                          Criterion that describes a window as good if the metric's value
+                          is in a good range, summed across returned streams.
+                          Summed value X of time_series should satisfy
+                          range.min <= X <= range.max for a good window.
+                          One of good_bad_metric_filter,
+                          good_total_ratio_threshold, metric_mean_in_range,
+                          metric_sum_in_range must be set for windows_based_sli.
+                          Structure is documented below.
+                        properties:
+                          range:
+                            description: |-
+                              Range of numerical values. The computed good_service
+                              will be the count of values x in the Distribution such
+                              that range.min <= x <= range.max. inclusive of min and
+                              max. Open ranges can be defined by setting
+                              just one of min or max. Summed value X should satisfy
+                              range.min <= X <= range.max for a good window.
+                              Structure is documented below.
+                            properties:
+                              max:
+                                description: |-
+                                  max value for the range (inclusive). If not given,
+                                  will be set to 0
+                                type: number
+                              min:
+                                description: |-
+                                  Min value for the range (inclusive). If not given,
+                                  will be set to 0
+                                type: number
+                            type: object
+                          timeSeries:
+                            description: |-
+                              A monitoring filter
+                              specifying the TimeSeries to use for evaluating window
+                              quality. The provided TimeSeries must have
+                              ValueType = INT64 or ValueType = DOUBLE and
+                              MetricKind = GAUGE.
+                              Summed value X should satisfy
+                              range.min <= X <= range.max for a good window.
+                            type: string
+                        type: object
+                      windowPeriod:
+                        description: |-
+                          Duration over which window quality is evaluated, given as a
+                          duration string "{X}s" representing X seconds. Must be an
+                          integer fraction of a day and at least 60s.
+                        type: string
+                    type: object
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.goal is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.goal)
+                || (has(self.initProvider) && has(self.initProvider.goal))'
+          status:
+            description: SLOStatus defines the observed state of SLO.
+            properties:
+              atProvider:
+                properties:
+                  basicSli:
+                    description: |-
+                      Basic Service-Level Indicator (SLI) on a well-known service type.
+                      Performance will be computed on the basis of pre-defined metrics.
+                      SLIs are used to measure and calculate the quality of the Service's
+                      performance with respect to a single aspect of service quality.
+                      Exactly one of the following must be set:
+                      basic_sli, request_based_sli, windows_based_sli
+                      Structure is documented below.
+                    properties:
+                      availability:
+                        description: |-
+                          Availability based SLI, dervied from count of requests made to this service that return successfully.
+                          Structure is documented below.
+                        properties:
+                          enabled:
+                            description: Whether an availability SLI is enabled or
+                              not. Must be set to true. Defaults to true.
+                            type: boolean
+                        type: object
+                      latency:
+                        description: |-
+                          Parameters for a latency threshold SLI.
+                          Structure is documented below.
+                        properties:
+                          threshold:
+                            description: |-
+                              A duration string, e.g. 10s.
+                              Good service is defined to be the count of requests made to
+                              this service that return in no more than threshold.
+                            type: string
+                        type: object
+                      location:
+                        description: |-
+                          An optional set of locations to which this SLI is relevant.
+                          Telemetry from other locations will not be used to calculate
+                          performance for this SLI. If omitted, this SLI applies to all
+                          locations in which the Service has activity. For service types
+                          that don't support breaking down by location, setting this
+                          field will result in an error.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                      method:
+                        description: |-
+                          An optional set of RPCs to which this SLI is relevant.
+                          Telemetry from other methods will not be used to calculate
+                          performance for this SLI. If omitted, this SLI applies to all
+                          the Service's methods. For service types that don't support
+                          breaking down by method, setting this field will result in an
+                          error.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                      version:
+                        description: |-
+                          The set of API versions to which this SLI is relevant.
+                          Telemetry from other API versions will not be used to
+                          calculate performance for this SLI. If omitted,
+                          this SLI applies to all API versions. For service types
+                          that don't support breaking down by version, setting this
+                          field will result in an error.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                    type: object
+                  calendarPeriod:
+                    description: |-
+                      A calendar period, semantically "since the start of the current
+                      ".
+                      Possible values are: DAY, WEEK, FORTNIGHT, MONTH.
+                    type: string
+                  displayName:
+                    description: Name used for UI elements listing this SLO.
+                    type: string
+                  goal:
+                    description: |-
+                      The fraction of service that must be good in order for this objective
+                      to be met. 0 < goal <= 0.999
+                    type: number
+                  id:
+                    description: an identifier for the resource with format {{name}}
+                    type: string
+                  name:
+                    description: |-
+                      The full resource name for this service. The syntax is:
+                      projects/[PROJECT_ID_OR_NUMBER]/services/[SERVICE_ID]/serviceLevelObjectives/[SLO_NAME]
+                    type: string
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  requestBasedSli:
+                    description: |-
+                      A request-based SLI defines a SLI for which atomic units of
+                      service are counted directly.
+                      A SLI describes a good service.
+                      It is used to measure and calculate the quality of the Service's
+                      performance with respect to a single aspect of service quality.
+                      Exactly one of the following must be set:
+                      basic_sli, request_based_sli, windows_based_sli
+                      Structure is documented below.
+                    properties:
+                      distributionCut:
+                        description: |-
+                          Used when good_service is defined by a count of values aggregated in a
+                          Distribution that fall into a good range. The total_service is the
+                          total count of all values aggregated in the Distribution.
+                          Defines a distribution TimeSeries filter and thresholds used for
+                          measuring good service and total service.
+                          Exactly one of distribution_cut or good_total_ratio can be set.
+                          Structure is documented below.
+                        properties:
+                          distributionFilter:
+                            description: |-
+                              A TimeSeries monitoring filter
+                              aggregating values to quantify the good service provided.
+                              Must have ValueType = DISTRIBUTION and
+                              MetricKind = DELTA or MetricKind = CUMULATIVE.
+                            type: string
+                          range:
+                            description: |-
+                              Range of numerical values. The computed good_service
+                              will be the count of values x in the Distribution such
+                              that range.min <= x <= range.max. inclusive of min and
+                              max. Open ranges can be defined by setting
+                              just one of min or max. Summed value X should satisfy
+                              range.min <= X <= range.max for a good window.
+                              Structure is documented below.
+                            properties:
+                              max:
+                                description: |-
+                                  max value for the range (inclusive). If not given,
+                                  will be set to 0
+                                type: number
+                              min:
+                                description: |-
+                                  Min value for the range (inclusive). If not given,
+                                  will be set to 0
+                                type: number
+                            type: object
+                        type: object
+                      goodTotalRatio:
+                        description: |-
+                          A means to compute a ratio of good_service to total_service.
+                          Defines computing this ratio with two TimeSeries monitoring filters
+                          Must specify exactly two of good, bad, and total service filters.
+                          The relationship good_service + bad_service = total_service
+                          will be assumed.
+                          Exactly one of distribution_cut or good_total_ratio can be set.
+                          Structure is documented below.
+                        properties:
+                          badServiceFilter:
+                            description: |-
+                              A TimeSeries monitoring filter
+                              quantifying bad service provided, either demanded service that
+                              was not provided or demanded service that was of inadequate
+                              quality.
+                              Must have ValueType = DOUBLE or ValueType = INT64 and
+                              must have MetricKind = DELTA or MetricKind = CUMULATIVE.
+                              Exactly two of good_service_filter,bad_service_filter,total_service_filter
+                              must be set (good + bad = total is assumed).
+                            type: string
+                          goodServiceFilter:
+                            description: |-
+                              A TimeSeries monitoring filter
+                              quantifying good service provided.
+                              Must have ValueType = DOUBLE or ValueType = INT64 and
+                              must have MetricKind = DELTA or MetricKind = CUMULATIVE.
+                              Exactly two of good_service_filter,bad_service_filter,total_service_filter
+                              must be set (good + bad = total is assumed).
+                            type: string
+                          totalServiceFilter:
+                            description: |-
+                              A TimeSeries monitoring filter
+                              quantifying total demanded service.
+                              Must have ValueType = DOUBLE or ValueType = INT64 and
+                              must have MetricKind = DELTA or MetricKind = CUMULATIVE.
+                              Exactly two of good_service_filter,bad_service_filter,total_service_filter
+                              must be set (good + bad = total is assumed).
+                            type: string
+                        type: object
+                    type: object
+                  rollingPeriodDays:
+                    description: |-
+                      A rolling time period, semantically "in the past X days".
+                      Must be between 1 to 30 days, inclusive.
+                    type: number
+                  service:
+                    description: ID of the service to which this SLO belongs.
+                    type: string
+                  sloId:
+                    description: The id to use for this ServiceLevelObjective. If
+                      omitted, an id will be generated instead.
+                    type: string
+                  userLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      This field is intended to be used for organizing and identifying the AlertPolicy
+                      objects.The field can contain up to 64 entries. Each key and value is limited
+                      to 63 Unicode characters or 128 bytes, whichever is smaller. Labels and values
+                      can contain only lowercase letters, numerals, underscores, and dashes. Keys
+                      must begin with a letter.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  windowsBasedSli:
+                    description: |-
+                      A windows-based SLI defines the criteria for time windows.
+                      good_service is defined based off the count of these time windows
+                      for which the provided service was of good quality.
+                      A SLI describes a good service. It is used to measure and calculate
+                      the quality of the Service's performance with respect to a single
+                      aspect of service quality.
+                      Exactly one of the following must be set:
+                      basic_sli, request_based_sli, windows_based_sli
+                      Structure is documented below.
+                    properties:
+                      goodBadMetricFilter:
+                        description: |-
+                          A TimeSeries monitoring filter
+                          with ValueType = BOOL. The window is good if any true values
+                          appear in the window. One of good_bad_metric_filter,
+                          good_total_ratio_threshold, metric_mean_in_range,
+                          metric_sum_in_range must be set for windows_based_sli.
+                        type: string
+                      goodTotalRatioThreshold:
+                        description: |-
+                          Criterion that describes a window as good if its performance is
+                          high enough. One of good_bad_metric_filter,
+                          good_total_ratio_threshold, metric_mean_in_range,
+                          metric_sum_in_range must be set for windows_based_sli.
+                          Structure is documented below.
+                        properties:
+                          basicSliPerformance:
+                            description: |-
+                              Basic SLI to evaluate to judge window quality.
+                              Structure is documented below.
+                            properties:
+                              availability:
+                                description: |-
+                                  Availability based SLI, dervied from count of requests made to this service that return successfully.
+                                  Structure is documented below.
+                                properties:
+                                  enabled:
+                                    description: Whether an availability SLI is enabled
+                                      or not. Must be set to true. Defaults to true.
+                                    type: boolean
+                                type: object
+                              latency:
+                                description: |-
+                                  Parameters for a latency threshold SLI.
+                                  Structure is documented below.
+                                properties:
+                                  threshold:
+                                    description: |-
+                                      A duration string, e.g. 10s.
+                                      Good service is defined to be the count of requests made to
+                                      this service that return in no more than threshold.
+                                    type: string
+                                type: object
+                              location:
+                                description: |-
+                                  An optional set of locations to which this SLI is relevant.
+                                  Telemetry from other locations will not be used to calculate
+                                  performance for this SLI. If omitted, this SLI applies to all
+                                  locations in which the Service has activity. For service types
+                                  that don't support breaking down by location, setting this
+                                  field will result in an error.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                              method:
+                                description: |-
+                                  An optional set of RPCs to which this SLI is relevant.
+                                  Telemetry from other methods will not be used to calculate
+                                  performance for this SLI. If omitted, this SLI applies to all
+                                  the Service's methods. For service types that don't support
+                                  breaking down by method, setting this field will result in an
+                                  error.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                              version:
+                                description: |-
+                                  The set of API versions to which this SLI is relevant.
+                                  Telemetry from other API versions will not be used to
+                                  calculate performance for this SLI. If omitted,
+                                  this SLI applies to all API versions. For service types
+                                  that don't support breaking down by version, setting this
+                                  field will result in an error.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                            type: object
+                          performance:
+                            description: |-
+                              Request-based SLI to evaluate to judge window quality.
+                              Structure is documented below.
+                            properties:
+                              distributionCut:
+                                description: |-
+                                  Used when good_service is defined by a count of values aggregated in a
+                                  Distribution that fall into a good range. The total_service is the
+                                  total count of all values aggregated in the Distribution.
+                                  Defines a distribution TimeSeries filter and thresholds used for
+                                  measuring good service and total service.
+                                  Exactly one of distribution_cut or good_total_ratio can be set.
+                                  Structure is documented below.
+                                properties:
+                                  distributionFilter:
+                                    description: |-
+                                      A TimeSeries monitoring filter
+                                      aggregating values to quantify the good service provided.
+                                      Must have ValueType = DISTRIBUTION and
+                                      MetricKind = DELTA or MetricKind = CUMULATIVE.
+                                    type: string
+                                  range:
+                                    description: |-
+                                      Range of numerical values. The computed good_service
+                                      will be the count of values x in the Distribution such
+                                      that range.min <= x <= range.max. inclusive of min and
+                                      max. Open ranges can be defined by setting
+                                      just one of min or max. Summed value X should satisfy
+                                      range.min <= X <= range.max for a good window.
+                                      Structure is documented below.
+                                    properties:
+                                      max:
+                                        description: |-
+                                          max value for the range (inclusive). If not given,
+                                          will be set to 0
+                                        type: number
+                                      min:
+                                        description: |-
+                                          Min value for the range (inclusive). If not given,
+                                          will be set to 0
+                                        type: number
+                                    type: object
+                                type: object
+                              goodTotalRatio:
+                                description: |-
+                                  A means to compute a ratio of good_service to total_service.
+                                  Defines computing this ratio with two TimeSeries monitoring filters
+                                  Must specify exactly two of good, bad, and total service filters.
+                                  The relationship good_service + bad_service = total_service
+                                  will be assumed.
+                                  Exactly one of distribution_cut or good_total_ratio can be set.
+                                  Structure is documented below.
+                                properties:
+                                  badServiceFilter:
+                                    description: |-
+                                      A TimeSeries monitoring filter
+                                      quantifying bad service provided, either demanded service that
+                                      was not provided or demanded service that was of inadequate
+                                      quality.
+                                      Must have ValueType = DOUBLE or ValueType = INT64 and
+                                      must have MetricKind = DELTA or MetricKind = CUMULATIVE.
+                                      Exactly two of good_service_filter,bad_service_filter,total_service_filter
+                                      must be set (good + bad = total is assumed).
+                                    type: string
+                                  goodServiceFilter:
+                                    description: |-
+                                      A TimeSeries monitoring filter
+                                      quantifying good service provided.
+                                      Must have ValueType = DOUBLE or ValueType = INT64 and
+                                      must have MetricKind = DELTA or MetricKind = CUMULATIVE.
+                                      Exactly two of good_service_filter,bad_service_filter,total_service_filter
+                                      must be set (good + bad = total is assumed).
+                                    type: string
+                                  totalServiceFilter:
+                                    description: |-
+                                      A TimeSeries monitoring filter
+                                      quantifying total demanded service.
+                                      Must have ValueType = DOUBLE or ValueType = INT64 and
+                                      must have MetricKind = DELTA or MetricKind = CUMULATIVE.
+                                      Exactly two of good_service_filter,bad_service_filter,total_service_filter
+                                      must be set (good + bad = total is assumed).
+                                    type: string
+                                type: object
+                            type: object
+                          threshold:
+                            description: |-
+                              A duration string, e.g. 10s.
+                              Good service is defined to be the count of requests made to
+                              this service that return in no more than threshold.
+                            type: number
+                        type: object
+                      metricMeanInRange:
+                        description: |-
+                          Criterion that describes a window as good if the metric's value
+                          is in a good range, averaged across returned streams.
+                          One of good_bad_metric_filter,
+                          good_total_ratio_threshold, metric_mean_in_range,
+                          metric_sum_in_range must be set for windows_based_sli.
+                          Average value X of time_series should satisfy
+                          range.min <= X <= range.max for a good window.
+                          Structure is documented below.
+                        properties:
+                          range:
+                            description: |-
+                              Range of numerical values. The computed good_service
+                              will be the count of values x in the Distribution such
+                              that range.min <= x <= range.max. inclusive of min and
+                              max. Open ranges can be defined by setting
+                              just one of min or max. Summed value X should satisfy
+                              range.min <= X <= range.max for a good window.
+                              Structure is documented below.
+                            properties:
+                              max:
+                                description: |-
+                                  max value for the range (inclusive). If not given,
+                                  will be set to 0
+                                type: number
+                              min:
+                                description: |-
+                                  Min value for the range (inclusive). If not given,
+                                  will be set to 0
+                                type: number
+                            type: object
+                          timeSeries:
+                            description: |-
+                              A monitoring filter
+                              specifying the TimeSeries to use for evaluating window
+                              quality. The provided TimeSeries must have
+                              ValueType = INT64 or ValueType = DOUBLE and
+                              MetricKind = GAUGE.
+                              Summed value X should satisfy
+                              range.min <= X <= range.max for a good window.
+                            type: string
+                        type: object
+                      metricSumInRange:
+                        description: |-
+                          Criterion that describes a window as good if the metric's value
+                          is in a good range, summed across returned streams.
+                          Summed value X of time_series should satisfy
+                          range.min <= X <= range.max for a good window.
+                          One of good_bad_metric_filter,
+                          good_total_ratio_threshold, metric_mean_in_range,
+                          metric_sum_in_range must be set for windows_based_sli.
+                          Structure is documented below.
+                        properties:
+                          range:
+                            description: |-
+                              Range of numerical values. The computed good_service
+                              will be the count of values x in the Distribution such
+                              that range.min <= x <= range.max. inclusive of min and
+                              max. Open ranges can be defined by setting
+                              just one of min or max. Summed value X should satisfy
+                              range.min <= X <= range.max for a good window.
+                              Structure is documented below.
+                            properties:
+                              max:
+                                description: |-
+                                  max value for the range (inclusive). If not given,
+                                  will be set to 0
+                                type: number
+                              min:
+                                description: |-
+                                  Min value for the range (inclusive). If not given,
+                                  will be set to 0
+                                type: number
+                            type: object
+                          timeSeries:
+                            description: |-
+                              A monitoring filter
+                              specifying the TimeSeries to use for evaluating window
+                              quality. The provided TimeSeries must have
+                              ValueType = INT64 or ValueType = DOUBLE and
+                              MetricKind = GAUGE.
+                              Summed value X should satisfy
+                              range.min <= X <= range.max for a good window.
+                            type: string
+                        type: object
+                      windowPeriod:
+                        description: |-
+                          Duration over which window quality is evaluated, given as a
+                          duration string "{X}s" representing X seconds. Must be an
+                          integer fraction of a day and at least 60s.
+                        type: string
+                    type: object
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}

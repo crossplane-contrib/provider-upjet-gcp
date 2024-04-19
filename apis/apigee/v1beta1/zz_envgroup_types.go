@@ -40,7 +40,7 @@ type EnvgroupParameters struct {
 
 	// The Apigee Organization associated with the Apigee environment group,
 	// in the format organizations/{{org_name}}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/apigee/v1beta1.Organization
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/apigee/v1beta2.Organization
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`

@@ -49,7 +49,7 @@ func (mg *Repository) ResolveReferences( // ResolveReferences of this Repository
 	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.PubsubConfigs); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("pubsub.gcp.upbound.io", "v1beta1", "Topic", "TopicList")
+			m, l, err = apisresolver.GetManagedResource("pubsub.gcp.upbound.io", "v1beta2", "Topic", "TopicList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -91,7 +91,7 @@ func (mg *Repository) ResolveReferences( // ResolveReferences of this Repository
 	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.PubsubConfigs); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("pubsub.gcp.upbound.io", "v1beta1", "Topic", "TopicList")
+			m, l, err = apisresolver.GetManagedResource("pubsub.gcp.upbound.io", "v1beta2", "Topic", "TopicList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}

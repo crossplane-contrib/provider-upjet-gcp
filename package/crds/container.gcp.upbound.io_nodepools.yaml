@@ -2025,3 +2025,1825 @@ spec:
     storage: true
     subresources:
       status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta2
+    schema:
+      openAPIV3Schema:
+        description: NodePool is the Schema for the NodePools API. Manages a GKE NodePool
+          resource.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: NodePoolSpec defines the desired state of NodePool
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  autoscaling:
+                    description: |-
+                      Configuration required by cluster autoscaler to adjust
+                      the size of the node pool to the current cluster usage. Structure is documented below.
+                    properties:
+                      locationPolicy:
+                        description: |-
+                          Location policy specifies the algorithm used when
+                          scaling-up the node pool. Location policy is supported only in 1.24.1+ clusters.
+                        type: string
+                      maxNodeCount:
+                        description: |-
+                          Maximum number of nodes per zone in the NodePool.
+                          Must be >= min_node_count. Cannot be used with total limits.
+                        type: number
+                      minNodeCount:
+                        description: |-
+                          Minimum number of nodes per zone in the NodePool.
+                          Must be >=0 and <= max_node_count. Cannot be used with total limits.
+                        type: number
+                      totalMaxNodeCount:
+                        description: |-
+                          Total maximum number of nodes in the NodePool.
+                          Must be >= total_min_node_count. Cannot be used with per zone limits.
+                          Total size limits are supported only in 1.24.1+ clusters.
+                        type: number
+                      totalMinNodeCount:
+                        description: |-
+                          Total minimum number of nodes in the NodePool.
+                          Must be >=0 and <= total_max_node_count. Cannot be used with per zone limits.
+                          Total size limits are supported only in 1.24.1+ clusters.
+                        type: number
+                    type: object
+                  cluster:
+                    description: The cluster to create the node pool for. Cluster
+                      must be present in location provided for clusters. May be specified
+                      in the format projects/{{project}}/locations/{{location}}/clusters/{{cluster}}
+                      or as just the name of the cluster.
+                    type: string
+                  clusterRef:
+                    description: Reference to a Cluster to populate cluster.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  clusterSelector:
+                    description: Selector for a Cluster to populate cluster.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  initialNodeCount:
+                    description: |-
+                      The initial number of nodes for the pool. In
+                      regional or multi-zonal clusters, this is the number of nodes per zone. Changing
+                      this will force recreation of the resource.  If you don't
+                      need this value, don't set it.  If you do need it, you can use a lifecycle block to
+                      ignore subsequent changes to this field.
+                    type: number
+                  location:
+                    description: The location (region or zone) of the cluster.
+                    type: string
+                  management:
+                    description: |-
+                      Node management configuration, wherein auto-repair and
+                      auto-upgrade is configured. Structure is documented below.
+                    properties:
+                      autoRepair:
+                        description: Whether the nodes will be automatically repaired.
+                          Enabled by default.
+                        type: boolean
+                      autoUpgrade:
+                        description: Whether the nodes will be automatically upgraded.
+                          Enabled by default.
+                        type: boolean
+                    type: object
+                  maxPodsPerNode:
+                    description: |-
+                      The maximum number of pods per node in this node pool.
+                      Note that this does not work on node pools which are "route-based" - that is, node
+                      pools belonging to clusters that do not have IP Aliasing enabled.
+                      See the official documentation
+                      for more information.
+                    type: number
+                  networkConfig:
+                    description: |-
+                      The network configuration of the pool. Such as
+                      configuration for Adding Pod IP address ranges) to the node pool. Or enabling private nodes. Structure is
+                      documented below
+                    properties:
+                      createPodRange:
+                        description: Whether to create a new range for pod IPs in
+                          this node pool. Defaults are provided for pod_range and
+                          pod_ipv4_cidr_block if they are not specified.
+                        type: boolean
+                      enablePrivateNodes:
+                        description: Whether nodes have internal IP addresses only.
+                        type: boolean
+                      networkPerformanceConfig:
+                        properties:
+                          totalEgressBandwidthTier:
+                            type: string
+                        type: object
+                      podCidrOverprovisionConfig:
+                        properties:
+                          disabled:
+                            type: boolean
+                        type: object
+                      podIpv4CidrBlock:
+                        description: The IP address range for pod IPs in this node
+                          pool. Only applicable if createPodRange is true. Set to
+                          blank to have a range chosen with the default size. Set
+                          to /netmask (e.g. /14) to have a range chosen with a specific
+                          netmask. Set to a CIDR notation (e.g. 10.96.0.0/14) to pick
+                          a specific range to use.
+                        type: string
+                      podRange:
+                        description: The ID of the secondary range for pod IPs. If
+                          create_pod_range is true, this ID is used for the new range.
+                          If create_pod_range is false, uses an existing secondary
+                          range with this ID.
+                        type: string
+                    type: object
+                  nodeConfig:
+                    description: |-
+                      Parameters used in creating the node pool. See
+                      google_container_cluster for schema.
+                    properties:
+                      advancedMachineFeatures:
+                        properties:
+                          threadsPerCore:
+                            type: number
+                        type: object
+                      bootDiskKmsKey:
+                        type: string
+                      confidentialNodes:
+                        description: Configuration for Confidential Nodes feature.
+                          Structure is documented below.
+                        properties:
+                          enabled:
+                            description: Makes nodes obtainable through the ProvisioningRequest
+                              API exclusively.
+                            type: boolean
+                        type: object
+                      diskSizeGb:
+                        type: number
+                      diskType:
+                        type: string
+                      enableConfidentialStorage:
+                        type: boolean
+                      ephemeralStorageLocalSsdConfig:
+                        properties:
+                          localSsdCount:
+                            type: number
+                        type: object
+                      fastSocket:
+                        properties:
+                          enabled:
+                            description: Makes nodes obtainable through the ProvisioningRequest
+                              API exclusively.
+                            type: boolean
+                        type: object
+                      gcfsConfig:
+                        properties:
+                          enabled:
+                            description: Makes nodes obtainable through the ProvisioningRequest
+                              API exclusively.
+                            type: boolean
+                        type: object
+                      guestAccelerator:
+                        items:
+                          properties:
+                            count:
+                              type: number
+                            gpuDriverInstallationConfig:
+                              items:
+                                properties:
+                                  gpuDriverVersion:
+                                    description: |-
+                                      The Kubernetes version for the nodes in this pool. Note that if this field
+                                      and auto_upgrade are both specified, they will fight each other for what the node version should
+                                      be, so setting both is highly discouraged.
+                                    type: string
+                                type: object
+                              type: array
+                            gpuPartitionSize:
+                              type: string
+                            gpuSharingConfig:
+                              items:
+                                properties:
+                                  gpuSharingStrategy:
+                                    type: string
+                                  maxSharedClientsPerGpu:
+                                    type: number
+                                type: object
+                              type: array
+                            type:
+                              description: |-
+                                The type of the policy. Supports a single value: COMPACT.
+                                Specifying COMPACT placement policy type places node pool's nodes in a closer
+                                physical proximity in order to reduce network latency between nodes.
+                              type: string
+                          type: object
+                        type: array
+                      gvnic:
+                        properties:
+                          enabled:
+                            description: Makes nodes obtainable through the ProvisioningRequest
+                              API exclusively.
+                            type: boolean
+                        type: object
+                      hostMaintenancePolicy:
+                        properties:
+                          maintenanceInterval:
+                            type: string
+                        type: object
+                      imageType:
+                        type: string
+                      kubeletConfig:
+                        properties:
+                          cpuCfsQuota:
+                            type: boolean
+                          cpuCfsQuotaPeriod:
+                            type: string
+                          cpuManagerPolicy:
+                            type: string
+                          podPidsLimit:
+                            type: number
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        type: object
+                        x-kubernetes-map-type: granular
+                      linuxNodeConfig:
+                        description: |-
+                          Parameters used in creating the node pool. See
+                          google_container_cluster for schema.
+                        properties:
+                          cgroupMode:
+                            type: string
+                          sysctls:
+                            additionalProperties:
+                              type: string
+                            type: object
+                            x-kubernetes-map-type: granular
+                        type: object
+                      localNvmeSsdBlockConfig:
+                        properties:
+                          localSsdCount:
+                            type: number
+                        type: object
+                      localSsdCount:
+                        type: number
+                      loggingVariant:
+                        type: string
+                      machineType:
+                        type: string
+                      metadata:
+                        additionalProperties:
+                          type: string
+                        type: object
+                        x-kubernetes-map-type: granular
+                      minCpuPlatform:
+                        type: string
+                      nodeGroup:
+                        type: string
+                      oauthScopes:
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                      preemptible:
+                        type: boolean
+                      reservationAffinity:
+                        properties:
+                          consumeReservationType:
+                            type: string
+                          key:
+                            type: string
+                          values:
+                            items:
+                              type: string
+                            type: array
+                            x-kubernetes-list-type: set
+                        type: object
+                      resourceLabels:
+                        additionalProperties:
+                          type: string
+                        type: object
+                        x-kubernetes-map-type: granular
+                      resourceManagerTags:
+                        additionalProperties:
+                          type: string
+                        type: object
+                        x-kubernetes-map-type: granular
+                      serviceAccount:
+                        type: string
+                      serviceAccountRef:
+                        description: Reference to a ServiceAccount in cloudplatform
+                          to populate serviceAccount.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      serviceAccountSelector:
+                        description: Selector for a ServiceAccount in cloudplatform
+                          to populate serviceAccount.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                      shieldedInstanceConfig:
+                        properties:
+                          enableIntegrityMonitoring:
+                            type: boolean
+                          enableSecureBoot:
+                            type: boolean
+                        type: object
+                      soleTenantConfig:
+                        properties:
+                          nodeAffinity:
+                            items:
+                              properties:
+                                key:
+                                  type: string
+                                operator:
+                                  type: string
+                                values:
+                                  items:
+                                    type: string
+                                  type: array
+                              type: object
+                            type: array
+                        type: object
+                      spot:
+                        type: boolean
+                      tags:
+                        items:
+                          type: string
+                        type: array
+                      taint:
+                        items:
+                          properties:
+                            effect:
+                              type: string
+                            key:
+                              type: string
+                            value:
+                              type: string
+                          type: object
+                        type: array
+                      workloadMetadataConfig:
+                        properties:
+                          mode:
+                            type: string
+                        type: object
+                    type: object
+                  nodeCount:
+                    description: |-
+                      The number of nodes per instance group. This field can be used to
+                      update the number of nodes per instance group but should not be used alongside autoscaling.
+                    type: number
+                  nodeLocations:
+                    description: |-
+                      The list of zones in which the node pool's nodes should be located. Nodes must
+                      be in the region of their regional cluster or in the same region as their
+                      cluster's zone for zonal clusters. If unspecified, the cluster-level
+                      node_locations will be used.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  placementPolicy:
+                    description: |-
+                      Specifies a custom placement policy for the
+                      nodes.
+                    properties:
+                      policyName:
+                        description: |-
+                          If set, refers to the name of a custom resource policy supplied by the user.
+                          The resource policy must be in the same project and region as the node pool.
+                          If not found, InvalidArgument error is returned.
+                        type: string
+                      tpuTopology:
+                        description: The TPU placement topology for pod slice node
+                          pool.
+                        type: string
+                      type:
+                        description: |-
+                          The type of the policy. Supports a single value: COMPACT.
+                          Specifying COMPACT placement policy type places node pool's nodes in a closer
+                          physical proximity in order to reduce network latency between nodes.
+                        type: string
+                    type: object
+                  project:
+                    description: |-
+                      The ID of the project in which to create the node pool. If blank,
+                      the provider-configured project will be used.
+                    type: string
+                  upgradeSettings:
+                    description: |-
+                      Specify node upgrade settings to change how GKE upgrades nodes.
+                      The maximum number of nodes upgraded simultaneously is limited to 20. Structure is documented below.
+                    properties:
+                      blueGreenSettings:
+                        description: |-
+                          The settings to adjust blue green upgrades.
+                          Structure is documented below
+                        properties:
+                          nodePoolSoakDuration:
+                            description: |-
+                              Time needed after draining the entire blue pool.
+                              After this period, the blue pool will be cleaned up.
+                            type: string
+                          standardRolloutPolicy:
+                            description: Specifies the standard policy settings for
+                              blue-green upgrades.
+                            properties:
+                              batchNodeCount:
+                                description: Number of blue nodes to drain in a batch.
+                                type: number
+                              batchPercentage:
+                                description: Percentage of the blue pool nodes to
+                                  drain in a batch.
+                                type: number
+                              batchSoakDuration:
+                                description: (Optionial) Soak time after each batch
+                                  gets drained.
+                                type: string
+                            type: object
+                        type: object
+                      maxSurge:
+                        description: |-
+                          The number of additional nodes that can be added to the node pool during
+                          an upgrade. Increasing max_surge raises the number of nodes that can be upgraded simultaneously.
+                          Can be set to 0 or greater.
+                        type: number
+                      maxUnavailable:
+                        description: |-
+                          The number of nodes that can be simultaneously unavailable during
+                          an upgrade. Increasing max_unavailable raises the number of nodes that can be upgraded in
+                          parallel. Can be set to 0 or greater.
+                        type: number
+                      strategy:
+                        description: (Default SURGE) The upgrade stragey to be used
+                          for upgrading the nodes.
+                        type: string
+                    type: object
+                  version:
+                    description: |-
+                      The Kubernetes version for the nodes in this pool. Note that if this field
+                      and auto_upgrade are both specified, they will fight each other for what the node version should
+                      be, so setting both is highly discouraged.
+                    type: string
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  autoscaling:
+                    description: |-
+                      Configuration required by cluster autoscaler to adjust
+                      the size of the node pool to the current cluster usage. Structure is documented below.
+                    properties:
+                      locationPolicy:
+                        description: |-
+                          Location policy specifies the algorithm used when
+                          scaling-up the node pool. Location policy is supported only in 1.24.1+ clusters.
+                        type: string
+                      maxNodeCount:
+                        description: |-
+                          Maximum number of nodes per zone in the NodePool.
+                          Must be >= min_node_count. Cannot be used with total limits.
+                        type: number
+                      minNodeCount:
+                        description: |-
+                          Minimum number of nodes per zone in the NodePool.
+                          Must be >=0 and <= max_node_count. Cannot be used with total limits.
+                        type: number
+                      totalMaxNodeCount:
+                        description: |-
+                          Total maximum number of nodes in the NodePool.
+                          Must be >= total_min_node_count. Cannot be used with per zone limits.
+                          Total size limits are supported only in 1.24.1+ clusters.
+                        type: number
+                      totalMinNodeCount:
+                        description: |-
+                          Total minimum number of nodes in the NodePool.
+                          Must be >=0 and <= total_max_node_count. Cannot be used with per zone limits.
+                          Total size limits are supported only in 1.24.1+ clusters.
+                        type: number
+                    type: object
+                  initialNodeCount:
+                    description: |-
+                      The initial number of nodes for the pool. In
+                      regional or multi-zonal clusters, this is the number of nodes per zone. Changing
+                      this will force recreation of the resource.  If you don't
+                      need this value, don't set it.  If you do need it, you can use a lifecycle block to
+                      ignore subsequent changes to this field.
+                    type: number
+                  management:
+                    description: |-
+                      Node management configuration, wherein auto-repair and
+                      auto-upgrade is configured. Structure is documented below.
+                    properties:
+                      autoRepair:
+                        description: Whether the nodes will be automatically repaired.
+                          Enabled by default.
+                        type: boolean
+                      autoUpgrade:
+                        description: Whether the nodes will be automatically upgraded.
+                          Enabled by default.
+                        type: boolean
+                    type: object
+                  maxPodsPerNode:
+                    description: |-
+                      The maximum number of pods per node in this node pool.
+                      Note that this does not work on node pools which are "route-based" - that is, node
+                      pools belonging to clusters that do not have IP Aliasing enabled.
+                      See the official documentation
+                      for more information.
+                    type: number
+                  networkConfig:
+                    description: |-
+                      The network configuration of the pool. Such as
+                      configuration for Adding Pod IP address ranges) to the node pool. Or enabling private nodes. Structure is
+                      documented below
+                    properties:
+                      createPodRange:
+                        description: Whether to create a new range for pod IPs in
+                          this node pool. Defaults are provided for pod_range and
+                          pod_ipv4_cidr_block if they are not specified.
+                        type: boolean
+                      enablePrivateNodes:
+                        description: Whether nodes have internal IP addresses only.
+                        type: boolean
+                      networkPerformanceConfig:
+                        properties:
+                          totalEgressBandwidthTier:
+                            type: string
+                        type: object
+                      podCidrOverprovisionConfig:
+                        properties:
+                          disabled:
+                            type: boolean
+                        type: object
+                      podIpv4CidrBlock:
+                        description: The IP address range for pod IPs in this node
+                          pool. Only applicable if createPodRange is true. Set to
+                          blank to have a range chosen with the default size. Set
+                          to /netmask (e.g. /14) to have a range chosen with a specific
+                          netmask. Set to a CIDR notation (e.g. 10.96.0.0/14) to pick
+                          a specific range to use.
+                        type: string
+                      podRange:
+                        description: The ID of the secondary range for pod IPs. If
+                          create_pod_range is true, this ID is used for the new range.
+                          If create_pod_range is false, uses an existing secondary
+                          range with this ID.
+                        type: string
+                    type: object
+                  nodeConfig:
+                    description: |-
+                      Parameters used in creating the node pool. See
+                      google_container_cluster for schema.
+                    properties:
+                      advancedMachineFeatures:
+                        properties:
+                          threadsPerCore:
+                            type: number
+                        type: object
+                      bootDiskKmsKey:
+                        type: string
+                      confidentialNodes:
+                        description: Configuration for Confidential Nodes feature.
+                          Structure is documented below.
+                        properties:
+                          enabled:
+                            description: Makes nodes obtainable through the ProvisioningRequest
+                              API exclusively.
+                            type: boolean
+                        type: object
+                      diskSizeGb:
+                        type: number
+                      diskType:
+                        type: string
+                      enableConfidentialStorage:
+                        type: boolean
+                      ephemeralStorageLocalSsdConfig:
+                        properties:
+                          localSsdCount:
+                            type: number
+                        type: object
+                      fastSocket:
+                        properties:
+                          enabled:
+                            description: Makes nodes obtainable through the ProvisioningRequest
+                              API exclusively.
+                            type: boolean
+                        type: object
+                      gcfsConfig:
+                        properties:
+                          enabled:
+                            description: Makes nodes obtainable through the ProvisioningRequest
+                              API exclusively.
+                            type: boolean
+                        type: object
+                      guestAccelerator:
+                        items:
+                          properties:
+                            count:
+                              type: number
+                            gpuDriverInstallationConfig:
+                              items:
+                                properties:
+                                  gpuDriverVersion:
+                                    description: |-
+                                      The Kubernetes version for the nodes in this pool. Note that if this field
+                                      and auto_upgrade are both specified, they will fight each other for what the node version should
+                                      be, so setting both is highly discouraged.
+                                    type: string
+                                type: object
+                              type: array
+                            gpuPartitionSize:
+                              type: string
+                            gpuSharingConfig:
+                              items:
+                                properties:
+                                  gpuSharingStrategy:
+                                    type: string
+                                  maxSharedClientsPerGpu:
+                                    type: number
+                                type: object
+                              type: array
+                            type:
+                              description: |-
+                                The type of the policy. Supports a single value: COMPACT.
+                                Specifying COMPACT placement policy type places node pool's nodes in a closer
+                                physical proximity in order to reduce network latency between nodes.
+                              type: string
+                          type: object
+                        type: array
+                      gvnic:
+                        properties:
+                          enabled:
+                            description: Makes nodes obtainable through the ProvisioningRequest
+                              API exclusively.
+                            type: boolean
+                        type: object
+                      hostMaintenancePolicy:
+                        properties:
+                          maintenanceInterval:
+                            type: string
+                        type: object
+                      imageType:
+                        type: string
+                      kubeletConfig:
+                        properties:
+                          cpuCfsQuota:
+                            type: boolean
+                          cpuCfsQuotaPeriod:
+                            type: string
+                          cpuManagerPolicy:
+                            type: string
+                          podPidsLimit:
+                            type: number
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        type: object
+                        x-kubernetes-map-type: granular
+                      linuxNodeConfig:
+                        description: |-
+                          Parameters used in creating the node pool. See
+                          google_container_cluster for schema.
+                        properties:
+                          cgroupMode:
+                            type: string
+                          sysctls:
+                            additionalProperties:
+                              type: string
+                            type: object
+                            x-kubernetes-map-type: granular
+                        type: object
+                      localNvmeSsdBlockConfig:
+                        properties:
+                          localSsdCount:
+                            type: number
+                        type: object
+                      localSsdCount:
+                        type: number
+                      loggingVariant:
+                        type: string
+                      machineType:
+                        type: string
+                      metadata:
+                        additionalProperties:
+                          type: string
+                        type: object
+                        x-kubernetes-map-type: granular
+                      minCpuPlatform:
+                        type: string
+                      nodeGroup:
+                        type: string
+                      oauthScopes:
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                      preemptible:
+                        type: boolean
+                      reservationAffinity:
+                        properties:
+                          consumeReservationType:
+                            type: string
+                          key:
+                            type: string
+                          values:
+                            items:
+                              type: string
+                            type: array
+                            x-kubernetes-list-type: set
+                        type: object
+                      resourceLabels:
+                        additionalProperties:
+                          type: string
+                        type: object
+                        x-kubernetes-map-type: granular
+                      resourceManagerTags:
+                        additionalProperties:
+                          type: string
+                        type: object
+                        x-kubernetes-map-type: granular
+                      serviceAccount:
+                        type: string
+                      serviceAccountRef:
+                        description: Reference to a ServiceAccount in cloudplatform
+                          to populate serviceAccount.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      serviceAccountSelector:
+                        description: Selector for a ServiceAccount in cloudplatform
+                          to populate serviceAccount.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                      shieldedInstanceConfig:
+                        properties:
+                          enableIntegrityMonitoring:
+                            type: boolean
+                          enableSecureBoot:
+                            type: boolean
+                        type: object
+                      soleTenantConfig:
+                        properties:
+                          nodeAffinity:
+                            items:
+                              properties:
+                                key:
+                                  type: string
+                                operator:
+                                  type: string
+                                values:
+                                  items:
+                                    type: string
+                                  type: array
+                              type: object
+                            type: array
+                        type: object
+                      spot:
+                        type: boolean
+                      tags:
+                        items:
+                          type: string
+                        type: array
+                      taint:
+                        items:
+                          properties:
+                            effect:
+                              type: string
+                            key:
+                              type: string
+                            value:
+                              type: string
+                          type: object
+                        type: array
+                      workloadMetadataConfig:
+                        properties:
+                          mode:
+                            type: string
+                        type: object
+                    type: object
+                  nodeCount:
+                    description: |-
+                      The number of nodes per instance group. This field can be used to
+                      update the number of nodes per instance group but should not be used alongside autoscaling.
+                    type: number
+                  nodeLocations:
+                    description: |-
+                      The list of zones in which the node pool's nodes should be located. Nodes must
+                      be in the region of their regional cluster or in the same region as their
+                      cluster's zone for zonal clusters. If unspecified, the cluster-level
+                      node_locations will be used.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  placementPolicy:
+                    description: |-
+                      Specifies a custom placement policy for the
+                      nodes.
+                    properties:
+                      policyName:
+                        description: |-
+                          If set, refers to the name of a custom resource policy supplied by the user.
+                          The resource policy must be in the same project and region as the node pool.
+                          If not found, InvalidArgument error is returned.
+                        type: string
+                      tpuTopology:
+                        description: The TPU placement topology for pod slice node
+                          pool.
+                        type: string
+                      type:
+                        description: |-
+                          The type of the policy. Supports a single value: COMPACT.
+                          Specifying COMPACT placement policy type places node pool's nodes in a closer
+                          physical proximity in order to reduce network latency between nodes.
+                        type: string
+                    type: object
+                  project:
+                    description: |-
+                      The ID of the project in which to create the node pool. If blank,
+                      the provider-configured project will be used.
+                    type: string
+                  upgradeSettings:
+                    description: |-
+                      Specify node upgrade settings to change how GKE upgrades nodes.
+                      The maximum number of nodes upgraded simultaneously is limited to 20. Structure is documented below.
+                    properties:
+                      blueGreenSettings:
+                        description: |-
+                          The settings to adjust blue green upgrades.
+                          Structure is documented below
+                        properties:
+                          nodePoolSoakDuration:
+                            description: |-
+                              Time needed after draining the entire blue pool.
+                              After this period, the blue pool will be cleaned up.
+                            type: string
+                          standardRolloutPolicy:
+                            description: Specifies the standard policy settings for
+                              blue-green upgrades.
+                            properties:
+                              batchNodeCount:
+                                description: Number of blue nodes to drain in a batch.
+                                type: number
+                              batchPercentage:
+                                description: Percentage of the blue pool nodes to
+                                  drain in a batch.
+                                type: number
+                              batchSoakDuration:
+                                description: (Optionial) Soak time after each batch
+                                  gets drained.
+                                type: string
+                            type: object
+                        type: object
+                      maxSurge:
+                        description: |-
+                          The number of additional nodes that can be added to the node pool during
+                          an upgrade. Increasing max_surge raises the number of nodes that can be upgraded simultaneously.
+                          Can be set to 0 or greater.
+                        type: number
+                      maxUnavailable:
+                        description: |-
+                          The number of nodes that can be simultaneously unavailable during
+                          an upgrade. Increasing max_unavailable raises the number of nodes that can be upgraded in
+                          parallel. Can be set to 0 or greater.
+                        type: number
+                      strategy:
+                        description: (Default SURGE) The upgrade stragey to be used
+                          for upgrading the nodes.
+                        type: string
+                    type: object
+                  version:
+                    description: |-
+                      The Kubernetes version for the nodes in this pool. Note that if this field
+                      and auto_upgrade are both specified, they will fight each other for what the node version should
+                      be, so setting both is highly discouraged.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: NodePoolStatus defines the observed state of NodePool.
+            properties:
+              atProvider:
+                properties:
+                  autoscaling:
+                    description: |-
+                      Configuration required by cluster autoscaler to adjust
+                      the size of the node pool to the current cluster usage. Structure is documented below.
+                    properties:
+                      locationPolicy:
+                        description: |-
+                          Location policy specifies the algorithm used when
+                          scaling-up the node pool. Location policy is supported only in 1.24.1+ clusters.
+                        type: string
+                      maxNodeCount:
+                        description: |-
+                          Maximum number of nodes per zone in the NodePool.
+                          Must be >= min_node_count. Cannot be used with total limits.
+                        type: number
+                      minNodeCount:
+                        description: |-
+                          Minimum number of nodes per zone in the NodePool.
+                          Must be >=0 and <= max_node_count. Cannot be used with total limits.
+                        type: number
+                      totalMaxNodeCount:
+                        description: |-
+                          Total maximum number of nodes in the NodePool.
+                          Must be >= total_min_node_count. Cannot be used with per zone limits.
+                          Total size limits are supported only in 1.24.1+ clusters.
+                        type: number
+                      totalMinNodeCount:
+                        description: |-
+                          Total minimum number of nodes in the NodePool.
+                          Must be >=0 and <= total_max_node_count. Cannot be used with per zone limits.
+                          Total size limits are supported only in 1.24.1+ clusters.
+                        type: number
+                    type: object
+                  cluster:
+                    description: The cluster to create the node pool for. Cluster
+                      must be present in location provided for clusters. May be specified
+                      in the format projects/{{project}}/locations/{{location}}/clusters/{{cluster}}
+                      or as just the name of the cluster.
+                    type: string
+                  id:
+                    description: an identifier for the resource with format {{project}}/{{location}}/{{cluster}}/{{name}}
+                    type: string
+                  initialNodeCount:
+                    description: |-
+                      The initial number of nodes for the pool. In
+                      regional or multi-zonal clusters, this is the number of nodes per zone. Changing
+                      this will force recreation of the resource.  If you don't
+                      need this value, don't set it.  If you do need it, you can use a lifecycle block to
+                      ignore subsequent changes to this field.
+                    type: number
+                  instanceGroupUrls:
+                    description: The resource URLs of the managed instance groups
+                      associated with this node pool.
+                    items:
+                      type: string
+                    type: array
+                  location:
+                    description: The location (region or zone) of the cluster.
+                    type: string
+                  managedInstanceGroupUrls:
+                    description: List of instance group URLs which have been assigned
+                      to this node pool.
+                    items:
+                      type: string
+                    type: array
+                  management:
+                    description: |-
+                      Node management configuration, wherein auto-repair and
+                      auto-upgrade is configured. Structure is documented below.
+                    properties:
+                      autoRepair:
+                        description: Whether the nodes will be automatically repaired.
+                          Enabled by default.
+                        type: boolean
+                      autoUpgrade:
+                        description: Whether the nodes will be automatically upgraded.
+                          Enabled by default.
+                        type: boolean
+                    type: object
+                  maxPodsPerNode:
+                    description: |-
+                      The maximum number of pods per node in this node pool.
+                      Note that this does not work on node pools which are "route-based" - that is, node
+                      pools belonging to clusters that do not have IP Aliasing enabled.
+                      See the official documentation
+                      for more information.
+                    type: number
+                  networkConfig:
+                    description: |-
+                      The network configuration of the pool. Such as
+                      configuration for Adding Pod IP address ranges) to the node pool. Or enabling private nodes. Structure is
+                      documented below
+                    properties:
+                      createPodRange:
+                        description: Whether to create a new range for pod IPs in
+                          this node pool. Defaults are provided for pod_range and
+                          pod_ipv4_cidr_block if they are not specified.
+                        type: boolean
+                      enablePrivateNodes:
+                        description: Whether nodes have internal IP addresses only.
+                        type: boolean
+                      networkPerformanceConfig:
+                        properties:
+                          totalEgressBandwidthTier:
+                            type: string
+                        type: object
+                      podCidrOverprovisionConfig:
+                        properties:
+                          disabled:
+                            type: boolean
+                        type: object
+                      podIpv4CidrBlock:
+                        description: The IP address range for pod IPs in this node
+                          pool. Only applicable if createPodRange is true. Set to
+                          blank to have a range chosen with the default size. Set
+                          to /netmask (e.g. /14) to have a range chosen with a specific
+                          netmask. Set to a CIDR notation (e.g. 10.96.0.0/14) to pick
+                          a specific range to use.
+                        type: string
+                      podRange:
+                        description: The ID of the secondary range for pod IPs. If
+                          create_pod_range is true, this ID is used for the new range.
+                          If create_pod_range is false, uses an existing secondary
+                          range with this ID.
+                        type: string
+                    type: object
+                  nodeConfig:
+                    description: |-
+                      Parameters used in creating the node pool. See
+                      google_container_cluster for schema.
+                    properties:
+                      advancedMachineFeatures:
+                        properties:
+                          threadsPerCore:
+                            type: number
+                        type: object
+                      bootDiskKmsKey:
+                        type: string
+                      confidentialNodes:
+                        description: Configuration for Confidential Nodes feature.
+                          Structure is documented below.
+                        properties:
+                          enabled:
+                            description: Makes nodes obtainable through the ProvisioningRequest
+                              API exclusively.
+                            type: boolean
+                        type: object
+                      diskSizeGb:
+                        type: number
+                      diskType:
+                        type: string
+                      effectiveTaints:
+                        items:
+                          properties:
+                            effect:
+                              type: string
+                            key:
+                              type: string
+                            value:
+                              type: string
+                          type: object
+                        type: array
+                      enableConfidentialStorage:
+                        type: boolean
+                      ephemeralStorageLocalSsdConfig:
+                        properties:
+                          localSsdCount:
+                            type: number
+                        type: object
+                      fastSocket:
+                        properties:
+                          enabled:
+                            description: Makes nodes obtainable through the ProvisioningRequest
+                              API exclusively.
+                            type: boolean
+                        type: object
+                      gcfsConfig:
+                        properties:
+                          enabled:
+                            description: Makes nodes obtainable through the ProvisioningRequest
+                              API exclusively.
+                            type: boolean
+                        type: object
+                      guestAccelerator:
+                        items:
+                          properties:
+                            count:
+                              type: number
+                            gpuDriverInstallationConfig:
+                              items:
+                                properties:
+                                  gpuDriverVersion:
+                                    description: |-
+                                      The Kubernetes version for the nodes in this pool. Note that if this field
+                                      and auto_upgrade are both specified, they will fight each other for what the node version should
+                                      be, so setting both is highly discouraged.
+                                    type: string
+                                type: object
+                              type: array
+                            gpuPartitionSize:
+                              type: string
+                            gpuSharingConfig:
+                              items:
+                                properties:
+                                  gpuSharingStrategy:
+                                    type: string
+                                  maxSharedClientsPerGpu:
+                                    type: number
+                                type: object
+                              type: array
+                            type:
+                              description: |-
+                                The type of the policy. Supports a single value: COMPACT.
+                                Specifying COMPACT placement policy type places node pool's nodes in a closer
+                                physical proximity in order to reduce network latency between nodes.
+                              type: string
+                          type: object
+                        type: array
+                      gvnic:
+                        properties:
+                          enabled:
+                            description: Makes nodes obtainable through the ProvisioningRequest
+                              API exclusively.
+                            type: boolean
+                        type: object
+                      hostMaintenancePolicy:
+                        properties:
+                          maintenanceInterval:
+                            type: string
+                        type: object
+                      imageType:
+                        type: string
+                      kubeletConfig:
+                        properties:
+                          cpuCfsQuota:
+                            type: boolean
+                          cpuCfsQuotaPeriod:
+                            type: string
+                          cpuManagerPolicy:
+                            type: string
+                          podPidsLimit:
+                            type: number
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        type: object
+                        x-kubernetes-map-type: granular
+                      linuxNodeConfig:
+                        description: |-
+                          Parameters used in creating the node pool. See
+                          google_container_cluster for schema.
+                        properties:
+                          cgroupMode:
+                            type: string
+                          sysctls:
+                            additionalProperties:
+                              type: string
+                            type: object
+                            x-kubernetes-map-type: granular
+                        type: object
+                      localNvmeSsdBlockConfig:
+                        properties:
+                          localSsdCount:
+                            type: number
+                        type: object
+                      localSsdCount:
+                        type: number
+                      loggingVariant:
+                        type: string
+                      machineType:
+                        type: string
+                      metadata:
+                        additionalProperties:
+                          type: string
+                        type: object
+                        x-kubernetes-map-type: granular
+                      minCpuPlatform:
+                        type: string
+                      nodeGroup:
+                        type: string
+                      oauthScopes:
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                      preemptible:
+                        type: boolean
+                      reservationAffinity:
+                        properties:
+                          consumeReservationType:
+                            type: string
+                          key:
+                            type: string
+                          values:
+                            items:
+                              type: string
+                            type: array
+                            x-kubernetes-list-type: set
+                        type: object
+                      resourceLabels:
+                        additionalProperties:
+                          type: string
+                        type: object
+                        x-kubernetes-map-type: granular
+                      resourceManagerTags:
+                        additionalProperties:
+                          type: string
+                        type: object
+                        x-kubernetes-map-type: granular
+                      serviceAccount:
+                        type: string
+                      shieldedInstanceConfig:
+                        properties:
+                          enableIntegrityMonitoring:
+                            type: boolean
+                          enableSecureBoot:
+                            type: boolean
+                        type: object
+                      soleTenantConfig:
+                        properties:
+                          nodeAffinity:
+                            items:
+                              properties:
+                                key:
+                                  type: string
+                                operator:
+                                  type: string
+                                values:
+                                  items:
+                                    type: string
+                                  type: array
+                              type: object
+                            type: array
+                        type: object
+                      spot:
+                        type: boolean
+                      tags:
+                        items:
+                          type: string
+                        type: array
+                      taint:
+                        items:
+                          properties:
+                            effect:
+                              type: string
+                            key:
+                              type: string
+                            value:
+                              type: string
+                          type: object
+                        type: array
+                      workloadMetadataConfig:
+                        properties:
+                          mode:
+                            type: string
+                        type: object
+                    type: object
+                  nodeCount:
+                    description: |-
+                      The number of nodes per instance group. This field can be used to
+                      update the number of nodes per instance group but should not be used alongside autoscaling.
+                    type: number
+                  nodeLocations:
+                    description: |-
+                      The list of zones in which the node pool's nodes should be located. Nodes must
+                      be in the region of their regional cluster or in the same region as their
+                      cluster's zone for zonal clusters. If unspecified, the cluster-level
+                      node_locations will be used.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  operation:
+                    type: string
+                  placementPolicy:
+                    description: |-
+                      Specifies a custom placement policy for the
+                      nodes.
+                    properties:
+                      policyName:
+                        description: |-
+                          If set, refers to the name of a custom resource policy supplied by the user.
+                          The resource policy must be in the same project and region as the node pool.
+                          If not found, InvalidArgument error is returned.
+                        type: string
+                      tpuTopology:
+                        description: The TPU placement topology for pod slice node
+                          pool.
+                        type: string
+                      type:
+                        description: |-
+                          The type of the policy. Supports a single value: COMPACT.
+                          Specifying COMPACT placement policy type places node pool's nodes in a closer
+                          physical proximity in order to reduce network latency between nodes.
+                        type: string
+                    type: object
+                  project:
+                    description: |-
+                      The ID of the project in which to create the node pool. If blank,
+                      the provider-configured project will be used.
+                    type: string
+                  upgradeSettings:
+                    description: |-
+                      Specify node upgrade settings to change how GKE upgrades nodes.
+                      The maximum number of nodes upgraded simultaneously is limited to 20. Structure is documented below.
+                    properties:
+                      blueGreenSettings:
+                        description: |-
+                          The settings to adjust blue green upgrades.
+                          Structure is documented below
+                        properties:
+                          nodePoolSoakDuration:
+                            description: |-
+                              Time needed after draining the entire blue pool.
+                              After this period, the blue pool will be cleaned up.
+                            type: string
+                          standardRolloutPolicy:
+                            description: Specifies the standard policy settings for
+                              blue-green upgrades.
+                            properties:
+                              batchNodeCount:
+                                description: Number of blue nodes to drain in a batch.
+                                type: number
+                              batchPercentage:
+                                description: Percentage of the blue pool nodes to
+                                  drain in a batch.
+                                type: number
+                              batchSoakDuration:
+                                description: (Optionial) Soak time after each batch
+                                  gets drained.
+                                type: string
+                            type: object
+                        type: object
+                      maxSurge:
+                        description: |-
+                          The number of additional nodes that can be added to the node pool during
+                          an upgrade. Increasing max_surge raises the number of nodes that can be upgraded simultaneously.
+                          Can be set to 0 or greater.
+                        type: number
+                      maxUnavailable:
+                        description: |-
+                          The number of nodes that can be simultaneously unavailable during
+                          an upgrade. Increasing max_unavailable raises the number of nodes that can be upgraded in
+                          parallel. Can be set to 0 or greater.
+                        type: number
+                      strategy:
+                        description: (Default SURGE) The upgrade stragey to be used
+                          for upgrading the nodes.
+                        type: string
+                    type: object
+                  version:
+                    description: |-
+                      The Kubernetes version for the nodes in this pool. Note that if this field
+                      and auto_upgrade are both specified, they will fight each other for what the node version should
+                      be, so setting both is highly discouraged.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}

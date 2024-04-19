@@ -1,0 +1,15 @@
+apiVersion: storage.gcp.upbound.io/v1beta2
+kind: BucketObject
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta2/bucketobject
+  labels:
+    testing.upbound.io/example-name: picture
+  name: picture
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    name: butterfly01
+    source: /images/nature/garden-tiger-moth.jpg
