@@ -19,9 +19,6 @@ func (tr *AnalyticsHubListing) Hub() {}
 func (tr *Connection) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *DataTransferConfig) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *Dataset) Hub() {}
 
 // Hub marks this type as a conversion hub.
@@ -35,6 +32,9 @@ func (tr *DatasetIAMMember) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *DatasetIAMPolicy) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *DataTransferConfig) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Job) Hub() {}
