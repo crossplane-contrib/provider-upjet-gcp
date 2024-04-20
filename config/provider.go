@@ -263,11 +263,11 @@ func resourceList(t map[string]ujconfig.ExternalName) []string {
 }
 
 func bumpVersionsWithEmbeddedLists(pc *ujconfig.Provider) {
-	for _, r := range pc.Resources {
+	for name, r := range pc.Resources {
+		r := r
 		// nothing to do if no singleton list has been converted to
 		// an embedded object
-		crdPaths := r.CRDListConversionPaths()
-		if len(crdPaths) == 0 {
+		if len(r.CRDListConversionPaths()) == 0 {
 			continue
 		}
 		r.Version = "v1beta2"
@@ -275,10 +275,10 @@ func bumpVersionsWithEmbeddedLists(pc *ujconfig.Provider) {
 		// downgrades.
 		r.SetCRDStorageVersion("v1beta1")
 		r.Conversions = []conversion.Conversion{
-			conversion.NewIdentityConversionExpandPaths("v1beta1", "v1beta2", []string{"spec.forProvider", "spec.initProvider", "status.atProvider"}, crdPaths...),
-			conversion.NewIdentityConversionExpandPaths("v1beta2", "v1beta1", []string{"spec.forProvider", "spec.initProvider", "status.atProvider"}, crdPaths...),
-			conversion.NewSingletonListConversion("v1beta1", "v1beta2", crdPaths, conversion.ToEmbeddedObject),
-			conversion.NewSingletonListConversion("v1beta2", "v1beta1", crdPaths, conversion.ToSingletonList)}
+			conversion.NewIdentityConversionExpandPaths(conversion.AllVersions, conversion.AllVersions, []string{"spec.forProvider", "spec.initProvider", "status.atProvider"}, r.CRDListConversionPaths()...),
+			conversion.NewSingletonListConversion("v1beta1", "v1beta2", r.CRDListConversionPaths(), conversion.ToEmbeddedObject),
+			conversion.NewSingletonListConversion("v1beta2", "v1beta1", r.CRDListConversionPaths(), conversion.ToSingletonList)}
+		pc.Resources[name] = r
 	}
 }
 
