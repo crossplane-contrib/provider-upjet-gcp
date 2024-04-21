@@ -6,6 +6,7 @@ apiVersion: container.gcp.upbound.io/v1beta1
 kind: NodePool
 metadata:
   annotations:
+    uptest.upbound.io/disable-import: "true"
     meta.upbound.io/example-id: container/v1beta1/nodepool
   labels:
     testing.upbound.io/example-name: nodepool
@@ -40,6 +41,7 @@ spec:
     initialNodeCount: 1
     location: us-central1-a
     removeDefaultNodePool: true
+    deletionProtection: false
 
 ---
 

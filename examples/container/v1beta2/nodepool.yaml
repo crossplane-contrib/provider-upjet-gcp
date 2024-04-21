@@ -6,7 +6,8 @@ apiVersion: container.gcp.upbound.io/v1beta2
 kind: NodePool
 metadata:
   annotations:
-    meta.upbound.io/example-id: container/v1beta1/nodepool
+    uptest.upbound.io/disable-import: "true"
+    meta.upbound.io/example-id: container/v1beta2/nodepool
   labels:
     testing.upbound.io/example-name: nodepool
   name: nodepool
@@ -31,7 +32,7 @@ apiVersion: container.gcp.upbound.io/v1beta2
 kind: Cluster
 metadata:
   annotations:
-    meta.upbound.io/example-id: container/v1beta1/cluster
+    meta.upbound.io/example-id: container/v1beta2/cluster
   labels:
     testing.upbound.io/example-name: nodepool
   name: nodepool
@@ -40,6 +41,7 @@ spec:
     initialNodeCount: 1
     location: us-central1-a
     removeDefaultNodePool: true
+    deletionProtection: false
 
 ---
 
@@ -47,7 +49,7 @@ apiVersion: cloudplatform.gcp.upbound.io/v1beta1
 kind: ServiceAccount
 metadata:
   annotations:
-    meta.upbound.io/example-id: container/v1beta1/nodepool
+    meta.upbound.io/example-id: container/v1beta2/nodepool
   labels:
     testing.upbound.io/example-name: nodepool
   name: nodepool

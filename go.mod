@@ -180,4 +180,4 @@ require (
 	sigs.k8s.io/yaml v1.4.0 // indirect
 )
 
-replace github.com/crossplane/upjet => github.com/ulucinar/upbound-upjet v0.0.0-20240421001949-b0089fb1a6d5
+replace github.com/crossplane/upjet => github.com/ulucinar/upbound-upjet v0.0.0-20240422072143-9a463d567f9c

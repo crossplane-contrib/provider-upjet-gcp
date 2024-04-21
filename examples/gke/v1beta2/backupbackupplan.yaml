@@ -2,19 +2,19 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
-apiVersion: gke.gcp.upbound.io/v1beta1
+apiVersion: gke.gcp.upbound.io/v1beta2
 kind: BackupBackupPlan
 metadata:
   annotations:
     uptest.upbound.io/disable-import: "true"
-    meta.upbound.io/example-id: gke/v1beta1/backupbackupplan
+    meta.upbound.io/example-id: gke/v1beta2/backupbackupplan
   labels:
     testing.upbound.io/example-name: basic
   name: basic
 spec:
   forProvider:
     backupConfig:
-    - allNamespaces: true
+      allNamespaces: true
       includeSecrets: true
       includeVolumeData: true
     clusterSelector:
@@ -24,11 +24,11 @@ spec:
 
 ---
 
-apiVersion: container.gcp.upbound.io/v1beta1
+apiVersion: container.gcp.upbound.io/v1beta2
 kind: Cluster
 metadata:
   annotations:
-    meta.upbound.io/example-id: gke/v1beta1/backupbackupplan
+    meta.upbound.io/example-id: gke/v1beta2/backupbackupplan
   labels:
     testing.upbound.io/example-name: primary
   name: primary
@@ -36,8 +36,8 @@ spec:
   forProvider:
     deletionProtection: false
     addonsConfig:
-    - gkeBackupAgentConfig:
-      - enabled: true
+      gkeBackupAgentConfig:
+        enabled: true
     initialNodeCount: 1
     location: us-central1
     removeDefaultNodePool: false
