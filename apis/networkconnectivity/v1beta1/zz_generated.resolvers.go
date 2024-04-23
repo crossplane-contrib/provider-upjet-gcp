@@ -13,12 +13,80 @@ import (
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
-	client "sigs.k8s.io/controller-runtime/pkg/client"
-
-	// ResolveReferences of this Spoke.
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
+func (mg *ServiceConnectionPolicy) ResolveReferences( // ResolveReferences of this ServiceConnectionPolicy.
+	ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	var mrsp reference.MultiResolutionResponse
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Network),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.ForProvider.NetworkRef,
+			Selector:     mg.Spec.ForProvider.NetworkSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Network")
+	}
+	mg.Spec.ForProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.NetworkRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Network),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.NetworkRef,
+			Selector:     mg.Spec.InitProvider.NetworkSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Network")
+	}
+	mg.Spec.InitProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.NetworkRef = rsp.ResolvedReference
+    for i3 := 0; i3 < len(mg.Spec.ForProvider.PscConfig); i3++ {
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Subnetwork", "SubnetworkList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+			CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.PscConfig[i3].Subnetworks),
+			Extract:       reference.ExternalName(),
+			References:    mg.Spec.InitProvider.PscConfig[i3].SubnetworkRef,
+			Selector:     mg.Spec.ForProvider.PscConfig[i3].SubnetworkSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.PscConfig.Subnetwork")
+		}
+		mg.Spec.InitProvider.PscConfig[i3].Subnetworks = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.InitProvider.PscConfig[i3].SubnetworkRef = mrsp.ResolvedReferences
+	}
+	return nil
+}
+
+
+// ResolveReferences of this Spoke.
 func (mg *Spoke) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
 	var l xpresource.ManagedList

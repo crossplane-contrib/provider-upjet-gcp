@@ -1,0 +1,73 @@
+apiVersion: redis.gcp.upbound.io/v1beta1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: redis/v1beta1/cluster
+  labels:
+    testing.upbound.io/example-name: cluster-ha
+  name: cluster-ha
+spec:
+  forProvider:
+    authorizationMode: AUTH_MODE_DISABLED
+    pscConfigs:
+    - networkSelector:
+        matchLabels:
+          testing.upbound.io/example-name: producer_net
+    region: us-central1
+    replicaCount: 1
+    shardCount: 3
+    transitEncryptionMode: TRANSIT_ENCRYPTION_MODE_DISABLED
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: redis/v1beta1/cluster
+  labels:
+    testing.upbound.io/example-name: producer_net
+  name: producer-net
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: redis/v1beta1/cluster
+  labels:
+    testing.upbound.io/example-name: producer_subnet
+  name: producer-subnet
+spec:
+  forProvider:
+    ipCidrRange: 10.0.0.248/29
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: producer_net
+    region: us-central1
+
+---
+
+apiVersion: networkconnectivity.gcp.upbound.io/v1beta1
+kind: ServiceConnectionPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: redis/v1beta1/cluster
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: my basic service connection policy
+    location: us-central1
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: producer_net
+    pscConfig:
+    - subnetworks:
+      - ${google_compute_subnetwork.producer_subnet.id}
+    serviceClass: gcp-memorystore-redis
