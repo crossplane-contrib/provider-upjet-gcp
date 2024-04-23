@@ -140,8 +140,8 @@ type RegionNetworkEndpointStatus struct {
 // +kubebuilder:storageversion
 
 // RegionNetworkEndpoint is the Schema for the RegionNetworkEndpoints API. A Region network endpoint represents a IP address/FQDN and port combination that is part of a specific network endpoint group (NEG).
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,gcp}

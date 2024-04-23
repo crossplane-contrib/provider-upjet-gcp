@@ -8,9 +8,9 @@ go 1.21
 
 require (
 	dario.cat/mergo v1.0.0
-	github.com/crossplane/crossplane-runtime v1.15.1
+	github.com/crossplane/crossplane-runtime v1.16.0-rc.1.0.20240424114634-8641eb2ba384
 	github.com/crossplane/crossplane-tools v0.0.0-20230925130601-628280f8bf79
-	github.com/crossplane/upjet v1.1.6
+	github.com/crossplane/upjet v1.3.0
 	github.com/hashicorp/terraform-json v0.18.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.31.0
 	github.com/hashicorp/terraform-provider-google v1.20.1-0.20240304172718-a9e2f2c89f14
@@ -40,6 +40,7 @@ require (
 	github.com/apparentlymart/go-cidr v1.1.0 // indirect
 	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
+	github.com/blang/semver/v4 v4.0.0 // indirect
 	github.com/cenkalti/backoff v2.2.1+incompatible // indirect
 	github.com/census-instrumentation/opencensus-proto v0.4.1 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
