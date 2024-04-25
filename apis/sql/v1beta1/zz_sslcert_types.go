@@ -38,9 +38,6 @@ type SSLCertInitParameters struct {
 
 type SSLCertObservation struct {
 
-	// The actual certificate data for this client certificate.
-	Cert *string `json:"cert,omitempty" tf:"cert,omitempty"`
-
 	// The serial number extracted from the certificate data.
 	CertSerialNumber *string `json:"certSerialNumber,omitempty" tf:"cert_serial_number,omitempty"`
 
@@ -65,9 +62,6 @@ type SSLCertObservation struct {
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// The CA cert of the server this client cert was generated from.
-	ServerCACert *string `json:"serverCaCert,omitempty" tf:"server_ca_cert,omitempty"`
 
 	// The SHA1 Fingerprint of the certificate.
 	Sha1Fingerprint *string `json:"sha1Fingerprint,omitempty" tf:"sha1_fingerprint,omitempty"`

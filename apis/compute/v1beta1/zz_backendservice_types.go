@@ -668,7 +668,7 @@ type BackendServiceObservation struct {
 	// load balancing cannot be used with the other. For more information, refer to
 	// Choosing a load balancer.
 	// Default value is EXTERNAL.
-	// Possible values are: EXTERNAL, INTERNAL_SELF_MANAGED, EXTERNAL_MANAGED.
+	// Possible values are: EXTERNAL, INTERNAL_SELF_MANAGED, INTERNAL_MANAGED, EXTERNAL_MANAGED.
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
 	// A list of locality load balancing policies to be used in order of
@@ -690,8 +690,8 @@ type BackendServiceObservation struct {
 	LogConfig []LogConfigObservation `json:"logConfig,omitempty" tf:"log_config,omitempty"`
 
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
-	// This field is applicable only when the load_balancing_scheme is set
-	// to INTERNAL_SELF_MANAGED.
+	// Applicable backend service types can be a global backend service with the
+	// loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
 	// Structure is documented below.
 	OutlierDetection []OutlierDetectionObservation `json:"outlierDetection,omitempty" tf:"outlier_detection,omitempty"`
 
@@ -706,8 +706,10 @@ type BackendServiceObservation struct {
 
 	// The protocol this BackendService uses to communicate with backends.
 	// The default is HTTP. NOTE: HTTP2 is only valid for beta HTTP/2 load balancer
-	// types and may result in errors if used with the GA API.
-	// Possible values are: HTTP, HTTPS, HTTP2, TCP, SSL, GRPC.
+	// types and may result in errors if used with the GA API. NOTE: With protocol “UNSPECIFIED”,
+	// the backend service can be used by Layer 4 Internal Load Balancing or Network Load Balancing
+	// with TCP/UDP/L3_DEFAULT Forwarding Rule protocol.
+	// Possible values are: HTTP, HTTPS, HTTP2, TCP, SSL, GRPC, UNSPECIFIED.
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
 	// The security policy associated with this backend service.
@@ -832,7 +834,7 @@ type BackendServiceParameters struct {
 	// load balancing cannot be used with the other. For more information, refer to
 	// Choosing a load balancer.
 	// Default value is EXTERNAL.
-	// Possible values are: EXTERNAL, INTERNAL_SELF_MANAGED, EXTERNAL_MANAGED.
+	// Possible values are: EXTERNAL, INTERNAL_SELF_MANAGED, INTERNAL_MANAGED, EXTERNAL_MANAGED.
 	// +kubebuilder:validation:Optional
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
@@ -858,8 +860,8 @@ type BackendServiceParameters struct {
 	LogConfig []LogConfigParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
 
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
-	// This field is applicable only when the load_balancing_scheme is set
-	// to INTERNAL_SELF_MANAGED.
+	// Applicable backend service types can be a global backend service with the
+	// loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	OutlierDetection []OutlierDetectionParameters `json:"outlierDetection,omitempty" tf:"outlier_detection,omitempty"`
@@ -877,8 +879,10 @@ type BackendServiceParameters struct {
 
 	// The protocol this BackendService uses to communicate with backends.
 	// The default is HTTP. NOTE: HTTP2 is only valid for beta HTTP/2 load balancer
-	// types and may result in errors if used with the GA API.
-	// Possible values are: HTTP, HTTPS, HTTP2, TCP, SSL, GRPC.
+	// types and may result in errors if used with the GA API. NOTE: With protocol “UNSPECIFIED”,
+	// the backend service can be used by Layer 4 Internal Load Balancing or Network Load Balancing
+	// with TCP/UDP/L3_DEFAULT Forwarding Rule protocol.
+	// Possible values are: HTTP, HTTPS, HTTP2, TCP, SSL, GRPC, UNSPECIFIED.
 	// +kubebuilder:validation:Optional
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
@@ -1237,6 +1241,10 @@ type CircuitBreakersInitParameters struct {
 
 type CircuitBreakersObservation struct {
 
+	// The timeout for new network connections to hosts.
+	// Structure is documented below.
+	ConnectTimeout []ConnectTimeoutObservation `json:"connectTimeout,omitempty" tf:"connect_timeout,omitempty"`
+
 	// The maximum number of connections to the backend cluster.
 	// Defaults to 1024.
 	MaxConnections *float64 `json:"maxConnections,omitempty" tf:"max_connections,omitempty"`
@@ -1262,6 +1270,11 @@ type CircuitBreakersObservation struct {
 
 type CircuitBreakersParameters struct {
 
+	// The timeout for new network connections to hosts.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ConnectTimeout []ConnectTimeoutParameters `json:"connectTimeout,omitempty" tf:"connect_timeout,omitempty"`
+
 	// The maximum number of connections to the backend cluster.
 	// Defaults to 1024.
 	// +kubebuilder:validation:Optional
@@ -1290,6 +1303,7 @@ type CircuitBreakersParameters struct {
 	MaxRetries *float64 `json:"maxRetries,omitempty" tf:"max_retries,omitempty"`
 }
 
+<<<<<<< HEAD
 type ConsistentHashInitParameters struct {
 
 	// Hash is based on HTTP Cookie. This field describes a HTTP cookie
@@ -1310,6 +1324,34 @@ type ConsistentHashInitParameters struct {
 	// virtual node.
 	// Defaults to 1024.
 	MinimumRingSize *float64 `json:"minimumRingSize,omitempty" tf:"minimum_ring_size,omitempty"`
+=======
+type ConnectTimeoutObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented
+	// with a 0 seconds field and a positive nanos field. Must
+	// be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second.
+	// Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type ConnectTimeoutParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented
+	// with a 0 seconds field and a positive nanos field. Must
+	// be from 0 to 999,999,999 inclusive.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second.
+	// Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Required
+	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
+>>>>>>> b302a7bd (chore: upgrade to hashicorp/google-beta 5.26.0)
 }
 
 type ConsistentHashObservation struct {

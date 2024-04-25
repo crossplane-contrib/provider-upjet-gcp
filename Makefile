@@ -6,11 +6,11 @@ PROJECT_NAME := provider-$(PROVIDER_NAME)
 PROJECT_REPO := github.com/upbound/$(PROJECT_NAME)
 
 export PROVIDER_NAME
-export TERRAFORM_VERSION := 1.2.1
-export TERRAFORM_PROVIDER_SOURCE := hashicorp/google
-export TERRAFORM_PROVIDER_VERSION := 4.66.0
+export TERRAFORM_VERSION := 1.5.5
+export TERRAFORM_PROVIDER_SOURCE := hashicorp/google-beta
+export TERRAFORM_PROVIDER_VERSION := 5.26.0
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME := terraform-provider-google
-export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX := https://releases.hashicorp.com/terraform-provider-google/$(TERRAFORM_PROVIDER_VERSION)
+export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX := https://releases.hashicorp.com/terraform-provider-google-beta/$(TERRAFORM_PROVIDER_VERSION)
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/hashicorp/terraform-provider-google
 export TERRAFORM_DOCS_PATH ?= website/docs/r
 
@@ -64,7 +64,7 @@ export SUBPACKAGES := $(SUBPACKAGES)
 KIND_VERSION = v0.15.0
 UPTEST_VERSION = v0.5.0
 # dependency for up
-UP_VERSION = v0.17.0
+UP_VERSION = v0.20.0
 UP_CHANNEL = stable
 
 export UP_VERSION := $(UP_VERSION)

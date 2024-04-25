@@ -25,11 +25,32 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+<<<<<<< HEAD
 type RegionInstanceGroupManagerAutoHealingPoliciesInitParameters struct {
 
 	// The number of seconds that the managed instance group waits before
 	// it applies autohealing policies to new instances or recently recreated instances. Between 0 and 3600.
 	InitialDelaySec *float64 `json:"initialDelaySec,omitempty" tf:"initial_delay_sec,omitempty"`
+=======
+type RegionInstanceGroupManagerAllInstancesConfigObservation struct {
+
+	// , The label key-value pairs that you want to patch onto the instance.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// , The metadata key-value pairs that you want to patch onto the instance. For more information, see Project and instance metadata.
+	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
+type RegionInstanceGroupManagerAllInstancesConfigParameters struct {
+
+	// , The label key-value pairs that you want to patch onto the instance.
+	// +kubebuilder:validation:Optional
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// , The metadata key-value pairs that you want to patch onto the instance. For more information, see Project and instance metadata.
+	// +kubebuilder:validation:Optional
+	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+>>>>>>> b302a7bd (chore: upgrade to hashicorp/google-beta 5.26.0)
 }
 
 type RegionInstanceGroupManagerAutoHealingPoliciesObservation struct {
@@ -150,6 +171,26 @@ type RegionInstanceGroupManagerNamedPortInitParameters struct {
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 }
 
+type RegionInstanceGroupManagerInstanceLifecyclePolicyObservation struct {
+
+	// , Default behavior for all instance or health check failures. Valid options are: REPAIR, DO_NOTHING. If DO_NOTHING then instances will not be repaired. If REPAIR (default), then failed instances will be repaired.
+	DefaultActionOnFailure *string `json:"defaultActionOnFailure,omitempty" tf:"default_action_on_failure,omitempty"`
+
+	// , Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
+	ForceUpdateOnRepair *string `json:"forceUpdateOnRepair,omitempty" tf:"force_update_on_repair,omitempty"`
+}
+
+type RegionInstanceGroupManagerInstanceLifecyclePolicyParameters struct {
+
+	// , Default behavior for all instance or health check failures. Valid options are: REPAIR, DO_NOTHING. If DO_NOTHING then instances will not be repaired. If REPAIR (default), then failed instances will be repaired.
+	// +kubebuilder:validation:Optional
+	DefaultActionOnFailure *string `json:"defaultActionOnFailure,omitempty" tf:"default_action_on_failure,omitempty"`
+
+	// , Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
+	// +kubebuilder:validation:Optional
+	ForceUpdateOnRepair *string `json:"forceUpdateOnRepair,omitempty" tf:"force_update_on_repair,omitempty"`
+}
+
 type RegionInstanceGroupManagerNamedPortObservation struct {
 
 	// The name of the port.
@@ -172,6 +213,11 @@ type RegionInstanceGroupManagerNamedPortParameters struct {
 
 type RegionInstanceGroupManagerObservation struct {
 
+	// Properties to set on all instances in the group. After setting
+	// allInstancesConfig on the group, you must update the group's instances to
+	// apply the configuration.
+	AllInstancesConfig []RegionInstanceGroupManagerAllInstancesConfigObservation `json:"allInstancesConfig,omitempty" tf:"all_instances_config,omitempty"`
+
 	// The autohealing policies for this managed instance
 	// group. You can specify only one value. Structure is documented below. For more information, see the official documentation.
 	AutoHealingPolicies []RegionInstanceGroupManagerAutoHealingPoliciesObservation `json:"autoHealingPolicies,omitempty" tf:"auto_healing_policies,omitempty"`
@@ -183,6 +229,9 @@ type RegionInstanceGroupManagerObservation struct {
 	// appending a hyphen and a random four-character string to the base instance
 	// name.
 	BaseInstanceName *string `json:"baseInstanceName,omitempty" tf:"base_instance_name,omitempty"`
+
+	// Creation timestamp in RFC3339 text format.
+	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
 	// An optional textual description of the instance
 	// group manager.
@@ -198,11 +247,13 @@ type RegionInstanceGroupManagerObservation struct {
 	// The fingerprint of the instance group manager.
 	Fingerprint *string `json:"fingerprint,omitempty" tf:"fingerprint,omitempty"`
 
-	// an identifier for the resource with format {{disk.name}}
+	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/instanceGroupManagers/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The full URL of the instance group created by the manager.
 	InstanceGroup *string `json:"instanceGroup,omitempty" tf:"instance_group,omitempty"`
+
+	InstanceLifecyclePolicy []RegionInstanceGroupManagerInstanceLifecyclePolicyObservation `json:"instanceLifecyclePolicy,omitempty" tf:"instance_lifecycle_policy,omitempty"`
 
 	// Pagination behavior of the listManagedInstances API
 	// method for this managed instance group. Valid values are: PAGELESS, PAGINATED.
@@ -222,6 +273,9 @@ type RegionInstanceGroupManagerObservation struct {
 	// for details on configuration.
 	NamedPort []RegionInstanceGroupManagerNamedPortObservation `json:"namedPort,omitempty" tf:"named_port,omitempty"`
 
+	// Input only additional params for instance group manager creation. Structure is documented below. For more information, see API.
+	Params []RegionInstanceGroupManagerParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
+
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -235,6 +289,12 @@ type RegionInstanceGroupManagerObservation struct {
 	// Disks created on the instances that will be preserved on instance delete, update, etc. Structure is documented below. For more information see the official documentation. Proactive cross zone instance redistribution must be disabled before you can update stateful disks on existing instance group managers. This can be controlled via the update_policy.
 	StatefulDisk []RegionInstanceGroupManagerStatefulDiskObservation `json:"statefulDisk,omitempty" tf:"stateful_disk,omitempty"`
 
+	// External network IPs assigned to the instances that will be preserved on instance delete, update, etc. This map is keyed with the network interface name. Structure is documented below.
+	StatefulExternalIP []RegionInstanceGroupManagerStatefulExternalIPObservation `json:"statefulExternalIp,omitempty" tf:"stateful_external_ip,omitempty"`
+
+	// Internal network IPs assigned to the instances that will be preserved on instance delete, update, etc. This map is keyed with the network interface name. Structure is documented below.
+	StatefulInternalIP []RegionInstanceGroupManagerStatefulInternalIPObservation `json:"statefulInternalIp,omitempty" tf:"stateful_internal_ip,omitempty"`
+
 	Status []RegionInstanceGroupManagerStatusObservation `json:"status,omitempty" tf:"status,omitempty"`
 
 	// The full URL of all target pools to which new
@@ -243,8 +303,9 @@ type RegionInstanceGroupManagerObservation struct {
 	TargetPools []*string `json:"targetPools,omitempty" tf:"target_pools,omitempty"`
 
 	// The target number of running instances for this managed
-	// instance group. This value should always be explicitly set unless this resource is attached to
-	// an autoscaler, in which case it should never be set. Defaults to 0.
+	// instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
+	// when using one. If a value is required, such as to specify a creation-time target size for the MIG,
+	// lifecycle. Defaults to 0.
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
 
 	// The update policy for this managed instance group. Structure is documented below. For more information, see the official documentation and API
@@ -267,6 +328,12 @@ type RegionInstanceGroupManagerObservation struct {
 }
 
 type RegionInstanceGroupManagerParameters struct {
+
+	// Properties to set on all instances in the group. After setting
+	// allInstancesConfig on the group, you must update the group's instances to
+	// apply the configuration.
+	// +kubebuilder:validation:Optional
+	AllInstancesConfig []RegionInstanceGroupManagerAllInstancesConfigParameters `json:"allInstancesConfig,omitempty" tf:"all_instances_config,omitempty"`
 
 	// The autohealing policies for this managed instance
 	// group. You can specify only one value. Structure is documented below. For more information, see the official documentation.
@@ -296,6 +363,9 @@ type RegionInstanceGroupManagerParameters struct {
 	// +kubebuilder:validation:Optional
 	DistributionPolicyZones []*string `json:"distributionPolicyZones,omitempty" tf:"distribution_policy_zones,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	InstanceLifecyclePolicy []RegionInstanceGroupManagerInstanceLifecyclePolicyParameters `json:"instanceLifecyclePolicy,omitempty" tf:"instance_lifecycle_policy,omitempty"`
+
 	// Pagination behavior of the listManagedInstances API
 	// method for this managed instance group. Valid values are: PAGELESS, PAGINATED.
 	// If PAGELESS (default), Pagination is disabled for the group's listManagedInstances API method.
@@ -317,6 +387,10 @@ type RegionInstanceGroupManagerParameters struct {
 	// +kubebuilder:validation:Optional
 	NamedPort []RegionInstanceGroupManagerNamedPortParameters `json:"namedPort,omitempty" tf:"named_port,omitempty"`
 
+	// Input only additional params for instance group manager creation. Structure is documented below. For more information, see API.
+	// +kubebuilder:validation:Optional
+	Params []RegionInstanceGroupManagerParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
+
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
@@ -329,6 +403,14 @@ type RegionInstanceGroupManagerParameters struct {
 	// Disks created on the instances that will be preserved on instance delete, update, etc. Structure is documented below. For more information see the official documentation. Proactive cross zone instance redistribution must be disabled before you can update stateful disks on existing instance group managers. This can be controlled via the update_policy.
 	// +kubebuilder:validation:Optional
 	StatefulDisk []RegionInstanceGroupManagerStatefulDiskParameters `json:"statefulDisk,omitempty" tf:"stateful_disk,omitempty"`
+
+	// External network IPs assigned to the instances that will be preserved on instance delete, update, etc. This map is keyed with the network interface name. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	StatefulExternalIP []RegionInstanceGroupManagerStatefulExternalIPParameters `json:"statefulExternalIp,omitempty" tf:"stateful_external_ip,omitempty"`
+
+	// Internal network IPs assigned to the instances that will be preserved on instance delete, update, etc. This map is keyed with the network interface name. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	StatefulInternalIP []RegionInstanceGroupManagerStatefulInternalIPParameters `json:"statefulInternalIp,omitempty" tf:"stateful_internal_ip,omitempty"`
 
 	// The full URL of all target pools to which new
 	// instances in the group are added. Updating the target pools attribute does
@@ -347,8 +429,9 @@ type RegionInstanceGroupManagerParameters struct {
 	TargetPoolsSelector *v1.Selector `json:"targetPoolsSelector,omitempty" tf:"-"`
 
 	// The target number of running instances for this managed
-	// instance group. This value should always be explicitly set unless this resource is attached to
-	// an autoscaler, in which case it should never be set. Defaults to 0.
+	// instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
+	// when using one. If a value is required, such as to specify a creation-time target size for the MIG,
+	// lifecycle. Defaults to 0.
 	// +kubebuilder:validation:Optional
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
 
@@ -375,6 +458,7 @@ type RegionInstanceGroupManagerParameters struct {
 	WaitForInstancesStatus *string `json:"waitForInstancesStatus,omitempty" tf:"wait_for_instances_status,omitempty"`
 }
 
+<<<<<<< HEAD
 type RegionInstanceGroupManagerStatefulDiskInitParameters struct {
 
 	// , A value that prescribes what should happen to the stateful disk when the VM instance is deleted. The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION. NEVER - detach the disk when the VM is deleted, but do not delete the disk. ON_PERMANENT_INSTANCE_DELETION will delete the stateful disk when the VM is permanently deleted from the instance group. The default is NEVER.
@@ -382,6 +466,19 @@ type RegionInstanceGroupManagerStatefulDiskInitParameters struct {
 
 	// , The device name of the disk to be attached.
 	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
+=======
+type RegionInstanceGroupManagerParamsObservation struct {
+
+	// Resource manager tags to bind to the managed instance group. The tags are key-value pairs. Keys must be in the format tagKeys/123 and values in the format tagValues/456. For more information, see Manage tags for resources
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type RegionInstanceGroupManagerParamsParameters struct {
+
+	// Resource manager tags to bind to the managed instance group. The tags are key-value pairs. Keys must be in the format tagKeys/123 and values in the format tagValues/456. For more information, see Manage tags for resources
+	// +kubebuilder:validation:Optional
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+>>>>>>> b302a7bd (chore: upgrade to hashicorp/google-beta 5.26.0)
 }
 
 type RegionInstanceGroupManagerStatefulDiskObservation struct {
@@ -407,7 +504,62 @@ type RegionInstanceGroupManagerStatefulDiskParameters struct {
 type RegionInstanceGroupManagerStatusInitParameters struct {
 }
 
+type RegionInstanceGroupManagerStatefulExternalIPObservation struct {
+
+	// , A value that prescribes what should happen to the external ip when the VM instance is deleted. The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION. NEVER - detach the ip when the VM is deleted, but do not delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete the external ip when the VM is permanently deleted from the instance group.
+	DeleteRule *string `json:"deleteRule,omitempty" tf:"delete_rule,omitempty"`
+
+	// , The network interface name of the external Ip. Possible value: nic0.
+	InterfaceName *string `json:"interfaceName,omitempty" tf:"interface_name,omitempty"`
+}
+
+type RegionInstanceGroupManagerStatefulExternalIPParameters struct {
+
+	// , A value that prescribes what should happen to the external ip when the VM instance is deleted. The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION. NEVER - detach the ip when the VM is deleted, but do not delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete the external ip when the VM is permanently deleted from the instance group.
+	// +kubebuilder:validation:Optional
+	DeleteRule *string `json:"deleteRule,omitempty" tf:"delete_rule,omitempty"`
+
+	// , The network interface name of the external Ip. Possible value: nic0.
+	// +kubebuilder:validation:Optional
+	InterfaceName *string `json:"interfaceName,omitempty" tf:"interface_name,omitempty"`
+}
+
+type RegionInstanceGroupManagerStatefulInternalIPObservation struct {
+
+	// , A value that prescribes what should happen to the internal ip when the VM instance is deleted. The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION. NEVER - detach the ip when the VM is deleted, but do not delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete the internal ip when the VM is permanently deleted from the instance group.
+	DeleteRule *string `json:"deleteRule,omitempty" tf:"delete_rule,omitempty"`
+
+	// , The network interface name of the internal Ip. Possible value: nic0.
+	InterfaceName *string `json:"interfaceName,omitempty" tf:"interface_name,omitempty"`
+}
+
+type RegionInstanceGroupManagerStatefulInternalIPParameters struct {
+
+	// , A value that prescribes what should happen to the internal ip when the VM instance is deleted. The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION. NEVER - detach the ip when the VM is deleted, but do not delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete the internal ip when the VM is permanently deleted from the instance group.
+	// +kubebuilder:validation:Optional
+	DeleteRule *string `json:"deleteRule,omitempty" tf:"delete_rule,omitempty"`
+
+	// , The network interface name of the internal Ip. Possible value: nic0.
+	// +kubebuilder:validation:Optional
+	InterfaceName *string `json:"interfaceName,omitempty" tf:"interface_name,omitempty"`
+}
+
+type RegionInstanceGroupManagerStatusAllInstancesConfigObservation struct {
+
+	// Current all-instances configuration revision. This value is in RFC3339 text format.
+	CurrentRevision *string `json:"currentRevision,omitempty" tf:"current_revision,omitempty"`
+
+	// A bit indicating whether this configuration has been applied to all managed instances in the group.
+	Effective *bool `json:"effective,omitempty" tf:"effective,omitempty"`
+}
+
+type RegionInstanceGroupManagerStatusAllInstancesConfigParameters struct {
+}
+
 type RegionInstanceGroupManagerStatusObservation struct {
+
+	// Status of all-instances configuration on the group.
+	AllInstancesConfig []RegionInstanceGroupManagerStatusAllInstancesConfigObservation `json:"allInstancesConfig,omitempty" tf:"all_instances_config,omitempty"`
 
 	// A bit indicating whether the managed instance group is in a stable state. A stable state means that: none of the instances in the managed instance group is currently undergoing any type of change (for example, creation, restart, or deletion); no future changes are scheduled for instances in the managed instance group; and the managed instance group itself is not being modified.
 	IsStable *bool `json:"isStable,omitempty" tf:"is_stable,omitempty"`
@@ -469,6 +621,9 @@ type RegionInstanceGroupManagerUpdatePolicyObservation struct {
 	// , The maximum number of instances(calculated as percentage) that can be unavailable during the update process. Conflicts with max_unavailable_fixed. Percent value is only allowed for regional managed instance groups with size at least 10.
 	MaxUnavailablePercent *float64 `json:"maxUnavailablePercent,omitempty" tf:"max_unavailable_percent,omitempty"`
 
+	// , Minimum number of seconds to wait for after a newly created instance becomes available. This value must be from range [0, 3600]
+	MinReadySec *float64 `json:"minReadySec,omitempty" tf:"min_ready_sec,omitempty"`
+
 	// - Minimal action to be taken on an instance. You can specify either REFRESH to update without stopping instances, RESTART to restart existing instances or REPLACE to delete and create new instances from the target template. If you specify a REFRESH, the Updater will attempt to perform that action only. However, if the Updater determines that the minimal action you specify is not enough to perform the update, it might perform a more disruptive action.
 	MinimalAction *string `json:"minimalAction,omitempty" tf:"minimal_action,omitempty"`
 
@@ -503,6 +658,10 @@ type RegionInstanceGroupManagerUpdatePolicyParameters struct {
 	// , The maximum number of instances(calculated as percentage) that can be unavailable during the update process. Conflicts with max_unavailable_fixed. Percent value is only allowed for regional managed instance groups with size at least 10.
 	// +kubebuilder:validation:Optional
 	MaxUnavailablePercent *float64 `json:"maxUnavailablePercent,omitempty" tf:"max_unavailable_percent,omitempty"`
+
+	// , Minimum number of seconds to wait for after a newly created instance becomes available. This value must be from range [0, 3600]
+	// +kubebuilder:validation:Optional
+	MinReadySec *float64 `json:"minReadySec,omitempty" tf:"min_ready_sec,omitempty"`
 
 	// - Minimal action to be taken on an instance. You can specify either REFRESH to update without stopping instances, RESTART to restart existing instances or REPLACE to delete and create new instances from the target template. If you specify a REFRESH, the Updater will attempt to perform that action only. However, if the Updater determines that the minimal action you specify is not enough to perform the update, it might perform a more disruptive action.
 	// +kubebuilder:validation:Optional
@@ -587,7 +746,7 @@ type StatusStatefulObservation struct {
 	// A bit indicating whether the managed instance group has stateful configuration, that is, if you have configured any items in a stateful policy or in per-instance configs. The group might report that it has no stateful config even when there is still some preserved state on a managed instance, for example, if you have deleted all PICs but not yet applied those deletions.
 	HasStatefulConfig *bool `json:"hasStatefulConfig,omitempty" tf:"has_stateful_config,omitempty"`
 
-	// Status of per-instance configs on the instance.
+	// Status of per-instance configs on the instances.
 	PerInstanceConfigs []StatefulPerInstanceConfigsObservation `json:"perInstanceConfigs,omitempty" tf:"per_instance_configs,omitempty"`
 }
 

@@ -80,7 +80,7 @@ type SourceRepresentationInstanceObservation struct {
 	// A file in the bucket that contains the data from the external server.
 	DumpFilePath *string `json:"dumpFilePath,omitempty" tf:"dump_file_path,omitempty"`
 
-	// The externally accessible IPv4 address for the source database server.
+	// The IPv4 address and port for the external server, or the the DNS address for the external server. If the external server is hosted on Cloud SQL, the port is 5432.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/instances/{{name}}
@@ -125,7 +125,7 @@ type SourceRepresentationInstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	DumpFilePath *string `json:"dumpFilePath,omitempty" tf:"dump_file_path,omitempty"`
 
-	// The externally accessible IPv4 address for the source database server.
+	// The IPv4 address and port for the external server, or the the DNS address for the external server. If the external server is hosted on Cloud SQL, the port is 5432.
 	// +kubebuilder:validation:Optional
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 

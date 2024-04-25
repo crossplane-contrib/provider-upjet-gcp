@@ -390,6 +390,26 @@ spec:
                       is set to INTERNAL_SELF_MANAGED. Structure is documented below.
                     items:
                       properties:
+                        connectTimeout:
+                          description: The timeout for new network connections to
+                            hosts. Structure is documented below.
+                          items:
+                            properties:
+                              nanos:
+                                description: Span of time that's a fraction of a second
+                                  at nanosecond resolution. Durations less than one
+                                  second are represented with a 0 seconds field and
+                                  a positive nanos field. Must be from 0 to 999,999,999
+                                  inclusive.
+                                type: number
+                              seconds:
+                                description: Span of time at a resolution of a second.
+                                  Must be from 0 to 315,576,000,000 inclusive.
+                                type: number
+                            required:
+                            - seconds
+                            type: object
+                          type: array
                         maxConnections:
                           description: The maximum number of connections to the backend
                             cluster. Defaults to 1024.
@@ -642,7 +662,7 @@ spec:
                       created for one type of load balancing cannot be used with the
                       other. For more information, refer to Choosing a load balancer.
                       Default value is EXTERNAL. Possible values are: EXTERNAL, INTERNAL_SELF_MANAGED,
-                      EXTERNAL_MANAGED.'
+                      INTERNAL_MANAGED, EXTERNAL_MANAGED.'
                     type: string
                   localityLbPolicies:
                     description: A list of locality load balancing policies to be
@@ -725,9 +745,10 @@ spec:
                     type: array
                   outlierDetection:
                     description: Settings controlling eviction of unhealthy hosts
-                      from the load balancing pool. This field is applicable only
-                      when the load_balancing_scheme is set to INTERNAL_SELF_MANAGED.
-                      Structure is documented below.
+                      from the load balancing pool. Applicable backend service types
+                      can be a global backend service with the loadBalancingScheme
+                      set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED. Structure
+                      is documented below.
                     items:
                       properties:
                         baseEjectionTime:
@@ -845,8 +866,11 @@ spec:
                     description: 'The protocol this BackendService uses to communicate
                       with backends. The default is HTTP. NOTE: HTTP2 is only valid
                       for beta HTTP/2 load balancer types and may result in errors
-                      if used with the GA API. Possible values are: HTTP, HTTPS, HTTP2,
-                      TCP, SSL, GRPC.'
+                      if used with the GA API. NOTE: With protocol “UNSPECIFIED”,
+                      the backend service can be used by Layer 4 Internal Load Balancing
+                      or Network Load Balancing with TCP/UDP/L3_DEFAULT Forwarding
+                      Rule protocol. Possible values are: HTTP, HTTPS, HTTP2, TCP,
+                      SSL, GRPC, UNSPECIFIED.'
                     type: string
                   securityPolicy:
                     description: The security policy associated with this backend
@@ -1969,6 +1993,24 @@ spec:
                       is set to INTERNAL_SELF_MANAGED. Structure is documented below.
                     items:
                       properties:
+                        connectTimeout:
+                          description: The timeout for new network connections to
+                            hosts. Structure is documented below.
+                          items:
+                            properties:
+                              nanos:
+                                description: Span of time that's a fraction of a second
+                                  at nanosecond resolution. Durations less than one
+                                  second are represented with a 0 seconds field and
+                                  a positive nanos field. Must be from 0 to 999,999,999
+                                  inclusive.
+                                type: number
+                              seconds:
+                                description: Span of time at a resolution of a second.
+                                  Must be from 0 to 315,576,000,000 inclusive.
+                                type: number
+                            type: object
+                          type: array
                         maxConnections:
                           description: The maximum number of connections to the backend
                             cluster. Defaults to 1024.
@@ -2139,7 +2181,7 @@ spec:
                       created for one type of load balancing cannot be used with the
                       other. For more information, refer to Choosing a load balancer.
                       Default value is EXTERNAL. Possible values are: EXTERNAL, INTERNAL_SELF_MANAGED,
-                      EXTERNAL_MANAGED.'
+                      INTERNAL_MANAGED, EXTERNAL_MANAGED.'
                     type: string
                   localityLbPolicies:
                     description: A list of locality load balancing policies to be
@@ -2222,9 +2264,10 @@ spec:
                     type: array
                   outlierDetection:
                     description: Settings controlling eviction of unhealthy hosts
-                      from the load balancing pool. This field is applicable only
-                      when the load_balancing_scheme is set to INTERNAL_SELF_MANAGED.
-                      Structure is documented below.
+                      from the load balancing pool. Applicable backend service types
+                      can be a global backend service with the loadBalancingScheme
+                      set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED. Structure
+                      is documented below.
                     items:
                       properties:
                         baseEjectionTime:
@@ -2342,8 +2385,11 @@ spec:
                     description: 'The protocol this BackendService uses to communicate
                       with backends. The default is HTTP. NOTE: HTTP2 is only valid
                       for beta HTTP/2 load balancer types and may result in errors
-                      if used with the GA API. Possible values are: HTTP, HTTPS, HTTP2,
-                      TCP, SSL, GRPC.'
+                      if used with the GA API. NOTE: With protocol “UNSPECIFIED”,
+                      the backend service can be used by Layer 4 Internal Load Balancing
+                      or Network Load Balancing with TCP/UDP/L3_DEFAULT Forwarding
+                      Rule protocol. Possible values are: HTTP, HTTPS, HTTP2, TCP,
+                      SSL, GRPC, UNSPECIFIED.'
                     type: string
                   securityPolicy:
                     description: The security policy associated with this backend

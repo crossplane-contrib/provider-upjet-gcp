@@ -64,9 +64,8 @@ type AddressInitParameters struct {
 >>>>>>> 5366d83e (Enable the following resources:)
 type AddressObservation struct {
 
-	// The static external IP address represented by this resource. Only
-	// IPv4 is supported. An address may only be specified for INTERNAL
-	// address types. The IP address must be inside the specified subnetwork,
+	// The static external IP address represented by this resource.
+	// The IP address must be inside the specified subnetwork,
 	// if any. Set by the API if undefined.
 	Address *string `json:"address,omitempty" tf:"address,omitempty"`
 
@@ -82,8 +81,28 @@ type AddressObservation struct {
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// for all of the labels present on the resource.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/addresses/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The IP Version that will be used by this address. The default value is IPV4.
+	// Possible values are: IPV4, IPV6.
+	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
+
+	// The endpoint type of this address, which should be VM or NETLB. This is
+	// used for deciding which type of endpoint this address can be used after
+	// the external IPv6 address reservation.
+	// Possible values are: VM, NETLB.
+	IPv6EndpointType *string `json:"ipv6EndpointType,omitempty" tf:"ipv6_endpoint_type,omitempty"`
+
+	// The fingerprint used for optimistic locking of this resource.  Used
+	// internally during updates.
+	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
+
+	// Labels to apply to this address.  A list of key->value pairs.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The URL of the network in which to reserve the address. This field
 	// can only be used with INTERNAL type with the VPC_PEERING and
@@ -119,15 +138,18 @@ type AddressObservation struct {
 	// GCE_ENDPOINT/DNS_RESOLVER purposes.
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
 	// The URLs of the resources that are using this address.
 	Users []*string `json:"users,omitempty" tf:"users,omitempty"`
 }
 
 type AddressParameters struct {
 
-	// The static external IP address represented by this resource. Only
-	// IPv4 is supported. An address may only be specified for INTERNAL
-	// address types. The IP address must be inside the specified subnetwork,
+	// The static external IP address represented by this resource.
+	// The IP address must be inside the specified subnetwork,
 	// if any. Set by the API if undefined.
 	// +kubebuilder:validation:Optional
 	Address *string `json:"address,omitempty" tf:"address,omitempty"`
@@ -142,6 +164,22 @@ type AddressParameters struct {
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The IP Version that will be used by this address. The default value is IPV4.
+	// Possible values are: IPV4, IPV6.
+	// +kubebuilder:validation:Optional
+	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
+
+	// The endpoint type of this address, which should be VM or NETLB. This is
+	// used for deciding which type of endpoint this address can be used after
+	// the external IPv6 address reservation.
+	// Possible values are: VM, NETLB.
+	// +kubebuilder:validation:Optional
+	IPv6EndpointType *string `json:"ipv6EndpointType,omitempty" tf:"ipv6_endpoint_type,omitempty"`
+
+	// Labels to apply to this address.  A list of key->value pairs.
+	// +kubebuilder:validation:Optional
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The URL of the network in which to reserve the address. This field
 	// can only be used with INTERNAL type with the VPC_PEERING and

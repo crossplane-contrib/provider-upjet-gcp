@@ -47,6 +47,14 @@ type TargetHTTPProxyObservation struct {
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Specifies how long to keep a connection open, after completing a response,
+	// while there is no matching traffic (in seconds). If an HTTP keepalive is
+	// not specified, a default value (610 seconds) will be used. For Global
+	// external HTTP(S) load balancer, the minimum allowed value is 5 seconds and
+	// the maximum allowed value is 1200 seconds. For Global external HTTP(S)
+	// load balancer (classic), this option is not available publicly.
+	HTTPKeepAliveTimeoutSec *float64 `json:"httpKeepAliveTimeoutSec,omitempty" tf:"http_keep_alive_timeout_sec,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/global/targetHttpProxies/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -74,6 +82,15 @@ type TargetHTTPProxyParameters struct {
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Specifies how long to keep a connection open, after completing a response,
+	// while there is no matching traffic (in seconds). If an HTTP keepalive is
+	// not specified, a default value (610 seconds) will be used. For Global
+	// external HTTP(S) load balancer, the minimum allowed value is 5 seconds and
+	// the maximum allowed value is 1200 seconds. For Global external HTTP(S)
+	// load balancer (classic), this option is not available publicly.
+	// +kubebuilder:validation:Optional
+	HTTPKeepAliveTimeoutSec *float64 `json:"httpKeepAliveTimeoutSec,omitempty" tf:"http_keep_alive_timeout_sec,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

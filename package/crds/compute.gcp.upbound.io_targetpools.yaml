@@ -174,6 +174,10 @@ spec:
                     description: Where the target pool resides. Defaults to project
                       region.
                     type: string
+                  securityPolicy:
+                    description: The resource URL for the security policy associated
+                      with this target pool.
+                    type: string
                   sessionAffinity:
                     description: How to distribute load. Options are "NONE" (no affinity).
                       "CLIENT_IP" (hash of the source/dest addresses / ports), and
@@ -455,6 +459,10 @@ spec:
                   region:
                     description: Where the target pool resides. Defaults to project
                       region.
+                    type: string
+                  securityPolicy:
+                    description: The resource URL for the security policy associated
+                      with this target pool.
                     type: string
                   selfLink:
                     description: The URI of the created resource.

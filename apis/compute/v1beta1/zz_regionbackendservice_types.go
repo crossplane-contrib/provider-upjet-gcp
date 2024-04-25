@@ -123,6 +123,10 @@ type CdnPolicyNegativeCachingPolicyObservation struct {
 	// The HTTP status code to define a TTL against. Only HTTP status codes 300, 301, 308, 404, 405, 410, 421, 451 and 501
 	// can be specified as values, and you cannot specify a status code more than once.
 	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
+
+	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
+	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
 type CdnPolicyNegativeCachingPolicyParameters struct {
@@ -131,7 +135,123 @@ type CdnPolicyNegativeCachingPolicyParameters struct {
 	// can be specified as values, and you cannot specify a status code more than once.
 	// +kubebuilder:validation:Optional
 	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
+<<<<<<< HEAD
 >>>>>>> a3be7bc6 (Remove unneeded resources)
+=======
+
+	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
+	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	// +kubebuilder:validation:Optional
+	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type CircuitBreakersConnectTimeoutObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented
+	// with a 0 seconds field and a positive nanos field. Must
+	// be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second.
+	// Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type CircuitBreakersConnectTimeoutParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented
+	// with a 0 seconds field and a positive nanos field. Must
+	// be from 0 to 999,999,999 inclusive.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second.
+	// Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Required
+	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
+}
+
+type ConnectionTrackingPolicyObservation struct {
+
+	// Specifies connection persistence when backends are unhealthy.
+	// If set to DEFAULT_FOR_PROTOCOL, the existing connections persist on
+	// unhealthy backends only for connection-oriented protocols (TCP and SCTP)
+	// and only if the Tracking Mode is PER_CONNECTION (default tracking mode)
+	// or the Session Affinity is configured for 5-tuple. They do not persist
+	// for UDP.
+	// If set to NEVER_PERSIST, after a backend becomes unhealthy, the existing
+	// connections on the unhealthy backend are never persisted on the unhealthy
+	// backend. They are always diverted to newly selected healthy backends
+	// (unless all backends are unhealthy).
+	// If set to ALWAYS_PERSIST, existing connections always persist on
+	// unhealthy backends regardless of protocol and session affinity. It is
+	// generally not recommended to use this mode overriding the default.
+	// Default value is DEFAULT_FOR_PROTOCOL.
+	// Possible values are: DEFAULT_FOR_PROTOCOL, NEVER_PERSIST, ALWAYS_PERSIST.
+	ConnectionPersistenceOnUnhealthyBackends *string `json:"connectionPersistenceOnUnhealthyBackends,omitempty" tf:"connection_persistence_on_unhealthy_backends,omitempty"`
+
+	// Enable Strong Session Affinity for Network Load Balancing. This option is not available publicly.
+	EnableStrongAffinity *bool `json:"enableStrongAffinity,omitempty" tf:"enable_strong_affinity,omitempty"`
+
+	// Specifies how long to keep a Connection Tracking entry while there is
+	// no matching traffic (in seconds).
+	// For L4 ILB the minimum(default) is 10 minutes and maximum is 16 hours.
+	// For NLB the minimum(default) is 60 seconds and the maximum is 16 hours.
+	IdleTimeoutSec *float64 `json:"idleTimeoutSec,omitempty" tf:"idle_timeout_sec,omitempty"`
+
+	// Specifies the key used for connection tracking. There are two options:
+	// PER_CONNECTION: The Connection Tracking is performed as per the
+	// Connection Key (default Hash Method) for the specific protocol.
+	// PER_SESSION: The Connection Tracking is performed as per the
+	// configured Session Affinity. It matches the configured Session Affinity.
+	// Default value is PER_CONNECTION.
+	// Possible values are: PER_CONNECTION, PER_SESSION.
+	TrackingMode *string `json:"trackingMode,omitempty" tf:"tracking_mode,omitempty"`
+}
+
+type ConnectionTrackingPolicyParameters struct {
+
+	// Specifies connection persistence when backends are unhealthy.
+	// If set to DEFAULT_FOR_PROTOCOL, the existing connections persist on
+	// unhealthy backends only for connection-oriented protocols (TCP and SCTP)
+	// and only if the Tracking Mode is PER_CONNECTION (default tracking mode)
+	// or the Session Affinity is configured for 5-tuple. They do not persist
+	// for UDP.
+	// If set to NEVER_PERSIST, after a backend becomes unhealthy, the existing
+	// connections on the unhealthy backend are never persisted on the unhealthy
+	// backend. They are always diverted to newly selected healthy backends
+	// (unless all backends are unhealthy).
+	// If set to ALWAYS_PERSIST, existing connections always persist on
+	// unhealthy backends regardless of protocol and session affinity. It is
+	// generally not recommended to use this mode overriding the default.
+	// Default value is DEFAULT_FOR_PROTOCOL.
+	// Possible values are: DEFAULT_FOR_PROTOCOL, NEVER_PERSIST, ALWAYS_PERSIST.
+	// +kubebuilder:validation:Optional
+	ConnectionPersistenceOnUnhealthyBackends *string `json:"connectionPersistenceOnUnhealthyBackends,omitempty" tf:"connection_persistence_on_unhealthy_backends,omitempty"`
+
+	// Enable Strong Session Affinity for Network Load Balancing. This option is not available publicly.
+	// +kubebuilder:validation:Optional
+	EnableStrongAffinity *bool `json:"enableStrongAffinity,omitempty" tf:"enable_strong_affinity,omitempty"`
+
+	// Specifies how long to keep a Connection Tracking entry while there is
+	// no matching traffic (in seconds).
+	// For L4 ILB the minimum(default) is 10 minutes and maximum is 16 hours.
+	// For NLB the minimum(default) is 60 seconds and the maximum is 16 hours.
+	// +kubebuilder:validation:Optional
+	IdleTimeoutSec *float64 `json:"idleTimeoutSec,omitempty" tf:"idle_timeout_sec,omitempty"`
+
+	// Specifies the key used for connection tracking. There are two options:
+	// PER_CONNECTION: The Connection Tracking is performed as per the
+	// Connection Key (default Hash Method) for the specific protocol.
+	// PER_SESSION: The Connection Tracking is performed as per the
+	// configured Session Affinity. It matches the configured Session Affinity.
+	// Default value is PER_CONNECTION.
+	// Possible values are: PER_CONNECTION, PER_SESSION.
+	// +kubebuilder:validation:Optional
+	TrackingMode *string `json:"trackingMode,omitempty" tf:"tracking_mode,omitempty"`
+>>>>>>> b302a7bd (chore: upgrade to hashicorp/google-beta 5.26.0)
 }
 
 type ConsistentHashHTTPCookieObservation struct {
@@ -990,6 +1110,10 @@ type RegionBackendServiceCircuitBreakersInitParameters struct {
 
 type RegionBackendServiceCircuitBreakersObservation struct {
 
+	// The timeout for new network connections to hosts.
+	// Structure is documented below.
+	ConnectTimeout []CircuitBreakersConnectTimeoutObservation `json:"connectTimeout,omitempty" tf:"connect_timeout,omitempty"`
+
 	// The maximum number of connections to the backend cluster.
 	// Defaults to 1024.
 	MaxConnections *float64 `json:"maxConnections,omitempty" tf:"max_connections,omitempty"`
@@ -1014,6 +1138,11 @@ type RegionBackendServiceCircuitBreakersObservation struct {
 }
 
 type RegionBackendServiceCircuitBreakersParameters struct {
+
+	// The timeout for new network connections to hosts.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ConnectTimeout []CircuitBreakersConnectTimeoutParameters `json:"connectTimeout,omitempty" tf:"connect_timeout,omitempty"`
 
 	// The maximum number of connections to the backend cluster.
 	// Defaults to 1024.
@@ -1299,6 +1428,12 @@ type RegionBackendServiceObservation struct {
 	// connections, but still work to finish started).
 	ConnectionDrainingTimeoutSec *float64 `json:"connectionDrainingTimeoutSec,omitempty" tf:"connection_draining_timeout_sec,omitempty"`
 
+	// Connection Tracking configuration for this BackendService.
+	// This is available only for Layer 4 Internal Load Balancing and
+	// Network Load Balancing.
+	// Structure is documented below.
+	ConnectionTrackingPolicy []ConnectionTrackingPolicyObservation `json:"connectionTrackingPolicy,omitempty" tf:"connection_tracking_policy,omitempty"`
+
 	// Consistent Hash-based load balancing can be used to provide soft session
 	// affinity based on HTTP headers, cookies or other properties. This load balancing
 	// policy is applicable only for HTTP connections. The affinity to a particular
@@ -1324,6 +1459,9 @@ type RegionBackendServiceObservation struct {
 	// Fingerprint of this resource. A hash of the contents stored in this
 	// object. This field is used in optimistic locking.
 	Fingerprint *string `json:"fingerprint,omitempty" tf:"fingerprint,omitempty"`
+
+	// The unique identifier for the resource. This identifier is defined by the server.
+	GeneratedID *float64 `json:"generatedId,omitempty" tf:"generated_id,omitempty"`
 
 	// The set of URLs to HealthCheck resources for health checking
 	// this RegionBackendService. Currently at most one health
@@ -1381,6 +1519,9 @@ type RegionBackendServiceObservation struct {
 	// If it is not provided, the provider region is used.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// The security policy associated with this backend service.
+	SecurityPolicy *string `json:"securityPolicy,omitempty" tf:"security_policy,omitempty"`
+
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
@@ -1388,6 +1529,10 @@ type RegionBackendServiceObservation struct {
 	// not applicable if the protocol is UDP.
 	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, CLIENT_IP_NO_DESTINATION.
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
+
+	// Subsetting configuration for this BackendService. Currently this is applicable only for Internal TCP/UDP load balancing and Internal HTTP(S) load balancing.
+	// Structure is documented below.
+	Subsetting []SubsettingObservation `json:"subsetting,omitempty" tf:"subsetting,omitempty"`
 
 	// How many seconds to wait for the backend before considering it a
 	// failed request. Default is 30 seconds. Valid range is [1, 86400].
@@ -1629,6 +1774,13 @@ type RegionBackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	ConnectionDrainingTimeoutSec *float64 `json:"connectionDrainingTimeoutSec,omitempty" tf:"connection_draining_timeout_sec,omitempty"`
 
+	// Connection Tracking configuration for this BackendService.
+	// This is available only for Layer 4 Internal Load Balancing and
+	// Network Load Balancing.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ConnectionTrackingPolicy []ConnectionTrackingPolicyParameters `json:"connectionTrackingPolicy,omitempty" tf:"connection_tracking_policy,omitempty"`
+
 	// Consistent Hash-based load balancing can be used to provide soft session
 	// affinity based on HTTP headers, cookies or other properties. This load balancing
 	// policy is applicable only for HTTP connections. The affinity to a particular
@@ -1726,16 +1878,40 @@ type RegionBackendServiceParameters struct {
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
 
+	// The security policy associated with this backend service.
+	// +kubebuilder:validation:Optional
+	SecurityPolicy *string `json:"securityPolicy,omitempty" tf:"security_policy,omitempty"`
+
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
 	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, CLIENT_IP_NO_DESTINATION.
 	// +kubebuilder:validation:Optional
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
 
+	// Subsetting configuration for this BackendService. Currently this is applicable only for Internal TCP/UDP load balancing and Internal HTTP(S) load balancing.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Subsetting []SubsettingParameters `json:"subsetting,omitempty" tf:"subsetting,omitempty"`
+
 	// How many seconds to wait for the backend before considering it a
 	// failed request. Default is 30 seconds. Valid range is [1, 86400].
 	// +kubebuilder:validation:Optional
 	TimeoutSec *float64 `json:"timeoutSec,omitempty" tf:"timeout_sec,omitempty"`
+}
+
+type SubsettingObservation struct {
+
+	// The algorithm used for subsetting.
+	// Possible values are: CONSISTENT_HASH_SUBSETTING.
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
+}
+
+type SubsettingParameters struct {
+
+	// The algorithm used for subsetting.
+	// Possible values are: CONSISTENT_HASH_SUBSETTING.
+	// +kubebuilder:validation:Required
+	Policy *string `json:"policy" tf:"policy,omitempty"`
 }
 
 // RegionBackendServiceSpec defines the desired state of RegionBackendService

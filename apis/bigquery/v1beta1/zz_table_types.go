@@ -80,6 +80,28 @@ type CsvOptionsInitParameters struct {
 	SkipLeadingRows *float64 `json:"skipLeadingRows,omitempty" tf:"skip_leading_rows,omitempty"`
 }
 
+type ColumnReferencesObservation struct {
+
+	// :  The column in the primary key that are
+	// referenced by the referencingColumn
+	ReferencedColumn *string `json:"referencedColumn,omitempty" tf:"referenced_column,omitempty"`
+
+	// :  The column that composes the foreign key.
+	ReferencingColumn *string `json:"referencingColumn,omitempty" tf:"referencing_column,omitempty"`
+}
+
+type ColumnReferencesParameters struct {
+
+	// :  The column in the primary key that are
+	// referenced by the referencingColumn
+	// +kubebuilder:validation:Required
+	ReferencedColumn *string `json:"referencedColumn" tf:"referenced_column,omitempty"`
+
+	// :  The column that composes the foreign key.
+	// +kubebuilder:validation:Required
+	ReferencingColumn *string `json:"referencingColumn" tf:"referencing_column,omitempty"`
+}
+
 type CsvOptionsObservation struct {
 
 	// Indicates if BigQuery should accept rows
@@ -91,8 +113,7 @@ type CsvOptionsObservation struct {
 	// The default value is false.
 	AllowQuotedNewlines *bool `json:"allowQuotedNewlines,omitempty" tf:"allow_quoted_newlines,omitempty"`
 
-	// The character encoding of the data. The supported
-	// values are UTF-8 or ISO-8859-1.
+	// The character encoding of the data. The supported values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE, and UTF-32LE. The default value is UTF-8.
 	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
 
 	// The separator for fields in a CSV file.
@@ -123,8 +144,7 @@ type CsvOptionsParameters struct {
 	// +kubebuilder:validation:Optional
 	AllowQuotedNewlines *bool `json:"allowQuotedNewlines,omitempty" tf:"allow_quoted_newlines,omitempty"`
 
-	// The character encoding of the data. The supported
-	// values are UTF-8 or ISO-8859-1.
+	// The character encoding of the data. The supported values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE, and UTF-32LE. The default value is UTF-8.
 	// +kubebuilder:validation:Optional
 	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
 
@@ -278,6 +298,11 @@ type ExternalDataConfigurationObservation struct {
 	// source_format is set to "CSV". Structure is documented below.
 	CsvOptions []CsvOptionsObservation `json:"csvOptions,omitempty" tf:"csv_options,omitempty"`
 
+	// Specifies how source URIs are interpreted for constructing the file set to load.
+	// By default source URIs are expanded against the underlying storage.
+	// Other options include specifying manifest files. Only applicable to object storage systems. Docs
+	FileSetSpecType *string `json:"fileSetSpecType,omitempty" tf:"file_set_spec_type,omitempty"`
+
 	// Additional options if
 	// source_format is set to "GOOGLE_SHEETS". Structure is
 	// documented below.
@@ -297,9 +322,26 @@ type ExternalDataConfigurationObservation struct {
 	// The default value is false.
 	IgnoreUnknownValues *bool `json:"ignoreUnknownValues,omitempty" tf:"ignore_unknown_values,omitempty"`
 
+	// Used to indicate that a JSON variant, rather than normal JSON, is being used as the sourceFormat. This should only be used in combination with the JSON source format. Valid values are: GEOJSON.
+	JSONExtension *string `json:"jsonExtension,omitempty" tf:"json_extension,omitempty"`
+
+	// Additional properties to set if
+	// source_format is set to "JSON". Structure is documented below.
+	JSONOptions []JSONOptionsObservation `json:"jsonOptions,omitempty" tf:"json_options,omitempty"`
+
 	// The maximum number of bad records that
 	// BigQuery can ignore when reading data.
 	MaxBadRecords *float64 `json:"maxBadRecords,omitempty" tf:"max_bad_records,omitempty"`
+
+	// Metadata Cache Mode for the table. Set this to enable caching of metadata from external data source. Valid values are AUTOMATIC and MANUAL.
+	MetadataCacheMode *string `json:"metadataCacheMode,omitempty" tf:"metadata_cache_mode,omitempty"`
+
+	// Object Metadata is used to create Object Tables. Object Tables contain a listing of objects (with their metadata) found at the sourceUris. If object_metadata is set, source_format should be omitted.
+	ObjectMetadata *string `json:"objectMetadata,omitempty" tf:"object_metadata,omitempty"`
+
+	// Additional properties to set if
+	// source_format is set to "PARQUET". Structure is documented below.
+	ParquetOptions []ParquetOptionsObservation `json:"parquetOptions,omitempty" tf:"parquet_options,omitempty"`
 
 	// When creating an external table, the user can provide a reference file with the table schema. This is enabled for the following formats: AVRO, PARQUET, ORC.
 	ReferenceFileSchemaURI *string `json:"referenceFileSchemaUri,omitempty" tf:"reference_file_schema_uri,omitempty"`
@@ -357,6 +399,12 @@ type ExternalDataConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	CsvOptions []CsvOptionsParameters `json:"csvOptions,omitempty" tf:"csv_options,omitempty"`
 
+	// Specifies how source URIs are interpreted for constructing the file set to load.
+	// By default source URIs are expanded against the underlying storage.
+	// Other options include specifying manifest files. Only applicable to object storage systems. Docs
+	// +kubebuilder:validation:Optional
+	FileSetSpecType *string `json:"fileSetSpecType,omitempty" tf:"file_set_spec_type,omitempty"`
+
 	// Additional options if
 	// source_format is set to "GOOGLE_SHEETS". Structure is
 	// documented below.
@@ -379,10 +427,32 @@ type ExternalDataConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	IgnoreUnknownValues *bool `json:"ignoreUnknownValues,omitempty" tf:"ignore_unknown_values,omitempty"`
 
+	// Used to indicate that a JSON variant, rather than normal JSON, is being used as the sourceFormat. This should only be used in combination with the JSON source format. Valid values are: GEOJSON.
+	// +kubebuilder:validation:Optional
+	JSONExtension *string `json:"jsonExtension,omitempty" tf:"json_extension,omitempty"`
+
+	// Additional properties to set if
+	// source_format is set to "JSON". Structure is documented below.
+	// +kubebuilder:validation:Optional
+	JSONOptions []JSONOptionsParameters `json:"jsonOptions,omitempty" tf:"json_options,omitempty"`
+
 	// The maximum number of bad records that
 	// BigQuery can ignore when reading data.
 	// +kubebuilder:validation:Optional
 	MaxBadRecords *float64 `json:"maxBadRecords,omitempty" tf:"max_bad_records,omitempty"`
+
+	// Metadata Cache Mode for the table. Set this to enable caching of metadata from external data source. Valid values are AUTOMATIC and MANUAL.
+	// +kubebuilder:validation:Optional
+	MetadataCacheMode *string `json:"metadataCacheMode,omitempty" tf:"metadata_cache_mode,omitempty"`
+
+	// Object Metadata is used to create Object Tables. Object Tables contain a listing of objects (with their metadata) found at the sourceUris. If object_metadata is set, source_format should be omitted.
+	// +kubebuilder:validation:Optional
+	ObjectMetadata *string `json:"objectMetadata,omitempty" tf:"object_metadata,omitempty"`
+
+	// Additional properties to set if
+	// source_format is set to "PARQUET". Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ParquetOptions []ParquetOptionsParameters `json:"parquetOptions,omitempty" tf:"parquet_options,omitempty"`
 
 	// When creating an external table, the user can provide a reference file with the table schema. This is enabled for the following formats: AVRO, PARQUET, ORC.
 	// +kubebuilder:validation:Optional
@@ -425,6 +495,39 @@ type GoogleSheetsOptionsInitParameters struct {
 	// that BigQuery will skip when reading the data. At least one of range or
 	// skip_leading_rows must be set.
 	SkipLeadingRows *float64 `json:"skipLeadingRows,omitempty" tf:"skip_leading_rows,omitempty"`
+}
+
+type ForeignKeysObservation struct {
+
+	// :  The pair of the foreign key column and primary key column.
+	// Structure is documented below.
+	ColumnReferences []ColumnReferencesObservation `json:"columnReferences,omitempty" tf:"column_references,omitempty"`
+
+	// :  Set only if the foreign key constraint is named.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// :  The table that holds the primary key
+	// and is referenced by this foreign key.
+	// Structure is documented below.
+	ReferencedTable []ReferencedTableObservation `json:"referencedTable,omitempty" tf:"referenced_table,omitempty"`
+}
+
+type ForeignKeysParameters struct {
+
+	// :  The pair of the foreign key column and primary key column.
+	// Structure is documented below.
+	// +kubebuilder:validation:Required
+	ColumnReferences []ColumnReferencesParameters `json:"columnReferences" tf:"column_references,omitempty"`
+
+	// :  Set only if the foreign key constraint is named.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// :  The table that holds the primary key
+	// and is referenced by this foreign key.
+	// Structure is documented below.
+	// +kubebuilder:validation:Required
+	ReferencedTable []ReferencedTableParameters `json:"referencedTable" tf:"referenced_table,omitempty"`
 }
 
 type GoogleSheetsOptionsObservation struct {
@@ -483,7 +586,8 @@ type HivePartitioningOptionsObservation struct {
 
 	// If set to true, queries over this table
 	// require a partition filter that can be used for partition elimination to be
-	// specified.
+	// specified. require_partition_filter is deprecated and will be removed in
+	// a future major release. Use the top level field with the same name instead.
 	RequirePartitionFilter *bool `json:"requirePartitionFilter,omitempty" tf:"require_partition_filter,omitempty"`
 
 	// When hive partition detection is requested,
@@ -506,7 +610,8 @@ type HivePartitioningOptionsParameters struct {
 
 	// If set to true, queries over this table
 	// require a partition filter that can be used for partition elimination to be
-	// specified.
+	// specified. require_partition_filter is deprecated and will be removed in
+	// a future major release. Use the top level field with the same name instead.
 	// +kubebuilder:validation:Optional
 	RequirePartitionFilter *bool `json:"requirePartitionFilter,omitempty" tf:"require_partition_filter,omitempty"`
 
@@ -522,6 +627,7 @@ type HivePartitioningOptionsParameters struct {
 	SourceURIPrefix *string `json:"sourceUriPrefix,omitempty" tf:"source_uri_prefix,omitempty"`
 }
 
+<<<<<<< HEAD
 type MaterializedViewInitParameters struct {
 
 	// Specifies whether to use BigQuery's automatic refresh for this materialized view when the base table is updated.
@@ -534,9 +640,26 @@ type MaterializedViewInitParameters struct {
 	// The maximum frequency at which this materialized view will be refreshed.
 	// The default value is 1800000
 	RefreshIntervalMs *float64 `json:"refreshIntervalMs,omitempty" tf:"refresh_interval_ms,omitempty"`
+=======
+type JSONOptionsObservation struct {
+
+	// The character encoding of the data. The supported values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE, and UTF-32LE. The default value is UTF-8.
+	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
+}
+
+type JSONOptionsParameters struct {
+
+	// The character encoding of the data. The supported values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE, and UTF-32LE. The default value is UTF-8.
+	// +kubebuilder:validation:Optional
+	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
+>>>>>>> b302a7bd (chore: upgrade to hashicorp/google-beta 5.26.0)
 }
 
 type MaterializedViewObservation struct {
+
+	// Allow non incremental materialized view definition.
+	// The default value is false.
+	AllowNonIncrementalDefinition *bool `json:"allowNonIncrementalDefinition,omitempty" tf:"allow_non_incremental_definition,omitempty"`
 
 	// Specifies whether to use BigQuery's automatic refresh for this materialized view when the base table is updated.
 	// The default value is true.
@@ -552,6 +675,11 @@ type MaterializedViewObservation struct {
 
 type MaterializedViewParameters struct {
 
+	// Allow non incremental materialized view definition.
+	// The default value is false.
+	// +kubebuilder:validation:Optional
+	AllowNonIncrementalDefinition *bool `json:"allowNonIncrementalDefinition,omitempty" tf:"allow_non_incremental_definition,omitempty"`
+
 	// Specifies whether to use BigQuery's automatic refresh for this materialized view when the base table is updated.
 	// The default value is true.
 	// +kubebuilder:validation:Optional
@@ -567,6 +695,7 @@ type MaterializedViewParameters struct {
 	RefreshIntervalMs *float64 `json:"refreshIntervalMs,omitempty" tf:"refresh_interval_ms,omitempty"`
 }
 
+<<<<<<< HEAD
 type RangeInitParameters struct {
 
 	// End of the range partitioning, exclusive.
@@ -577,6 +706,39 @@ type RangeInitParameters struct {
 
 	// Start of the range partitioning, inclusive.
 	Start *float64 `json:"start,omitempty" tf:"start,omitempty"`
+=======
+type ParquetOptionsObservation struct {
+
+	// Indicates whether to use schema inference specifically for Parquet LIST logical type.
+	EnableListInference *bool `json:"enableListInference,omitempty" tf:"enable_list_inference,omitempty"`
+
+	// Indicates whether to infer Parquet ENUM logical type as STRING instead of BYTES by default.
+	EnumAsString *bool `json:"enumAsString,omitempty" tf:"enum_as_string,omitempty"`
+}
+
+type ParquetOptionsParameters struct {
+
+	// Indicates whether to use schema inference specifically for Parquet LIST logical type.
+	// +kubebuilder:validation:Optional
+	EnableListInference *bool `json:"enableListInference,omitempty" tf:"enable_list_inference,omitempty"`
+
+	// Indicates whether to infer Parquet ENUM logical type as STRING instead of BYTES by default.
+	// +kubebuilder:validation:Optional
+	EnumAsString *bool `json:"enumAsString,omitempty" tf:"enum_as_string,omitempty"`
+}
+
+type PrimaryKeyObservation struct {
+
+	// :  The columns that are composed of the primary key constraint.
+	Columns []*string `json:"columns,omitempty" tf:"columns,omitempty"`
+}
+
+type PrimaryKeyParameters struct {
+
+	// :  The columns that are composed of the primary key constraint.
+	// +kubebuilder:validation:Required
+	Columns []*string `json:"columns" tf:"columns,omitempty"`
+>>>>>>> b302a7bd (chore: upgrade to hashicorp/google-beta 5.26.0)
 }
 
 type RangeObservation struct {
@@ -696,6 +858,65 @@ type TableInitParameters struct {
 	View []TableViewInitParameters `json:"view,omitempty" tf:"view,omitempty"`
 }
 
+type ReferencedTableObservation struct {
+
+	// :  The ID of the dataset containing this table.
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// :  The ID of the project containing this table.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// A unique ID for the resource.
+	// Changing this forces a new resource to be created.
+	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
+}
+
+type ReferencedTableParameters struct {
+
+	// :  The ID of the dataset containing this table.
+	// +kubebuilder:validation:Required
+	DatasetID *string `json:"datasetId" tf:"dataset_id,omitempty"`
+
+	// :  The ID of the project containing this table.
+	// +kubebuilder:validation:Required
+	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
+
+	// A unique ID for the resource.
+	// Changing this forces a new resource to be created.
+	// +kubebuilder:validation:Required
+	TableID *string `json:"tableId" tf:"table_id,omitempty"`
+}
+
+type TableConstraintsObservation struct {
+
+	// Present only if the table has a foreign key.
+	// The foreign key is not enforced.
+	// Structure is documented below.
+	ForeignKeys []ForeignKeysObservation `json:"foreignKeys,omitempty" tf:"foreign_keys,omitempty"`
+
+	// Represents the primary key constraint
+	// on a table's columns. Present only if the table has a primary key.
+	// The primary key is not enforced.
+	// Structure is documented below.
+	PrimaryKey []PrimaryKeyObservation `json:"primaryKey,omitempty" tf:"primary_key,omitempty"`
+}
+
+type TableConstraintsParameters struct {
+
+	// Present only if the table has a foreign key.
+	// The foreign key is not enforced.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ForeignKeys []ForeignKeysParameters `json:"foreignKeys,omitempty" tf:"foreign_keys,omitempty"`
+
+	// Represents the primary key constraint
+	// on a table's columns. Present only if the table has a primary key.
+	// The primary key is not enforced.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PrimaryKey []PrimaryKeyParameters `json:"primaryKey,omitempty" tf:"primary_key,omitempty"`
+}
+
 type TableObservation struct {
 
 	// Specifies column names to use for data clustering.
@@ -714,6 +935,8 @@ type TableObservation struct {
 
 	// The field description.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
 	// Specifies how the table should be encrypted.
 	// If left blank, the table will be encrypted with a Google-managed key; that process
@@ -754,6 +977,12 @@ type TableObservation struct {
 	// Structure is documented below.
 	MaterializedView []MaterializedViewObservation `json:"materializedView,omitempty" tf:"materialized_view,omitempty"`
 
+	// :  The maximum staleness of data that could be
+	// returned when the table (or stale MV) is queried. Staleness encoded as a
+	// string encoding of SQL IntervalValue
+	// type.
+	MaxStaleness *string `json:"maxStaleness,omitempty" tf:"max_staleness,omitempty"`
+
 	// The size of this table in bytes, excluding any data in the streaming buffer.
 	NumBytes *float64 `json:"numBytes,omitempty" tf:"num_bytes,omitempty"`
 
@@ -771,11 +1000,27 @@ type TableObservation struct {
 	// partitioning for this table. Structure is documented below.
 	RangePartitioning []RangePartitioningObservation `json:"rangePartitioning,omitempty" tf:"range_partitioning,omitempty"`
 
+	// If set to true, queries over this table
+	// require a partition filter that can be used for partition elimination to be
+	// specified.
+	RequirePartitionFilter *bool `json:"requirePartitionFilter,omitempty" tf:"require_partition_filter,omitempty"`
+
+	ResourceTags map[string]*string `json:"resourceTags,omitempty" tf:"resource_tags,omitempty"`
+
 	// A JSON schema for the table.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// Defines the primary key and foreign keys.
+	// Structure is documented below.
+	TableConstraints []TableConstraintsObservation `json:"tableConstraints,omitempty" tf:"table_constraints,omitempty"`
+
+	TableReplicationInfo []TableReplicationInfoObservation `json:"tableReplicationInfo,omitempty" tf:"table_replication_info,omitempty"`
+
+	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// If specified, configures time-based
 	// partitioning for this table. Structure is documented below.
@@ -851,6 +1096,13 @@ type TableParameters struct {
 	// +kubebuilder:validation:Optional
 	MaterializedView []MaterializedViewParameters `json:"materializedView,omitempty" tf:"materialized_view,omitempty"`
 
+	// :  The maximum staleness of data that could be
+	// returned when the table (or stale MV) is queried. Staleness encoded as a
+	// string encoding of SQL IntervalValue
+	// type.
+	// +kubebuilder:validation:Optional
+	MaxStaleness *string `json:"maxStaleness,omitempty" tf:"max_staleness,omitempty"`
+
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
@@ -861,9 +1113,26 @@ type TableParameters struct {
 	// +kubebuilder:validation:Optional
 	RangePartitioning []RangePartitioningParameters `json:"rangePartitioning,omitempty" tf:"range_partitioning,omitempty"`
 
+	// If set to true, queries over this table
+	// require a partition filter that can be used for partition elimination to be
+	// specified.
+	// +kubebuilder:validation:Optional
+	RequirePartitionFilter *bool `json:"requirePartitionFilter,omitempty" tf:"require_partition_filter,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ResourceTags map[string]*string `json:"resourceTags,omitempty" tf:"resource_tags,omitempty"`
+
 	// A JSON schema for the table.
 	// +kubebuilder:validation:Optional
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
+
+	// Defines the primary key and foreign keys.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TableConstraints []TableConstraintsParameters `json:"tableConstraints,omitempty" tf:"table_constraints,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TableReplicationInfo []TableReplicationInfoParameters `json:"tableReplicationInfo,omitempty" tf:"table_replication_info,omitempty"`
 
 	// If specified, configures time-based
 	// partitioning for this table. Structure is documented below.
@@ -876,6 +1145,7 @@ type TableParameters struct {
 	View []TableViewParameters `json:"view,omitempty" tf:"view,omitempty"`
 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 type TableTimePartitioningInitParameters struct {
 
@@ -956,6 +1226,43 @@ type TableViewInitParameters struct {
 
 =======
 >>>>>>> a3be7bc6 (Remove unneeded resources)
+=======
+type TableReplicationInfoObservation struct {
+	ReplicationIntervalMs *float64 `json:"replicationIntervalMs,omitempty" tf:"replication_interval_ms,omitempty"`
+
+	// The dataset ID to create the table in.
+	// Changing this forces a new resource to be created.
+	SourceDatasetID *string `json:"sourceDatasetId,omitempty" tf:"source_dataset_id,omitempty"`
+
+	// an identifier for the resource with format projects/{{project}}/datasets/{{dataset}}/tables/{{name}}
+	SourceProjectID *string `json:"sourceProjectId,omitempty" tf:"source_project_id,omitempty"`
+
+	// A unique ID for the resource.
+	// Changing this forces a new resource to be created.
+	SourceTableID *string `json:"sourceTableId,omitempty" tf:"source_table_id,omitempty"`
+}
+
+type TableReplicationInfoParameters struct {
+
+	// +kubebuilder:validation:Optional
+	ReplicationIntervalMs *float64 `json:"replicationIntervalMs,omitempty" tf:"replication_interval_ms,omitempty"`
+
+	// The dataset ID to create the table in.
+	// Changing this forces a new resource to be created.
+	// +kubebuilder:validation:Required
+	SourceDatasetID *string `json:"sourceDatasetId" tf:"source_dataset_id,omitempty"`
+
+	// an identifier for the resource with format projects/{{project}}/datasets/{{dataset}}/tables/{{name}}
+	// +kubebuilder:validation:Required
+	SourceProjectID *string `json:"sourceProjectId" tf:"source_project_id,omitempty"`
+
+	// A unique ID for the resource.
+	// Changing this forces a new resource to be created.
+	// +kubebuilder:validation:Required
+	SourceTableID *string `json:"sourceTableId" tf:"source_table_id,omitempty"`
+}
+
+>>>>>>> b302a7bd (chore: upgrade to hashicorp/google-beta 5.26.0)
 type TableViewObservation struct {
 
 	// A query that BigQuery executes when the view is referenced.
@@ -991,7 +1298,8 @@ type TimePartitioningObservation struct {
 
 	// If set to true, queries over this table
 	// require a partition filter that can be used for partition elimination to be
-	// specified.
+	// specified. require_partition_filter is deprecated and will be removed in
+	// a future major release. Use the top level field with the same name instead.
 	RequirePartitionFilter *bool `json:"requirePartitionFilter,omitempty" tf:"require_partition_filter,omitempty"`
 
 	// The supported types are DAY, HOUR, MONTH, and YEAR,
@@ -1014,7 +1322,8 @@ type TimePartitioningParameters struct {
 
 	// If set to true, queries over this table
 	// require a partition filter that can be used for partition elimination to be
-	// specified.
+	// specified. require_partition_filter is deprecated and will be removed in
+	// a future major release. Use the top level field with the same name instead.
 	// +kubebuilder:validation:Optional
 	RequirePartitionFilter *bool `json:"requirePartitionFilter,omitempty" tf:"require_partition_filter,omitempty"`
 

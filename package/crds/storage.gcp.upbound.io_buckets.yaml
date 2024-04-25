@@ -77,6 +77,16 @@ spec:
                             transitions objects in your bucket to appropriate storage
                             classes based on each object's access pattern.
                           type: boolean
+<<<<<<< HEAD
+=======
+                        terminalStorageClass:
+                          description: 'The storage class that objects in the bucket
+                            eventually transition to if they are not read for a certain
+                            length of time. Supported values include: NEARLINE, ARCHIVE.'
+                          type: string
+                      required:
+                      - enabled
+>>>>>>> b302a7bd (chore: upgrade to hashicorp/google-beta 5.26.0)
                       type: object
                     type: array
                   cors:
@@ -133,6 +143,9 @@ spec:
                   defaultEventBasedHold:
                     description: Whether or not to automatically apply an eventBasedHold
                       to new objects added to the bucket.
+                    type: boolean
+                  enableObjectRetention:
+                    description: Enables object retention on a storage bucket.
                     type: boolean
                   encryption:
                     description: The bucket's encryption configuration. Structure
@@ -232,6 +245,11 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                              noAge:
+                                description: While set true, age value will be omitted.
+                                  Note Required to set true when age is unset in the
+                                  config file.
+                                type: boolean
                               noncurrentTimeBefore:
                                 description: Relevant only for versioned objects.
                                   The date in RFC 3339 (e.g. 2017-06-13) when the
@@ -300,6 +318,32 @@ spec:
                             in the bucket must be retained and cannot be deleted,
                             overwritten, or archived. The value must be less than
                             2,147,483,647 seconds.
+                          type: number
+                      type: object
+                    type: array
+                  rpo:
+                    description: The recovery point objective for cross-region replication
+                      of the bucket. Applicable only for dual and multi-region buckets.
+                      "DEFAULT" sets default replication. "ASYNC_TURBO" value enables
+                      turbo replication, valid for dual-region buckets only. See Turbo
+                      Replication for more information. If rpo is not specified at
+                      bucket creation, it defaults to "DEFAULT" for dual and multi-region
+                      buckets. NOTE If used with single-region bucket, It will throw
+                      an error.
+                    type: string
+                  softDeletePolicy:
+                    description: The bucket's soft delete policy, which defines the
+                      period of time that soft-deleted objects will be retained, and
+                      cannot be permanently deleted. Structure is documented below.
+                    items:
+                      properties:
+                        retentionDurationSeconds:
+                          description: 'The duration in seconds that soft-deleted
+                            objects in the bucket will be retained and cannot be permanently
+                            deleted. Default value is 604800. The value must be in
+                            between 604800(7 days) and 7776000(90 days). Note: To
+                            disable the soft delete policy on a bucket, This field
+                            must be set to 0.'
                           type: number
                       type: object
                     type: array
@@ -839,6 +883,11 @@ spec:
                             transitions objects in your bucket to appropriate storage
                             classes based on each object's access pattern.
                           type: boolean
+                        terminalStorageClass:
+                          description: 'The storage class that objects in the bucket
+                            eventually transition to if they are not read for a certain
+                            length of time. Supported values include: NEARLINE, ARCHIVE.'
+                          type: string
                       type: object
                     type: array
                   cors:
@@ -895,6 +944,14 @@ spec:
                   defaultEventBasedHold:
                     description: Whether or not to automatically apply an eventBasedHold
                       to new objects added to the bucket.
+                    type: boolean
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: A map of key/value label pairs to assign to the bucket.
+                    type: object
+                  enableObjectRetention:
+                    description: Enables object retention on a storage bucket.
                     type: boolean
                   encryption:
                     description: The bucket's encryption configuration. Structure
@@ -996,6 +1053,11 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                              noAge:
+                                description: While set true, age value will be omitted.
+                                  Note Required to set true when age is unset in the
+                                  config file.
+                                type: boolean
                               noncurrentTimeBefore:
                                 description: Relevant only for versioned objects.
                                   The date in RFC 3339 (e.g. 2017-06-13) when the
@@ -1037,6 +1099,8 @@ spec:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  projectNumber:
+                    type: number
                   publicAccessPrevention:
                     description: Prevents public access to a bucket. Acceptable values
                       are "inherited" or "enforced". If "inherited", the bucket uses
@@ -1067,14 +1131,50 @@ spec:
                           type: number
                       type: object
                     type: array
+                  rpo:
+                    description: The recovery point objective for cross-region replication
+                      of the bucket. Applicable only for dual and multi-region buckets.
+                      "DEFAULT" sets default replication. "ASYNC_TURBO" value enables
+                      turbo replication, valid for dual-region buckets only. See Turbo
+                      Replication for more information. If rpo is not specified at
+                      bucket creation, it defaults to "DEFAULT" for dual and multi-region
+                      buckets. NOTE If used with single-region bucket, It will throw
+                      an error.
+                    type: string
                   selfLink:
                     description: The URI of the created resource.
                     type: string
+                  softDeletePolicy:
+                    description: The bucket's soft delete policy, which defines the
+                      period of time that soft-deleted objects will be retained, and
+                      cannot be permanently deleted. Structure is documented below.
+                    items:
+                      properties:
+                        effectiveTime:
+                          description: (Computed) Server-determined value that indicates
+                            the time from which the policy, or one with a greater
+                            retention, was effective. This value is in RFC 3339 format.
+                          type: string
+                        retentionDurationSeconds:
+                          description: 'The duration in seconds that soft-deleted
+                            objects in the bucket will be retained and cannot be permanently
+                            deleted. Default value is 604800. The value must be in
+                            between 604800(7 days) and 7776000(90 days). Note: To
+                            disable the soft delete policy on a bucket, This field
+                            must be set to 0.'
+                          type: number
+                      type: object
+                    type: array
                   storageClass:
                     description: 'The Storage Class of the new bucket. Supported values
                       include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE,
                       ARCHIVE.'
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: A map of key/value label pairs to assign to the bucket.
+                    type: object
                   uniformBucketLevelAccess:
                     description: Enables Uniform bucket-level access access to a bucket.
                     type: boolean

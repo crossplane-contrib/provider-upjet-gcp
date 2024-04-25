@@ -37,6 +37,12 @@ type RegionTargetHTTPSProxyInitParameters struct {
 
 type RegionTargetHTTPSProxyObservation struct {
 
+	// URLs to certificate manager certificate resources that are used to authenticate connections between users and the load balancer.
+	// Currently, you may specify up to 15 certificates. Certificate manager certificates do not apply when the load balancing scheme is set to INTERNAL_SELF_MANAGED.
+	// sslCertificates and certificateManagerCertificates fields can not be defined together.
+	// Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificates/{resourceName} or just the self_link projects/{project}/locations/{location}/certificates/{resourceName}
+	CertificateManagerCertificates []*string `json:"certificateManagerCertificates,omitempty" tf:"certificate_manager_certificates,omitempty"`
+
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
@@ -57,10 +63,15 @@ type RegionTargetHTTPSProxyObservation struct {
 	// If it is not provided, the provider region is used.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// A list of RegionSslCertificate resources that are used to authenticate
-	// connections between users and the load balancer. Currently, exactly
-	// one SSL certificate must be specified.
+	// URLs to SslCertificate resources that are used to authenticate connections between users and the load balancer.
+	// At least one SSL certificate must be specified. Currently, you may specify up to 15 SSL certificates.
+	// sslCertificates do not apply when the load balancing scheme is set to INTERNAL_SELF_MANAGED.
 	SSLCertificates []*string `json:"sslCertificates,omitempty" tf:"ssl_certificates,omitempty"`
+
+	// A reference to the Region SslPolicy resource that will be associated with
+	// the TargetHttpsProxy resource. If not set, the TargetHttpsProxy
+	// resource will not have any SSL policy configured.
+	SSLPolicy *string `json:"sslPolicy,omitempty" tf:"ssl_policy,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
@@ -71,6 +82,13 @@ type RegionTargetHTTPSProxyObservation struct {
 }
 
 type RegionTargetHTTPSProxyParameters struct {
+
+	// URLs to certificate manager certificate resources that are used to authenticate connections between users and the load balancer.
+	// Currently, you may specify up to 15 certificates. Certificate manager certificates do not apply when the load balancing scheme is set to INTERNAL_SELF_MANAGED.
+	// sslCertificates and certificateManagerCertificates fields can not be defined together.
+	// Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificates/{resourceName} or just the self_link projects/{project}/locations/{location}/certificates/{resourceName}
+	// +kubebuilder:validation:Optional
+	CertificateManagerCertificates []*string `json:"certificateManagerCertificates,omitempty" tf:"certificate_manager_certificates,omitempty"`
 
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
@@ -86,9 +104,9 @@ type RegionTargetHTTPSProxyParameters struct {
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
 
-	// A list of RegionSslCertificate resources that are used to authenticate
-	// connections between users and the load balancer. Currently, exactly
-	// one SSL certificate must be specified.
+	// URLs to SslCertificate resources that are used to authenticate connections between users and the load balancer.
+	// At least one SSL certificate must be specified. Currently, you may specify up to 15 SSL certificates.
+	// sslCertificates do not apply when the load balancing scheme is set to INTERNAL_SELF_MANAGED.
 	// +crossplane:generate:reference:type=RegionSSLCertificate
 	// +kubebuilder:validation:Optional
 	SSLCertificates []*string `json:"sslCertificates,omitempty" tf:"ssl_certificates,omitempty"`
@@ -100,6 +118,12 @@ type RegionTargetHTTPSProxyParameters struct {
 	// Selector for a list of RegionSSLCertificate to populate sslCertificates.
 	// +kubebuilder:validation:Optional
 	SSLCertificatesSelector *v1.Selector `json:"sslCertificatesSelector,omitempty" tf:"-"`
+
+	// A reference to the Region SslPolicy resource that will be associated with
+	// the TargetHttpsProxy resource. If not set, the TargetHttpsProxy
+	// resource will not have any SSL policy configured.
+	// +kubebuilder:validation:Optional
+	SSLPolicy *string `json:"sslPolicy,omitempty" tf:"ssl_policy,omitempty"`
 
 	// A reference to the RegionUrlMap resource that defines the mapping from URL
 	// to the RegionBackendService.

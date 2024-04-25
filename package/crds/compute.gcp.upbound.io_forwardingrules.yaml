@@ -77,7 +77,10 @@ spec:
               forProvider:
                 properties:
                   allPorts:
-                    description: 'This field can only be used:'
+                    description: 'The ports, portRange, and allPorts fields are mutually
+                      exclusive. Only packets addressed to ports in the specified
+                      range will be forwarded to the backends configured with this
+                      forwarding rule. The allPorts field has the following limitations:'
                     type: boolean
                   allowGlobalAccess:
                     description: This field is used along with the backend_service
@@ -85,6 +88,10 @@ spec:
                       internal TargetInstance. If the field is set to TRUE, clients
                       can access ILB from all regions. Otherwise only allows access
                       from clients in the same region as the internal load balancer.
+                    type: boolean
+                  allowPscGlobalAccess:
+                    description: This is used in PSC consumer ForwardingRule to control
+                      whether the PSC endpoint can be accessed from another region.
                     type: boolean
                   backendService:
                     description: Identifies the backend service to which the forwarding
@@ -254,8 +261,17 @@ spec:
                       protocol forwarding, valid options are TCP, UDP, ESP, AH, SCTP,
                       ICMP and L3_DEFAULT. The valid IP protocols are different for
                       different load balancing products as described in Load balancing
-                      features. Possible values are: TCP, UDP, ESP, AH, SCTP, ICMP,
-                      L3_DEFAULT.'
+                      features. A Forwarding Rule with protocol L3_DEFAULT can attach
+                      with target instance or backend service with UNSPECIFIED protocol.
+                      A forwarding rule with "L3_DEFAULT" IPProtocal cannot be attached
+                      to a backend service with TCP or UDP. Possible values are: TCP,
+                      UDP, ESP, AH, SCTP, ICMP, L3_DEFAULT.'
+                    type: string
+                  ipVersion:
+                    description: 'The IP address version that will be used by this
+                      forwarding rule. Valid options are IPV4 and IPV6. If not set,
+                      the IPv4 address will be used by default. Possible values are:
+                      IPV4, IPV6.'
                     type: string
                   isMirroringCollector:
                     description: Indicates whether or not this load balancer can be
@@ -370,16 +386,22 @@ spec:
                       to the networkTier of the Address. Possible values are: PREMIUM,
                       STANDARD.'
                     type: string
+                  noAutomateDnsZone:
+                    description: This is used in PSC consumer ForwardingRule to control
+                      whether it should try to auto-generate a DNS zone or not. Non-PSC
+                      forwarding rules do not use this field.
+                    type: boolean
                   portRange:
-                    description: 'This field can only be used:'
+                    description: 'The ports, portRange, and allPorts fields are mutually
+                      exclusive. Only packets addressed to ports in the specified
+                      range will be forwarded to the backends configured with this
+                      forwarding rule. The portRange field has the following limitations:'
                     type: string
                   ports:
-                    description: and port_range fields are mutually exclusive. For
-                      external forwarding rules, two or more forwarding rules cannot
-                      use the same [IPAddress, IPProtocol] pair, and cannot have overlapping
-                      portRanges. For internal forwarding rules within the same VPC
-                      network, two or more forwarding rules cannot use the same [IPAddress,
-                      IPProtocol] pair, and cannot have overlapping portRanges.
+                    description: 'The ports, portRange, and allPorts fields are mutually
+                      exclusive. Only packets addressed to ports in the specified
+                      range will be forwarded to the backends configured with this
+                      forwarding rule. The ports field has the following limitations:'
                     items:
                       type: string
                     type: array
@@ -387,6 +409,11 @@ spec:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  recreateClosedPsc:
+                    description: this is used in psc consumer forwardingrule to make
+                      Upbound official provider recreate the forwardingrule when the
+                      status is closed
+                    type: boolean
                   region:
                     description: A reference to the region where the regional forwarding
                       rule resides. This field is not applicable to global forwarding
@@ -936,7 +963,10 @@ spec:
               atProvider:
                 properties:
                   allPorts:
-                    description: 'This field can only be used:'
+                    description: 'The ports, portRange, and allPorts fields are mutually
+                      exclusive. Only packets addressed to ports in the specified
+                      range will be forwarded to the backends configured with this
+                      forwarding rule. The allPorts field has the following limitations:'
                     type: boolean
                   allowGlobalAccess:
                     description: This field is used along with the backend_service
@@ -944,6 +974,10 @@ spec:
                       internal TargetInstance. If the field is set to TRUE, clients
                       can access ILB from all regions. Otherwise only allows access
                       from clients in the same region as the internal load balancer.
+                    type: boolean
+                  allowPscGlobalAccess:
+                    description: This is used in PSC consumer ForwardingRule to control
+                      whether the PSC endpoint can be accessed from another region.
                     type: boolean
                   backendService:
                     description: Identifies the backend service to which the forwarding
@@ -966,6 +1000,11 @@ spec:
                     description: An optional description of this resource. Provide
                       this property when you create the resource.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
                   id:
                     description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/forwardingRules/{{name}}
                     type: string
@@ -981,8 +1020,17 @@ spec:
                       protocol forwarding, valid options are TCP, UDP, ESP, AH, SCTP,
                       ICMP and L3_DEFAULT. The valid IP protocols are different for
                       different load balancing products as described in Load balancing
-                      features. Possible values are: TCP, UDP, ESP, AH, SCTP, ICMP,
-                      L3_DEFAULT.'
+                      features. A Forwarding Rule with protocol L3_DEFAULT can attach
+                      with target instance or backend service with UNSPECIFIED protocol.
+                      A forwarding rule with "L3_DEFAULT" IPProtocal cannot be attached
+                      to a backend service with TCP or UDP. Possible values are: TCP,
+                      UDP, ESP, AH, SCTP, ICMP, L3_DEFAULT.'
+                    type: string
+                  ipVersion:
+                    description: 'The IP address version that will be used by this
+                      forwarding rule. Valid options are IPV4 and IPV6. If not set,
+                      the IPv4 address will be used by default. Possible values are:
+                      IPV4, IPV6.'
                     type: string
                   isMirroringCollector:
                     description: Indicates whether or not this load balancer can be
@@ -1028,16 +1076,22 @@ spec:
                       to the networkTier of the Address. Possible values are: PREMIUM,
                       STANDARD.'
                     type: string
+                  noAutomateDnsZone:
+                    description: This is used in PSC consumer ForwardingRule to control
+                      whether it should try to auto-generate a DNS zone or not. Non-PSC
+                      forwarding rules do not use this field.
+                    type: boolean
                   portRange:
-                    description: 'This field can only be used:'
+                    description: 'The ports, portRange, and allPorts fields are mutually
+                      exclusive. Only packets addressed to ports in the specified
+                      range will be forwarded to the backends configured with this
+                      forwarding rule. The portRange field has the following limitations:'
                     type: string
                   ports:
-                    description: and port_range fields are mutually exclusive. For
-                      external forwarding rules, two or more forwarding rules cannot
-                      use the same [IPAddress, IPProtocol] pair, and cannot have overlapping
-                      portRanges. For internal forwarding rules within the same VPC
-                      network, two or more forwarding rules cannot use the same [IPAddress,
-                      IPProtocol] pair, and cannot have overlapping portRanges.
+                    description: 'The ports, portRange, and allPorts fields are mutually
+                      exclusive. Only packets addressed to ports in the specified
+                      range will be forwarded to the backends configured with this
+                      forwarding rule. The ports field has the following limitations:'
                     items:
                       type: string
                     type: array
@@ -1053,6 +1107,11 @@ spec:
                       Rule. Possible values: STATUS_UNSPECIFIED, PENDING, ACCEPTED,
                       REJECTED, CLOSED'
                     type: string
+                  recreateClosedPsc:
+                    description: this is used in psc consumer forwardingrule to make
+                      Upbound official provider recreate the forwardingrule when the
+                      status is closed
+                    type: boolean
                   region:
                     description: A reference to the region where the regional forwarding
                       rule resides. This field is not applicable to global forwarding
@@ -1116,6 +1175,12 @@ spec:
                     description: is set to targetGrpcProxy and validateForProxyless
                       is set to true, the IPAddress should be set to 0.0.0.0.
                     type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
                 type: object
               conditions:
                 description: Conditions of the resource.

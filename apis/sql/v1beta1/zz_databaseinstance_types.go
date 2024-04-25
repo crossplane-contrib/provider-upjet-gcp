@@ -162,7 +162,7 @@ type BackupConfigurationObservation struct {
 	// configuration starts.
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 
-	// The number of days of transaction logs we retain for point in time restore, from 1-7.
+	// The number of days of transaction logs we retain for point in time restore, from 1-7. For PostgreSQL Enterprise Plus instances, the number of days of retained transaction logs can be set from 1 to 35.
 	TransactionLogRetentionDays *float64 `json:"transactionLogRetentionDays,omitempty" tf:"transaction_log_retention_days,omitempty"`
 }
 
@@ -194,7 +194,7 @@ type BackupConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 
-	// The number of days of transaction logs we retain for point in time restore, from 1-7.
+	// The number of days of transaction logs we retain for point in time restore, from 1-7. For PostgreSQL Enterprise Plus instances, the number of days of retained transaction logs can be set from 1 to 35.
 	// +kubebuilder:validation:Optional
 	TransactionLogRetentionDays *float64 `json:"transactionLogRetentionDays,omitempty" tf:"transaction_log_retention_days,omitempty"`
 }
@@ -257,6 +257,9 @@ type CloneObservation struct {
 	// The timestamp of the point in time that should be restored.
 	PointInTime *string `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
 
+	// (Point-in-time recovery for PostgreSQL only) Clone to an instance in the specified zone. If no zone is specified, clone to the same zone as the source instance. clone-unavailable-instance
+	PreferredZone *string `json:"preferredZone,omitempty" tf:"preferred_zone,omitempty"`
+
 	// Name of the source instance which will be cloned.
 	SourceInstanceName *string `json:"sourceInstanceName,omitempty" tf:"source_instance_name,omitempty"`
 }
@@ -275,6 +278,10 @@ type CloneParameters struct {
 	// +kubebuilder:validation:Optional
 	PointInTime *string `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
 
+	// (Point-in-time recovery for PostgreSQL only) Clone to an instance in the specified zone. If no zone is specified, clone to the same zone as the source instance. clone-unavailable-instance
+	// +kubebuilder:validation:Optional
+	PreferredZone *string `json:"preferredZone,omitempty" tf:"preferred_zone,omitempty"`
+
 	// Name of the source instance which will be cloned.
 	// +kubebuilder:validation:Optional
 	SourceInstanceName *string `json:"sourceInstanceName,omitempty" tf:"source_instance_name,omitempty"`
@@ -289,6 +296,19 @@ type DatabaseFlagsInitParameters struct {
 	// access this instance. Must be set even if other two attributes are not for
 	// the whitelist to become active.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type DataCacheConfigObservation struct {
+
+	// Whether data cache is enabled for the instance. Defaults to false. Can be used with MYSQL and PostgreSQL only.
+	DataCacheEnabled *bool `json:"dataCacheEnabled,omitempty" tf:"data_cache_enabled,omitempty"`
+}
+
+type DataCacheConfigParameters struct {
+
+	// Whether data cache is enabled for the instance. Defaults to false. Can be used with MYSQL and PostgreSQL only.
+	// +kubebuilder:validation:Optional
+	DataCacheEnabled *bool `json:"dataCacheEnabled,omitempty" tf:"data_cache_enabled,omitempty"`
 }
 
 type DatabaseFlagsObservation struct {
@@ -386,10 +406,14 @@ type DatabaseInstanceObservation struct {
 	// connection strings. For example, when connecting with Cloud SQL Proxy.
 	ConnectionName *string `json:"connectionName,omitempty" tf:"connection_name,omitempty"`
 
+	// The name of the instance. This is done because after a name is used, it cannot be reused for
+	// up to one week.
+	DNSName *string `json:"dnsName,omitempty" tf:"dns_name,omitempty"`
+
 	// The MySQL, PostgreSQL or
 	// SQL Server version to use. Supported values include MYSQL_5_6,
 	// MYSQL_5_7, MYSQL_8_0, POSTGRES_9_6,POSTGRES_10, POSTGRES_11,
-	// POSTGRES_12, POSTGRES_13, POSTGRES_14, SQLSERVER_2017_STANDARD,
+	// POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, SQLSERVER_2017_STANDARD,
 	// SQLSERVER_2017_ENTERPRISE, SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB.
 	// SQLSERVER_2019_STANDARD, SQLSERVER_2019_ENTERPRISE, SQLSERVER_2019_EXPRESS,
 	// SQLSERVER_2019_WEB.
@@ -435,6 +459,9 @@ type DatabaseInstanceObservation struct {
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// the URI that points to the service attachment of the instance.
+	PscServiceAttachmentLink *string `json:"pscServiceAttachmentLink,omitempty" tf:"psc_service_attachment_link,omitempty"`
+
 	// The first public (PRIMARY) IPv4 address assigned.
 	PublicIPAddress *string `json:"publicIpAddress,omitempty" tf:"public_ip_address,omitempty"`
 
@@ -452,8 +479,6 @@ type DatabaseInstanceObservation struct {
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
-
-	ServerCACert []ServerCACertObservation `json:"serverCaCert,omitempty" tf:"server_ca_cert,omitempty"`
 
 	// The service account email address assigned to the
 	// instance.
@@ -474,7 +499,7 @@ type DatabaseInstanceParameters struct {
 	// The MySQL, PostgreSQL or
 	// SQL Server version to use. Supported values include MYSQL_5_6,
 	// MYSQL_5_7, MYSQL_8_0, POSTGRES_9_6,POSTGRES_10, POSTGRES_11,
-	// POSTGRES_12, POSTGRES_13, POSTGRES_14, SQLSERVER_2017_STANDARD,
+	// POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, SQLSERVER_2017_STANDARD,
 	// SQLSERVER_2017_ENTERPRISE, SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB.
 	// SQLSERVER_2019_STANDARD, SQLSERVER_2019_ENTERPRISE, SQLSERVER_2019_EXPRESS,
 	// SQLSERVER_2019_WEB.
@@ -636,8 +661,13 @@ type IPConfigurationObservation struct {
 	// This setting can be updated, but it cannot be removed after it is set.
 	PrivateNetwork *string `json:"privateNetwork,omitempty" tf:"private_network,omitempty"`
 
-	// Whether SSL connections over IP are enforced or not.
+	PscConfig []PscConfigObservation `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
+
+	// Whether SSL connections over IP are enforced or not. To change this field, also set the corresponding value in ssl_mode.
 	RequireSSL *bool `json:"requireSsl,omitempty" tf:"require_ssl,omitempty"`
+
+	// Specify how SSL connection should be enforced in DB connections. This field provides more SSL enforcment options compared to require_ssl. To change this field, also set the correspoding value in require_ssl.
+	SSLMode *string `json:"sslMode,omitempty" tf:"ssl_mode,omitempty"`
 }
 
 type IPConfigurationParameters struct {
@@ -677,9 +707,16 @@ type IPConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	PrivateNetworkSelector *v1.Selector `json:"privateNetworkSelector,omitempty" tf:"-"`
 
-	// Whether SSL connections over IP are enforced or not.
+	// +kubebuilder:validation:Optional
+	PscConfig []PscConfigParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
+
+	// Whether SSL connections over IP are enforced or not. To change this field, also set the corresponding value in ssl_mode.
 	// +kubebuilder:validation:Optional
 	RequireSSL *bool `json:"requireSsl,omitempty" tf:"require_ssl,omitempty"`
+
+	// Specify how SSL connection should be enforced in DB connections. This field provides more SSL enforcment options compared to require_ssl. To change this field, also set the correspoding value in require_ssl.
+	// +kubebuilder:validation:Optional
+	SSLMode *string `json:"sslMode,omitempty" tf:"ssl_mode,omitempty"`
 }
 
 type InsightsConfigInitParameters struct {
@@ -708,7 +745,7 @@ type InsightsConfigObservation struct {
 	// Number of query execution plans captured by Insights per minute for all queries combined. Between 0 and 20. Default to 5.
 	QueryPlansPerMinute *float64 `json:"queryPlansPerMinute,omitempty" tf:"query_plans_per_minute,omitempty"`
 
-	// Maximum query length stored in bytes. Between 256 and 4500. Default to 1024.
+	// Maximum query length stored in bytes. Between 256 and 4500. Default to 1024. Higher query lengths are more useful for analytical queries, but they also require more memory. Changing the query length requires you to restart the instance. You can still add tags to queries that exceed the length limit.
 	QueryStringLength *float64 `json:"queryStringLength,omitempty" tf:"query_string_length,omitempty"`
 
 	// True if Query Insights will record application tags from query when enabled.
@@ -728,7 +765,7 @@ type InsightsConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	QueryPlansPerMinute *float64 `json:"queryPlansPerMinute,omitempty" tf:"query_plans_per_minute,omitempty"`
 
-	// Maximum query length stored in bytes. Between 256 and 4500. Default to 1024.
+	// Maximum query length stored in bytes. Between 256 and 4500. Default to 1024. Higher query lengths are more useful for analytical queries, but they also require more memory. Changing the query length requires you to restart the instance. You can still add tags to queries that exceed the length limit.
 	// +kubebuilder:validation:Optional
 	QueryStringLength *float64 `json:"queryStringLength,omitempty" tf:"query_string_length,omitempty"`
 
@@ -897,6 +934,7 @@ type PasswordValidationPolicyParameters struct {
 	ReuseInterval *float64 `json:"reuseInterval,omitempty" tf:"reuse_interval,omitempty"`
 }
 
+<<<<<<< HEAD
 type ReplicaConfigurationInitParameters struct {
 
 	// PEM representation of the trusted CA's x509
@@ -937,6 +975,26 @@ type ReplicaConfigurationInitParameters struct {
 	// True if the master's common name
 	// value is checked during the SSL handshake.
 	VerifyServerCertificate *bool `json:"verifyServerCertificate,omitempty" tf:"verify_server_certificate,omitempty"`
+=======
+type PscConfigObservation struct {
+
+	// List of consumer projects that are allow-listed for PSC connections to this instance. This instance can be connected to with PSC from any network in these projects. Each consumer project in this list may be represented by a project number (numeric) or by a project id (alphanumeric).
+	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
+
+	// Whether PSC connectivity is enabled for this instance.
+	PscEnabled *bool `json:"pscEnabled,omitempty" tf:"psc_enabled,omitempty"`
+}
+
+type PscConfigParameters struct {
+
+	// List of consumer projects that are allow-listed for PSC connections to this instance. This instance can be connected to with PSC from any network in these projects. Each consumer project in this list may be represented by a project number (numeric) or by a project id (alphanumeric).
+	// +kubebuilder:validation:Optional
+	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
+
+	// Whether PSC connectivity is enabled for this instance.
+	// +kubebuilder:validation:Optional
+	PscEnabled *bool `json:"pscEnabled,omitempty" tf:"psc_enabled,omitempty"`
+>>>>>>> b302a7bd (chore: upgrade to hashicorp/google-beta 5.26.0)
 }
 
 type ReplicaConfigurationObservation struct {
@@ -965,12 +1023,14 @@ type ReplicaConfigurationObservation struct {
 	// If the field is set to true the replica will be designated as a failover replica.
 	// If the master instance fails, the replica instance will be promoted as
 	// the new master instance.
+	// ~> NOTE: Not supported for Postgres database.
 	FailoverTarget *bool `json:"failoverTarget,omitempty" tf:"failover_target,omitempty"`
 
 	// Time in ms between replication
 	// heartbeats.
 	MasterHeartbeatPeriod *float64 `json:"masterHeartbeatPeriod,omitempty" tf:"master_heartbeat_period,omitempty"`
 
+	// Permissible ciphers for use in SSL encryption.
 	SSLCipher *string `json:"sslCipher,omitempty" tf:"ssl_cipher,omitempty"`
 
 	// Username for replication connection.
@@ -1012,6 +1072,7 @@ type ReplicaConfigurationParameters struct {
 	// If the field is set to true the replica will be designated as a failover replica.
 	// If the master instance fails, the replica instance will be promoted as
 	// the new master instance.
+	// ~> NOTE: Not supported for Postgres database.
 	// +kubebuilder:validation:Optional
 	FailoverTarget *bool `json:"failoverTarget,omitempty" tf:"failover_target,omitempty"`
 
@@ -1024,6 +1085,7 @@ type ReplicaConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
+	// Permissible ciphers for use in SSL encryption.
 	// +kubebuilder:validation:Optional
 	SSLCipher *string `json:"sslCipher,omitempty" tf:"ssl_cipher,omitempty"`
 
@@ -1241,6 +1303,8 @@ type SettingsObservation struct {
 	// Specifies if connections must use Cloud SQL connectors.
 	ConnectorEnforcement *string `json:"connectorEnforcement,omitempty" tf:"connector_enforcement,omitempty"`
 
+	DataCacheConfig []DataCacheConfigObservation `json:"dataCacheConfig,omitempty" tf:"data_cache_config,omitempty"`
+
 	DatabaseFlags []DatabaseFlagsObservation `json:"databaseFlags,omitempty" tf:"database_flags,omitempty"`
 
 	// .
@@ -1259,6 +1323,12 @@ type SettingsObservation struct {
 
 	// The type of data disk: PD_SSD or PD_HDD. Defaults to PD_SSD.
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// The edition of the instance, can be ENTERPRISE or ENTERPRISE_PLUS.
+	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
+
+	// Enables Cloud SQL instances to connect to Vertex AI and pass requests for real-time predictions and insights. Defaults to false.
+	EnableGoogleMLIntegration *bool `json:"enableGoogleMlIntegration,omitempty" tf:"enable_google_ml_integration,omitempty"`
 
 	IPConfiguration []IPConfigurationObservation `json:"ipConfiguration,omitempty" tf:"ip_configuration,omitempty"`
 
@@ -1325,6 +1395,9 @@ type SettingsParameters struct {
 	ConnectorEnforcement *string `json:"connectorEnforcement,omitempty" tf:"connector_enforcement,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	DataCacheConfig []DataCacheConfigParameters `json:"dataCacheConfig,omitempty" tf:"data_cache_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	DatabaseFlags []DatabaseFlagsParameters `json:"databaseFlags,omitempty" tf:"database_flags,omitempty"`
 
 	// .
@@ -1349,6 +1422,14 @@ type SettingsParameters struct {
 	// The type of data disk: PD_SSD or PD_HDD. Defaults to PD_SSD.
 	// +kubebuilder:validation:Optional
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// The edition of the instance, can be ENTERPRISE or ENTERPRISE_PLUS.
+	// +kubebuilder:validation:Optional
+	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
+
+	// Enables Cloud SQL instances to connect to Vertex AI and pass requests for real-time predictions and insights. Defaults to false.
+	// +kubebuilder:validation:Optional
+	EnableGoogleMLIntegration *bool `json:"enableGoogleMlIntegration,omitempty" tf:"enable_google_ml_integration,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	IPConfiguration []IPConfigurationParameters `json:"ipConfiguration,omitempty" tf:"ip_configuration,omitempty"`

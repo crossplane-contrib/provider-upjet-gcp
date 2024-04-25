@@ -68,6 +68,18 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  certificateManagerCertificates:
+                    description: URLs to certificate manager certificate resources
+                      that are used to authenticate connections between users and
+                      the load balancer. Currently, you may specify up to 15 certificates.
+                      Certificate manager certificates do not apply when the load
+                      balancing scheme is set to INTERNAL_SELF_MANAGED. sslCertificates
+                      and certificateManagerCertificates fields can not be defined
+                      together. Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificates/{resourceName}
+                      or just the self_link projects/{project}/locations/{location}/certificates/{resourceName}
+                    items:
+                      type: string
+                    type: array
                   certificateMap:
                     description: A reference to the CertificateMap resource uri that
                       identifies a certificate map associated with the given target
@@ -77,6 +89,15 @@ spec:
                   description:
                     description: An optional description of this resource.
                     type: string
+                  httpKeepAliveTimeoutSec:
+                    description: Specifies how long to keep a connection open, after
+                      completing a response, while there is no matching traffic (in
+                      seconds). If an HTTP keepalive is not specified, a default value
+                      (610 seconds) will be used. For Global external HTTP(S) load
+                      balancer, the minimum allowed value is 5 seconds and the maximum
+                      allowed value is 1200 seconds. For Global external HTTP(S) load
+                      balancer (classic), this option is not available publicly.
+                    type: number
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
@@ -94,10 +115,24 @@ spec:
                       used. Default value is NONE. Possible values are: NONE, ENABLE,
                       DISABLE.'
                     type: string
+                  serverTlsPolicy:
+                    description: A URL referring to a networksecurity.ServerTlsPolicy
+                      resource that describes how the proxy should authenticate inbound
+                      traffic. serverTlsPolicy only applies to a global TargetHttpsProxy
+                      attached to globalForwardingRules with the loadBalancingScheme
+                      set to INTERNAL_SELF_MANAGED or EXTERNAL or EXTERNAL_MANAGED.
+                      For details which ServerTlsPolicy resources are accepted with
+                      INTERNAL_SELF_MANAGED and which with EXTERNAL, EXTERNAL_MANAGED
+                      loadBalancingScheme consult ServerTlsPolicy documentation. If
+                      left blank, communications are not encrypted.
+                    type: string
                   sslCertificates:
-                    description: A list of SslCertificate resources that are used
-                      to authenticate connections between users and the load balancer.
-                      At least one SSL certificate must be specified.
+                    description: URLs to SslCertificate resources that are used to
+                      authenticate connections between users and the load balancer.
+                      Currently, you may specify up to 15 SSL certificates. sslCertificates
+                      do not apply when the load balancing scheme is set to INTERNAL_SELF_MANAGED.
+                      sslCertificates and certificateManagerCertificates can not be
+                      defined together.
                     items:
                       type: string
                     type: array
@@ -438,6 +473,18 @@ spec:
             properties:
               atProvider:
                 properties:
+                  certificateManagerCertificates:
+                    description: URLs to certificate manager certificate resources
+                      that are used to authenticate connections between users and
+                      the load balancer. Currently, you may specify up to 15 certificates.
+                      Certificate manager certificates do not apply when the load
+                      balancing scheme is set to INTERNAL_SELF_MANAGED. sslCertificates
+                      and certificateManagerCertificates fields can not be defined
+                      together. Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificates/{resourceName}
+                      or just the self_link projects/{project}/locations/{location}/certificates/{resourceName}
+                    items:
+                      type: string
+                    type: array
                   certificateMap:
                     description: A reference to the CertificateMap resource uri that
                       identifies a certificate map associated with the given target
@@ -450,6 +497,15 @@ spec:
                   description:
                     description: An optional description of this resource.
                     type: string
+                  httpKeepAliveTimeoutSec:
+                    description: Specifies how long to keep a connection open, after
+                      completing a response, while there is no matching traffic (in
+                      seconds). If an HTTP keepalive is not specified, a default value
+                      (610 seconds) will be used. For Global external HTTP(S) load
+                      balancer, the minimum allowed value is 5 seconds and the maximum
+                      allowed value is 1200 seconds. For Global external HTTP(S) load
+                      balancer (classic), this option is not available publicly.
+                    type: number
                   id:
                     description: an identifier for the resource with format projects/{{project}}/global/targetHttpsProxies/{{name}}
                     type: string
@@ -476,10 +532,24 @@ spec:
                   selfLink:
                     description: The URI of the created resource.
                     type: string
+                  serverTlsPolicy:
+                    description: A URL referring to a networksecurity.ServerTlsPolicy
+                      resource that describes how the proxy should authenticate inbound
+                      traffic. serverTlsPolicy only applies to a global TargetHttpsProxy
+                      attached to globalForwardingRules with the loadBalancingScheme
+                      set to INTERNAL_SELF_MANAGED or EXTERNAL or EXTERNAL_MANAGED.
+                      For details which ServerTlsPolicy resources are accepted with
+                      INTERNAL_SELF_MANAGED and which with EXTERNAL, EXTERNAL_MANAGED
+                      loadBalancingScheme consult ServerTlsPolicy documentation. If
+                      left blank, communications are not encrypted.
+                    type: string
                   sslCertificates:
-                    description: A list of SslCertificate resources that are used
-                      to authenticate connections between users and the load balancer.
-                      At least one SSL certificate must be specified.
+                    description: URLs to SslCertificate resources that are used to
+                      authenticate connections between users and the load balancer.
+                      Currently, you may specify up to 15 SSL certificates. sslCertificates
+                      do not apply when the load balancing scheme is set to INTERNAL_SELF_MANAGED.
+                      sslCertificates and certificateManagerCertificates can not be
+                      defined together.
                     items:
                       type: string
                     type: array

@@ -68,10 +68,21 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  allowSubnetCidrRoutesOverlap:
+                    description: Typically packets destined to IPs within the subnetwork
+                      range that do not match existing resources are dropped and prevented
+                      from leaving the VPC. Setting this field to true will allow
+                      these packets to match dynamic routes injected via BGP even
+                      if their destinations match existing subnet ranges.
+                    type: boolean
                   description:
                     description: An optional description of this resource. Provide
                       this property when you create the resource. This field can be
                       set only at resource creation time.
+                    type: string
+                  externalIpv6Prefix:
+                    description: The range of external IPv6 addresses that are owned
+                      by this subnetwork.
                     type: string
                   ipCidrRange:
                     description: The range of internal addresses that are owned by
@@ -87,10 +98,11 @@ spec:
                       direct path. Possible values are: EXTERNAL, INTERNAL.'
                     type: string
                   logConfig:
-                    description: Denotes the logging options for the subnetwork flow
-                      logs. If logging is enabled logs will be exported to Stackdriver.
-                      This field cannot be set if the purpose of this subnetwork is
-                      INTERNAL_HTTPS_LOAD_BALANCER Structure is documented below.
+                    description: This field denotes the VPC flow logging options for
+                      this subnetwork. If logging is enabled, logs are exported to
+                      Cloud Logging. Flow logging isn't supported if the subnet purpose
+                      field is set to subnetwork is REGIONAL_MANAGED_PROXY or GLOBAL_MANAGED_PROXY.
+                      Structure is documented below.
                     items:
                       properties:
                         aggregationInterval:
@@ -226,26 +238,31 @@ spec:
                     type: string
                   purpose:
                     description: The purpose of the resource. This field can be either
-                      PRIVATE_RFC_1918, INTERNAL_HTTPS_LOAD_BALANCER or REGIONAL_MANAGED_PROXY.
-                      A subnetwork with purpose set to INTERNAL_HTTPS_LOAD_BALANCER
-                      is a user-created subnetwork that is reserved for Internal HTTP(S)
-                      Load Balancing. A subnetwork in a given region with purpose
-                      set to REGIONAL_MANAGED_PROXY is a proxy-only subnet and is
-                      shared between all the regional Envoy-based load balancers.
-                      If unspecified, the purpose defaults to PRIVATE_RFC_1918. The
-                      enableFlowLogs field isn't supported with the purpose field
-                      set to INTERNAL_HTTPS_LOAD_BALANCER.
+                      PRIVATE_RFC_1918, REGIONAL_MANAGED_PROXY, GLOBAL_MANAGED_PROXY,
+                      PRIVATE_SERVICE_CONNECT or PRIVATE_NAT(Beta). A subnet with
+                      purpose set to REGIONAL_MANAGED_PROXY is a user-created subnetwork
+                      that is reserved for regional Envoy-based load balancers. A
+                      subnetwork in a given region with purpose set to GLOBAL_MANAGED_PROXY
+                      is a proxy-only subnet and is shared between all the cross-regional
+                      Envoy-based load balancers. A subnetwork with purpose set to
+                      PRIVATE_SERVICE_CONNECT reserves the subnet for hosting a Private
+                      Service Connect published service. A subnetwork with purpose
+                      set to PRIVATE_NAT is used as source range for Private NAT gateways.
+                      Note that REGIONAL_MANAGED_PROXY is the preferred setting for
+                      all regional Envoy load balancers. If unspecified, the purpose
+                      defaults to PRIVATE_RFC_1918.
                     type: string
                   region:
                     description: The GCP region for this subnetwork.
                     type: string
                   role:
-                    description: 'The role of subnetwork. The value can be set to
-                      ACTIVE or BACKUP. An ACTIVE subnetwork is one that is currently
-                      being used. A BACKUP subnetwork is one that is ready to be promoted
-                      to ACTIVE or is currently draining. Subnetwork role must be
-                      specified when purpose is set to INTERNAL_HTTPS_LOAD_BALANCER
-                      or REGIONAL_MANAGED_PROXY. Possible values are: ACTIVE, BACKUP.'
+                    description: 'The role of subnetwork. Currently, this field is
+                      only used when purpose is REGIONAL_MANAGED_PROXY. The value
+                      can be set to ACTIVE or BACKUP. An ACTIVE subnetwork is one
+                      that is currently being used for Envoy-based load balancers
+                      in a region. A BACKUP subnetwork is one that is ready to be
+                      promoted to ACTIVE or is currently draining. Possible values
+                      are: ACTIVE, BACKUP.'
                     type: string
                   secondaryIpRange:
                     description: 'An array of configurations for secondary IP ranges
@@ -634,6 +651,13 @@ spec:
             properties:
               atProvider:
                 properties:
+                  allowSubnetCidrRoutesOverlap:
+                    description: Typically packets destined to IPs within the subnetwork
+                      range that do not match existing resources are dropped and prevented
+                      from leaving the VPC. Setting this field to true will allow
+                      these packets to match dynamic routes injected via BGP even
+                      if their destinations match existing subnet ranges.
+                    type: boolean
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
@@ -655,6 +679,10 @@ spec:
                   id:
                     description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/subnetworks/{{name}}
                     type: string
+                  internalIpv6Prefix:
+                    description: The internal IPv6 address range that is assigned
+                      to this subnetwork.
+                    type: string
                   ipCidrRange:
                     description: The range of internal addresses that are owned by
                       this subnetwork. Provide this property when you create the subnetwork.
@@ -673,10 +701,11 @@ spec:
                       by this subnetwork.
                     type: string
                   logConfig:
-                    description: Denotes the logging options for the subnetwork flow
-                      logs. If logging is enabled logs will be exported to Stackdriver.
-                      This field cannot be set if the purpose of this subnetwork is
-                      INTERNAL_HTTPS_LOAD_BALANCER Structure is documented below.
+                    description: This field denotes the VPC flow logging options for
+                      this subnetwork. If logging is enabled, logs are exported to
+                      Cloud Logging. Flow logging isn't supported if the subnet purpose
+                      field is set to subnetwork is REGIONAL_MANAGED_PROXY or GLOBAL_MANAGED_PROXY.
+                      Structure is documented below.
                     items:
                       properties:
                         aggregationInterval:
@@ -739,26 +768,31 @@ spec:
                     type: string
                   purpose:
                     description: The purpose of the resource. This field can be either
-                      PRIVATE_RFC_1918, INTERNAL_HTTPS_LOAD_BALANCER or REGIONAL_MANAGED_PROXY.
-                      A subnetwork with purpose set to INTERNAL_HTTPS_LOAD_BALANCER
-                      is a user-created subnetwork that is reserved for Internal HTTP(S)
-                      Load Balancing. A subnetwork in a given region with purpose
-                      set to REGIONAL_MANAGED_PROXY is a proxy-only subnet and is
-                      shared between all the regional Envoy-based load balancers.
-                      If unspecified, the purpose defaults to PRIVATE_RFC_1918. The
-                      enableFlowLogs field isn't supported with the purpose field
-                      set to INTERNAL_HTTPS_LOAD_BALANCER.
+                      PRIVATE_RFC_1918, REGIONAL_MANAGED_PROXY, GLOBAL_MANAGED_PROXY,
+                      PRIVATE_SERVICE_CONNECT or PRIVATE_NAT(Beta). A subnet with
+                      purpose set to REGIONAL_MANAGED_PROXY is a user-created subnetwork
+                      that is reserved for regional Envoy-based load balancers. A
+                      subnetwork in a given region with purpose set to GLOBAL_MANAGED_PROXY
+                      is a proxy-only subnet and is shared between all the cross-regional
+                      Envoy-based load balancers. A subnetwork with purpose set to
+                      PRIVATE_SERVICE_CONNECT reserves the subnet for hosting a Private
+                      Service Connect published service. A subnetwork with purpose
+                      set to PRIVATE_NAT is used as source range for Private NAT gateways.
+                      Note that REGIONAL_MANAGED_PROXY is the preferred setting for
+                      all regional Envoy load balancers. If unspecified, the purpose
+                      defaults to PRIVATE_RFC_1918.
                     type: string
                   region:
                     description: The GCP region for this subnetwork.
                     type: string
                   role:
-                    description: 'The role of subnetwork. The value can be set to
-                      ACTIVE or BACKUP. An ACTIVE subnetwork is one that is currently
-                      being used. A BACKUP subnetwork is one that is ready to be promoted
-                      to ACTIVE or is currently draining. Subnetwork role must be
-                      specified when purpose is set to INTERNAL_HTTPS_LOAD_BALANCER
-                      or REGIONAL_MANAGED_PROXY. Possible values are: ACTIVE, BACKUP.'
+                    description: 'The role of subnetwork. Currently, this field is
+                      only used when purpose is REGIONAL_MANAGED_PROXY. The value
+                      can be set to ACTIVE or BACKUP. An ACTIVE subnetwork is one
+                      that is currently being used for Envoy-based load balancers
+                      in a region. A BACKUP subnetwork is one that is ready to be
+                      promoted to ACTIVE or is currently draining. Possible values
+                      are: ACTIVE, BACKUP.'
                     type: string
                   secondaryIpRange:
                     description: 'An array of configurations for secondary IP ranges

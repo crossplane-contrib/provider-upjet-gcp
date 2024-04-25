@@ -64,11 +64,15 @@ type AutoclassObservation struct {
 
 	// While set to true, autoclass automatically transitions objects in your bucket to appropriate storage classes based on each object's access pattern.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// The storage class that objects in the bucket eventually transition to if they are not read for a certain length of time. Supported values include: NEARLINE, ARCHIVE.
+	TerminalStorageClass *string `json:"terminalStorageClass,omitempty" tf:"terminal_storage_class,omitempty"`
 }
 
 type AutoclassParameters struct {
 
 	// While set to true, autoclass automatically transitions objects in your bucket to appropriate storage classes based on each object's access pattern.
+<<<<<<< HEAD
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
@@ -130,6 +134,14 @@ type BucketInitParameters struct {
 
 	// Configuration if the bucket acts as a website. Structure is documented below.
 	Website []WebsiteInitParameters `json:"website,omitempty" tf:"website,omitempty"`
+=======
+	// +kubebuilder:validation:Required
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+
+	// The storage class that objects in the bucket eventually transition to if they are not read for a certain length of time. Supported values include: NEARLINE, ARCHIVE.
+	// +kubebuilder:validation:Optional
+	TerminalStorageClass *string `json:"terminalStorageClass,omitempty" tf:"terminal_storage_class,omitempty"`
+>>>>>>> b302a7bd (chore: upgrade to hashicorp/google-beta 5.26.0)
 }
 
 type BucketObservation struct {
@@ -145,6 +157,12 @@ type BucketObservation struct {
 
 	// Whether or not to automatically apply an eventBasedHold to new objects added to the bucket.
 	DefaultEventBasedHold *bool `json:"defaultEventBasedHold,omitempty" tf:"default_event_based_hold,omitempty"`
+
+	// A map of key/value label pairs to assign to the bucket.
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
+	// Enables object retention on a storage bucket.
+	EnableObjectRetention *bool `json:"enableObjectRetention,omitempty" tf:"enable_object_retention,omitempty"`
 
 	// The bucket's encryption configuration. Structure is documented below.
 	Encryption []EncryptionObservation `json:"encryption,omitempty" tf:"encryption,omitempty"`
@@ -171,6 +189,8 @@ type BucketObservation struct {
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	ProjectNumber *float64 `json:"projectNumber,omitempty" tf:"project_number,omitempty"`
+
 	// Prevents public access to a bucket. Acceptable values are "inherited" or "enforced". If "inherited", the bucket uses public access prevention. only if the bucket is subject to the public access prevention organization policy constraint. Defaults to "inherited".
 	PublicAccessPrevention *string `json:"publicAccessPrevention,omitempty" tf:"public_access_prevention,omitempty"`
 
@@ -180,11 +200,20 @@ type BucketObservation struct {
 	// Configuration of the bucket's data retention policy for how long objects in the bucket should be retained. Structure is documented below.
 	RetentionPolicy []RetentionPolicyObservation `json:"retentionPolicy,omitempty" tf:"retention_policy,omitempty"`
 
+	// The recovery point objective for cross-region replication of the bucket. Applicable only for dual and multi-region buckets. "DEFAULT" sets default replication. "ASYNC_TURBO" value enables turbo replication, valid for dual-region buckets only. See Turbo Replication for more information. If rpo is not specified at bucket creation, it defaults to "DEFAULT" for dual and multi-region buckets. NOTE If used with single-region bucket, It will throw an error.
+	Rpo *string `json:"rpo,omitempty" tf:"rpo,omitempty"`
+
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// The bucket's soft delete policy, which defines the period of time that soft-deleted objects will be retained, and cannot be permanently deleted. Structure is documented below.
+	SoftDeletePolicy []SoftDeletePolicyObservation `json:"softDeletePolicy,omitempty" tf:"soft_delete_policy,omitempty"`
+
 	// The Storage Class of the new bucket. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE.
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
+
+	// A map of key/value label pairs to assign to the bucket.
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// The base URL of the bucket, in the format gs://<bucket-name>.
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
@@ -216,6 +245,10 @@ type BucketParameters struct {
 	// Whether or not to automatically apply an eventBasedHold to new objects added to the bucket.
 	// +kubebuilder:validation:Optional
 	DefaultEventBasedHold *bool `json:"defaultEventBasedHold,omitempty" tf:"default_event_based_hold,omitempty"`
+
+	// Enables object retention on a storage bucket.
+	// +kubebuilder:validation:Optional
+	EnableObjectRetention *bool `json:"enableObjectRetention,omitempty" tf:"enable_object_retention,omitempty"`
 
 	// The bucket's encryption configuration. Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -258,6 +291,14 @@ type BucketParameters struct {
 	// Configuration of the bucket's data retention policy for how long objects in the bucket should be retained. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RetentionPolicy []RetentionPolicyParameters `json:"retentionPolicy,omitempty" tf:"retention_policy,omitempty"`
+
+	// The recovery point objective for cross-region replication of the bucket. Applicable only for dual and multi-region buckets. "DEFAULT" sets default replication. "ASYNC_TURBO" value enables turbo replication, valid for dual-region buckets only. See Turbo Replication for more information. If rpo is not specified at bucket creation, it defaults to "DEFAULT" for dual and multi-region buckets. NOTE If used with single-region bucket, It will throw an error.
+	// +kubebuilder:validation:Optional
+	Rpo *string `json:"rpo,omitempty" tf:"rpo,omitempty"`
+
+	// The bucket's soft delete policy, which defines the period of time that soft-deleted objects will be retained, and cannot be permanently deleted. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SoftDeletePolicy []SoftDeletePolicyParameters `json:"softDeletePolicy,omitempty" tf:"soft_delete_policy,omitempty"`
 
 	// The Storage Class of the new bucket. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE.
 	// +kubebuilder:validation:Optional
@@ -338,6 +379,9 @@ type ConditionObservation struct {
 	// One or more matching name suffixes to satisfy this condition.
 	MatchesSuffix []*string `json:"matchesSuffix,omitempty" tf:"matches_suffix,omitempty"`
 
+	// While set true, age value will be omitted. Note Required to set true when age is unset in the config file.
+	NoAge *bool `json:"noAge,omitempty" tf:"no_age,omitempty"`
+
 	// Relevant only for versioned objects. The date in RFC 3339 (e.g. 2017-06-13) when the object became nonconcurrent.
 	NoncurrentTimeBefore *string `json:"noncurrentTimeBefore,omitempty" tf:"noncurrent_time_before,omitempty"`
 
@@ -381,6 +425,10 @@ type ConditionParameters struct {
 	// One or more matching name suffixes to satisfy this condition.
 	// +kubebuilder:validation:Optional
 	MatchesSuffix []*string `json:"matchesSuffix,omitempty" tf:"matches_suffix,omitempty"`
+
+	// While set true, age value will be omitted. Note Required to set true when age is unset in the config file.
+	// +kubebuilder:validation:Optional
+	NoAge *bool `json:"noAge,omitempty" tf:"no_age,omitempty"`
 
 	// Relevant only for versioned objects. The date in RFC 3339 (e.g. 2017-06-13) when the object became nonconcurrent.
 	// +kubebuilder:validation:Optional
@@ -582,6 +630,22 @@ type VersioningInitParameters struct {
 
 	// While set to true, versioning is fully enabled for this bucket.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type SoftDeletePolicyObservation struct {
+
+	// (Computed) Server-determined value that indicates the time from which the policy, or one with a greater retention, was effective. This value is in RFC 3339 format.
+	EffectiveTime *string `json:"effectiveTime,omitempty" tf:"effective_time,omitempty"`
+
+	// The duration in seconds that soft-deleted objects in the bucket will be retained and cannot be permanently deleted. Default value is 604800. The value must be in between 604800(7 days) and 7776000(90 days). Note: To disable the soft delete policy on a bucket, This field must be set to 0.
+	RetentionDurationSeconds *float64 `json:"retentionDurationSeconds,omitempty" tf:"retention_duration_seconds,omitempty"`
+}
+
+type SoftDeletePolicyParameters struct {
+
+	// The duration in seconds that soft-deleted objects in the bucket will be retained and cannot be permanently deleted. Default value is 604800. The value must be in between 604800(7 days) and 7776000(90 days). Note: To disable the soft delete policy on a bucket, This field must be set to 0.
+	// +kubebuilder:validation:Optional
+	RetentionDurationSeconds *float64 `json:"retentionDurationSeconds,omitempty" tf:"retention_duration_seconds,omitempty"`
 }
 
 type VersioningObservation struct {

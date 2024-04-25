@@ -68,6 +68,27 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  allInstancesConfig:
+                    description: Properties to set on all instances in the group.
+                      After setting allInstancesConfig on the group, you must update
+                      the group's instances to apply the configuration.
+                    items:
+                      properties:
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: ', The label key-value pairs that you want
+                            to patch onto the instance.'
+                          type: object
+                        metadata:
+                          additionalProperties:
+                            type: string
+                          description: ', The metadata key-value pairs that you want
+                            to patch onto the instance. For more information, see
+                            Project and instance metadata.'
+                          type: object
+                      type: object
+                    type: array
                   autoHealingPolicies:
                     description: The autohealing policies for this managed instance
                       group. You can specify only one value. Structure is documented
@@ -184,6 +205,26 @@ spec:
                     items:
                       type: string
                     type: array
+                  instanceLifecyclePolicy:
+                    items:
+                      properties:
+                        defaultActionOnFailure:
+                          description: ', Default behavior for all instance or health
+                            check failures. Valid options are: REPAIR, DO_NOTHING.
+                            If DO_NOTHING then instances will not be repaired. If
+                            REPAIR (default), then failed instances will be repaired.'
+                          type: string
+                        forceUpdateOnRepair:
+                          description: ', Specifies whether to apply the group''s
+                            latest configuration when repairing a VM. Valid options
+                            are: YES, NO. If YES and you updated the group''s instance
+                            template or per-instance configurations after the VM was
+                            created, then these changes are applied when VM is repaired.
+                            If NO (default), then updates are applied in accordance
+                            with the group''s update policy type.'
+                          type: string
+                      type: object
+                    type: array
                   listManagedInstancesResults:
                     description: 'Pagination behavior of the listManagedInstances
                       API method for this managed instance group. Valid values are:
@@ -209,6 +250,23 @@ spec:
                         port:
                           description: The port number.
                           type: number
+                      type: object
+                    type: array
+                  params:
+                    description: Input only additional params for instance group manager
+                      creation. Structure is documented below. For more information,
+                      see API.
+                    items:
+                      properties:
+                        resourceManagerTags:
+                          additionalProperties:
+                            type: string
+                          description: Resource manager tags to bind to the managed
+                            instance group. The tags are key-value pairs. Keys must
+                            be in the format tagKeys/123 and values in the format
+                            tagValues/456. For more information, see Manage tags for
+                            resources
+                          type: object
                       type: object
                     type: array
                   project:
@@ -239,6 +297,50 @@ spec:
                           type: string
                         deviceName:
                           description: ', The device name of the disk to be attached.'
+                          type: string
+                      type: object
+                    type: array
+                  statefulExternalIp:
+                    description: External network IPs assigned to the instances that
+                      will be preserved on instance delete, update, etc. This map
+                      is keyed with the network interface name. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        deleteRule:
+                          description: ', A value that prescribes what should happen
+                            to the external ip when the VM instance is deleted. The
+                            available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+                            NEVER - detach the ip when the VM is deleted, but do not
+                            delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete
+                            the external ip when the VM is permanently deleted from
+                            the instance group.'
+                          type: string
+                        interfaceName:
+                          description: ', The network interface name of the external
+                            Ip. Possible value: nic0.'
+                          type: string
+                      type: object
+                    type: array
+                  statefulInternalIp:
+                    description: Internal network IPs assigned to the instances that
+                      will be preserved on instance delete, update, etc. This map
+                      is keyed with the network interface name. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        deleteRule:
+                          description: ', A value that prescribes what should happen
+                            to the internal ip when the VM instance is deleted. The
+                            available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+                            NEVER - detach the ip when the VM is deleted, but do not
+                            delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete
+                            the internal ip when the VM is permanently deleted from
+                            the instance group.'
+                          type: string
+                        interfaceName:
+                          description: ', The network interface name of the internal
+                            Ip. Possible value: nic0.'
                           type: string
                       type: object
                     type: array
@@ -327,9 +429,10 @@ spec:
                     type: object
                   targetSize:
                     description: The target number of running instances for this managed
-                      instance group. This value should always be explicitly set unless
-                      this resource is attached to an autoscaler, in which case it
-                      should never be set. Defaults to 0.
+                      instance group. This value will fight with autoscaler settings
+                      when set, and generally shouldn't be set when using one. If
+                      a value is required, such as to specify a creation-time target
+                      size for the MIG, lifecycle. Defaults to 0.
                     type: number
                   updatePolicy:
                     description: The update policy for this managed instance group.
@@ -373,6 +476,11 @@ spec:
                             process. Conflicts with max_unavailable_fixed. Percent
                             value is only allowed for regional managed instance groups
                             with size at least 10.'
+                          type: number
+                        minReadySec:
+                          description: ', Minimum number of seconds to wait for after
+                            a newly created instance becomes available. This value
+                            must be from range [0, 3600]'
                           type: number
                         minimalAction:
                           description: '- Minimal action to be taken on an instance.
@@ -1007,6 +1115,27 @@ spec:
             properties:
               atProvider:
                 properties:
+                  allInstancesConfig:
+                    description: Properties to set on all instances in the group.
+                      After setting allInstancesConfig on the group, you must update
+                      the group's instances to apply the configuration.
+                    items:
+                      properties:
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: ', The label key-value pairs that you want
+                            to patch onto the instance.'
+                          type: object
+                        metadata:
+                          additionalProperties:
+                            type: string
+                          description: ', The metadata key-value pairs that you want
+                            to patch onto the instance. For more information, see
+                            Project and instance metadata.'
+                          type: object
+                      type: object
+                    type: array
                   autoHealingPolicies:
                     description: The autohealing policies for this managed instance
                       group. You can specify only one value. Structure is documented
@@ -1031,6 +1160,9 @@ spec:
                       named by appending a hyphen and a random four-character string
                       to the base instance name.
                     type: string
+                  creationTimestamp:
+                    description: Creation timestamp in RFC3339 text format.
+                    type: string
                   description:
                     description: An optional textual description of the instance group
                       manager.
@@ -1051,12 +1183,32 @@ spec:
                     description: The fingerprint of the instance group manager.
                     type: string
                   id:
-                    description: an identifier for the resource with format {{disk.name}}
+                    description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/instanceGroupManagers/{{name}}
                     type: string
                   instanceGroup:
                     description: The full URL of the instance group created by the
                       manager.
                     type: string
+                  instanceLifecyclePolicy:
+                    items:
+                      properties:
+                        defaultActionOnFailure:
+                          description: ', Default behavior for all instance or health
+                            check failures. Valid options are: REPAIR, DO_NOTHING.
+                            If DO_NOTHING then instances will not be repaired. If
+                            REPAIR (default), then failed instances will be repaired.'
+                          type: string
+                        forceUpdateOnRepair:
+                          description: ', Specifies whether to apply the group''s
+                            latest configuration when repairing a VM. Valid options
+                            are: YES, NO. If YES and you updated the group''s instance
+                            template or per-instance configurations after the VM was
+                            created, then these changes are applied when VM is repaired.
+                            If NO (default), then updates are applied in accordance
+                            with the group''s update policy type.'
+                          type: string
+                      type: object
+                    type: array
                   listManagedInstancesResults:
                     description: 'Pagination behavior of the listManagedInstances
                       API method for this managed instance group. Valid values are:
@@ -1082,6 +1234,23 @@ spec:
                         port:
                           description: The port number.
                           type: number
+                      type: object
+                    type: array
+                  params:
+                    description: Input only additional params for instance group manager
+                      creation. Structure is documented below. For more information,
+                      see API.
+                    items:
+                      properties:
+                        resourceManagerTags:
+                          additionalProperties:
+                            type: string
+                          description: Resource manager tags to bind to the managed
+                            instance group. The tags are key-value pairs. Keys must
+                            be in the format tagKeys/123 and values in the format
+                            tagValues/456. For more information, see Manage tags for
+                            resources
+                          type: object
                       type: object
                     type: array
                   project:
@@ -1118,9 +1287,69 @@ spec:
                           type: string
                       type: object
                     type: array
+                  statefulExternalIp:
+                    description: External network IPs assigned to the instances that
+                      will be preserved on instance delete, update, etc. This map
+                      is keyed with the network interface name. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        deleteRule:
+                          description: ', A value that prescribes what should happen
+                            to the external ip when the VM instance is deleted. The
+                            available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+                            NEVER - detach the ip when the VM is deleted, but do not
+                            delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete
+                            the external ip when the VM is permanently deleted from
+                            the instance group.'
+                          type: string
+                        interfaceName:
+                          description: ', The network interface name of the external
+                            Ip. Possible value: nic0.'
+                          type: string
+                      type: object
+                    type: array
+                  statefulInternalIp:
+                    description: Internal network IPs assigned to the instances that
+                      will be preserved on instance delete, update, etc. This map
+                      is keyed with the network interface name. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        deleteRule:
+                          description: ', A value that prescribes what should happen
+                            to the internal ip when the VM instance is deleted. The
+                            available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+                            NEVER - detach the ip when the VM is deleted, but do not
+                            delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete
+                            the internal ip when the VM is permanently deleted from
+                            the instance group.'
+                          type: string
+                        interfaceName:
+                          description: ', The network interface name of the internal
+                            Ip. Possible value: nic0.'
+                          type: string
+                      type: object
+                    type: array
                   status:
                     items:
                       properties:
+                        allInstancesConfig:
+                          description: Status of all-instances configuration on the
+                            group.
+                          items:
+                            properties:
+                              currentRevision:
+                                description: Current all-instances configuration revision.
+                                  This value is in RFC3339 text format.
+                                type: string
+                              effective:
+                                description: A bit indicating whether this configuration
+                                  has been applied to all managed instances in the
+                                  group.
+                                type: boolean
+                            type: object
+                          type: array
                         isStable:
                           description: 'A bit indicating whether the managed instance
                             group is in a stable state. A stable state means that:
@@ -1147,7 +1376,7 @@ spec:
                                 type: boolean
                               perInstanceConfigs:
                                 description: Status of per-instance configs on the
-                                  instance.
+                                  instances.
                                 items:
                                   properties:
                                     allEffective:
@@ -1181,9 +1410,10 @@ spec:
                     type: array
                   targetSize:
                     description: The target number of running instances for this managed
-                      instance group. This value should always be explicitly set unless
-                      this resource is attached to an autoscaler, in which case it
-                      should never be set. Defaults to 0.
+                      instance group. This value will fight with autoscaler settings
+                      when set, and generally shouldn't be set when using one. If
+                      a value is required, such as to specify a creation-time target
+                      size for the MIG, lifecycle. Defaults to 0.
                     type: number
                   updatePolicy:
                     description: The update policy for this managed instance group.
@@ -1227,6 +1457,11 @@ spec:
                             process. Conflicts with max_unavailable_fixed. Percent
                             value is only allowed for regional managed instance groups
                             with size at least 10.'
+                          type: number
+                        minReadySec:
+                          description: ', Minimum number of seconds to wait for after
+                            a newly created instance becomes available. This value
+                            must be from range [0, 3600]'
                           type: number
                         minimalAction:
                           description: '- Minimal action to be taken on an instance.

@@ -35,13 +35,14 @@ type BackupGeoHealthCheckedTargetsInitParameters struct {
 type BackupGeoHealthCheckedTargetsObservation struct {
 
 	// The list of internal load balancers to health check.
-	// Structure is document below.
+	// Structure is documented below.
 	InternalLoadBalancers []HealthCheckedTargetsInternalLoadBalancersObservation `json:"internalLoadBalancers,omitempty" tf:"internal_load_balancers,omitempty"`
 }
 
 type BackupGeoHealthCheckedTargetsParameters struct {
 
 	// The list of internal load balancers to health check.
+<<<<<<< HEAD
 	// Structure is document below.
 	// +kubebuilder:validation:Optional
 	InternalLoadBalancers []HealthCheckedTargetsInternalLoadBalancersParameters `json:"internalLoadBalancers,omitempty" tf:"internal_load_balancers,omitempty"`
@@ -58,12 +59,17 @@ type BackupGeoInitParameters struct {
 
 	// Same as rrdatas above.
 	Rrdatas []*string `json:"rrdatas,omitempty" tf:"rrdatas,omitempty"`
+=======
+	// Structure is documented below.
+	// +kubebuilder:validation:Required
+	InternalLoadBalancers []HealthCheckedTargetsInternalLoadBalancersParameters `json:"internalLoadBalancers" tf:"internal_load_balancers,omitempty"`
+>>>>>>> b302a7bd (chore: upgrade to hashicorp/google-beta 5.26.0)
 }
 
 type BackupGeoObservation struct {
 
 	// The list of targets to be health checked. Note that if DNSSEC is enabled for this zone, only one of rrdatas or health_checked_targets can be set.
-	// Structure is document below.
+	// Structure is documented below.
 	HealthCheckedTargets []BackupGeoHealthCheckedTargetsObservation `json:"healthCheckedTargets,omitempty" tf:"health_checked_targets,omitempty"`
 
 	// The location name defined in Google Cloud.
@@ -76,7 +82,7 @@ type BackupGeoObservation struct {
 type BackupGeoParameters struct {
 
 	// The list of targets to be health checked. Note that if DNSSEC is enabled for this zone, only one of rrdatas or health_checked_targets can be set.
-	// Structure is document below.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	HealthCheckedTargets []BackupGeoHealthCheckedTargetsParameters `json:"healthCheckedTargets,omitempty" tf:"health_checked_targets,omitempty"`
 
@@ -105,7 +111,7 @@ type GeoInitParameters struct {
 type GeoObservation struct {
 
 	// The list of targets to be health checked. Note that if DNSSEC is enabled for this zone, only one of rrdatas or health_checked_targets can be set.
-	// Structure is document below.
+	// Structure is documented below.
 	HealthCheckedTargets []HealthCheckedTargetsObservation `json:"healthCheckedTargets,omitempty" tf:"health_checked_targets,omitempty"`
 
 	// The location name defined in Google Cloud.
@@ -118,7 +124,7 @@ type GeoObservation struct {
 type GeoParameters struct {
 
 	// The list of targets to be health checked. Note that if DNSSEC is enabled for this zone, only one of rrdatas or health_checked_targets can be set.
-	// Structure is document below.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	HealthCheckedTargets []HealthCheckedTargetsParameters `json:"healthCheckedTargets,omitempty" tf:"health_checked_targets,omitempty"`
 
@@ -171,7 +177,7 @@ type HealthCheckedTargetsInternalLoadBalancersObservation struct {
 	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
-	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb"]
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb", "globalL7ilb"]
 	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
 
 	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
@@ -198,9 +204,15 @@ type HealthCheckedTargetsInternalLoadBalancersParameters struct {
 	// +kubebuilder:validation:Optional
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
+<<<<<<< HEAD
 	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb"]
 	// +kubebuilder:validation:Optional
 	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
+=======
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb", "globalL7ilb"]
+	// +kubebuilder:validation:Required
+	LoadBalancerType *string `json:"loadBalancerType" tf:"load_balancer_type,omitempty"`
+>>>>>>> b302a7bd (chore: upgrade to hashicorp/google-beta 5.26.0)
 
 	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
 	// +kubebuilder:validation:Optional
@@ -223,13 +235,14 @@ type HealthCheckedTargetsInternalLoadBalancersParameters struct {
 type HealthCheckedTargetsObservation struct {
 
 	// The list of internal load balancers to health check.
-	// Structure is document below.
+	// Structure is documented below.
 	InternalLoadBalancers []InternalLoadBalancersObservation `json:"internalLoadBalancers,omitempty" tf:"internal_load_balancers,omitempty"`
 }
 
 type HealthCheckedTargetsParameters struct {
 
 	// The list of internal load balancers to health check.
+<<<<<<< HEAD
 	// Structure is document below.
 	// +kubebuilder:validation:Optional
 	InternalLoadBalancers []InternalLoadBalancersParameters `json:"internalLoadBalancers,omitempty" tf:"internal_load_balancers,omitempty"`
@@ -258,6 +271,11 @@ type InternalLoadBalancersInitParameters struct {
 
 	// The region of the load balancer. Only needed for regional load balancers.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+=======
+	// Structure is documented below.
+	// +kubebuilder:validation:Required
+	InternalLoadBalancers []InternalLoadBalancersParameters `json:"internalLoadBalancers" tf:"internal_load_balancers,omitempty"`
+>>>>>>> b302a7bd (chore: upgrade to hashicorp/google-beta 5.26.0)
 }
 
 type InternalLoadBalancersObservation struct {
@@ -268,7 +286,7 @@ type InternalLoadBalancersObservation struct {
 	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
-	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb"]
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb", "globalL7ilb"]
 	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
 
 	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
@@ -295,9 +313,15 @@ type InternalLoadBalancersParameters struct {
 	// +kubebuilder:validation:Optional
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
+<<<<<<< HEAD
 	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb"]
 	// +kubebuilder:validation:Optional
 	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
+=======
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb", "globalL7ilb"]
+	// +kubebuilder:validation:Required
+	LoadBalancerType *string `json:"loadBalancerType" tf:"load_balancer_type,omitempty"`
+>>>>>>> b302a7bd (chore: upgrade to hashicorp/google-beta 5.26.0)
 
 	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
 	// +kubebuilder:validation:Optional
@@ -344,7 +368,7 @@ type PrimaryBackupObservation struct {
 	EnableGeoFencingForBackups *bool `json:"enableGeoFencingForBackups,omitempty" tf:"enable_geo_fencing_for_backups,omitempty"`
 
 	// The list of global primary targets to be health checked.
-	// Structure is document below.
+	// Structure is documented below.
 	Primary []PrimaryObservation `json:"primary,omitempty" tf:"primary,omitempty"`
 
 	// Specifies the percentage of traffic to send to the backup targets even when the primary targets are healthy.
@@ -363,9 +387,15 @@ type PrimaryBackupParameters struct {
 	EnableGeoFencingForBackups *bool `json:"enableGeoFencingForBackups,omitempty" tf:"enable_geo_fencing_for_backups,omitempty"`
 
 	// The list of global primary targets to be health checked.
+<<<<<<< HEAD
 	// Structure is document below.
 	// +kubebuilder:validation:Optional
 	Primary []PrimaryParameters `json:"primary,omitempty" tf:"primary,omitempty"`
+=======
+	// Structure is documented below.
+	// +kubebuilder:validation:Required
+	Primary []PrimaryParameters `json:"primary" tf:"primary,omitempty"`
+>>>>>>> b302a7bd (chore: upgrade to hashicorp/google-beta 5.26.0)
 
 	// Specifies the percentage of traffic to send to the backup targets even when the primary targets are healthy.
 	// +kubebuilder:validation:Optional
@@ -399,7 +429,7 @@ type PrimaryInternalLoadBalancersObservation struct {
 	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
-	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb"]
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb", "globalL7ilb"]
 	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
 
 	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
@@ -436,9 +466,15 @@ type PrimaryInternalLoadBalancersParameters struct {
 	// +kubebuilder:validation:Optional
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
+<<<<<<< HEAD
 	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb"]
 	// +kubebuilder:validation:Optional
 	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
+=======
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb", "globalL7ilb"]
+	// +kubebuilder:validation:Required
+	LoadBalancerType *string `json:"loadBalancerType" tf:"load_balancer_type,omitempty"`
+>>>>>>> b302a7bd (chore: upgrade to hashicorp/google-beta 5.26.0)
 
 	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
@@ -491,13 +527,14 @@ type PrimaryInternalLoadBalancersParameters struct {
 type PrimaryObservation struct {
 
 	// The list of internal load balancers to health check.
-	// Structure is document below.
+	// Structure is documented below.
 	InternalLoadBalancers []PrimaryInternalLoadBalancersObservation `json:"internalLoadBalancers,omitempty" tf:"internal_load_balancers,omitempty"`
 }
 
 type PrimaryParameters struct {
 
 	// The list of internal load balancers to health check.
+<<<<<<< HEAD
 	// Structure is document below.
 	// +kubebuilder:validation:Optional
 	InternalLoadBalancers []PrimaryInternalLoadBalancersParameters `json:"internalLoadBalancers,omitempty" tf:"internal_load_balancers,omitempty"`
@@ -526,6 +563,11 @@ type RecordSetInitParameters struct {
 
 	// The DNS record set type.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+=======
+	// Structure is documented below.
+	// +kubebuilder:validation:Required
+	InternalLoadBalancers []PrimaryInternalLoadBalancersParameters `json:"internalLoadBalancers" tf:"internal_load_balancers,omitempty"`
+>>>>>>> b302a7bd (chore: upgrade to hashicorp/google-beta 5.26.0)
 }
 
 type RecordSetObservation struct {
@@ -620,15 +662,15 @@ type RoutingPolicyObservation struct {
 	EnableGeoFencing *bool `json:"enableGeoFencing,omitempty" tf:"enable_geo_fencing,omitempty"`
 
 	// The configuration for Geolocation based routing policy.
-	// Structure is document below.
+	// Structure is documented below.
 	Geo []GeoObservation `json:"geo,omitempty" tf:"geo,omitempty"`
 
 	// The configuration for a primary-backup policy with global to regional failover. Queries are responded to with the global primary targets, but if none of the primary targets are healthy, then we fallback to a regional failover policy.
-	// Structure is document below.
+	// Structure is documented below.
 	PrimaryBackup []PrimaryBackupObservation `json:"primaryBackup,omitempty" tf:"primary_backup,omitempty"`
 
 	// The configuration for Weighted Round Robin based routing policy.
-	// Structure is document below.
+	// Structure is documented below.
 	Wrr []WrrObservation `json:"wrr,omitempty" tf:"wrr,omitempty"`
 }
 
@@ -639,17 +681,17 @@ type RoutingPolicyParameters struct {
 	EnableGeoFencing *bool `json:"enableGeoFencing,omitempty" tf:"enable_geo_fencing,omitempty"`
 
 	// The configuration for Geolocation based routing policy.
-	// Structure is document below.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Geo []GeoParameters `json:"geo,omitempty" tf:"geo,omitempty"`
 
 	// The configuration for a primary-backup policy with global to regional failover. Queries are responded to with the global primary targets, but if none of the primary targets are healthy, then we fallback to a regional failover policy.
-	// Structure is document below.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PrimaryBackup []PrimaryBackupParameters `json:"primaryBackup,omitempty" tf:"primary_backup,omitempty"`
 
 	// The configuration for Weighted Round Robin based routing policy.
-	// Structure is document below.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Wrr []WrrParameters `json:"wrr,omitempty" tf:"wrr,omitempty"`
 }
@@ -694,7 +736,7 @@ type WrrHealthCheckedTargetsInternalLoadBalancersObservation struct {
 	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
-	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb"]
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb", "globalL7ilb"]
 	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
 
 	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
@@ -721,9 +763,15 @@ type WrrHealthCheckedTargetsInternalLoadBalancersParameters struct {
 	// +kubebuilder:validation:Optional
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
+<<<<<<< HEAD
 	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb"]
 	// +kubebuilder:validation:Optional
 	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
+=======
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb", "regionalL7ilb", "globalL7ilb"]
+	// +kubebuilder:validation:Required
+	LoadBalancerType *string `json:"loadBalancerType" tf:"load_balancer_type,omitempty"`
+>>>>>>> b302a7bd (chore: upgrade to hashicorp/google-beta 5.26.0)
 
 	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
 	// +kubebuilder:validation:Optional
@@ -746,13 +794,14 @@ type WrrHealthCheckedTargetsInternalLoadBalancersParameters struct {
 type WrrHealthCheckedTargetsObservation struct {
 
 	// The list of internal load balancers to health check.
-	// Structure is document below.
+	// Structure is documented below.
 	InternalLoadBalancers []WrrHealthCheckedTargetsInternalLoadBalancersObservation `json:"internalLoadBalancers,omitempty" tf:"internal_load_balancers,omitempty"`
 }
 
 type WrrHealthCheckedTargetsParameters struct {
 
 	// The list of internal load balancers to health check.
+<<<<<<< HEAD
 	// Structure is document below.
 	// +kubebuilder:validation:Optional
 	InternalLoadBalancers []WrrHealthCheckedTargetsInternalLoadBalancersParameters `json:"internalLoadBalancers,omitempty" tf:"internal_load_balancers,omitempty"`
@@ -769,12 +818,17 @@ type WrrInitParameters struct {
 
 	// The ratio of traffic routed to the target.
 	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
+=======
+	// Structure is documented below.
+	// +kubebuilder:validation:Required
+	InternalLoadBalancers []WrrHealthCheckedTargetsInternalLoadBalancersParameters `json:"internalLoadBalancers" tf:"internal_load_balancers,omitempty"`
+>>>>>>> b302a7bd (chore: upgrade to hashicorp/google-beta 5.26.0)
 }
 
 type WrrObservation struct {
 
 	// The list of targets to be health checked. Note that if DNSSEC is enabled for this zone, only one of rrdatas or health_checked_targets can be set.
-	// Structure is document below.
+	// Structure is documented below.
 	HealthCheckedTargets []WrrHealthCheckedTargetsObservation `json:"healthCheckedTargets,omitempty" tf:"health_checked_targets,omitempty"`
 
 	// Same as rrdatas above.
@@ -787,7 +841,7 @@ type WrrObservation struct {
 type WrrParameters struct {
 
 	// The list of targets to be health checked. Note that if DNSSEC is enabled for this zone, only one of rrdatas or health_checked_targets can be set.
-	// Structure is document below.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	HealthCheckedTargets []WrrHealthCheckedTargetsParameters `json:"healthCheckedTargets,omitempty" tf:"health_checked_targets,omitempty"`
 
