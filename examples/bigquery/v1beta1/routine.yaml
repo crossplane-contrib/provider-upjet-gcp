@@ -6,7 +6,6 @@ apiVersion: bigquery.gcp.upbound.io/v1beta1
 kind: Routine
 metadata:
   annotations:
-    uptest.upbound.io/disable-import: "true"
     meta.upbound.io/example-id: bigquery/v1beta1/routine
   labels:
     testing.upbound.io/example-name: sproc
@@ -27,7 +26,6 @@ apiVersion: bigquery.gcp.upbound.io/v1beta1
 kind: Dataset
 metadata:
   annotations:
-    uptest.upbound.io/disable-import: "true"
     meta.upbound.io/example-id: bigquery/v1beta1/routine
   labels:
     testing.upbound.io/example-name: test

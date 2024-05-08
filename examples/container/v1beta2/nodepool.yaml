@@ -6,7 +6,6 @@ apiVersion: container.gcp.upbound.io/v1beta2
 kind: NodePool
 metadata:
   annotations:
-    uptest.upbound.io/disable-import: "true"
     meta.upbound.io/example-id: container/v1beta2/nodepool
   labels:
     testing.upbound.io/example-name: nodepool

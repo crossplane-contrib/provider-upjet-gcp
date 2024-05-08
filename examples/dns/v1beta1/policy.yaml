@@ -6,7 +6,6 @@ apiVersion: dns.gcp.upbound.io/v1beta1
 kind: Policy
 metadata:
   annotations:
-    uptest.upbound.io/disable-import: "true"
     meta.upbound.io/example-id: dns/v1beta1/policy
   labels:
     testing.upbound.io/example-name: policy
@@ -31,7 +30,6 @@ apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Network
 metadata:
   annotations:
-    uptest.upbound.io/disable-import: "true"
     meta.upbound.io/example-id: dns/v1beta1/policy
   labels:
     testing.upbound.io/example-name: policy

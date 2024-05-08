@@ -6,7 +6,6 @@ apiVersion: gke.gcp.upbound.io/v1beta1
 kind: BackupBackupPlan
 metadata:
   annotations:
-    uptest.upbound.io/disable-import: "true"
     meta.upbound.io/example-id: gke/v1beta1/backupbackupplan
   labels:
     testing.upbound.io/example-name: basic

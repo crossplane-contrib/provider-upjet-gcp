@@ -6,7 +6,6 @@ apiVersion: sql.gcp.upbound.io/v1beta1
 kind: User
 metadata:
   annotations:
-    uptest.upbound.io/disable-import: "true"
     meta.upbound.io/example-id: sql/v1beta1/user
   labels:
     testing.upbound.io/example-name: example_user
@@ -44,8 +43,7 @@ apiVersion: sql.gcp.upbound.io/v1beta1
 kind: DatabaseInstance
 metadata:
   annotations:
-    uptest.upbound.io/disable-import: "true"
-    uptest.upbound.io/pre-delete-hook: testhooks/delete-user.sh
+    uptest.upbound.io/pre-delete-hook: ../testhooks/delete-user.sh
     meta.upbound.io/example-id: sql/v1beta1/user
   labels:
     testing.upbound.io/example-name: example_instance
