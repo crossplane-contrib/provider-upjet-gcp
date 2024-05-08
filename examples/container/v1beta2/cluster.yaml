@@ -6,13 +6,14 @@ apiVersion: container.gcp.upbound.io/v1beta2
 kind: Cluster
 metadata:
   annotations:
-    meta.upbound.io/example-id: container/v1beta1/cluster
+    meta.upbound.io/example-id: container/v1beta2/cluster
   labels:
     testing.upbound.io/example-name: cluster
   name: cluster
 spec:
   forProvider:
-    location: europe-north1
+    deletionProtection: false
     enableAutopilot: true
     enableIntranodeVisibility: true
-    deletionProtection: false
+    ipAllocationPolicy: {}
+    location: europe-north1
