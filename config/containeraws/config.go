@@ -19,7 +19,7 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		r.Kind = "NodePool"
 
 		r.References["cluster"] = config.Reference{
-			Type: "Cluster",
+			TerraformName: "google_container_aws_cluster",
 		}
 	})
 

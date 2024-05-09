@@ -93,14 +93,14 @@ type ServiceAttachmentInitParameters struct {
 	EnableProxyProtocol *bool `json:"enableProxyProtocol,omitempty" tf:"enable_proxy_protocol,omitempty"`
 
 	// An array of subnets that is provided for NAT in this service attachment.
-	// +crossplane:generate:reference:type=Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork
 	NATSubnets []*string `json:"natSubnets,omitempty" tf:"nat_subnets,omitempty"`
 
-	// References to Subnetwork to populate natSubnets.
+	// References to Subnetwork in compute to populate natSubnets.
 	// +kubebuilder:validation:Optional
 	NATSubnetsRefs []v1.Reference `json:"natSubnetsRefs,omitempty" tf:"-"`
 
-	// Selector for a list of Subnetwork to populate natSubnets.
+	// Selector for a list of Subnetwork in compute to populate natSubnets.
 	// +kubebuilder:validation:Optional
 	NATSubnetsSelector *v1.Selector `json:"natSubnetsSelector,omitempty" tf:"-"`
 
@@ -228,15 +228,15 @@ type ServiceAttachmentParameters struct {
 	EnableProxyProtocol *bool `json:"enableProxyProtocol,omitempty" tf:"enable_proxy_protocol,omitempty"`
 
 	// An array of subnets that is provided for NAT in this service attachment.
-	// +crossplane:generate:reference:type=Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork
 	// +kubebuilder:validation:Optional
 	NATSubnets []*string `json:"natSubnets,omitempty" tf:"nat_subnets,omitempty"`
 
-	// References to Subnetwork to populate natSubnets.
+	// References to Subnetwork in compute to populate natSubnets.
 	// +kubebuilder:validation:Optional
 	NATSubnetsRefs []v1.Reference `json:"natSubnetsRefs,omitempty" tf:"-"`
 
-	// Selector for a list of Subnetwork to populate natSubnets.
+	// Selector for a list of Subnetwork in compute to populate natSubnets.
 	// +kubebuilder:validation:Optional
 	NATSubnetsSelector *v1.Selector `json:"natSubnetsSelector,omitempty" tf:"-"`
 

@@ -95,7 +95,7 @@ spec:
                   runtimeName:
                     type: string
                   runtimeNameRef:
-                    description: Reference to a Runtime to populate runtimeName.
+                    description: Reference to a Runtime in notebooks to populate runtimeName.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -129,7 +129,7 @@ spec:
                     - name
                     type: object
                   runtimeNameSelector:
-                    description: Selector for a Runtime to populate runtimeName.
+                    description: Selector for a Runtime in notebooks to populate runtimeName.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -204,7 +204,7 @@ spec:
                   runtimeName:
                     type: string
                   runtimeNameRef:
-                    description: Reference to a Runtime to populate runtimeName.
+                    description: Reference to a Runtime in notebooks to populate runtimeName.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -238,7 +238,7 @@ spec:
                     - name
                     type: object
                   runtimeNameSelector:
-                    description: Selector for a Runtime to populate runtimeName.
+                    description: Selector for a Runtime in notebooks to populate runtimeName.
                     properties:
                       matchControllerRef:
                         description: |-

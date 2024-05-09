@@ -25,7 +25,7 @@ type NetworkEndpointGroupInitParameters struct {
 
 	// The network to which all network endpoints in the NEG belong.
 	// Uses "default" project network if unspecified.
-	// +crossplane:generate:reference:type=Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -41,11 +41,11 @@ type NetworkEndpointGroupInitParameters struct {
 	// Possible values are: GCE_VM_IP, GCE_VM_IP_PORT, NON_GCP_PRIVATE_IP_PORT, INTERNET_IP_PORT, INTERNET_FQDN_PORT, SERVERLESS, PRIVATE_SERVICE_CONNECT.
 	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
 
-	// Reference to a Network to populate network.
+	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
 
-	// Selector for a Network to populate network.
+	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
@@ -54,15 +54,15 @@ type NetworkEndpointGroupInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Optional subnetwork to which all network endpoints in the NEG belong.
-	// +crossplane:generate:reference:type=Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
-	// Reference to a Subnetwork to populate subnetwork.
+	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
-	// Selector for a Subnetwork to populate subnetwork.
+	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
@@ -127,7 +127,7 @@ type NetworkEndpointGroupParameters struct {
 
 	// The network to which all network endpoints in the NEG belong.
 	// Uses "default" project network if unspecified.
-	// +crossplane:generate:reference:type=Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
@@ -145,11 +145,11 @@ type NetworkEndpointGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
 
-	// Reference to a Network to populate network.
+	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
 
-	// Selector for a Network to populate network.
+	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
@@ -159,16 +159,16 @@ type NetworkEndpointGroupParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Optional subnetwork to which all network endpoints in the NEG belong.
-	// +crossplane:generate:reference:type=Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
-	// Reference to a Subnetwork to populate subnetwork.
+	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
-	// Selector for a Subnetwork to populate subnetwork.
+	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 

@@ -51,15 +51,15 @@ type BackendInitParameters struct {
 	// Note that you must specify an Instance Group or Network Endpoint
 	// Group resource using the fully-qualified URL, rather than a
 	// partial URL.
-	// +crossplane:generate:reference:type=InstanceGroupManager
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.InstanceGroupManager
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/compute.InstanceGroupExtractor()
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
 
-	// Reference to a InstanceGroupManager to populate group.
+	// Reference to a InstanceGroupManager in compute to populate group.
 	// +kubebuilder:validation:Optional
 	GroupRef *v1.Reference `json:"groupRef,omitempty" tf:"-"`
 
-	// Selector for a InstanceGroupManager to populate group.
+	// Selector for a InstanceGroupManager in compute to populate group.
 	// +kubebuilder:validation:Optional
 	GroupSelector *v1.Selector `json:"groupSelector,omitempty" tf:"-"`
 
@@ -238,16 +238,16 @@ type BackendParameters struct {
 	// Note that you must specify an Instance Group or Network Endpoint
 	// Group resource using the fully-qualified URL, rather than a
 	// partial URL.
-	// +crossplane:generate:reference:type=InstanceGroupManager
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.InstanceGroupManager
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/compute.InstanceGroupExtractor()
 	// +kubebuilder:validation:Optional
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
 
-	// Reference to a InstanceGroupManager to populate group.
+	// Reference to a InstanceGroupManager in compute to populate group.
 	// +kubebuilder:validation:Optional
 	GroupRef *v1.Reference `json:"groupRef,omitempty" tf:"-"`
 
-	// Selector for a InstanceGroupManager to populate group.
+	// Selector for a InstanceGroupManager in compute to populate group.
 	// +kubebuilder:validation:Optional
 	GroupSelector *v1.Selector `json:"groupSelector,omitempty" tf:"-"`
 
@@ -528,16 +528,16 @@ type BackendServiceInitParameters struct {
 	// A health check must be specified unless the backend service uses an internet
 	// or serverless NEG as a backend.
 	// For internal load balancing, a URL to a HealthCheck resource must be specified instead.
-	// +crossplane:generate:reference:type=HealthCheck
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.HealthCheck
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +listType=set
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
 
-	// References to HealthCheck to populate healthChecks.
+	// References to HealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
 	HealthChecksRefs []v1.Reference `json:"healthChecksRefs,omitempty" tf:"-"`
 
-	// Selector for a list of HealthCheck to populate healthChecks.
+	// Selector for a list of HealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
 	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
 
@@ -850,17 +850,17 @@ type BackendServiceParameters struct {
 	// A health check must be specified unless the backend service uses an internet
 	// or serverless NEG as a backend.
 	// For internal load balancing, a URL to a HealthCheck resource must be specified instead.
-	// +crossplane:generate:reference:type=HealthCheck
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.HealthCheck
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
 
-	// References to HealthCheck to populate healthChecks.
+	// References to HealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
 	HealthChecksRefs []v1.Reference `json:"healthChecksRefs,omitempty" tf:"-"`
 
-	// Selector for a list of HealthCheck to populate healthChecks.
+	// Selector for a list of HealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
 	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
 

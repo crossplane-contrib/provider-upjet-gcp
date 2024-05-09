@@ -137,8 +137,8 @@ spec:
                             partial URL.
                           type: string
                         groupRef:
-                          description: Reference to a RegionInstanceGroupManager to
-                            populate group.
+                          description: Reference to a RegionInstanceGroupManager in
+                            compute to populate group.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -172,8 +172,8 @@ spec:
                           - name
                           type: object
                         groupSelector:
-                          description: Selector for a RegionInstanceGroupManager to
-                            populate group.
+                          description: Selector for a RegionInstanceGroupManager in
+                            compute to populate group.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -558,7 +558,8 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   healthChecksRefs:
-                    description: References to RegionHealthCheck to populate healthChecks.
+                    description: References to RegionHealthCheck in compute to populate
+                      healthChecks.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -595,8 +596,8 @@ spec:
                       type: object
                     type: array
                   healthChecksSelector:
-                    description: Selector for a list of RegionHealthCheck to populate
-                      healthChecks.
+                    description: Selector for a list of RegionHealthCheck in compute
+                      to populate healthChecks.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -925,8 +926,8 @@ spec:
                             partial URL.
                           type: string
                         groupRef:
-                          description: Reference to a RegionInstanceGroupManager to
-                            populate group.
+                          description: Reference to a RegionInstanceGroupManager in
+                            compute to populate group.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -960,8 +961,8 @@ spec:
                           - name
                           type: object
                         groupSelector:
-                          description: Selector for a RegionInstanceGroupManager to
-                            populate group.
+                          description: Selector for a RegionInstanceGroupManager in
+                            compute to populate group.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -1346,7 +1347,8 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   healthChecksRefs:
-                    description: References to RegionHealthCheck to populate healthChecks.
+                    description: References to RegionHealthCheck in compute to populate
+                      healthChecks.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -1383,8 +1385,8 @@ spec:
                       type: object
                     type: array
                   healthChecksSelector:
-                    description: Selector for a list of RegionHealthCheck to populate
-                      healthChecks.
+                    description: Selector for a list of RegionHealthCheck in compute
+                      to populate healthChecks.
                     properties:
                       matchControllerRef:
                         description: |-

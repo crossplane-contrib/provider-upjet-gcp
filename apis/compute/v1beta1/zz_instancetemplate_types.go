@@ -755,18 +755,18 @@ type InstanceTemplateNetworkInterfaceInitParameters struct {
 	// The name or self_link of the network to attach this interface to.
 	// Use network attribute for Legacy or Auto subnetted networks and
 	// subnetwork for custom subnetted networks.
-	// +crossplane:generate:reference:type=Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// The private IP address to assign to the instance. If
 	// empty, the address will be automatically assigned.
 	NetworkIP *string `json:"networkIp,omitempty" tf:"network_ip,omitempty"`
 
-	// Reference to a Network to populate network.
+	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
 
-	// Selector for a Network to populate network.
+	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
@@ -782,18 +782,18 @@ type InstanceTemplateNetworkInterfaceInitParameters struct {
 	// the name of the subnetwork to attach this interface
 	// to. The subnetwork must exist in the same region this instance will be
 	// created in. Either network or subnetwork must be provided.
-	// +crossplane:generate:reference:type=Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// The ID of the project in which the subnetwork belongs.
 	// If it is not provided, the provider project is used.
 	SubnetworkProject *string `json:"subnetworkProject,omitempty" tf:"subnetwork_project,omitempty"`
 
-	// Reference to a Subnetwork to populate subnetwork.
+	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
-	// Selector for a Subnetwork to populate subnetwork.
+	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
@@ -881,7 +881,7 @@ type InstanceTemplateNetworkInterfaceParameters struct {
 	// The name or self_link of the network to attach this interface to.
 	// Use network attribute for Legacy or Auto subnetted networks and
 	// subnetwork for custom subnetted networks.
-	// +crossplane:generate:reference:type=Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -890,11 +890,11 @@ type InstanceTemplateNetworkInterfaceParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkIP *string `json:"networkIp,omitempty" tf:"network_ip,omitempty"`
 
-	// Reference to a Network to populate network.
+	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
 
-	// Selector for a Network to populate network.
+	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
@@ -913,7 +913,7 @@ type InstanceTemplateNetworkInterfaceParameters struct {
 	// the name of the subnetwork to attach this interface
 	// to. The subnetwork must exist in the same region this instance will be
 	// created in. Either network or subnetwork must be provided.
-	// +crossplane:generate:reference:type=Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
@@ -922,11 +922,11 @@ type InstanceTemplateNetworkInterfaceParameters struct {
 	// +kubebuilder:validation:Optional
 	SubnetworkProject *string `json:"subnetworkProject,omitempty" tf:"subnetwork_project,omitempty"`
 
-	// Reference to a Subnetwork to populate subnetwork.
+	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
-	// Selector for a Subnetwork to populate subnetwork.
+	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }

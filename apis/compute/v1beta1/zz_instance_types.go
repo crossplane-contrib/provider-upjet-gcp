@@ -390,14 +390,14 @@ type InitializeParamsInitParameters struct {
 	// google_compute_image data source.
 	// For instance, the image centos-6-v20180104 includes its family name centos-6.
 	// These images can be referred by family name here.
-	// +crossplane:generate:reference:type=Image
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Image
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// Reference to a Image to populate image.
+	// Reference to a Image in compute to populate image.
 	// +kubebuilder:validation:Optional
 	ImageRef *v1.Reference `json:"imageRef,omitempty" tf:"-"`
 
-	// Selector for a Image to populate image.
+	// Selector for a Image in compute to populate image.
 	// +kubebuilder:validation:Optional
 	ImageSelector *v1.Selector `json:"imageSelector,omitempty" tf:"-"`
 
@@ -504,15 +504,15 @@ type InitializeParamsParameters struct {
 	// google_compute_image data source.
 	// For instance, the image centos-6-v20180104 includes its family name centos-6.
 	// These images can be referred by family name here.
-	// +crossplane:generate:reference:type=Image
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Image
 	// +kubebuilder:validation:Optional
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// Reference to a Image to populate image.
+	// Reference to a Image in compute to populate image.
 	// +kubebuilder:validation:Optional
 	ImageRef *v1.Reference `json:"imageRef,omitempty" tf:"-"`
 
-	// Selector for a Image to populate image.
+	// Selector for a Image in compute to populate image.
 	// +kubebuilder:validation:Optional
 	ImageSelector *v1.Selector `json:"imageSelector,omitempty" tf:"-"`
 
@@ -1162,7 +1162,7 @@ type NetworkInterfaceInitParameters struct {
 	// The name or self_link of the network to attach this interface to.
 	// Either network or subnetwork must be provided. If network isn't provided it will
 	// be inferred from the subnetwork.
-	// +crossplane:generate:reference:type=Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -1170,11 +1170,11 @@ type NetworkInterfaceInitParameters struct {
 	// empty, the address will be automatically assigned.
 	NetworkIP *string `json:"networkIp,omitempty" tf:"network_ip,omitempty"`
 
-	// Reference to a Network to populate network.
+	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
 
-	// Selector for a Network to populate network.
+	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
@@ -1194,7 +1194,7 @@ type NetworkInterfaceInitParameters struct {
 	// legacy mode, do not specify this field. If the
 	// network is in auto subnet mode, specifying the subnetwork is optional. If the network is
 	// in custom subnet mode, specifying the subnetwork is required.
-	// +crossplane:generate:reference:type=Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
@@ -1204,11 +1204,11 @@ type NetworkInterfaceInitParameters struct {
 	// field is not provided, the provider project is used.
 	SubnetworkProject *string `json:"subnetworkProject,omitempty" tf:"subnetwork_project,omitempty"`
 
-	// Reference to a Subnetwork to populate subnetwork.
+	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
-	// Selector for a Subnetwork to populate subnetwork.
+	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
@@ -1309,7 +1309,7 @@ type NetworkInterfaceParameters struct {
 	// The name or self_link of the network to attach this interface to.
 	// Either network or subnetwork must be provided. If network isn't provided it will
 	// be inferred from the subnetwork.
-	// +crossplane:generate:reference:type=Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
@@ -1319,11 +1319,11 @@ type NetworkInterfaceParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkIP *string `json:"networkIp,omitempty" tf:"network_ip,omitempty"`
 
-	// Reference to a Network to populate network.
+	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
 
-	// Selector for a Network to populate network.
+	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
@@ -1346,7 +1346,7 @@ type NetworkInterfaceParameters struct {
 	// legacy mode, do not specify this field. If the
 	// network is in auto subnet mode, specifying the subnetwork is optional. If the network is
 	// in custom subnet mode, specifying the subnetwork is required.
-	// +crossplane:generate:reference:type=Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
@@ -1358,11 +1358,11 @@ type NetworkInterfaceParameters struct {
 	// +kubebuilder:validation:Optional
 	SubnetworkProject *string `json:"subnetworkProject,omitempty" tf:"subnetwork_project,omitempty"`
 
-	// Reference to a Subnetwork to populate subnetwork.
+	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
-	// Selector for a Subnetwork to populate subnetwork.
+	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }

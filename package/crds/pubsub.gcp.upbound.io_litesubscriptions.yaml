@@ -99,7 +99,7 @@ spec:
                     description: A reference to a Topic resource.
                     type: string
                   topicRef:
-                    description: Reference to a LiteTopic to populate topic.
+                    description: Reference to a LiteTopic in pubsub to populate topic.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -133,7 +133,7 @@ spec:
                     - name
                     type: object
                   topicSelector:
-                    description: Selector for a LiteTopic to populate topic.
+                    description: Selector for a LiteTopic in pubsub to populate topic.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -216,7 +216,7 @@ spec:
                     description: A reference to a Topic resource.
                     type: string
                   topicRef:
-                    description: Reference to a LiteTopic to populate topic.
+                    description: Reference to a LiteTopic in pubsub to populate topic.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -250,7 +250,7 @@ spec:
                     - name
                     type: object
                   topicSelector:
-                    description: Selector for a LiteTopic to populate topic.
+                    description: Selector for a LiteTopic in pubsub to populate topic.
                     properties:
                       matchControllerRef:
                         description: |-

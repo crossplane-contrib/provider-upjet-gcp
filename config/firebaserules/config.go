@@ -13,7 +13,7 @@ import (
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_firebaserules_release", func(r *config.Resource) {
 		r.References["ruleset_name"] = config.Reference{
-			Type: "Ruleset",
+			TerraformName: "google_firebaserules_ruleset",
 		}
 	})
 }

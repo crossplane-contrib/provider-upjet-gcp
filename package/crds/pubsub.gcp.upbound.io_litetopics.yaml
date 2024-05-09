@@ -120,8 +120,8 @@ spec:
                             capacity.
                           type: string
                         throughputReservationRef:
-                          description: Reference to a LiteReservation to populate
-                            throughputReservation.
+                          description: Reference to a LiteReservation in pubsub to
+                            populate throughputReservation.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -155,8 +155,8 @@ spec:
                           - name
                           type: object
                         throughputReservationSelector:
-                          description: Selector for a LiteReservation to populate
-                            throughputReservation.
+                          description: Selector for a LiteReservation in pubsub to
+                            populate throughputReservation.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -284,8 +284,8 @@ spec:
                             capacity.
                           type: string
                         throughputReservationRef:
-                          description: Reference to a LiteReservation to populate
-                            throughputReservation.
+                          description: Reference to a LiteReservation in pubsub to
+                            populate throughputReservation.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -319,8 +319,8 @@ spec:
                           - name
                           type: object
                         throughputReservationSelector:
-                          description: Selector for a LiteReservation to populate
-                            throughputReservation.
+                          description: Selector for a LiteReservation in pubsub to
+                            populate throughputReservation.
                           properties:
                             matchControllerRef:
                               description: |-

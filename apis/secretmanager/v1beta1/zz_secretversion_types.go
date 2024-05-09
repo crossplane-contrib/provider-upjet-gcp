@@ -27,15 +27,15 @@ type SecretVersionInitParameters struct {
 	IsSecretDataBase64 *bool `json:"isSecretDataBase64,omitempty" tf:"is_secret_data_base64,omitempty"`
 
 	// Secret Manager secret resource
-	// +crossplane:generate:reference:type=Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/secretmanager/v1beta1.Secret
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
-	// Reference to a Secret to populate secret.
+	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
 	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
 
-	// Selector for a Secret to populate secret.
+	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
 	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
 }
@@ -90,7 +90,7 @@ type SecretVersionParameters struct {
 	IsSecretDataBase64 *bool `json:"isSecretDataBase64,omitempty" tf:"is_secret_data_base64,omitempty"`
 
 	// Secret Manager secret resource
-	// +crossplane:generate:reference:type=Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/secretmanager/v1beta1.Secret
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
@@ -99,11 +99,11 @@ type SecretVersionParameters struct {
 	// +kubebuilder:validation:Optional
 	SecretDataSecretRef v1.SecretKeySelector `json:"secretDataSecretRef" tf:"-"`
 
-	// Reference to a Secret to populate secret.
+	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
 	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
 
-	// Selector for a Secret to populate secret.
+	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
 	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
 }

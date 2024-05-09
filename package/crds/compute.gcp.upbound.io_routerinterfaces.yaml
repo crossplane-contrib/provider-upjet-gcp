@@ -115,7 +115,7 @@ spec:
                       Changing this forces a new interface to be created.
                     type: string
                   routerRef:
-                    description: Reference to a Router to populate router.
+                    description: Reference to a Router in compute to populate router.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -149,7 +149,7 @@ spec:
                     - name
                     type: object
                   routerSelector:
-                    description: Selector for a Router to populate router.
+                    description: Selector for a Router in compute to populate router.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -200,7 +200,7 @@ spec:
                       one of vpn_tunnel, interconnect_attachment or subnetwork can be specified.
                     type: string
                   vpnTunnelRef:
-                    description: Reference to a VPNTunnel to populate vpnTunnel.
+                    description: Reference to a VPNTunnel in compute to populate vpnTunnel.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -234,7 +234,7 @@ spec:
                     - name
                     type: object
                   vpnTunnelSelector:
-                    description: Selector for a VPNTunnel to populate vpnTunnel.
+                    description: Selector for a VPNTunnel in compute to populate vpnTunnel.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -329,7 +329,7 @@ spec:
                       Changing this forces a new interface to be created.
                     type: string
                   routerRef:
-                    description: Reference to a Router to populate router.
+                    description: Reference to a Router in compute to populate router.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -363,7 +363,7 @@ spec:
                     - name
                     type: object
                   routerSelector:
-                    description: Selector for a Router to populate router.
+                    description: Selector for a Router in compute to populate router.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -414,7 +414,7 @@ spec:
                       one of vpn_tunnel, interconnect_attachment or subnetwork can be specified.
                     type: string
                   vpnTunnelRef:
-                    description: Reference to a VPNTunnel to populate vpnTunnel.
+                    description: Reference to a VPNTunnel in compute to populate vpnTunnel.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -448,7 +448,7 @@ spec:
                     - name
                     type: object
                   vpnTunnelSelector:
-                    description: Selector for a VPNTunnel to populate vpnTunnel.
+                    description: Selector for a VPNTunnel in compute to populate vpnTunnel.
                     properties:
                       matchControllerRef:
                         description: |-

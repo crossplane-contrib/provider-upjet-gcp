@@ -84,7 +84,7 @@ spec:
                       Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}'.
                     type: string
                   keyRingRef:
-                    description: Reference to a KeyRing to populate keyRing.
+                    description: Reference to a KeyRing in kms to populate keyRing.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -118,7 +118,7 @@ spec:
                     - name
                     type: object
                   keyRingSelector:
-                    description: Selector for a KeyRing to populate keyRing.
+                    description: Selector for a KeyRing in kms to populate keyRing.
                     properties:
                       matchControllerRef:
                         description: |-

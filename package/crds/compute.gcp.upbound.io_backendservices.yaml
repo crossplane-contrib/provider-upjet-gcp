@@ -131,8 +131,8 @@ spec:
                             partial URL.
                           type: string
                         groupRef:
-                          description: Reference to a InstanceGroupManager to populate
-                            group.
+                          description: Reference to a InstanceGroupManager in compute
+                            to populate group.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -166,8 +166,8 @@ spec:
                           - name
                           type: object
                         groupSelector:
-                          description: Selector for a InstanceGroupManager to populate
-                            group.
+                          description: Selector for a InstanceGroupManager in compute
+                            to populate group.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -561,7 +561,8 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   healthChecksRefs:
-                    description: References to HealthCheck to populate healthChecks.
+                    description: References to HealthCheck in compute to populate
+                      healthChecks.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -598,7 +599,8 @@ spec:
                       type: object
                     type: array
                   healthChecksSelector:
-                    description: Selector for a list of HealthCheck to populate healthChecks.
+                    description: Selector for a list of HealthCheck in compute to
+                      populate healthChecks.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -1003,8 +1005,8 @@ spec:
                             partial URL.
                           type: string
                         groupRef:
-                          description: Reference to a InstanceGroupManager to populate
-                            group.
+                          description: Reference to a InstanceGroupManager in compute
+                            to populate group.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -1038,8 +1040,8 @@ spec:
                           - name
                           type: object
                         groupSelector:
-                          description: Selector for a InstanceGroupManager to populate
-                            group.
+                          description: Selector for a InstanceGroupManager in compute
+                            to populate group.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -1433,7 +1435,8 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   healthChecksRefs:
-                    description: References to HealthCheck to populate healthChecks.
+                    description: References to HealthCheck in compute to populate
+                      healthChecks.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -1470,7 +1473,8 @@ spec:
                       type: object
                     type: array
                   healthChecksSelector:
-                    description: Selector for a list of HealthCheck to populate healthChecks.
+                    description: Selector for a list of HealthCheck in compute to
+                      populate healthChecks.
                     properties:
                       matchControllerRef:
                         description: |-

@@ -52,14 +52,14 @@ type RuntimeIAMMemberInitParameters struct {
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=Runtime
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/notebooks/v1beta1.Runtime
 	RuntimeName *string `json:"runtimeName,omitempty" tf:"runtime_name,omitempty"`
 
-	// Reference to a Runtime to populate runtimeName.
+	// Reference to a Runtime in notebooks to populate runtimeName.
 	// +kubebuilder:validation:Optional
 	RuntimeNameRef *v1.Reference `json:"runtimeNameRef,omitempty" tf:"-"`
 
-	// Selector for a Runtime to populate runtimeName.
+	// Selector for a Runtime in notebooks to populate runtimeName.
 	// +kubebuilder:validation:Optional
 	RuntimeNameSelector *v1.Selector `json:"runtimeNameSelector,omitempty" tf:"-"`
 }
@@ -99,15 +99,15 @@ type RuntimeIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=Runtime
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/notebooks/v1beta1.Runtime
 	// +kubebuilder:validation:Optional
 	RuntimeName *string `json:"runtimeName,omitempty" tf:"runtime_name,omitempty"`
 
-	// Reference to a Runtime to populate runtimeName.
+	// Reference to a Runtime in notebooks to populate runtimeName.
 	// +kubebuilder:validation:Optional
 	RuntimeNameRef *v1.Reference `json:"runtimeNameRef,omitempty" tf:"-"`
 
-	// Selector for a Runtime to populate runtimeName.
+	// Selector for a Runtime in notebooks to populate runtimeName.
 	// +kubebuilder:validation:Optional
 	RuntimeNameSelector *v1.Selector `json:"runtimeNameSelector,omitempty" tf:"-"`
 }

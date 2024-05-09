@@ -83,12 +83,12 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 	})
 	p.AddResourceConfigurator("google_sql_database", func(r *config.Resource) {
 		r.References["instance"] = config.Reference{
-			Type: "DatabaseInstance",
+			TerraformName: "google_sql_database_instance",
 		}
 	})
 	p.AddResourceConfigurator("google_sql_source_representation_instance", func(r *config.Resource) {
 		r.References["instance"] = config.Reference{
-			Type: "DatabaseInstance",
+			TerraformName: "google_sql_database_instance",
 		}
 	})
 	p.AddResourceConfigurator("google_sql_user", func(r *config.Resource) {
@@ -115,7 +115,7 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		}
 
 		r.References["instance"] = config.Reference{
-			Type: "DatabaseInstance",
+			TerraformName: "google_sql_database_instance",
 		}
 
 		r.Sensitive.AdditionalConnectionDetailsFn = func(attr map[string]any) (map[string][]byte, error) {
@@ -128,7 +128,7 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 	})
 	p.AddResourceConfigurator("google_sql_ssl_cert", func(r *config.Resource) {
 		r.References["instance"] = config.Reference{
-			Type: "DatabaseInstance",
+			TerraformName: "google_sql_database_instance",
 		}
 	})
 }

@@ -655,14 +655,14 @@ type SubscriptionInitParameters struct {
 	// A reference to a Topic resource, of the form projects/{project}/topics/{{name}}
 	// (as in the id property of a google_pubsub_topic), or just a topic name if
 	// the topic is in the same project as the subscription.
-	// +crossplane:generate:reference:type=Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta1.Topic
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
-	// Reference to a Topic to populate topic.
+	// Reference to a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
 	TopicRef *v1.Reference `json:"topicRef,omitempty" tf:"-"`
 
-	// Selector for a Topic to populate topic.
+	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
 	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
 }
@@ -906,15 +906,15 @@ type SubscriptionParameters struct {
 	// A reference to a Topic resource, of the form projects/{project}/topics/{{name}}
 	// (as in the id property of a google_pubsub_topic), or just a topic name if
 	// the topic is in the same project as the subscription.
-	// +crossplane:generate:reference:type=Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta1.Topic
 	// +kubebuilder:validation:Optional
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
-	// Reference to a Topic to populate topic.
+	// Reference to a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
 	TopicRef *v1.Reference `json:"topicRef,omitempty" tf:"-"`
 
-	// Selector for a Topic to populate topic.
+	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
 	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
 }

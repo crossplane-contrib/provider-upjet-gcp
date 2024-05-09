@@ -165,7 +165,7 @@ spec:
                       Cloud Router is configured.
                     type: string
                   routerRef:
-                    description: Reference to a Router to populate router.
+                    description: Reference to a Router in compute to populate router.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -199,7 +199,7 @@ spec:
                     - name
                     type: object
                   routerSelector:
-                    description: Selector for a Router to populate router.
+                    description: Selector for a Router in compute to populate router.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -361,7 +361,7 @@ spec:
                       Cloud Router is configured.
                     type: string
                   routerRef:
-                    description: Reference to a Router to populate router.
+                    description: Reference to a Router in compute to populate router.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -395,7 +395,7 @@ spec:
                     - name
                     type: object
                   routerSelector:
-                    description: Selector for a Router to populate router.
+                    description: Selector for a Router in compute to populate router.
                     properties:
                       matchControllerRef:
                         description: |-

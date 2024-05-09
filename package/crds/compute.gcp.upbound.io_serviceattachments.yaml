@@ -128,7 +128,7 @@ spec:
                       type: string
                     type: array
                   natSubnetsRefs:
-                    description: References to Subnetwork to populate natSubnets.
+                    description: References to Subnetwork in compute to populate natSubnets.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -165,7 +165,8 @@ spec:
                       type: object
                     type: array
                   natSubnetsSelector:
-                    description: Selector for a list of Subnetwork to populate natSubnets.
+                    description: Selector for a list of Subnetwork in compute to populate
+                      natSubnets.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -370,7 +371,7 @@ spec:
                       type: string
                     type: array
                   natSubnetsRefs:
-                    description: References to Subnetwork to populate natSubnets.
+                    description: References to Subnetwork in compute to populate natSubnets.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -407,7 +408,8 @@ spec:
                       type: object
                     type: array
                   natSubnetsSelector:
-                    description: Selector for a list of Subnetwork to populate natSubnets.
+                    description: Selector for a list of Subnetwork in compute to populate
+                      natSubnets.
                     properties:
                       matchControllerRef:
                         description: |-

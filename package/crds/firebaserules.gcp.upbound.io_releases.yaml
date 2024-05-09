@@ -80,7 +80,8 @@ spec:
                       The Ruleset must exist for the Release to be created.
                     type: string
                   rulesetNameRef:
-                    description: Reference to a Ruleset to populate rulesetName.
+                    description: Reference to a Ruleset in firebaserules to populate
+                      rulesetName.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -114,7 +115,8 @@ spec:
                     - name
                     type: object
                   rulesetNameSelector:
-                    description: Selector for a Ruleset to populate rulesetName.
+                    description: Selector for a Ruleset in firebaserules to populate
+                      rulesetName.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -175,7 +177,8 @@ spec:
                       The Ruleset must exist for the Release to be created.
                     type: string
                   rulesetNameRef:
-                    description: Reference to a Ruleset to populate rulesetName.
+                    description: Reference to a Ruleset in firebaserules to populate
+                      rulesetName.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -209,7 +212,8 @@ spec:
                     - name
                     type: object
                   rulesetNameSelector:
-                    description: Selector for a Ruleset to populate rulesetName.
+                    description: Selector for a Ruleset in firebaserules to populate
+                      rulesetName.
                     properties:
                       matchControllerRef:
                         description: |-

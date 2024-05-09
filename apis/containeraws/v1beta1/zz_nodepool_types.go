@@ -464,15 +464,15 @@ type NodePoolParameters struct {
 	Autoscaling []AutoscalingParameters `json:"autoscaling,omitempty" tf:"autoscaling,omitempty"`
 
 	// The awsCluster for the resource
-	// +crossplane:generate:reference:type=Cluster
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/containeraws/v1beta1.Cluster
 	// +kubebuilder:validation:Optional
 	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
 
-	// Reference to a Cluster to populate cluster.
+	// Reference to a Cluster in containeraws to populate cluster.
 	// +kubebuilder:validation:Optional
 	ClusterRef *v1.Reference `json:"clusterRef,omitempty" tf:"-"`
 
-	// Selector for a Cluster to populate cluster.
+	// Selector for a Cluster in containeraws to populate cluster.
 	// +kubebuilder:validation:Optional
 	ClusterSelector *v1.Selector `json:"clusterSelector,omitempty" tf:"-"`
 

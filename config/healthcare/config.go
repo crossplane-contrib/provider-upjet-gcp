@@ -13,7 +13,7 @@ import (
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_healthcare_dataset_iam_member", func(r *config.Resource) {
 		r.References["dataset_id"] = config.Reference{
-			Type: "github.com/upbound/provider-gcp/apis/healthcare/v1beta1.Dataset",
+			TerraformName: "google_healthcare_dataset",
 		}
 	})
 }

@@ -18,15 +18,15 @@ func Configure(p *config.Provider) {
 
 	p.AddResourceConfigurator("google_secret_manager_secret_iam_member", func(r *config.Resource) {
 		r.References["secret_id"] = config.Reference{
-			Type:      "Secret",
-			Extractor: common.ExtractResourceIDFuncPath,
+			TerraformName: "google_secret_manager_secret",
+			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 	})
 
 	p.AddResourceConfigurator("google_secret_manager_secret_version", func(r *config.Resource) {
 		r.References["secret"] = config.Reference{
-			Type:      "Secret",
-			Extractor: common.ExtractResourceIDFuncPath,
+			TerraformName: "google_secret_manager_secret",
+			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 		r.MetaResource.ArgumentDocs["secret_data"] = `The secret data. Must be no larger than 64KiB.`
 	})

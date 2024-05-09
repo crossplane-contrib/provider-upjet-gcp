@@ -15,7 +15,7 @@ import (
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_notebooks_instance_iam_member", func(r *config.Resource) {
 		r.References["instance_name"] = config.Reference{
-			Type: "Instance",
+			TerraformName: "google_notebooks_instance",
 		}
 	})
 
@@ -26,7 +26,7 @@ func Configure(p *config.Provider) {
 
 	p.AddResourceConfigurator("google_notebooks_runtime_iam_member", func(r *config.Resource) {
 		r.References["runtime_name"] = config.Reference{
-			Type: "Runtime",
+			TerraformName: "google_notebooks_runtime",
 		}
 	})
 	p.AddResourceConfigurator("google_notebooks_runtime", func(r *config.Resource) {

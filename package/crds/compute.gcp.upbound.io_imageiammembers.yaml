@@ -87,7 +87,7 @@ spec:
                   image:
                     type: string
                   imageRef:
-                    description: Reference to a Image to populate image.
+                    description: Reference to a Image in compute to populate image.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -121,7 +121,7 @@ spec:
                     - name
                     type: object
                   imageSelector:
-                    description: Selector for a Image to populate image.
+                    description: Selector for a Image in compute to populate image.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -194,7 +194,7 @@ spec:
                   image:
                     type: string
                   imageRef:
-                    description: Reference to a Image to populate image.
+                    description: Reference to a Image in compute to populate image.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -228,7 +228,7 @@ spec:
                     - name
                     type: object
                   imageSelector:
-                    description: Selector for a Image to populate image.
+                    description: Selector for a Image in compute to populate image.
                     properties:
                       matchControllerRef:
                         description: |-

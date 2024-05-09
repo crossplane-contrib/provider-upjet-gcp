@@ -509,7 +509,7 @@ spec:
                       belongs to.
                     type: string
                   poolRef:
-                    description: Reference to a CAPool to populate pool.
+                    description: Reference to a CAPool in privateca to populate pool.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -543,7 +543,7 @@ spec:
                     - name
                     type: object
                   poolSelector:
-                    description: Selector for a CAPool to populate pool.
+                    description: Selector for a CAPool in privateca to populate pool.
                     properties:
                       matchControllerRef:
                         description: |-

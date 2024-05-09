@@ -93,7 +93,8 @@ spec:
                       to the BackendService.
                     type: string
                   urlMapRef:
-                    description: Reference to a RegionURLMap to populate urlMap.
+                    description: Reference to a RegionURLMap in compute to populate
+                      urlMap.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -127,7 +128,8 @@ spec:
                     - name
                     type: object
                   urlMapSelector:
-                    description: Selector for a RegionURLMap to populate urlMap.
+                    description: Selector for a RegionURLMap in compute to populate
+                      urlMap.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -196,7 +198,8 @@ spec:
                       to the BackendService.
                     type: string
                   urlMapRef:
-                    description: Reference to a RegionURLMap to populate urlMap.
+                    description: Reference to a RegionURLMap in compute to populate
+                      urlMap.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -230,7 +233,8 @@ spec:
                     - name
                     type: object
                   urlMapSelector:
-                    description: Selector for a RegionURLMap to populate urlMap.
+                    description: Selector for a RegionURLMap in compute to populate
+                      urlMap.
                     properties:
                       matchControllerRef:
                         description: |-

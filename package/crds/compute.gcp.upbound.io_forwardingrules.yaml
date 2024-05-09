@@ -101,7 +101,8 @@ spec:
                       must be omitted for all other load balancer types.
                     type: string
                   backendServiceRef:
-                    description: Reference to a RegionBackendService to populate backendService.
+                    description: Reference to a RegionBackendService in compute to
+                      populate backendService.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -135,7 +136,8 @@ spec:
                     - name
                     type: object
                   backendServiceSelector:
-                    description: Selector for a RegionBackendService to populate backendService.
+                    description: Selector for a RegionBackendService in compute to
+                      populate backendService.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -188,7 +190,7 @@ spec:
                       required under the following circumstances:
                     type: string
                   ipAddressRef:
-                    description: Reference to a Address to populate ipAddress.
+                    description: Reference to a Address in compute to populate ipAddress.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -222,7 +224,7 @@ spec:
                     - name
                     type: object
                   ipAddressSelector:
-                    description: Selector for a Address to populate ipAddress.
+                    description: Selector for a Address in compute to populate ipAddress.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -319,7 +321,7 @@ spec:
                       APIs, a network must be provided.
                     type: string
                   networkRef:
-                    description: Reference to a Network to populate network.
+                    description: Reference to a Network in compute to populate network.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -353,7 +355,7 @@ spec:
                     - name
                     type: object
                   networkSelector:
-                    description: Selector for a Network to populate network.
+                    description: Selector for a Network in compute to populate network.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -492,7 +494,8 @@ spec:
                       mode or when creating external forwarding rule with IPv6.
                     type: string
                   subnetworkRef:
-                    description: Reference to a Subnetwork to populate subnetwork.
+                    description: Reference to a Subnetwork in compute to populate
+                      subnetwork.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -526,7 +529,8 @@ spec:
                     - name
                     type: object
                   subnetworkSelector:
-                    description: Selector for a Subnetwork to populate subnetwork.
+                    description: Selector for a Subnetwork in compute to populate
+                      subnetwork.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -572,8 +576,8 @@ spec:
                       IPAddress should be set to 0.0.0.0.
                     type: string
                   targetRef:
-                    description: Reference to a RegionTargetHTTPProxy to populate
-                      target.
+                    description: Reference to a RegionTargetHTTPProxy in compute to
+                      populate target.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -607,8 +611,8 @@ spec:
                     - name
                     type: object
                   targetSelector:
-                    description: Selector for a RegionTargetHTTPProxy to populate
-                      target.
+                    description: Selector for a RegionTargetHTTPProxy in compute to
+                      populate target.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -691,7 +695,8 @@ spec:
                       must be omitted for all other load balancer types.
                     type: string
                   backendServiceRef:
-                    description: Reference to a RegionBackendService to populate backendService.
+                    description: Reference to a RegionBackendService in compute to
+                      populate backendService.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -725,7 +730,8 @@ spec:
                     - name
                     type: object
                   backendServiceSelector:
-                    description: Selector for a RegionBackendService to populate backendService.
+                    description: Selector for a RegionBackendService in compute to
+                      populate backendService.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -778,7 +784,7 @@ spec:
                       required under the following circumstances:
                     type: string
                   ipAddressRef:
-                    description: Reference to a Address to populate ipAddress.
+                    description: Reference to a Address in compute to populate ipAddress.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -812,7 +818,7 @@ spec:
                     - name
                     type: object
                   ipAddressSelector:
-                    description: Selector for a Address to populate ipAddress.
+                    description: Selector for a Address in compute to populate ipAddress.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -909,7 +915,7 @@ spec:
                       APIs, a network must be provided.
                     type: string
                   networkRef:
-                    description: Reference to a Network to populate network.
+                    description: Reference to a Network in compute to populate network.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -943,7 +949,7 @@ spec:
                     - name
                     type: object
                   networkSelector:
-                    description: Selector for a Network to populate network.
+                    description: Selector for a Network in compute to populate network.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -1077,7 +1083,8 @@ spec:
                       mode or when creating external forwarding rule with IPv6.
                     type: string
                   subnetworkRef:
-                    description: Reference to a Subnetwork to populate subnetwork.
+                    description: Reference to a Subnetwork in compute to populate
+                      subnetwork.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -1111,7 +1118,8 @@ spec:
                     - name
                     type: object
                   subnetworkSelector:
-                    description: Selector for a Subnetwork to populate subnetwork.
+                    description: Selector for a Subnetwork in compute to populate
+                      subnetwork.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -1157,8 +1165,8 @@ spec:
                       IPAddress should be set to 0.0.0.0.
                     type: string
                   targetRef:
-                    description: Reference to a RegionTargetHTTPProxy to populate
-                      target.
+                    description: Reference to a RegionTargetHTTPProxy in compute to
+                      populate target.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -1192,8 +1200,8 @@ spec:
                     - name
                     type: object
                   targetSelector:
-                    description: Selector for a RegionTargetHTTPProxy to populate
-                      target.
+                    description: Selector for a RegionTargetHTTPProxy in compute to
+                      populate target.
                     properties:
                       matchControllerRef:
                         description: |-

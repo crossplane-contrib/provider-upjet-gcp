@@ -31,14 +31,14 @@ type RegionTargetHTTPSProxyInitParameters struct {
 	// URLs to SslCertificate resources that are used to authenticate connections between users and the load balancer.
 	// At least one SSL certificate must be specified. Currently, you may specify up to 15 SSL certificates.
 	// sslCertificates do not apply when the load balancing scheme is set to INTERNAL_SELF_MANAGED.
-	// +crossplane:generate:reference:type=RegionSSLCertificate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionSSLCertificate
 	SSLCertificates []*string `json:"sslCertificates,omitempty" tf:"ssl_certificates,omitempty"`
 
-	// References to RegionSSLCertificate to populate sslCertificates.
+	// References to RegionSSLCertificate in compute to populate sslCertificates.
 	// +kubebuilder:validation:Optional
 	SSLCertificatesRefs []v1.Reference `json:"sslCertificatesRefs,omitempty" tf:"-"`
 
-	// Selector for a list of RegionSSLCertificate to populate sslCertificates.
+	// Selector for a list of RegionSSLCertificate in compute to populate sslCertificates.
 	// +kubebuilder:validation:Optional
 	SSLCertificatesSelector *v1.Selector `json:"sslCertificatesSelector,omitempty" tf:"-"`
 
@@ -134,15 +134,15 @@ type RegionTargetHTTPSProxyParameters struct {
 	// URLs to SslCertificate resources that are used to authenticate connections between users and the load balancer.
 	// At least one SSL certificate must be specified. Currently, you may specify up to 15 SSL certificates.
 	// sslCertificates do not apply when the load balancing scheme is set to INTERNAL_SELF_MANAGED.
-	// +crossplane:generate:reference:type=RegionSSLCertificate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionSSLCertificate
 	// +kubebuilder:validation:Optional
 	SSLCertificates []*string `json:"sslCertificates,omitempty" tf:"ssl_certificates,omitempty"`
 
-	// References to RegionSSLCertificate to populate sslCertificates.
+	// References to RegionSSLCertificate in compute to populate sslCertificates.
 	// +kubebuilder:validation:Optional
 	SSLCertificatesRefs []v1.Reference `json:"sslCertificatesRefs,omitempty" tf:"-"`
 
-	// Selector for a list of RegionSSLCertificate to populate sslCertificates.
+	// Selector for a list of RegionSSLCertificate in compute to populate sslCertificates.
 	// +kubebuilder:validation:Optional
 	SSLCertificatesSelector *v1.Selector `json:"sslCertificatesSelector,omitempty" tf:"-"`
 

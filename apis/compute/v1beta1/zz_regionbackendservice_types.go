@@ -329,15 +329,15 @@ type RegionBackendServiceBackendInitParameters struct {
 	// Note that you must specify an Instance Group or Network Endpoint
 	// Group resource using the fully-qualified URL, rather than a
 	// partial URL.
-	// +crossplane:generate:reference:type=RegionInstanceGroupManager
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionInstanceGroupManager
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/compute.InstanceGroupExtractor()
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
 
-	// Reference to a RegionInstanceGroupManager to populate group.
+	// Reference to a RegionInstanceGroupManager in compute to populate group.
 	// +kubebuilder:validation:Optional
 	GroupRef *v1.Reference `json:"groupRef,omitempty" tf:"-"`
 
-	// Selector for a RegionInstanceGroupManager to populate group.
+	// Selector for a RegionInstanceGroupManager in compute to populate group.
 	// +kubebuilder:validation:Optional
 	GroupSelector *v1.Selector `json:"groupSelector,omitempty" tf:"-"`
 
@@ -541,16 +541,16 @@ type RegionBackendServiceBackendParameters struct {
 	// Note that you must specify an Instance Group or Network Endpoint
 	// Group resource using the fully-qualified URL, rather than a
 	// partial URL.
-	// +crossplane:generate:reference:type=RegionInstanceGroupManager
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionInstanceGroupManager
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/compute.InstanceGroupExtractor()
 	// +kubebuilder:validation:Optional
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
 
-	// Reference to a RegionInstanceGroupManager to populate group.
+	// Reference to a RegionInstanceGroupManager in compute to populate group.
 	// +kubebuilder:validation:Optional
 	GroupRef *v1.Reference `json:"groupRef,omitempty" tf:"-"`
 
-	// Selector for a RegionInstanceGroupManager to populate group.
+	// Selector for a RegionInstanceGroupManager in compute to populate group.
 	// +kubebuilder:validation:Optional
 	GroupSelector *v1.Selector `json:"groupSelector,omitempty" tf:"-"`
 
@@ -1116,16 +1116,16 @@ type RegionBackendServiceInitParameters struct {
 	// check can be specified.
 	// A health check must be specified unless the backend service uses an internet
 	// or serverless NEG as a backend.
-	// +crossplane:generate:reference:type=RegionHealthCheck
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionHealthCheck
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +listType=set
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
 
-	// References to RegionHealthCheck to populate healthChecks.
+	// References to RegionHealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
 	HealthChecksRefs []v1.Reference `json:"healthChecksRefs,omitempty" tf:"-"`
 
-	// Selector for a list of RegionHealthCheck to populate healthChecks.
+	// Selector for a list of RegionHealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
 	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
 
@@ -1605,17 +1605,17 @@ type RegionBackendServiceParameters struct {
 	// check can be specified.
 	// A health check must be specified unless the backend service uses an internet
 	// or serverless NEG as a backend.
-	// +crossplane:generate:reference:type=RegionHealthCheck
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionHealthCheck
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
 
-	// References to RegionHealthCheck to populate healthChecks.
+	// References to RegionHealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
 	HealthChecksRefs []v1.Reference `json:"healthChecksRefs,omitempty" tf:"-"`
 
-	// Selector for a list of RegionHealthCheck to populate healthChecks.
+	// Selector for a list of RegionHealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
 	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
 
