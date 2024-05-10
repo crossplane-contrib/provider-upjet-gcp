@@ -20,6 +20,8 @@ For getting more information about resource consumption and monitoring
 the upjet runtime, please see [Sizing Guide](https://github.com/upbound/upjet/blob/main/docs/sizing-guide.md)
 and [Monitoring Guide](https://github.com/upbound/upjet/blob/main/docs/monitoring.md)
 
+NOTE: this only works with GoLang 1.21.
+
 ## Contributing
 
 For the general contribution guide, see [Upjet Contribution Guide](https://github.com/upbound/upjet/blob/main/CONTRIBUTING.md)
