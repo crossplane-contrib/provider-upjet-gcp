@@ -6,15 +6,11 @@ package config
 
 import (
 	"context"
-
-	"github.com/upbound/provider-gcp/config/dialogflowcx"
-
-	"github.com/crossplane/upjet/pkg/config/conversion"
-
 	// Note(ezgidemirel): we are importing this to embed provider schema document
 	_ "embed"
 
 	ujconfig "github.com/crossplane/upjet/pkg/config"
+	"github.com/crossplane/upjet/pkg/config/conversion"
 	"github.com/crossplane/upjet/pkg/registry/reference"
 	conversiontfjson "github.com/crossplane/upjet/pkg/types/conversion/tfjson"
 	"github.com/crossplane/upjet/pkg/types/name"
@@ -41,6 +37,7 @@ import (
 	"github.com/upbound/provider-gcp/config/containerazure"
 	"github.com/upbound/provider-gcp/config/dataflow"
 	"github.com/upbound/provider-gcp/config/dataproc"
+	"github.com/upbound/provider-gcp/config/dialogflowcx"
 	"github.com/upbound/provider-gcp/config/dns"
 	"github.com/upbound/provider-gcp/config/endpoints"
 	"github.com/upbound/provider-gcp/config/firebaserules"
@@ -274,11 +271,11 @@ func bumpVersionsWithEmbeddedLists(pc *ujconfig.Provider) {
 		// we would like to set the storage version to v1beta1 to facilitate
 		// downgrades.
 		r.SetCRDStorageVersion("v1beta1")
+		r.ControllerReconcileVersion = "v1beta1"
 		r.Conversions = []conversion.Conversion{
 			conversion.NewIdentityConversionExpandPaths(conversion.AllVersions, conversion.AllVersions, conversion.DefaultPathPrefixes(), r.CRDListConversionPaths()...),
 			conversion.NewSingletonListConversion("v1beta1", "v1beta2", conversion.DefaultPathPrefixes(), r.CRDListConversionPaths(), conversion.ToEmbeddedObject),
 			conversion.NewSingletonListConversion("v1beta2", "v1beta1", conversion.DefaultPathPrefixes(), r.CRDListConversionPaths(), conversion.ToSingletonList)}
-		r.TerraformConversions = append(r.TerraformConversions, ujconfig.NewTFSingletonConversion())
 		pc.Resources[n] = r
 	}
 }
