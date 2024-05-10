@@ -6,5 +6,9 @@
 	{
 		"name": "Configuration",
 		"location": "Configuration.md"
+	},
+	{
+		"name": "Development",
+		"location": "Development.md"
 	}
 ]
