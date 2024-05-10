@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 name: CI
 
 on:
@@ -10,7 +14,10 @@ on:
 
 jobs:
   ci:
-    uses: upbound/uptest/.github/workflows/provider-ci.yml@e68d4a22389cf0f27545621a1ee0af705c7a5847
+    uses: upbound/official-providers-ci/.github/workflows/provider-ci.yml@standard-runners
+    with:
+      go-version: 1.21
+      cleanup-disk: true
     secrets:
       UPBOUND_MARKETPLACE_PUSH_ROBOT_USR: ${{ secrets.UPBOUND_MARKETPLACE_PUSH_ROBOT_USR }}
       UPBOUND_MARKETPLACE_PUSH_ROBOT_PSW: ${{ secrets.UPBOUND_MARKETPLACE_PUSH_ROBOT_PSW }}
