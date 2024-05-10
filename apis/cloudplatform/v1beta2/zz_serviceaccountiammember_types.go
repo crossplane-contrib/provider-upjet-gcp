@@ -48,15 +48,15 @@ type ServiceAccountIAMMemberInitParameters struct {
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	ServiceAccountID *string `json:"serviceAccountId,omitempty" tf:"service_account_id,omitempty"`
 
-	// Reference to a ServiceAccount to populate serviceAccountId.
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountId.
 	// +kubebuilder:validation:Optional
 	ServiceAccountIDRef *v1.Reference `json:"serviceAccountIdRef,omitempty" tf:"-"`
 
-	// Selector for a ServiceAccount to populate serviceAccountId.
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountId.
 	// +kubebuilder:validation:Optional
 	ServiceAccountIDSelector *v1.Selector `json:"serviceAccountIdSelector,omitempty" tf:"-"`
 }
@@ -86,16 +86,16 @@ type ServiceAccountIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ServiceAccountID *string `json:"serviceAccountId,omitempty" tf:"service_account_id,omitempty"`
 
-	// Reference to a ServiceAccount to populate serviceAccountId.
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountId.
 	// +kubebuilder:validation:Optional
 	ServiceAccountIDRef *v1.Reference `json:"serviceAccountIdRef,omitempty" tf:"-"`
 
-	// Selector for a ServiceAccount to populate serviceAccountId.
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountId.
 	// +kubebuilder:validation:Optional
 	ServiceAccountIDSelector *v1.Selector `json:"serviceAccountIdSelector,omitempty" tf:"-"`
 }

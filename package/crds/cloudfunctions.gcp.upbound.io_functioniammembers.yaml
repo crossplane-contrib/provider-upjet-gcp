@@ -608,7 +608,8 @@ spec:
                   cloudFunction:
                     type: string
                   cloudFunctionRef:
-                    description: Reference to a Function to populate cloudFunction.
+                    description: Reference to a Function in cloudfunctions to populate
+                      cloudFunction.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -642,7 +643,8 @@ spec:
                     - name
                     type: object
                   cloudFunctionSelector:
-                    description: Selector for a Function to populate cloudFunction.
+                    description: Selector for a Function in cloudfunctions to populate
+                      cloudFunction.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -715,7 +717,8 @@ spec:
                   cloudFunction:
                     type: string
                   cloudFunctionRef:
-                    description: Reference to a Function to populate cloudFunction.
+                    description: Reference to a Function in cloudfunctions to populate
+                      cloudFunction.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -749,7 +752,8 @@ spec:
                     - name
                     type: object
                   cloudFunctionSelector:
-                    description: Selector for a Function to populate cloudFunction.
+                    description: Selector for a Function in cloudfunctions to populate
+                      cloudFunction.
                     properties:
                       matchControllerRef:
                         description: |-

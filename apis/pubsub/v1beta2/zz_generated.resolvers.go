@@ -78,7 +78,7 @@ func (mg *LiteTopic) ResolveReferences(ctx context.Context, c client.Reader) err
 
 	if mg.Spec.ForProvider.ReservationConfig != nil {
 		{
-			m, l, err = apisresolver.GetManagedResource("pubsub.gcp.upbound.io", "v1beta2", "LiteReservation", "LiteReservationList")
+			m, l, err = apisresolver.GetManagedResource("pubsub.gcp.upbound.io", "v1beta1", "LiteReservation", "LiteReservationList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -99,7 +99,7 @@ func (mg *LiteTopic) ResolveReferences(ctx context.Context, c client.Reader) err
 	}
 	if mg.Spec.InitProvider.ReservationConfig != nil {
 		{
-			m, l, err = apisresolver.GetManagedResource("pubsub.gcp.upbound.io", "v1beta2", "LiteReservation", "LiteReservationList")
+			m, l, err = apisresolver.GetManagedResource("pubsub.gcp.upbound.io", "v1beta1", "LiteReservation", "LiteReservationList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}

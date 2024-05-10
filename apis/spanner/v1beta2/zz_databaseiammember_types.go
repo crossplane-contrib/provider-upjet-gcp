@@ -44,27 +44,27 @@ type ConditionParameters struct {
 type DatabaseIAMMemberInitParameters struct {
 	Condition *ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=Database
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/spanner/v1beta2.Database
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
-	// Reference to a Database to populate database.
+	// Reference to a Database in spanner to populate database.
 	// +kubebuilder:validation:Optional
 	DatabaseRef *v1.Reference `json:"databaseRef,omitempty" tf:"-"`
 
-	// Selector for a Database to populate database.
+	// Selector for a Database in spanner to populate database.
 	// +kubebuilder:validation:Optional
 	DatabaseSelector *v1.Selector `json:"databaseSelector,omitempty" tf:"-"`
 
-	// +crossplane:generate:reference:type=Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/spanner/v1beta2.Instance
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
-	// Reference to a Instance to populate instance.
+	// Reference to a Instance in spanner to populate instance.
 	// +kubebuilder:validation:Optional
 	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
 
-	// Selector for a Instance to populate instance.
+	// Selector for a Instance in spanner to populate instance.
 	// +kubebuilder:validation:Optional
 	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
@@ -98,29 +98,29 @@ type DatabaseIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition *ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=Database
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/spanner/v1beta2.Database
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
-	// Reference to a Database to populate database.
+	// Reference to a Database in spanner to populate database.
 	// +kubebuilder:validation:Optional
 	DatabaseRef *v1.Reference `json:"databaseRef,omitempty" tf:"-"`
 
-	// Selector for a Database to populate database.
+	// Selector for a Database in spanner to populate database.
 	// +kubebuilder:validation:Optional
 	DatabaseSelector *v1.Selector `json:"databaseSelector,omitempty" tf:"-"`
 
-	// +crossplane:generate:reference:type=Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/spanner/v1beta2.Instance
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
-	// Reference to a Instance to populate instance.
+	// Reference to a Instance in spanner to populate instance.
 	// +kubebuilder:validation:Optional
 	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
 
-	// Selector for a Instance to populate instance.
+	// Selector for a Instance in spanner to populate instance.
 	// +kubebuilder:validation:Optional
 	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
 

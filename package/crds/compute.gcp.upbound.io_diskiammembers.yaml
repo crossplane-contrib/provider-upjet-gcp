@@ -613,7 +613,7 @@ spec:
                   name:
                     type: string
                   nameRef:
-                    description: Reference to a Disk to populate name.
+                    description: Reference to a Disk in compute to populate name.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -647,7 +647,7 @@ spec:
                     - name
                     type: object
                   nameSelector:
-                    description: Selector for a Disk to populate name.
+                    description: Selector for a Disk in compute to populate name.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -720,7 +720,7 @@ spec:
                   name:
                     type: string
                   nameRef:
-                    description: Reference to a Disk to populate name.
+                    description: Reference to a Disk in compute to populate name.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -754,7 +754,7 @@ spec:
                     - name
                     type: object
                   nameSelector:
-                    description: Selector for a Disk to populate name.
+                    description: Selector for a Disk in compute to populate name.
                     properties:
                       matchControllerRef:
                         description: |-

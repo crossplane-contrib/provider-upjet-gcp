@@ -9,8 +9,9 @@ package v1beta1
 import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	errors "github.com/pkg/errors"
+
+	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Release.
@@ -25,7 +26,7 @@ func (mg *Release) ResolveReferences(ctx context.Context, c client.Reader) error
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("firebaserules.gcp.upbound.io", "v1beta1", "Ruleset", "RulesetList")
+		m, l, err = apisresolver.GetManagedResource("firebaserules.gcp.upbound.io", "v1beta2", "Ruleset", "RulesetList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -44,7 +45,7 @@ func (mg *Release) ResolveReferences(ctx context.Context, c client.Reader) error
 	mg.Spec.ForProvider.RulesetName = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.RulesetNameRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("firebaserules.gcp.upbound.io", "v1beta1", "Ruleset", "RulesetList")
+		m, l, err = apisresolver.GetManagedResource("firebaserules.gcp.upbound.io", "v1beta2", "Ruleset", "RulesetList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}

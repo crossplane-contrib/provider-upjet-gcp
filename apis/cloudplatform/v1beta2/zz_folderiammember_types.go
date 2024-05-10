@@ -44,15 +44,15 @@ type ConditionParameters struct {
 type FolderIAMMemberInitParameters struct {
 	Condition *ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=Folder
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Folder
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	Folder *string `json:"folder,omitempty" tf:"folder,omitempty"`
 
-	// Reference to a Folder to populate folder.
+	// Reference to a Folder in cloudplatform to populate folder.
 	// +kubebuilder:validation:Optional
 	FolderRef *v1.Reference `json:"folderRef,omitempty" tf:"-"`
 
-	// Selector for a Folder to populate folder.
+	// Selector for a Folder in cloudplatform to populate folder.
 	// +kubebuilder:validation:Optional
 	FolderSelector *v1.Selector `json:"folderSelector,omitempty" tf:"-"`
 
@@ -80,16 +80,16 @@ type FolderIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition *ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=Folder
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Folder
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Folder *string `json:"folder,omitempty" tf:"folder,omitempty"`
 
-	// Reference to a Folder to populate folder.
+	// Reference to a Folder in cloudplatform to populate folder.
 	// +kubebuilder:validation:Optional
 	FolderRef *v1.Reference `json:"folderRef,omitempty" tf:"-"`
 
-	// Selector for a Folder to populate folder.
+	// Selector for a Folder in cloudplatform to populate folder.
 	// +kubebuilder:validation:Optional
 	FolderSelector *v1.Selector `json:"folderSelector,omitempty" tf:"-"`
 

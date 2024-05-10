@@ -601,7 +601,7 @@ spec:
                   keyRingId:
                     type: string
                   keyRingIdRef:
-                    description: Reference to a KeyRing to populate keyRingId.
+                    description: Reference to a KeyRing in kms to populate keyRingId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -635,7 +635,7 @@ spec:
                     - name
                     type: object
                   keyRingIdSelector:
-                    description: Selector for a KeyRing to populate keyRingId.
+                    description: Selector for a KeyRing in kms to populate keyRingId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -704,7 +704,7 @@ spec:
                   keyRingId:
                     type: string
                   keyRingIdRef:
-                    description: Reference to a KeyRing to populate keyRingId.
+                    description: Reference to a KeyRing in kms to populate keyRingId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -738,7 +738,7 @@ spec:
                     - name
                     type: object
                   keyRingIdSelector:
-                    description: Selector for a KeyRing to populate keyRingId.
+                    description: Selector for a KeyRing in kms to populate keyRingId.
                     properties:
                       matchControllerRef:
                         description: |-

@@ -28,7 +28,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 
 	if mg.Spec.ForProvider.PubsubTarget != nil {
 		{
-			m, l, err = apisresolver.GetManagedResource("pubsub.gcp.upbound.io", "v1beta1", "Topic", "TopicList")
+			m, l, err = apisresolver.GetManagedResource("pubsub.gcp.upbound.io", "v1beta2", "Topic", "TopicList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -49,7 +49,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 	}
 	if mg.Spec.InitProvider.PubsubTarget != nil {
 		{
-			m, l, err = apisresolver.GetManagedResource("pubsub.gcp.upbound.io", "v1beta1", "Topic", "TopicList")
+			m, l, err = apisresolver.GetManagedResource("pubsub.gcp.upbound.io", "v1beta2", "Topic", "TopicList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}

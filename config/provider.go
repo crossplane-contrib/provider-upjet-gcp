@@ -263,7 +263,7 @@ func resourceList(t map[string]ujconfig.ExternalName) []string {
 }
 
 func bumpVersionsWithEmbeddedLists(pc *ujconfig.Provider) {
-	for name, r := range pc.Resources {
+	for n, r := range pc.Resources {
 		r := r
 		// nothing to do if no singleton list has been converted to
 		// an embedded object
@@ -275,10 +275,11 @@ func bumpVersionsWithEmbeddedLists(pc *ujconfig.Provider) {
 		// downgrades.
 		r.SetCRDStorageVersion("v1beta1")
 		r.Conversions = []conversion.Conversion{
-			conversion.NewIdentityConversionExpandPaths(conversion.AllVersions, conversion.AllVersions, []string{"spec.forProvider", "spec.initProvider", "status.atProvider"}, r.CRDListConversionPaths()...),
-			conversion.NewSingletonListConversion("v1beta1", "v1beta2", r.CRDListConversionPaths(), conversion.ToEmbeddedObject),
-			conversion.NewSingletonListConversion("v1beta2", "v1beta1", r.CRDListConversionPaths(), conversion.ToSingletonList)}
-		pc.Resources[name] = r
+			conversion.NewIdentityConversionExpandPaths(conversion.AllVersions, conversion.AllVersions, conversion.DefaultPathPrefixes(), r.CRDListConversionPaths()...),
+			conversion.NewSingletonListConversion("v1beta1", "v1beta2", conversion.DefaultPathPrefixes(), r.CRDListConversionPaths(), conversion.ToEmbeddedObject),
+			conversion.NewSingletonListConversion("v1beta2", "v1beta1", conversion.DefaultPathPrefixes(), r.CRDListConversionPaths(), conversion.ToSingletonList)}
+		r.TerraformConversions = append(r.TerraformConversions, ujconfig.NewTFSingletonConversion())
+		pc.Resources[n] = r
 	}
 }
 

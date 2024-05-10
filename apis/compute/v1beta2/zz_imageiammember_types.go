@@ -44,14 +44,14 @@ type ImageIAMMemberConditionParameters struct {
 type ImageIAMMemberInitParameters struct {
 	Condition *ImageIAMMemberConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=Image
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Image
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// Reference to a Image to populate image.
+	// Reference to a Image in compute to populate image.
 	// +kubebuilder:validation:Optional
 	ImageRef *v1.Reference `json:"imageRef,omitempty" tf:"-"`
 
-	// Selector for a Image to populate image.
+	// Selector for a Image in compute to populate image.
 	// +kubebuilder:validation:Optional
 	ImageSelector *v1.Selector `json:"imageSelector,omitempty" tf:"-"`
 
@@ -83,15 +83,15 @@ type ImageIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition *ImageIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=Image
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Image
 	// +kubebuilder:validation:Optional
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// Reference to a Image to populate image.
+	// Reference to a Image in compute to populate image.
 	// +kubebuilder:validation:Optional
 	ImageRef *v1.Reference `json:"imageRef,omitempty" tf:"-"`
 
-	// Selector for a Image to populate image.
+	// Selector for a Image in compute to populate image.
 	// +kubebuilder:validation:Optional
 	ImageSelector *v1.Selector `json:"imageSelector,omitempty" tf:"-"`
 

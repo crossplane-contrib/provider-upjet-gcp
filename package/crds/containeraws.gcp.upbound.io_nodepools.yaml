@@ -1262,7 +1262,8 @@ spec:
                     description: The awsCluster for the resource
                     type: string
                   clusterRef:
-                    description: Reference to a Cluster to populate cluster.
+                    description: Reference to a Cluster in containeraws to populate
+                      cluster.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -1296,7 +1297,8 @@ spec:
                     - name
                     type: object
                   clusterSelector:
-                    description: Selector for a Cluster to populate cluster.
+                    description: Selector for a Cluster in containeraws to populate
+                      cluster.
                     properties:
                       matchControllerRef:
                         description: |-

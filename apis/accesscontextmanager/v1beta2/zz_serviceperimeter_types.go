@@ -1353,15 +1353,15 @@ type SpecInitParameters struct {
 	// origins within the perimeter. For Service Perimeter Bridge, must
 	// be empty.
 	// Format: accessPolicies/{policy_id}/accessLevels/{access_level_name}
-	// +crossplane:generate:reference:type=AccessLevel
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/accesscontextmanager/v1beta2.AccessLevel
 	// +listType=set
 	AccessLevels []*string `json:"accessLevels,omitempty" tf:"access_levels,omitempty"`
 
-	// References to AccessLevel to populate accessLevels.
+	// References to AccessLevel in accesscontextmanager to populate accessLevels.
 	// +kubebuilder:validation:Optional
 	AccessLevelsRefs []v1.Reference `json:"accessLevelsRefs,omitempty" tf:"-"`
 
-	// Selector for a list of AccessLevel to populate accessLevels.
+	// Selector for a list of AccessLevel in accesscontextmanager to populate accessLevels.
 	// +kubebuilder:validation:Optional
 	AccessLevelsSelector *v1.Selector `json:"accessLevelsSelector,omitempty" tf:"-"`
 
@@ -1458,16 +1458,16 @@ type SpecParameters struct {
 	// origins within the perimeter. For Service Perimeter Bridge, must
 	// be empty.
 	// Format: accessPolicies/{policy_id}/accessLevels/{access_level_name}
-	// +crossplane:generate:reference:type=AccessLevel
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/accesscontextmanager/v1beta2.AccessLevel
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	AccessLevels []*string `json:"accessLevels,omitempty" tf:"access_levels,omitempty"`
 
-	// References to AccessLevel to populate accessLevels.
+	// References to AccessLevel in accesscontextmanager to populate accessLevels.
 	// +kubebuilder:validation:Optional
 	AccessLevelsRefs []v1.Reference `json:"accessLevelsRefs,omitempty" tf:"-"`
 
-	// Selector for a list of AccessLevel to populate accessLevels.
+	// Selector for a list of AccessLevel in accesscontextmanager to populate accessLevels.
 	// +kubebuilder:validation:Optional
 	AccessLevelsSelector *v1.Selector `json:"accessLevelsSelector,omitempty" tf:"-"`
 
@@ -1600,15 +1600,15 @@ type StatusInitParameters struct {
 	// origins within the perimeter. For Service Perimeter Bridge, must
 	// be empty.
 	// Format: accessPolicies/{policy_id}/accessLevels/{access_level_name}
-	// +crossplane:generate:reference:type=AccessLevel
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/accesscontextmanager/v1beta2.AccessLevel
 	// +listType=set
 	AccessLevels []*string `json:"accessLevels,omitempty" tf:"access_levels,omitempty"`
 
-	// References to AccessLevel to populate accessLevels.
+	// References to AccessLevel in accesscontextmanager to populate accessLevels.
 	// +kubebuilder:validation:Optional
 	AccessLevelsRefs []v1.Reference `json:"accessLevelsRefs,omitempty" tf:"-"`
 
-	// Selector for a list of AccessLevel to populate accessLevels.
+	// Selector for a list of AccessLevel in accesscontextmanager to populate accessLevels.
 	// +kubebuilder:validation:Optional
 	AccessLevelsSelector *v1.Selector `json:"accessLevelsSelector,omitempty" tf:"-"`
 
@@ -1705,16 +1705,16 @@ type StatusParameters struct {
 	// origins within the perimeter. For Service Perimeter Bridge, must
 	// be empty.
 	// Format: accessPolicies/{policy_id}/accessLevels/{access_level_name}
-	// +crossplane:generate:reference:type=AccessLevel
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/accesscontextmanager/v1beta2.AccessLevel
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	AccessLevels []*string `json:"accessLevels,omitempty" tf:"access_levels,omitempty"`
 
-	// References to AccessLevel to populate accessLevels.
+	// References to AccessLevel in accesscontextmanager to populate accessLevels.
 	// +kubebuilder:validation:Optional
 	AccessLevelsRefs []v1.Reference `json:"accessLevelsRefs,omitempty" tf:"-"`
 
-	// Selector for a list of AccessLevel to populate accessLevels.
+	// Selector for a list of AccessLevel in accesscontextmanager to populate accessLevels.
 	// +kubebuilder:validation:Optional
 	AccessLevelsSelector *v1.Selector `json:"accessLevelsSelector,omitempty" tf:"-"`
 

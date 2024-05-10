@@ -43,14 +43,14 @@ type ConditionParameters struct {
 
 type FunctionIAMMemberInitParameters struct {
 
-	// +crossplane:generate:reference:type=Function
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudfunctions/v1beta2.Function
 	CloudFunction *string `json:"cloudFunction,omitempty" tf:"cloud_function,omitempty"`
 
-	// Reference to a Function to populate cloudFunction.
+	// Reference to a Function in cloudfunctions to populate cloudFunction.
 	// +kubebuilder:validation:Optional
 	CloudFunctionRef *v1.Reference `json:"cloudFunctionRef,omitempty" tf:"-"`
 
-	// Selector for a Function to populate cloudFunction.
+	// Selector for a Function in cloudfunctions to populate cloudFunction.
 	// +kubebuilder:validation:Optional
 	CloudFunctionSelector *v1.Selector `json:"cloudFunctionSelector,omitempty" tf:"-"`
 
@@ -85,15 +85,15 @@ type FunctionIAMMemberObservation struct {
 
 type FunctionIAMMemberParameters struct {
 
-	// +crossplane:generate:reference:type=Function
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudfunctions/v1beta2.Function
 	// +kubebuilder:validation:Optional
 	CloudFunction *string `json:"cloudFunction,omitempty" tf:"cloud_function,omitempty"`
 
-	// Reference to a Function to populate cloudFunction.
+	// Reference to a Function in cloudfunctions to populate cloudFunction.
 	// +kubebuilder:validation:Optional
 	CloudFunctionRef *v1.Reference `json:"cloudFunctionRef,omitempty" tf:"-"`
 
-	// Selector for a Function to populate cloudFunction.
+	// Selector for a Function in cloudfunctions to populate cloudFunction.
 	// +kubebuilder:validation:Optional
 	CloudFunctionSelector *v1.Selector `json:"cloudFunctionSelector,omitempty" tf:"-"`
 

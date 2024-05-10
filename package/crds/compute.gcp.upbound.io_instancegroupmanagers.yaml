@@ -1852,7 +1852,8 @@ spec:
                         description: The health check resource that signals autohealing.
                         type: string
                       healthCheckRef:
-                        description: Reference to a HealthCheck to populate healthCheck.
+                        description: Reference to a HealthCheck in compute to populate
+                          healthCheck.
                         properties:
                           name:
                             description: Name of the referenced object.
@@ -1886,7 +1887,8 @@ spec:
                         - name
                         type: object
                       healthCheckSelector:
-                        description: Selector for a HealthCheck to populate healthCheck.
+                        description: Selector for a HealthCheck in compute to populate
+                          healthCheck.
                         properties:
                           matchControllerRef:
                             description: |-
@@ -2059,7 +2061,7 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   targetPoolsRefs:
-                    description: References to TargetPool to populate targetPools.
+                    description: References to TargetPool in compute to populate targetPools.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -2096,7 +2098,8 @@ spec:
                       type: object
                     type: array
                   targetPoolsSelector:
-                    description: Selector for a list of TargetPool to populate targetPools.
+                    description: Selector for a list of TargetPool in compute to populate
+                      targetPools.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -2221,8 +2224,8 @@ spec:
                             their unique id (self_link_unique attribute).'
                           type: string
                         instanceTemplateRef:
-                          description: Reference to a InstanceTemplate to populate
-                            instanceTemplate.
+                          description: Reference to a InstanceTemplate in compute
+                            to populate instanceTemplate.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -2256,8 +2259,8 @@ spec:
                           - name
                           type: object
                         instanceTemplateSelector:
-                          description: Selector for a InstanceTemplate to populate
-                            instanceTemplate.
+                          description: Selector for a InstanceTemplate in compute
+                            to populate instanceTemplate.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -2381,7 +2384,8 @@ spec:
                         description: The health check resource that signals autohealing.
                         type: string
                       healthCheckRef:
-                        description: Reference to a HealthCheck to populate healthCheck.
+                        description: Reference to a HealthCheck in compute to populate
+                          healthCheck.
                         properties:
                           name:
                             description: Name of the referenced object.
@@ -2415,7 +2419,8 @@ spec:
                         - name
                         type: object
                       healthCheckSelector:
-                        description: Selector for a HealthCheck to populate healthCheck.
+                        description: Selector for a HealthCheck in compute to populate
+                          healthCheck.
                         properties:
                           matchControllerRef:
                             description: |-
@@ -2588,7 +2593,7 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   targetPoolsRefs:
-                    description: References to TargetPool to populate targetPools.
+                    description: References to TargetPool in compute to populate targetPools.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -2625,7 +2630,8 @@ spec:
                       type: object
                     type: array
                   targetPoolsSelector:
-                    description: Selector for a list of TargetPool to populate targetPools.
+                    description: Selector for a list of TargetPool in compute to populate
+                      targetPools.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -2750,8 +2756,8 @@ spec:
                             their unique id (self_link_unique attribute).'
                           type: string
                         instanceTemplateRef:
-                          description: Reference to a InstanceTemplate to populate
-                            instanceTemplate.
+                          description: Reference to a InstanceTemplate in compute
+                            to populate instanceTemplate.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -2785,8 +2791,8 @@ spec:
                           - name
                           type: object
                         instanceTemplateSelector:
-                          description: Selector for a InstanceTemplate to populate
-                            instanceTemplate.
+                          description: Selector for a InstanceTemplate in compute
+                            to populate instanceTemplate.
                           properties:
                             matchControllerRef:
                               description: |-

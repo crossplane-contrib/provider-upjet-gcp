@@ -283,14 +283,14 @@ type SpecInitParameters struct {
 
 	// The name of the Cloud Run Service that this DomainMapping applies to.
 	// The route must exist.
-	// +crossplane:generate:reference:type=Service
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudrun/v1beta2.Service
 	RouteName *string `json:"routeName,omitempty" tf:"route_name,omitempty"`
 
-	// Reference to a Service to populate routeName.
+	// Reference to a Service in cloudrun to populate routeName.
 	// +kubebuilder:validation:Optional
 	RouteNameRef *v1.Reference `json:"routeNameRef,omitempty" tf:"-"`
 
-	// Selector for a Service to populate routeName.
+	// Selector for a Service in cloudrun to populate routeName.
 	// +kubebuilder:validation:Optional
 	RouteNameSelector *v1.Selector `json:"routeNameSelector,omitempty" tf:"-"`
 }
@@ -330,15 +330,15 @@ type SpecParameters struct {
 
 	// The name of the Cloud Run Service that this DomainMapping applies to.
 	// The route must exist.
-	// +crossplane:generate:reference:type=Service
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudrun/v1beta2.Service
 	// +kubebuilder:validation:Optional
 	RouteName *string `json:"routeName,omitempty" tf:"route_name,omitempty"`
 
-	// Reference to a Service to populate routeName.
+	// Reference to a Service in cloudrun to populate routeName.
 	// +kubebuilder:validation:Optional
 	RouteNameRef *v1.Reference `json:"routeNameRef,omitempty" tf:"-"`
 
-	// Selector for a Service to populate routeName.
+	// Selector for a Service in cloudrun to populate routeName.
 	// +kubebuilder:validation:Optional
 	RouteNameSelector *v1.Selector `json:"routeNameSelector,omitempty" tf:"-"`
 }

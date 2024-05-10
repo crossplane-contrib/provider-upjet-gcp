@@ -46,7 +46,7 @@ type RouterInterfaceInitParameters struct {
 
 	// The name of the router this interface will be attached to.
 	// Changing this forces a new interface to be created.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Router
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Router
 	Router *string `json:"router,omitempty" tf:"router,omitempty"`
 
 	// Reference to a Router in compute to populate router.
@@ -164,7 +164,7 @@ type RouterInterfaceParameters struct {
 
 	// The name of the router this interface will be attached to.
 	// Changing this forces a new interface to be created.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Router
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Router
 	// +kubebuilder:validation:Optional
 	Router *string `json:"router,omitempty" tf:"router,omitempty"`
 

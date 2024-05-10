@@ -617,7 +617,8 @@ spec:
                   instanceName:
                     type: string
                   instanceNameRef:
-                    description: Reference to a Instance to populate instanceName.
+                    description: Reference to a Instance in notebooks to populate
+                      instanceName.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -651,7 +652,8 @@ spec:
                     - name
                     type: object
                   instanceNameSelector:
-                    description: Selector for a Instance to populate instanceName.
+                    description: Selector for a Instance in notebooks to populate
+                      instanceName.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -724,7 +726,8 @@ spec:
                   instanceName:
                     type: string
                   instanceNameRef:
-                    description: Reference to a Instance to populate instanceName.
+                    description: Reference to a Instance in notebooks to populate
+                      instanceName.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -758,7 +761,8 @@ spec:
                     - name
                     type: object
                   instanceNameSelector:
-                    description: Selector for a Instance to populate instanceName.
+                    description: Selector for a Instance in notebooks to populate
+                      instanceName.
                     properties:
                       matchControllerRef:
                         description: |-

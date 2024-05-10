@@ -85,7 +85,7 @@ func (mg *MembershipIAMMember) ResolveReferences(ctx context.Context, c client.R
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("gkehub.gcp.upbound.io", "v1beta1", "Membership", "MembershipList")
+		m, l, err = apisresolver.GetManagedResource("gkehub.gcp.upbound.io", "v1beta2", "Membership", "MembershipList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -104,7 +104,7 @@ func (mg *MembershipIAMMember) ResolveReferences(ctx context.Context, c client.R
 	mg.Spec.ForProvider.MembershipID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.MembershipIDRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("gkehub.gcp.upbound.io", "v1beta1", "Membership", "MembershipList")
+		m, l, err = apisresolver.GetManagedResource("gkehub.gcp.upbound.io", "v1beta2", "Membership", "MembershipList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}

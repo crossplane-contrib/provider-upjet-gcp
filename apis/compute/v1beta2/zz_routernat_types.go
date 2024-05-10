@@ -339,15 +339,15 @@ type RouterNATParameters struct {
 	Region *string `json:"region" tf:"region,omitempty"`
 
 	// The name of the Cloud Router in which this NAT will be configured.
-	// +crossplane:generate:reference:type=Router
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Router
 	// +kubebuilder:validation:Optional
 	Router *string `json:"router,omitempty" tf:"router,omitempty"`
 
-	// Reference to a Router to populate router.
+	// Reference to a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
 	RouterRef *v1.Reference `json:"routerRef,omitempty" tf:"-"`
 
-	// Selector for a Router to populate router.
+	// Selector for a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
 	RouterSelector *v1.Selector `json:"routerSelector,omitempty" tf:"-"`
 
@@ -472,14 +472,14 @@ type RulesParameters struct {
 type SubnetworkInitParameters struct {
 
 	// Self-link of subnetwork to NAT
-	// +crossplane:generate:reference:type=Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Subnetwork
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// Reference to a Subnetwork to populate name.
+	// Reference to a Subnetwork in compute to populate name.
 	// +kubebuilder:validation:Optional
 	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
 
-	// Selector for a Subnetwork to populate name.
+	// Selector for a Subnetwork in compute to populate name.
 	// +kubebuilder:validation:Optional
 	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
 
@@ -521,15 +521,15 @@ type SubnetworkObservation struct {
 type SubnetworkParameters struct {
 
 	// Self-link of subnetwork to NAT
-	// +crossplane:generate:reference:type=Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Subnetwork
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// Reference to a Subnetwork to populate name.
+	// Reference to a Subnetwork in compute to populate name.
 	// +kubebuilder:validation:Optional
 	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
 
-	// Selector for a Subnetwork to populate name.
+	// Selector for a Subnetwork in compute to populate name.
 	// +kubebuilder:validation:Optional
 	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
 

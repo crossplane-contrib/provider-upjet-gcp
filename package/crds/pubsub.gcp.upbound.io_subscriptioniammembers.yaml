@@ -618,7 +618,8 @@ spec:
                   subscription:
                     type: string
                   subscriptionRef:
-                    description: Reference to a Subscription to populate subscription.
+                    description: Reference to a Subscription in pubsub to populate
+                      subscription.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -652,7 +653,8 @@ spec:
                     - name
                     type: object
                   subscriptionSelector:
-                    description: Selector for a Subscription to populate subscription.
+                    description: Selector for a Subscription in pubsub to populate
+                      subscription.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -723,7 +725,8 @@ spec:
                   subscription:
                     type: string
                   subscriptionRef:
-                    description: Reference to a Subscription to populate subscription.
+                    description: Reference to a Subscription in pubsub to populate
+                      subscription.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -757,7 +760,8 @@ spec:
                     - name
                     type: object
                   subscriptionSelector:
-                    description: Selector for a Subscription to populate subscription.
+                    description: Selector for a Subscription in pubsub to populate
+                      subscription.
                     properties:
                       matchControllerRef:
                         description: |-

@@ -158,14 +158,14 @@ type PartitionConfigParameters struct {
 type ReservationConfigInitParameters struct {
 
 	// The Reservation to use for this topic's throughput capacity.
-	// +crossplane:generate:reference:type=LiteReservation
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta1.LiteReservation
 	ThroughputReservation *string `json:"throughputReservation,omitempty" tf:"throughput_reservation,omitempty"`
 
-	// Reference to a LiteReservation to populate throughputReservation.
+	// Reference to a LiteReservation in pubsub to populate throughputReservation.
 	// +kubebuilder:validation:Optional
 	ThroughputReservationRef *v1.Reference `json:"throughputReservationRef,omitempty" tf:"-"`
 
-	// Selector for a LiteReservation to populate throughputReservation.
+	// Selector for a LiteReservation in pubsub to populate throughputReservation.
 	// +kubebuilder:validation:Optional
 	ThroughputReservationSelector *v1.Selector `json:"throughputReservationSelector,omitempty" tf:"-"`
 }
@@ -179,15 +179,15 @@ type ReservationConfigObservation struct {
 type ReservationConfigParameters struct {
 
 	// The Reservation to use for this topic's throughput capacity.
-	// +crossplane:generate:reference:type=LiteReservation
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta1.LiteReservation
 	// +kubebuilder:validation:Optional
 	ThroughputReservation *string `json:"throughputReservation,omitempty" tf:"throughput_reservation,omitempty"`
 
-	// Reference to a LiteReservation to populate throughputReservation.
+	// Reference to a LiteReservation in pubsub to populate throughputReservation.
 	// +kubebuilder:validation:Optional
 	ThroughputReservationRef *v1.Reference `json:"throughputReservationRef,omitempty" tf:"-"`
 
-	// Selector for a LiteReservation to populate throughputReservation.
+	// Selector for a LiteReservation in pubsub to populate throughputReservation.
 	// +kubebuilder:validation:Optional
 	ThroughputReservationSelector *v1.Selector `json:"throughputReservationSelector,omitempty" tf:"-"`
 }

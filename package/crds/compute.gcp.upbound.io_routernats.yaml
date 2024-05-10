@@ -1276,7 +1276,7 @@ spec:
                       be configured.
                     type: string
                   routerRef:
-                    description: Reference to a Router to populate router.
+                    description: Reference to a Router in compute to populate router.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -1310,7 +1310,7 @@ spec:
                     - name
                     type: object
                   routerSelector:
-                    description: Selector for a Router to populate router.
+                    description: Selector for a Router in compute to populate router.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -1425,7 +1425,8 @@ spec:
                           description: Self-link of subnetwork to NAT
                           type: string
                         nameRef:
-                          description: Reference to a Subnetwork to populate name.
+                          description: Reference to a Subnetwork in compute to populate
+                            name.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -1459,7 +1460,8 @@ spec:
                           - name
                           type: object
                         nameSelector:
-                          description: Selector for a Subnetwork to populate name.
+                          description: Selector for a Subnetwork in compute to populate
+                            name.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -1701,7 +1703,8 @@ spec:
                           description: Self-link of subnetwork to NAT
                           type: string
                         nameRef:
-                          description: Reference to a Subnetwork to populate name.
+                          description: Reference to a Subnetwork in compute to populate
+                            name.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -1735,7 +1738,8 @@ spec:
                           - name
                           type: object
                         nameSelector:
-                          description: Selector for a Subnetwork to populate name.
+                          description: Selector for a Subnetwork in compute to populate
+                            name.
                           properties:
                             matchControllerRef:
                               description: |-

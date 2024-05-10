@@ -592,7 +592,7 @@ spec:
                   bucket:
                     type: string
                   bucketRef:
-                    description: Reference to a Bucket to populate bucket.
+                    description: Reference to a Bucket in storage to populate bucket.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -626,7 +626,7 @@ spec:
                     - name
                     type: object
                   bucketSelector:
-                    description: Selector for a Bucket to populate bucket.
+                    description: Selector for a Bucket in storage to populate bucket.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -695,7 +695,7 @@ spec:
                   bucket:
                     type: string
                   bucketRef:
-                    description: Reference to a Bucket to populate bucket.
+                    description: Reference to a Bucket in storage to populate bucket.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -729,7 +729,7 @@ spec:
                     - name
                     type: object
                   bucketSelector:
-                    description: Selector for a Bucket to populate bucket.
+                    description: Selector for a Bucket in storage to populate bucket.
                     properties:
                       matchControllerRef:
                         description: |-

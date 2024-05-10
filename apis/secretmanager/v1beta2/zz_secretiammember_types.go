@@ -50,15 +50,15 @@ type SecretIAMMemberInitParameters struct {
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/secretmanager/v1beta2.Secret
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	SecretID *string `json:"secretId,omitempty" tf:"secret_id,omitempty"`
 
-	// Reference to a Secret to populate secretId.
+	// Reference to a Secret in secretmanager to populate secretId.
 	// +kubebuilder:validation:Optional
 	SecretIDRef *v1.Reference `json:"secretIdRef,omitempty" tf:"-"`
 
-	// Selector for a Secret to populate secretId.
+	// Selector for a Secret in secretmanager to populate secretId.
 	// +kubebuilder:validation:Optional
 	SecretIDSelector *v1.Selector `json:"secretIdSelector,omitempty" tf:"-"`
 }
@@ -93,16 +93,16 @@ type SecretIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/secretmanager/v1beta2.Secret
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	SecretID *string `json:"secretId,omitempty" tf:"secret_id,omitempty"`
 
-	// Reference to a Secret to populate secretId.
+	// Reference to a Secret in secretmanager to populate secretId.
 	// +kubebuilder:validation:Optional
 	SecretIDRef *v1.Reference `json:"secretIdRef,omitempty" tf:"-"`
 
-	// Selector for a Secret to populate secretId.
+	// Selector for a Secret in secretmanager to populate secretId.
 	// +kubebuilder:validation:Optional
 	SecretIDSelector *v1.Selector `json:"secretIdSelector,omitempty" tf:"-"`
 }

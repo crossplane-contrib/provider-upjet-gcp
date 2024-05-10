@@ -761,7 +761,7 @@ spec:
                   database:
                     type: string
                   databaseRef:
-                    description: Reference to a Database to populate database.
+                    description: Reference to a Database in spanner to populate database.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -795,7 +795,7 @@ spec:
                     - name
                     type: object
                   databaseSelector:
-                    description: Selector for a Database to populate database.
+                    description: Selector for a Database in spanner to populate database.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -837,7 +837,7 @@ spec:
                   instance:
                     type: string
                   instanceRef:
-                    description: Reference to a Instance to populate instance.
+                    description: Reference to a Instance in spanner to populate instance.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -871,7 +871,7 @@ spec:
                     - name
                     type: object
                   instanceSelector:
-                    description: Selector for a Instance to populate instance.
+                    description: Selector for a Instance in spanner to populate instance.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -942,7 +942,7 @@ spec:
                   database:
                     type: string
                   databaseRef:
-                    description: Reference to a Database to populate database.
+                    description: Reference to a Database in spanner to populate database.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -976,7 +976,7 @@ spec:
                     - name
                     type: object
                   databaseSelector:
-                    description: Selector for a Database to populate database.
+                    description: Selector for a Database in spanner to populate database.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -1018,7 +1018,7 @@ spec:
                   instance:
                     type: string
                   instanceRef:
-                    description: Reference to a Instance to populate instance.
+                    description: Reference to a Instance in spanner to populate instance.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -1052,7 +1052,7 @@ spec:
                     - name
                     type: object
                   instanceSelector:
-                    description: Selector for a Instance to populate instance.
+                    description: Selector for a Instance in spanner to populate instance.
                     properties:
                       matchControllerRef:
                         description: |-

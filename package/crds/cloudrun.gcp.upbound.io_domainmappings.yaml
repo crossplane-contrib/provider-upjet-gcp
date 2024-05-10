@@ -1188,7 +1188,8 @@ spec:
                           The route must exist.
                         type: string
                       routeNameRef:
-                        description: Reference to a Service to populate routeName.
+                        description: Reference to a Service in cloudrun to populate
+                          routeName.
                         properties:
                           name:
                             description: Name of the referenced object.
@@ -1222,7 +1223,8 @@ spec:
                         - name
                         type: object
                       routeNameSelector:
-                        description: Selector for a Service to populate routeName.
+                        description: Selector for a Service in cloudrun to populate
+                          routeName.
                         properties:
                           matchControllerRef:
                             description: |-
@@ -1422,7 +1424,8 @@ spec:
                           The route must exist.
                         type: string
                       routeNameRef:
-                        description: Reference to a Service to populate routeName.
+                        description: Reference to a Service in cloudrun to populate
+                          routeName.
                         properties:
                           name:
                             description: Name of the referenced object.
@@ -1456,7 +1459,8 @@ spec:
                         - name
                         type: object
                       routeNameSelector:
-                        description: Selector for a Service to populate routeName.
+                        description: Selector for a Service in cloudrun to populate
+                          routeName.
                         properties:
                           matchControllerRef:
                             description: |-

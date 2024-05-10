@@ -613,7 +613,7 @@ spec:
                   topic:
                     type: string
                   topicRef:
-                    description: Reference to a Topic to populate topic.
+                    description: Reference to a Topic in pubsub to populate topic.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -647,7 +647,7 @@ spec:
                     - name
                     type: object
                   topicSelector:
-                    description: Selector for a Topic to populate topic.
+                    description: Selector for a Topic in pubsub to populate topic.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -718,7 +718,7 @@ spec:
                   topic:
                     type: string
                   topicRef:
-                    description: Reference to a Topic to populate topic.
+                    description: Reference to a Topic in pubsub to populate topic.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -752,7 +752,7 @@ spec:
                     - name
                     type: object
                   topicSelector:
-                    description: Selector for a Topic to populate topic.
+                    description: Selector for a Topic in pubsub to populate topic.
                     properties:
                       matchControllerRef:
                         description: |-

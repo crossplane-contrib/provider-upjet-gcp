@@ -604,7 +604,7 @@ spec:
                   caPool:
                     type: string
                   caPoolRef:
-                    description: Reference to a CAPool to populate caPool.
+                    description: Reference to a CAPool in privateca to populate caPool.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -638,7 +638,7 @@ spec:
                     - name
                     type: object
                   caPoolSelector:
-                    description: Selector for a CAPool to populate caPool.
+                    description: Selector for a CAPool in privateca to populate caPool.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -711,7 +711,7 @@ spec:
                   caPool:
                     type: string
                   caPoolRef:
-                    description: Reference to a CAPool to populate caPool.
+                    description: Reference to a CAPool in privateca to populate caPool.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -745,7 +745,7 @@ spec:
                     - name
                     type: object
                   caPoolSelector:
-                    description: Selector for a CAPool to populate caPool.
+                    description: Selector for a CAPool in privateca to populate caPool.
                     properties:
                       matchControllerRef:
                         description: |-

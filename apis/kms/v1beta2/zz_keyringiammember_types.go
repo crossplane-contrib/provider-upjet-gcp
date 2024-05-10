@@ -44,15 +44,15 @@ type KeyRingIAMMemberConditionParameters struct {
 type KeyRingIAMMemberInitParameters struct {
 	Condition *KeyRingIAMMemberConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=KeyRing
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta1.KeyRing
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	KeyRingID *string `json:"keyRingId,omitempty" tf:"key_ring_id,omitempty"`
 
-	// Reference to a KeyRing to populate keyRingId.
+	// Reference to a KeyRing in kms to populate keyRingId.
 	// +kubebuilder:validation:Optional
 	KeyRingIDRef *v1.Reference `json:"keyRingIdRef,omitempty" tf:"-"`
 
-	// Selector for a KeyRing to populate keyRingId.
+	// Selector for a KeyRing in kms to populate keyRingId.
 	// +kubebuilder:validation:Optional
 	KeyRingIDSelector *v1.Selector `json:"keyRingIdSelector,omitempty" tf:"-"`
 
@@ -80,16 +80,16 @@ type KeyRingIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition *KeyRingIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=KeyRing
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta1.KeyRing
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KeyRingID *string `json:"keyRingId,omitempty" tf:"key_ring_id,omitempty"`
 
-	// Reference to a KeyRing to populate keyRingId.
+	// Reference to a KeyRing in kms to populate keyRingId.
 	// +kubebuilder:validation:Optional
 	KeyRingIDRef *v1.Reference `json:"keyRingIdRef,omitempty" tf:"-"`
 
-	// Selector for a KeyRing to populate keyRingId.
+	// Selector for a KeyRing in kms to populate keyRingId.
 	// +kubebuilder:validation:Optional
 	KeyRingIDSelector *v1.Selector `json:"keyRingIdSelector,omitempty" tf:"-"`
 

@@ -25,7 +25,7 @@ func (mg *WebBackendServiceIAMMember) ResolveReferences( // ResolveReferences of
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendService", "BackendServiceList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendService", "BackendServiceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -44,7 +44,7 @@ func (mg *WebBackendServiceIAMMember) ResolveReferences( // ResolveReferences of
 	mg.Spec.ForProvider.WebBackendService = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.WebBackendServiceRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "BackendService", "BackendServiceList")
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "BackendService", "BackendServiceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -75,7 +75,7 @@ func (mg *WebTypeAppEngineIAMMember) ResolveReferences(ctx context.Context, c cl
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("appengine.gcp.upbound.io", "v1beta1", "Application", "ApplicationList")
+		m, l, err = apisresolver.GetManagedResource("appengine.gcp.upbound.io", "v1beta2", "Application", "ApplicationList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -94,7 +94,7 @@ func (mg *WebTypeAppEngineIAMMember) ResolveReferences(ctx context.Context, c cl
 	mg.Spec.ForProvider.AppID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.AppIDRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("appengine.gcp.upbound.io", "v1beta1", "Application", "ApplicationList")
+		m, l, err = apisresolver.GetManagedResource("appengine.gcp.upbound.io", "v1beta2", "Application", "ApplicationList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}

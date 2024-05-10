@@ -43,15 +43,15 @@ type CertificateTemplateIAMMemberConditionParameters struct {
 
 type CertificateTemplateIAMMemberInitParameters struct {
 
-	// +crossplane:generate:reference:type=CertificateTemplate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/privateca/v1beta2.CertificateTemplate
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	CertificateTemplate *string `json:"certificateTemplate,omitempty" tf:"certificate_template,omitempty"`
 
-	// Reference to a CertificateTemplate to populate certificateTemplate.
+	// Reference to a CertificateTemplate in privateca to populate certificateTemplate.
 	// +kubebuilder:validation:Optional
 	CertificateTemplateRef *v1.Reference `json:"certificateTemplateRef,omitempty" tf:"-"`
 
-	// Selector for a CertificateTemplate to populate certificateTemplate.
+	// Selector for a CertificateTemplate in privateca to populate certificateTemplate.
 	// +kubebuilder:validation:Optional
 	CertificateTemplateSelector *v1.Selector `json:"certificateTemplateSelector,omitempty" tf:"-"`
 
@@ -86,16 +86,16 @@ type CertificateTemplateIAMMemberObservation struct {
 
 type CertificateTemplateIAMMemberParameters struct {
 
-	// +crossplane:generate:reference:type=CertificateTemplate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/privateca/v1beta2.CertificateTemplate
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	CertificateTemplate *string `json:"certificateTemplate,omitempty" tf:"certificate_template,omitempty"`
 
-	// Reference to a CertificateTemplate to populate certificateTemplate.
+	// Reference to a CertificateTemplate in privateca to populate certificateTemplate.
 	// +kubebuilder:validation:Optional
 	CertificateTemplateRef *v1.Reference `json:"certificateTemplateRef,omitempty" tf:"-"`
 
-	// Selector for a CertificateTemplate to populate certificateTemplate.
+	// Selector for a CertificateTemplate in privateca to populate certificateTemplate.
 	// +kubebuilder:validation:Optional
 	CertificateTemplateSelector *v1.Selector `json:"certificateTemplateSelector,omitempty" tf:"-"`
 

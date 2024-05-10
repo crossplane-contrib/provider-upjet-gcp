@@ -108,7 +108,7 @@ func (mg *KeyRingIAMMember) ResolveReferences(ctx context.Context, c client.Read
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta2", "KeyRing", "KeyRingList")
+		m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta1", "KeyRing", "KeyRingList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -127,7 +127,7 @@ func (mg *KeyRingIAMMember) ResolveReferences(ctx context.Context, c client.Read
 	mg.Spec.ForProvider.KeyRingID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.KeyRingIDRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta2", "KeyRing", "KeyRingList")
+		m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta1", "KeyRing", "KeyRingList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}

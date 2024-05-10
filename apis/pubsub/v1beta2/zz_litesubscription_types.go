@@ -49,14 +49,14 @@ type LiteSubscriptionInitParameters struct {
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// A reference to a Topic resource.
-	// +crossplane:generate:reference:type=LiteTopic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta2.LiteTopic
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
-	// Reference to a LiteTopic to populate topic.
+	// Reference to a LiteTopic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
 	TopicRef *v1.Reference `json:"topicRef,omitempty" tf:"-"`
 
-	// Selector for a LiteTopic to populate topic.
+	// Selector for a LiteTopic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
 	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
 }
@@ -101,15 +101,15 @@ type LiteSubscriptionParameters struct {
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// A reference to a Topic resource.
-	// +crossplane:generate:reference:type=LiteTopic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta2.LiteTopic
 	// +kubebuilder:validation:Optional
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
-	// Reference to a LiteTopic to populate topic.
+	// Reference to a LiteTopic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
 	TopicRef *v1.Reference `json:"topicRef,omitempty" tf:"-"`
 
-	// Selector for a LiteTopic to populate topic.
+	// Selector for a LiteTopic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
 	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
 

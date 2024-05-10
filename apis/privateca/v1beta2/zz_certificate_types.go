@@ -296,15 +296,15 @@ type CertificateParameters struct {
 	PemCsr *string `json:"pemCsr,omitempty" tf:"pem_csr,omitempty"`
 
 	// The name of the CaPool this Certificate belongs to.
-	// +crossplane:generate:reference:type=CAPool
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/privateca/v1beta2.CAPool
 	// +kubebuilder:validation:Optional
 	Pool *string `json:"pool,omitempty" tf:"pool,omitempty"`
 
-	// Reference to a CAPool to populate pool.
+	// Reference to a CAPool in privateca to populate pool.
 	// +kubebuilder:validation:Optional
 	PoolRef *v1.Reference `json:"poolRef,omitempty" tf:"-"`
 
-	// Selector for a CAPool to populate pool.
+	// Selector for a CAPool in privateca to populate pool.
 	// +kubebuilder:validation:Optional
 	PoolSelector *v1.Selector `json:"poolSelector,omitempty" tf:"-"`
 

@@ -86,7 +86,7 @@ type InterconnectAttachmentInitParameters struct {
 	// the same region as this InterconnectAttachment. The InterconnectAttachment will
 	// automatically connect the Interconnect to the network & region within which the
 	// Cloud Router is configured.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Router
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Router
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	Router *string `json:"router,omitempty" tf:"router,omitempty"`
 
@@ -336,7 +336,7 @@ type InterconnectAttachmentParameters struct {
 	// the same region as this InterconnectAttachment. The InterconnectAttachment will
 	// automatically connect the Interconnect to the network & region within which the
 	// Cloud Router is configured.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Router
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Router
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Router *string `json:"router,omitempty" tf:"router,omitempty"`

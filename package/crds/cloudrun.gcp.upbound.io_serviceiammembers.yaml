@@ -853,7 +853,7 @@ spec:
                   service:
                     type: string
                   serviceRef:
-                    description: Reference to a Service to populate service.
+                    description: Reference to a Service in cloudrun to populate service.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -887,7 +887,7 @@ spec:
                     - name
                     type: object
                   serviceSelector:
-                    description: Selector for a Service to populate service.
+                    description: Selector for a Service in cloudrun to populate service.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -1036,7 +1036,7 @@ spec:
                   service:
                     type: string
                   serviceRef:
-                    description: Reference to a Service to populate service.
+                    description: Reference to a Service in cloudrun to populate service.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -1070,7 +1070,7 @@ spec:
                     - name
                     type: object
                   serviceSelector:
-                    description: Selector for a Service to populate service.
+                    description: Selector for a Service in cloudrun to populate service.
                     properties:
                       matchControllerRef:
                         description: |-
