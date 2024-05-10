@@ -94,7 +94,8 @@ spec:
                       type: string
                     type: array
                   healthChecksRefs:
-                    description: References to HTTPHealthCheck to populate healthChecks.
+                    description: References to HTTPHealthCheck in compute to populate
+                      healthChecks.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -131,8 +132,8 @@ spec:
                       type: object
                     type: array
                   healthChecksSelector:
-                    description: Selector for a list of HTTPHealthCheck to populate
-                      healthChecks.
+                    description: Selector for a list of HTTPHealthCheck in compute
+                      to populate healthChecks.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -232,7 +233,8 @@ spec:
                       type: string
                     type: array
                   healthChecksRefs:
-                    description: References to HTTPHealthCheck to populate healthChecks.
+                    description: References to HTTPHealthCheck in compute to populate
+                      healthChecks.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -269,8 +271,8 @@ spec:
                       type: object
                     type: array
                   healthChecksSelector:
-                    description: Selector for a list of HTTPHealthCheck to populate
-                      healthChecks.
+                    description: Selector for a list of HTTPHealthCheck in compute
+                      to populate healthChecks.
                     properties:
                       matchControllerRef:
                         description: |-

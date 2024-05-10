@@ -91,7 +91,8 @@ spec:
                       forces a new resource to be created.
                     type: string
                   instanceRef:
-                    description: Reference to a DatabaseInstance to populate instance.
+                    description: Reference to a DatabaseInstance in sql to populate
+                      instance.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -125,7 +126,8 @@ spec:
                     - name
                     type: object
                   instanceSelector:
-                    description: Selector for a DatabaseInstance to populate instance.
+                    description: Selector for a DatabaseInstance in sql to populate
+                      instance.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -250,7 +252,8 @@ spec:
                       forces a new resource to be created.
                     type: string
                   instanceRef:
-                    description: Reference to a DatabaseInstance to populate instance.
+                    description: Reference to a DatabaseInstance in sql to populate
+                      instance.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -284,7 +287,8 @@ spec:
                     - name
                     type: object
                   instanceSelector:
-                    description: Selector for a DatabaseInstance to populate instance.
+                    description: Selector for a DatabaseInstance in sql to populate
+                      instance.
                     properties:
                       matchControllerRef:
                         description: |-

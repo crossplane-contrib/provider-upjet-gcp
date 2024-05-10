@@ -86,15 +86,15 @@ type InterconnectAttachmentInitParameters struct {
 	// the same region as this InterconnectAttachment. The InterconnectAttachment will
 	// automatically connect the Interconnect to the network & region within which the
 	// Cloud Router is configured.
-	// +crossplane:generate:reference:type=Router
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Router
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	Router *string `json:"router,omitempty" tf:"router,omitempty"`
 
-	// Reference to a Router to populate router.
+	// Reference to a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
 	RouterRef *v1.Reference `json:"routerRef,omitempty" tf:"-"`
 
-	// Selector for a Router to populate router.
+	// Selector for a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
 	RouterSelector *v1.Selector `json:"routerSelector,omitempty" tf:"-"`
 
@@ -336,16 +336,16 @@ type InterconnectAttachmentParameters struct {
 	// the same region as this InterconnectAttachment. The InterconnectAttachment will
 	// automatically connect the Interconnect to the network & region within which the
 	// Cloud Router is configured.
-	// +crossplane:generate:reference:type=Router
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Router
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Router *string `json:"router,omitempty" tf:"router,omitempty"`
 
-	// Reference to a Router to populate router.
+	// Reference to a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
 	RouterRef *v1.Reference `json:"routerRef,omitempty" tf:"-"`
 
-	// Selector for a Router to populate router.
+	// Selector for a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
 	RouterSelector *v1.Selector `json:"routerSelector,omitempty" tf:"-"`
 

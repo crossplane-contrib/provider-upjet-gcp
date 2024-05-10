@@ -27,13 +27,13 @@ func Configure(p *config.Provider) {
 
 	p.AddResourceConfigurator("google_cloudfunctions_function_iam_binding", func(r *config.Resource) {
 		r.References["cloud_function"] = config.Reference{
-			Type: "Function",
+			TerraformName: "google_cloudfunctions_function",
 		}
 	})
 
 	p.AddResourceConfigurator("google_cloudfunctions_function_iam_member", func(r *config.Resource) {
 		r.References["cloud_function"] = config.Reference{
-			Type: "Function",
+			TerraformName: "google_cloudfunctions_function",
 		}
 	})
 }

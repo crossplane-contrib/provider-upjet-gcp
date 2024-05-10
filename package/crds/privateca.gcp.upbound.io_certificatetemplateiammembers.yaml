@@ -77,7 +77,8 @@ spec:
                   certificateTemplate:
                     type: string
                   certificateTemplateRef:
-                    description: Reference to a CertificateTemplate to populate certificateTemplate.
+                    description: Reference to a CertificateTemplate in privateca to
+                      populate certificateTemplate.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -111,7 +112,8 @@ spec:
                     - name
                     type: object
                   certificateTemplateSelector:
-                    description: Selector for a CertificateTemplate to populate certificateTemplate.
+                    description: Selector for a CertificateTemplate in privateca to
+                      populate certificateTemplate.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -186,7 +188,8 @@ spec:
                   certificateTemplate:
                     type: string
                   certificateTemplateRef:
-                    description: Reference to a CertificateTemplate to populate certificateTemplate.
+                    description: Reference to a CertificateTemplate in privateca to
+                      populate certificateTemplate.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -220,7 +223,8 @@ spec:
                     - name
                     type: object
                   certificateTemplateSelector:
-                    description: Selector for a CertificateTemplate to populate certificateTemplate.
+                    description: Selector for a CertificateTemplate in privateca to
+                      populate certificateTemplate.
                     properties:
                       matchControllerRef:
                         description: |-

@@ -109,7 +109,8 @@ spec:
                       this VPN tunnel is connected.
                     type: number
                   peerExternalGatewayRef:
-                    description: Reference to a ExternalVPNGateway to populate peerExternalGateway.
+                    description: Reference to a ExternalVPNGateway in compute to populate
+                      peerExternalGateway.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -143,7 +144,8 @@ spec:
                     - name
                     type: object
                   peerExternalGatewaySelector:
-                    description: Selector for a ExternalVPNGateway to populate peerExternalGateway.
+                    description: Selector for a ExternalVPNGateway in compute to populate
+                      peerExternalGateway.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -216,7 +218,7 @@ spec:
                     description: URL of router resource to be used for dynamic routing.
                     type: string
                   routerRef:
-                    description: Reference to a Router to populate router.
+                    description: Reference to a Router in compute to populate router.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -250,7 +252,7 @@ spec:
                     - name
                     type: object
                   routerSelector:
-                    description: Selector for a Router to populate router.
+                    description: Selector for a Router in compute to populate router.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -401,7 +403,8 @@ spec:
                       VPN tunnel is associated.
                     type: number
                   vpnGatewayRef:
-                    description: Reference to a HaVPNGateway to populate vpnGateway.
+                    description: Reference to a HaVPNGateway in compute to populate
+                      vpnGateway.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -435,7 +438,8 @@ spec:
                     - name
                     type: object
                   vpnGatewaySelector:
-                    description: Selector for a HaVPNGateway to populate vpnGateway.
+                    description: Selector for a HaVPNGateway in compute to populate
+                      vpnGateway.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -527,7 +531,8 @@ spec:
                       this VPN tunnel is connected.
                     type: number
                   peerExternalGatewayRef:
-                    description: Reference to a ExternalVPNGateway to populate peerExternalGateway.
+                    description: Reference to a ExternalVPNGateway in compute to populate
+                      peerExternalGateway.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -561,7 +566,8 @@ spec:
                     - name
                     type: object
                   peerExternalGatewaySelector:
-                    description: Selector for a ExternalVPNGateway to populate peerExternalGateway.
+                    description: Selector for a ExternalVPNGateway in compute to populate
+                      peerExternalGateway.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -630,7 +636,7 @@ spec:
                     description: URL of router resource to be used for dynamic routing.
                     type: string
                   routerRef:
-                    description: Reference to a Router to populate router.
+                    description: Reference to a Router in compute to populate router.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -664,7 +670,7 @@ spec:
                     - name
                     type: object
                   routerSelector:
-                    description: Selector for a Router to populate router.
+                    description: Selector for a Router in compute to populate router.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -795,7 +801,8 @@ spec:
                       VPN tunnel is associated.
                     type: number
                   vpnGatewayRef:
-                    description: Reference to a HaVPNGateway to populate vpnGateway.
+                    description: Reference to a HaVPNGateway in compute to populate
+                      vpnGateway.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -829,7 +836,8 @@ spec:
                     - name
                     type: object
                   vpnGatewaySelector:
-                    description: Selector for a HaVPNGateway to populate vpnGateway.
+                    description: Selector for a HaVPNGateway in compute to populate
+                      vpnGateway.
                     properties:
                       matchControllerRef:
                         description: |-

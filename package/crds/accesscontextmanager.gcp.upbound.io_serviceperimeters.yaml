@@ -134,7 +134,8 @@ spec:
                           type: array
                           x-kubernetes-list-type: set
                         accessLevelsRefs:
-                          description: References to AccessLevel to populate accessLevels.
+                          description: References to AccessLevel in accesscontextmanager
+                            to populate accessLevels.
                           items:
                             description: A Reference to a named object.
                             properties:
@@ -171,8 +172,8 @@ spec:
                             type: object
                           type: array
                         accessLevelsSelector:
-                          description: Selector for a list of AccessLevel to populate
-                            accessLevels.
+                          description: Selector for a list of AccessLevel in accesscontextmanager
+                            to populate accessLevels.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -521,7 +522,8 @@ spec:
                           type: array
                           x-kubernetes-list-type: set
                         accessLevelsRefs:
-                          description: References to AccessLevel to populate accessLevels.
+                          description: References to AccessLevel in accesscontextmanager
+                            to populate accessLevels.
                           items:
                             description: A Reference to a named object.
                             properties:
@@ -558,8 +560,8 @@ spec:
                             type: object
                           type: array
                         accessLevelsSelector:
-                          description: Selector for a list of AccessLevel to populate
-                            accessLevels.
+                          description: Selector for a list of AccessLevel in accesscontextmanager
+                            to populate accessLevels.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -1052,7 +1054,8 @@ spec:
                           type: array
                           x-kubernetes-list-type: set
                         accessLevelsRefs:
-                          description: References to AccessLevel to populate accessLevels.
+                          description: References to AccessLevel in accesscontextmanager
+                            to populate accessLevels.
                           items:
                             description: A Reference to a named object.
                             properties:
@@ -1089,8 +1092,8 @@ spec:
                             type: object
                           type: array
                         accessLevelsSelector:
-                          description: Selector for a list of AccessLevel to populate
-                            accessLevels.
+                          description: Selector for a list of AccessLevel in accesscontextmanager
+                            to populate accessLevels.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -1439,7 +1442,8 @@ spec:
                           type: array
                           x-kubernetes-list-type: set
                         accessLevelsRefs:
-                          description: References to AccessLevel to populate accessLevels.
+                          description: References to AccessLevel in accesscontextmanager
+                            to populate accessLevels.
                           items:
                             description: A Reference to a named object.
                             properties:
@@ -1476,8 +1480,8 @@ spec:
                             type: object
                           type: array
                         accessLevelsSelector:
-                          description: Selector for a list of AccessLevel to populate
-                            accessLevels.
+                          description: Selector for a list of AccessLevel in accesscontextmanager
+                            to populate accessLevels.
                           properties:
                             matchControllerRef:
                               description: |-

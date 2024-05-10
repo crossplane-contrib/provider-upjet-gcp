@@ -266,7 +266,7 @@ spec:
                     description: URL to a VpnTunnel that should handle matching packets.
                     type: string
                   nextHopVpnTunnelRef:
-                    description: Reference to a VPNTunnel to populate nextHopVpnTunnel.
+                    description: Reference to a VPNTunnel in compute to populate nextHopVpnTunnel.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -300,7 +300,7 @@ spec:
                     - name
                     type: object
                   nextHopVpnTunnelSelector:
-                    description: Selector for a VPNTunnel to populate nextHopVpnTunnel.
+                    description: Selector for a VPNTunnel in compute to populate nextHopVpnTunnel.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -566,7 +566,7 @@ spec:
                     description: URL to a VpnTunnel that should handle matching packets.
                     type: string
                   nextHopVpnTunnelRef:
-                    description: Reference to a VPNTunnel to populate nextHopVpnTunnel.
+                    description: Reference to a VPNTunnel in compute to populate nextHopVpnTunnel.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -600,7 +600,7 @@ spec:
                     - name
                     type: object
                   nextHopVpnTunnelSelector:
-                    description: Selector for a VPNTunnel to populate nextHopVpnTunnel.
+                    description: Selector for a VPNTunnel in compute to populate nextHopVpnTunnel.
                     properties:
                       matchControllerRef:
                         description: |-

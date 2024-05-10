@@ -39,15 +39,15 @@ type ServiceAccountKeyInitParameters struct {
 	// automatically be inferred from the account. Otherwise, if the projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}
 	// syntax is used, the {ACCOUNT} specified can be the full email address of the service account or the service account's
 	// unique id. Substituting - as a wildcard for the {PROJECT_ID} will infer the project from the account.
-	// +crossplane:generate:reference:type=ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	ServiceAccountID *string `json:"serviceAccountId,omitempty" tf:"service_account_id,omitempty"`
 
-	// Reference to a ServiceAccount to populate serviceAccountId.
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountId.
 	// +kubebuilder:validation:Optional
 	ServiceAccountIDRef *v1.Reference `json:"serviceAccountIdRef,omitempty" tf:"-"`
 
-	// Selector for a ServiceAccount to populate serviceAccountId.
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountId.
 	// +kubebuilder:validation:Optional
 	ServiceAccountIDSelector *v1.Selector `json:"serviceAccountIdSelector,omitempty" tf:"-"`
 }
@@ -128,16 +128,16 @@ type ServiceAccountKeyParameters struct {
 	// automatically be inferred from the account. Otherwise, if the projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}
 	// syntax is used, the {ACCOUNT} specified can be the full email address of the service account or the service account's
 	// unique id. Substituting - as a wildcard for the {PROJECT_ID} will infer the project from the account.
-	// +crossplane:generate:reference:type=ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ServiceAccountID *string `json:"serviceAccountId,omitempty" tf:"service_account_id,omitempty"`
 
-	// Reference to a ServiceAccount to populate serviceAccountId.
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountId.
 	// +kubebuilder:validation:Optional
 	ServiceAccountIDRef *v1.Reference `json:"serviceAccountIdRef,omitempty" tf:"-"`
 
-	// Selector for a ServiceAccount to populate serviceAccountId.
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountId.
 	// +kubebuilder:validation:Optional
 	ServiceAccountIDSelector *v1.Selector `json:"serviceAccountIdSelector,omitempty" tf:"-"`
 }

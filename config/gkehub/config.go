@@ -13,7 +13,7 @@ import (
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_gke_hub_membership_iam_member", func(r *config.Resource) {
 		r.References["membership_id"] = config.Reference{
-			Type: "github.com/upbound/provider-gcp/apis/gkehub/v1beta1.Membership",
+			TerraformName: "google_gke_hub_membership",
 		}
 	})
 }

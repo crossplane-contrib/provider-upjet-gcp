@@ -48,14 +48,14 @@ type RepositoryIAMMemberInitParameters struct {
 
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// +crossplane:generate:reference:type=Repository
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sourcerepo/v1beta1.Repository
 	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
 
-	// Reference to a Repository to populate repository.
+	// Reference to a Repository in sourcerepo to populate repository.
 	// +kubebuilder:validation:Optional
 	RepositoryRef *v1.Reference `json:"repositoryRef,omitempty" tf:"-"`
 
-	// Selector for a Repository to populate repository.
+	// Selector for a Repository in sourcerepo to populate repository.
 	// +kubebuilder:validation:Optional
 	RepositorySelector *v1.Selector `json:"repositorySelector,omitempty" tf:"-"`
 
@@ -89,15 +89,15 @@ type RepositoryIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// +crossplane:generate:reference:type=Repository
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sourcerepo/v1beta1.Repository
 	// +kubebuilder:validation:Optional
 	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
 
-	// Reference to a Repository to populate repository.
+	// Reference to a Repository in sourcerepo to populate repository.
 	// +kubebuilder:validation:Optional
 	RepositoryRef *v1.Reference `json:"repositoryRef,omitempty" tf:"-"`
 
-	// Selector for a Repository to populate repository.
+	// Selector for a Repository in sourcerepo to populate repository.
 	// +kubebuilder:validation:Optional
 	RepositorySelector *v1.Selector `json:"repositorySelector,omitempty" tf:"-"`
 

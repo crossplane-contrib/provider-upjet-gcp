@@ -211,7 +211,8 @@ spec:
                                   These images can be referred by family name here.
                                 type: string
                               imageRef:
-                                description: Reference to a Image to populate image.
+                                description: Reference to a Image in compute to populate
+                                  image.
                                 properties:
                                   name:
                                     description: Name of the referenced object.
@@ -245,7 +246,8 @@ spec:
                                 - name
                                 type: object
                               imageSelector:
-                                description: Selector for a Image to populate image.
+                                description: Selector for a Image in compute to populate
+                                  image.
                                 properties:
                                   matchControllerRef:
                                     description: |-
@@ -562,7 +564,8 @@ spec:
                             empty, the address will be automatically assigned.
                           type: string
                         networkRef:
-                          description: Reference to a Network to populate network.
+                          description: Reference to a Network in compute to populate
+                            network.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -596,7 +599,8 @@ spec:
                           - name
                           type: object
                         networkSelector:
-                          description: Selector for a Network to populate network.
+                          description: Selector for a Network in compute to populate
+                            network.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -668,7 +672,8 @@ spec:
                             field is not provided, the provider project is used.
                           type: string
                         subnetworkRef:
-                          description: Reference to a Subnetwork to populate subnetwork.
+                          description: Reference to a Subnetwork in compute to populate
+                            subnetwork.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -702,7 +707,8 @@ spec:
                           - name
                           type: object
                         subnetworkSelector:
-                          description: Selector for a Subnetwork to populate subnetwork.
+                          description: Selector for a Subnetwork in compute to populate
+                            subnetwork.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -1177,7 +1183,8 @@ spec:
                                   These images can be referred by family name here.
                                 type: string
                               imageRef:
-                                description: Reference to a Image to populate image.
+                                description: Reference to a Image in compute to populate
+                                  image.
                                 properties:
                                   name:
                                     description: Name of the referenced object.
@@ -1211,7 +1218,8 @@ spec:
                                 - name
                                 type: object
                               imageSelector:
-                                description: Selector for a Image to populate image.
+                                description: Selector for a Image in compute to populate
+                                  image.
                                 properties:
                                   matchControllerRef:
                                     description: |-
@@ -1528,7 +1536,8 @@ spec:
                             empty, the address will be automatically assigned.
                           type: string
                         networkRef:
-                          description: Reference to a Network to populate network.
+                          description: Reference to a Network in compute to populate
+                            network.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -1562,7 +1571,8 @@ spec:
                           - name
                           type: object
                         networkSelector:
-                          description: Selector for a Network to populate network.
+                          description: Selector for a Network in compute to populate
+                            network.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -1634,7 +1644,8 @@ spec:
                             field is not provided, the provider project is used.
                           type: string
                         subnetworkRef:
-                          description: Reference to a Subnetwork to populate subnetwork.
+                          description: Reference to a Subnetwork in compute to populate
+                            subnetwork.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -1668,7 +1679,8 @@ spec:
                           - name
                           type: object
                         subnetworkSelector:
-                          description: Selector for a Subnetwork to populate subnetwork.
+                          description: Selector for a Subnetwork in compute to populate
+                            subnetwork.
                           properties:
                             matchControllerRef:
                               description: |-

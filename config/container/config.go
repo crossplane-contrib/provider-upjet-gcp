@@ -118,12 +118,12 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			}, nil
 		}
 		r.References["network"] = config.Reference{
-			Type:      "github.com/upbound/provider-gcp/apis/compute/v1beta1.Network",
-			Extractor: common.PathSelfLinkExtractor,
+			TerraformName: "google_compute_network",
+			Extractor:     common.PathSelfLinkExtractor,
 		}
 		r.References["subnetwork"] = config.Reference{
-			Type:      "github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork",
-			Extractor: common.PathSelfLinkExtractor,
+			TerraformName: "google_compute_subnetwork",
+			Extractor:     common.PathSelfLinkExtractor,
 		}
 		r.ServerSideApplyMergeStrategies["node_config"] = config.MergeStrategy{
 			ListMergeStrategy: config.ListMergeStrategy{
@@ -147,8 +147,8 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			},
 		}
 		r.References["cluster"] = config.Reference{
-			Type:      "Cluster",
-			Extractor: common.ExtractResourceIDFuncPath,
+			TerraformName: "google_container_cluster",
+			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 
 		r.ServerSideApplyMergeStrategies["node_config"] = config.MergeStrategy{

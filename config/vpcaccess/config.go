@@ -11,7 +11,7 @@ import "github.com/crossplane/upjet/pkg/config"
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_vpc_access_connector", func(r *config.Resource) {
 		r.References["network"] = config.Reference{
-			Type: "github.com/upbound/provider-gcp/apis/compute/v1beta1.Network",
+			TerraformName: "google_compute_network",
 		}
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})

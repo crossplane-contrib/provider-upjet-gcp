@@ -105,14 +105,14 @@ type UserInitParameters struct {
 
 	// The name of the Cloud SQL instance. Changing this
 	// forces a new resource to be created.
-	// +crossplane:generate:reference:type=DatabaseInstance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta1.DatabaseInstance
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
-	// Reference to a DatabaseInstance to populate instance.
+	// Reference to a DatabaseInstance in sql to populate instance.
 	// +kubebuilder:validation:Optional
 	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
 
-	// Selector for a DatabaseInstance to populate instance.
+	// Selector for a DatabaseInstance in sql to populate instance.
 	// +kubebuilder:validation:Optional
 	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
@@ -176,15 +176,15 @@ type UserParameters struct {
 
 	// The name of the Cloud SQL instance. Changing this
 	// forces a new resource to be created.
-	// +crossplane:generate:reference:type=DatabaseInstance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta1.DatabaseInstance
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
-	// Reference to a DatabaseInstance to populate instance.
+	// Reference to a DatabaseInstance in sql to populate instance.
 	// +kubebuilder:validation:Optional
 	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
 
-	// Selector for a DatabaseInstance to populate instance.
+	// Selector for a DatabaseInstance in sql to populate instance.
 	// +kubebuilder:validation:Optional
 	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
 

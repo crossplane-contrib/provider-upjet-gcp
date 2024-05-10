@@ -115,7 +115,7 @@ spec:
                       IPSEC_INTERCONNECT purposes.
                     type: string
                   networkRef:
-                    description: Reference to a Network to populate network.
+                    description: Reference to a Network in compute to populate network.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -149,7 +149,7 @@ spec:
                     - name
                     type: object
                   networkSelector:
-                    description: Selector for a Network to populate network.
+                    description: Selector for a Network in compute to populate network.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -221,7 +221,8 @@ spec:
                       GCE_ENDPOINT/DNS_RESOLVER purposes.
                     type: string
                   subnetworkRef:
-                    description: Reference to a Subnetwork to populate subnetwork.
+                    description: Reference to a Subnetwork in compute to populate
+                      subnetwork.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -255,7 +256,8 @@ spec:
                     - name
                     type: object
                   subnetworkSelector:
-                    description: Selector for a Subnetwork to populate subnetwork.
+                    description: Selector for a Subnetwork in compute to populate
+                      subnetwork.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -352,7 +354,7 @@ spec:
                       IPSEC_INTERCONNECT purposes.
                     type: string
                   networkRef:
-                    description: Reference to a Network to populate network.
+                    description: Reference to a Network in compute to populate network.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -386,7 +388,7 @@ spec:
                     - name
                     type: object
                   networkSelector:
-                    description: Selector for a Network to populate network.
+                    description: Selector for a Network in compute to populate network.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -453,7 +455,8 @@ spec:
                       GCE_ENDPOINT/DNS_RESOLVER purposes.
                     type: string
                   subnetworkRef:
-                    description: Reference to a Subnetwork to populate subnetwork.
+                    description: Reference to a Subnetwork in compute to populate
+                      subnetwork.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -487,7 +490,8 @@ spec:
                     - name
                     type: object
                   subnetworkSelector:
-                    description: Selector for a Subnetwork to populate subnetwork.
+                    description: Selector for a Subnetwork in compute to populate
+                      subnetwork.
                     properties:
                       matchControllerRef:
                         description: |-

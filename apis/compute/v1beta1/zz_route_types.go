@@ -69,14 +69,14 @@ type RouteInitParameters struct {
 	NextHopInstanceZone *string `json:"nextHopInstanceZone,omitempty" tf:"next_hop_instance_zone,omitempty"`
 
 	// URL to a VpnTunnel that should handle matching packets.
-	// +crossplane:generate:reference:type=VPNTunnel
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.VPNTunnel
 	NextHopVPNTunnel *string `json:"nextHopVpnTunnel,omitempty" tf:"next_hop_vpn_tunnel,omitempty"`
 
-	// Reference to a VPNTunnel to populate nextHopVpnTunnel.
+	// Reference to a VPNTunnel in compute to populate nextHopVpnTunnel.
 	// +kubebuilder:validation:Optional
 	NextHopVPNTunnelRef *v1.Reference `json:"nextHopVpnTunnelRef,omitempty" tf:"-"`
 
-	// Selector for a VPNTunnel to populate nextHopVpnTunnel.
+	// Selector for a VPNTunnel in compute to populate nextHopVpnTunnel.
 	// +kubebuilder:validation:Optional
 	NextHopVPNTunnelSelector *v1.Selector `json:"nextHopVpnTunnelSelector,omitempty" tf:"-"`
 
@@ -224,15 +224,15 @@ type RouteParameters struct {
 	NextHopInstanceZone *string `json:"nextHopInstanceZone,omitempty" tf:"next_hop_instance_zone,omitempty"`
 
 	// URL to a VpnTunnel that should handle matching packets.
-	// +crossplane:generate:reference:type=VPNTunnel
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.VPNTunnel
 	// +kubebuilder:validation:Optional
 	NextHopVPNTunnel *string `json:"nextHopVpnTunnel,omitempty" tf:"next_hop_vpn_tunnel,omitempty"`
 
-	// Reference to a VPNTunnel to populate nextHopVpnTunnel.
+	// Reference to a VPNTunnel in compute to populate nextHopVpnTunnel.
 	// +kubebuilder:validation:Optional
 	NextHopVPNTunnelRef *v1.Reference `json:"nextHopVpnTunnelRef,omitempty" tf:"-"`
 
-	// Selector for a VPNTunnel to populate nextHopVpnTunnel.
+	// Selector for a VPNTunnel in compute to populate nextHopVpnTunnel.
 	// +kubebuilder:validation:Optional
 	NextHopVPNTunnelSelector *v1.Selector `json:"nextHopVpnTunnelSelector,omitempty" tf:"-"`
 

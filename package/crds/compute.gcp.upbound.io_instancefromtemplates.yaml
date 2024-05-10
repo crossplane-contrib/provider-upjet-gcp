@@ -280,7 +280,8 @@ spec:
                         networkIp:
                           type: string
                         networkRef:
-                          description: Reference to a Network to populate network.
+                          description: Reference to a Network in compute to populate
+                            network.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -314,7 +315,8 @@ spec:
                           - name
                           type: object
                         networkSelector:
-                          description: Selector for a Network to populate network.
+                          description: Selector for a Network in compute to populate
+                            network.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -364,7 +366,8 @@ spec:
                         subnetworkProject:
                           type: string
                         subnetworkRef:
-                          description: Reference to a Subnetwork to populate subnetwork.
+                          description: Reference to a Subnetwork in compute to populate
+                            subnetwork.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -398,7 +401,8 @@ spec:
                           - name
                           type: object
                         subnetworkSelector:
-                          description: Selector for a Subnetwork to populate subnetwork.
+                          description: Selector for a Subnetwork in compute to populate
+                            subnetwork.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -564,7 +568,8 @@ spec:
                       instance templates through their unique id (self_link_unique attribute).
                     type: string
                   sourceInstanceTemplateRef:
-                    description: Reference to a InstanceTemplate to populate sourceInstanceTemplate.
+                    description: Reference to a InstanceTemplate in compute to populate
+                      sourceInstanceTemplate.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -598,7 +603,8 @@ spec:
                     - name
                     type: object
                   sourceInstanceTemplateSelector:
-                    description: Selector for a InstanceTemplate to populate sourceInstanceTemplate.
+                    description: Selector for a InstanceTemplate in compute to populate
+                      sourceInstanceTemplate.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -850,7 +856,8 @@ spec:
                         networkIp:
                           type: string
                         networkRef:
-                          description: Reference to a Network to populate network.
+                          description: Reference to a Network in compute to populate
+                            network.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -884,7 +891,8 @@ spec:
                           - name
                           type: object
                         networkSelector:
-                          description: Selector for a Network to populate network.
+                          description: Selector for a Network in compute to populate
+                            network.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -934,7 +942,8 @@ spec:
                         subnetworkProject:
                           type: string
                         subnetworkRef:
-                          description: Reference to a Subnetwork to populate subnetwork.
+                          description: Reference to a Subnetwork in compute to populate
+                            subnetwork.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -968,7 +977,8 @@ spec:
                           - name
                           type: object
                         subnetworkSelector:
-                          description: Selector for a Subnetwork to populate subnetwork.
+                          description: Selector for a Subnetwork in compute to populate
+                            subnetwork.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -1134,7 +1144,8 @@ spec:
                       instance templates through their unique id (self_link_unique attribute).
                     type: string
                   sourceInstanceTemplateRef:
-                    description: Reference to a InstanceTemplate to populate sourceInstanceTemplate.
+                    description: Reference to a InstanceTemplate in compute to populate
+                      sourceInstanceTemplate.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -1168,7 +1179,8 @@ spec:
                     - name
                     type: object
                   sourceInstanceTemplateSelector:
-                    description: Selector for a InstanceTemplate to populate sourceInstanceTemplate.
+                    description: Selector for a InstanceTemplate in compute to populate
+                      sourceInstanceTemplate.
                     properties:
                       matchControllerRef:
                         description: |-

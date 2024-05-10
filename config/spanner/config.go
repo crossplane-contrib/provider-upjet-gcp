@@ -25,8 +25,8 @@ func Configure(p *config.Provider) {
 	// The congiguration works only by using instance: name directly
 	p.AddResourceConfigurator("google_spanner_instance_iam_member", func(r *config.Resource) {
 		r.References["instance"] = config.Reference{
-			Type:      "Instance",
-			Extractor: common.ExtractResourceIDFuncPath,
+			TerraformName: "google_spanner_instance",
+			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 	})
 
@@ -34,8 +34,8 @@ func Configure(p *config.Provider) {
 	// The congiguration works only by using instance: name directly
 	p.AddResourceConfigurator("google_spanner_database_iam_member", func(r *config.Resource) {
 		r.References["instance"] = config.Reference{
-			Type:      "Instance",
-			Extractor: common.ExtractResourceIDFuncPath,
+			TerraformName: "google_spanner_instance",
+			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 	})
 
@@ -43,8 +43,8 @@ func Configure(p *config.Provider) {
 	// The congiguration works only by using database: name directly
 	p.AddResourceConfigurator("google_spanner_database_iam_member", func(r *config.Resource) {
 		r.References["database"] = config.Reference{
-			Type:      "Database",
-			Extractor: common.ExtractResourceIDFuncPath,
+			TerraformName: "google_spanner_database",
+			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 	})
 

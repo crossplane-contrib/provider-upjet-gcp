@@ -19,8 +19,8 @@ import (
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_folder_iam_member", func(r *config.Resource) {
 		r.References["folder"] = config.Reference{
-			Type:      "Folder",
-			Extractor: common.ExtractResourceIDFuncPath,
+			TerraformName: "google_folder",
+			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 	})
 	p.AddResourceConfigurator("google_project", func(r *config.Resource) {
@@ -29,31 +29,31 @@ func Configure(p *config.Provider) {
 	})
 	p.AddResourceConfigurator("google_project_default_service_accounts", func(r *config.Resource) {
 		r.References["project"] = config.Reference{
-			Type: "Project",
+			TerraformName: "google_project",
 		}
 	})
 	p.AddResourceConfigurator("google_project_iam_member", func(r *config.Resource) {
 		r.References["project"] = config.Reference{
-			Type: "Project",
+			TerraformName: "google_project",
 		}
 	})
 	p.AddResourceConfigurator("google_project_iam_audit_config", func(r *config.Resource) {
 		r.References["project"] = config.Reference{
-			Type: "Project",
+			TerraformName: "google_project",
 		}
 	})
 	p.AddResourceConfigurator("google_project_service", func(r *config.Resource) {
 		r.References["project"] = config.Reference{
-			Type: "Project",
+			TerraformName: "google_project",
 		}
 	})
 	p.AddResourceConfigurator("google_project_usage_export_bucket", func(r *config.Resource) {
 		r.References["project"] = config.Reference{
-			Type: "Project",
+			TerraformName: "google_project",
 		}
 		// Note(donovanmuller): Upjet does not generate this reference automatically
 		r.References["bucket_name"] = config.Reference{
-			Type: "github.com/upbound/provider-gcp/apis/storage/v1beta1.Bucket",
+			TerraformName: "google_storage_bucket",
 		}
 	})
 	p.AddResourceConfigurator("google_service_account_key", func(r *config.Resource) {
@@ -81,8 +81,8 @@ func Configure(p *config.Provider) {
 			}, nil
 		}
 		r.References["service_account_id"] = config.Reference{
-			Type:      "ServiceAccount",
-			Extractor: common.ExtractResourceIDFuncPath,
+			TerraformName: "google_service_account",
+			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 	})
 	p.AddResourceConfigurator("google_service_account", func(r *config.Resource) {
@@ -90,22 +90,22 @@ func Configure(p *config.Provider) {
 	})
 	p.AddResourceConfigurator("google_service_account_iam_policy", func(r *config.Resource) {
 		r.References["service_account_id"] = config.Reference{
-			Type:      "ServiceAccount",
-			Extractor: common.ExtractResourceIDFuncPath,
+			TerraformName: "google_service_account",
+			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 		config.MarkAsRequired(r.TerraformResource, "service_account_id")
 	})
 	p.AddResourceConfigurator("google_service_account_iam_binding", func(r *config.Resource) {
 		r.References["service_account_id"] = config.Reference{
-			Type:      "ServiceAccount",
-			Extractor: common.ExtractResourceIDFuncPath,
+			TerraformName: "google_service_account",
+			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 		config.MarkAsRequired(r.TerraformResource, "service_account_id")
 	})
 	p.AddResourceConfigurator("google_service_account_iam_member", func(r *config.Resource) {
 		r.References["service_account_id"] = config.Reference{
-			Type:      "ServiceAccount",
-			Extractor: common.ExtractResourceIDFuncPath,
+			TerraformName: "google_service_account",
+			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 		config.MarkAsRequired(r.TerraformResource, "service_account_id")
 	})

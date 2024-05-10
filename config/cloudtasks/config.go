@@ -13,7 +13,7 @@ import (
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_cloud_tasks_queue", func(r *config.Resource) {
 		r.References["project"] = config.Reference{
-			Type: "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project",
+			TerraformName: "google_project",
 		}
 		config.MarkAsRequired(r.TerraformResource, "location")
 	})

@@ -33,14 +33,14 @@ func Configure(p *config.Provider) {
 
 	p.AddResourceConfigurator("google_storage_bucket_iam_member", func(r *config.Resource) {
 		r.References["bucket"] = config.Reference{
-			Type: "Bucket",
+			TerraformName: "google_storage_bucket",
 		}
 	})
 
 	p.AddResourceConfigurator("google_storage_bucket_object", func(r *config.Resource) {
 		r.TerraformResource.Schema["content"].Sensitive = false
 		r.References["bucket"] = config.Reference{
-			Type: "Bucket",
+			TerraformName: "google_storage_bucket",
 		}
 	})
 }

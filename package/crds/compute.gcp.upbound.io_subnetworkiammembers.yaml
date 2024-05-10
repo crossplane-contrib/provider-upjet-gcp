@@ -95,7 +95,8 @@ spec:
                   subnetwork:
                     type: string
                   subnetworkRef:
-                    description: Reference to a Subnetwork to populate subnetwork.
+                    description: Reference to a Subnetwork in compute to populate
+                      subnetwork.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -129,7 +130,8 @@ spec:
                     - name
                     type: object
                   subnetworkSelector:
-                    description: Selector for a Subnetwork to populate subnetwork.
+                    description: Selector for a Subnetwork in compute to populate
+                      subnetwork.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -204,7 +206,8 @@ spec:
                   subnetwork:
                     type: string
                   subnetworkRef:
-                    description: Reference to a Subnetwork to populate subnetwork.
+                    description: Reference to a Subnetwork in compute to populate
+                      subnetwork.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -238,7 +241,8 @@ spec:
                     - name
                     type: object
                   subnetworkSelector:
-                    description: Selector for a Subnetwork to populate subnetwork.
+                    description: Selector for a Subnetwork in compute to populate
+                      subnetwork.
                     properties:
                       matchControllerRef:
                         description: |-

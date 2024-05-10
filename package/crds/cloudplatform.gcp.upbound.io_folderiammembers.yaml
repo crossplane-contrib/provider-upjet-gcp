@@ -87,7 +87,8 @@ spec:
                   folder:
                     type: string
                   folderRef:
-                    description: Reference to a Folder to populate folder.
+                    description: Reference to a Folder in cloudplatform to populate
+                      folder.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -121,7 +122,8 @@ spec:
                     - name
                     type: object
                   folderSelector:
-                    description: Selector for a Folder to populate folder.
+                    description: Selector for a Folder in cloudplatform to populate
+                      folder.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -192,7 +194,8 @@ spec:
                   folder:
                     type: string
                   folderRef:
-                    description: Reference to a Folder to populate folder.
+                    description: Reference to a Folder in cloudplatform to populate
+                      folder.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -226,7 +229,8 @@ spec:
                     - name
                     type: object
                   folderSelector:
-                    description: Selector for a Folder to populate folder.
+                    description: Selector for a Folder in cloudplatform to populate
+                      folder.
                     properties:
                       matchControllerRef:
                         description: |-

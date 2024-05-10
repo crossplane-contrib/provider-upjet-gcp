@@ -49,14 +49,14 @@ type TargetSSLProxyInitParameters struct {
 	// A list of SslCertificate resources that are used to authenticate
 	// connections between users and the load balancer. At least one
 	// SSL certificate must be specified.
-	// +crossplane:generate:reference:type=SSLCertificate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.SSLCertificate
 	SSLCertificates []*string `json:"sslCertificates,omitempty" tf:"ssl_certificates,omitempty"`
 
-	// References to SSLCertificate to populate sslCertificates.
+	// References to SSLCertificate in compute to populate sslCertificates.
 	// +kubebuilder:validation:Optional
 	SSLCertificatesRefs []v1.Reference `json:"sslCertificatesRefs,omitempty" tf:"-"`
 
-	// Selector for a list of SSLCertificate to populate sslCertificates.
+	// Selector for a list of SSLCertificate in compute to populate sslCertificates.
 	// +kubebuilder:validation:Optional
 	SSLCertificatesSelector *v1.Selector `json:"sslCertificatesSelector,omitempty" tf:"-"`
 
@@ -153,15 +153,15 @@ type TargetSSLProxyParameters struct {
 	// A list of SslCertificate resources that are used to authenticate
 	// connections between users and the load balancer. At least one
 	// SSL certificate must be specified.
-	// +crossplane:generate:reference:type=SSLCertificate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.SSLCertificate
 	// +kubebuilder:validation:Optional
 	SSLCertificates []*string `json:"sslCertificates,omitempty" tf:"ssl_certificates,omitempty"`
 
-	// References to SSLCertificate to populate sslCertificates.
+	// References to SSLCertificate in compute to populate sslCertificates.
 	// +kubebuilder:validation:Optional
 	SSLCertificatesRefs []v1.Reference `json:"sslCertificatesRefs,omitempty" tf:"-"`
 
-	// Selector for a list of SSLCertificate to populate sslCertificates.
+	// Selector for a list of SSLCertificate in compute to populate sslCertificates.
 	// +kubebuilder:validation:Optional
 	SSLCertificatesSelector *v1.Selector `json:"sslCertificatesSelector,omitempty" tf:"-"`
 

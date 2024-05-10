@@ -89,7 +89,8 @@ spec:
                   project:
                     type: string
                   projectRef:
-                    description: Reference to a Project to populate project.
+                    description: Reference to a Project in cloudplatform to populate
+                      project.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -123,7 +124,8 @@ spec:
                     - name
                     type: object
                   projectSelector:
-                    description: Selector for a Project to populate project.
+                    description: Selector for a Project in cloudplatform to populate
+                      project.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -194,7 +196,8 @@ spec:
                   project:
                     type: string
                   projectRef:
-                    description: Reference to a Project to populate project.
+                    description: Reference to a Project in cloudplatform to populate
+                      project.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -228,7 +231,8 @@ spec:
                     - name
                     type: object
                   projectSelector:
-                    description: Selector for a Project to populate project.
+                    description: Selector for a Project in cloudplatform to populate
+                      project.
                     properties:
                       matchControllerRef:
                         description: |-

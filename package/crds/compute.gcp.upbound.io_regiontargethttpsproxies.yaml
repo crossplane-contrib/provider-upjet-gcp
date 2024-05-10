@@ -105,7 +105,8 @@ spec:
                       type: string
                     type: array
                   sslCertificatesRefs:
-                    description: References to RegionSSLCertificate to populate sslCertificates.
+                    description: References to RegionSSLCertificate in compute to
+                      populate sslCertificates.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -142,8 +143,8 @@ spec:
                       type: object
                     type: array
                   sslCertificatesSelector:
-                    description: Selector for a list of RegionSSLCertificate to populate
-                      sslCertificates.
+                    description: Selector for a list of RegionSSLCertificate in compute
+                      to populate sslCertificates.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -311,7 +312,8 @@ spec:
                       type: string
                     type: array
                   sslCertificatesRefs:
-                    description: References to RegionSSLCertificate to populate sslCertificates.
+                    description: References to RegionSSLCertificate in compute to
+                      populate sslCertificates.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -348,8 +350,8 @@ spec:
                       type: object
                     type: array
                   sslCertificatesSelector:
-                    description: Selector for a list of RegionSSLCertificate to populate
-                      sslCertificates.
+                    description: Selector for a list of RegionSSLCertificate in compute
+                      to populate sslCertificates.
                     properties:
                       matchControllerRef:
                         description: |-

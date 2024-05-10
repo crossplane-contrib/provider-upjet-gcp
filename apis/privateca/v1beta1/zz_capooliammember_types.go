@@ -15,15 +15,15 @@ import (
 
 type CAPoolIAMMemberInitParameters struct {
 
-	// +crossplane:generate:reference:type=CAPool
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/privateca/v1beta1.CAPool
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	CAPool *string `json:"caPool,omitempty" tf:"ca_pool,omitempty"`
 
-	// Reference to a CAPool to populate caPool.
+	// Reference to a CAPool in privateca to populate caPool.
 	// +kubebuilder:validation:Optional
 	CAPoolRef *v1.Reference `json:"caPoolRef,omitempty" tf:"-"`
 
-	// Selector for a CAPool to populate caPool.
+	// Selector for a CAPool in privateca to populate caPool.
 	// +kubebuilder:validation:Optional
 	CAPoolSelector *v1.Selector `json:"caPoolSelector,omitempty" tf:"-"`
 
@@ -58,16 +58,16 @@ type CAPoolIAMMemberObservation struct {
 
 type CAPoolIAMMemberParameters struct {
 
-	// +crossplane:generate:reference:type=CAPool
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/privateca/v1beta1.CAPool
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	CAPool *string `json:"caPool,omitempty" tf:"ca_pool,omitempty"`
 
-	// Reference to a CAPool to populate caPool.
+	// Reference to a CAPool in privateca to populate caPool.
 	// +kubebuilder:validation:Optional
 	CAPoolRef *v1.Reference `json:"caPoolRef,omitempty" tf:"-"`
 
-	// Selector for a CAPool to populate caPool.
+	// Selector for a CAPool in privateca to populate caPool.
 	// +kubebuilder:validation:Optional
 	CAPoolSelector *v1.Selector `json:"caPoolSelector,omitempty" tf:"-"`
 

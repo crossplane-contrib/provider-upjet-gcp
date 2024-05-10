@@ -50,14 +50,14 @@ type SubscriptionIAMMemberInitParameters struct {
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=Subscription
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta1.Subscription
 	Subscription *string `json:"subscription,omitempty" tf:"subscription,omitempty"`
 
-	// Reference to a Subscription to populate subscription.
+	// Reference to a Subscription in pubsub to populate subscription.
 	// +kubebuilder:validation:Optional
 	SubscriptionRef *v1.Reference `json:"subscriptionRef,omitempty" tf:"-"`
 
-	// Selector for a Subscription to populate subscription.
+	// Selector for a Subscription in pubsub to populate subscription.
 	// +kubebuilder:validation:Optional
 	SubscriptionSelector *v1.Selector `json:"subscriptionSelector,omitempty" tf:"-"`
 }
@@ -92,15 +92,15 @@ type SubscriptionIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=Subscription
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta1.Subscription
 	// +kubebuilder:validation:Optional
 	Subscription *string `json:"subscription,omitempty" tf:"subscription,omitempty"`
 
-	// Reference to a Subscription to populate subscription.
+	// Reference to a Subscription in pubsub to populate subscription.
 	// +kubebuilder:validation:Optional
 	SubscriptionRef *v1.Reference `json:"subscriptionRef,omitempty" tf:"-"`
 
-	// Selector for a Subscription to populate subscription.
+	// Selector for a Subscription in pubsub to populate subscription.
 	// +kubebuilder:validation:Optional
 	SubscriptionSelector *v1.Selector `json:"subscriptionSelector,omitempty" tf:"-"`
 }

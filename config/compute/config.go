@@ -38,12 +38,12 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 
 	p.AddResourceConfigurator("google_compute_backend_service", func(r *config.Resource) {
 		r.References["health_checks"] = config.Reference{
-			Type:      "HealthCheck",
-			Extractor: common.PathSelfLinkExtractor,
+			TerraformName: "google_compute_health_check",
+			Extractor:     common.PathSelfLinkExtractor,
 		}
 		r.References["backend.group"] = config.Reference{
-			Type:      "InstanceGroupManager",
-			Extractor: PathInstanceGroupExtractor,
+			TerraformName: "google_compute_instance_group_manager",
+			Extractor:     PathInstanceGroupExtractor,
 		}
 	})
 
@@ -57,68 +57,68 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 
 	p.AddResourceConfigurator("google_compute_disk_iam_member", func(r *config.Resource) {
 		r.References["name"] = config.Reference{
-			Type: "Disk",
+			TerraformName: "google_compute_disk",
 		}
 	})
 
 	p.AddResourceConfigurator("google_compute_shared_vpc_host_project", func(r *config.Resource) {
 		r.References["project"] = config.Reference{
-			Type:      "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project",
-			Extractor: common.ExtractProjectIDFuncPath,
+			TerraformName: "google_project",
+			Extractor:     common.ExtractProjectIDFuncPath,
 		}
 	})
 
 	p.AddResourceConfigurator("google_compute_shared_vpc_service_project", func(r *config.Resource) {
 		r.References["host_project"] = config.Reference{
-			Type:      "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project",
-			Extractor: common.ExtractProjectIDFuncPath,
+			TerraformName: "google_project",
+			Extractor:     common.ExtractProjectIDFuncPath,
 		}
 		r.References["service_project"] = config.Reference{
-			Type:      "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project",
-			Extractor: common.ExtractProjectIDFuncPath,
+			TerraformName: "google_project",
+			Extractor:     common.ExtractProjectIDFuncPath,
 		}
 	})
 
 	p.AddResourceConfigurator("google_compute_subnetwork", func(r *config.Resource) {
 		r.References["network"] = config.Reference{
-			Type: "Network",
+			TerraformName: "google_compute_network",
 		}
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
 	p.AddResourceConfigurator("google_compute_address", func(r *config.Resource) {
 		r.References["network"] = config.Reference{
-			Type:      "Network",
-			Extractor: common.PathSelfLinkExtractor,
+			TerraformName: "google_compute_network",
+			Extractor:     common.PathSelfLinkExtractor,
 		}
 		r.References["subnetwork"] = config.Reference{
-			Type:      "Subnetwork",
-			Extractor: common.PathSelfLinkExtractor,
+			TerraformName: "google_compute_subnetwork",
+			Extractor:     common.PathSelfLinkExtractor,
 		}
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
 	p.AddResourceConfigurator("google_compute_firewall", func(r *config.Resource) {
 		r.References["network"] = config.Reference{
-			Type:      "Network",
-			Extractor: common.PathSelfLinkExtractor,
+			TerraformName: "google_compute_network",
+			Extractor:     common.PathSelfLinkExtractor,
 		}
 	})
 
 	p.AddResourceConfigurator("google_compute_router", func(r *config.Resource) {
 		r.References["network"] = config.Reference{
-			Type:      "Network",
-			Extractor: common.PathSelfLinkExtractor,
+			TerraformName: "google_compute_network",
+			Extractor:     common.PathSelfLinkExtractor,
 		}
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
 	p.AddResourceConfigurator("google_compute_router_nat", func(r *config.Resource) {
 		r.References["router"] = config.Reference{
-			Type: "Router",
+			TerraformName: "google_compute_router",
 		}
 		r.References["subnetwork.name"] = config.Reference{
-			Type: "Subnetwork",
+			TerraformName: "google_compute_subnetwork",
 		}
 		delete(r.References, "region")
 		config.MarkAsRequired(r.TerraformResource, "region")
@@ -130,10 +130,10 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		// elements configured as nil, defaulting to map[string]string:
 		r.TerraformResource.Schema["metadata"].Elem = schema.TypeString
 		r.References["network_interface.network"] = config.Reference{
-			Type: "Network",
+			TerraformName: "google_compute_network",
 		}
 		r.References["network_interface.subnetwork"] = config.Reference{
-			Type: "Subnetwork",
+			TerraformName: "google_compute_subnetwork",
 		}
 
 		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, _ *terraform.InstanceState, _ *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
@@ -158,22 +158,22 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			Schema["labels"].Elem = schema.TypeString
 
 		r.References["network_interface.network"] = config.Reference{
-			Type:      "Network",
-			Extractor: common.PathSelfLinkExtractor,
+			TerraformName: "google_compute_network",
+			Extractor:     common.PathSelfLinkExtractor,
 		}
 		r.References["network_interface.subnetwork"] = config.Reference{
-			Type:      "Subnetwork",
-			Extractor: common.PathSelfLinkExtractor,
+			TerraformName: "google_compute_subnetwork",
+			Extractor:     common.PathSelfLinkExtractor,
 		}
 		r.References["boot_disk.initialize_params.image"] = config.Reference{
-			Type: "Image",
+			TerraformName: "google_compute_image",
 		}
 		r.MarkAsRequired("zone")
 	})
 
 	p.AddResourceConfigurator("google_compute_instance_iam_member", func(r *config.Resource) {
 		r.References["instance_name"] = config.Reference{
-			Type: "Instance",
+			TerraformName: "google_compute_instance",
 		}
 	})
 
@@ -189,10 +189,10 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		r.TerraformResource.Schema["metadata"].Elem = schema.TypeString
 
 		r.References["network_interface.network"] = config.Reference{
-			Type: "Network",
+			TerraformName: "google_compute_network",
 		}
 		r.References["network_interface.subnetwork"] = config.Reference{
-			Type: "Subnetwork",
+			TerraformName: "google_compute_subnetwork",
 		}
 		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, _ *terraform.InstanceState, _ *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
 			if diff == nil || diff.Destroy {
@@ -207,66 +207,66 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 
 	p.AddResourceConfigurator("google_compute_instance_group", func(r *config.Resource) {
 		r.References["network"] = config.Reference{
-			Type:      "Network",
-			Extractor: common.PathSelfLinkExtractor,
+			TerraformName: "google_compute_network",
+			Extractor:     common.PathSelfLinkExtractor,
 		}
 		r.MarkAsRequired("zone")
 	})
 
 	p.AddResourceConfigurator("google_compute_global_address", func(r *config.Resource) {
 		r.References["network"] = config.Reference{
-			Type:      "Network",
-			Extractor: common.ExtractResourceIDFuncPath,
+			TerraformName: "google_compute_network",
+			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 	})
 
 	p.AddResourceConfigurator("google_compute_ha_vpn_gateway", func(r *config.Resource) {
 		r.References["network"] = config.Reference{
-			Type:      "Network",
-			Extractor: common.ExtractResourceIDFuncPath,
+			TerraformName: "google_compute_network",
+			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
 	p.AddResourceConfigurator("google_compute_instance_from_template", func(r *config.Resource) {
 		r.References["source_instance_template"] = config.Reference{
-			Type:      "InstanceTemplate",
-			Extractor: common.ExtractResourceIDFuncPath,
+			TerraformName: "google_compute_instance_template",
+			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 	})
 
 	p.AddResourceConfigurator("google_compute_instance_group_manager", func(r *config.Resource) {
 		r.References["auto_healing_policies.health_check"] = config.Reference{
-			Type:      "HealthCheck",
-			Extractor: common.ExtractResourceIDFuncPath,
+			TerraformName: "google_compute_health_check",
+			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 		r.References["version.instance_template"] = config.Reference{
-			Type:      "InstanceTemplate",
-			Extractor: common.ExtractResourceIDFuncPath,
+			TerraformName: "google_compute_instance_template",
+			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 		r.References["target_pools"] = config.Reference{
-			Type:      "TargetPool",
-			Extractor: common.PathSelfLinkExtractor,
+			TerraformName: "google_compute_target_pool",
+			Extractor:     common.PathSelfLinkExtractor,
 		}
 		r.MarkAsRequired("zone")
 	})
 
 	p.AddResourceConfigurator("google_compute_interconnect_attachment", func(r *config.Resource) {
 		r.References["router"] = config.Reference{
-			Type:      "Router",
-			Extractor: common.PathSelfLinkExtractor,
+			TerraformName: "google_compute_router",
+			Extractor:     common.PathSelfLinkExtractor,
 		}
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
 	p.AddResourceConfigurator("google_compute_network_endpoint_group", func(r *config.Resource) {
 		r.References["network"] = config.Reference{
-			Type:      "Network",
-			Extractor: common.ExtractResourceIDFuncPath,
+			TerraformName: "google_compute_network",
+			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 		r.References["subnetwork"] = config.Reference{
-			Type:      "Subnetwork",
-			Extractor: common.ExtractResourceIDFuncPath,
+			TerraformName: "google_compute_subnetwork",
+			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 		r.MarkAsRequired("zone")
 	})
@@ -279,7 +279,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		// Note(donovanmuller): Only legacy google_compute_http_health_check is supported
 		// see https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_target_pool#health_checks
 		r.References["health_checks"] = config.Reference{
-			Type: "HTTPHealthCheck",
+			TerraformName: "google_compute_http_health_check",
 		}
 		r.MarkAsRequired("region")
 	})
@@ -304,52 +304,52 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		// Note(donovanmuller): See https://github.com/crossplane/upjet/issues/95
 		// BackendService is also a valid reference Type
 		r.References["backend_service"] = config.Reference{
-			Type:      "RegionBackendService",
-			Extractor: common.PathSelfLinkExtractor,
+			TerraformName: "google_compute_region_backend_service",
+			Extractor:     common.PathSelfLinkExtractor,
 		}
 		r.References["ip_address"] = config.Reference{
-			Type:      "Address",
-			Extractor: common.PathSelfLinkExtractor,
+			TerraformName: "google_compute_address",
+			Extractor:     common.PathSelfLinkExtractor,
 		}
 		r.References["network"] = config.Reference{
-			Type:      "Network",
-			Extractor: common.PathSelfLinkExtractor,
+			TerraformName: "google_compute_network",
+			Extractor:     common.PathSelfLinkExtractor,
 		}
 		r.References["subnetwork"] = config.Reference{
-			Type:      "Subnetwork",
-			Extractor: common.PathSelfLinkExtractor,
+			TerraformName: "google_compute_subnetwork",
+			Extractor:     common.PathSelfLinkExtractor,
 		}
 		r.References["target"] = config.Reference{
-			Type:      "RegionTargetHTTPProxy",
-			Extractor: common.PathSelfLinkExtractor,
+			TerraformName: "google_compute_region_target_http_proxy",
+			Extractor:     common.PathSelfLinkExtractor,
 		}
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
 	p.AddResourceConfigurator("google_compute_region_backend_service", func(r *config.Resource) {
 		r.References["health_checks"] = config.Reference{
-			Type:      "RegionHealthCheck",
-			Extractor: common.PathSelfLinkExtractor,
+			TerraformName: "google_compute_region_health_check",
+			Extractor:     common.PathSelfLinkExtractor,
 		}
 		r.References["backend.group"] = config.Reference{
-			Type:      "RegionInstanceGroupManager",
-			Extractor: PathInstanceGroupExtractor,
+			TerraformName: "google_compute_region_instance_group_manager",
+			Extractor:     PathInstanceGroupExtractor,
 		}
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
 	p.AddResourceConfigurator("google_compute_region_instance_group_manager", func(r *config.Resource) {
 		r.References["auto_healing_policies.health_check"] = config.Reference{
-			Type:      "HealthCheck",
-			Extractor: common.ExtractResourceIDFuncPath,
+			TerraformName: "google_compute_health_check",
+			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 		r.References["version.instance_template"] = config.Reference{
-			Type:      "InstanceTemplate",
-			Extractor: common.ExtractResourceIDFuncPath,
+			TerraformName: "google_compute_instance_template",
+			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 		r.References["target_pools"] = config.Reference{
-			Type:      "TargetPool",
-			Extractor: common.PathSelfLinkExtractor,
+			TerraformName: "google_compute_target_pool",
+			Extractor:     common.PathSelfLinkExtractor,
 		}
 		r.MarkAsRequired("region")
 	})
@@ -358,8 +358,8 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		config.MarkAsRequired(r.TerraformResource, "region")
 
 		r.References["url_map"] = config.Reference{
-			Type:      "RegionURLMap",
-			Extractor: common.PathSelfLinkExtractor,
+			TerraformName: "google_compute_region_url_map",
+			Extractor:     common.PathSelfLinkExtractor,
 		}
 
 	})
@@ -387,7 +387,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 
 	p.AddResourceConfigurator("google_compute_region_disk_iam_member", func(r *config.Resource) {
 		r.References["name"] = config.Reference{
-			Type: "RegionDisk",
+			TerraformName: "google_compute_region_disk",
 		}
 	})
 
@@ -405,7 +405,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 
 	p.AddResourceConfigurator("google_compute_region_target_https_proxy", func(r *config.Resource) {
 		r.References["ssl_certificates"] = config.Reference{
-			Type: "RegionSSLCertificate",
+			TerraformName: "google_compute_region_ssl_certificate",
 		}
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
@@ -422,7 +422,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 
 	p.AddResourceConfigurator("google_compute_firewall_policy_association", func(r *config.Resource) {
 		r.References["ssl_certificates"] = config.Reference{
-			Type: "RegionSSLCertificate",
+			TerraformName: "google_compute_region_ssl_certificate",
 		}
 	})
 
@@ -436,54 +436,54 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 
 	p.AddResourceConfigurator("google_compute_target_ssl_proxy", func(r *config.Resource) {
 		r.References["ssl_certificates"] = config.Reference{
-			Type: "SSLCertificate",
+			TerraformName: "google_compute_ssl_certificate",
 		}
 	})
 
 	p.AddResourceConfigurator("google_compute_image_iam_member", func(r *config.Resource) {
 		r.References["image"] = config.Reference{
-			Type: "Image",
+			TerraformName: "google_compute_image",
 		}
 	})
 
 	p.AddResourceConfigurator("google_compute_vpn_tunnel", func(r *config.Resource) {
 		r.References["peer_external_gateway"] = config.Reference{
-			Type: "ExternalVPNGateway",
+			TerraformName: "google_compute_external_vpn_gateway",
 		}
 		r.References["router"] = config.Reference{
-			Type: "Router",
+			TerraformName: "google_compute_router",
 		}
 		r.References["vpn_gateway"] = config.Reference{
-			Type: "HaVPNGateway",
+			TerraformName: "google_compute_ha_vpn_gateway",
 		}
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
 	p.AddResourceConfigurator("google_compute_target_https_proxy", func(r *config.Resource) {
 		r.References["ssl_certificates"] = config.Reference{
-			Type: "SSLCertificate",
+			TerraformName: "google_compute_ssl_certificate",
 		}
 	})
 
 	p.AddResourceConfigurator("google_compute_service_attachment", func(r *config.Resource) {
 		r.References["nat_subnets"] = config.Reference{
-			Type: "Subnetwork",
+			TerraformName: "google_compute_subnetwork",
 		}
 		r.MarkAsRequired("region")
 	})
 
 	p.AddResourceConfigurator("google_compute_route", func(r *config.Resource) {
 		r.References["next_hop_vpn_tunnel"] = config.Reference{
-			Type: "VPNTunnel",
+			TerraformName: "google_compute_vpn_tunnel",
 		}
 	})
 
 	p.AddResourceConfigurator("google_compute_router_interface", func(r *config.Resource) {
 		r.References["router"] = config.Reference{
-			Type: "Router",
+			TerraformName: "google_compute_router",
 		}
 		r.References["vpn_tunnel"] = config.Reference{
-			Type: "VPNTunnel",
+			TerraformName: "google_compute_vpn_tunnel",
 		}
 	})
 
@@ -497,7 +497,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 
 	p.AddResourceConfigurator("google_compute_subnetwork_iam_member", func(r *config.Resource) {
 		r.References["subnetwork"] = config.Reference{
-			Type: "Subnetwork",
+			TerraformName: "google_compute_subnetwork",
 		}
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})

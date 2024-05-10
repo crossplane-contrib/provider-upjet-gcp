@@ -13,10 +13,10 @@ import (
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_access_context_manager_service_perimeter", func(r *config.Resource) {
 		r.References["status.access_levels"] = config.Reference{
-			Type: "AccessLevel",
+			TerraformName: "google_access_context_manager_access_level",
 		}
 		r.References["spec.access_levels"] = config.Reference{
-			Type: "AccessLevel",
+			TerraformName: "google_access_context_manager_access_level",
 		}
 	})
 	p.AddResourceConfigurator("google_access_context_manager_service_perimeter_resource", func(r *config.Resource) {

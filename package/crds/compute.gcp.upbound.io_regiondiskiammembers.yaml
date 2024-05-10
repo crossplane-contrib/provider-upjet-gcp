@@ -89,7 +89,8 @@ spec:
                   name:
                     type: string
                   nameRef:
-                    description: Reference to a RegionDisk to populate name.
+                    description: Reference to a RegionDisk in compute to populate
+                      name.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -123,7 +124,8 @@ spec:
                     - name
                     type: object
                   nameSelector:
-                    description: Selector for a RegionDisk to populate name.
+                    description: Selector for a RegionDisk in compute to populate
+                      name.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -198,7 +200,8 @@ spec:
                   name:
                     type: string
                   nameRef:
-                    description: Reference to a RegionDisk to populate name.
+                    description: Reference to a RegionDisk in compute to populate
+                      name.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -232,7 +235,8 @@ spec:
                     - name
                     type: object
                   nameSelector:
-                    description: Selector for a RegionDisk to populate name.
+                    description: Selector for a RegionDisk in compute to populate
+                      name.
                     properties:
                       matchControllerRef:
                         description: |-

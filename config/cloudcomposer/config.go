@@ -13,19 +13,19 @@ import (
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_composer_environment", func(r *config.Resource) {
 		r.References["project"] = config.Reference{
-			Type: "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project",
+			TerraformName: "google_project",
 		}
 		r.References["node_config.network"] = config.Reference{
-			Type: "github.com/upbound/provider-gcp/apis/compute/v1beta1.Network",
+			TerraformName: "google_compute_network",
 		}
 		r.References["node_config.subnetwork"] = config.Reference{
-			Type: "github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork",
+			TerraformName: "google_compute_subnetwork",
 		}
 		r.References["node_config.service_account"] = config.Reference{
-			Type: "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount",
+			TerraformName: "google_service_account",
 		}
 		r.References["private_environment_config.cloud_composer_connection_subnetwork"] = config.Reference{
-			Type: "github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork",
+			TerraformName: "google_compute_subnetwork",
 		}
 		r.MarkAsRequired("region")
 	})
