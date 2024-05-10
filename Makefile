@@ -11,7 +11,7 @@ export TERRAFORM_PROVIDER_SOURCE := hashicorp/google-beta
 export TERRAFORM_PROVIDER_VERSION := 5.26.0
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME := terraform-provider-google-beta
 export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX := https://releases.hashicorp.com/terraform-provider-google-beta/$(TERRAFORM_PROVIDER_VERSION)
-export TERRAFORM_PROVIDER_REPO ?= https://github.com/hashicorp/terraform-provider-google-beta
+export TERRAFORM_PROVIDER_REPO ?= https://github.com/hashicorp/terraform-provider-google
 export TERRAFORM_DOCS_PATH ?= website/docs/r
 
 PLATFORMS ?= linux_amd64 linux_arm64
