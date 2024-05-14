@@ -37,7 +37,6 @@ import (
 	"github.com/upbound/provider-gcp/config/containerazure"
 	"github.com/upbound/provider-gcp/config/dataflow"
 	"github.com/upbound/provider-gcp/config/dataproc"
-	"github.com/upbound/provider-gcp/config/dialogflowcx"
 	"github.com/upbound/provider-gcp/config/dns"
 	"github.com/upbound/provider-gcp/config/endpoints"
 	"github.com/upbound/provider-gcp/config/firebaserules"
@@ -208,7 +207,6 @@ func GetProvider(_ context.Context, generationProvider bool) (*ujconfig.Provider
 		container.Configure,
 		dataflow.Configure,
 		dataproc.Configure,
-		dialogflowcx.Configure,
 		dns.Configure,
 		endpoints.Configure,
 		firebaserules.Configure,
@@ -268,6 +266,7 @@ func bumpVersionsWithEmbeddedLists(pc *ujconfig.Provider) {
 			continue
 		}
 		r.Version = "v1beta2"
+		r.PreviousVersions = []string{VersionV1Beta1}
 		// we would like to set the storage version to v1beta1 to facilitate
 		// downgrades.
 		r.SetCRDStorageVersion("v1beta1")
