@@ -27,7 +27,7 @@ func (mg *Database) ResolveReferences(ctx context.Context, c client.Reader) erro
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("sql.gcp.upbound.io", "v1beta1", "DatabaseInstance", "DatabaseInstanceList")
+		m, l, err = apisresolver.GetManagedResource("sql.gcp.upbound.io", "v1beta2", "DatabaseInstance", "DatabaseInstanceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -117,7 +117,7 @@ func (mg *SSLCert) ResolveReferences(ctx context.Context, c client.Reader) error
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("sql.gcp.upbound.io", "v1beta1", "DatabaseInstance", "DatabaseInstanceList")
+		m, l, err = apisresolver.GetManagedResource("sql.gcp.upbound.io", "v1beta2", "DatabaseInstance", "DatabaseInstanceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -136,7 +136,7 @@ func (mg *SSLCert) ResolveReferences(ctx context.Context, c client.Reader) error
 	mg.Spec.ForProvider.Instance = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.InstanceRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("sql.gcp.upbound.io", "v1beta1", "DatabaseInstance", "DatabaseInstanceList")
+		m, l, err = apisresolver.GetManagedResource("sql.gcp.upbound.io", "v1beta2", "DatabaseInstance", "DatabaseInstanceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}

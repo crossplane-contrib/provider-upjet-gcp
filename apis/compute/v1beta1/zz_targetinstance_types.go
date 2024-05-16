@@ -24,7 +24,7 @@ type TargetInstanceInitParameters struct {
 	// name is given, the zone will default to the given zone or
 	// the provider-default zone and the project will default to the
 	// provider-level project.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Instance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
@@ -95,7 +95,7 @@ type TargetInstanceParameters struct {
 	// name is given, the zone will default to the given zone or
 	// the provider-default zone and the project will default to the
 	// provider-level project.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Instance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`

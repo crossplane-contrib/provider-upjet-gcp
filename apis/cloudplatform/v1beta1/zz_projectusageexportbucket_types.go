@@ -16,7 +16,7 @@ import (
 type ProjectUsageExportBucketInitParameters struct {
 
 	// :  The bucket to store reports in.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta1.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta2.Bucket
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucketName.
@@ -60,7 +60,7 @@ type ProjectUsageExportBucketObservation struct {
 type ProjectUsageExportBucketParameters struct {
 
 	// :  The bucket to store reports in.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta1.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta2.Bucket
 	// +kubebuilder:validation:Optional
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 

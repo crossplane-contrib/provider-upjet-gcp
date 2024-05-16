@@ -23,7 +23,7 @@ type NetworkEndpointInitParameters struct {
 	// The name for a specific VM instance that the IP address belongs to.
 	// This is required for network endpoints of type GCE_VM_IP_PORT.
 	// The instance must be in the same zone of network endpoint group.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Instance
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	// Reference to a Instance in compute to populate instance.
@@ -101,7 +101,7 @@ type NetworkEndpointParameters struct {
 	// The name for a specific VM instance that the IP address belongs to.
 	// This is required for network endpoints of type GCE_VM_IP_PORT.
 	// The instance must be in the same zone of network endpoint group.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Instance
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 

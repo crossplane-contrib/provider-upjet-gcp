@@ -74,7 +74,7 @@ type ReservationAssignmentParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The reservation for the resource
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Reservation
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta2.Reservation
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Reservation *string `json:"reservation,omitempty" tf:"reservation,omitempty"`

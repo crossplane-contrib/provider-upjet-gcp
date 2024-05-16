@@ -72,7 +72,7 @@ type VPNTunnelInitParameters struct {
 	RemoteTrafficSelector []*string `json:"remoteTrafficSelector,omitempty" tf:"remote_traffic_selector,omitempty"`
 
 	// URL of router resource to be used for dynamic routing.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Router
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Router
 	Router *string `json:"router,omitempty" tf:"router,omitempty"`
 
 	// Reference to a Router in compute to populate router.
@@ -286,7 +286,7 @@ type VPNTunnelParameters struct {
 	RemoteTrafficSelector []*string `json:"remoteTrafficSelector,omitempty" tf:"remote_traffic_selector,omitempty"`
 
 	// URL of router resource to be used for dynamic routing.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Router
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Router
 	// +kubebuilder:validation:Optional
 	Router *string `json:"router,omitempty" tf:"router,omitempty"`
 

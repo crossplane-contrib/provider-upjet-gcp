@@ -10,13 +10,7 @@ package v1beta1
 func (tr *Database) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *DatabaseInstance) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *SourceRepresentationInstance) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *SSLCert) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *User) Hub() {}

@@ -1168,3 +1168,1069 @@ spec:
     storage: true
     subresources:
       status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta2
+    schema:
+      openAPIV3Schema:
+        description: SecurityPolicy is the Schema for the SecurityPolicys API. Creates
+          a Security Policy resource for Google Compute Engine.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: SecurityPolicySpec defines the desired state of SecurityPolicy
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  adaptiveProtectionConfig:
+                    description: Configuration for Google Cloud Armor Adaptive Protection.
+                      Structure is documented below.
+                    properties:
+                      layer7DdosDefenseConfig:
+                        description: Configuration for Google Cloud Armor Adaptive
+                          Protection Layer 7 DDoS Defense. Structure is documented
+                          below.
+                        properties:
+                          enable:
+                            description: If set to true, enables CAAP for L7 DDoS
+                              detection.
+                            type: boolean
+                          ruleVisibility:
+                            description: 'Rule visibility can be one of the following:'
+                            type: string
+                        type: object
+                    type: object
+                  advancedOptionsConfig:
+                    description: |-
+                      Advanced Configuration Options.
+                      Structure is documented below.
+                    properties:
+                      jsonCustomConfig:
+                        description: |-
+                          Custom configuration to apply the JSON parsing. Only applicable when
+                          json_parsing is set to STANDARD. Structure is documented below.
+                        properties:
+                          contentTypes:
+                            description: |-
+                              A list of custom Content-Type header values to apply the JSON parsing. The
+                              format of the Content-Type header values is defined in
+                              RFC 1341. When configuring a custom Content-Type header
+                              value, only the type/subtype needs to be specified, and the parameters should be excluded.
+                            items:
+                              type: string
+                            type: array
+                            x-kubernetes-list-type: set
+                        type: object
+                      jsonParsing:
+                        description: Whether or not to JSON parse the payload body.
+                          Defaults to DISABLED.
+                        type: string
+                      logLevel:
+                        description: Log level to use. Defaults to NORMAL.
+                        type: string
+                      userIpRequestHeaders:
+                        description: An optional list of case-insensitive request
+                          header names to use for resolving the callers client IP
+                          address.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                    type: object
+                  description:
+                    description: An optional description of this security policy.
+                      Max size is 2048.
+                    type: string
+                  project:
+                    description: |-
+                      The project in which the resource belongs. If it
+                      is not provided, the provider project is used.
+                    type: string
+                  recaptchaOptionsConfig:
+                    description: reCAPTCHA Configuration Options. Structure is documented
+                      below.
+                    properties:
+                      redirectSiteKey:
+                        description: A field to supply a reCAPTCHA site key to be
+                          used for all the rules using the redirect action with the
+                          type of GOOGLE_RECAPTCHA under the security policy. The
+                          specified site key needs to be created from the reCAPTCHA
+                          API. The user is responsible for the validity of the specified
+                          site key. If not specified, a Google-managed site key is
+                          used.
+                        type: string
+                    type: object
+                  rule:
+                    description: |-
+                      The set of rules that belong to this policy. There must always be a default
+                      rule (rule with priority 2147483647 and match "*"). If no rules are provided when creating a
+                      security policy, a default rule with action "allow" will be added. Structure is documented below.
+                    items:
+                      properties:
+                        action:
+                          description: 'Action to take when match matches the request.
+                            Valid values:'
+                          type: string
+                        description:
+                          description: An optional description of this rule. Max size
+                            is 64.
+                          type: string
+                        headerAction:
+                          description: Additional actions that are performed on headers.
+                            Structure is documented below.
+                          properties:
+                            requestHeadersToAdds:
+                              description: The list of request headers to add or overwrite
+                                if they're already present. Structure is documented
+                                below.
+                              items:
+                                properties:
+                                  headerName:
+                                    description: The name of the header to set.
+                                    type: string
+                                  headerValue:
+                                    description: The value to set the named header
+                                      to.
+                                    type: string
+                                type: object
+                              type: array
+                          type: object
+                        match:
+                          description: |-
+                            A match condition that incoming traffic is evaluated against.
+                            If it evaluates to true, the corresponding action is enforced. Structure is documented below.
+                          properties:
+                            config:
+                              description: |-
+                                The configuration options available when specifying versioned_expr.
+                                This field must be specified if versioned_expr is specified and cannot be specified if versioned_expr is not specified.
+                                Structure is documented below.
+                              properties:
+                                srcIpRanges:
+                                  description: |-
+                                    Set of IP addresses or ranges (IPV4 or IPV6) in CIDR notation
+                                    to match against inbound traffic. There is a limit of 10 IP ranges per rule. A value of * matches all IPs
+                                    (can be used to override the default behavior).
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            expr:
+                              description: |-
+                                User defined CEVAL expression. A CEVAL expression is used to specify match criteria
+                                such as origin.ip, source.region_code and contents in the request header.
+                                Structure is documented below.
+                              properties:
+                                expression:
+                                  description: |-
+                                    Textual representation of an expression in Common Expression Language syntax.
+                                    The application context of the containing message determines which well-known feature set of CEL is supported.
+                                  type: string
+                              type: object
+                            versionedExpr:
+                              description: |-
+                                Predefined rule expression. If this field is specified, config must also be specified.
+                                Available options:
+                              type: string
+                          type: object
+                        preview:
+                          description: |-
+                            When set to true, the action specified above is not enforced.
+                            Stackdriver logs for requests that trigger a preview action are annotated as such.
+                          type: boolean
+                        priority:
+                          description: |-
+                            An unique positive integer indicating the priority of evaluation for a rule.
+                            Rules are evaluated from highest priority (lowest numerically) to lowest priority (highest numerically) in order.
+                          type: number
+                        rateLimitOptions:
+                          description: Must be specified if the action is rate_based_ban
+                            or throttle. Cannot be specified for other actions. Structure
+                            is documented below.
+                          properties:
+                            banDurationSec:
+                              description: |-
+                                Can only be specified if the action for the rule is rate_based_ban.
+                                If specified, determines the time (in seconds) the traffic will continue to be banned by the rate limit after the rate falls below the threshold.
+                              type: number
+                            banThreshold:
+                              description: |-
+                                Can only be specified if the action for the rule is rate_based_ban.
+                                If specified, the key will be banned for the configured ban_duration_sec when the number of requests that exceed the rate_limit_threshold also
+                                exceed this ban_threshold. Structure is documented below.
+                              properties:
+                                count:
+                                  description: Number of HTTP(S) requests for calculating
+                                    the threshold.
+                                  type: number
+                                intervalSec:
+                                  description: Interval over which the threshold is
+                                    computed.
+                                  type: number
+                              type: object
+                            conformAction:
+                              description: Action to take for requests that are under
+                                the configured rate limit threshold. Valid option
+                                is allow only.
+                              type: string
+                            enforceOnKey:
+                              description: Determines the key to enforce the rate_limit_threshold
+                                on. If not specified, defaults to ALL.
+                              type: string
+                            enforceOnKeyName:
+                              description: 'Rate limit key name applicable only for
+                                the following key types:'
+                              type: string
+                            exceedAction:
+                              description: |-
+                                When a request is denied, returns the HTTP response code specified.
+                                Valid options are deny() where valid values for status are 403, 404, 429, and 502.
+                              type: string
+                            exceedRedirectOptions:
+                              description: 'block supports:'
+                              properties:
+                                target:
+                                  description: Target for the redirect action. This
+                                    is required if the type is EXTERNAL_302 and cannot
+                                    be specified for GOOGLE_RECAPTCHA.
+                                  type: string
+                                type:
+                                  description: Type of the redirect action.
+                                  type: string
+                              type: object
+                            rateLimitThreshold:
+                              description: Threshold at which to begin ratelimiting.
+                                Structure is documented below.
+                              properties:
+                                count:
+                                  description: Number of HTTP(S) requests for calculating
+                                    the threshold.
+                                  type: number
+                                intervalSec:
+                                  description: Interval over which the threshold is
+                                    computed.
+                                  type: number
+                              type: object
+                          type: object
+                        redirectOptions:
+                          description: Can be specified if the action is redirect.
+                            Cannot be specified for other actions. Structure is documented
+                            below.
+                          properties:
+                            target:
+                              description: Target for the redirect action. This is
+                                required if the type is EXTERNAL_302 and cannot be
+                                specified for GOOGLE_RECAPTCHA.
+                              type: string
+                            type:
+                              description: Type of the redirect action.
+                              type: string
+                          type: object
+                      type: object
+                    type: array
+                  type:
+                    description: The type indicates the intended use of the security
+                      policy. This field can be set only at resource creation time.
+                    type: string
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  adaptiveProtectionConfig:
+                    description: Configuration for Google Cloud Armor Adaptive Protection.
+                      Structure is documented below.
+                    properties:
+                      layer7DdosDefenseConfig:
+                        description: Configuration for Google Cloud Armor Adaptive
+                          Protection Layer 7 DDoS Defense. Structure is documented
+                          below.
+                        properties:
+                          enable:
+                            description: If set to true, enables CAAP for L7 DDoS
+                              detection.
+                            type: boolean
+                          ruleVisibility:
+                            description: 'Rule visibility can be one of the following:'
+                            type: string
+                        type: object
+                    type: object
+                  advancedOptionsConfig:
+                    description: |-
+                      Advanced Configuration Options.
+                      Structure is documented below.
+                    properties:
+                      jsonCustomConfig:
+                        description: |-
+                          Custom configuration to apply the JSON parsing. Only applicable when
+                          json_parsing is set to STANDARD. Structure is documented below.
+                        properties:
+                          contentTypes:
+                            description: |-
+                              A list of custom Content-Type header values to apply the JSON parsing. The
+                              format of the Content-Type header values is defined in
+                              RFC 1341. When configuring a custom Content-Type header
+                              value, only the type/subtype needs to be specified, and the parameters should be excluded.
+                            items:
+                              type: string
+                            type: array
+                            x-kubernetes-list-type: set
+                        type: object
+                      jsonParsing:
+                        description: Whether or not to JSON parse the payload body.
+                          Defaults to DISABLED.
+                        type: string
+                      logLevel:
+                        description: Log level to use. Defaults to NORMAL.
+                        type: string
+                      userIpRequestHeaders:
+                        description: An optional list of case-insensitive request
+                          header names to use for resolving the callers client IP
+                          address.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                    type: object
+                  description:
+                    description: An optional description of this security policy.
+                      Max size is 2048.
+                    type: string
+                  project:
+                    description: |-
+                      The project in which the resource belongs. If it
+                      is not provided, the provider project is used.
+                    type: string
+                  recaptchaOptionsConfig:
+                    description: reCAPTCHA Configuration Options. Structure is documented
+                      below.
+                    properties:
+                      redirectSiteKey:
+                        description: A field to supply a reCAPTCHA site key to be
+                          used for all the rules using the redirect action with the
+                          type of GOOGLE_RECAPTCHA under the security policy. The
+                          specified site key needs to be created from the reCAPTCHA
+                          API. The user is responsible for the validity of the specified
+                          site key. If not specified, a Google-managed site key is
+                          used.
+                        type: string
+                    type: object
+                  rule:
+                    description: |-
+                      The set of rules that belong to this policy. There must always be a default
+                      rule (rule with priority 2147483647 and match "*"). If no rules are provided when creating a
+                      security policy, a default rule with action "allow" will be added. Structure is documented below.
+                    items:
+                      properties:
+                        action:
+                          description: 'Action to take when match matches the request.
+                            Valid values:'
+                          type: string
+                        description:
+                          description: An optional description of this rule. Max size
+                            is 64.
+                          type: string
+                        headerAction:
+                          description: Additional actions that are performed on headers.
+                            Structure is documented below.
+                          properties:
+                            requestHeadersToAdds:
+                              description: The list of request headers to add or overwrite
+                                if they're already present. Structure is documented
+                                below.
+                              items:
+                                properties:
+                                  headerName:
+                                    description: The name of the header to set.
+                                    type: string
+                                  headerValue:
+                                    description: The value to set the named header
+                                      to.
+                                    type: string
+                                type: object
+                              type: array
+                          type: object
+                        match:
+                          description: |-
+                            A match condition that incoming traffic is evaluated against.
+                            If it evaluates to true, the corresponding action is enforced. Structure is documented below.
+                          properties:
+                            config:
+                              description: |-
+                                The configuration options available when specifying versioned_expr.
+                                This field must be specified if versioned_expr is specified and cannot be specified if versioned_expr is not specified.
+                                Structure is documented below.
+                              properties:
+                                srcIpRanges:
+                                  description: |-
+                                    Set of IP addresses or ranges (IPV4 or IPV6) in CIDR notation
+                                    to match against inbound traffic. There is a limit of 10 IP ranges per rule. A value of * matches all IPs
+                                    (can be used to override the default behavior).
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            expr:
+                              description: |-
+                                User defined CEVAL expression. A CEVAL expression is used to specify match criteria
+                                such as origin.ip, source.region_code and contents in the request header.
+                                Structure is documented below.
+                              properties:
+                                expression:
+                                  description: |-
+                                    Textual representation of an expression in Common Expression Language syntax.
+                                    The application context of the containing message determines which well-known feature set of CEL is supported.
+                                  type: string
+                              type: object
+                            versionedExpr:
+                              description: |-
+                                Predefined rule expression. If this field is specified, config must also be specified.
+                                Available options:
+                              type: string
+                          type: object
+                        preview:
+                          description: |-
+                            When set to true, the action specified above is not enforced.
+                            Stackdriver logs for requests that trigger a preview action are annotated as such.
+                          type: boolean
+                        priority:
+                          description: |-
+                            An unique positive integer indicating the priority of evaluation for a rule.
+                            Rules are evaluated from highest priority (lowest numerically) to lowest priority (highest numerically) in order.
+                          type: number
+                        rateLimitOptions:
+                          description: Must be specified if the action is rate_based_ban
+                            or throttle. Cannot be specified for other actions. Structure
+                            is documented below.
+                          properties:
+                            banDurationSec:
+                              description: |-
+                                Can only be specified if the action for the rule is rate_based_ban.
+                                If specified, determines the time (in seconds) the traffic will continue to be banned by the rate limit after the rate falls below the threshold.
+                              type: number
+                            banThreshold:
+                              description: |-
+                                Can only be specified if the action for the rule is rate_based_ban.
+                                If specified, the key will be banned for the configured ban_duration_sec when the number of requests that exceed the rate_limit_threshold also
+                                exceed this ban_threshold. Structure is documented below.
+                              properties:
+                                count:
+                                  description: Number of HTTP(S) requests for calculating
+                                    the threshold.
+                                  type: number
+                                intervalSec:
+                                  description: Interval over which the threshold is
+                                    computed.
+                                  type: number
+                              type: object
+                            conformAction:
+                              description: Action to take for requests that are under
+                                the configured rate limit threshold. Valid option
+                                is allow only.
+                              type: string
+                            enforceOnKey:
+                              description: Determines the key to enforce the rate_limit_threshold
+                                on. If not specified, defaults to ALL.
+                              type: string
+                            enforceOnKeyName:
+                              description: 'Rate limit key name applicable only for
+                                the following key types:'
+                              type: string
+                            exceedAction:
+                              description: |-
+                                When a request is denied, returns the HTTP response code specified.
+                                Valid options are deny() where valid values for status are 403, 404, 429, and 502.
+                              type: string
+                            exceedRedirectOptions:
+                              description: 'block supports:'
+                              properties:
+                                target:
+                                  description: Target for the redirect action. This
+                                    is required if the type is EXTERNAL_302 and cannot
+                                    be specified for GOOGLE_RECAPTCHA.
+                                  type: string
+                                type:
+                                  description: Type of the redirect action.
+                                  type: string
+                              type: object
+                            rateLimitThreshold:
+                              description: Threshold at which to begin ratelimiting.
+                                Structure is documented below.
+                              properties:
+                                count:
+                                  description: Number of HTTP(S) requests for calculating
+                                    the threshold.
+                                  type: number
+                                intervalSec:
+                                  description: Interval over which the threshold is
+                                    computed.
+                                  type: number
+                              type: object
+                          type: object
+                        redirectOptions:
+                          description: Can be specified if the action is redirect.
+                            Cannot be specified for other actions. Structure is documented
+                            below.
+                          properties:
+                            target:
+                              description: Target for the redirect action. This is
+                                required if the type is EXTERNAL_302 and cannot be
+                                specified for GOOGLE_RECAPTCHA.
+                              type: string
+                            type:
+                              description: Type of the redirect action.
+                              type: string
+                          type: object
+                      type: object
+                    type: array
+                  type:
+                    description: The type indicates the intended use of the security
+                      policy. This field can be set only at resource creation time.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: SecurityPolicyStatus defines the observed state of SecurityPolicy.
+            properties:
+              atProvider:
+                properties:
+                  adaptiveProtectionConfig:
+                    description: Configuration for Google Cloud Armor Adaptive Protection.
+                      Structure is documented below.
+                    properties:
+                      layer7DdosDefenseConfig:
+                        description: Configuration for Google Cloud Armor Adaptive
+                          Protection Layer 7 DDoS Defense. Structure is documented
+                          below.
+                        properties:
+                          enable:
+                            description: If set to true, enables CAAP for L7 DDoS
+                              detection.
+                            type: boolean
+                          ruleVisibility:
+                            description: 'Rule visibility can be one of the following:'
+                            type: string
+                        type: object
+                    type: object
+                  advancedOptionsConfig:
+                    description: |-
+                      Advanced Configuration Options.
+                      Structure is documented below.
+                    properties:
+                      jsonCustomConfig:
+                        description: |-
+                          Custom configuration to apply the JSON parsing. Only applicable when
+                          json_parsing is set to STANDARD. Structure is documented below.
+                        properties:
+                          contentTypes:
+                            description: |-
+                              A list of custom Content-Type header values to apply the JSON parsing. The
+                              format of the Content-Type header values is defined in
+                              RFC 1341. When configuring a custom Content-Type header
+                              value, only the type/subtype needs to be specified, and the parameters should be excluded.
+                            items:
+                              type: string
+                            type: array
+                            x-kubernetes-list-type: set
+                        type: object
+                      jsonParsing:
+                        description: Whether or not to JSON parse the payload body.
+                          Defaults to DISABLED.
+                        type: string
+                      logLevel:
+                        description: Log level to use. Defaults to NORMAL.
+                        type: string
+                      userIpRequestHeaders:
+                        description: An optional list of case-insensitive request
+                          header names to use for resolving the callers client IP
+                          address.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                    type: object
+                  description:
+                    description: An optional description of this security policy.
+                      Max size is 2048.
+                    type: string
+                  fingerprint:
+                    description: Fingerprint of this resource.
+                    type: string
+                  id:
+                    description: an identifier for the resource with format projects/{{project}}/global/securityPolicies/{{name}}
+                    type: string
+                  project:
+                    description: |-
+                      The project in which the resource belongs. If it
+                      is not provided, the provider project is used.
+                    type: string
+                  recaptchaOptionsConfig:
+                    description: reCAPTCHA Configuration Options. Structure is documented
+                      below.
+                    properties:
+                      redirectSiteKey:
+                        description: A field to supply a reCAPTCHA site key to be
+                          used for all the rules using the redirect action with the
+                          type of GOOGLE_RECAPTCHA under the security policy. The
+                          specified site key needs to be created from the reCAPTCHA
+                          API. The user is responsible for the validity of the specified
+                          site key. If not specified, a Google-managed site key is
+                          used.
+                        type: string
+                    type: object
+                  rule:
+                    description: |-
+                      The set of rules that belong to this policy. There must always be a default
+                      rule (rule with priority 2147483647 and match "*"). If no rules are provided when creating a
+                      security policy, a default rule with action "allow" will be added. Structure is documented below.
+                    items:
+                      properties:
+                        action:
+                          description: 'Action to take when match matches the request.
+                            Valid values:'
+                          type: string
+                        description:
+                          description: An optional description of this rule. Max size
+                            is 64.
+                          type: string
+                        headerAction:
+                          description: Additional actions that are performed on headers.
+                            Structure is documented below.
+                          properties:
+                            requestHeadersToAdds:
+                              description: The list of request headers to add or overwrite
+                                if they're already present. Structure is documented
+                                below.
+                              items:
+                                properties:
+                                  headerName:
+                                    description: The name of the header to set.
+                                    type: string
+                                  headerValue:
+                                    description: The value to set the named header
+                                      to.
+                                    type: string
+                                type: object
+                              type: array
+                          type: object
+                        match:
+                          description: |-
+                            A match condition that incoming traffic is evaluated against.
+                            If it evaluates to true, the corresponding action is enforced. Structure is documented below.
+                          properties:
+                            config:
+                              description: |-
+                                The configuration options available when specifying versioned_expr.
+                                This field must be specified if versioned_expr is specified and cannot be specified if versioned_expr is not specified.
+                                Structure is documented below.
+                              properties:
+                                srcIpRanges:
+                                  description: |-
+                                    Set of IP addresses or ranges (IPV4 or IPV6) in CIDR notation
+                                    to match against inbound traffic. There is a limit of 10 IP ranges per rule. A value of * matches all IPs
+                                    (can be used to override the default behavior).
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            expr:
+                              description: |-
+                                User defined CEVAL expression. A CEVAL expression is used to specify match criteria
+                                such as origin.ip, source.region_code and contents in the request header.
+                                Structure is documented below.
+                              properties:
+                                expression:
+                                  description: |-
+                                    Textual representation of an expression in Common Expression Language syntax.
+                                    The application context of the containing message determines which well-known feature set of CEL is supported.
+                                  type: string
+                              type: object
+                            versionedExpr:
+                              description: |-
+                                Predefined rule expression. If this field is specified, config must also be specified.
+                                Available options:
+                              type: string
+                          type: object
+                        preview:
+                          description: |-
+                            When set to true, the action specified above is not enforced.
+                            Stackdriver logs for requests that trigger a preview action are annotated as such.
+                          type: boolean
+                        priority:
+                          description: |-
+                            An unique positive integer indicating the priority of evaluation for a rule.
+                            Rules are evaluated from highest priority (lowest numerically) to lowest priority (highest numerically) in order.
+                          type: number
+                        rateLimitOptions:
+                          description: Must be specified if the action is rate_based_ban
+                            or throttle. Cannot be specified for other actions. Structure
+                            is documented below.
+                          properties:
+                            banDurationSec:
+                              description: |-
+                                Can only be specified if the action for the rule is rate_based_ban.
+                                If specified, determines the time (in seconds) the traffic will continue to be banned by the rate limit after the rate falls below the threshold.
+                              type: number
+                            banThreshold:
+                              description: |-
+                                Can only be specified if the action for the rule is rate_based_ban.
+                                If specified, the key will be banned for the configured ban_duration_sec when the number of requests that exceed the rate_limit_threshold also
+                                exceed this ban_threshold. Structure is documented below.
+                              properties:
+                                count:
+                                  description: Number of HTTP(S) requests for calculating
+                                    the threshold.
+                                  type: number
+                                intervalSec:
+                                  description: Interval over which the threshold is
+                                    computed.
+                                  type: number
+                              type: object
+                            conformAction:
+                              description: Action to take for requests that are under
+                                the configured rate limit threshold. Valid option
+                                is allow only.
+                              type: string
+                            enforceOnKey:
+                              description: Determines the key to enforce the rate_limit_threshold
+                                on. If not specified, defaults to ALL.
+                              type: string
+                            enforceOnKeyName:
+                              description: 'Rate limit key name applicable only for
+                                the following key types:'
+                              type: string
+                            exceedAction:
+                              description: |-
+                                When a request is denied, returns the HTTP response code specified.
+                                Valid options are deny() where valid values for status are 403, 404, 429, and 502.
+                              type: string
+                            exceedRedirectOptions:
+                              description: 'block supports:'
+                              properties:
+                                target:
+                                  description: Target for the redirect action. This
+                                    is required if the type is EXTERNAL_302 and cannot
+                                    be specified for GOOGLE_RECAPTCHA.
+                                  type: string
+                                type:
+                                  description: Type of the redirect action.
+                                  type: string
+                              type: object
+                            rateLimitThreshold:
+                              description: Threshold at which to begin ratelimiting.
+                                Structure is documented below.
+                              properties:
+                                count:
+                                  description: Number of HTTP(S) requests for calculating
+                                    the threshold.
+                                  type: number
+                                intervalSec:
+                                  description: Interval over which the threshold is
+                                    computed.
+                                  type: number
+                              type: object
+                          type: object
+                        redirectOptions:
+                          description: Can be specified if the action is redirect.
+                            Cannot be specified for other actions. Structure is documented
+                            below.
+                          properties:
+                            target:
+                              description: Target for the redirect action. This is
+                                required if the type is EXTERNAL_302 and cannot be
+                                specified for GOOGLE_RECAPTCHA.
+                              type: string
+                            type:
+                              description: Type of the redirect action.
+                              type: string
+                          type: object
+                      type: object
+                    type: array
+                  selfLink:
+                    description: The URI of the created resource.
+                    type: string
+                  type:
+                    description: The type indicates the intended use of the security
+                      policy. This field can be set only at resource creation time.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}

@@ -7,25 +7,10 @@
 package v1beta1
 
 // Hub marks this type as a conversion hub.
-func (tr *FolderBucketConfig) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *FolderExclusion) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *FolderSink) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *LogView) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *Metric) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *ProjectBucketConfig) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *ProjectExclusion) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *ProjectSink) Hub() {}

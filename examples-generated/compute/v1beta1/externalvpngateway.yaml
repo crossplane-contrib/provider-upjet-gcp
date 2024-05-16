@@ -48,7 +48,7 @@ spec:
 
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: Router
 metadata:
   annotations:
@@ -110,7 +110,7 @@ spec:
 
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: RouterPeer
 metadata:
   annotations:
@@ -137,7 +137,7 @@ spec:
 
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: RouterPeer
 metadata:
   annotations:
@@ -164,7 +164,7 @@ spec:
 
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: Subnetwork
 metadata:
   annotations:
@@ -182,7 +182,7 @@ spec:
 
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: Subnetwork
 metadata:
   annotations:

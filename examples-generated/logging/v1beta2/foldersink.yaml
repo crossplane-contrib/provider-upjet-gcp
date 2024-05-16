@@ -1,0 +1,47 @@
+apiVersion: logging.gcp.upbound.io/v1beta2
+kind: FolderSink
+metadata:
+  annotations:
+    meta.upbound.io/example-id: logging/v1beta2/foldersink
+  labels:
+    testing.upbound.io/example-name: my-sink
+  name: my-sink
+spec:
+  forProvider:
+    description: some explanation on what this is
+    destination: storage.googleapis.com/${google_storage_bucket.log-bucket.name}
+    filter: resource.type = gce_instance AND severity >= WARNING
+    folderSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my-folder
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Folder
+metadata:
+  annotations:
+    meta.upbound.io/example-id: logging/v1beta2/foldersink
+  labels:
+    testing.upbound.io/example-name: my-folder
+  name: my-folder
+spec:
+  forProvider:
+    displayName: My folder
+    parentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: storage.gcp.upbound.io/v1beta2
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: logging/v1beta2/foldersink
+  labels:
+    testing.upbound.io/example-name: log-bucket
+  name: log-bucket
+spec:
+  forProvider:
+    location: US

@@ -7,10 +7,4 @@
 package v1beta1
 
 // Hub marks this type as a conversion hub.
-func (tr *AppConnection) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *AppConnector) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *AppGateway) Hub() {}

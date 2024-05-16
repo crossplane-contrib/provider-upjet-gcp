@@ -7,16 +7,7 @@
 package v1beta1
 
 // Hub marks this type as a conversion hub.
-func (tr *Application) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *ApplicationURLDispatchRules) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *FirewallRule) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *ServiceNetworkSettings) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *StandardAppVersion) Hub() {}

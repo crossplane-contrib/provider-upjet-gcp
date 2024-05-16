@@ -7,19 +7,7 @@
 package v1beta1
 
 // Hub marks this type as a conversion hub.
-func (tr *AccessLevel) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *AccessLevelCondition) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *AccessPolicy) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *AccessPolicyIAMMember) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *ServicePerimeter) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *ServicePerimeterResource) Hub() {}

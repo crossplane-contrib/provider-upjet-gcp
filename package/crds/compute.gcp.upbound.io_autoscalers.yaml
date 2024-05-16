@@ -1030,3 +1030,985 @@ spec:
     storage: true
     subresources:
       status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta2
+    schema:
+      openAPIV3Schema:
+        description: Autoscaler is the Schema for the Autoscalers API. Represents
+          an Autoscaler resource.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: AutoscalerSpec defines the desired state of Autoscaler
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  autoscalingPolicy:
+                    description: |-
+                      The configuration parameters for the autoscaling algorithm. You can
+                      define one or more of the policies for an autoscaler: cpuUtilization,
+                      customMetricUtilizations, and loadBalancingUtilization.
+                      If none of these are specified, the default will be to autoscale based
+                      on cpuUtilization to 0.6 or 60%.
+                      Structure is documented below.
+                    properties:
+                      cooldownPeriod:
+                        description: |-
+                          The number of seconds that the autoscaler should wait before it
+                          starts collecting information from a new instance. This prevents
+                          the autoscaler from collecting information when the instance is
+                          initializing, during which the collected usage would not be
+                          reliable. The default time autoscaler waits is 60 seconds.
+                          Virtual machine initialization times might vary because of
+                          numerous factors. We recommend that you test how long an
+                          instance may take to initialize. To do this, create an instance
+                          and time the startup process.
+                        type: number
+                      cpuUtilization:
+                        description: |-
+                          Defines the CPU utilization policy that allows the autoscaler to
+                          scale based on the average CPU utilization of a managed instance
+                          group.
+                          Structure is documented below.
+                        properties:
+                          predictiveMethod:
+                            description: 'Indicates whether predictive autoscaling
+                              based on CPU metric is enabled. Valid values are:'
+                            type: string
+                          target:
+                            description: URL of the managed instance group that this
+                              autoscaler will scale.
+                            type: number
+                        type: object
+                      loadBalancingUtilization:
+                        description: |-
+                          Configuration parameters of autoscaling based on a load balancer.
+                          Structure is documented below.
+                        properties:
+                          target:
+                            description: URL of the managed instance group that this
+                              autoscaler will scale.
+                            type: number
+                        type: object
+                      maxReplicas:
+                        description: |-
+                          The maximum number of instances that the autoscaler can scale up
+                          to. This is required when creating or updating an autoscaler. The
+                          maximum number of replicas should not be lower than minimal number
+                          of replicas.
+                        type: number
+                      metric:
+                        description: |-
+                          Configuration parameters of autoscaling based on a custom metric.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            name:
+                              description: The identifier for this object. Format
+                                specified above.
+                              type: string
+                            target:
+                              description: URL of the managed instance group that
+                                this autoscaler will scale.
+                              type: number
+                            type:
+                              description: |-
+                                Defines how target utilization value is expressed for a
+                                Stackdriver Monitoring metric.
+                                Possible values are: GAUGE, DELTA_PER_SECOND, DELTA_PER_MINUTE.
+                              type: string
+                          type: object
+                        type: array
+                      minReplicas:
+                        description: |-
+                          The minimum number of replicas that the autoscaler can scale down
+                          to. This cannot be less than 0. If not provided, autoscaler will
+                          choose a default value depending on maximum number of instances
+                          allowed.
+                        type: number
+                      mode:
+                        description: Defines operating mode for this policy.
+                        type: string
+                      scaleInControl:
+                        description: |-
+                          Defines scale in controls to reduce the risk of response latency
+                          and outages due to abrupt scale-in events
+                          Structure is documented below.
+                        properties:
+                          maxScaledInReplicas:
+                            description: |-
+                              A nested object resource
+                              Structure is documented below.
+                            properties:
+                              fixed:
+                                description: |-
+                                  Specifies a fixed number of VM instances. This must be a positive
+                                  integer.
+                                type: number
+                              percent:
+                                description: |-
+                                  Specifies a percentage of instances between 0 to 100%, inclusive.
+                                  For example, specify 80 for 80%.
+                                type: number
+                            type: object
+                          timeWindowSec:
+                            description: |-
+                              How long back autoscaling should look when computing recommendations
+                              to include directives regarding slower scale down, as described above.
+                            type: number
+                        type: object
+                      scalingSchedules:
+                        description: |-
+                          Scaling schedules defined for an autoscaler. Multiple schedules can be set on an autoscaler and they can overlap.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            description:
+                              description: A description of a scaling schedule.
+                              type: string
+                            disabled:
+                              description: A boolean value that specifies if a scaling
+                                schedule can influence autoscaler recommendations.
+                                If set to true, then a scaling schedule has no effect.
+                              type: boolean
+                            durationSec:
+                              description: The duration of time intervals (in seconds)
+                                for which this scaling schedule will be running. The
+                                minimum allowed value is 300.
+                              type: number
+                            minRequiredReplicas:
+                              description: Minimum number of VM instances that autoscaler
+                                will recommend in time intervals starting according
+                                to schedule.
+                              type: number
+                            name:
+                              description: The identifier for this object. Format
+                                specified above.
+                              type: string
+                            schedule:
+                              description: The start timestamps of time intervals
+                                when this scaling schedule should provide a scaling
+                                signal. This field uses the extended cron format (with
+                                an optional year field).
+                              type: string
+                            timeZone:
+                              description: 'The time zone to be used when interpreting
+                                the schedule. The value of this field must be a time
+                                zone name from the tz database: http://en.wikipedia.org/wiki/Tz_database.'
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  description:
+                    description: A description of a scaling schedule.
+                    type: string
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  target:
+                    description: URL of the managed instance group that this autoscaler
+                      will scale.
+                    type: string
+                  targetRef:
+                    description: Reference to a InstanceGroupManager in compute to
+                      populate target.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  targetSelector:
+                    description: Selector for a InstanceGroupManager in compute to
+                      populate target.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  zone:
+                    description: URL of the zone where the instance group resides.
+                    type: string
+                required:
+                - zone
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  autoscalingPolicy:
+                    description: |-
+                      The configuration parameters for the autoscaling algorithm. You can
+                      define one or more of the policies for an autoscaler: cpuUtilization,
+                      customMetricUtilizations, and loadBalancingUtilization.
+                      If none of these are specified, the default will be to autoscale based
+                      on cpuUtilization to 0.6 or 60%.
+                      Structure is documented below.
+                    properties:
+                      cooldownPeriod:
+                        description: |-
+                          The number of seconds that the autoscaler should wait before it
+                          starts collecting information from a new instance. This prevents
+                          the autoscaler from collecting information when the instance is
+                          initializing, during which the collected usage would not be
+                          reliable. The default time autoscaler waits is 60 seconds.
+                          Virtual machine initialization times might vary because of
+                          numerous factors. We recommend that you test how long an
+                          instance may take to initialize. To do this, create an instance
+                          and time the startup process.
+                        type: number
+                      cpuUtilization:
+                        description: |-
+                          Defines the CPU utilization policy that allows the autoscaler to
+                          scale based on the average CPU utilization of a managed instance
+                          group.
+                          Structure is documented below.
+                        properties:
+                          predictiveMethod:
+                            description: 'Indicates whether predictive autoscaling
+                              based on CPU metric is enabled. Valid values are:'
+                            type: string
+                          target:
+                            description: URL of the managed instance group that this
+                              autoscaler will scale.
+                            type: number
+                        type: object
+                      loadBalancingUtilization:
+                        description: |-
+                          Configuration parameters of autoscaling based on a load balancer.
+                          Structure is documented below.
+                        properties:
+                          target:
+                            description: URL of the managed instance group that this
+                              autoscaler will scale.
+                            type: number
+                        type: object
+                      maxReplicas:
+                        description: |-
+                          The maximum number of instances that the autoscaler can scale up
+                          to. This is required when creating or updating an autoscaler. The
+                          maximum number of replicas should not be lower than minimal number
+                          of replicas.
+                        type: number
+                      metric:
+                        description: |-
+                          Configuration parameters of autoscaling based on a custom metric.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            name:
+                              description: The identifier for this object. Format
+                                specified above.
+                              type: string
+                            target:
+                              description: URL of the managed instance group that
+                                this autoscaler will scale.
+                              type: number
+                            type:
+                              description: |-
+                                Defines how target utilization value is expressed for a
+                                Stackdriver Monitoring metric.
+                                Possible values are: GAUGE, DELTA_PER_SECOND, DELTA_PER_MINUTE.
+                              type: string
+                          type: object
+                        type: array
+                      minReplicas:
+                        description: |-
+                          The minimum number of replicas that the autoscaler can scale down
+                          to. This cannot be less than 0. If not provided, autoscaler will
+                          choose a default value depending on maximum number of instances
+                          allowed.
+                        type: number
+                      mode:
+                        description: Defines operating mode for this policy.
+                        type: string
+                      scaleInControl:
+                        description: |-
+                          Defines scale in controls to reduce the risk of response latency
+                          and outages due to abrupt scale-in events
+                          Structure is documented below.
+                        properties:
+                          maxScaledInReplicas:
+                            description: |-
+                              A nested object resource
+                              Structure is documented below.
+                            properties:
+                              fixed:
+                                description: |-
+                                  Specifies a fixed number of VM instances. This must be a positive
+                                  integer.
+                                type: number
+                              percent:
+                                description: |-
+                                  Specifies a percentage of instances between 0 to 100%, inclusive.
+                                  For example, specify 80 for 80%.
+                                type: number
+                            type: object
+                          timeWindowSec:
+                            description: |-
+                              How long back autoscaling should look when computing recommendations
+                              to include directives regarding slower scale down, as described above.
+                            type: number
+                        type: object
+                      scalingSchedules:
+                        description: |-
+                          Scaling schedules defined for an autoscaler. Multiple schedules can be set on an autoscaler and they can overlap.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            description:
+                              description: A description of a scaling schedule.
+                              type: string
+                            disabled:
+                              description: A boolean value that specifies if a scaling
+                                schedule can influence autoscaler recommendations.
+                                If set to true, then a scaling schedule has no effect.
+                              type: boolean
+                            durationSec:
+                              description: The duration of time intervals (in seconds)
+                                for which this scaling schedule will be running. The
+                                minimum allowed value is 300.
+                              type: number
+                            minRequiredReplicas:
+                              description: Minimum number of VM instances that autoscaler
+                                will recommend in time intervals starting according
+                                to schedule.
+                              type: number
+                            name:
+                              description: The identifier for this object. Format
+                                specified above.
+                              type: string
+                            schedule:
+                              description: The start timestamps of time intervals
+                                when this scaling schedule should provide a scaling
+                                signal. This field uses the extended cron format (with
+                                an optional year field).
+                              type: string
+                            timeZone:
+                              description: 'The time zone to be used when interpreting
+                                the schedule. The value of this field must be a time
+                                zone name from the tz database: http://en.wikipedia.org/wiki/Tz_database.'
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  description:
+                    description: A description of a scaling schedule.
+                    type: string
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  target:
+                    description: URL of the managed instance group that this autoscaler
+                      will scale.
+                    type: string
+                  targetRef:
+                    description: Reference to a InstanceGroupManager in compute to
+                      populate target.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  targetSelector:
+                    description: Selector for a InstanceGroupManager in compute to
+                      populate target.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.autoscalingPolicy is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.autoscalingPolicy)
+                || (has(self.initProvider) && has(self.initProvider.autoscalingPolicy))'
+          status:
+            description: AutoscalerStatus defines the observed state of Autoscaler.
+            properties:
+              atProvider:
+                properties:
+                  autoscalingPolicy:
+                    description: |-
+                      The configuration parameters for the autoscaling algorithm. You can
+                      define one or more of the policies for an autoscaler: cpuUtilization,
+                      customMetricUtilizations, and loadBalancingUtilization.
+                      If none of these are specified, the default will be to autoscale based
+                      on cpuUtilization to 0.6 or 60%.
+                      Structure is documented below.
+                    properties:
+                      cooldownPeriod:
+                        description: |-
+                          The number of seconds that the autoscaler should wait before it
+                          starts collecting information from a new instance. This prevents
+                          the autoscaler from collecting information when the instance is
+                          initializing, during which the collected usage would not be
+                          reliable. The default time autoscaler waits is 60 seconds.
+                          Virtual machine initialization times might vary because of
+                          numerous factors. We recommend that you test how long an
+                          instance may take to initialize. To do this, create an instance
+                          and time the startup process.
+                        type: number
+                      cpuUtilization:
+                        description: |-
+                          Defines the CPU utilization policy that allows the autoscaler to
+                          scale based on the average CPU utilization of a managed instance
+                          group.
+                          Structure is documented below.
+                        properties:
+                          predictiveMethod:
+                            description: 'Indicates whether predictive autoscaling
+                              based on CPU metric is enabled. Valid values are:'
+                            type: string
+                          target:
+                            description: URL of the managed instance group that this
+                              autoscaler will scale.
+                            type: number
+                        type: object
+                      loadBalancingUtilization:
+                        description: |-
+                          Configuration parameters of autoscaling based on a load balancer.
+                          Structure is documented below.
+                        properties:
+                          target:
+                            description: URL of the managed instance group that this
+                              autoscaler will scale.
+                            type: number
+                        type: object
+                      maxReplicas:
+                        description: |-
+                          The maximum number of instances that the autoscaler can scale up
+                          to. This is required when creating or updating an autoscaler. The
+                          maximum number of replicas should not be lower than minimal number
+                          of replicas.
+                        type: number
+                      metric:
+                        description: |-
+                          Configuration parameters of autoscaling based on a custom metric.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            name:
+                              description: The identifier for this object. Format
+                                specified above.
+                              type: string
+                            target:
+                              description: URL of the managed instance group that
+                                this autoscaler will scale.
+                              type: number
+                            type:
+                              description: |-
+                                Defines how target utilization value is expressed for a
+                                Stackdriver Monitoring metric.
+                                Possible values are: GAUGE, DELTA_PER_SECOND, DELTA_PER_MINUTE.
+                              type: string
+                          type: object
+                        type: array
+                      minReplicas:
+                        description: |-
+                          The minimum number of replicas that the autoscaler can scale down
+                          to. This cannot be less than 0. If not provided, autoscaler will
+                          choose a default value depending on maximum number of instances
+                          allowed.
+                        type: number
+                      mode:
+                        description: Defines operating mode for this policy.
+                        type: string
+                      scaleInControl:
+                        description: |-
+                          Defines scale in controls to reduce the risk of response latency
+                          and outages due to abrupt scale-in events
+                          Structure is documented below.
+                        properties:
+                          maxScaledInReplicas:
+                            description: |-
+                              A nested object resource
+                              Structure is documented below.
+                            properties:
+                              fixed:
+                                description: |-
+                                  Specifies a fixed number of VM instances. This must be a positive
+                                  integer.
+                                type: number
+                              percent:
+                                description: |-
+                                  Specifies a percentage of instances between 0 to 100%, inclusive.
+                                  For example, specify 80 for 80%.
+                                type: number
+                            type: object
+                          timeWindowSec:
+                            description: |-
+                              How long back autoscaling should look when computing recommendations
+                              to include directives regarding slower scale down, as described above.
+                            type: number
+                        type: object
+                      scalingSchedules:
+                        description: |-
+                          Scaling schedules defined for an autoscaler. Multiple schedules can be set on an autoscaler and they can overlap.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            description:
+                              description: A description of a scaling schedule.
+                              type: string
+                            disabled:
+                              description: A boolean value that specifies if a scaling
+                                schedule can influence autoscaler recommendations.
+                                If set to true, then a scaling schedule has no effect.
+                              type: boolean
+                            durationSec:
+                              description: The duration of time intervals (in seconds)
+                                for which this scaling schedule will be running. The
+                                minimum allowed value is 300.
+                              type: number
+                            minRequiredReplicas:
+                              description: Minimum number of VM instances that autoscaler
+                                will recommend in time intervals starting according
+                                to schedule.
+                              type: number
+                            name:
+                              description: The identifier for this object. Format
+                                specified above.
+                              type: string
+                            schedule:
+                              description: The start timestamps of time intervals
+                                when this scaling schedule should provide a scaling
+                                signal. This field uses the extended cron format (with
+                                an optional year field).
+                              type: string
+                            timeZone:
+                              description: 'The time zone to be used when interpreting
+                                the schedule. The value of this field must be a time
+                                zone name from the tz database: http://en.wikipedia.org/wiki/Tz_database.'
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  creationTimestamp:
+                    description: Creation timestamp in RFC3339 text format.
+                    type: string
+                  description:
+                    description: A description of a scaling schedule.
+                    type: string
+                  id:
+                    description: an identifier for the resource with format projects/{{project}}/zones/{{zone}}/autoscalers/{{name}}
+                    type: string
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  selfLink:
+                    description: The URI of the created resource.
+                    type: string
+                  target:
+                    description: URL of the managed instance group that this autoscaler
+                      will scale.
+                    type: string
+                  zone:
+                    description: URL of the zone where the instance group resides.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}

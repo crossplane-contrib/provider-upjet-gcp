@@ -9,9 +9,10 @@ package v1beta1
 import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	resource "github.com/crossplane/upjet/pkg/resource"
 	errors "github.com/pkg/errors"
+
+	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -25,7 +26,7 @@ func (mg *EntityType) ResolveReferences( // ResolveReferences of this EntityType
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta1", "Agent", "AgentList")
+		m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta2", "Agent", "AgentList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -44,7 +45,7 @@ func (mg *EntityType) ResolveReferences( // ResolveReferences of this EntityType
 	mg.Spec.ForProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ParentRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta1", "Agent", "AgentList")
+		m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta2", "Agent", "AgentList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -75,7 +76,7 @@ func (mg *Environment) ResolveReferences(ctx context.Context, c client.Reader) e
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta1", "Agent", "AgentList")
+		m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta2", "Agent", "AgentList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -116,7 +117,7 @@ func (mg *Environment) ResolveReferences(ctx context.Context, c client.Reader) e
 
 	}
 	{
-		m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta1", "Agent", "AgentList")
+		m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta2", "Agent", "AgentList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -261,7 +262,7 @@ func (mg *Intent) ResolveReferences(ctx context.Context, c client.Reader) error 
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta1", "Agent", "AgentList")
+		m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta2", "Agent", "AgentList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -280,7 +281,7 @@ func (mg *Intent) ResolveReferences(ctx context.Context, c client.Reader) error 
 	mg.Spec.ForProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ParentRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta1", "Agent", "AgentList")
+		m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta2", "Agent", "AgentList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -570,7 +571,7 @@ func (mg *Version) ResolveReferences(ctx context.Context, c client.Reader) error
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta1", "Agent", "AgentList")
+		m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta2", "Agent", "AgentList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -589,7 +590,7 @@ func (mg *Version) ResolveReferences(ctx context.Context, c client.Reader) error
 	mg.Spec.ForProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ParentRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta1", "Agent", "AgentList")
+		m, l, err = apisresolver.GetManagedResource("dialogflowcx.gcp.upbound.io", "v1beta2", "Agent", "AgentList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}

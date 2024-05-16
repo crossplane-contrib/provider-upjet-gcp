@@ -1,0 +1,21 @@
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: RouterPeer
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/routerpeer
+  labels:
+    testing.upbound.io/example-name: peer
+  name: peer
+spec:
+  forProvider:
+    advertisedRoutePriority: 100
+    interfaceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    peerAsn: 65513
+    regionSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    routerSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

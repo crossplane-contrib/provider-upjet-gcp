@@ -13,25 +13,10 @@ func (tr *Address) Hub() {}
 func (tr *AttachedDisk) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *Autoscaler) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *BackendBucket) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *BackendBucketSignedURLKey) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *BackendService) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *BackendServiceSignedURLKey) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *Disk) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *DiskIAMMember) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *DiskResourcePolicyAttachment) Hub() {}
@@ -40,25 +25,13 @@ func (tr *DiskResourcePolicyAttachment) Hub() {}
 func (tr *ExternalVPNGateway) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *Firewall) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *FirewallPolicy) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *FirewallPolicyAssociation) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *FirewallPolicyRule) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *ForwardingRule) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *GlobalAddress) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *GlobalForwardingRule) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *GlobalNetworkEndpoint) Hub() {}
@@ -70,46 +43,19 @@ func (tr *GlobalNetworkEndpointGroup) Hub() {}
 func (tr *HaVPNGateway) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *HealthCheck) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *HTTPHealthCheck) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *HTTPSHealthCheck) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *Image) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *ImageIAMMember) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *Instance) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *InstanceFromTemplate) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *InstanceGroup) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *InstanceGroupManager) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *InstanceGroupNamedPort) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *InstanceIAMMember) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *InstanceTemplate) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *InterconnectAttachment) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *ManagedSSLCertificate) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Network) Hub() {}
@@ -133,18 +79,6 @@ func (tr *NetworkPeering) Hub() {}
 func (tr *NetworkPeeringRoutesConfig) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *NodeGroup) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *NodeTemplate) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *PacketMirroring) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *PerInstanceConfig) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *ProjectDefaultNetworkTier) Hub() {}
 
 // Hub marks this type as a conversion hub.
@@ -154,40 +88,16 @@ func (tr *ProjectMetadata) Hub() {}
 func (tr *ProjectMetadataItem) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *RegionAutoscaler) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *RegionBackendService) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *RegionDisk) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *RegionDiskIAMMember) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *RegionDiskResourcePolicyAttachment) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *RegionHealthCheck) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *RegionInstanceGroupManager) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *RegionNetworkEndpoint) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *RegionNetworkEndpointGroup) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *RegionNetworkFirewallPolicy) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *RegionNetworkFirewallPolicyAssociation) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *RegionPerInstanceConfig) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *RegionSSLCertificate) Hub() {}
@@ -202,31 +112,10 @@ func (tr *RegionTargetHTTPSProxy) Hub() {}
 func (tr *RegionTargetTCPProxy) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *RegionURLMap) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *Reservation) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *ResourcePolicy) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *Route) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *Router) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *RouterInterface) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *RouterNAT) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *RouterPeer) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *SecurityPolicy) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *ServiceAttachment) Hub() {}
@@ -238,22 +127,10 @@ func (tr *SharedVPCHostProject) Hub() {}
 func (tr *SharedVPCServiceProject) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *Snapshot) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *SnapshotIAMMember) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *SSLCertificate) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *SSLPolicy) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *Subnetwork) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *SubnetworkIAMMember) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *TargetGRPCProxy) Hub() {}
@@ -275,9 +152,6 @@ func (tr *TargetSSLProxy) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *TargetTCPProxy) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *URLMap) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *VPNGateway) Hub() {}

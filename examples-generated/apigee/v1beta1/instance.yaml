@@ -15,7 +15,7 @@ spec:
 
 ---
 
-apiVersion: apigee.gcp.upbound.io/v1beta1
+apiVersion: apigee.gcp.upbound.io/v1beta2
 kind: Organization
 metadata:
   annotations:

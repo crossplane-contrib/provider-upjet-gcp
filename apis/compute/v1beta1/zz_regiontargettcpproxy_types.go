@@ -16,7 +16,7 @@ import (
 type RegionTargetTCPProxyInitParameters struct {
 
 	// A reference to the BackendService resource.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionBackendService
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.RegionBackendService
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
@@ -88,7 +88,7 @@ type RegionTargetTCPProxyObservation struct {
 type RegionTargetTCPProxyParameters struct {
 
 	// A reference to the BackendService resource.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionBackendService
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.RegionBackendService
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`

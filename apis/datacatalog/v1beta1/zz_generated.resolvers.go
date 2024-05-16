@@ -9,9 +9,10 @@ package v1beta1
 import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	resource "github.com/crossplane/upjet/pkg/resource"
 	errors "github.com/pkg/errors"
+
+	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 
 	// ResolveReferences of this Entry.
@@ -76,7 +77,7 @@ func (mg *Tag) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.upbound.io", "v1beta1", "Entry", "EntryList")
+		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.upbound.io", "v1beta2", "Entry", "EntryList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -95,7 +96,7 @@ func (mg *Tag) ResolveReferences(ctx context.Context, c client.Reader) error {
 	mg.Spec.ForProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ParentRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.upbound.io", "v1beta1", "TagTemplate", "TagTemplateList")
+		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.upbound.io", "v1beta2", "TagTemplate", "TagTemplateList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -114,7 +115,7 @@ func (mg *Tag) ResolveReferences(ctx context.Context, c client.Reader) error {
 	mg.Spec.ForProvider.Template = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TemplateRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.upbound.io", "v1beta1", "Entry", "EntryList")
+		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.upbound.io", "v1beta2", "Entry", "EntryList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -133,7 +134,7 @@ func (mg *Tag) ResolveReferences(ctx context.Context, c client.Reader) error {
 	mg.Spec.InitProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ParentRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.upbound.io", "v1beta1", "TagTemplate", "TagTemplateList")
+		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.upbound.io", "v1beta2", "TagTemplate", "TagTemplateList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}

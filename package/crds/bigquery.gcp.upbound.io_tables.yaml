@@ -1936,3 +1936,1810 @@ spec:
     storage: true
     subresources:
       status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta2
+    schema:
+      openAPIV3Schema:
+        description: Table is the Schema for the Tables API. Creates a table resource
+          in a dataset for Google BigQuery.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: TableSpec defines the desired state of Table
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  clustering:
+                    description: |-
+                      Specifies column names to use for data clustering.
+                      Up to four top-level columns are allowed, and should be specified in
+                      descending priority order.
+                    items:
+                      type: string
+                    type: array
+                  datasetId:
+                    description: |-
+                      The dataset ID to create the table in.
+                      Changing this forces a new resource to be created.
+                    type: string
+                  datasetIdRef:
+                    description: Reference to a Dataset in bigquery to populate datasetId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  datasetIdSelector:
+                    description: Selector for a Dataset in bigquery to populate datasetId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  deletionProtection:
+                    type: boolean
+                  description:
+                    description: The field description.
+                    type: string
+                  encryptionConfiguration:
+                    description: |-
+                      Specifies how the table should be encrypted.
+                      If left blank, the table will be encrypted with a Google-managed key; that process
+                      is transparent to the user.  Structure is documented below.
+                    properties:
+                      kmsKeyName:
+                        description: |-
+                          The self link or full name of a key which should be used to
+                          encrypt this table.  Note that the default bigquery service account will need to have
+                          encrypt/decrypt permissions on this key - you may want to see the
+                          google_bigquery_default_service_account datasource and the
+                          google_kms_crypto_key_iam_binding resource.
+                        type: string
+                    type: object
+                  expirationTime:
+                    description: |-
+                      The time when this table expires, in
+                      milliseconds since the epoch. If not present, the table will persist
+                      indefinitely. Expired tables will be deleted and their storage
+                      reclaimed.
+                    type: number
+                  externalDataConfiguration:
+                    description: |-
+                      Describes the data format,
+                      location, and other properties of a table stored outside of BigQuery.
+                      By defining these properties, the data source can then be queried as
+                      if it were a standard BigQuery table. Structure is documented below.
+                    properties:
+                      autodetect:
+                        description: |-
+                          - Let BigQuery try to autodetect the schema
+                          and format of the table.
+                        type: boolean
+                      avroOptions:
+                        description: |-
+                          Additional options if source_format is set to
+                          "AVRO".  Structure is documented below.
+                        properties:
+                          useAvroLogicalTypes:
+                            description: |-
+                              If is set to true, indicates whether
+                              to interpret logical types as the corresponding BigQuery data type
+                              (for example, TIMESTAMP), instead of using the raw type (for example, INTEGER).
+                            type: boolean
+                        type: object
+                      compression:
+                        description: |-
+                          The compression type of the data source.
+                          Valid values are "NONE" or "GZIP".
+                        type: string
+                      connectionId:
+                        description: |-
+                          The connection specifying the credentials to be used to read
+                          external storage, such as Azure Blob, Cloud Storage, or S3. The connection_id can have
+                          the form {{project}}.{{location}}.{{connection_id}}
+                          or projects/{{project}}/locations/{{location}}/connections/{{connection_id}}.
+                        type: string
+                      csvOptions:
+                        description: |-
+                          Additional properties to set if
+                          source_format is set to "CSV". Structure is documented below.
+                        properties:
+                          allowJaggedRows:
+                            description: |-
+                              Indicates if BigQuery should accept rows
+                              that are missing trailing optional columns.
+                            type: boolean
+                          allowQuotedNewlines:
+                            description: |-
+                              Indicates if BigQuery should allow
+                              quoted data sections that contain newline characters in a CSV file.
+                              The default value is false.
+                            type: boolean
+                          encoding:
+                            description: The character encoding of the data. The supported
+                              values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE, and
+                              UTF-32LE. The default value is UTF-8.
+                            type: string
+                          fieldDelimiter:
+                            description: The separator for fields in a CSV file.
+                            type: string
+                          quote:
+                            description: |-
+                              The value that is used to quote data sections in a
+                              CSV file. If your data does not contain quoted sections, set the
+                              property value to an empty string. If your data contains quoted newline
+                              characters, you must also set the allow_quoted_newlines property to true.
+                            type: string
+                          skipLeadingRows:
+                            description: |-
+                              The number of rows at the top of the sheet
+                              that BigQuery will skip when reading the data. At least one of range or
+                              skip_leading_rows must be set.
+                            type: number
+                        type: object
+                      fileSetSpecType:
+                        description: |-
+                          Specifies how source URIs are interpreted for constructing the file set to load.
+                          By default source URIs are expanded against the underlying storage.
+                          Other options include specifying manifest files. Only applicable to object storage systems. Docs
+                        type: string
+                      googleSheetsOptions:
+                        description: |-
+                          Additional options if
+                          source_format is set to "GOOGLE_SHEETS". Structure is
+                          documented below.
+                        properties:
+                          range:
+                            description: |-
+                              Information required to partition based on ranges.
+                              Structure is documented below.
+                            type: string
+                          skipLeadingRows:
+                            description: |-
+                              The number of rows at the top of the sheet
+                              that BigQuery will skip when reading the data. At least one of range or
+                              skip_leading_rows must be set.
+                            type: number
+                        type: object
+                      hivePartitioningOptions:
+                        description: |-
+                          When set, configures hive partitioning
+                          support. Not all storage formats support hive partitioning -- requesting hive
+                          partitioning on an unsupported format will lead to an error, as will providing
+                          an invalid specification. Structure is documented below.
+                        properties:
+                          mode:
+                            description: |-
+                              When set, what mode of hive partitioning to use when
+                              reading data. The following modes are supported.
+                            type: string
+                          requirePartitionFilter:
+                            description: |-
+                              If set to true, queries over this table
+                              require a partition filter that can be used for partition elimination to be
+                              specified. require_partition_filter is deprecated and will be removed in
+                              a future major release. Use the top level field with the same name instead.
+                            type: boolean
+                          sourceUriPrefix:
+                            description: |-
+                              When hive partition detection is requested,
+                              a common for all source uris must be required. The prefix must end immediately
+                              before the partition key encoding begins. For example, consider files following
+                              this data layout. gs://bucket/path_to_table/dt=2019-06-01/country=USA/id=7/file.avro
+                              gs://bucket/path_to_table/dt=2019-05-31/country=CA/id=3/file.avro When hive
+                              partitioning is requested with either AUTO or STRINGS detection, the common prefix
+                              can be either of gs://bucket/path_to_table or gs://bucket/path_to_table/.
+                              Note that when mode is set to CUSTOM, you must encode the partition key schema within the source_uri_prefix by setting source_uri_prefix to gs://bucket/path_to_table/{key1:TYPE1}/{key2:TYPE2}/{key3:TYPE3}.
+                            type: string
+                        type: object
+                      ignoreUnknownValues:
+                        description: |-
+                          Indicates if BigQuery should
+                          allow extra values that are not represented in the table schema.
+                          If true, the extra values are ignored. If false, records with
+                          extra columns are treated as bad records, and if there are too
+                          many bad records, an invalid error is returned in the job result.
+                          The default value is false.
+                        type: boolean
+                      jsonOptions:
+                        description: |-
+                          Additional properties to set if
+                          source_format is set to "JSON". Structure is documented below.
+                        properties:
+                          encoding:
+                            description: The character encoding of the data. The supported
+                              values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE, and
+                              UTF-32LE. The default value is UTF-8.
+                            type: string
+                        type: object
+                      maxBadRecords:
+                        description: |-
+                          The maximum number of bad records that
+                          BigQuery can ignore when reading data.
+                        type: number
+                      metadataCacheMode:
+                        description: Metadata Cache Mode for the table. Set this to
+                          enable caching of metadata from external data source. Valid
+                          values are AUTOMATIC and MANUAL.
+                        type: string
+                      objectMetadata:
+                        description: Object Metadata is used to create Object Tables.
+                          Object Tables contain a listing of objects (with their metadata)
+                          found at the sourceUris. If object_metadata is set, source_format
+                          should be omitted.
+                        type: string
+                      parquetOptions:
+                        description: |-
+                          Additional properties to set if
+                          source_format is set to "PARQUET". Structure is documented below.
+                        properties:
+                          enableListInference:
+                            description: Indicates whether to use schema inference
+                              specifically for Parquet LIST logical type.
+                            type: boolean
+                          enumAsString:
+                            description: Indicates whether to infer Parquet ENUM logical
+                              type as STRING instead of BYTES by default.
+                            type: boolean
+                        type: object
+                      referenceFileSchemaUri:
+                        description: 'When creating an external table, the user can
+                          provide a reference file with the table schema. This is
+                          enabled for the following formats: AVRO, PARQUET, ORC.'
+                        type: string
+                      schema:
+                        description: |-
+                          A JSON schema for the external table. Schema is required
+                          for CSV and JSON formats if autodetect is not on. Schema is disallowed
+                          for Google Cloud Bigtable, Cloud Datastore backups, Avro, Iceberg, ORC and Parquet formats.
+                          ~>NOTE: Because this field expects a JSON string, any changes to the
+                          string will create a diff, even if the JSON itself hasn't changed.
+                          Furthermore drift for this field cannot not be detected because BigQuery
+                          only uses this schema to compute the effective schema for the table, therefore
+                          any changes on the configured value will force the table to be recreated.
+                          This schema is effectively only applied when creating a table from an external
+                          datasource, after creation the computed schema will be stored in
+                          google_bigquery_table.schema
+                        type: string
+                      sourceFormat:
+                        description: |-
+                          The data format. Please see sourceFormat under
+                          ExternalDataConfiguration
+                          in Bigquery's public API documentation for supported formats. To use "GOOGLE_SHEETS"
+                          the scopes must include "https://www.googleapis.com/auth/drive.readonly".
+                        type: string
+                      sourceUris:
+                        description: |-
+                          A list of the fully-qualified URIs that point to
+                          your data in Google Cloud.
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  friendlyName:
+                    description: A descriptive name for the table.
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of labels to assign to the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  materializedView:
+                    description: |-
+                      If specified, configures this table as a materialized view.
+                      Structure is documented below.
+                    properties:
+                      allowNonIncrementalDefinition:
+                        description: |-
+                          Allow non incremental materialized view definition.
+                          The default value is false.
+                        type: boolean
+                      enableRefresh:
+                        description: |-
+                          Specifies whether to use BigQuery's automatic refresh for this materialized view when the base table is updated.
+                          The default value is true.
+                        type: boolean
+                      query:
+                        description: A query whose result is persisted.
+                        type: string
+                      refreshIntervalMs:
+                        description: |-
+                          The maximum frequency at which this materialized view will be refreshed.
+                          The default value is 1800000
+                        type: number
+                    type: object
+                  maxStaleness:
+                    description: |-
+                      :  The maximum staleness of data that could be
+                      returned when the table (or stale MV) is queried. Staleness encoded as a
+                      string encoding of SQL IntervalValue
+                      type.
+                    type: string
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs. If it
+                      is not provided, the provider project is used.
+                    type: string
+                  rangePartitioning:
+                    description: |-
+                      If specified, configures range-based
+                      partitioning for this table. Structure is documented below.
+                    properties:
+                      field:
+                        description: |-
+                          The field used to determine how to create a range-based
+                          partition.
+                        type: string
+                      range:
+                        description: |-
+                          Information required to partition based on ranges.
+                          Structure is documented below.
+                        properties:
+                          end:
+                            description: End of the range partitioning, exclusive.
+                            type: number
+                          interval:
+                            description: The width of each range within the partition.
+                            type: number
+                          start:
+                            description: Start of the range partitioning, inclusive.
+                            type: number
+                        type: object
+                    type: object
+                  requirePartitionFilter:
+                    description: |-
+                      If set to true, queries over this table
+                      require a partition filter that can be used for partition elimination to be
+                      specified.
+                    type: boolean
+                  schema:
+                    description: A JSON schema for the table.
+                    type: string
+                  tableConstraints:
+                    description: |-
+                      Defines the primary key and foreign keys.
+                      Structure is documented below.
+                    properties:
+                      foreignKeys:
+                        description: |-
+                          Present only if the table has a foreign key.
+                          The foreign key is not enforced.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            columnReferences:
+                              description: |-
+                                :  The pair of the foreign key column and primary key column.
+                                Structure is documented below.
+                              properties:
+                                referencedColumn:
+                                  description: |-
+                                    :  The column in the primary key that are
+                                    referenced by the referencingColumn
+                                  type: string
+                                referencingColumn:
+                                  description: ':  The column that composes the foreign
+                                    key.'
+                                  type: string
+                              type: object
+                            name:
+                              description: ':  Set only if the foreign key constraint
+                                is named.'
+                              type: string
+                            referencedTable:
+                              description: |-
+                                :  The table that holds the primary key
+                                and is referenced by this foreign key.
+                                Structure is documented below.
+                              properties:
+                                datasetId:
+                                  description: ':  The ID of the dataset containing
+                                    this table.'
+                                  type: string
+                                projectId:
+                                  description: ':  The ID of the project containing
+                                    this table.'
+                                  type: string
+                                tableId:
+                                  description: |-
+                                    A unique ID for the resource.
+                                    Changing this forces a new resource to be created.
+                                  type: string
+                              required:
+                              - datasetId
+                              type: object
+                          type: object
+                        type: array
+                      primaryKey:
+                        description: |-
+                          Represents the primary key constraint
+                          on a table's columns. Present only if the table has a primary key.
+                          The primary key is not enforced.
+                          Structure is documented below.
+                        properties:
+                          columns:
+                            description: ':  The columns that are composed of the
+                              primary key constraint.'
+                            items:
+                              type: string
+                            type: array
+                        type: object
+                    type: object
+                  tableReplicationInfo:
+                    properties:
+                      replicationIntervalMs:
+                        type: number
+                      sourceDatasetId:
+                        description: |-
+                          The dataset ID to create the table in.
+                          Changing this forces a new resource to be created.
+                        type: string
+                      sourceProjectId:
+                        description: an identifier for the resource with format projects/{{project}}/datasets/{{dataset}}/tables/{{name}}
+                        type: string
+                      sourceTableId:
+                        description: |-
+                          A unique ID for the resource.
+                          Changing this forces a new resource to be created.
+                        type: string
+                    type: object
+                  timePartitioning:
+                    description: |-
+                      If specified, configures time-based
+                      partitioning for this table. Structure is documented below.
+                    properties:
+                      expirationMs:
+                        description: |-
+                          Number of milliseconds for which to keep the
+                          storage for a partition.
+                        type: number
+                      field:
+                        description: |-
+                          The field used to determine how to create a time-based
+                          partition. If time-based partitioning is enabled without this value, the
+                          table is partitioned based on the load time.
+                        type: string
+                      requirePartitionFilter:
+                        description: |-
+                          If set to true, queries over this table
+                          require a partition filter that can be used for partition elimination to be
+                          specified. require_partition_filter is deprecated and will be removed in
+                          a future major release. Use the top level field with the same name instead.
+                        type: boolean
+                      type:
+                        description: |-
+                          The supported types are DAY, HOUR, MONTH, and YEAR,
+                          which will generate one partition per day, hour, month, and year, respectively.
+                        type: string
+                    type: object
+                  view:
+                    description: |-
+                      If specified, configures this table as a view.
+                      Structure is documented below.
+                    properties:
+                      query:
+                        description: A query that BigQuery executes when the view
+                          is referenced.
+                        type: string
+                      useLegacySql:
+                        description: |-
+                          Specifies whether to use BigQuery's legacy SQL for this view.
+                          The default value is true. If set to false, the view will use BigQuery's standard SQL.
+                        type: boolean
+                    type: object
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  clustering:
+                    description: |-
+                      Specifies column names to use for data clustering.
+                      Up to four top-level columns are allowed, and should be specified in
+                      descending priority order.
+                    items:
+                      type: string
+                    type: array
+                  deletionProtection:
+                    type: boolean
+                  description:
+                    description: The field description.
+                    type: string
+                  encryptionConfiguration:
+                    description: |-
+                      Specifies how the table should be encrypted.
+                      If left blank, the table will be encrypted with a Google-managed key; that process
+                      is transparent to the user.  Structure is documented below.
+                    properties:
+                      kmsKeyName:
+                        description: |-
+                          The self link or full name of a key which should be used to
+                          encrypt this table.  Note that the default bigquery service account will need to have
+                          encrypt/decrypt permissions on this key - you may want to see the
+                          google_bigquery_default_service_account datasource and the
+                          google_kms_crypto_key_iam_binding resource.
+                        type: string
+                    type: object
+                  expirationTime:
+                    description: |-
+                      The time when this table expires, in
+                      milliseconds since the epoch. If not present, the table will persist
+                      indefinitely. Expired tables will be deleted and their storage
+                      reclaimed.
+                    type: number
+                  externalDataConfiguration:
+                    description: |-
+                      Describes the data format,
+                      location, and other properties of a table stored outside of BigQuery.
+                      By defining these properties, the data source can then be queried as
+                      if it were a standard BigQuery table. Structure is documented below.
+                    properties:
+                      autodetect:
+                        description: |-
+                          - Let BigQuery try to autodetect the schema
+                          and format of the table.
+                        type: boolean
+                      avroOptions:
+                        description: |-
+                          Additional options if source_format is set to
+                          "AVRO".  Structure is documented below.
+                        properties:
+                          useAvroLogicalTypes:
+                            description: |-
+                              If is set to true, indicates whether
+                              to interpret logical types as the corresponding BigQuery data type
+                              (for example, TIMESTAMP), instead of using the raw type (for example, INTEGER).
+                            type: boolean
+                        type: object
+                      compression:
+                        description: |-
+                          The compression type of the data source.
+                          Valid values are "NONE" or "GZIP".
+                        type: string
+                      connectionId:
+                        description: |-
+                          The connection specifying the credentials to be used to read
+                          external storage, such as Azure Blob, Cloud Storage, or S3. The connection_id can have
+                          the form {{project}}.{{location}}.{{connection_id}}
+                          or projects/{{project}}/locations/{{location}}/connections/{{connection_id}}.
+                        type: string
+                      csvOptions:
+                        description: |-
+                          Additional properties to set if
+                          source_format is set to "CSV". Structure is documented below.
+                        properties:
+                          allowJaggedRows:
+                            description: |-
+                              Indicates if BigQuery should accept rows
+                              that are missing trailing optional columns.
+                            type: boolean
+                          allowQuotedNewlines:
+                            description: |-
+                              Indicates if BigQuery should allow
+                              quoted data sections that contain newline characters in a CSV file.
+                              The default value is false.
+                            type: boolean
+                          encoding:
+                            description: The character encoding of the data. The supported
+                              values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE, and
+                              UTF-32LE. The default value is UTF-8.
+                            type: string
+                          fieldDelimiter:
+                            description: The separator for fields in a CSV file.
+                            type: string
+                          quote:
+                            description: |-
+                              The value that is used to quote data sections in a
+                              CSV file. If your data does not contain quoted sections, set the
+                              property value to an empty string. If your data contains quoted newline
+                              characters, you must also set the allow_quoted_newlines property to true.
+                            type: string
+                          skipLeadingRows:
+                            description: |-
+                              The number of rows at the top of the sheet
+                              that BigQuery will skip when reading the data. At least one of range or
+                              skip_leading_rows must be set.
+                            type: number
+                        type: object
+                      fileSetSpecType:
+                        description: |-
+                          Specifies how source URIs are interpreted for constructing the file set to load.
+                          By default source URIs are expanded against the underlying storage.
+                          Other options include specifying manifest files. Only applicable to object storage systems. Docs
+                        type: string
+                      googleSheetsOptions:
+                        description: |-
+                          Additional options if
+                          source_format is set to "GOOGLE_SHEETS". Structure is
+                          documented below.
+                        properties:
+                          range:
+                            description: |-
+                              Information required to partition based on ranges.
+                              Structure is documented below.
+                            type: string
+                          skipLeadingRows:
+                            description: |-
+                              The number of rows at the top of the sheet
+                              that BigQuery will skip when reading the data. At least one of range or
+                              skip_leading_rows must be set.
+                            type: number
+                        type: object
+                      hivePartitioningOptions:
+                        description: |-
+                          When set, configures hive partitioning
+                          support. Not all storage formats support hive partitioning -- requesting hive
+                          partitioning on an unsupported format will lead to an error, as will providing
+                          an invalid specification. Structure is documented below.
+                        properties:
+                          mode:
+                            description: |-
+                              When set, what mode of hive partitioning to use when
+                              reading data. The following modes are supported.
+                            type: string
+                          requirePartitionFilter:
+                            description: |-
+                              If set to true, queries over this table
+                              require a partition filter that can be used for partition elimination to be
+                              specified. require_partition_filter is deprecated and will be removed in
+                              a future major release. Use the top level field with the same name instead.
+                            type: boolean
+                          sourceUriPrefix:
+                            description: |-
+                              When hive partition detection is requested,
+                              a common for all source uris must be required. The prefix must end immediately
+                              before the partition key encoding begins. For example, consider files following
+                              this data layout. gs://bucket/path_to_table/dt=2019-06-01/country=USA/id=7/file.avro
+                              gs://bucket/path_to_table/dt=2019-05-31/country=CA/id=3/file.avro When hive
+                              partitioning is requested with either AUTO or STRINGS detection, the common prefix
+                              can be either of gs://bucket/path_to_table or gs://bucket/path_to_table/.
+                              Note that when mode is set to CUSTOM, you must encode the partition key schema within the source_uri_prefix by setting source_uri_prefix to gs://bucket/path_to_table/{key1:TYPE1}/{key2:TYPE2}/{key3:TYPE3}.
+                            type: string
+                        type: object
+                      ignoreUnknownValues:
+                        description: |-
+                          Indicates if BigQuery should
+                          allow extra values that are not represented in the table schema.
+                          If true, the extra values are ignored. If false, records with
+                          extra columns are treated as bad records, and if there are too
+                          many bad records, an invalid error is returned in the job result.
+                          The default value is false.
+                        type: boolean
+                      jsonOptions:
+                        description: |-
+                          Additional properties to set if
+                          source_format is set to "JSON". Structure is documented below.
+                        properties:
+                          encoding:
+                            description: The character encoding of the data. The supported
+                              values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE, and
+                              UTF-32LE. The default value is UTF-8.
+                            type: string
+                        type: object
+                      maxBadRecords:
+                        description: |-
+                          The maximum number of bad records that
+                          BigQuery can ignore when reading data.
+                        type: number
+                      metadataCacheMode:
+                        description: Metadata Cache Mode for the table. Set this to
+                          enable caching of metadata from external data source. Valid
+                          values are AUTOMATIC and MANUAL.
+                        type: string
+                      objectMetadata:
+                        description: Object Metadata is used to create Object Tables.
+                          Object Tables contain a listing of objects (with their metadata)
+                          found at the sourceUris. If object_metadata is set, source_format
+                          should be omitted.
+                        type: string
+                      parquetOptions:
+                        description: |-
+                          Additional properties to set if
+                          source_format is set to "PARQUET". Structure is documented below.
+                        properties:
+                          enableListInference:
+                            description: Indicates whether to use schema inference
+                              specifically for Parquet LIST logical type.
+                            type: boolean
+                          enumAsString:
+                            description: Indicates whether to infer Parquet ENUM logical
+                              type as STRING instead of BYTES by default.
+                            type: boolean
+                        type: object
+                      referenceFileSchemaUri:
+                        description: 'When creating an external table, the user can
+                          provide a reference file with the table schema. This is
+                          enabled for the following formats: AVRO, PARQUET, ORC.'
+                        type: string
+                      schema:
+                        description: |-
+                          A JSON schema for the external table. Schema is required
+                          for CSV and JSON formats if autodetect is not on. Schema is disallowed
+                          for Google Cloud Bigtable, Cloud Datastore backups, Avro, Iceberg, ORC and Parquet formats.
+                          ~>NOTE: Because this field expects a JSON string, any changes to the
+                          string will create a diff, even if the JSON itself hasn't changed.
+                          Furthermore drift for this field cannot not be detected because BigQuery
+                          only uses this schema to compute the effective schema for the table, therefore
+                          any changes on the configured value will force the table to be recreated.
+                          This schema is effectively only applied when creating a table from an external
+                          datasource, after creation the computed schema will be stored in
+                          google_bigquery_table.schema
+                        type: string
+                      sourceFormat:
+                        description: |-
+                          The data format. Please see sourceFormat under
+                          ExternalDataConfiguration
+                          in Bigquery's public API documentation for supported formats. To use "GOOGLE_SHEETS"
+                          the scopes must include "https://www.googleapis.com/auth/drive.readonly".
+                        type: string
+                      sourceUris:
+                        description: |-
+                          A list of the fully-qualified URIs that point to
+                          your data in Google Cloud.
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  friendlyName:
+                    description: A descriptive name for the table.
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of labels to assign to the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  materializedView:
+                    description: |-
+                      If specified, configures this table as a materialized view.
+                      Structure is documented below.
+                    properties:
+                      allowNonIncrementalDefinition:
+                        description: |-
+                          Allow non incremental materialized view definition.
+                          The default value is false.
+                        type: boolean
+                      enableRefresh:
+                        description: |-
+                          Specifies whether to use BigQuery's automatic refresh for this materialized view when the base table is updated.
+                          The default value is true.
+                        type: boolean
+                      query:
+                        description: A query whose result is persisted.
+                        type: string
+                      refreshIntervalMs:
+                        description: |-
+                          The maximum frequency at which this materialized view will be refreshed.
+                          The default value is 1800000
+                        type: number
+                    type: object
+                  maxStaleness:
+                    description: |-
+                      :  The maximum staleness of data that could be
+                      returned when the table (or stale MV) is queried. Staleness encoded as a
+                      string encoding of SQL IntervalValue
+                      type.
+                    type: string
+                  rangePartitioning:
+                    description: |-
+                      If specified, configures range-based
+                      partitioning for this table. Structure is documented below.
+                    properties:
+                      field:
+                        description: |-
+                          The field used to determine how to create a range-based
+                          partition.
+                        type: string
+                      range:
+                        description: |-
+                          Information required to partition based on ranges.
+                          Structure is documented below.
+                        properties:
+                          end:
+                            description: End of the range partitioning, exclusive.
+                            type: number
+                          interval:
+                            description: The width of each range within the partition.
+                            type: number
+                          start:
+                            description: Start of the range partitioning, inclusive.
+                            type: number
+                        type: object
+                    type: object
+                  requirePartitionFilter:
+                    description: |-
+                      If set to true, queries over this table
+                      require a partition filter that can be used for partition elimination to be
+                      specified.
+                    type: boolean
+                  schema:
+                    description: A JSON schema for the table.
+                    type: string
+                  tableConstraints:
+                    description: |-
+                      Defines the primary key and foreign keys.
+                      Structure is documented below.
+                    properties:
+                      foreignKeys:
+                        description: |-
+                          Present only if the table has a foreign key.
+                          The foreign key is not enforced.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            columnReferences:
+                              description: |-
+                                :  The pair of the foreign key column and primary key column.
+                                Structure is documented below.
+                              properties:
+                                referencedColumn:
+                                  description: |-
+                                    :  The column in the primary key that are
+                                    referenced by the referencingColumn
+                                  type: string
+                                referencingColumn:
+                                  description: ':  The column that composes the foreign
+                                    key.'
+                                  type: string
+                              type: object
+                            name:
+                              description: ':  Set only if the foreign key constraint
+                                is named.'
+                              type: string
+                            referencedTable:
+                              description: |-
+                                :  The table that holds the primary key
+                                and is referenced by this foreign key.
+                                Structure is documented below.
+                              properties:
+                                projectId:
+                                  description: ':  The ID of the project containing
+                                    this table.'
+                                  type: string
+                                tableId:
+                                  description: |-
+                                    A unique ID for the resource.
+                                    Changing this forces a new resource to be created.
+                                  type: string
+                              type: object
+                          type: object
+                        type: array
+                      primaryKey:
+                        description: |-
+                          Represents the primary key constraint
+                          on a table's columns. Present only if the table has a primary key.
+                          The primary key is not enforced.
+                          Structure is documented below.
+                        properties:
+                          columns:
+                            description: ':  The columns that are composed of the
+                              primary key constraint.'
+                            items:
+                              type: string
+                            type: array
+                        type: object
+                    type: object
+                  tableReplicationInfo:
+                    properties:
+                      replicationIntervalMs:
+                        type: number
+                      sourceDatasetId:
+                        description: |-
+                          The dataset ID to create the table in.
+                          Changing this forces a new resource to be created.
+                        type: string
+                      sourceProjectId:
+                        description: an identifier for the resource with format projects/{{project}}/datasets/{{dataset}}/tables/{{name}}
+                        type: string
+                      sourceTableId:
+                        description: |-
+                          A unique ID for the resource.
+                          Changing this forces a new resource to be created.
+                        type: string
+                    type: object
+                  timePartitioning:
+                    description: |-
+                      If specified, configures time-based
+                      partitioning for this table. Structure is documented below.
+                    properties:
+                      expirationMs:
+                        description: |-
+                          Number of milliseconds for which to keep the
+                          storage for a partition.
+                        type: number
+                      field:
+                        description: |-
+                          The field used to determine how to create a time-based
+                          partition. If time-based partitioning is enabled without this value, the
+                          table is partitioned based on the load time.
+                        type: string
+                      requirePartitionFilter:
+                        description: |-
+                          If set to true, queries over this table
+                          require a partition filter that can be used for partition elimination to be
+                          specified. require_partition_filter is deprecated and will be removed in
+                          a future major release. Use the top level field with the same name instead.
+                        type: boolean
+                      type:
+                        description: |-
+                          The supported types are DAY, HOUR, MONTH, and YEAR,
+                          which will generate one partition per day, hour, month, and year, respectively.
+                        type: string
+                    type: object
+                  view:
+                    description: |-
+                      If specified, configures this table as a view.
+                      Structure is documented below.
+                    properties:
+                      query:
+                        description: A query that BigQuery executes when the view
+                          is referenced.
+                        type: string
+                      useLegacySql:
+                        description: |-
+                          Specifies whether to use BigQuery's legacy SQL for this view.
+                          The default value is true. If set to false, the view will use BigQuery's standard SQL.
+                        type: boolean
+                    type: object
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: TableStatus defines the observed state of Table.
+            properties:
+              atProvider:
+                properties:
+                  clustering:
+                    description: |-
+                      Specifies column names to use for data clustering.
+                      Up to four top-level columns are allowed, and should be specified in
+                      descending priority order.
+                    items:
+                      type: string
+                    type: array
+                  creationTime:
+                    description: The time when this table was created, in milliseconds
+                      since the epoch.
+                    type: number
+                  datasetId:
+                    description: |-
+                      The dataset ID to create the table in.
+                      Changing this forces a new resource to be created.
+                    type: string
+                  deletionProtection:
+                    type: boolean
+                  description:
+                    description: The field description.
+                    type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
+                  encryptionConfiguration:
+                    description: |-
+                      Specifies how the table should be encrypted.
+                      If left blank, the table will be encrypted with a Google-managed key; that process
+                      is transparent to the user.  Structure is documented below.
+                    properties:
+                      kmsKeyName:
+                        description: |-
+                          The self link or full name of a key which should be used to
+                          encrypt this table.  Note that the default bigquery service account will need to have
+                          encrypt/decrypt permissions on this key - you may want to see the
+                          google_bigquery_default_service_account datasource and the
+                          google_kms_crypto_key_iam_binding resource.
+                        type: string
+                      kmsKeyVersion:
+                        description: The self link or full name of the kms key version
+                          used to encrypt this table.
+                        type: string
+                    type: object
+                  etag:
+                    description: A hash of the resource.
+                    type: string
+                  expirationTime:
+                    description: |-
+                      The time when this table expires, in
+                      milliseconds since the epoch. If not present, the table will persist
+                      indefinitely. Expired tables will be deleted and their storage
+                      reclaimed.
+                    type: number
+                  externalDataConfiguration:
+                    description: |-
+                      Describes the data format,
+                      location, and other properties of a table stored outside of BigQuery.
+                      By defining these properties, the data source can then be queried as
+                      if it were a standard BigQuery table. Structure is documented below.
+                    properties:
+                      autodetect:
+                        description: |-
+                          - Let BigQuery try to autodetect the schema
+                          and format of the table.
+                        type: boolean
+                      avroOptions:
+                        description: |-
+                          Additional options if source_format is set to
+                          "AVRO".  Structure is documented below.
+                        properties:
+                          useAvroLogicalTypes:
+                            description: |-
+                              If is set to true, indicates whether
+                              to interpret logical types as the corresponding BigQuery data type
+                              (for example, TIMESTAMP), instead of using the raw type (for example, INTEGER).
+                            type: boolean
+                        type: object
+                      compression:
+                        description: |-
+                          The compression type of the data source.
+                          Valid values are "NONE" or "GZIP".
+                        type: string
+                      connectionId:
+                        description: |-
+                          The connection specifying the credentials to be used to read
+                          external storage, such as Azure Blob, Cloud Storage, or S3. The connection_id can have
+                          the form {{project}}.{{location}}.{{connection_id}}
+                          or projects/{{project}}/locations/{{location}}/connections/{{connection_id}}.
+                        type: string
+                      csvOptions:
+                        description: |-
+                          Additional properties to set if
+                          source_format is set to "CSV". Structure is documented below.
+                        properties:
+                          allowJaggedRows:
+                            description: |-
+                              Indicates if BigQuery should accept rows
+                              that are missing trailing optional columns.
+                            type: boolean
+                          allowQuotedNewlines:
+                            description: |-
+                              Indicates if BigQuery should allow
+                              quoted data sections that contain newline characters in a CSV file.
+                              The default value is false.
+                            type: boolean
+                          encoding:
+                            description: The character encoding of the data. The supported
+                              values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE, and
+                              UTF-32LE. The default value is UTF-8.
+                            type: string
+                          fieldDelimiter:
+                            description: The separator for fields in a CSV file.
+                            type: string
+                          quote:
+                            description: |-
+                              The value that is used to quote data sections in a
+                              CSV file. If your data does not contain quoted sections, set the
+                              property value to an empty string. If your data contains quoted newline
+                              characters, you must also set the allow_quoted_newlines property to true.
+                            type: string
+                          skipLeadingRows:
+                            description: |-
+                              The number of rows at the top of the sheet
+                              that BigQuery will skip when reading the data. At least one of range or
+                              skip_leading_rows must be set.
+                            type: number
+                        type: object
+                      fileSetSpecType:
+                        description: |-
+                          Specifies how source URIs are interpreted for constructing the file set to load.
+                          By default source URIs are expanded against the underlying storage.
+                          Other options include specifying manifest files. Only applicable to object storage systems. Docs
+                        type: string
+                      googleSheetsOptions:
+                        description: |-
+                          Additional options if
+                          source_format is set to "GOOGLE_SHEETS". Structure is
+                          documented below.
+                        properties:
+                          range:
+                            description: |-
+                              Information required to partition based on ranges.
+                              Structure is documented below.
+                            type: string
+                          skipLeadingRows:
+                            description: |-
+                              The number of rows at the top of the sheet
+                              that BigQuery will skip when reading the data. At least one of range or
+                              skip_leading_rows must be set.
+                            type: number
+                        type: object
+                      hivePartitioningOptions:
+                        description: |-
+                          When set, configures hive partitioning
+                          support. Not all storage formats support hive partitioning -- requesting hive
+                          partitioning on an unsupported format will lead to an error, as will providing
+                          an invalid specification. Structure is documented below.
+                        properties:
+                          mode:
+                            description: |-
+                              When set, what mode of hive partitioning to use when
+                              reading data. The following modes are supported.
+                            type: string
+                          requirePartitionFilter:
+                            description: |-
+                              If set to true, queries over this table
+                              require a partition filter that can be used for partition elimination to be
+                              specified. require_partition_filter is deprecated and will be removed in
+                              a future major release. Use the top level field with the same name instead.
+                            type: boolean
+                          sourceUriPrefix:
+                            description: |-
+                              When hive partition detection is requested,
+                              a common for all source uris must be required. The prefix must end immediately
+                              before the partition key encoding begins. For example, consider files following
+                              this data layout. gs://bucket/path_to_table/dt=2019-06-01/country=USA/id=7/file.avro
+                              gs://bucket/path_to_table/dt=2019-05-31/country=CA/id=3/file.avro When hive
+                              partitioning is requested with either AUTO or STRINGS detection, the common prefix
+                              can be either of gs://bucket/path_to_table or gs://bucket/path_to_table/.
+                              Note that when mode is set to CUSTOM, you must encode the partition key schema within the source_uri_prefix by setting source_uri_prefix to gs://bucket/path_to_table/{key1:TYPE1}/{key2:TYPE2}/{key3:TYPE3}.
+                            type: string
+                        type: object
+                      ignoreUnknownValues:
+                        description: |-
+                          Indicates if BigQuery should
+                          allow extra values that are not represented in the table schema.
+                          If true, the extra values are ignored. If false, records with
+                          extra columns are treated as bad records, and if there are too
+                          many bad records, an invalid error is returned in the job result.
+                          The default value is false.
+                        type: boolean
+                      jsonOptions:
+                        description: |-
+                          Additional properties to set if
+                          source_format is set to "JSON". Structure is documented below.
+                        properties:
+                          encoding:
+                            description: The character encoding of the data. The supported
+                              values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE, and
+                              UTF-32LE. The default value is UTF-8.
+                            type: string
+                        type: object
+                      maxBadRecords:
+                        description: |-
+                          The maximum number of bad records that
+                          BigQuery can ignore when reading data.
+                        type: number
+                      metadataCacheMode:
+                        description: Metadata Cache Mode for the table. Set this to
+                          enable caching of metadata from external data source. Valid
+                          values are AUTOMATIC and MANUAL.
+                        type: string
+                      objectMetadata:
+                        description: Object Metadata is used to create Object Tables.
+                          Object Tables contain a listing of objects (with their metadata)
+                          found at the sourceUris. If object_metadata is set, source_format
+                          should be omitted.
+                        type: string
+                      parquetOptions:
+                        description: |-
+                          Additional properties to set if
+                          source_format is set to "PARQUET". Structure is documented below.
+                        properties:
+                          enableListInference:
+                            description: Indicates whether to use schema inference
+                              specifically for Parquet LIST logical type.
+                            type: boolean
+                          enumAsString:
+                            description: Indicates whether to infer Parquet ENUM logical
+                              type as STRING instead of BYTES by default.
+                            type: boolean
+                        type: object
+                      referenceFileSchemaUri:
+                        description: 'When creating an external table, the user can
+                          provide a reference file with the table schema. This is
+                          enabled for the following formats: AVRO, PARQUET, ORC.'
+                        type: string
+                      schema:
+                        description: |-
+                          A JSON schema for the external table. Schema is required
+                          for CSV and JSON formats if autodetect is not on. Schema is disallowed
+                          for Google Cloud Bigtable, Cloud Datastore backups, Avro, Iceberg, ORC and Parquet formats.
+                          ~>NOTE: Because this field expects a JSON string, any changes to the
+                          string will create a diff, even if the JSON itself hasn't changed.
+                          Furthermore drift for this field cannot not be detected because BigQuery
+                          only uses this schema to compute the effective schema for the table, therefore
+                          any changes on the configured value will force the table to be recreated.
+                          This schema is effectively only applied when creating a table from an external
+                          datasource, after creation the computed schema will be stored in
+                          google_bigquery_table.schema
+                        type: string
+                      sourceFormat:
+                        description: |-
+                          The data format. Please see sourceFormat under
+                          ExternalDataConfiguration
+                          in Bigquery's public API documentation for supported formats. To use "GOOGLE_SHEETS"
+                          the scopes must include "https://www.googleapis.com/auth/drive.readonly".
+                        type: string
+                      sourceUris:
+                        description: |-
+                          A list of the fully-qualified URIs that point to
+                          your data in Google Cloud.
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  friendlyName:
+                    description: A descriptive name for the table.
+                    type: string
+                  id:
+                    description: an identifier for the resource with format projects/{{project}}/datasets/{{dataset}}/tables/{{name}}
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of labels to assign to the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  lastModifiedTime:
+                    description: The time when this table was last modified, in milliseconds
+                      since the epoch.
+                    type: number
+                  location:
+                    description: The geographic location where the table resides.
+                      This value is inherited from the dataset.
+                    type: string
+                  materializedView:
+                    description: |-
+                      If specified, configures this table as a materialized view.
+                      Structure is documented below.
+                    properties:
+                      allowNonIncrementalDefinition:
+                        description: |-
+                          Allow non incremental materialized view definition.
+                          The default value is false.
+                        type: boolean
+                      enableRefresh:
+                        description: |-
+                          Specifies whether to use BigQuery's automatic refresh for this materialized view when the base table is updated.
+                          The default value is true.
+                        type: boolean
+                      query:
+                        description: A query whose result is persisted.
+                        type: string
+                      refreshIntervalMs:
+                        description: |-
+                          The maximum frequency at which this materialized view will be refreshed.
+                          The default value is 1800000
+                        type: number
+                    type: object
+                  maxStaleness:
+                    description: |-
+                      :  The maximum staleness of data that could be
+                      returned when the table (or stale MV) is queried. Staleness encoded as a
+                      string encoding of SQL IntervalValue
+                      type.
+                    type: string
+                  numBytes:
+                    description: The size of this table in bytes, excluding any data
+                      in the streaming buffer.
+                    type: number
+                  numLongTermBytes:
+                    description: The number of bytes in the table that are considered
+                      "long-term storage".
+                    type: number
+                  numRows:
+                    description: The number of rows of data in this table, excluding
+                      any data in the streaming buffer.
+                    type: number
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs. If it
+                      is not provided, the provider project is used.
+                    type: string
+                  rangePartitioning:
+                    description: |-
+                      If specified, configures range-based
+                      partitioning for this table. Structure is documented below.
+                    properties:
+                      field:
+                        description: |-
+                          The field used to determine how to create a range-based
+                          partition.
+                        type: string
+                      range:
+                        description: |-
+                          Information required to partition based on ranges.
+                          Structure is documented below.
+                        properties:
+                          end:
+                            description: End of the range partitioning, exclusive.
+                            type: number
+                          interval:
+                            description: The width of each range within the partition.
+                            type: number
+                          start:
+                            description: Start of the range partitioning, inclusive.
+                            type: number
+                        type: object
+                    type: object
+                  requirePartitionFilter:
+                    description: |-
+                      If set to true, queries over this table
+                      require a partition filter that can be used for partition elimination to be
+                      specified.
+                    type: boolean
+                  schema:
+                    description: A JSON schema for the table.
+                    type: string
+                  selfLink:
+                    description: The URI of the created resource.
+                    type: string
+                  tableConstraints:
+                    description: |-
+                      Defines the primary key and foreign keys.
+                      Structure is documented below.
+                    properties:
+                      foreignKeys:
+                        description: |-
+                          Present only if the table has a foreign key.
+                          The foreign key is not enforced.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            columnReferences:
+                              description: |-
+                                :  The pair of the foreign key column and primary key column.
+                                Structure is documented below.
+                              properties:
+                                referencedColumn:
+                                  description: |-
+                                    :  The column in the primary key that are
+                                    referenced by the referencingColumn
+                                  type: string
+                                referencingColumn:
+                                  description: ':  The column that composes the foreign
+                                    key.'
+                                  type: string
+                              type: object
+                            name:
+                              description: ':  Set only if the foreign key constraint
+                                is named.'
+                              type: string
+                            referencedTable:
+                              description: |-
+                                :  The table that holds the primary key
+                                and is referenced by this foreign key.
+                                Structure is documented below.
+                              properties:
+                                datasetId:
+                                  description: ':  The ID of the dataset containing
+                                    this table.'
+                                  type: string
+                                projectId:
+                                  description: ':  The ID of the project containing
+                                    this table.'
+                                  type: string
+                                tableId:
+                                  description: |-
+                                    A unique ID for the resource.
+                                    Changing this forces a new resource to be created.
+                                  type: string
+                              type: object
+                          type: object
+                        type: array
+                      primaryKey:
+                        description: |-
+                          Represents the primary key constraint
+                          on a table's columns. Present only if the table has a primary key.
+                          The primary key is not enforced.
+                          Structure is documented below.
+                        properties:
+                          columns:
+                            description: ':  The columns that are composed of the
+                              primary key constraint.'
+                            items:
+                              type: string
+                            type: array
+                        type: object
+                    type: object
+                  tableReplicationInfo:
+                    properties:
+                      replicationIntervalMs:
+                        type: number
+                      sourceDatasetId:
+                        description: |-
+                          The dataset ID to create the table in.
+                          Changing this forces a new resource to be created.
+                        type: string
+                      sourceProjectId:
+                        description: an identifier for the resource with format projects/{{project}}/datasets/{{dataset}}/tables/{{name}}
+                        type: string
+                      sourceTableId:
+                        description: |-
+                          A unique ID for the resource.
+                          Changing this forces a new resource to be created.
+                        type: string
+                    type: object
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: The combination of labels configured directly on
+                      the resource and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  timePartitioning:
+                    description: |-
+                      If specified, configures time-based
+                      partitioning for this table. Structure is documented below.
+                    properties:
+                      expirationMs:
+                        description: |-
+                          Number of milliseconds for which to keep the
+                          storage for a partition.
+                        type: number
+                      field:
+                        description: |-
+                          The field used to determine how to create a time-based
+                          partition. If time-based partitioning is enabled without this value, the
+                          table is partitioned based on the load time.
+                        type: string
+                      requirePartitionFilter:
+                        description: |-
+                          If set to true, queries over this table
+                          require a partition filter that can be used for partition elimination to be
+                          specified. require_partition_filter is deprecated and will be removed in
+                          a future major release. Use the top level field with the same name instead.
+                        type: boolean
+                      type:
+                        description: |-
+                          The supported types are DAY, HOUR, MONTH, and YEAR,
+                          which will generate one partition per day, hour, month, and year, respectively.
+                        type: string
+                    type: object
+                  type:
+                    description: Describes the table type.
+                    type: string
+                  view:
+                    description: |-
+                      If specified, configures this table as a view.
+                      Structure is documented below.
+                    properties:
+                      query:
+                        description: A query that BigQuery executes when the view
+                          is referenced.
+                        type: string
+                      useLegacySql:
+                        description: |-
+                          Specifies whether to use BigQuery's legacy SQL for this view.
+                          The default value is true. If set to false, the view will use BigQuery's standard SQL.
+                        type: boolean
+                    type: object
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}

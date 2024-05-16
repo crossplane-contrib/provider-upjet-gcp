@@ -10,7 +10,4 @@ package v1beta1
 func (tr *Backup) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *Instance) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *Snapshot) Hub() {}

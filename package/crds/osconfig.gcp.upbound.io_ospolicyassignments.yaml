@@ -3007,3 +3007,2701 @@ spec:
     storage: true
     subresources:
       status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta2
+    schema:
+      openAPIV3Schema:
+        description: OsPolicyAssignment is the Schema for the OsPolicyAssignments
+          API. OS policy assignment is an API resource that is used to apply a set
+          of OS policies to a dynamically targeted group of Compute Engine VM instances.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: OsPolicyAssignmentSpec defines the desired state of OsPolicyAssignment
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  description:
+                    description: |-
+                      Policy description. Length of the description is
+                      limited to 1024 characters.
+                    type: string
+                  instanceFilter:
+                    description: |-
+                      Filter to select VMs. Structure is
+                      documented below.
+                    properties:
+                      all:
+                        description: |-
+                          Target all VMs in the project. If true, no other criteria
+                          is permitted.
+                        type: boolean
+                      exclusionLabels:
+                        description: |-
+                          List of label sets used for VM exclusion. If
+                          the list has more than one label set, the VM is excluded if any of the label
+                          sets are applicable for the VM. Structure is
+                          documented below.
+                        items:
+                          properties:
+                            labels:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                Labels are identified by key/value pairs in this map.
+                                A VM should contain all the key/value pairs specified in this map to be
+                                selected.
+                              type: object
+                              x-kubernetes-map-type: granular
+                          type: object
+                        type: array
+                      inclusionLabels:
+                        description: |-
+                          List of label sets used for VM inclusion. If
+                          the list has more than one LabelSet, the VM is included if any of the
+                          label sets are applicable for the VM. Structure is
+                          documented below.
+                        items:
+                          properties:
+                            labels:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                Labels are identified by key/value pairs in this map.
+                                A VM should contain all the key/value pairs specified in this map to be
+                                selected.
+                              type: object
+                              x-kubernetes-map-type: granular
+                          type: object
+                        type: array
+                      inventories:
+                        description: |-
+                          List of inventories to select VMs. A VM is
+                          selected if its inventory data matches at least one of the following
+                          inventories. Structure is documented below.
+                        items:
+                          properties:
+                            osShortName:
+                              description: The OS short name
+                              type: string
+                            osVersion:
+                              description: |-
+                                The OS version Prefix matches are supported if
+                                asterisk(*) is provided as the last character. For example, to match all
+                                versions with a major version of 7, specify the following value for this
+                                field 7.* An empty string matches all OS versions.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  location:
+                    description: The location for the resource
+                    type: string
+                  osPolicies:
+                    description: |-
+                      List of OS policies to be applied to the VMs.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        allowNoResourceGroupMatch:
+                          description: |-
+                            This flag determines the OS
+                            policy compliance status when none of the resource groups within the policy
+                            are applicable for a VM. Set this value to true if the policy needs to be
+                            reported as compliant even if the policy has nothing to validate or enforce.
+                          type: boolean
+                        description:
+                          description: |-
+                            Policy description. Length of the description is
+                            limited to 1024 characters.
+                          type: string
+                        id:
+                          description: 'The id of the OS policy with the following
+                            restrictions:'
+                          type: string
+                        mode:
+                          description: |-
+                            Policy mode Possible values are: MODE_UNSPECIFIED,
+                            VALIDATION, ENFORCEMENT.
+                          type: string
+                        resourceGroups:
+                          description: |-
+                            List of resource groups for the policy. For a
+                            particular VM, resource groups are evaluated in the order specified and the
+                            first resource group that is applicable is selected and the rest are
+                            ignored. If none of the resource groups are applicable for a VM, the VM is
+                            considered to be non-compliant w.r.t this policy. This behavior can be
+                            toggled by the flag allow_no_resource_group_match Structure is
+                            documented below.
+                          items:
+                            properties:
+                              inventoryFilters:
+                                description: |-
+                                  List of inventory filters for the resource
+                                  group. The resources in this resource group are applied to the target VM if
+                                  it satisfies at least one of the following inventory filters. For example,
+                                  to apply this resource group to VMs running either RHEL or CentOS
+                                  operating systems, specify 2 items for the list with following values:
+                                  inventory_filters[0].os_short_name='rhel' and
+                                  inventory_filters[1].os_short_name='centos' If the list is empty, this
+                                  resource group will be applied to the target VM unconditionally. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    osShortName:
+                                      description: The OS short name
+                                      type: string
+                                    osVersion:
+                                      description: |-
+                                        The OS version Prefix matches are supported if
+                                        asterisk(*) is provided as the last character. For example, to match all
+                                        versions with a major version of 7, specify the following value for this
+                                        field 7.* An empty string matches all OS versions.
+                                      type: string
+                                  type: object
+                                type: array
+                              resources:
+                                description: |-
+                                  List of resources configured for this resource
+                                  group. The resources are executed in the exact order specified here.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    exec:
+                                      description: |-
+                                        Exec resource Structure is
+                                        documented below.
+                                      properties:
+                                        enforce:
+                                          description: |-
+                                            What to run to bring this resource into the desired
+                                            state. An exit code of 100 indicates "success", any other exit code
+                                            indicates a failure running enforce. Structure is
+                                            documented below.
+                                          properties:
+                                            args:
+                                              description: |-
+                                                Optional arguments to pass to the source during
+                                                execution.
+                                              items:
+                                                type: string
+                                              type: array
+                                            file:
+                                              description: |-
+                                                A remote or local file. Structure is
+                                                documented below.
+                                              properties:
+                                                allowInsecure:
+                                                  description: |-
+                                                    Defaults to false. When false, files are
+                                                    subject to validations based on the file type: Remote: A checksum must be
+                                                    specified. Cloud Storage: An object generation number must be specified.
+                                                  type: boolean
+                                                gcs:
+                                                  description: |-
+                                                    A Cloud Storage object. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    bucket:
+                                                      description: Bucket of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                    generation:
+                                                      description: Generation number
+                                                        of the Cloud Storage object.
+                                                      type: number
+                                                    object:
+                                                      description: Name of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                  type: object
+                                                localPath:
+                                                  description: A local path within
+                                                    the VM to use.
+                                                  type: string
+                                                remote:
+                                                  description: |-
+                                                    A generic remote file. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    sha256Checksum:
+                                                      description: SHA256 checksum
+                                                        of the remote file.
+                                                      type: string
+                                                    uri:
+                                                      description: |-
+                                                        URI from which to fetch the object. It should contain
+                                                        both the protocol and path following the format {protocol}://{location}.
+                                                      type: string
+                                                  type: object
+                                              type: object
+                                            interpreter:
+                                              description: |-
+                                                The script interpreter to use. Possible values
+                                                are: INTERPRETER_UNSPECIFIED, NONE, SHELL, POWERSHELL.
+                                              type: string
+                                            outputFilePath:
+                                              description: |-
+                                                Only recorded for enforce Exec. Path to an
+                                                output file (that is created by this Exec) whose content will be recorded in
+                                                OSPolicyResourceCompliance after a successful run. Absence or failure to
+                                                read this file will result in this ExecResource being non-compliant. Output
+                                                file size is limited to 100K bytes.
+                                              type: string
+                                            script:
+                                              description: |-
+                                                An inline script. The size of the script is limited to
+                                                1024 characters.
+                                              type: string
+                                          type: object
+                                        validate:
+                                          description: |-
+                                            What to run to validate this resource is in the
+                                            desired state. An exit code of 100 indicates "in desired state", and exit
+                                            code of 101 indicates "not in desired state". Any other exit code indicates
+                                            a failure running validate. Structure is
+                                            documented below.
+                                          properties:
+                                            args:
+                                              description: |-
+                                                Optional arguments to pass to the source during
+                                                execution.
+                                              items:
+                                                type: string
+                                              type: array
+                                            file:
+                                              description: |-
+                                                A remote or local file. Structure is
+                                                documented below.
+                                              properties:
+                                                allowInsecure:
+                                                  description: |-
+                                                    Defaults to false. When false, files are
+                                                    subject to validations based on the file type: Remote: A checksum must be
+                                                    specified. Cloud Storage: An object generation number must be specified.
+                                                  type: boolean
+                                                gcs:
+                                                  description: |-
+                                                    A Cloud Storage object. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    bucket:
+                                                      description: Bucket of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                    generation:
+                                                      description: Generation number
+                                                        of the Cloud Storage object.
+                                                      type: number
+                                                    object:
+                                                      description: Name of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                  type: object
+                                                localPath:
+                                                  description: A local path within
+                                                    the VM to use.
+                                                  type: string
+                                                remote:
+                                                  description: |-
+                                                    A generic remote file. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    sha256Checksum:
+                                                      description: SHA256 checksum
+                                                        of the remote file.
+                                                      type: string
+                                                    uri:
+                                                      description: |-
+                                                        URI from which to fetch the object. It should contain
+                                                        both the protocol and path following the format {protocol}://{location}.
+                                                      type: string
+                                                  type: object
+                                              type: object
+                                            interpreter:
+                                              description: |-
+                                                The script interpreter to use. Possible values
+                                                are: INTERPRETER_UNSPECIFIED, NONE, SHELL, POWERSHELL.
+                                              type: string
+                                            outputFilePath:
+                                              description: |-
+                                                Only recorded for enforce Exec. Path to an
+                                                output file (that is created by this Exec) whose content will be recorded in
+                                                OSPolicyResourceCompliance after a successful run. Absence or failure to
+                                                read this file will result in this ExecResource being non-compliant. Output
+                                                file size is limited to 100K bytes.
+                                              type: string
+                                            script:
+                                              description: |-
+                                                An inline script. The size of the script is limited to
+                                                1024 characters.
+                                              type: string
+                                          type: object
+                                      type: object
+                                    file:
+                                      description: |-
+                                        A remote or local file. Structure is
+                                        documented below.
+                                      properties:
+                                        content:
+                                          description: |-
+                                            A a file with this content. The size of the content
+                                            is limited to 1024 characters.
+                                          type: string
+                                        file:
+                                          description: |-
+                                            A remote or local file. Structure is
+                                            documented below.
+                                          properties:
+                                            allowInsecure:
+                                              description: |-
+                                                Defaults to false. When false, files are
+                                                subject to validations based on the file type: Remote: A checksum must be
+                                                specified. Cloud Storage: An object generation number must be specified.
+                                              type: boolean
+                                            gcs:
+                                              description: |-
+                                                A Cloud Storage object. Structure is
+                                                documented below.
+                                              properties:
+                                                bucket:
+                                                  description: Bucket of the Cloud
+                                                    Storage object.
+                                                  type: string
+                                                generation:
+                                                  description: Generation number of
+                                                    the Cloud Storage object.
+                                                  type: number
+                                                object:
+                                                  description: Name of the Cloud Storage
+                                                    object.
+                                                  type: string
+                                              type: object
+                                            localPath:
+                                              description: A local path within the
+                                                VM to use.
+                                              type: string
+                                            remote:
+                                              description: |-
+                                                A generic remote file. Structure is
+                                                documented below.
+                                              properties:
+                                                sha256Checksum:
+                                                  description: SHA256 checksum of
+                                                    the remote file.
+                                                  type: string
+                                                uri:
+                                                  description: |-
+                                                    URI from which to fetch the object. It should contain
+                                                    both the protocol and path following the format {protocol}://{location}.
+                                                  type: string
+                                              type: object
+                                          type: object
+                                        path:
+                                          description: The absolute path of the file
+                                            within the VM.
+                                          type: string
+                                        state:
+                                          description: |-
+                                            Desired state of the file. Possible values are:
+                                            DESIRED_STATE_UNSPECIFIED, PRESENT, ABSENT, CONTENTS_MATCH.
+                                          type: string
+                                      type: object
+                                    id:
+                                      description: |-
+                                        A one word, unique name for this repository. This is the
+                                        repo id in the zypper config file and also the display_name if
+                                        display_name is omitted. This id is also used as the unique identifier
+                                        when checking for GuestPolicy conflicts.
+                                      type: string
+                                    pkg:
+                                      description: |-
+                                        Package resource Structure is
+                                        documented below.
+                                      properties:
+                                        apt:
+                                          description: |-
+                                            An Apt Repository. Structure is
+                                            documented below.
+                                          properties:
+                                            name:
+                                              description: Package name.
+                                              type: string
+                                          type: object
+                                        deb:
+                                          description: |-
+                                            A deb package file. Structure is
+                                            documented below.
+                                          properties:
+                                            pullDeps:
+                                              description: |-
+                                                Whether dependencies should also be installed. -
+                                                install when false: rpm --upgrade --replacepkgs package.rpm - install when
+                                                true: yum -y install package.rpm or zypper -y install package.rpm
+                                              type: boolean
+                                            source:
+                                              description: |-
+                                                An rpm package. Structure is
+                                                documented below.
+                                              properties:
+                                                allowInsecure:
+                                                  description: |-
+                                                    Defaults to false. When false, files are
+                                                    subject to validations based on the file type: Remote: A checksum must be
+                                                    specified. Cloud Storage: An object generation number must be specified.
+                                                  type: boolean
+                                                gcs:
+                                                  description: |-
+                                                    A Cloud Storage object. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    bucket:
+                                                      description: Bucket of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                    generation:
+                                                      description: Generation number
+                                                        of the Cloud Storage object.
+                                                      type: number
+                                                    object:
+                                                      description: Name of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                  type: object
+                                                localPath:
+                                                  description: A local path within
+                                                    the VM to use.
+                                                  type: string
+                                                remote:
+                                                  description: |-
+                                                    A generic remote file. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    sha256Checksum:
+                                                      description: SHA256 checksum
+                                                        of the remote file.
+                                                      type: string
+                                                    uri:
+                                                      description: |-
+                                                        URI from which to fetch the object. It should contain
+                                                        both the protocol and path following the format {protocol}://{location}.
+                                                      type: string
+                                                  type: object
+                                              type: object
+                                          type: object
+                                        desiredState:
+                                          description: |-
+                                            The desired state the agent should maintain for
+                                            this package. Possible values are: DESIRED_STATE_UNSPECIFIED, INSTALLED,
+                                            REMOVED.
+                                          type: string
+                                        googet:
+                                          description: |-
+                                            A package managed by GooGet. Structure is
+                                            documented below.
+                                          properties:
+                                            name:
+                                              description: Package name.
+                                              type: string
+                                          type: object
+                                        msi:
+                                          description: |-
+                                            An MSI package. Structure is
+                                            documented below.
+                                          properties:
+                                            properties:
+                                              description: |-
+                                                Additional properties to use during installation.
+                                                This should be in the format of Property=Setting. Appended to the defaults
+                                                of ACTION=INSTALL REBOOT=ReallySuppress.
+                                              items:
+                                                type: string
+                                              type: array
+                                            source:
+                                              description: |-
+                                                An rpm package. Structure is
+                                                documented below.
+                                              properties:
+                                                allowInsecure:
+                                                  description: |-
+                                                    Defaults to false. When false, files are
+                                                    subject to validations based on the file type: Remote: A checksum must be
+                                                    specified. Cloud Storage: An object generation number must be specified.
+                                                  type: boolean
+                                                gcs:
+                                                  description: |-
+                                                    A Cloud Storage object. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    bucket:
+                                                      description: Bucket of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                    generation:
+                                                      description: Generation number
+                                                        of the Cloud Storage object.
+                                                      type: number
+                                                    object:
+                                                      description: Name of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                  type: object
+                                                localPath:
+                                                  description: A local path within
+                                                    the VM to use.
+                                                  type: string
+                                                remote:
+                                                  description: |-
+                                                    A generic remote file. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    sha256Checksum:
+                                                      description: SHA256 checksum
+                                                        of the remote file.
+                                                      type: string
+                                                    uri:
+                                                      description: |-
+                                                        URI from which to fetch the object. It should contain
+                                                        both the protocol and path following the format {protocol}://{location}.
+                                                      type: string
+                                                  type: object
+                                              type: object
+                                          type: object
+                                        rpm:
+                                          description: |-
+                                            An rpm package file. Structure is
+                                            documented below.
+                                          properties:
+                                            pullDeps:
+                                              description: |-
+                                                Whether dependencies should also be installed. -
+                                                install when false: rpm --upgrade --replacepkgs package.rpm - install when
+                                                true: yum -y install package.rpm or zypper -y install package.rpm
+                                              type: boolean
+                                            source:
+                                              description: |-
+                                                An rpm package. Structure is
+                                                documented below.
+                                              properties:
+                                                allowInsecure:
+                                                  description: |-
+                                                    Defaults to false. When false, files are
+                                                    subject to validations based on the file type: Remote: A checksum must be
+                                                    specified. Cloud Storage: An object generation number must be specified.
+                                                  type: boolean
+                                                gcs:
+                                                  description: |-
+                                                    A Cloud Storage object. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    bucket:
+                                                      description: Bucket of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                    generation:
+                                                      description: Generation number
+                                                        of the Cloud Storage object.
+                                                      type: number
+                                                    object:
+                                                      description: Name of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                  type: object
+                                                localPath:
+                                                  description: A local path within
+                                                    the VM to use.
+                                                  type: string
+                                                remote:
+                                                  description: |-
+                                                    A generic remote file. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    sha256Checksum:
+                                                      description: SHA256 checksum
+                                                        of the remote file.
+                                                      type: string
+                                                    uri:
+                                                      description: |-
+                                                        URI from which to fetch the object. It should contain
+                                                        both the protocol and path following the format {protocol}://{location}.
+                                                      type: string
+                                                  type: object
+                                              type: object
+                                          type: object
+                                        yum:
+                                          description: |-
+                                            A Yum Repository. Structure is
+                                            documented below.
+                                          properties:
+                                            name:
+                                              description: Package name.
+                                              type: string
+                                          type: object
+                                        zypper:
+                                          description: |-
+                                            A Zypper Repository. Structure is
+                                            documented below.
+                                          properties:
+                                            name:
+                                              description: Package name.
+                                              type: string
+                                          type: object
+                                      type: object
+                                    repository:
+                                      description: |-
+                                        Package repository resource Structure is
+                                        documented below.
+                                      properties:
+                                        apt:
+                                          description: |-
+                                            An Apt Repository. Structure is
+                                            documented below.
+                                          properties:
+                                            archiveType:
+                                              description: |-
+                                                Type of archive files in this repository.
+                                                Possible values are: ARCHIVE_TYPE_UNSPECIFIED, DEB, DEB_SRC.
+                                              type: string
+                                            components:
+                                              description: |-
+                                                List of components for this repository. Must
+                                                contain at least one item.
+                                              items:
+                                                type: string
+                                              type: array
+                                            distribution:
+                                              description: Distribution of this repository.
+                                              type: string
+                                            gpgKey:
+                                              description: |-
+                                                URI of the key file for this repository. The agent
+                                                maintains a keyring at /etc/apt/trusted.gpg.d/osconfig_agent_managed.gpg.
+                                              type: string
+                                            uri:
+                                              description: |-
+                                                URI from which to fetch the object. It should contain
+                                                both the protocol and path following the format {protocol}://{location}.
+                                              type: string
+                                          type: object
+                                        goo:
+                                          description: |-
+                                            A Goo Repository. Structure is
+                                            documented below.
+                                          properties:
+                                            name:
+                                              description: Package name.
+                                              type: string
+                                            url:
+                                              description: The url of the repository.
+                                              type: string
+                                          type: object
+                                        yum:
+                                          description: |-
+                                            A Yum Repository. Structure is
+                                            documented below.
+                                          properties:
+                                            baseUrl:
+                                              description: The location of the repository
+                                                directory.
+                                              type: string
+                                            displayName:
+                                              description: The display name of the
+                                                repository.
+                                              type: string
+                                            gpgKeys:
+                                              description: URIs of GPG keys.
+                                              items:
+                                                type: string
+                                              type: array
+                                            id:
+                                              description: |-
+                                                A one word, unique name for this repository. This is the
+                                                repo id in the zypper config file and also the display_name if
+                                                display_name is omitted. This id is also used as the unique identifier
+                                                when checking for GuestPolicy conflicts.
+                                              type: string
+                                          type: object
+                                        zypper:
+                                          description: |-
+                                            A Zypper Repository. Structure is
+                                            documented below.
+                                          properties:
+                                            baseUrl:
+                                              description: The location of the repository
+                                                directory.
+                                              type: string
+                                            displayName:
+                                              description: The display name of the
+                                                repository.
+                                              type: string
+                                            gpgKeys:
+                                              description: URIs of GPG keys.
+                                              items:
+                                                type: string
+                                              type: array
+                                            id:
+                                              description: |-
+                                                A one word, unique name for this repository. This is the
+                                                repo id in the zypper config file and also the display_name if
+                                                display_name is omitted. This id is also used as the unique identifier
+                                                when checking for GuestPolicy conflicts.
+                                              type: string
+                                          type: object
+                                      type: object
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  rollout:
+                    description: |-
+                      Rollout to deploy the OS policy assignment. A rollout
+                      is triggered in the following situations: 1) OSPolicyAssignment is created.
+                      2) OSPolicyAssignment is updated and the update contains changes to one of
+                      the following fields: - instance_filter - os_policies 3) OSPolicyAssignment
+                      is deleted. Structure is documented below.
+                    properties:
+                      disruptionBudget:
+                        description: |-
+                          The maximum number (or percentage) of VMs
+                          per zone to disrupt at any given moment. Structure is
+                          documented below.
+                        properties:
+                          fixed:
+                            description: Specifies a fixed value.
+                            type: number
+                          percent:
+                            description: |-
+                              Specifies the relative value defined as a percentage,
+                              which will be multiplied by a reference value.
+                            type: number
+                        type: object
+                      minWaitDuration:
+                        description: |-
+                          This determines the minimum duration of
+                          time to wait after the configuration changes are applied through the current
+                          rollout. A VM continues to count towards the disruption_budget at least
+                          until this duration of time has passed after configuration changes are
+                          applied.
+                        type: string
+                    type: object
+                  skipAwaitRollout:
+                    description: |-
+                      Set to true to skip awaiting rollout
+                      during resource creation and update.
+                    type: boolean
+                required:
+                - location
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  description:
+                    description: |-
+                      Policy description. Length of the description is
+                      limited to 1024 characters.
+                    type: string
+                  instanceFilter:
+                    description: |-
+                      Filter to select VMs. Structure is
+                      documented below.
+                    properties:
+                      all:
+                        description: |-
+                          Target all VMs in the project. If true, no other criteria
+                          is permitted.
+                        type: boolean
+                      exclusionLabels:
+                        description: |-
+                          List of label sets used for VM exclusion. If
+                          the list has more than one label set, the VM is excluded if any of the label
+                          sets are applicable for the VM. Structure is
+                          documented below.
+                        items:
+                          properties:
+                            labels:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                Labels are identified by key/value pairs in this map.
+                                A VM should contain all the key/value pairs specified in this map to be
+                                selected.
+                              type: object
+                              x-kubernetes-map-type: granular
+                          type: object
+                        type: array
+                      inclusionLabels:
+                        description: |-
+                          List of label sets used for VM inclusion. If
+                          the list has more than one LabelSet, the VM is included if any of the
+                          label sets are applicable for the VM. Structure is
+                          documented below.
+                        items:
+                          properties:
+                            labels:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                Labels are identified by key/value pairs in this map.
+                                A VM should contain all the key/value pairs specified in this map to be
+                                selected.
+                              type: object
+                              x-kubernetes-map-type: granular
+                          type: object
+                        type: array
+                      inventories:
+                        description: |-
+                          List of inventories to select VMs. A VM is
+                          selected if its inventory data matches at least one of the following
+                          inventories. Structure is documented below.
+                        items:
+                          properties:
+                            osShortName:
+                              description: The OS short name
+                              type: string
+                            osVersion:
+                              description: |-
+                                The OS version Prefix matches are supported if
+                                asterisk(*) is provided as the last character. For example, to match all
+                                versions with a major version of 7, specify the following value for this
+                                field 7.* An empty string matches all OS versions.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  osPolicies:
+                    description: |-
+                      List of OS policies to be applied to the VMs.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        allowNoResourceGroupMatch:
+                          description: |-
+                            This flag determines the OS
+                            policy compliance status when none of the resource groups within the policy
+                            are applicable for a VM. Set this value to true if the policy needs to be
+                            reported as compliant even if the policy has nothing to validate or enforce.
+                          type: boolean
+                        description:
+                          description: |-
+                            Policy description. Length of the description is
+                            limited to 1024 characters.
+                          type: string
+                        id:
+                          description: 'The id of the OS policy with the following
+                            restrictions:'
+                          type: string
+                        mode:
+                          description: |-
+                            Policy mode Possible values are: MODE_UNSPECIFIED,
+                            VALIDATION, ENFORCEMENT.
+                          type: string
+                        resourceGroups:
+                          description: |-
+                            List of resource groups for the policy. For a
+                            particular VM, resource groups are evaluated in the order specified and the
+                            first resource group that is applicable is selected and the rest are
+                            ignored. If none of the resource groups are applicable for a VM, the VM is
+                            considered to be non-compliant w.r.t this policy. This behavior can be
+                            toggled by the flag allow_no_resource_group_match Structure is
+                            documented below.
+                          items:
+                            properties:
+                              inventoryFilters:
+                                description: |-
+                                  List of inventory filters for the resource
+                                  group. The resources in this resource group are applied to the target VM if
+                                  it satisfies at least one of the following inventory filters. For example,
+                                  to apply this resource group to VMs running either RHEL or CentOS
+                                  operating systems, specify 2 items for the list with following values:
+                                  inventory_filters[0].os_short_name='rhel' and
+                                  inventory_filters[1].os_short_name='centos' If the list is empty, this
+                                  resource group will be applied to the target VM unconditionally. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    osShortName:
+                                      description: The OS short name
+                                      type: string
+                                    osVersion:
+                                      description: |-
+                                        The OS version Prefix matches are supported if
+                                        asterisk(*) is provided as the last character. For example, to match all
+                                        versions with a major version of 7, specify the following value for this
+                                        field 7.* An empty string matches all OS versions.
+                                      type: string
+                                  type: object
+                                type: array
+                              resources:
+                                description: |-
+                                  List of resources configured for this resource
+                                  group. The resources are executed in the exact order specified here.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    exec:
+                                      description: |-
+                                        Exec resource Structure is
+                                        documented below.
+                                      properties:
+                                        enforce:
+                                          description: |-
+                                            What to run to bring this resource into the desired
+                                            state. An exit code of 100 indicates "success", any other exit code
+                                            indicates a failure running enforce. Structure is
+                                            documented below.
+                                          properties:
+                                            args:
+                                              description: |-
+                                                Optional arguments to pass to the source during
+                                                execution.
+                                              items:
+                                                type: string
+                                              type: array
+                                            file:
+                                              description: |-
+                                                A remote or local file. Structure is
+                                                documented below.
+                                              properties:
+                                                allowInsecure:
+                                                  description: |-
+                                                    Defaults to false. When false, files are
+                                                    subject to validations based on the file type: Remote: A checksum must be
+                                                    specified. Cloud Storage: An object generation number must be specified.
+                                                  type: boolean
+                                                gcs:
+                                                  description: |-
+                                                    A Cloud Storage object. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    bucket:
+                                                      description: Bucket of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                    generation:
+                                                      description: Generation number
+                                                        of the Cloud Storage object.
+                                                      type: number
+                                                    object:
+                                                      description: Name of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                  type: object
+                                                localPath:
+                                                  description: A local path within
+                                                    the VM to use.
+                                                  type: string
+                                                remote:
+                                                  description: |-
+                                                    A generic remote file. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    sha256Checksum:
+                                                      description: SHA256 checksum
+                                                        of the remote file.
+                                                      type: string
+                                                    uri:
+                                                      description: |-
+                                                        URI from which to fetch the object. It should contain
+                                                        both the protocol and path following the format {protocol}://{location}.
+                                                      type: string
+                                                  type: object
+                                              type: object
+                                            interpreter:
+                                              description: |-
+                                                The script interpreter to use. Possible values
+                                                are: INTERPRETER_UNSPECIFIED, NONE, SHELL, POWERSHELL.
+                                              type: string
+                                            outputFilePath:
+                                              description: |-
+                                                Only recorded for enforce Exec. Path to an
+                                                output file (that is created by this Exec) whose content will be recorded in
+                                                OSPolicyResourceCompliance after a successful run. Absence or failure to
+                                                read this file will result in this ExecResource being non-compliant. Output
+                                                file size is limited to 100K bytes.
+                                              type: string
+                                            script:
+                                              description: |-
+                                                An inline script. The size of the script is limited to
+                                                1024 characters.
+                                              type: string
+                                          type: object
+                                        validate:
+                                          description: |-
+                                            What to run to validate this resource is in the
+                                            desired state. An exit code of 100 indicates "in desired state", and exit
+                                            code of 101 indicates "not in desired state". Any other exit code indicates
+                                            a failure running validate. Structure is
+                                            documented below.
+                                          properties:
+                                            args:
+                                              description: |-
+                                                Optional arguments to pass to the source during
+                                                execution.
+                                              items:
+                                                type: string
+                                              type: array
+                                            file:
+                                              description: |-
+                                                A remote or local file. Structure is
+                                                documented below.
+                                              properties:
+                                                allowInsecure:
+                                                  description: |-
+                                                    Defaults to false. When false, files are
+                                                    subject to validations based on the file type: Remote: A checksum must be
+                                                    specified. Cloud Storage: An object generation number must be specified.
+                                                  type: boolean
+                                                gcs:
+                                                  description: |-
+                                                    A Cloud Storage object. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    bucket:
+                                                      description: Bucket of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                    generation:
+                                                      description: Generation number
+                                                        of the Cloud Storage object.
+                                                      type: number
+                                                    object:
+                                                      description: Name of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                  type: object
+                                                localPath:
+                                                  description: A local path within
+                                                    the VM to use.
+                                                  type: string
+                                                remote:
+                                                  description: |-
+                                                    A generic remote file. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    sha256Checksum:
+                                                      description: SHA256 checksum
+                                                        of the remote file.
+                                                      type: string
+                                                    uri:
+                                                      description: |-
+                                                        URI from which to fetch the object. It should contain
+                                                        both the protocol and path following the format {protocol}://{location}.
+                                                      type: string
+                                                  type: object
+                                              type: object
+                                            interpreter:
+                                              description: |-
+                                                The script interpreter to use. Possible values
+                                                are: INTERPRETER_UNSPECIFIED, NONE, SHELL, POWERSHELL.
+                                              type: string
+                                            outputFilePath:
+                                              description: |-
+                                                Only recorded for enforce Exec. Path to an
+                                                output file (that is created by this Exec) whose content will be recorded in
+                                                OSPolicyResourceCompliance after a successful run. Absence or failure to
+                                                read this file will result in this ExecResource being non-compliant. Output
+                                                file size is limited to 100K bytes.
+                                              type: string
+                                            script:
+                                              description: |-
+                                                An inline script. The size of the script is limited to
+                                                1024 characters.
+                                              type: string
+                                          type: object
+                                      type: object
+                                    file:
+                                      description: |-
+                                        A remote or local file. Structure is
+                                        documented below.
+                                      properties:
+                                        content:
+                                          description: |-
+                                            A a file with this content. The size of the content
+                                            is limited to 1024 characters.
+                                          type: string
+                                        file:
+                                          description: |-
+                                            A remote or local file. Structure is
+                                            documented below.
+                                          properties:
+                                            allowInsecure:
+                                              description: |-
+                                                Defaults to false. When false, files are
+                                                subject to validations based on the file type: Remote: A checksum must be
+                                                specified. Cloud Storage: An object generation number must be specified.
+                                              type: boolean
+                                            gcs:
+                                              description: |-
+                                                A Cloud Storage object. Structure is
+                                                documented below.
+                                              properties:
+                                                bucket:
+                                                  description: Bucket of the Cloud
+                                                    Storage object.
+                                                  type: string
+                                                generation:
+                                                  description: Generation number of
+                                                    the Cloud Storage object.
+                                                  type: number
+                                                object:
+                                                  description: Name of the Cloud Storage
+                                                    object.
+                                                  type: string
+                                              type: object
+                                            localPath:
+                                              description: A local path within the
+                                                VM to use.
+                                              type: string
+                                            remote:
+                                              description: |-
+                                                A generic remote file. Structure is
+                                                documented below.
+                                              properties:
+                                                sha256Checksum:
+                                                  description: SHA256 checksum of
+                                                    the remote file.
+                                                  type: string
+                                                uri:
+                                                  description: |-
+                                                    URI from which to fetch the object. It should contain
+                                                    both the protocol and path following the format {protocol}://{location}.
+                                                  type: string
+                                              type: object
+                                          type: object
+                                        path:
+                                          description: The absolute path of the file
+                                            within the VM.
+                                          type: string
+                                        state:
+                                          description: |-
+                                            Desired state of the file. Possible values are:
+                                            DESIRED_STATE_UNSPECIFIED, PRESENT, ABSENT, CONTENTS_MATCH.
+                                          type: string
+                                      type: object
+                                    id:
+                                      description: |-
+                                        A one word, unique name for this repository. This is the
+                                        repo id in the zypper config file and also the display_name if
+                                        display_name is omitted. This id is also used as the unique identifier
+                                        when checking for GuestPolicy conflicts.
+                                      type: string
+                                    pkg:
+                                      description: |-
+                                        Package resource Structure is
+                                        documented below.
+                                      properties:
+                                        apt:
+                                          description: |-
+                                            An Apt Repository. Structure is
+                                            documented below.
+                                          properties:
+                                            name:
+                                              description: Package name.
+                                              type: string
+                                          type: object
+                                        deb:
+                                          description: |-
+                                            A deb package file. Structure is
+                                            documented below.
+                                          properties:
+                                            pullDeps:
+                                              description: |-
+                                                Whether dependencies should also be installed. -
+                                                install when false: rpm --upgrade --replacepkgs package.rpm - install when
+                                                true: yum -y install package.rpm or zypper -y install package.rpm
+                                              type: boolean
+                                            source:
+                                              description: |-
+                                                An rpm package. Structure is
+                                                documented below.
+                                              properties:
+                                                allowInsecure:
+                                                  description: |-
+                                                    Defaults to false. When false, files are
+                                                    subject to validations based on the file type: Remote: A checksum must be
+                                                    specified. Cloud Storage: An object generation number must be specified.
+                                                  type: boolean
+                                                gcs:
+                                                  description: |-
+                                                    A Cloud Storage object. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    bucket:
+                                                      description: Bucket of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                    generation:
+                                                      description: Generation number
+                                                        of the Cloud Storage object.
+                                                      type: number
+                                                    object:
+                                                      description: Name of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                  type: object
+                                                localPath:
+                                                  description: A local path within
+                                                    the VM to use.
+                                                  type: string
+                                                remote:
+                                                  description: |-
+                                                    A generic remote file. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    sha256Checksum:
+                                                      description: SHA256 checksum
+                                                        of the remote file.
+                                                      type: string
+                                                    uri:
+                                                      description: |-
+                                                        URI from which to fetch the object. It should contain
+                                                        both the protocol and path following the format {protocol}://{location}.
+                                                      type: string
+                                                  type: object
+                                              type: object
+                                          type: object
+                                        desiredState:
+                                          description: |-
+                                            The desired state the agent should maintain for
+                                            this package. Possible values are: DESIRED_STATE_UNSPECIFIED, INSTALLED,
+                                            REMOVED.
+                                          type: string
+                                        googet:
+                                          description: |-
+                                            A package managed by GooGet. Structure is
+                                            documented below.
+                                          properties:
+                                            name:
+                                              description: Package name.
+                                              type: string
+                                          type: object
+                                        msi:
+                                          description: |-
+                                            An MSI package. Structure is
+                                            documented below.
+                                          properties:
+                                            properties:
+                                              description: |-
+                                                Additional properties to use during installation.
+                                                This should be in the format of Property=Setting. Appended to the defaults
+                                                of ACTION=INSTALL REBOOT=ReallySuppress.
+                                              items:
+                                                type: string
+                                              type: array
+                                            source:
+                                              description: |-
+                                                An rpm package. Structure is
+                                                documented below.
+                                              properties:
+                                                allowInsecure:
+                                                  description: |-
+                                                    Defaults to false. When false, files are
+                                                    subject to validations based on the file type: Remote: A checksum must be
+                                                    specified. Cloud Storage: An object generation number must be specified.
+                                                  type: boolean
+                                                gcs:
+                                                  description: |-
+                                                    A Cloud Storage object. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    bucket:
+                                                      description: Bucket of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                    generation:
+                                                      description: Generation number
+                                                        of the Cloud Storage object.
+                                                      type: number
+                                                    object:
+                                                      description: Name of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                  type: object
+                                                localPath:
+                                                  description: A local path within
+                                                    the VM to use.
+                                                  type: string
+                                                remote:
+                                                  description: |-
+                                                    A generic remote file. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    sha256Checksum:
+                                                      description: SHA256 checksum
+                                                        of the remote file.
+                                                      type: string
+                                                    uri:
+                                                      description: |-
+                                                        URI from which to fetch the object. It should contain
+                                                        both the protocol and path following the format {protocol}://{location}.
+                                                      type: string
+                                                  type: object
+                                              type: object
+                                          type: object
+                                        rpm:
+                                          description: |-
+                                            An rpm package file. Structure is
+                                            documented below.
+                                          properties:
+                                            pullDeps:
+                                              description: |-
+                                                Whether dependencies should also be installed. -
+                                                install when false: rpm --upgrade --replacepkgs package.rpm - install when
+                                                true: yum -y install package.rpm or zypper -y install package.rpm
+                                              type: boolean
+                                            source:
+                                              description: |-
+                                                An rpm package. Structure is
+                                                documented below.
+                                              properties:
+                                                allowInsecure:
+                                                  description: |-
+                                                    Defaults to false. When false, files are
+                                                    subject to validations based on the file type: Remote: A checksum must be
+                                                    specified. Cloud Storage: An object generation number must be specified.
+                                                  type: boolean
+                                                gcs:
+                                                  description: |-
+                                                    A Cloud Storage object. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    bucket:
+                                                      description: Bucket of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                    generation:
+                                                      description: Generation number
+                                                        of the Cloud Storage object.
+                                                      type: number
+                                                    object:
+                                                      description: Name of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                  type: object
+                                                localPath:
+                                                  description: A local path within
+                                                    the VM to use.
+                                                  type: string
+                                                remote:
+                                                  description: |-
+                                                    A generic remote file. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    sha256Checksum:
+                                                      description: SHA256 checksum
+                                                        of the remote file.
+                                                      type: string
+                                                    uri:
+                                                      description: |-
+                                                        URI from which to fetch the object. It should contain
+                                                        both the protocol and path following the format {protocol}://{location}.
+                                                      type: string
+                                                  type: object
+                                              type: object
+                                          type: object
+                                        yum:
+                                          description: |-
+                                            A Yum Repository. Structure is
+                                            documented below.
+                                          properties:
+                                            name:
+                                              description: Package name.
+                                              type: string
+                                          type: object
+                                        zypper:
+                                          description: |-
+                                            A Zypper Repository. Structure is
+                                            documented below.
+                                          properties:
+                                            name:
+                                              description: Package name.
+                                              type: string
+                                          type: object
+                                      type: object
+                                    repository:
+                                      description: |-
+                                        Package repository resource Structure is
+                                        documented below.
+                                      properties:
+                                        apt:
+                                          description: |-
+                                            An Apt Repository. Structure is
+                                            documented below.
+                                          properties:
+                                            archiveType:
+                                              description: |-
+                                                Type of archive files in this repository.
+                                                Possible values are: ARCHIVE_TYPE_UNSPECIFIED, DEB, DEB_SRC.
+                                              type: string
+                                            components:
+                                              description: |-
+                                                List of components for this repository. Must
+                                                contain at least one item.
+                                              items:
+                                                type: string
+                                              type: array
+                                            distribution:
+                                              description: Distribution of this repository.
+                                              type: string
+                                            gpgKey:
+                                              description: |-
+                                                URI of the key file for this repository. The agent
+                                                maintains a keyring at /etc/apt/trusted.gpg.d/osconfig_agent_managed.gpg.
+                                              type: string
+                                            uri:
+                                              description: |-
+                                                URI from which to fetch the object. It should contain
+                                                both the protocol and path following the format {protocol}://{location}.
+                                              type: string
+                                          type: object
+                                        goo:
+                                          description: |-
+                                            A Goo Repository. Structure is
+                                            documented below.
+                                          properties:
+                                            name:
+                                              description: Package name.
+                                              type: string
+                                            url:
+                                              description: The url of the repository.
+                                              type: string
+                                          type: object
+                                        yum:
+                                          description: |-
+                                            A Yum Repository. Structure is
+                                            documented below.
+                                          properties:
+                                            baseUrl:
+                                              description: The location of the repository
+                                                directory.
+                                              type: string
+                                            displayName:
+                                              description: The display name of the
+                                                repository.
+                                              type: string
+                                            gpgKeys:
+                                              description: URIs of GPG keys.
+                                              items:
+                                                type: string
+                                              type: array
+                                            id:
+                                              description: |-
+                                                A one word, unique name for this repository. This is the
+                                                repo id in the zypper config file and also the display_name if
+                                                display_name is omitted. This id is also used as the unique identifier
+                                                when checking for GuestPolicy conflicts.
+                                              type: string
+                                          type: object
+                                        zypper:
+                                          description: |-
+                                            A Zypper Repository. Structure is
+                                            documented below.
+                                          properties:
+                                            baseUrl:
+                                              description: The location of the repository
+                                                directory.
+                                              type: string
+                                            displayName:
+                                              description: The display name of the
+                                                repository.
+                                              type: string
+                                            gpgKeys:
+                                              description: URIs of GPG keys.
+                                              items:
+                                                type: string
+                                              type: array
+                                            id:
+                                              description: |-
+                                                A one word, unique name for this repository. This is the
+                                                repo id in the zypper config file and also the display_name if
+                                                display_name is omitted. This id is also used as the unique identifier
+                                                when checking for GuestPolicy conflicts.
+                                              type: string
+                                          type: object
+                                      type: object
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  rollout:
+                    description: |-
+                      Rollout to deploy the OS policy assignment. A rollout
+                      is triggered in the following situations: 1) OSPolicyAssignment is created.
+                      2) OSPolicyAssignment is updated and the update contains changes to one of
+                      the following fields: - instance_filter - os_policies 3) OSPolicyAssignment
+                      is deleted. Structure is documented below.
+                    properties:
+                      disruptionBudget:
+                        description: |-
+                          The maximum number (or percentage) of VMs
+                          per zone to disrupt at any given moment. Structure is
+                          documented below.
+                        properties:
+                          fixed:
+                            description: Specifies a fixed value.
+                            type: number
+                          percent:
+                            description: |-
+                              Specifies the relative value defined as a percentage,
+                              which will be multiplied by a reference value.
+                            type: number
+                        type: object
+                      minWaitDuration:
+                        description: |-
+                          This determines the minimum duration of
+                          time to wait after the configuration changes are applied through the current
+                          rollout. A VM continues to count towards the disruption_budget at least
+                          until this duration of time has passed after configuration changes are
+                          applied.
+                        type: string
+                    type: object
+                  skipAwaitRollout:
+                    description: |-
+                      Set to true to skip awaiting rollout
+                      during resource creation and update.
+                    type: boolean
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.instanceFilter is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.instanceFilter)
+                || (has(self.initProvider) && has(self.initProvider.instanceFilter))'
+            - message: spec.forProvider.osPolicies is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.osPolicies)
+                || (has(self.initProvider) && has(self.initProvider.osPolicies))'
+            - message: spec.forProvider.rollout is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.rollout)
+                || (has(self.initProvider) && has(self.initProvider.rollout))'
+          status:
+            description: OsPolicyAssignmentStatus defines the observed state of OsPolicyAssignment.
+            properties:
+              atProvider:
+                properties:
+                  baseline:
+                    description: |-
+                      Output only. Indicates that this revision has been successfully
+                      rolled out in this zone and new VMs will be assigned OS policies from this
+                      revision. For a given OS policy assignment, there is only one revision with
+                      a value of true for this field.
+                    type: boolean
+                  deleted:
+                    description: |-
+                      Output only. Indicates that this revision deletes the OS policy
+                      assignment.
+                    type: boolean
+                  description:
+                    description: |-
+                      Policy description. Length of the description is
+                      limited to 1024 characters.
+                    type: string
+                  etag:
+                    description: |-
+                      The etag for this OS policy assignment. If this is provided on
+                      update, it must match the server's etag.
+                    type: string
+                  id:
+                    description: |-
+                      an identifier for the resource with format
+                      projects/{{project}}/locations/{{location}}/osPolicyAssignments/{{name}}
+                    type: string
+                  instanceFilter:
+                    description: |-
+                      Filter to select VMs. Structure is
+                      documented below.
+                    properties:
+                      all:
+                        description: |-
+                          Target all VMs in the project. If true, no other criteria
+                          is permitted.
+                        type: boolean
+                      exclusionLabels:
+                        description: |-
+                          List of label sets used for VM exclusion. If
+                          the list has more than one label set, the VM is excluded if any of the label
+                          sets are applicable for the VM. Structure is
+                          documented below.
+                        items:
+                          properties:
+                            labels:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                Labels are identified by key/value pairs in this map.
+                                A VM should contain all the key/value pairs specified in this map to be
+                                selected.
+                              type: object
+                              x-kubernetes-map-type: granular
+                          type: object
+                        type: array
+                      inclusionLabels:
+                        description: |-
+                          List of label sets used for VM inclusion. If
+                          the list has more than one LabelSet, the VM is included if any of the
+                          label sets are applicable for the VM. Structure is
+                          documented below.
+                        items:
+                          properties:
+                            labels:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                Labels are identified by key/value pairs in this map.
+                                A VM should contain all the key/value pairs specified in this map to be
+                                selected.
+                              type: object
+                              x-kubernetes-map-type: granular
+                          type: object
+                        type: array
+                      inventories:
+                        description: |-
+                          List of inventories to select VMs. A VM is
+                          selected if its inventory data matches at least one of the following
+                          inventories. Structure is documented below.
+                        items:
+                          properties:
+                            osShortName:
+                              description: The OS short name
+                              type: string
+                            osVersion:
+                              description: |-
+                                The OS version Prefix matches are supported if
+                                asterisk(*) is provided as the last character. For example, to match all
+                                versions with a major version of 7, specify the following value for this
+                                field 7.* An empty string matches all OS versions.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  location:
+                    description: The location for the resource
+                    type: string
+                  osPolicies:
+                    description: |-
+                      List of OS policies to be applied to the VMs.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        allowNoResourceGroupMatch:
+                          description: |-
+                            This flag determines the OS
+                            policy compliance status when none of the resource groups within the policy
+                            are applicable for a VM. Set this value to true if the policy needs to be
+                            reported as compliant even if the policy has nothing to validate or enforce.
+                          type: boolean
+                        description:
+                          description: |-
+                            Policy description. Length of the description is
+                            limited to 1024 characters.
+                          type: string
+                        id:
+                          description: 'The id of the OS policy with the following
+                            restrictions:'
+                          type: string
+                        mode:
+                          description: |-
+                            Policy mode Possible values are: MODE_UNSPECIFIED,
+                            VALIDATION, ENFORCEMENT.
+                          type: string
+                        resourceGroups:
+                          description: |-
+                            List of resource groups for the policy. For a
+                            particular VM, resource groups are evaluated in the order specified and the
+                            first resource group that is applicable is selected and the rest are
+                            ignored. If none of the resource groups are applicable for a VM, the VM is
+                            considered to be non-compliant w.r.t this policy. This behavior can be
+                            toggled by the flag allow_no_resource_group_match Structure is
+                            documented below.
+                          items:
+                            properties:
+                              inventoryFilters:
+                                description: |-
+                                  List of inventory filters for the resource
+                                  group. The resources in this resource group are applied to the target VM if
+                                  it satisfies at least one of the following inventory filters. For example,
+                                  to apply this resource group to VMs running either RHEL or CentOS
+                                  operating systems, specify 2 items for the list with following values:
+                                  inventory_filters[0].os_short_name='rhel' and
+                                  inventory_filters[1].os_short_name='centos' If the list is empty, this
+                                  resource group will be applied to the target VM unconditionally. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    osShortName:
+                                      description: The OS short name
+                                      type: string
+                                    osVersion:
+                                      description: |-
+                                        The OS version Prefix matches are supported if
+                                        asterisk(*) is provided as the last character. For example, to match all
+                                        versions with a major version of 7, specify the following value for this
+                                        field 7.* An empty string matches all OS versions.
+                                      type: string
+                                  type: object
+                                type: array
+                              resources:
+                                description: |-
+                                  List of resources configured for this resource
+                                  group. The resources are executed in the exact order specified here.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    exec:
+                                      description: |-
+                                        Exec resource Structure is
+                                        documented below.
+                                      properties:
+                                        enforce:
+                                          description: |-
+                                            What to run to bring this resource into the desired
+                                            state. An exit code of 100 indicates "success", any other exit code
+                                            indicates a failure running enforce. Structure is
+                                            documented below.
+                                          properties:
+                                            args:
+                                              description: |-
+                                                Optional arguments to pass to the source during
+                                                execution.
+                                              items:
+                                                type: string
+                                              type: array
+                                            file:
+                                              description: |-
+                                                A remote or local file. Structure is
+                                                documented below.
+                                              properties:
+                                                allowInsecure:
+                                                  description: |-
+                                                    Defaults to false. When false, files are
+                                                    subject to validations based on the file type: Remote: A checksum must be
+                                                    specified. Cloud Storage: An object generation number must be specified.
+                                                  type: boolean
+                                                gcs:
+                                                  description: |-
+                                                    A Cloud Storage object. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    bucket:
+                                                      description: Bucket of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                    generation:
+                                                      description: Generation number
+                                                        of the Cloud Storage object.
+                                                      type: number
+                                                    object:
+                                                      description: Name of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                  type: object
+                                                localPath:
+                                                  description: A local path within
+                                                    the VM to use.
+                                                  type: string
+                                                remote:
+                                                  description: |-
+                                                    A generic remote file. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    sha256Checksum:
+                                                      description: SHA256 checksum
+                                                        of the remote file.
+                                                      type: string
+                                                    uri:
+                                                      description: |-
+                                                        URI from which to fetch the object. It should contain
+                                                        both the protocol and path following the format {protocol}://{location}.
+                                                      type: string
+                                                  type: object
+                                              type: object
+                                            interpreter:
+                                              description: |-
+                                                The script interpreter to use. Possible values
+                                                are: INTERPRETER_UNSPECIFIED, NONE, SHELL, POWERSHELL.
+                                              type: string
+                                            outputFilePath:
+                                              description: |-
+                                                Only recorded for enforce Exec. Path to an
+                                                output file (that is created by this Exec) whose content will be recorded in
+                                                OSPolicyResourceCompliance after a successful run. Absence or failure to
+                                                read this file will result in this ExecResource being non-compliant. Output
+                                                file size is limited to 100K bytes.
+                                              type: string
+                                            script:
+                                              description: |-
+                                                An inline script. The size of the script is limited to
+                                                1024 characters.
+                                              type: string
+                                          type: object
+                                        validate:
+                                          description: |-
+                                            What to run to validate this resource is in the
+                                            desired state. An exit code of 100 indicates "in desired state", and exit
+                                            code of 101 indicates "not in desired state". Any other exit code indicates
+                                            a failure running validate. Structure is
+                                            documented below.
+                                          properties:
+                                            args:
+                                              description: |-
+                                                Optional arguments to pass to the source during
+                                                execution.
+                                              items:
+                                                type: string
+                                              type: array
+                                            file:
+                                              description: |-
+                                                A remote or local file. Structure is
+                                                documented below.
+                                              properties:
+                                                allowInsecure:
+                                                  description: |-
+                                                    Defaults to false. When false, files are
+                                                    subject to validations based on the file type: Remote: A checksum must be
+                                                    specified. Cloud Storage: An object generation number must be specified.
+                                                  type: boolean
+                                                gcs:
+                                                  description: |-
+                                                    A Cloud Storage object. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    bucket:
+                                                      description: Bucket of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                    generation:
+                                                      description: Generation number
+                                                        of the Cloud Storage object.
+                                                      type: number
+                                                    object:
+                                                      description: Name of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                  type: object
+                                                localPath:
+                                                  description: A local path within
+                                                    the VM to use.
+                                                  type: string
+                                                remote:
+                                                  description: |-
+                                                    A generic remote file. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    sha256Checksum:
+                                                      description: SHA256 checksum
+                                                        of the remote file.
+                                                      type: string
+                                                    uri:
+                                                      description: |-
+                                                        URI from which to fetch the object. It should contain
+                                                        both the protocol and path following the format {protocol}://{location}.
+                                                      type: string
+                                                  type: object
+                                              type: object
+                                            interpreter:
+                                              description: |-
+                                                The script interpreter to use. Possible values
+                                                are: INTERPRETER_UNSPECIFIED, NONE, SHELL, POWERSHELL.
+                                              type: string
+                                            outputFilePath:
+                                              description: |-
+                                                Only recorded for enforce Exec. Path to an
+                                                output file (that is created by this Exec) whose content will be recorded in
+                                                OSPolicyResourceCompliance after a successful run. Absence or failure to
+                                                read this file will result in this ExecResource being non-compliant. Output
+                                                file size is limited to 100K bytes.
+                                              type: string
+                                            script:
+                                              description: |-
+                                                An inline script. The size of the script is limited to
+                                                1024 characters.
+                                              type: string
+                                          type: object
+                                      type: object
+                                    file:
+                                      description: |-
+                                        A remote or local file. Structure is
+                                        documented below.
+                                      properties:
+                                        content:
+                                          description: |-
+                                            A a file with this content. The size of the content
+                                            is limited to 1024 characters.
+                                          type: string
+                                        file:
+                                          description: |-
+                                            A remote or local file. Structure is
+                                            documented below.
+                                          properties:
+                                            allowInsecure:
+                                              description: |-
+                                                Defaults to false. When false, files are
+                                                subject to validations based on the file type: Remote: A checksum must be
+                                                specified. Cloud Storage: An object generation number must be specified.
+                                              type: boolean
+                                            gcs:
+                                              description: |-
+                                                A Cloud Storage object. Structure is
+                                                documented below.
+                                              properties:
+                                                bucket:
+                                                  description: Bucket of the Cloud
+                                                    Storage object.
+                                                  type: string
+                                                generation:
+                                                  description: Generation number of
+                                                    the Cloud Storage object.
+                                                  type: number
+                                                object:
+                                                  description: Name of the Cloud Storage
+                                                    object.
+                                                  type: string
+                                              type: object
+                                            localPath:
+                                              description: A local path within the
+                                                VM to use.
+                                              type: string
+                                            remote:
+                                              description: |-
+                                                A generic remote file. Structure is
+                                                documented below.
+                                              properties:
+                                                sha256Checksum:
+                                                  description: SHA256 checksum of
+                                                    the remote file.
+                                                  type: string
+                                                uri:
+                                                  description: |-
+                                                    URI from which to fetch the object. It should contain
+                                                    both the protocol and path following the format {protocol}://{location}.
+                                                  type: string
+                                              type: object
+                                          type: object
+                                        path:
+                                          description: The absolute path of the file
+                                            within the VM.
+                                          type: string
+                                        permissions:
+                                          description: |-
+                                            (Output) Consists of three octal digits which represent, in
+                                            order, the permissions of the owner, group, and other users for the file
+                                            (similarly to the numeric mode used in the linux chmod utility). Each digit
+                                            represents a three bit number with the 4 bit corresponding to the read
+                                            permissions, the 2 bit corresponds to the write bit, and the one bit
+                                            corresponds to the execute permission. Default behavior is 755. Below are
+                                            some examples of permissions and their associated values: read, write, and
+                                            execute: 7 read and execute: 5 read and write: 6 read only: 4
+                                          type: string
+                                        state:
+                                          description: |-
+                                            Desired state of the file. Possible values are:
+                                            DESIRED_STATE_UNSPECIFIED, PRESENT, ABSENT, CONTENTS_MATCH.
+                                          type: string
+                                      type: object
+                                    id:
+                                      description: |-
+                                        A one word, unique name for this repository. This is the
+                                        repo id in the zypper config file and also the display_name if
+                                        display_name is omitted. This id is also used as the unique identifier
+                                        when checking for GuestPolicy conflicts.
+                                      type: string
+                                    pkg:
+                                      description: |-
+                                        Package resource Structure is
+                                        documented below.
+                                      properties:
+                                        apt:
+                                          description: |-
+                                            An Apt Repository. Structure is
+                                            documented below.
+                                          properties:
+                                            name:
+                                              description: Package name.
+                                              type: string
+                                          type: object
+                                        deb:
+                                          description: |-
+                                            A deb package file. Structure is
+                                            documented below.
+                                          properties:
+                                            pullDeps:
+                                              description: |-
+                                                Whether dependencies should also be installed. -
+                                                install when false: rpm --upgrade --replacepkgs package.rpm - install when
+                                                true: yum -y install package.rpm or zypper -y install package.rpm
+                                              type: boolean
+                                            source:
+                                              description: |-
+                                                An rpm package. Structure is
+                                                documented below.
+                                              properties:
+                                                allowInsecure:
+                                                  description: |-
+                                                    Defaults to false. When false, files are
+                                                    subject to validations based on the file type: Remote: A checksum must be
+                                                    specified. Cloud Storage: An object generation number must be specified.
+                                                  type: boolean
+                                                gcs:
+                                                  description: |-
+                                                    A Cloud Storage object. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    bucket:
+                                                      description: Bucket of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                    generation:
+                                                      description: Generation number
+                                                        of the Cloud Storage object.
+                                                      type: number
+                                                    object:
+                                                      description: Name of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                  type: object
+                                                localPath:
+                                                  description: A local path within
+                                                    the VM to use.
+                                                  type: string
+                                                remote:
+                                                  description: |-
+                                                    A generic remote file. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    sha256Checksum:
+                                                      description: SHA256 checksum
+                                                        of the remote file.
+                                                      type: string
+                                                    uri:
+                                                      description: |-
+                                                        URI from which to fetch the object. It should contain
+                                                        both the protocol and path following the format {protocol}://{location}.
+                                                      type: string
+                                                  type: object
+                                              type: object
+                                          type: object
+                                        desiredState:
+                                          description: |-
+                                            The desired state the agent should maintain for
+                                            this package. Possible values are: DESIRED_STATE_UNSPECIFIED, INSTALLED,
+                                            REMOVED.
+                                          type: string
+                                        googet:
+                                          description: |-
+                                            A package managed by GooGet. Structure is
+                                            documented below.
+                                          properties:
+                                            name:
+                                              description: Package name.
+                                              type: string
+                                          type: object
+                                        msi:
+                                          description: |-
+                                            An MSI package. Structure is
+                                            documented below.
+                                          properties:
+                                            properties:
+                                              description: |-
+                                                Additional properties to use during installation.
+                                                This should be in the format of Property=Setting. Appended to the defaults
+                                                of ACTION=INSTALL REBOOT=ReallySuppress.
+                                              items:
+                                                type: string
+                                              type: array
+                                            source:
+                                              description: |-
+                                                An rpm package. Structure is
+                                                documented below.
+                                              properties:
+                                                allowInsecure:
+                                                  description: |-
+                                                    Defaults to false. When false, files are
+                                                    subject to validations based on the file type: Remote: A checksum must be
+                                                    specified. Cloud Storage: An object generation number must be specified.
+                                                  type: boolean
+                                                gcs:
+                                                  description: |-
+                                                    A Cloud Storage object. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    bucket:
+                                                      description: Bucket of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                    generation:
+                                                      description: Generation number
+                                                        of the Cloud Storage object.
+                                                      type: number
+                                                    object:
+                                                      description: Name of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                  type: object
+                                                localPath:
+                                                  description: A local path within
+                                                    the VM to use.
+                                                  type: string
+                                                remote:
+                                                  description: |-
+                                                    A generic remote file. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    sha256Checksum:
+                                                      description: SHA256 checksum
+                                                        of the remote file.
+                                                      type: string
+                                                    uri:
+                                                      description: |-
+                                                        URI from which to fetch the object. It should contain
+                                                        both the protocol and path following the format {protocol}://{location}.
+                                                      type: string
+                                                  type: object
+                                              type: object
+                                          type: object
+                                        rpm:
+                                          description: |-
+                                            An rpm package file. Structure is
+                                            documented below.
+                                          properties:
+                                            pullDeps:
+                                              description: |-
+                                                Whether dependencies should also be installed. -
+                                                install when false: rpm --upgrade --replacepkgs package.rpm - install when
+                                                true: yum -y install package.rpm or zypper -y install package.rpm
+                                              type: boolean
+                                            source:
+                                              description: |-
+                                                An rpm package. Structure is
+                                                documented below.
+                                              properties:
+                                                allowInsecure:
+                                                  description: |-
+                                                    Defaults to false. When false, files are
+                                                    subject to validations based on the file type: Remote: A checksum must be
+                                                    specified. Cloud Storage: An object generation number must be specified.
+                                                  type: boolean
+                                                gcs:
+                                                  description: |-
+                                                    A Cloud Storage object. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    bucket:
+                                                      description: Bucket of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                    generation:
+                                                      description: Generation number
+                                                        of the Cloud Storage object.
+                                                      type: number
+                                                    object:
+                                                      description: Name of the Cloud
+                                                        Storage object.
+                                                      type: string
+                                                  type: object
+                                                localPath:
+                                                  description: A local path within
+                                                    the VM to use.
+                                                  type: string
+                                                remote:
+                                                  description: |-
+                                                    A generic remote file. Structure is
+                                                    documented below.
+                                                  properties:
+                                                    sha256Checksum:
+                                                      description: SHA256 checksum
+                                                        of the remote file.
+                                                      type: string
+                                                    uri:
+                                                      description: |-
+                                                        URI from which to fetch the object. It should contain
+                                                        both the protocol and path following the format {protocol}://{location}.
+                                                      type: string
+                                                  type: object
+                                              type: object
+                                          type: object
+                                        yum:
+                                          description: |-
+                                            A Yum Repository. Structure is
+                                            documented below.
+                                          properties:
+                                            name:
+                                              description: Package name.
+                                              type: string
+                                          type: object
+                                        zypper:
+                                          description: |-
+                                            A Zypper Repository. Structure is
+                                            documented below.
+                                          properties:
+                                            name:
+                                              description: Package name.
+                                              type: string
+                                          type: object
+                                      type: object
+                                    repository:
+                                      description: |-
+                                        Package repository resource Structure is
+                                        documented below.
+                                      properties:
+                                        apt:
+                                          description: |-
+                                            An Apt Repository. Structure is
+                                            documented below.
+                                          properties:
+                                            archiveType:
+                                              description: |-
+                                                Type of archive files in this repository.
+                                                Possible values are: ARCHIVE_TYPE_UNSPECIFIED, DEB, DEB_SRC.
+                                              type: string
+                                            components:
+                                              description: |-
+                                                List of components for this repository. Must
+                                                contain at least one item.
+                                              items:
+                                                type: string
+                                              type: array
+                                            distribution:
+                                              description: Distribution of this repository.
+                                              type: string
+                                            gpgKey:
+                                              description: |-
+                                                URI of the key file for this repository. The agent
+                                                maintains a keyring at /etc/apt/trusted.gpg.d/osconfig_agent_managed.gpg.
+                                              type: string
+                                            uri:
+                                              description: |-
+                                                URI from which to fetch the object. It should contain
+                                                both the protocol and path following the format {protocol}://{location}.
+                                              type: string
+                                          type: object
+                                        goo:
+                                          description: |-
+                                            A Goo Repository. Structure is
+                                            documented below.
+                                          properties:
+                                            name:
+                                              description: Package name.
+                                              type: string
+                                            url:
+                                              description: The url of the repository.
+                                              type: string
+                                          type: object
+                                        yum:
+                                          description: |-
+                                            A Yum Repository. Structure is
+                                            documented below.
+                                          properties:
+                                            baseUrl:
+                                              description: The location of the repository
+                                                directory.
+                                              type: string
+                                            displayName:
+                                              description: The display name of the
+                                                repository.
+                                              type: string
+                                            gpgKeys:
+                                              description: URIs of GPG keys.
+                                              items:
+                                                type: string
+                                              type: array
+                                            id:
+                                              description: |-
+                                                A one word, unique name for this repository. This is the
+                                                repo id in the zypper config file and also the display_name if
+                                                display_name is omitted. This id is also used as the unique identifier
+                                                when checking for GuestPolicy conflicts.
+                                              type: string
+                                          type: object
+                                        zypper:
+                                          description: |-
+                                            A Zypper Repository. Structure is
+                                            documented below.
+                                          properties:
+                                            baseUrl:
+                                              description: The location of the repository
+                                                directory.
+                                              type: string
+                                            displayName:
+                                              description: The display name of the
+                                                repository.
+                                              type: string
+                                            gpgKeys:
+                                              description: URIs of GPG keys.
+                                              items:
+                                                type: string
+                                              type: array
+                                            id:
+                                              description: |-
+                                                A one word, unique name for this repository. This is the
+                                                repo id in the zypper config file and also the display_name if
+                                                display_name is omitted. This id is also used as the unique identifier
+                                                when checking for GuestPolicy conflicts.
+                                              type: string
+                                          type: object
+                                      type: object
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  reconciling:
+                    description: |-
+                      Output only. Indicates that reconciliation is in progress
+                      for the revision. This value is true when the rollout_state is one of:
+                    type: boolean
+                  revisionCreateTime:
+                    description: |-
+                      Output only. The timestamp that the revision was
+                      created.
+                    type: string
+                  revisionId:
+                    description: |-
+                      Output only. The assignment revision ID A new revision is
+                      committed whenever a rollout is triggered for a OS policy assignment
+                    type: string
+                  rollout:
+                    description: |-
+                      Rollout to deploy the OS policy assignment. A rollout
+                      is triggered in the following situations: 1) OSPolicyAssignment is created.
+                      2) OSPolicyAssignment is updated and the update contains changes to one of
+                      the following fields: - instance_filter - os_policies 3) OSPolicyAssignment
+                      is deleted. Structure is documented below.
+                    properties:
+                      disruptionBudget:
+                        description: |-
+                          The maximum number (or percentage) of VMs
+                          per zone to disrupt at any given moment. Structure is
+                          documented below.
+                        properties:
+                          fixed:
+                            description: Specifies a fixed value.
+                            type: number
+                          percent:
+                            description: |-
+                              Specifies the relative value defined as a percentage,
+                              which will be multiplied by a reference value.
+                            type: number
+                        type: object
+                      minWaitDuration:
+                        description: |-
+                          This determines the minimum duration of
+                          time to wait after the configuration changes are applied through the current
+                          rollout. A VM continues to count towards the disruption_budget at least
+                          until this duration of time has passed after configuration changes are
+                          applied.
+                        type: string
+                    type: object
+                  rolloutState:
+                    description: Output only. OS policy assignment rollout state
+                    type: string
+                  skipAwaitRollout:
+                    description: |-
+                      Set to true to skip awaiting rollout
+                      during resource creation and update.
+                    type: boolean
+                  uid:
+                    description: |-
+                      Output only. Server generated unique id for the OS policy assignment
+                      resource.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}

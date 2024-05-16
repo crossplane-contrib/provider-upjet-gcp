@@ -11,6 +11,3 @@ func (tr *ConsentStore) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Dataset) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *DatasetIAMMember) Hub() {}

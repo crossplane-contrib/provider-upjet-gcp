@@ -1,0 +1,70 @@
+apiVersion: appengine.gcp.upbound.io/v1beta2
+kind: ServiceNetworkSettings
+metadata:
+  annotations:
+    meta.upbound.io/example-id: appengine/v1beta2/servicenetworksettings
+  labels:
+    testing.upbound.io/example-name: internalapp
+  name: internalapp
+spec:
+  forProvider:
+    networkSettings:
+    - ingressTrafficAllowed: INGRESS_TRAFFIC_ALLOWED_INTERNAL_ONLY
+    serviceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: internalapp
+
+---
+
+apiVersion: appengine.gcp.upbound.io/v1beta2
+kind: StandardAppVersion
+metadata:
+  annotations:
+    meta.upbound.io/example-id: appengine/v1beta2/servicenetworksettings
+  labels:
+    testing.upbound.io/example-name: internalapp
+  name: internalapp
+spec:
+  forProvider:
+    deleteServiceOnDestroy: true
+    deployment:
+    - zip:
+      - sourceUrl: https://storage.googleapis.com/${google_storage_bucket.bucket.name}/${google_storage_bucket_object.object.name}
+    entrypoint:
+    - shell: node ./app.js
+    envVariables:
+      port: "8080"
+    runtime: nodejs20
+    service: internalapp
+
+---
+
+apiVersion: storage.gcp.upbound.io/v1beta2
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: appengine/v1beta2/servicenetworksettings
+  labels:
+    testing.upbound.io/example-name: bucket
+  name: bucket
+spec:
+  forProvider:
+    location: US
+
+---
+
+apiVersion: storage.gcp.upbound.io/v1beta2
+kind: BucketObject
+metadata:
+  annotations:
+    meta.upbound.io/example-id: appengine/v1beta2/servicenetworksettings
+  labels:
+    testing.upbound.io/example-name: object
+  name: object
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bucket
+    name: hello-world.zip
+    source: ./test-fixtures/hello-world.zip

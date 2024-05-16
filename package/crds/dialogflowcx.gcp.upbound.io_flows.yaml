@@ -2065,3 +2065,1930 @@ spec:
     storage: true
     subresources:
       status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta2
+    schema:
+      openAPIV3Schema:
+        description: Flow is the Schema for the Flows API. Flows represents the conversation
+          flows when you build your chatbot agent.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: FlowSpec defines the desired state of Flow
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  advancedSettings:
+                    description: |-
+                      Hierarchical advanced settings for this flow. The settings exposed at the lower level overrides the settings exposed at the higher level.
+                      Hierarchy: Agent->Flow->Page->Fulfillment/Parameter.
+                      Structure is documented below.
+                    properties:
+                      audioExportGcsDestination:
+                        description: 'If present, incoming audio is exported by Dialogflow
+                          to the configured Google Cloud Storage destination. Exposed
+                          at the following levels:'
+                        properties:
+                          uri:
+                            description: |-
+                              The Google Cloud Storage URI for the exported objects. Whether a full object name, or just a prefix, its usage depends on the Dialogflow operation.
+                              Format: gs://bucket/object-name-or-prefix
+                            type: string
+                        type: object
+                      dtmfSettings:
+                        description: 'Define behaviors for DTMF (dual tone multi frequency).
+                          DTMF settings does not override each other. DTMF settings
+                          set at different levels define DTMF detections running in
+                          parallel. Exposed at the following levels:'
+                        properties:
+                          enabled:
+                            description: If true, incoming audio is processed for
+                              DTMF (dual tone multi frequency) events. For example,
+                              if the caller presses a button on their telephone keypad
+                              and DTMF processing is enabled, Dialogflow will detect
+                              the event (e.g. a "3" was pressed) in the incoming audio
+                              and pass the event to the bot to drive business logic
+                              (e.g. when 3 is pressed, return the account balance).
+                            type: boolean
+                          finishDigit:
+                            description: The digit that terminates a DTMF digit sequence.
+                            type: string
+                          maxDigits:
+                            description: Max length of DTMF digits.
+                            type: number
+                        type: object
+                    type: object
+                  description:
+                    description: The description of the flow. The maximum length is
+                      500 characters. If exceeded, the request is rejected.
+                    type: string
+                  displayName:
+                    description: The human-readable name of the flow.
+                    type: string
+                  eventHandlers:
+                    description: |-
+                      A flow's event handlers serve two purposes:
+                      They are responsible for handling events (e.g. no match, webhook errors) in the flow.
+                      They are inherited by every page's [event handlers][Page.event_handlers], which can be used to handle common events regardless of the current page. Event handlers defined in the page have higher priority than those defined in the flow.
+                      Unlike transitionRoutes, these handlers are evaluated on a first-match basis. The first one that matches the event get executed, with the rest being ignored.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        event:
+                          description: The name of the event to handle.
+                          type: string
+                        targetFlow:
+                          description: |-
+                            The target flow to transition to.
+                            Format: projects//locations//agents//flows/.
+                          type: string
+                        targetPage:
+                          description: |-
+                            The target page to transition to.
+                            Format: projects//locations//agents//flows//pages/.
+                          type: string
+                        triggerFulfillment:
+                          description: |-
+                            The fulfillment to call when the event occurs. Handling webhook errors with a fulfillment enabled with webhook could cause infinite loop. It is invalid to specify such fulfillment for a handler handling webhooks.
+                            Structure is documented below.
+                          properties:
+                            conditionalCases:
+                              description: |-
+                                Conditional cases for this fulfillment.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  cases:
+                                    description: |-
+                                      A JSON encoded list of cascading if-else conditions. Cases are mutually exclusive. The first one with a matching condition is selected, all the rest ignored.
+                                      See Case for the schema.
+                                    type: string
+                                type: object
+                              type: array
+                            messages:
+                              description: |-
+                                The list of rich message responses to present to the user.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  channel:
+                                    description: The channel which the response is
+                                      associated with. Clients can specify the channel
+                                      via QueryParameters.channel, and only associated
+                                      channel response will be returned.
+                                    type: string
+                                  conversationSuccess:
+                                    description: |-
+                                      Indicates that the conversation succeeded, i.e., the bot handled the issue that the customer talked to it about.
+                                      Dialogflow only uses this to determine which conversations should be counted as successful and doesn't process the metadata in this message in any way. Note that Dialogflow also considers conversations that get to the conversation end page as successful even if they don't return ConversationSuccess.
+                                      You may set this, for example:
+                                    properties:
+                                      metadata:
+                                        description: Custom metadata. Dialogflow doesn't
+                                          impose any structure on this.
+                                        type: string
+                                    type: object
+                                  liveAgentHandoff:
+                                    description: |-
+                                      Indicates that the conversation should be handed off to a live agent.
+                                      Dialogflow only uses this to determine which conversations were handed off to a human agent for measurement purposes. What else to do with this signal is up to you and your handoff procedures.
+                                      You may set this, for example:
+                                    properties:
+                                      metadata:
+                                        description: Custom metadata. Dialogflow doesn't
+                                          impose any structure on this.
+                                        type: string
+                                    type: object
+                                  outputAudioText:
+                                    description: |-
+                                      A text or ssml response that is preferentially used for TTS output audio synthesis, as described in the comment on the ResponseMessage message.
+                                      Structure is documented below.
+                                    properties:
+                                      ssml:
+                                        description: The SSML text to be synthesized.
+                                          For more information, see SSML.
+                                        type: string
+                                      text:
+                                        description: A collection of text responses.
+                                        type: string
+                                    type: object
+                                  payload:
+                                    description: A custom, platform-specific payload.
+                                    type: string
+                                  playAudio:
+                                    description: |-
+                                      Specifies an audio clip to be played by the client as part of the response.
+                                      Structure is documented below.
+                                    properties:
+                                      audioUri:
+                                        description: URI of the audio clip. Dialogflow
+                                          does not impose any validation on this value.
+                                          It is specific to the client that reads
+                                          it.
+                                        type: string
+                                    type: object
+                                  telephonyTransferCall:
+                                    description: |-
+                                      Represents the signal that telles the client to transfer the phone call connected to the agent to a third-party endpoint.
+                                      Structure is documented below.
+                                    properties:
+                                      phoneNumber:
+                                        description: Transfer the call to a phone
+                                          number in E.164 format.
+                                        type: string
+                                    type: object
+                                  text:
+                                    description: A collection of text responses.
+                                    properties:
+                                      text:
+                                        description: A collection of text responses.
+                                        items:
+                                          type: string
+                                        type: array
+                                    type: object
+                                type: object
+                              type: array
+                            returnPartialResponses:
+                              description: 'Whether Dialogflow should return currently
+                                queued fulfillment response messages in streaming
+                                APIs. If a webhook is specified, it happens before
+                                Dialogflow invokes webhook. Warning: 1) This flag
+                                only affects streaming API. Responses are still queued
+                                and returned once in non-streaming API. 2) The flag
+                                can be enabled in any fulfillment but only the first
+                                3 partial responses will be returned. You may only
+                                want to apply it to fulfillments that have slow webhooks.'
+                              type: boolean
+                            setParameterActions:
+                              description: |-
+                                Set parameter values before executing the webhook.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  parameter:
+                                    description: Display name of the parameter.
+                                    type: string
+                                  value:
+                                    description: The new JSON-encoded value of the
+                                      parameter. A null value clears the parameter.
+                                    type: string
+                                type: object
+                              type: array
+                            tag:
+                              description: The tag used by the webhook to identify
+                                which fulfillment is being called. This field is required
+                                if webhook is specified.
+                              type: string
+                            webhook:
+                              description: 'The webhook to call. Format: projects//locations//agents//webhooks/.'
+                              type: string
+                          type: object
+                      type: object
+                    type: array
+                  isDefaultStartFlow:
+                    description: |-
+                      Marks this as the Default Start Flow for an agent. When you create an agent, the Default Start Flow is created automatically.
+                      The Default Start Flow cannot be deleted; deleting the google_dialogflow_cx_flow resource does nothing to the underlying GCP resources.
+                    type: boolean
+                  languageCode:
+                    description: |-
+                      The language of the following fields in flow:
+                      Flow.event_handlers.trigger_fulfillment.messages
+                      Flow.event_handlers.trigger_fulfillment.conditional_cases
+                      Flow.transition_routes.trigger_fulfillment.messages
+                      Flow.transition_routes.trigger_fulfillment.conditional_cases
+                      If not specified, the agent's default language is used. Many languages are supported. Note: languages must be enabled in the agent before they can be used.
+                    type: string
+                  nluSettings:
+                    description: |-
+                      NLU related settings of the flow.
+                      Structure is documented below.
+                    properties:
+                      classificationThreshold:
+                        description: |-
+                          To filter out false positive results and still get variety in matched natural language inputs for your agent, you can tune the machine learning classification threshold.
+                          If the returned score value is less than the threshold value, then a no-match event will be triggered. The score values range from 0.0 (completely uncertain) to 1.0 (completely certain). If set to 0.0, the default of 0.3 is used.
+                        type: number
+                      modelTrainingMode:
+                        description: Indicates NLU model training mode.
+                        type: string
+                      modelType:
+                        description: Indicates the type of NLU model.
+                        type: string
+                    type: object
+                  parent:
+                    description: |-
+                      The agent to create a flow for.
+                      Format: projects//locations//agents/.
+                    type: string
+                  parentRef:
+                    description: Reference to a Agent in dialogflowcx to populate
+                      parent.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  parentSelector:
+                    description: Selector for a Agent in dialogflowcx to populate
+                      parent.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  transitionRouteGroups:
+                    description: |-
+                      A flow's transition route group serve two purposes:
+                      They are responsible for matching the user's first utterances in the flow.
+                      They are inherited by every page's [transition route groups][Page.transition_route_groups]. Transition route groups defined in the page have higher priority than those defined in the flow.
+                      Format:projects//locations//agents//flows//transitionRouteGroups/.
+                    items:
+                      type: string
+                    type: array
+                  transitionRoutes:
+                    description: |-
+                      A flow's transition routes serve two purposes:
+                      They are responsible for matching the user's first utterances in the flow.
+                      They are inherited by every page's [transition routes][Page.transition_routes] and can support use cases such as the user saying "help" or "can I talk to a human?", which can be handled in a common way regardless of the current page. Transition routes defined in the page have higher priority than those defined in the flow.
+                      TransitionRoutes are evalauted in the following order:
+                      TransitionRoutes with intent specified.
+                      TransitionRoutes with only condition specified.
+                      TransitionRoutes with intent specified are inherited by pages in the flow.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        condition:
+                          description: |-
+                            The condition to evaluate against form parameters or session parameters.
+                            At least one of intent or condition must be specified. When both intent and condition are specified, the transition can only happen when both are fulfilled.
+                          type: string
+                        intent:
+                          description: |-
+                            The unique identifier of an Intent.
+                            Format: projects//locations//agents//intents/. Indicates that the transition can only happen when the given intent is matched. At least one of intent or condition must be specified. When both intent and condition are specified, the transition can only happen when both are fulfilled.
+                          type: string
+                        targetFlow:
+                          description: |-
+                            The target flow to transition to.
+                            Format: projects//locations//agents//flows/.
+                          type: string
+                        targetFlowRef:
+                          description: Reference to a Agent in dialogflowcx to populate
+                            targetFlow.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        targetFlowSelector:
+                          description: Selector for a Agent in dialogflowcx to populate
+                            targetFlow.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        targetPage:
+                          description: |-
+                            The target page to transition to.
+                            Format: projects//locations//agents//flows//pages/.
+                          type: string
+                        triggerFulfillment:
+                          description: |-
+                            The fulfillment to call when the condition is satisfied. At least one of triggerFulfillment and target must be specified. When both are defined, triggerFulfillment is executed first.
+                            Structure is documented below.
+                          properties:
+                            conditionalCases:
+                              description: |-
+                                Conditional cases for this fulfillment.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  cases:
+                                    description: |-
+                                      A JSON encoded list of cascading if-else conditions. Cases are mutually exclusive. The first one with a matching condition is selected, all the rest ignored.
+                                      See Case for the schema.
+                                    type: string
+                                type: object
+                              type: array
+                            messages:
+                              description: |-
+                                The list of rich message responses to present to the user.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  channel:
+                                    description: The channel which the response is
+                                      associated with. Clients can specify the channel
+                                      via QueryParameters.channel, and only associated
+                                      channel response will be returned.
+                                    type: string
+                                  conversationSuccess:
+                                    description: |-
+                                      Indicates that the conversation succeeded, i.e., the bot handled the issue that the customer talked to it about.
+                                      Dialogflow only uses this to determine which conversations should be counted as successful and doesn't process the metadata in this message in any way. Note that Dialogflow also considers conversations that get to the conversation end page as successful even if they don't return ConversationSuccess.
+                                      You may set this, for example:
+                                    properties:
+                                      metadata:
+                                        description: Custom metadata. Dialogflow doesn't
+                                          impose any structure on this.
+                                        type: string
+                                    type: object
+                                  liveAgentHandoff:
+                                    description: |-
+                                      Indicates that the conversation should be handed off to a live agent.
+                                      Dialogflow only uses this to determine which conversations were handed off to a human agent for measurement purposes. What else to do with this signal is up to you and your handoff procedures.
+                                      You may set this, for example:
+                                    properties:
+                                      metadata:
+                                        description: Custom metadata. Dialogflow doesn't
+                                          impose any structure on this.
+                                        type: string
+                                    type: object
+                                  outputAudioText:
+                                    description: |-
+                                      A text or ssml response that is preferentially used for TTS output audio synthesis, as described in the comment on the ResponseMessage message.
+                                      Structure is documented below.
+                                    properties:
+                                      ssml:
+                                        description: The SSML text to be synthesized.
+                                          For more information, see SSML.
+                                        type: string
+                                      text:
+                                        description: A collection of text responses.
+                                        type: string
+                                    type: object
+                                  payload:
+                                    description: A custom, platform-specific payload.
+                                    type: string
+                                  playAudio:
+                                    description: |-
+                                      Specifies an audio clip to be played by the client as part of the response.
+                                      Structure is documented below.
+                                    properties:
+                                      audioUri:
+                                        description: URI of the audio clip. Dialogflow
+                                          does not impose any validation on this value.
+                                          It is specific to the client that reads
+                                          it.
+                                        type: string
+                                    type: object
+                                  telephonyTransferCall:
+                                    description: |-
+                                      Represents the signal that telles the client to transfer the phone call connected to the agent to a third-party endpoint.
+                                      Structure is documented below.
+                                    properties:
+                                      phoneNumber:
+                                        description: Transfer the call to a phone
+                                          number in E.164 format.
+                                        type: string
+                                    type: object
+                                  text:
+                                    description: A collection of text responses.
+                                    properties:
+                                      text:
+                                        description: A collection of text responses.
+                                        items:
+                                          type: string
+                                        type: array
+                                    type: object
+                                type: object
+                              type: array
+                            returnPartialResponses:
+                              description: 'Whether Dialogflow should return currently
+                                queued fulfillment response messages in streaming
+                                APIs. If a webhook is specified, it happens before
+                                Dialogflow invokes webhook. Warning: 1) This flag
+                                only affects streaming API. Responses are still queued
+                                and returned once in non-streaming API. 2) The flag
+                                can be enabled in any fulfillment but only the first
+                                3 partial responses will be returned. You may only
+                                want to apply it to fulfillments that have slow webhooks.'
+                              type: boolean
+                            setParameterActions:
+                              description: |-
+                                Set parameter values before executing the webhook.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  parameter:
+                                    description: Display name of the parameter.
+                                    type: string
+                                  value:
+                                    description: The new JSON-encoded value of the
+                                      parameter. A null value clears the parameter.
+                                    type: string
+                                type: object
+                              type: array
+                            tag:
+                              description: The tag used by the webhook to identify
+                                which fulfillment is being called. This field is required
+                                if webhook is specified.
+                              type: string
+                            webhook:
+                              description: 'The webhook to call. Format: projects//locations//agents//webhooks/.'
+                              type: string
+                          type: object
+                      type: object
+                    type: array
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  advancedSettings:
+                    description: |-
+                      Hierarchical advanced settings for this flow. The settings exposed at the lower level overrides the settings exposed at the higher level.
+                      Hierarchy: Agent->Flow->Page->Fulfillment/Parameter.
+                      Structure is documented below.
+                    properties:
+                      audioExportGcsDestination:
+                        description: 'If present, incoming audio is exported by Dialogflow
+                          to the configured Google Cloud Storage destination. Exposed
+                          at the following levels:'
+                        properties:
+                          uri:
+                            description: |-
+                              The Google Cloud Storage URI for the exported objects. Whether a full object name, or just a prefix, its usage depends on the Dialogflow operation.
+                              Format: gs://bucket/object-name-or-prefix
+                            type: string
+                        type: object
+                      dtmfSettings:
+                        description: 'Define behaviors for DTMF (dual tone multi frequency).
+                          DTMF settings does not override each other. DTMF settings
+                          set at different levels define DTMF detections running in
+                          parallel. Exposed at the following levels:'
+                        properties:
+                          enabled:
+                            description: If true, incoming audio is processed for
+                              DTMF (dual tone multi frequency) events. For example,
+                              if the caller presses a button on their telephone keypad
+                              and DTMF processing is enabled, Dialogflow will detect
+                              the event (e.g. a "3" was pressed) in the incoming audio
+                              and pass the event to the bot to drive business logic
+                              (e.g. when 3 is pressed, return the account balance).
+                            type: boolean
+                          finishDigit:
+                            description: The digit that terminates a DTMF digit sequence.
+                            type: string
+                          maxDigits:
+                            description: Max length of DTMF digits.
+                            type: number
+                        type: object
+                    type: object
+                  description:
+                    description: The description of the flow. The maximum length is
+                      500 characters. If exceeded, the request is rejected.
+                    type: string
+                  displayName:
+                    description: The human-readable name of the flow.
+                    type: string
+                  eventHandlers:
+                    description: |-
+                      A flow's event handlers serve two purposes:
+                      They are responsible for handling events (e.g. no match, webhook errors) in the flow.
+                      They are inherited by every page's [event handlers][Page.event_handlers], which can be used to handle common events regardless of the current page. Event handlers defined in the page have higher priority than those defined in the flow.
+                      Unlike transitionRoutes, these handlers are evaluated on a first-match basis. The first one that matches the event get executed, with the rest being ignored.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        event:
+                          description: The name of the event to handle.
+                          type: string
+                        targetFlow:
+                          description: |-
+                            The target flow to transition to.
+                            Format: projects//locations//agents//flows/.
+                          type: string
+                        targetPage:
+                          description: |-
+                            The target page to transition to.
+                            Format: projects//locations//agents//flows//pages/.
+                          type: string
+                        triggerFulfillment:
+                          description: |-
+                            The fulfillment to call when the event occurs. Handling webhook errors with a fulfillment enabled with webhook could cause infinite loop. It is invalid to specify such fulfillment for a handler handling webhooks.
+                            Structure is documented below.
+                          properties:
+                            conditionalCases:
+                              description: |-
+                                Conditional cases for this fulfillment.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  cases:
+                                    description: |-
+                                      A JSON encoded list of cascading if-else conditions. Cases are mutually exclusive. The first one with a matching condition is selected, all the rest ignored.
+                                      See Case for the schema.
+                                    type: string
+                                type: object
+                              type: array
+                            messages:
+                              description: |-
+                                The list of rich message responses to present to the user.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  channel:
+                                    description: The channel which the response is
+                                      associated with. Clients can specify the channel
+                                      via QueryParameters.channel, and only associated
+                                      channel response will be returned.
+                                    type: string
+                                  conversationSuccess:
+                                    description: |-
+                                      Indicates that the conversation succeeded, i.e., the bot handled the issue that the customer talked to it about.
+                                      Dialogflow only uses this to determine which conversations should be counted as successful and doesn't process the metadata in this message in any way. Note that Dialogflow also considers conversations that get to the conversation end page as successful even if they don't return ConversationSuccess.
+                                      You may set this, for example:
+                                    properties:
+                                      metadata:
+                                        description: Custom metadata. Dialogflow doesn't
+                                          impose any structure on this.
+                                        type: string
+                                    type: object
+                                  liveAgentHandoff:
+                                    description: |-
+                                      Indicates that the conversation should be handed off to a live agent.
+                                      Dialogflow only uses this to determine which conversations were handed off to a human agent for measurement purposes. What else to do with this signal is up to you and your handoff procedures.
+                                      You may set this, for example:
+                                    properties:
+                                      metadata:
+                                        description: Custom metadata. Dialogflow doesn't
+                                          impose any structure on this.
+                                        type: string
+                                    type: object
+                                  outputAudioText:
+                                    description: |-
+                                      A text or ssml response that is preferentially used for TTS output audio synthesis, as described in the comment on the ResponseMessage message.
+                                      Structure is documented below.
+                                    properties:
+                                      ssml:
+                                        description: The SSML text to be synthesized.
+                                          For more information, see SSML.
+                                        type: string
+                                      text:
+                                        description: A collection of text responses.
+                                        type: string
+                                    type: object
+                                  payload:
+                                    description: A custom, platform-specific payload.
+                                    type: string
+                                  playAudio:
+                                    description: |-
+                                      Specifies an audio clip to be played by the client as part of the response.
+                                      Structure is documented below.
+                                    properties:
+                                      audioUri:
+                                        description: URI of the audio clip. Dialogflow
+                                          does not impose any validation on this value.
+                                          It is specific to the client that reads
+                                          it.
+                                        type: string
+                                    type: object
+                                  telephonyTransferCall:
+                                    description: |-
+                                      Represents the signal that telles the client to transfer the phone call connected to the agent to a third-party endpoint.
+                                      Structure is documented below.
+                                    properties:
+                                      phoneNumber:
+                                        description: Transfer the call to a phone
+                                          number in E.164 format.
+                                        type: string
+                                    type: object
+                                  text:
+                                    description: A collection of text responses.
+                                    properties:
+                                      text:
+                                        description: A collection of text responses.
+                                        items:
+                                          type: string
+                                        type: array
+                                    type: object
+                                type: object
+                              type: array
+                            returnPartialResponses:
+                              description: 'Whether Dialogflow should return currently
+                                queued fulfillment response messages in streaming
+                                APIs. If a webhook is specified, it happens before
+                                Dialogflow invokes webhook. Warning: 1) This flag
+                                only affects streaming API. Responses are still queued
+                                and returned once in non-streaming API. 2) The flag
+                                can be enabled in any fulfillment but only the first
+                                3 partial responses will be returned. You may only
+                                want to apply it to fulfillments that have slow webhooks.'
+                              type: boolean
+                            setParameterActions:
+                              description: |-
+                                Set parameter values before executing the webhook.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  parameter:
+                                    description: Display name of the parameter.
+                                    type: string
+                                  value:
+                                    description: The new JSON-encoded value of the
+                                      parameter. A null value clears the parameter.
+                                    type: string
+                                type: object
+                              type: array
+                            tag:
+                              description: The tag used by the webhook to identify
+                                which fulfillment is being called. This field is required
+                                if webhook is specified.
+                              type: string
+                            webhook:
+                              description: 'The webhook to call. Format: projects//locations//agents//webhooks/.'
+                              type: string
+                          type: object
+                      type: object
+                    type: array
+                  isDefaultStartFlow:
+                    description: |-
+                      Marks this as the Default Start Flow for an agent. When you create an agent, the Default Start Flow is created automatically.
+                      The Default Start Flow cannot be deleted; deleting the google_dialogflow_cx_flow resource does nothing to the underlying GCP resources.
+                    type: boolean
+                  languageCode:
+                    description: |-
+                      The language of the following fields in flow:
+                      Flow.event_handlers.trigger_fulfillment.messages
+                      Flow.event_handlers.trigger_fulfillment.conditional_cases
+                      Flow.transition_routes.trigger_fulfillment.messages
+                      Flow.transition_routes.trigger_fulfillment.conditional_cases
+                      If not specified, the agent's default language is used. Many languages are supported. Note: languages must be enabled in the agent before they can be used.
+                    type: string
+                  nluSettings:
+                    description: |-
+                      NLU related settings of the flow.
+                      Structure is documented below.
+                    properties:
+                      classificationThreshold:
+                        description: |-
+                          To filter out false positive results and still get variety in matched natural language inputs for your agent, you can tune the machine learning classification threshold.
+                          If the returned score value is less than the threshold value, then a no-match event will be triggered. The score values range from 0.0 (completely uncertain) to 1.0 (completely certain). If set to 0.0, the default of 0.3 is used.
+                        type: number
+                      modelTrainingMode:
+                        description: Indicates NLU model training mode.
+                        type: string
+                      modelType:
+                        description: Indicates the type of NLU model.
+                        type: string
+                    type: object
+                  parent:
+                    description: |-
+                      The agent to create a flow for.
+                      Format: projects//locations//agents/.
+                    type: string
+                  parentRef:
+                    description: Reference to a Agent in dialogflowcx to populate
+                      parent.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  parentSelector:
+                    description: Selector for a Agent in dialogflowcx to populate
+                      parent.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  transitionRouteGroups:
+                    description: |-
+                      A flow's transition route group serve two purposes:
+                      They are responsible for matching the user's first utterances in the flow.
+                      They are inherited by every page's [transition route groups][Page.transition_route_groups]. Transition route groups defined in the page have higher priority than those defined in the flow.
+                      Format:projects//locations//agents//flows//transitionRouteGroups/.
+                    items:
+                      type: string
+                    type: array
+                  transitionRoutes:
+                    description: |-
+                      A flow's transition routes serve two purposes:
+                      They are responsible for matching the user's first utterances in the flow.
+                      They are inherited by every page's [transition routes][Page.transition_routes] and can support use cases such as the user saying "help" or "can I talk to a human?", which can be handled in a common way regardless of the current page. Transition routes defined in the page have higher priority than those defined in the flow.
+                      TransitionRoutes are evalauted in the following order:
+                      TransitionRoutes with intent specified.
+                      TransitionRoutes with only condition specified.
+                      TransitionRoutes with intent specified are inherited by pages in the flow.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        condition:
+                          description: |-
+                            The condition to evaluate against form parameters or session parameters.
+                            At least one of intent or condition must be specified. When both intent and condition are specified, the transition can only happen when both are fulfilled.
+                          type: string
+                        intent:
+                          description: |-
+                            The unique identifier of an Intent.
+                            Format: projects//locations//agents//intents/. Indicates that the transition can only happen when the given intent is matched. At least one of intent or condition must be specified. When both intent and condition are specified, the transition can only happen when both are fulfilled.
+                          type: string
+                        targetFlow:
+                          description: |-
+                            The target flow to transition to.
+                            Format: projects//locations//agents//flows/.
+                          type: string
+                        targetFlowRef:
+                          description: Reference to a Agent in dialogflowcx to populate
+                            targetFlow.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        targetFlowSelector:
+                          description: Selector for a Agent in dialogflowcx to populate
+                            targetFlow.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        targetPage:
+                          description: |-
+                            The target page to transition to.
+                            Format: projects//locations//agents//flows//pages/.
+                          type: string
+                        triggerFulfillment:
+                          description: |-
+                            The fulfillment to call when the condition is satisfied. At least one of triggerFulfillment and target must be specified. When both are defined, triggerFulfillment is executed first.
+                            Structure is documented below.
+                          properties:
+                            conditionalCases:
+                              description: |-
+                                Conditional cases for this fulfillment.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  cases:
+                                    description: |-
+                                      A JSON encoded list of cascading if-else conditions. Cases are mutually exclusive. The first one with a matching condition is selected, all the rest ignored.
+                                      See Case for the schema.
+                                    type: string
+                                type: object
+                              type: array
+                            messages:
+                              description: |-
+                                The list of rich message responses to present to the user.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  channel:
+                                    description: The channel which the response is
+                                      associated with. Clients can specify the channel
+                                      via QueryParameters.channel, and only associated
+                                      channel response will be returned.
+                                    type: string
+                                  conversationSuccess:
+                                    description: |-
+                                      Indicates that the conversation succeeded, i.e., the bot handled the issue that the customer talked to it about.
+                                      Dialogflow only uses this to determine which conversations should be counted as successful and doesn't process the metadata in this message in any way. Note that Dialogflow also considers conversations that get to the conversation end page as successful even if they don't return ConversationSuccess.
+                                      You may set this, for example:
+                                    properties:
+                                      metadata:
+                                        description: Custom metadata. Dialogflow doesn't
+                                          impose any structure on this.
+                                        type: string
+                                    type: object
+                                  liveAgentHandoff:
+                                    description: |-
+                                      Indicates that the conversation should be handed off to a live agent.
+                                      Dialogflow only uses this to determine which conversations were handed off to a human agent for measurement purposes. What else to do with this signal is up to you and your handoff procedures.
+                                      You may set this, for example:
+                                    properties:
+                                      metadata:
+                                        description: Custom metadata. Dialogflow doesn't
+                                          impose any structure on this.
+                                        type: string
+                                    type: object
+                                  outputAudioText:
+                                    description: |-
+                                      A text or ssml response that is preferentially used for TTS output audio synthesis, as described in the comment on the ResponseMessage message.
+                                      Structure is documented below.
+                                    properties:
+                                      ssml:
+                                        description: The SSML text to be synthesized.
+                                          For more information, see SSML.
+                                        type: string
+                                      text:
+                                        description: A collection of text responses.
+                                        type: string
+                                    type: object
+                                  payload:
+                                    description: A custom, platform-specific payload.
+                                    type: string
+                                  playAudio:
+                                    description: |-
+                                      Specifies an audio clip to be played by the client as part of the response.
+                                      Structure is documented below.
+                                    properties:
+                                      audioUri:
+                                        description: URI of the audio clip. Dialogflow
+                                          does not impose any validation on this value.
+                                          It is specific to the client that reads
+                                          it.
+                                        type: string
+                                    type: object
+                                  telephonyTransferCall:
+                                    description: |-
+                                      Represents the signal that telles the client to transfer the phone call connected to the agent to a third-party endpoint.
+                                      Structure is documented below.
+                                    properties:
+                                      phoneNumber:
+                                        description: Transfer the call to a phone
+                                          number in E.164 format.
+                                        type: string
+                                    type: object
+                                  text:
+                                    description: A collection of text responses.
+                                    properties:
+                                      text:
+                                        description: A collection of text responses.
+                                        items:
+                                          type: string
+                                        type: array
+                                    type: object
+                                type: object
+                              type: array
+                            returnPartialResponses:
+                              description: 'Whether Dialogflow should return currently
+                                queued fulfillment response messages in streaming
+                                APIs. If a webhook is specified, it happens before
+                                Dialogflow invokes webhook. Warning: 1) This flag
+                                only affects streaming API. Responses are still queued
+                                and returned once in non-streaming API. 2) The flag
+                                can be enabled in any fulfillment but only the first
+                                3 partial responses will be returned. You may only
+                                want to apply it to fulfillments that have slow webhooks.'
+                              type: boolean
+                            setParameterActions:
+                              description: |-
+                                Set parameter values before executing the webhook.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  parameter:
+                                    description: Display name of the parameter.
+                                    type: string
+                                  value:
+                                    description: The new JSON-encoded value of the
+                                      parameter. A null value clears the parameter.
+                                    type: string
+                                type: object
+                              type: array
+                            tag:
+                              description: The tag used by the webhook to identify
+                                which fulfillment is being called. This field is required
+                                if webhook is specified.
+                              type: string
+                            webhook:
+                              description: 'The webhook to call. Format: projects//locations//agents//webhooks/.'
+                              type: string
+                          type: object
+                      type: object
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.displayName is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)
+                || (has(self.initProvider) && has(self.initProvider.displayName))'
+          status:
+            description: FlowStatus defines the observed state of Flow.
+            properties:
+              atProvider:
+                properties:
+                  advancedSettings:
+                    description: |-
+                      Hierarchical advanced settings for this flow. The settings exposed at the lower level overrides the settings exposed at the higher level.
+                      Hierarchy: Agent->Flow->Page->Fulfillment/Parameter.
+                      Structure is documented below.
+                    properties:
+                      audioExportGcsDestination:
+                        description: 'If present, incoming audio is exported by Dialogflow
+                          to the configured Google Cloud Storage destination. Exposed
+                          at the following levels:'
+                        properties:
+                          uri:
+                            description: |-
+                              The Google Cloud Storage URI for the exported objects. Whether a full object name, or just a prefix, its usage depends on the Dialogflow operation.
+                              Format: gs://bucket/object-name-or-prefix
+                            type: string
+                        type: object
+                      dtmfSettings:
+                        description: 'Define behaviors for DTMF (dual tone multi frequency).
+                          DTMF settings does not override each other. DTMF settings
+                          set at different levels define DTMF detections running in
+                          parallel. Exposed at the following levels:'
+                        properties:
+                          enabled:
+                            description: If true, incoming audio is processed for
+                              DTMF (dual tone multi frequency) events. For example,
+                              if the caller presses a button on their telephone keypad
+                              and DTMF processing is enabled, Dialogflow will detect
+                              the event (e.g. a "3" was pressed) in the incoming audio
+                              and pass the event to the bot to drive business logic
+                              (e.g. when 3 is pressed, return the account balance).
+                            type: boolean
+                          finishDigit:
+                            description: The digit that terminates a DTMF digit sequence.
+                            type: string
+                          maxDigits:
+                            description: Max length of DTMF digits.
+                            type: number
+                        type: object
+                    type: object
+                  description:
+                    description: The description of the flow. The maximum length is
+                      500 characters. If exceeded, the request is rejected.
+                    type: string
+                  displayName:
+                    description: The human-readable name of the flow.
+                    type: string
+                  eventHandlers:
+                    description: |-
+                      A flow's event handlers serve two purposes:
+                      They are responsible for handling events (e.g. no match, webhook errors) in the flow.
+                      They are inherited by every page's [event handlers][Page.event_handlers], which can be used to handle common events regardless of the current page. Event handlers defined in the page have higher priority than those defined in the flow.
+                      Unlike transitionRoutes, these handlers are evaluated on a first-match basis. The first one that matches the event get executed, with the rest being ignored.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        event:
+                          description: The name of the event to handle.
+                          type: string
+                        name:
+                          description: |-
+                            (Output)
+                            The unique identifier of this event handler.
+                          type: string
+                        targetFlow:
+                          description: |-
+                            The target flow to transition to.
+                            Format: projects//locations//agents//flows/.
+                          type: string
+                        targetPage:
+                          description: |-
+                            The target page to transition to.
+                            Format: projects//locations//agents//flows//pages/.
+                          type: string
+                        triggerFulfillment:
+                          description: |-
+                            The fulfillment to call when the event occurs. Handling webhook errors with a fulfillment enabled with webhook could cause infinite loop. It is invalid to specify such fulfillment for a handler handling webhooks.
+                            Structure is documented below.
+                          properties:
+                            conditionalCases:
+                              description: |-
+                                Conditional cases for this fulfillment.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  cases:
+                                    description: |-
+                                      A JSON encoded list of cascading if-else conditions. Cases are mutually exclusive. The first one with a matching condition is selected, all the rest ignored.
+                                      See Case for the schema.
+                                    type: string
+                                type: object
+                              type: array
+                            messages:
+                              description: |-
+                                The list of rich message responses to present to the user.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  channel:
+                                    description: The channel which the response is
+                                      associated with. Clients can specify the channel
+                                      via QueryParameters.channel, and only associated
+                                      channel response will be returned.
+                                    type: string
+                                  conversationSuccess:
+                                    description: |-
+                                      Indicates that the conversation succeeded, i.e., the bot handled the issue that the customer talked to it about.
+                                      Dialogflow only uses this to determine which conversations should be counted as successful and doesn't process the metadata in this message in any way. Note that Dialogflow also considers conversations that get to the conversation end page as successful even if they don't return ConversationSuccess.
+                                      You may set this, for example:
+                                    properties:
+                                      metadata:
+                                        description: Custom metadata. Dialogflow doesn't
+                                          impose any structure on this.
+                                        type: string
+                                    type: object
+                                  liveAgentHandoff:
+                                    description: |-
+                                      Indicates that the conversation should be handed off to a live agent.
+                                      Dialogflow only uses this to determine which conversations were handed off to a human agent for measurement purposes. What else to do with this signal is up to you and your handoff procedures.
+                                      You may set this, for example:
+                                    properties:
+                                      metadata:
+                                        description: Custom metadata. Dialogflow doesn't
+                                          impose any structure on this.
+                                        type: string
+                                    type: object
+                                  outputAudioText:
+                                    description: |-
+                                      A text or ssml response that is preferentially used for TTS output audio synthesis, as described in the comment on the ResponseMessage message.
+                                      Structure is documented below.
+                                    properties:
+                                      allowPlaybackInterruption:
+                                        description: |-
+                                          (Output)
+                                          Whether the playback of this message can be interrupted by the end user's speech and the client can then starts the next Dialogflow request.
+                                        type: boolean
+                                      ssml:
+                                        description: The SSML text to be synthesized.
+                                          For more information, see SSML.
+                                        type: string
+                                      text:
+                                        description: A collection of text responses.
+                                        type: string
+                                    type: object
+                                  payload:
+                                    description: A custom, platform-specific payload.
+                                    type: string
+                                  playAudio:
+                                    description: |-
+                                      Specifies an audio clip to be played by the client as part of the response.
+                                      Structure is documented below.
+                                    properties:
+                                      allowPlaybackInterruption:
+                                        description: |-
+                                          (Output)
+                                          Whether the playback of this message can be interrupted by the end user's speech and the client can then starts the next Dialogflow request.
+                                        type: boolean
+                                      audioUri:
+                                        description: URI of the audio clip. Dialogflow
+                                          does not impose any validation on this value.
+                                          It is specific to the client that reads
+                                          it.
+                                        type: string
+                                    type: object
+                                  telephonyTransferCall:
+                                    description: |-
+                                      Represents the signal that telles the client to transfer the phone call connected to the agent to a third-party endpoint.
+                                      Structure is documented below.
+                                    properties:
+                                      phoneNumber:
+                                        description: Transfer the call to a phone
+                                          number in E.164 format.
+                                        type: string
+                                    type: object
+                                  text:
+                                    description: A collection of text responses.
+                                    properties:
+                                      allowPlaybackInterruption:
+                                        description: |-
+                                          (Output)
+                                          Whether the playback of this message can be interrupted by the end user's speech and the client can then starts the next Dialogflow request.
+                                        type: boolean
+                                      text:
+                                        description: A collection of text responses.
+                                        items:
+                                          type: string
+                                        type: array
+                                    type: object
+                                type: object
+                              type: array
+                            returnPartialResponses:
+                              description: 'Whether Dialogflow should return currently
+                                queued fulfillment response messages in streaming
+                                APIs. If a webhook is specified, it happens before
+                                Dialogflow invokes webhook. Warning: 1) This flag
+                                only affects streaming API. Responses are still queued
+                                and returned once in non-streaming API. 2) The flag
+                                can be enabled in any fulfillment but only the first
+                                3 partial responses will be returned. You may only
+                                want to apply it to fulfillments that have slow webhooks.'
+                              type: boolean
+                            setParameterActions:
+                              description: |-
+                                Set parameter values before executing the webhook.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  parameter:
+                                    description: Display name of the parameter.
+                                    type: string
+                                  value:
+                                    description: The new JSON-encoded value of the
+                                      parameter. A null value clears the parameter.
+                                    type: string
+                                type: object
+                              type: array
+                            tag:
+                              description: The tag used by the webhook to identify
+                                which fulfillment is being called. This field is required
+                                if webhook is specified.
+                              type: string
+                            webhook:
+                              description: 'The webhook to call. Format: projects//locations//agents//webhooks/.'
+                              type: string
+                          type: object
+                      type: object
+                    type: array
+                  id:
+                    description: an identifier for the resource with format {{parent}}/flows/{{name}}
+                    type: string
+                  isDefaultStartFlow:
+                    description: |-
+                      Marks this as the Default Start Flow for an agent. When you create an agent, the Default Start Flow is created automatically.
+                      The Default Start Flow cannot be deleted; deleting the google_dialogflow_cx_flow resource does nothing to the underlying GCP resources.
+                    type: boolean
+                  languageCode:
+                    description: |-
+                      The language of the following fields in flow:
+                      Flow.event_handlers.trigger_fulfillment.messages
+                      Flow.event_handlers.trigger_fulfillment.conditional_cases
+                      Flow.transition_routes.trigger_fulfillment.messages
+                      Flow.transition_routes.trigger_fulfillment.conditional_cases
+                      If not specified, the agent's default language is used. Many languages are supported. Note: languages must be enabled in the agent before they can be used.
+                    type: string
+                  name:
+                    description: |-
+                      The unique identifier of the flow.
+                      Format: projects//locations//agents//flows/.
+                    type: string
+                  nluSettings:
+                    description: |-
+                      NLU related settings of the flow.
+                      Structure is documented below.
+                    properties:
+                      classificationThreshold:
+                        description: |-
+                          To filter out false positive results and still get variety in matched natural language inputs for your agent, you can tune the machine learning classification threshold.
+                          If the returned score value is less than the threshold value, then a no-match event will be triggered. The score values range from 0.0 (completely uncertain) to 1.0 (completely certain). If set to 0.0, the default of 0.3 is used.
+                        type: number
+                      modelTrainingMode:
+                        description: Indicates NLU model training mode.
+                        type: string
+                      modelType:
+                        description: Indicates the type of NLU model.
+                        type: string
+                    type: object
+                  parent:
+                    description: |-
+                      The agent to create a flow for.
+                      Format: projects//locations//agents/.
+                    type: string
+                  transitionRouteGroups:
+                    description: |-
+                      A flow's transition route group serve two purposes:
+                      They are responsible for matching the user's first utterances in the flow.
+                      They are inherited by every page's [transition route groups][Page.transition_route_groups]. Transition route groups defined in the page have higher priority than those defined in the flow.
+                      Format:projects//locations//agents//flows//transitionRouteGroups/.
+                    items:
+                      type: string
+                    type: array
+                  transitionRoutes:
+                    description: |-
+                      A flow's transition routes serve two purposes:
+                      They are responsible for matching the user's first utterances in the flow.
+                      They are inherited by every page's [transition routes][Page.transition_routes] and can support use cases such as the user saying "help" or "can I talk to a human?", which can be handled in a common way regardless of the current page. Transition routes defined in the page have higher priority than those defined in the flow.
+                      TransitionRoutes are evalauted in the following order:
+                      TransitionRoutes with intent specified.
+                      TransitionRoutes with only condition specified.
+                      TransitionRoutes with intent specified are inherited by pages in the flow.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        condition:
+                          description: |-
+                            The condition to evaluate against form parameters or session parameters.
+                            At least one of intent or condition must be specified. When both intent and condition are specified, the transition can only happen when both are fulfilled.
+                          type: string
+                        intent:
+                          description: |-
+                            The unique identifier of an Intent.
+                            Format: projects//locations//agents//intents/. Indicates that the transition can only happen when the given intent is matched. At least one of intent or condition must be specified. When both intent and condition are specified, the transition can only happen when both are fulfilled.
+                          type: string
+                        name:
+                          description: |-
+                            (Output)
+                            The unique identifier of this transition route.
+                          type: string
+                        targetFlow:
+                          description: |-
+                            The target flow to transition to.
+                            Format: projects//locations//agents//flows/.
+                          type: string
+                        targetPage:
+                          description: |-
+                            The target page to transition to.
+                            Format: projects//locations//agents//flows//pages/.
+                          type: string
+                        triggerFulfillment:
+                          description: |-
+                            The fulfillment to call when the condition is satisfied. At least one of triggerFulfillment and target must be specified. When both are defined, triggerFulfillment is executed first.
+                            Structure is documented below.
+                          properties:
+                            conditionalCases:
+                              description: |-
+                                Conditional cases for this fulfillment.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  cases:
+                                    description: |-
+                                      A JSON encoded list of cascading if-else conditions. Cases are mutually exclusive. The first one with a matching condition is selected, all the rest ignored.
+                                      See Case for the schema.
+                                    type: string
+                                type: object
+                              type: array
+                            messages:
+                              description: |-
+                                The list of rich message responses to present to the user.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  channel:
+                                    description: The channel which the response is
+                                      associated with. Clients can specify the channel
+                                      via QueryParameters.channel, and only associated
+                                      channel response will be returned.
+                                    type: string
+                                  conversationSuccess:
+                                    description: |-
+                                      Indicates that the conversation succeeded, i.e., the bot handled the issue that the customer talked to it about.
+                                      Dialogflow only uses this to determine which conversations should be counted as successful and doesn't process the metadata in this message in any way. Note that Dialogflow also considers conversations that get to the conversation end page as successful even if they don't return ConversationSuccess.
+                                      You may set this, for example:
+                                    properties:
+                                      metadata:
+                                        description: Custom metadata. Dialogflow doesn't
+                                          impose any structure on this.
+                                        type: string
+                                    type: object
+                                  liveAgentHandoff:
+                                    description: |-
+                                      Indicates that the conversation should be handed off to a live agent.
+                                      Dialogflow only uses this to determine which conversations were handed off to a human agent for measurement purposes. What else to do with this signal is up to you and your handoff procedures.
+                                      You may set this, for example:
+                                    properties:
+                                      metadata:
+                                        description: Custom metadata. Dialogflow doesn't
+                                          impose any structure on this.
+                                        type: string
+                                    type: object
+                                  outputAudioText:
+                                    description: |-
+                                      A text or ssml response that is preferentially used for TTS output audio synthesis, as described in the comment on the ResponseMessage message.
+                                      Structure is documented below.
+                                    properties:
+                                      allowPlaybackInterruption:
+                                        description: |-
+                                          (Output)
+                                          Whether the playback of this message can be interrupted by the end user's speech and the client can then starts the next Dialogflow request.
+                                        type: boolean
+                                      ssml:
+                                        description: The SSML text to be synthesized.
+                                          For more information, see SSML.
+                                        type: string
+                                      text:
+                                        description: A collection of text responses.
+                                        type: string
+                                    type: object
+                                  payload:
+                                    description: A custom, platform-specific payload.
+                                    type: string
+                                  playAudio:
+                                    description: |-
+                                      Specifies an audio clip to be played by the client as part of the response.
+                                      Structure is documented below.
+                                    properties:
+                                      allowPlaybackInterruption:
+                                        description: |-
+                                          (Output)
+                                          Whether the playback of this message can be interrupted by the end user's speech and the client can then starts the next Dialogflow request.
+                                        type: boolean
+                                      audioUri:
+                                        description: URI of the audio clip. Dialogflow
+                                          does not impose any validation on this value.
+                                          It is specific to the client that reads
+                                          it.
+                                        type: string
+                                    type: object
+                                  telephonyTransferCall:
+                                    description: |-
+                                      Represents the signal that telles the client to transfer the phone call connected to the agent to a third-party endpoint.
+                                      Structure is documented below.
+                                    properties:
+                                      phoneNumber:
+                                        description: Transfer the call to a phone
+                                          number in E.164 format.
+                                        type: string
+                                    type: object
+                                  text:
+                                    description: A collection of text responses.
+                                    properties:
+                                      allowPlaybackInterruption:
+                                        description: |-
+                                          (Output)
+                                          Whether the playback of this message can be interrupted by the end user's speech and the client can then starts the next Dialogflow request.
+                                        type: boolean
+                                      text:
+                                        description: A collection of text responses.
+                                        items:
+                                          type: string
+                                        type: array
+                                    type: object
+                                type: object
+                              type: array
+                            returnPartialResponses:
+                              description: 'Whether Dialogflow should return currently
+                                queued fulfillment response messages in streaming
+                                APIs. If a webhook is specified, it happens before
+                                Dialogflow invokes webhook. Warning: 1) This flag
+                                only affects streaming API. Responses are still queued
+                                and returned once in non-streaming API. 2) The flag
+                                can be enabled in any fulfillment but only the first
+                                3 partial responses will be returned. You may only
+                                want to apply it to fulfillments that have slow webhooks.'
+                              type: boolean
+                            setParameterActions:
+                              description: |-
+                                Set parameter values before executing the webhook.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  parameter:
+                                    description: Display name of the parameter.
+                                    type: string
+                                  value:
+                                    description: The new JSON-encoded value of the
+                                      parameter. A null value clears the parameter.
+                                    type: string
+                                type: object
+                              type: array
+                            tag:
+                              description: The tag used by the webhook to identify
+                                which fulfillment is being called. This field is required
+                                if webhook is specified.
+                              type: string
+                            webhook:
+                              description: 'The webhook to call. Format: projects//locations//agents//webhooks/.'
+                              type: string
+                          type: object
+                      type: object
+                    type: array
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}

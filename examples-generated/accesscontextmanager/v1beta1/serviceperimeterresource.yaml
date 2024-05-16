@@ -30,7 +30,7 @@ spec:
 
 ---
 
-apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta2
 kind: ServicePerimeter
 metadata:
   annotations:

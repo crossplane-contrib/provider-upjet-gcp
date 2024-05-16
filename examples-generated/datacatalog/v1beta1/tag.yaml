@@ -20,7 +20,7 @@ spec:
 
 ---
 
-apiVersion: datacatalog.gcp.upbound.io/v1beta1
+apiVersion: datacatalog.gcp.upbound.io/v1beta2
 kind: Entry
 metadata:
   annotations:
@@ -53,7 +53,7 @@ spec:
 
 ---
 
-apiVersion: datacatalog.gcp.upbound.io/v1beta1
+apiVersion: datacatalog.gcp.upbound.io/v1beta2
 kind: TagTemplate
 metadata:
   annotations:

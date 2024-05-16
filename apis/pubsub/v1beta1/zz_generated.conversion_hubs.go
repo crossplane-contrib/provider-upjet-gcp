@@ -10,22 +10,4 @@ package v1beta1
 func (tr *LiteReservation) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *LiteSubscription) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *LiteTopic) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *Schema) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *Subscription) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *SubscriptionIAMMember) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *Topic) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *TopicIAMMember) Hub() {}

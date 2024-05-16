@@ -63,7 +63,7 @@ type DispatchRulesInitParameters struct {
 
 	// Pathname within the host. Must start with a "/". A single "*" can be included at the end of the path.
 	// The sum of the lengths of the domain and path may not exceed 100 characters.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/appengine/v1beta1.StandardAppVersion
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/appengine/v1beta2.StandardAppVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("service",false)
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
@@ -105,7 +105,7 @@ type DispatchRulesParameters struct {
 
 	// Pathname within the host. Must start with a "/". A single "*" can be included at the end of the path.
 	// The sum of the lengths of the domain and path may not exceed 100 characters.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/appengine/v1beta1.StandardAppVersion
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/appengine/v1beta2.StandardAppVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("service",false)
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`

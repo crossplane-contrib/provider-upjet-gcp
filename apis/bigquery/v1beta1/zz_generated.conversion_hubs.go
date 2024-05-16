@@ -10,52 +10,10 @@ package v1beta1
 func (tr *AnalyticsHubDataExchange) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *AnalyticsHubDataExchangeIAMMember) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *AnalyticsHubListing) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *Connection) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *DataTransferConfig) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *Dataset) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *DatasetAccess) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *DatasetIAMBinding) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *DatasetIAMMember) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *DatasetIAMPolicy) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *Job) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *Reservation) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *ReservationAssignment) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *Routine) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *Table) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *TableIAMBinding) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *TableIAMMember) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *TableIAMPolicy) Hub() {}

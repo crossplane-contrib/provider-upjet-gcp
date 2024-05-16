@@ -1,0 +1,36 @@
+apiVersion: logging.gcp.upbound.io/v1beta2
+kind: FolderBucketConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: logging/v1beta2/folderbucketconfig
+  labels:
+    testing.upbound.io/example-name: basic
+  name: basic
+spec:
+  forProvider:
+    bucketId: _Default
+    folderSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    indexConfigs:
+      file_path: jsonPayload.request.status
+      type: INDEX_TYPE_STRING
+    location: global
+    retentionDays: 30
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Folder
+metadata:
+  annotations:
+    meta.upbound.io/example-id: logging/v1beta2/folderbucketconfig
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    displayName: some-folder-name
+    parentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

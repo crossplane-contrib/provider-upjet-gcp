@@ -16,7 +16,7 @@ import (
 type BucketACLInitParameters struct {
 
 	// The name of the bucket it applies to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta1.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta2.Bucket
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
@@ -57,7 +57,7 @@ type BucketACLObservation struct {
 type BucketACLParameters struct {
 
 	// The name of the bucket it applies to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta1.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta2.Bucket
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 

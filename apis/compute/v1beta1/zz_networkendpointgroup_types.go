@@ -54,7 +54,7 @@ type NetworkEndpointGroupInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Optional subnetwork to which all network endpoints in the NEG belong.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
@@ -159,7 +159,7 @@ type NetworkEndpointGroupParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Optional subnetwork to which all network endpoints in the NEG belong.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`

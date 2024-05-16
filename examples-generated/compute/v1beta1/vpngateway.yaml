@@ -27,7 +27,7 @@ spec:
 
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: ForwardingRule
 metadata:
   annotations:
@@ -47,7 +47,7 @@ spec:
 
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: ForwardingRule
 metadata:
   annotations:
@@ -68,7 +68,7 @@ spec:
 
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: ForwardingRule
 metadata:
   annotations:

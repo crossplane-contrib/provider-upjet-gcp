@@ -1,0 +1,122 @@
+apiVersion: privateca.gcp.upbound.io/v1beta2
+kind: Certificate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privateca/v1beta2/certificate
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    certificateAuthoritySelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    config:
+    - publicKey:
+      - format: PEM
+        keySecretRef:
+          key: attribute.public_key_pem)
+          name: example-private-key
+          namespace: upbound-system
+      subjectConfig:
+      - subject:
+        - commonName: san1.example.com
+          countryCode: us
+          locality: mountain view
+          organization: google
+          organizationalUnit: enterprise
+          province: california
+          streetAddress: 1600 amphitheatre parkway
+        subjectAltName:
+        - emailAddresses:
+          - email@example.com
+          ipAddresses:
+          - 127.0.0.1
+          uris:
+          - http://www.ietf.org/rfc/rfc3986.txt
+      x509Config:
+      - caOptions:
+        - isCa: true
+        keyUsage:
+        - baseKeyUsage:
+          - certSign: true
+            crlSign: true
+          extendedKeyUsage:
+          - serverAuth: false
+        nameConstraints:
+        - critical: true
+          excludedDnsNames:
+          - '*.deny.example.com'
+          excludedEmailAddresses:
+          - .deny.example.com
+          excludedIpRanges:
+          - 10.1.1.0/24
+          excludedUris:
+          - .deny.example.com
+          permittedDnsNames:
+          - '*.example.com'
+          permittedEmailAddresses:
+          - .example.com
+          permittedIpRanges:
+          - 10.0.0.0/8
+          permittedUris:
+          - .example.com
+    lifetime: 86000s
+    location: us-central1
+    poolSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: privateca.gcp.upbound.io/v1beta2
+kind: CAPool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privateca/v1beta2/certificate
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    location: us-central1
+    tier: ENTERPRISE
+
+---
+
+apiVersion: privateca.gcp.upbound.io/v1beta2
+kind: CertificateAuthority
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privateca/v1beta2/certificate
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    config:
+    - subjectConfig:
+      - subject:
+        - commonName: my-certificate-authority
+          organization: HashiCorp
+        subjectAltName:
+        - dnsNames:
+          - hashicorp.com
+      x509Config:
+      - caOptions:
+        - isCa: true
+        keyUsage:
+        - baseKeyUsage:
+          - certSign: true
+            crlSign: true
+          extendedKeyUsage:
+          - serverAuth: true
+    deletionProtection: false
+    ignoreActiveCertificatesOnDeletion: true
+    keySpec:
+    - algorithm: RSA_PKCS1_4096_SHA256
+    location: us-central1
+    poolSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    skipGracePeriod: true

@@ -16,7 +16,7 @@ import (
 type BackendServiceSignedURLKeyInitParameters struct {
 
 	// The backend service this signed URL key belongs.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.BackendService
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.BackendService
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
 	// Reference to a BackendService in compute to populate backendService.
@@ -54,7 +54,7 @@ type BackendServiceSignedURLKeyObservation struct {
 type BackendServiceSignedURLKeyParameters struct {
 
 	// The backend service this signed URL key belongs.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.BackendService
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.BackendService
 	// +kubebuilder:validation:Optional
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 

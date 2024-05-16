@@ -1,0 +1,101 @@
+apiVersion: alloydb.gcp.upbound.io/v1beta2
+kind: Backup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alloydb/v1beta2/backup
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    clusterNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    location: us-central1
+
+---
+
+apiVersion: alloydb.gcp.upbound.io/v1beta2
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alloydb/v1beta2/backup
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    location: us-central1
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: alloydb.gcp.upbound.io/v1beta2
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alloydb/v1beta2/backup
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    clusterSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    instanceTypeSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: GlobalAddress
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alloydb/v1beta2/backup
+  labels:
+    testing.upbound.io/example-name: private_ip_alloc
+  name: private-ip-alloc
+spec:
+  forProvider:
+    addressType: INTERNAL
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    prefixLength: 16
+    purpose: VPC_PEERING
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alloydb/v1beta2/backup
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider: {}
+
+---
+
+apiVersion: servicenetworking.gcp.upbound.io/v1beta1
+kind: Connection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alloydb/v1beta2/backup
+  labels:
+    testing.upbound.io/example-name: vpc_connection
+  name: vpc-connection
+spec:
+  forProvider:
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    reservedPeeringRangesRefs:
+    - name: private_ip_alloc
+    service: servicenetworking.googleapis.com

@@ -9,9 +9,10 @@ package v1beta1
 import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	resource "github.com/crossplane/upjet/pkg/resource"
 	errors "github.com/pkg/errors"
+
+	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 	common "github.com/upbound/provider-gcp/config/common"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
@@ -107,7 +108,7 @@ func (mg *CryptoKeyVersion) ResolveReferences(ctx context.Context, c client.Read
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta1", "CryptoKey", "CryptoKeyList")
+		m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta2", "CryptoKey", "CryptoKeyList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -126,7 +127,7 @@ func (mg *CryptoKeyVersion) ResolveReferences(ctx context.Context, c client.Read
 	mg.Spec.ForProvider.CryptoKey = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CryptoKeyRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta1", "CryptoKey", "CryptoKeyList")
+		m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta2", "CryptoKey", "CryptoKeyList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -238,7 +239,7 @@ func (mg *SecretCiphertext) ResolveReferences(ctx context.Context, c client.Read
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta1", "CryptoKey", "CryptoKeyList")
+		m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta2", "CryptoKey", "CryptoKeyList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -257,7 +258,7 @@ func (mg *SecretCiphertext) ResolveReferences(ctx context.Context, c client.Read
 	mg.Spec.ForProvider.CryptoKey = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CryptoKeyRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta1", "CryptoKey", "CryptoKeyList")
+		m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta2", "CryptoKey", "CryptoKeyList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
