@@ -5,6 +5,8 @@
 package composer
 
 import (
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	"github.com/crossplane/upjet/pkg/config"
 )
 
@@ -27,6 +29,13 @@ func Configure(p *config.Provider) {
 		r.References["private_environment_config.cloud_composer_connection_subnetwork"] = config.Reference{
 			TerraformName: "google_compute_subnetwork",
 		}
+
+		r.TerraformResource.Schema["config"].Elem.(*schema.Resource).
+			Schema["node_config"].Elem.(*schema.Resource).
+			Schema["ip_allocation_policy"].MaxItems = 1
+
+		r.AddSingletonListConversion("config[*].node_config[*].ip_allocation_policy", "config[*].nodeConfig[*].ipAllocationPolicy")
+
 		r.MarkAsRequired("region")
 	})
 }

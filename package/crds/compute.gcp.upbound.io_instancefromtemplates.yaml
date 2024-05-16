@@ -2340,17 +2340,15 @@ spec:
                       type: object
                     type: array
                   serviceAccount:
-                    items:
-                      properties:
-                        email:
+                    properties:
+                      email:
+                        type: string
+                      scopes:
+                        items:
                           type: string
-                        scopes:
-                          items:
-                            type: string
-                          type: array
-                          x-kubernetes-list-type: set
-                      type: object
-                    type: array
+                        type: array
+                        x-kubernetes-list-type: set
+                    type: object
                   shieldedInstanceConfig:
                     properties:
                       enableIntegrityMonitoring:
@@ -2894,17 +2892,15 @@ spec:
                       type: object
                     type: array
                   serviceAccount:
-                    items:
-                      properties:
-                        email:
+                    properties:
+                      email:
+                        type: string
+                      scopes:
+                        items:
                           type: string
-                        scopes:
-                          items:
-                            type: string
-                          type: array
-                          x-kubernetes-list-type: set
-                      type: object
-                    type: array
+                        type: array
+                        x-kubernetes-list-type: set
+                    type: object
                   shieldedInstanceConfig:
                     properties:
                       enableIntegrityMonitoring:
@@ -3489,17 +3485,15 @@ spec:
                   selfLink:
                     type: string
                   serviceAccount:
-                    items:
-                      properties:
-                        email:
+                    properties:
+                      email:
+                        type: string
+                      scopes:
+                        items:
                           type: string
-                        scopes:
-                          items:
-                            type: string
-                          type: array
-                          x-kubernetes-list-type: set
-                      type: object
-                    type: array
+                        type: array
+                        x-kubernetes-list-type: set
+                    type: object
                   shieldedInstanceConfig:
                     properties:
                       enableIntegrityMonitoring:

@@ -99,6 +99,56 @@ func (mg *CryptoKeyIAMMember) ResolveReferences(ctx context.Context, c client.Re
 	return nil
 }
 
+// ResolveReferences of this CryptoKeyVersion.
+func (mg *CryptoKeyVersion) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta2", "CryptoKey", "CryptoKeyList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CryptoKey),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.ForProvider.CryptoKeyRef,
+			Selector:     mg.Spec.ForProvider.CryptoKeySelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.CryptoKey")
+	}
+	mg.Spec.ForProvider.CryptoKey = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.CryptoKeyRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta2", "CryptoKey", "CryptoKeyList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CryptoKey),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.CryptoKeyRef,
+			Selector:     mg.Spec.InitProvider.CryptoKeySelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CryptoKey")
+	}
+	mg.Spec.InitProvider.CryptoKey = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CryptoKeyRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this KeyRingIAMMember.
 func (mg *KeyRingIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed

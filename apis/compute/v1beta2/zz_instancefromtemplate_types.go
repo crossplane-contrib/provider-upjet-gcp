@@ -323,7 +323,7 @@ type InstanceFromTemplateInitParameters struct {
 
 	ScratchDisk []InstanceFromTemplateScratchDiskInitParameters `json:"scratchDisk,omitempty" tf:"scratch_disk,omitempty"`
 
-	ServiceAccount []InstanceFromTemplateServiceAccountInitParameters `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+	ServiceAccount *InstanceFromTemplateServiceAccountInitParameters `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	ShieldedInstanceConfig *InstanceFromTemplateShieldedInstanceConfigInitParameters `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
 
@@ -573,7 +573,7 @@ type InstanceFromTemplateObservation struct {
 
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
-	ServiceAccount []InstanceFromTemplateServiceAccountObservation `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+	ServiceAccount *InstanceFromTemplateServiceAccountObservation `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	ShieldedInstanceConfig *InstanceFromTemplateShieldedInstanceConfigObservation `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
 
@@ -682,7 +682,7 @@ type InstanceFromTemplateParameters struct {
 	ScratchDisk []InstanceFromTemplateScratchDiskParameters `json:"scratchDisk,omitempty" tf:"scratch_disk,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	ServiceAccount []InstanceFromTemplateServiceAccountParameters `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+	ServiceAccount *InstanceFromTemplateServiceAccountParameters `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	ShieldedInstanceConfig *InstanceFromTemplateShieldedInstanceConfigParameters `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`

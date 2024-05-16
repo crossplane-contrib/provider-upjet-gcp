@@ -1254,10 +1254,8 @@ func (in *NodeConfigInitParameters) DeepCopyInto(out *NodeConfigInitParameters) 
 	}
 	if in.IPAllocationPolicy != nil {
 		in, out := &in.IPAllocationPolicy, &out.IPAllocationPolicy
-		*out = make([]IPAllocationPolicyInitParameters, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(IPAllocationPolicyInitParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.MachineType != nil {
 		in, out := &in.MachineType, &out.MachineType
@@ -1363,10 +1361,8 @@ func (in *NodeConfigObservation) DeepCopyInto(out *NodeConfigObservation) {
 	}
 	if in.IPAllocationPolicy != nil {
 		in, out := &in.IPAllocationPolicy, &out.IPAllocationPolicy
-		*out = make([]IPAllocationPolicyObservation, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(IPAllocationPolicyObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.MachineType != nil {
 		in, out := &in.MachineType, &out.MachineType
@@ -1442,10 +1438,8 @@ func (in *NodeConfigParameters) DeepCopyInto(out *NodeConfigParameters) {
 	}
 	if in.IPAllocationPolicy != nil {
 		in, out := &in.IPAllocationPolicy, &out.IPAllocationPolicy
-		*out = make([]IPAllocationPolicyParameters, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(IPAllocationPolicyParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.MachineType != nil {
 		in, out := &in.MachineType, &out.MachineType

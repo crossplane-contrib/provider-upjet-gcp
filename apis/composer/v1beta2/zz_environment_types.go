@@ -708,7 +708,7 @@ type NodeConfigInitParameters struct {
 	// Configuration for controlling how IPs are allocated in the GKE cluster.
 	// Structure is documented below.
 	// Cannot be updated.
-	IPAllocationPolicy []IPAllocationPolicyInitParameters `json:"ipAllocationPolicy,omitempty" tf:"ip_allocation_policy,omitempty"`
+	IPAllocationPolicy *IPAllocationPolicyInitParameters `json:"ipAllocationPolicy,omitempty" tf:"ip_allocation_policy,omitempty"`
 
 	// Machine type on which Airflow web server is running. It has to be one of: composer-n1-webserver-2,
 	// composer-n1-webserver-4 or composer-n1-webserver-8.
@@ -799,7 +799,7 @@ type NodeConfigObservation struct {
 	// Configuration for controlling how IPs are allocated in the GKE cluster.
 	// Structure is documented below.
 	// Cannot be updated.
-	IPAllocationPolicy []IPAllocationPolicyObservation `json:"ipAllocationPolicy,omitempty" tf:"ip_allocation_policy,omitempty"`
+	IPAllocationPolicy *IPAllocationPolicyObservation `json:"ipAllocationPolicy,omitempty" tf:"ip_allocation_policy,omitempty"`
 
 	// Machine type on which Airflow web server is running. It has to be one of: composer-n1-webserver-2,
 	// composer-n1-webserver-4 or composer-n1-webserver-8.
@@ -863,7 +863,7 @@ type NodeConfigParameters struct {
 	// Structure is documented below.
 	// Cannot be updated.
 	// +kubebuilder:validation:Optional
-	IPAllocationPolicy []IPAllocationPolicyParameters `json:"ipAllocationPolicy,omitempty" tf:"ip_allocation_policy,omitempty"`
+	IPAllocationPolicy *IPAllocationPolicyParameters `json:"ipAllocationPolicy,omitempty" tf:"ip_allocation_policy,omitempty"`
 
 	// Machine type on which Airflow web server is running. It has to be one of: composer-n1-webserver-2,
 	// composer-n1-webserver-4 or composer-n1-webserver-8.
