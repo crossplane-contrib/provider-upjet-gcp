@@ -2317,27 +2317,23 @@ spec:
                             count:
                               type: number
                             gpuDriverInstallationConfig:
-                              items:
-                                properties:
-                                  gpuDriverVersion:
-                                    description: |-
-                                      The Kubernetes version for the nodes in this pool. Note that if this field
-                                      and auto_upgrade are both specified, they will fight each other for what the node version should
-                                      be, so setting both is highly discouraged.
-                                    type: string
-                                type: object
-                              type: array
+                              properties:
+                                gpuDriverVersion:
+                                  description: |-
+                                    The Kubernetes version for the nodes in this pool. Note that if this field
+                                    and auto_upgrade are both specified, they will fight each other for what the node version should
+                                    be, so setting both is highly discouraged.
+                                  type: string
+                              type: object
                             gpuPartitionSize:
                               type: string
                             gpuSharingConfig:
-                              items:
-                                properties:
-                                  gpuSharingStrategy:
-                                    type: string
-                                  maxSharedClientsPerGpu:
-                                    type: number
-                                type: object
-                              type: array
+                              properties:
+                                gpuSharingStrategy:
+                                  type: string
+                                maxSharedClientsPerGpu:
+                                  type: number
+                              type: object
                             type:
                               description: |-
                                 The type of the policy. Supports a single value: COMPACT.
@@ -2827,27 +2823,23 @@ spec:
                             count:
                               type: number
                             gpuDriverInstallationConfig:
-                              items:
-                                properties:
-                                  gpuDriverVersion:
-                                    description: |-
-                                      The Kubernetes version for the nodes in this pool. Note that if this field
-                                      and auto_upgrade are both specified, they will fight each other for what the node version should
-                                      be, so setting both is highly discouraged.
-                                    type: string
-                                type: object
-                              type: array
+                              properties:
+                                gpuDriverVersion:
+                                  description: |-
+                                    The Kubernetes version for the nodes in this pool. Note that if this field
+                                    and auto_upgrade are both specified, they will fight each other for what the node version should
+                                    be, so setting both is highly discouraged.
+                                  type: string
+                              type: object
                             gpuPartitionSize:
                               type: string
                             gpuSharingConfig:
-                              items:
-                                properties:
-                                  gpuSharingStrategy:
-                                    type: string
-                                  maxSharedClientsPerGpu:
-                                    type: number
-                                type: object
-                              type: array
+                              properties:
+                                gpuSharingStrategy:
+                                  type: string
+                                maxSharedClientsPerGpu:
+                                  type: number
+                              type: object
                             type:
                               description: |-
                                 The type of the policy. Supports a single value: COMPACT.
@@ -3531,27 +3523,23 @@ spec:
                             count:
                               type: number
                             gpuDriverInstallationConfig:
-                              items:
-                                properties:
-                                  gpuDriverVersion:
-                                    description: |-
-                                      The Kubernetes version for the nodes in this pool. Note that if this field
-                                      and auto_upgrade are both specified, they will fight each other for what the node version should
-                                      be, so setting both is highly discouraged.
-                                    type: string
-                                type: object
-                              type: array
+                              properties:
+                                gpuDriverVersion:
+                                  description: |-
+                                    The Kubernetes version for the nodes in this pool. Note that if this field
+                                    and auto_upgrade are both specified, they will fight each other for what the node version should
+                                    be, so setting both is highly discouraged.
+                                  type: string
+                              type: object
                             gpuPartitionSize:
                               type: string
                             gpuSharingConfig:
-                              items:
-                                properties:
-                                  gpuSharingStrategy:
-                                    type: string
-                                  maxSharedClientsPerGpu:
-                                    type: number
-                                type: object
-                              type: array
+                              properties:
+                                gpuSharingStrategy:
+                                  type: string
+                                maxSharedClientsPerGpu:
+                                  type: number
+                              type: object
                             type:
                               description: |-
                                 The type of the policy. Supports a single value: COMPACT.

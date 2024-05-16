@@ -4143,10 +4143,8 @@ func (in *GuestAcceleratorInitParameters) DeepCopyInto(out *GuestAcceleratorInit
 	}
 	if in.GpuDriverInstallationConfig != nil {
 		in, out := &in.GpuDriverInstallationConfig, &out.GpuDriverInstallationConfig
-		*out = make([]GpuDriverInstallationConfigInitParameters, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(GpuDriverInstallationConfigInitParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.GpuPartitionSize != nil {
 		in, out := &in.GpuPartitionSize, &out.GpuPartitionSize
@@ -4155,10 +4153,8 @@ func (in *GuestAcceleratorInitParameters) DeepCopyInto(out *GuestAcceleratorInit
 	}
 	if in.GpuSharingConfig != nil {
 		in, out := &in.GpuSharingConfig, &out.GpuSharingConfig
-		*out = make([]GpuSharingConfigInitParameters, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(GpuSharingConfigInitParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
@@ -4187,10 +4183,8 @@ func (in *GuestAcceleratorObservation) DeepCopyInto(out *GuestAcceleratorObserva
 	}
 	if in.GpuDriverInstallationConfig != nil {
 		in, out := &in.GpuDriverInstallationConfig, &out.GpuDriverInstallationConfig
-		*out = make([]GpuDriverInstallationConfigObservation, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(GpuDriverInstallationConfigObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.GpuPartitionSize != nil {
 		in, out := &in.GpuPartitionSize, &out.GpuPartitionSize
@@ -4199,10 +4193,8 @@ func (in *GuestAcceleratorObservation) DeepCopyInto(out *GuestAcceleratorObserva
 	}
 	if in.GpuSharingConfig != nil {
 		in, out := &in.GpuSharingConfig, &out.GpuSharingConfig
-		*out = make([]GpuSharingConfigObservation, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(GpuSharingConfigObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
@@ -4231,10 +4223,8 @@ func (in *GuestAcceleratorParameters) DeepCopyInto(out *GuestAcceleratorParamete
 	}
 	if in.GpuDriverInstallationConfig != nil {
 		in, out := &in.GpuDriverInstallationConfig, &out.GpuDriverInstallationConfig
-		*out = make([]GpuDriverInstallationConfigParameters, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(GpuDriverInstallationConfigParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.GpuPartitionSize != nil {
 		in, out := &in.GpuPartitionSize, &out.GpuPartitionSize
@@ -4243,10 +4233,8 @@ func (in *GuestAcceleratorParameters) DeepCopyInto(out *GuestAcceleratorParamete
 	}
 	if in.GpuSharingConfig != nil {
 		in, out := &in.GpuSharingConfig, &out.GpuSharingConfig
-		*out = make([]GpuSharingConfigParameters, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(GpuSharingConfigParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
@@ -6884,10 +6872,8 @@ func (in *NodeConfigGuestAcceleratorObservation) DeepCopyInto(out *NodeConfigGue
 	}
 	if in.GpuDriverInstallationConfig != nil {
 		in, out := &in.GpuDriverInstallationConfig, &out.GpuDriverInstallationConfig
-		*out = make([]GuestAcceleratorGpuDriverInstallationConfigObservation, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(GuestAcceleratorGpuDriverInstallationConfigObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.GpuPartitionSize != nil {
 		in, out := &in.GpuPartitionSize, &out.GpuPartitionSize
@@ -6896,10 +6882,8 @@ func (in *NodeConfigGuestAcceleratorObservation) DeepCopyInto(out *NodeConfigGue
 	}
 	if in.GpuSharingConfig != nil {
 		in, out := &in.GpuSharingConfig, &out.GpuSharingConfig
-		*out = make([]GuestAcceleratorGpuSharingConfigObservation, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(GuestAcceleratorGpuSharingConfigObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
@@ -9542,10 +9526,8 @@ func (in *NodePoolNodeConfigGuestAcceleratorInitParameters) DeepCopyInto(out *No
 	}
 	if in.GpuDriverInstallationConfig != nil {
 		in, out := &in.GpuDriverInstallationConfig, &out.GpuDriverInstallationConfig
-		*out = make([]NodeConfigGuestAcceleratorGpuDriverInstallationConfigInitParameters, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(NodeConfigGuestAcceleratorGpuDriverInstallationConfigInitParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.GpuPartitionSize != nil {
 		in, out := &in.GpuPartitionSize, &out.GpuPartitionSize
@@ -9554,10 +9536,8 @@ func (in *NodePoolNodeConfigGuestAcceleratorInitParameters) DeepCopyInto(out *No
 	}
 	if in.GpuSharingConfig != nil {
 		in, out := &in.GpuSharingConfig, &out.GpuSharingConfig
-		*out = make([]NodeConfigGuestAcceleratorGpuSharingConfigInitParameters, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(NodeConfigGuestAcceleratorGpuSharingConfigInitParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
@@ -9586,10 +9566,8 @@ func (in *NodePoolNodeConfigGuestAcceleratorObservation) DeepCopyInto(out *NodeP
 	}
 	if in.GpuDriverInstallationConfig != nil {
 		in, out := &in.GpuDriverInstallationConfig, &out.GpuDriverInstallationConfig
-		*out = make([]NodeConfigGuestAcceleratorGpuDriverInstallationConfigObservation, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(NodeConfigGuestAcceleratorGpuDriverInstallationConfigObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.GpuPartitionSize != nil {
 		in, out := &in.GpuPartitionSize, &out.GpuPartitionSize
@@ -9598,10 +9576,8 @@ func (in *NodePoolNodeConfigGuestAcceleratorObservation) DeepCopyInto(out *NodeP
 	}
 	if in.GpuSharingConfig != nil {
 		in, out := &in.GpuSharingConfig, &out.GpuSharingConfig
-		*out = make([]NodeConfigGuestAcceleratorGpuSharingConfigObservation, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(NodeConfigGuestAcceleratorGpuSharingConfigObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
@@ -9630,10 +9606,8 @@ func (in *NodePoolNodeConfigGuestAcceleratorParameters) DeepCopyInto(out *NodePo
 	}
 	if in.GpuDriverInstallationConfig != nil {
 		in, out := &in.GpuDriverInstallationConfig, &out.GpuDriverInstallationConfig
-		*out = make([]NodeConfigGuestAcceleratorGpuDriverInstallationConfigParameters, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(NodeConfigGuestAcceleratorGpuDriverInstallationConfigParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.GpuPartitionSize != nil {
 		in, out := &in.GpuPartitionSize, &out.GpuPartitionSize
@@ -9642,10 +9616,8 @@ func (in *NodePoolNodeConfigGuestAcceleratorParameters) DeepCopyInto(out *NodePo
 	}
 	if in.GpuSharingConfig != nil {
 		in, out := &in.GpuSharingConfig, &out.GpuSharingConfig
-		*out = make([]NodeConfigGuestAcceleratorGpuSharingConfigParameters, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(NodeConfigGuestAcceleratorGpuSharingConfigParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type

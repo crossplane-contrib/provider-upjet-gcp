@@ -451,11 +451,11 @@ type NodePoolNodeConfigGcfsConfigParameters struct {
 type NodePoolNodeConfigGuestAcceleratorInitParameters struct {
 	Count *float64 `json:"count,omitempty" tf:"count"`
 
-	GpuDriverInstallationConfig []NodeConfigGuestAcceleratorGpuDriverInstallationConfigInitParameters `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config"`
+	GpuDriverInstallationConfig *NodeConfigGuestAcceleratorGpuDriverInstallationConfigInitParameters `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config"`
 
 	GpuPartitionSize *string `json:"gpuPartitionSize,omitempty" tf:"gpu_partition_size"`
 
-	GpuSharingConfig []NodeConfigGuestAcceleratorGpuSharingConfigInitParameters `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config"`
+	GpuSharingConfig *NodeConfigGuestAcceleratorGpuSharingConfigInitParameters `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config"`
 
 	// The type of the policy. Supports a single value: COMPACT.
 	// Specifying COMPACT placement policy type places node pool's nodes in a closer
@@ -466,11 +466,11 @@ type NodePoolNodeConfigGuestAcceleratorInitParameters struct {
 type NodePoolNodeConfigGuestAcceleratorObservation struct {
 	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
 
-	GpuDriverInstallationConfig []NodeConfigGuestAcceleratorGpuDriverInstallationConfigObservation `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config,omitempty"`
+	GpuDriverInstallationConfig *NodeConfigGuestAcceleratorGpuDriverInstallationConfigObservation `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config,omitempty"`
 
 	GpuPartitionSize *string `json:"gpuPartitionSize,omitempty" tf:"gpu_partition_size,omitempty"`
 
-	GpuSharingConfig []NodeConfigGuestAcceleratorGpuSharingConfigObservation `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config,omitempty"`
+	GpuSharingConfig *NodeConfigGuestAcceleratorGpuSharingConfigObservation `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config,omitempty"`
 
 	// The type of the policy. Supports a single value: COMPACT.
 	// Specifying COMPACT placement policy type places node pool's nodes in a closer
@@ -484,13 +484,13 @@ type NodePoolNodeConfigGuestAcceleratorParameters struct {
 	Count *float64 `json:"count,omitempty" tf:"count"`
 
 	// +kubebuilder:validation:Optional
-	GpuDriverInstallationConfig []NodeConfigGuestAcceleratorGpuDriverInstallationConfigParameters `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config"`
+	GpuDriverInstallationConfig *NodeConfigGuestAcceleratorGpuDriverInstallationConfigParameters `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config"`
 
 	// +kubebuilder:validation:Optional
 	GpuPartitionSize *string `json:"gpuPartitionSize,omitempty" tf:"gpu_partition_size"`
 
 	// +kubebuilder:validation:Optional
-	GpuSharingConfig []NodeConfigGuestAcceleratorGpuSharingConfigParameters `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config"`
+	GpuSharingConfig *NodeConfigGuestAcceleratorGpuSharingConfigParameters `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config"`
 
 	// The type of the policy. Supports a single value: COMPACT.
 	// Specifying COMPACT placement policy type places node pool's nodes in a closer

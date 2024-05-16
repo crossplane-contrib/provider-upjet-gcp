@@ -7374,15 +7374,13 @@ spec:
                             gpuDriverInstallationConfig:
                               description: Configuration for auto installation of
                                 GPU driver. Structure is documented below.
-                              items:
-                                properties:
-                                  gpuDriverVersion:
-                                    description: |-
-                                      Mode for how the GPU driver is installed.
-                                      Accepted values are:
-                                    type: string
-                                type: object
-                              type: array
+                              properties:
+                                gpuDriverVersion:
+                                  description: |-
+                                    Mode for how the GPU driver is installed.
+                                    Accepted values are:
+                                  type: string
+                              type: object
                             gpuPartitionSize:
                               description: Size of partitions to create on the GPU.
                                 Valid values are described in the NVIDIA mig user
@@ -7391,19 +7389,17 @@ spec:
                             gpuSharingConfig:
                               description: Configuration for GPU sharing. Structure
                                 is documented below.
-                              items:
-                                properties:
-                                  gpuSharingStrategy:
-                                    description: |-
-                                      The type of GPU sharing strategy to enable on the GPU node.
-                                      Accepted values are:
-                                    type: string
-                                  maxSharedClientsPerGpu:
-                                    description: The maximum number of containers
-                                      that can share a GPU.
-                                    type: number
-                                type: object
-                              type: array
+                              properties:
+                                gpuSharingStrategy:
+                                  description: |-
+                                    The type of GPU sharing strategy to enable on the GPU node.
+                                    Accepted values are:
+                                  type: string
+                                maxSharedClientsPerGpu:
+                                  description: The maximum number of containers that
+                                    can share a GPU.
+                                  type: number
+                              type: object
                             type:
                               description: The accelerator type resource to expose
                                 to this instance. E.g. nvidia-tesla-k80.
@@ -9042,15 +9038,13 @@ spec:
                             gpuDriverInstallationConfig:
                               description: Configuration for auto installation of
                                 GPU driver. Structure is documented below.
-                              items:
-                                properties:
-                                  gpuDriverVersion:
-                                    description: |-
-                                      Mode for how the GPU driver is installed.
-                                      Accepted values are:
-                                    type: string
-                                type: object
-                              type: array
+                              properties:
+                                gpuDriverVersion:
+                                  description: |-
+                                    Mode for how the GPU driver is installed.
+                                    Accepted values are:
+                                  type: string
+                              type: object
                             gpuPartitionSize:
                               description: Size of partitions to create on the GPU.
                                 Valid values are described in the NVIDIA mig user
@@ -9059,19 +9053,17 @@ spec:
                             gpuSharingConfig:
                               description: Configuration for GPU sharing. Structure
                                 is documented below.
-                              items:
-                                properties:
-                                  gpuSharingStrategy:
-                                    description: |-
-                                      The type of GPU sharing strategy to enable on the GPU node.
-                                      Accepted values are:
-                                    type: string
-                                  maxSharedClientsPerGpu:
-                                    description: The maximum number of containers
-                                      that can share a GPU.
-                                    type: number
-                                type: object
-                              type: array
+                              properties:
+                                gpuSharingStrategy:
+                                  description: |-
+                                    The type of GPU sharing strategy to enable on the GPU node.
+                                    Accepted values are:
+                                  type: string
+                                maxSharedClientsPerGpu:
+                                  description: The maximum number of containers that
+                                    can share a GPU.
+                                  type: number
+                              type: object
                             type:
                               description: The accelerator type resource to expose
                                 to this instance. E.g. nvidia-tesla-k80.
@@ -10879,15 +10871,13 @@ spec:
                             gpuDriverInstallationConfig:
                               description: Configuration for auto installation of
                                 GPU driver. Structure is documented below.
-                              items:
-                                properties:
-                                  gpuDriverVersion:
-                                    description: |-
-                                      Mode for how the GPU driver is installed.
-                                      Accepted values are:
-                                    type: string
-                                type: object
-                              type: array
+                              properties:
+                                gpuDriverVersion:
+                                  description: |-
+                                    Mode for how the GPU driver is installed.
+                                    Accepted values are:
+                                  type: string
+                              type: object
                             gpuPartitionSize:
                               description: Size of partitions to create on the GPU.
                                 Valid values are described in the NVIDIA mig user
@@ -10896,19 +10886,17 @@ spec:
                             gpuSharingConfig:
                               description: Configuration for GPU sharing. Structure
                                 is documented below.
-                              items:
-                                properties:
-                                  gpuSharingStrategy:
-                                    description: |-
-                                      The type of GPU sharing strategy to enable on the GPU node.
-                                      Accepted values are:
-                                    type: string
-                                  maxSharedClientsPerGpu:
-                                    description: The maximum number of containers
-                                      that can share a GPU.
-                                    type: number
-                                type: object
-                              type: array
+                              properties:
+                                gpuSharingStrategy:
+                                  description: |-
+                                    The type of GPU sharing strategy to enable on the GPU node.
+                                    Accepted values are:
+                                  type: string
+                                maxSharedClientsPerGpu:
+                                  description: The maximum number of containers that
+                                    can share a GPU.
+                                  type: number
+                              type: object
                             type:
                               description: The accelerator type resource to expose
                                 to this instance. E.g. nvidia-tesla-k80.
@@ -11404,15 +11392,13 @@ spec:
                                   gpuDriverInstallationConfig:
                                     description: Configuration for auto installation
                                       of GPU driver. Structure is documented below.
-                                    items:
-                                      properties:
-                                        gpuDriverVersion:
-                                          description: |-
-                                            Mode for how the GPU driver is installed.
-                                            Accepted values are:
-                                          type: string
-                                      type: object
-                                    type: array
+                                    properties:
+                                      gpuDriverVersion:
+                                        description: |-
+                                          Mode for how the GPU driver is installed.
+                                          Accepted values are:
+                                        type: string
+                                    type: object
                                   gpuPartitionSize:
                                     description: Size of partitions to create on the
                                       GPU. Valid values are described in the NVIDIA
@@ -11421,19 +11407,17 @@ spec:
                                   gpuSharingConfig:
                                     description: Configuration for GPU sharing. Structure
                                       is documented below.
-                                    items:
-                                      properties:
-                                        gpuSharingStrategy:
-                                          description: |-
-                                            The type of GPU sharing strategy to enable on the GPU node.
-                                            Accepted values are:
-                                          type: string
-                                        maxSharedClientsPerGpu:
-                                          description: The maximum number of containers
-                                            that can share a GPU.
-                                          type: number
-                                      type: object
-                                    type: array
+                                    properties:
+                                      gpuSharingStrategy:
+                                        description: |-
+                                          The type of GPU sharing strategy to enable on the GPU node.
+                                          Accepted values are:
+                                        type: string
+                                      maxSharedClientsPerGpu:
+                                        description: The maximum number of containers
+                                          that can share a GPU.
+                                        type: number
+                                    type: object
                                   type:
                                     description: The accelerator type resource to
                                       expose to this instance. E.g. nvidia-tesla-k80.

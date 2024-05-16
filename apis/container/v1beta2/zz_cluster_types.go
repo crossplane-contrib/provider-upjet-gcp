@@ -2197,13 +2197,13 @@ type GuestAcceleratorInitParameters struct {
 	Count *float64 `json:"count,omitempty" tf:"count"`
 
 	// Configuration for auto installation of GPU driver. Structure is documented below.
-	GpuDriverInstallationConfig []GpuDriverInstallationConfigInitParameters `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config"`
+	GpuDriverInstallationConfig *GpuDriverInstallationConfigInitParameters `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config"`
 
 	// Size of partitions to create on the GPU. Valid values are described in the NVIDIA mig user guide.
 	GpuPartitionSize *string `json:"gpuPartitionSize,omitempty" tf:"gpu_partition_size"`
 
 	// Configuration for GPU sharing. Structure is documented below.
-	GpuSharingConfig []GpuSharingConfigInitParameters `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config"`
+	GpuSharingConfig *GpuSharingConfigInitParameters `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config"`
 
 	// The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80.
 	Type *string `json:"type,omitempty" tf:"type"`
@@ -2215,13 +2215,13 @@ type GuestAcceleratorObservation struct {
 	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
 
 	// Configuration for auto installation of GPU driver. Structure is documented below.
-	GpuDriverInstallationConfig []GpuDriverInstallationConfigObservation `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config,omitempty"`
+	GpuDriverInstallationConfig *GpuDriverInstallationConfigObservation `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config,omitempty"`
 
 	// Size of partitions to create on the GPU. Valid values are described in the NVIDIA mig user guide.
 	GpuPartitionSize *string `json:"gpuPartitionSize,omitempty" tf:"gpu_partition_size,omitempty"`
 
 	// Configuration for GPU sharing. Structure is documented below.
-	GpuSharingConfig []GpuSharingConfigObservation `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config,omitempty"`
+	GpuSharingConfig *GpuSharingConfigObservation `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config,omitempty"`
 
 	// The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
@@ -2235,7 +2235,7 @@ type GuestAcceleratorParameters struct {
 
 	// Configuration for auto installation of GPU driver. Structure is documented below.
 	// +kubebuilder:validation:Optional
-	GpuDriverInstallationConfig []GpuDriverInstallationConfigParameters `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config"`
+	GpuDriverInstallationConfig *GpuDriverInstallationConfigParameters `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config"`
 
 	// Size of partitions to create on the GPU. Valid values are described in the NVIDIA mig user guide.
 	// +kubebuilder:validation:Optional
@@ -2243,7 +2243,7 @@ type GuestAcceleratorParameters struct {
 
 	// Configuration for GPU sharing. Structure is documented below.
 	// +kubebuilder:validation:Optional
-	GpuSharingConfig []GpuSharingConfigParameters `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config"`
+	GpuSharingConfig *GpuSharingConfigParameters `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config"`
 
 	// The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80.
 	// +kubebuilder:validation:Optional
@@ -3177,13 +3177,13 @@ type NodeConfigGuestAcceleratorObservation struct {
 	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
 
 	// Configuration for auto installation of GPU driver. Structure is documented below.
-	GpuDriverInstallationConfig []GuestAcceleratorGpuDriverInstallationConfigObservation `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config,omitempty"`
+	GpuDriverInstallationConfig *GuestAcceleratorGpuDriverInstallationConfigObservation `json:"gpuDriverInstallationConfig,omitempty" tf:"gpu_driver_installation_config,omitempty"`
 
 	// Size of partitions to create on the GPU. Valid values are described in the NVIDIA mig user guide.
 	GpuPartitionSize *string `json:"gpuPartitionSize,omitempty" tf:"gpu_partition_size,omitempty"`
 
 	// Configuration for GPU sharing. Structure is documented below.
-	GpuSharingConfig []GuestAcceleratorGpuSharingConfigObservation `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config,omitempty"`
+	GpuSharingConfig *GuestAcceleratorGpuSharingConfigObservation `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config,omitempty"`
 
 	// The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`

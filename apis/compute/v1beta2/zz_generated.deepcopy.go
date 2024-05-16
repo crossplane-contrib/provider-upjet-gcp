@@ -17193,10 +17193,8 @@ func (in *InstanceFromTemplateInitParameters) DeepCopyInto(out *InstanceFromTemp
 	}
 	if in.ServiceAccount != nil {
 		in, out := &in.ServiceAccount, &out.ServiceAccount
-		*out = make([]InstanceFromTemplateServiceAccountInitParameters, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(InstanceFromTemplateServiceAccountInitParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ShieldedInstanceConfig != nil {
 		in, out := &in.ShieldedInstanceConfig, &out.ShieldedInstanceConfig
@@ -17844,10 +17842,8 @@ func (in *InstanceFromTemplateObservation) DeepCopyInto(out *InstanceFromTemplat
 	}
 	if in.ServiceAccount != nil {
 		in, out := &in.ServiceAccount, &out.ServiceAccount
-		*out = make([]InstanceFromTemplateServiceAccountObservation, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(InstanceFromTemplateServiceAccountObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ShieldedInstanceConfig != nil {
 		in, out := &in.ShieldedInstanceConfig, &out.ShieldedInstanceConfig
@@ -18070,10 +18066,8 @@ func (in *InstanceFromTemplateParameters) DeepCopyInto(out *InstanceFromTemplate
 	}
 	if in.ServiceAccount != nil {
 		in, out := &in.ServiceAccount, &out.ServiceAccount
-		*out = make([]InstanceFromTemplateServiceAccountParameters, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(InstanceFromTemplateServiceAccountParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ShieldedInstanceConfig != nil {
 		in, out := &in.ShieldedInstanceConfig, &out.ShieldedInstanceConfig
