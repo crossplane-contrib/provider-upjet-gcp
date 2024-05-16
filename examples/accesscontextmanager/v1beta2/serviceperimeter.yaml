@@ -1,0 +1,67 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta2
+kind: ServicePerimeter
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accesscontextmanager/v1beta2/serviceperimeter
+    upjet.upbound.io/manual-intervention: Requires organization level IAM permissions
+  labels:
+    testing.upbound.io/example-name: service-perimeter
+  name: service-perimeter
+spec:
+  forProvider:
+    name: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}/servicePerimeters/restrict_storage
+    parent: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}
+    status:
+      accessLevelsSelector:
+        matchLabels:
+          testing.upbound.io/example-name: access-level
+      restrictedServices:
+      - storage.googleapis.com
+    title: restrict_storage
+
+---
+
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta2
+kind: AccessLevel
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accesscontextmanager/v1beta2/serviceperimeter
+    upjet.upbound.io/manual-intervention: Requires organization level IAM permissions
+  labels:
+    testing.upbound.io/example-name: access-level
+  name: access-level
+spec:
+  forProvider:
+    basic:
+      conditions:
+      - devicePolicy:
+          osConstraints:
+          - osType: DESKTOP_CHROME_OS
+          requireScreenLock: false
+        regions:
+        - CH
+        - IT
+        - US
+    name: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}/accessLevels/chromeos_no_lock
+    parent: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}
+    title: chromeos_no_lock
+
+---
+
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
+kind: AccessPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accesscontextmanager/v1beta2/serviceperimeter
+    upjet.upbound.io/manual-intervention: Requires organization level IAM permissions
+  labels:
+    testing.upbound.io/example-name: access-policy
+  name: access-policy
+spec:
+  forProvider:
+    parent: organizations/123456789
+    title: my policy

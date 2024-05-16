@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: tpu.gcp.upbound.io/v1beta2
+kind: Node
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tpu/v1beta2/node
+  labels:
+    testing.upbound.io/example-name: tpu
+  name: tpu
+spec:
+  forProvider:
+    acceleratorType: v3-8
+    tensorflowVersion: 2.11.0
+    zone: us-central1-b

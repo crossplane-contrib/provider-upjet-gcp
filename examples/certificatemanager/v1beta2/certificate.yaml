@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: certificatemanager.gcp.upbound.io/v1beta2
+kind: Certificate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: certificatemanager/v1beta2/certificate
+    upjet.upbound.io/manual-intervention: Certificate requires a real DNS authorization
+      ID
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: The default cert
+    location: global
+    managed:
+      dnsAuthorizations:
+      - projects/official-provider-testing/locations/global/dnsAuthorizations/default
+      domains:
+      - subdomain.hashicorptest.com
+    scope: DEFAULT
+
+---
+
+apiVersion: certificatemanager.gcp.upbound.io/v1beta1
+kind: DNSAuthorization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: certificatemanager/v1beta2/certificate
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: The default dnss
+    domain: subdomain.hashicorptest.com

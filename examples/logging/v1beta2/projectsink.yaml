@@ -1,0 +1,66 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: logging.gcp.upbound.io/v1beta2
+kind: ProjectSink
+metadata:
+  annotations:
+    meta.upbound.io/example-id: logging/v1beta2/projectsink
+    upjet.upbound.io/manual-intervention: ProjectSink resource and ProjectIAMMember
+      resource require a real Project ID
+  labels:
+    testing.upbound.io/example-name: my-sink
+  name: my-sink
+spec:
+  forProvider:
+    destination: pubsub.googleapis.com/projects/${project_id}/topics/instance-activity
+    filter: resource.type = gce_instance AND severity >= WARNING
+    uniqueWriterIdentity: true
+
+---
+
+apiVersion: storage.gcp.upbound.io/v1beta2
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: logging/v1beta2/projectsink
+  labels:
+    testing.upbound.io/example-name: bucket
+  name: bucket-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    cors:
+    - maxAgeSeconds: 3600
+      method:
+      - GET
+      - HEAD
+      - PUT
+      - POST
+      - DELETE
+      origin:
+      - http://image-store.com
+      responseHeader:
+      - '*'
+    forceDestroy: true
+    location: US
+    uniformBucketLevelAccess: true
+    website:
+      mainPageSuffix: index.html
+      notFoundPage: 404.html
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta2
+kind: ProjectIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: logging/v1beta2/projectsink
+  labels:
+    testing.upbound.io/example-name: project-iam-member
+  name: project-iam-member
+spec:
+  forProvider:
+    member: serviceAccount:johndou@example.com
+    project: ${project_id}
+    role: roles/storage.objectCreator

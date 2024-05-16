@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: firebaserules.gcp.upbound.io/v1beta2
+kind: Ruleset
+metadata:
+  annotations:
+    meta.upbound.io/example-id: firebaserules/v1beta2/ruleset
+  labels:
+    testing.upbound.io/example-name: ruleset
+  name: ruleset
+spec:
+  forProvider:
+    source:
+      files:
+      - content: 'service cloud.firestore {match /databases/{database}/documents {
+          match /{document=**} { allow read, write: if false; } } }'
+        fingerprint: ""
+        name: firestore.rules
+      language: ""

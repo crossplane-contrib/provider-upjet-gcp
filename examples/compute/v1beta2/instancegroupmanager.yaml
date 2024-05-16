@@ -1,0 +1,71 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: InstanceGroupManager
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/instancegroupmanager
+  labels:
+    testing.upbound.io/example-name: instance-group-manager
+  name: instance-group-manager
+spec:
+  forProvider:
+    autoHealingPolicies:
+      healthCheckSelector:
+        matchLabels:
+          testing.upbound.io/example-name: instance-group-manager
+      initialDelaySec: 300
+    baseInstanceName: instance-group-manager
+    namedPort:
+    - name: custom
+      port: 8888
+    targetSize: 2
+    version:
+    - instanceTemplateSelector:
+        matchLabels:
+          testing.upbound.io/example-name: instance-group-manager
+    zone: us-central1-a
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: HealthCheck
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/instancegroupmanager
+  labels:
+    testing.upbound.io/example-name: instance-group-manager
+  name: instance-group-manager
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    tcpHealthCheck:
+      port: 443
+    timeoutSec: 1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: InstanceTemplate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/instancegroupmanager
+  labels:
+    testing.upbound.io/example-name: instance-group-manager
+  name: instance-group-manager
+spec:
+  forProvider:
+    canIpForward: false
+    disk:
+    - autoDelete: true
+      boot: true
+      sourceImage: debian-cloud/debian-11
+    machineType: e2-medium
+    name: instance-group-manager
+    networkInterface:
+    - network: default
+    tags:
+    - foo
+    - bar

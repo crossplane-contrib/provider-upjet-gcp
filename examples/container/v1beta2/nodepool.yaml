@@ -1,13 +1,13 @@
 # SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
 #
-# SPDX-License-Identifier: CC0-1.0
+# SPDX-License-Identifier: Apache-2.0
 
 apiVersion: container.gcp.upbound.io/v1beta2
 kind: NodePool
 metadata:
   annotations:
-    uptest.upbound.io/disable-import: "true"
     meta.upbound.io/example-id: container/v1beta2/nodepool
+    uptest.upbound.io/disable-import: "true"
   labels:
     testing.upbound.io/example-name: nodepool
   name: nodepool
@@ -32,16 +32,16 @@ apiVersion: container.gcp.upbound.io/v1beta2
 kind: Cluster
 metadata:
   annotations:
-    meta.upbound.io/example-id: container/v1beta2/cluster
+    meta.upbound.io/example-id: container/v1beta2/nodepool
   labels:
     testing.upbound.io/example-name: nodepool
   name: nodepool
 spec:
   forProvider:
+    deletionProtection: false
     initialNodeCount: 1
     location: us-central1-a
     removeDefaultNodePool: true
-    deletionProtection: false
 
 ---
 

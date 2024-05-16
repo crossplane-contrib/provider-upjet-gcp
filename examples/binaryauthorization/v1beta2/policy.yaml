@@ -1,0 +1,58 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: binaryauthorization.gcp.upbound.io/v1beta2
+kind: Policy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: binaryauthorization/v1beta2/policy
+  labels:
+    testing.upbound.io/example-name: policy
+  name: policy
+spec:
+  forProvider:
+    admissionWhitelistPatterns:
+    - namePattern: gcr.io/google_containers/*
+    clusterAdmissionRules:
+    - cluster: us-central1-a.prod-cluster
+      enforcementMode: ENFORCED_BLOCK_AND_AUDIT_LOG
+      evaluationMode: REQUIRE_ATTESTATION
+      requireAttestationsBy:
+      - attestor
+    defaultAdmissionRule:
+      enforcementMode: ENFORCED_BLOCK_AND_AUDIT_LOG
+      evaluationMode: ALWAYS_ALLOW
+
+---
+
+apiVersion: binaryauthorization.gcp.upbound.io/v1beta2
+kind: Attestor
+metadata:
+  annotations:
+    meta.upbound.io/example-id: binaryauthorization/v1beta2/policy
+  labels:
+    testing.upbound.io/example-name: attestor
+  name: attestor
+spec:
+  forProvider:
+    attestationAuthorityNote:
+      noteReferenceSelector:
+        matchLabels:
+          testing.upbound.io/example-name: note
+
+---
+
+apiVersion: containeranalysis.gcp.upbound.io/v1beta2
+kind: Note
+metadata:
+  annotations:
+    meta.upbound.io/example-id: binaryauthorization/v1beta2/policy
+  labels:
+    testing.upbound.io/example-name: note
+  name: note
+spec:
+  forProvider:
+    attestationAuthority:
+      hint:
+        humanReadableName: My attestor

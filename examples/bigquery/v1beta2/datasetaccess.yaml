@@ -1,0 +1,47 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: bigquery.gcp.upbound.io/v1beta2
+kind: DatasetAccess
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta2/datasetaccess
+  labels:
+    testing.upbound.io/example-name: access
+  name: access
+spec:
+  forProvider:
+    datasetIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: dataset
+    role: OWNER
+    userByEmailSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bqowner
+
+---
+
+apiVersion: bigquery.gcp.upbound.io/v1beta2
+kind: Dataset
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta2/datasetaccess
+  labels:
+    testing.upbound.io/example-name: dataset
+  name: dataset
+spec:
+  forProvider: {}
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: ServiceAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta2/datasetaccess
+  labels:
+    testing.upbound.io/example-name: bqowner
+  name: bqowner
+spec:
+  forProvider: {}
