@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: identityplatform.gcp.upbound.io/v1beta2
+kind: ProjectDefaultConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: identityplatform/v1beta2/projectdefaultconfig
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    signIn:
+      allowDuplicateEmails: true
+      anonymous:
+        enabled: true
+      email:
+        enabled: true
+        passwordRequired: false
+      phoneNumber:
+        enabled: true
+        testPhoneNumbers:
+          "+11231231234": "0000000"

@@ -1,0 +1,78 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: RouterPeer
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/routerpeer
+  labels:
+    testing.upbound.io/example-name: router_peer
+  name: router-peer
+spec:
+  forProvider:
+    advertisedRoutePriority: 100
+    interfaceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: router_peer
+    peerAsn: 65513
+    peerIpAddress: 169.254.1.2
+    regionSelector:
+      matchLabels:
+        testing.upbound.io/example-name: router_peer
+    routerSelector:
+      matchLabels:
+        testing.upbound.io/example-name: router_peer
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: RouterInterface
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/routerpeer
+  labels:
+    testing.upbound.io/example-name: router_peer
+  name: peer-router-interface
+spec:
+  forProvider:
+    ipRange: 169.254.1.1/30
+    name: peer-router-interface
+    region: us-central1
+    routerSelector:
+      matchLabels:
+        testing.upbound.io/example-name: router_peer
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: Router
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/routerpeer
+  labels:
+    testing.upbound.io/example-name: router_peer
+  name: peer-router
+spec:
+  forProvider:
+    bgp:
+      asn: 64514
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: router_peer
+    region: us-central1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta2/routerpeer
+  labels:
+    testing.upbound.io/example-name: router_peer
+  name: peer-router-network
+spec:
+  forProvider:
+    autoCreateSubnetworks: false

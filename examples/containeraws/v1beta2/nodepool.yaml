@@ -1,0 +1,101 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: containeraws.gcp.upbound.io/v1beta2
+kind: NodePool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: containeraws/v1beta2/nodepool
+    upjet.upbound.io/manual-intervention: AWS Infrastructure is required to test this
+      resource. Manifests for deploying these via provider-aws are available in the
+      `provider-aws` folder.
+  labels:
+    testing.upbound.io/example-name: example-aws-nodepool
+  name: example-aws-nodepool
+spec:
+  forProvider:
+    annotations:
+      example-name: example-aws-nodepool
+    autoscaling:
+      maxNodeCount: 5
+      minNodeCount: 1
+    clusterSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-aws-nodepool
+    config:
+      configEncryption:
+        kmsKeyArn: arn:aws:kms:my-aws-region:012345678910:key/12345678-1234-1234-1234-123456789111
+      iamInstanceProfile: containeraws-gcp-upbound-ctp-profile
+      instanceType: t3.medium
+      labels:
+        label-one: value-one
+      rootVolume:
+        iops: 3000
+        kmsKeyArn: arn:aws:kms:my-aws-region:012345678910:key/12345678-1234-1234-1234-123456789111
+        sizeGib: 10
+        volumeType: GP3
+      tags:
+        tag-one: value-one
+    location: us-west1
+    maxPodsConstraint:
+      maxPodsPerNode: 110
+    project: my-project-name
+    subnetId: subnet-00000000000000000
+    version: 1.23.8-gke.1700
+
+---
+
+apiVersion: containeraws.gcp.upbound.io/v1beta2
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: containeraws/v1beta2/nodepool
+    upjet.upbound.io/manual-intervention: AWS Infrastructure is required to test this
+      resource. Manifests for deploying these via provider-aws are available in the
+      `provider-aws` folder.
+  labels:
+    testing.upbound.io/example-name: example-aws-nodepool
+  name: example-aws-nodepool
+spec:
+  forProvider:
+    annotations:
+      example-name: example-aws-nodepool
+    authorization:
+      adminUsers:
+      - username: emailAddress:my@service-account.com
+    awsRegion: my-aws-region
+    controlPlane:
+      awsServicesAuthentication:
+        roleArn: arn:aws:iam::012345678910:role/containeraws-gcp-upbound-api-role
+        roleSessionName: example-aws-nodepool-session
+      configEncryption:
+        kmsKeyArn: arn:aws:kms:my-aws-region:012345678910:key/12345678-1234-1234-1234-123456789111
+      databaseEncryption:
+        kmsKeyArn: arn:aws:kms:my-aws-region:012345678910:key/12345678-1234-1234-1234-123456789111
+      iamInstanceProfile: containeraws-gcp-upbound-ctp-profile
+      instanceType: t3.medium
+      mainVolume:
+        iops: 3000
+        kmsKeyArn: arn:aws:kms:my-aws-region:012345678910:key/12345678-1234-1234-1234-123456789111
+        sizeGib: 10
+        volumeType: GP3
+      rootVolume:
+        iops: 3000
+        kmsKeyArn: arn:aws:kms:my-aws-region:012345678910:key/12345678-1234-1234-1234-123456789111
+        sizeGib: 10
+        volumeType: GP3
+      subnetIds:
+      - subnet-00000000000000000
+      version: 1.23.8-gke.1700
+    description: Example aws nodepool
+    fleet:
+      project: my-project-number
+    location: us-west1
+    networking:
+      podAddressCidrBlocks:
+      - 10.2.0.0/16
+      serviceAddressCidrBlocks:
+      - 10.1.0.0/16
+      vpcId: vpc-00000000000000000
+    project: my-project-name

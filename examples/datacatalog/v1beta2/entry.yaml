@@ -1,0 +1,35 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: datacatalog.gcp.upbound.io/v1beta2
+kind: Entry
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datacatalog/v1beta2/entry
+  labels:
+    testing.upbound.io/example-name: entry
+  name: entry
+spec:
+  forProvider:
+    entryGroupSelector:
+      matchLabels:
+        testing.upbound.io/example-name: entry
+    entryId: entry
+    userSpecifiedSystem: SomethingExternal
+    userSpecifiedType: my_custom_type
+
+---
+
+apiVersion: datacatalog.gcp.upbound.io/v1beta1
+kind: EntryGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datacatalog/v1beta2/entry
+  labels:
+    testing.upbound.io/example-name: entry
+  name: entry
+spec:
+  forProvider:
+    entryGroupId: entry
+    region: us-central1

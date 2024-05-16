@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
 #
-# SPDX-License-Identifier: CC0-1.0
+# SPDX-License-Identifier: Apache-2.0
 
 apiVersion: gke.gcp.upbound.io/v1beta2
 kind: BackupBackupPlan
@@ -33,10 +33,10 @@ metadata:
   name: primary
 spec:
   forProvider:
-    deletionProtection: false
     addonsConfig:
       gkeBackupAgentConfig:
         enabled: true
+    deletionProtection: false
     initialNodeCount: 1
     location: us-central1
     removeDefaultNodePool: false

@@ -1,0 +1,38 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: gkehub.gcp.upbound.io/v1beta2
+kind: Membership
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gkehub/v1beta2/membership
+  labels:
+    testing.upbound.io/example-name: membership
+  name: membership
+spec:
+  forProvider:
+    endpoint:
+      gkeCluster:
+        resourceLinkSelector:
+          matchLabels:
+            testing.upbound.io/example-name: membership
+    location: us-central1
+
+---
+
+apiVersion: container.gcp.upbound.io/v1beta2
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gkehub/v1beta2/membership
+  labels:
+    testing.upbound.io/example-name: membership
+  name: membership
+spec:
+  forProvider:
+    deletionProtection: false
+    initialNodeCount: 2
+    location: us-central1-a
+    nodeConfig:
+      machineType: e2-standard-8

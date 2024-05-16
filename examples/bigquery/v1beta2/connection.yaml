@@ -1,0 +1,100 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: bigquery.gcp.upbound.io/v1beta2
+kind: Connection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta2/connection
+    uptest.upbound.io/timeout: "3600"
+  labels:
+    testing.upbound.io/example-name: connection
+  name: connection-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    cloudSql:
+      credential:
+        passwordSecretRef:
+          key: attribute.password
+          name: example-sql-user
+          namespace: upbound-system
+        usernameSelector:
+          matchLabels:
+            testing.upbound.io/example-name: user-con
+      databaseSelector:
+        matchLabels:
+          testing.upbound.io/example-name: db-con
+      instanceIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: instance-con
+      type: POSTGRES
+    description: a riveting description
+    friendlyName: "\U0001F44B"
+    location: US
+
+---
+
+apiVersion: sql.gcp.upbound.io/v1beta1
+kind: Database
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta2/connection
+  labels:
+    testing.upbound.io/example-name: db-con
+  name: db-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    instanceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: instance-con
+
+---
+
+apiVersion: sql.gcp.upbound.io/v1beta2
+kind: DatabaseInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta2/connection
+    uptest.upbound.io/pre-delete-hook: testhooks/delete-user.sh
+  labels:
+    testing.upbound.io/example-name: instance-con
+  name: example-instance-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    databaseVersion: POSTGRES_11
+    deletionProtection: false
+    region: us-central1
+    settings:
+      tier: db-f1-micro
+
+---
+
+apiVersion: sql.gcp.upbound.io/v1beta2
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta2/connection
+  labels:
+    testing.upbound.io/example-name: user-con
+  name: user-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    instanceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: instance-con
+    passwordSecretRef:
+      key: attribute.password
+      name: example-password
+      namespace: upbound-system
+
+---
+
+apiVersion: v1
+data:
+  attribute.password: dGVzdFBhc3N3b3JkITEyMw==
+kind: Secret
+metadata:
+  name: example-password
+  namespace: upbound-system
+type: Opaque
