@@ -19,7 +19,7 @@ RUN curl -L -o /tmp/terraform_${TERRAFORM_VERSION}_${TARGETOS}_${TARGETARCH}.zip
   && curl -L -o /tmp/${TERRAFORM_PROVIDER_DOWNLOAD_NAME}_${TERRAFORM_PROVIDER_VERSION}_${TARGETOS}_${TARGETARCH}.zip https://releases.hashicorp.com/${TERRAFORM_PROVIDER_DOWNLOAD_NAME}/${TERRAFORM_PROVIDER_VERSION}/${TERRAFORM_PROVIDER_DOWNLOAD_NAME}_${TERRAFORM_PROVIDER_VERSION}_${TARGETOS}_${TARGETARCH}.zip \
   && unzip /tmp/${TERRAFORM_PROVIDER_DOWNLOAD_NAME}_${TERRAFORM_PROVIDER_VERSION}_${TARGETOS}_${TARGETARCH}.zip -d /tmp/native/ \
   && chmod +x /tmp/native/* \
-  && mv /tmp/native/terraform-provider-google-beta_v${TERRAFORM_PROVIDER_VERSION}_x5 /tmp/native/terraform-provider-google-v${TERRAFORM_PROVIDER_VERSION}_x5 \
+  && mv /tmp/native/terraform-provider-google-beta_v${TERRAFORM_PROVIDER_VERSION}_x5 /tmp/native/terraform-provider-google_v${TERRAFORM_PROVIDER_VERSION}_x5 \
   && rm /tmp/${TERRAFORM_PROVIDER_DOWNLOAD_NAME}_${TERRAFORM_PROVIDER_VERSION}_${TARGETOS}_${TARGETARCH}.zip
 # End of - Setup Terraform environment
 
