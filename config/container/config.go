@@ -8,7 +8,6 @@ import (
 	"encoding/base64"
 	"net/url"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/crossplane/upjet/pkg/config"
@@ -127,22 +126,6 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			Extractor:     common.PathSelfLinkExtractor,
 		}
 
-		gaNodePool := r.TerraformResource.Schema["node_pool"].Elem.(*schema.Resource).
-			Schema["node_config"].Elem.(*schema.Resource).
-			Schema["guest_accelerator"].Elem.(*schema.Resource)
-		gaNodePool.Schema["gpu_driver_installation_config"].MaxItems = 1
-		gaNodePool.Schema["gpu_sharing_config"].MaxItems = 1
-
-		gaNodeConfig := r.TerraformResource.Schema["node_config"].Elem.(*schema.Resource).
-			Schema["guest_accelerator"].Elem.(*schema.Resource)
-		gaNodeConfig.Schema["gpu_driver_installation_config"].MaxItems = 1
-		gaNodeConfig.Schema["gpu_sharing_config"].MaxItems = 1
-
-		r.AddSingletonListConversion("node_pool[*].node_config[*].guest_accelerator[*].gpu_sharing_config", "nodePool[*].nodeConfig[*].guestAccelerator[*].gpuSharingConfig")
-		r.AddSingletonListConversion("node_pool[*].node_config[*].guest_accelerator[*].gpu_driver_installation_config", "nodePool[*].nodeConfig[*].guestAccelerator[*].gpuDriverInstallationConfig")
-		r.AddSingletonListConversion("node_config[*].guest_accelerator[*].gpu_sharing_config", "nodeConfig[*].guestAccelerator[*].gpuSharingConfig")
-		r.AddSingletonListConversion("node_config[*].guest_accelerator[*].gpu_driver_installation_config", "nodeConfig[*].guestAccelerator[*].gpuDriverInstallationConfig")
-
 		config.MarkAsRequired(r.TerraformResource, "location")
 	})
 
@@ -157,14 +140,6 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			TerraformName: "google_container_cluster",
 			Extractor:     common.ExtractResourceIDFuncPath,
 		}
-
-		gaNodeConfig := r.TerraformResource.Schema["node_config"].Elem.(*schema.Resource).
-			Schema["guest_accelerator"].Elem.(*schema.Resource)
-		gaNodeConfig.Schema["gpu_driver_installation_config"].MaxItems = 1
-		gaNodeConfig.Schema["gpu_sharing_config"].MaxItems = 1
-
-		r.AddSingletonListConversion("node_config[*].guest_accelerator[*].gpu_sharing_config", "nodeConfig[*].guestAccelerator[*].gpuSharingConfig")
-		r.AddSingletonListConversion("node_config[*].guest_accelerator[*].gpu_driver_installation_config", "nodeConfig[*].guestAccelerator[*].gpuDriverInstallationConfig")
 
 		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, _ *terraform.InstanceState, _ *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
 			if diff == nil || diff.Destroy {

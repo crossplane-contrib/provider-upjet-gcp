@@ -187,9 +187,6 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			Schema["initialize_params"].Elem.(*schema.Resource).
 			Schema["labels"].Elem = schema.TypeString
 		r.TerraformResource.Schema["metadata"].Elem = schema.TypeString
-		r.TerraformResource.Schema["service_account"].MaxItems = 1
-
-		r.AddSingletonListConversion("service_account", "service_account")
 
 		r.References["network_interface.network"] = config.Reference{
 			TerraformName: "google_compute_network",
