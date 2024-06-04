@@ -21,7 +21,7 @@ func (mg *SSLCertificate) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this SSLCertificate
 func (tr *SSLCertificate) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"certificate": "spec.forProvider.certificateSecretRef", "private_key": "spec.forProvider.privateKeySecretRef"}
+	return map[string]string{"certificate": "certificateSecretRef", "private_key": "privateKeySecretRef"}
 }
 
 // GetObservation of this SSLCertificate

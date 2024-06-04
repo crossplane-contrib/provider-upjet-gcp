@@ -182,6 +182,25 @@ spec:
                       or the the DNS address for the external server. If the external
                       server is hosted on Cloud SQL, the port is 5432.
                     type: string
+                  passwordSecretRef:
+                    description: |-
+                      The password for the replication user account.
+                      Note: This property is sensitive and will not be displayed in the plan.
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
                   port:
                     description: |-
                       The externally accessible port for the source database server.

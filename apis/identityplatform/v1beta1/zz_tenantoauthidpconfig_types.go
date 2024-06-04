@@ -15,6 +15,12 @@ import (
 
 type TenantOAuthIdPConfigInitParameters struct {
 
+	// The client id of an OAuth client.
+	ClientIDSecretRef v1.SecretKeySelector `json:"clientIdSecretRef" tf:"-"`
+
+	// The client secret of the OAuth client, to enable OIDC code flow.
+	ClientSecretSecretRef *v1.SecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
+
 	// Human friendly display name.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 

@@ -15,6 +15,10 @@ import (
 
 type SecretCiphertextInitParameters struct {
 
+	// The additional authenticated data used for integrity checks during encryption and decryption.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	AdditionalAuthenticatedDataSecretRef *v1.SecretKeySelector `json:"additionalAuthenticatedDataSecretRef,omitempty" tf:"-"`
+
 	// The full name of the CryptoKey that will be used to encrypt the provided plaintext.
 	// Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}/cryptoKeys/{{cryptoKey}}'
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta2.CryptoKey

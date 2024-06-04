@@ -1758,8 +1758,6 @@ spec:
                           following characters must be a dash, lowercase letter, or digit,
                           except the last character, which cannot be a dash.
                         type: string
-                    required:
-                    - keySecretRef
                     type: object
                   peerAsn:
                     description: |-
@@ -2291,6 +2289,24 @@ spec:
                     type: string
                   md5AuthenticationKey:
                     properties:
+                      keySecretRef:
+                        description: A SecretKeySelector is a reference to a secret
+                          key in an arbitrary namespace.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
                       name:
                         description: |-
                           Name of this BGP peer. The name must be 1-63 characters long,
@@ -2300,6 +2316,8 @@ spec:
                           following characters must be a dash, lowercase letter, or digit,
                           except the last character, which cannot be a dash.
                         type: string
+                    required:
+                    - keySecretRef
                     type: object
                   peerAsn:
                     description: |-

@@ -21,7 +21,7 @@ func (mg *NotificationChannel) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this NotificationChannel
 func (tr *NotificationChannel) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"sensitive_labels[*].auth_token": "spec.forProvider.sensitiveLabels[*].authTokenSecretRef", "sensitive_labels[*].password": "spec.forProvider.sensitiveLabels[*].passwordSecretRef", "sensitive_labels[*].service_key": "spec.forProvider.sensitiveLabels[*].serviceKeySecretRef"}
+	return map[string]string{"sensitive_labels[*].auth_token": "sensitiveLabels[*].authTokenSecretRef", "sensitive_labels[*].password": "sensitiveLabels[*].passwordSecretRef", "sensitive_labels[*].service_key": "sensitiveLabels[*].serviceKeySecretRef"}
 }
 
 // GetObservation of this NotificationChannel

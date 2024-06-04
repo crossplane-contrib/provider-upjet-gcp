@@ -1286,6 +1286,7 @@ func (in *SecretVersionInitParameters) DeepCopyInto(out *SecretVersionInitParame
 		*out = new(string)
 		**out = **in
 	}
+	out.SecretDataSecretRef = in.SecretDataSecretRef
 	if in.SecretRef != nil {
 		in, out := &in.SecretRef, &out.SecretRef
 		*out = new(v1.Reference)

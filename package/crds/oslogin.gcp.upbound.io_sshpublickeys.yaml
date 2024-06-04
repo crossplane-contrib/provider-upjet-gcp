@@ -117,12 +117,32 @@ spec:
                   expirationTimeUsec:
                     description: An expiration time in microseconds since epoch.
                     type: string
+                  keySecretRef:
+                    description: Public key text in SSH format, defined by RFC4253
+                      section 6.6.
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
                   project:
                     description: The project ID of the Google Cloud Platform project.
                     type: string
                   user:
                     description: The user email.
                     type: string
+                required:
+                - keySecretRef
                 type: object
               managementPolicies:
                 default:

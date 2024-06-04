@@ -21,7 +21,7 @@ func (mg *Application) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this Application
 func (tr *Application) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"iap[*].oauth2_client_secret": "spec.forProvider.iap[*].oauth2ClientSecretSecretRef", "iap[*].oauth2_client_secret_sha256": "status.atProvider.iap[*].oauth2ClientSecretSha256"}
+	return map[string]string{"iap[*].oauth2_client_secret": "iap[*].oauth2ClientSecretSecretRef", "iap[*].oauth2_client_secret_sha256": "status.atProvider.iap[*].oauth2ClientSecretSha256"}
 }
 
 // GetObservation of this Application

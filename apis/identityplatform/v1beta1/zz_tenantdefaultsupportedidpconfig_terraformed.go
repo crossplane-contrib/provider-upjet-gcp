@@ -21,7 +21,7 @@ func (mg *TenantDefaultSupportedIdPConfig) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this TenantDefaultSupportedIdPConfig
 func (tr *TenantDefaultSupportedIdPConfig) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"client_id": "spec.forProvider.clientIdSecretRef", "client_secret": "spec.forProvider.clientSecretSecretRef"}
+	return map[string]string{"client_id": "clientIdSecretRef", "client_secret": "clientSecretSecretRef"}
 }
 
 // GetObservation of this TenantDefaultSupportedIdPConfig

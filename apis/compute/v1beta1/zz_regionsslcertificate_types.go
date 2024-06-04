@@ -15,8 +15,18 @@ import (
 
 type RegionSSLCertificateInitParameters struct {
 
+	// The certificate in PEM format.
+	// The certificate chain must be no greater than 5 certs long.
+	// The chain must include at least one intermediate cert.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	CertificateSecretRef v1.SecretKeySelector `json:"certificateSecretRef" tf:"-"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The write-only private key in PEM format.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	PrivateKeySecretRef v1.SecretKeySelector `json:"privateKeySecretRef" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

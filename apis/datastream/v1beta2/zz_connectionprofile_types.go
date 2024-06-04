@@ -187,8 +187,16 @@ type ForwardSSHConnectivityInitParameters struct {
 	// Hostname for the SSH tunnel.
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
+	// SSH password.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+
 	// Port for the SSH tunnel.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// SSH private key.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	PrivateKeySecretRef *v1.SecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
 
 	// Username for the SSH tunnel.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
@@ -265,6 +273,10 @@ type MySQLProfileInitParameters struct {
 	// Hostname for the MySQL connection.
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
+	// Password for the MySQL connection.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
+
 	// Port for the MySQL connection.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
@@ -300,7 +312,7 @@ type MySQLProfileParameters struct {
 
 	// Password for the MySQL connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
 
 	// Port for the MySQL connection.
@@ -328,6 +340,10 @@ type OracleProfileInitParameters struct {
 
 	// Hostname for the Oracle connection.
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
+	// Password for the Oracle connection.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
 
 	// Port for the Oracle connection.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
@@ -372,7 +388,7 @@ type OracleProfileParameters struct {
 
 	// Password for the Oracle connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
 
 	// Port for the Oracle connection.
@@ -410,6 +426,10 @@ type PostgresqlProfileInitParameters struct {
 	// Selector for a DatabaseInstance in sql to populate hostname.
 	// +kubebuilder:validation:Optional
 	HostnameSelector *v1.Selector `json:"hostnameSelector,omitempty" tf:"-"`
+
+	// Password for the PostgreSQL connection.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
 
 	// Port for the PostgreSQL connection.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
@@ -473,7 +493,7 @@ type PostgresqlProfileParameters struct {
 
 	// Password for the PostgreSQL connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
 
 	// Port for the PostgreSQL connection.
@@ -534,6 +554,24 @@ type PrivateConnectivityParameters struct {
 }
 
 type SSLConfigInitParameters struct {
+
+	// PEM-encoded certificate of the CA that signed the source database
+	// server's certificate.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	CACertificateSecretRef *v1.SecretKeySelector `json:"caCertificateSecretRef,omitempty" tf:"-"`
+
+	// PEM-encoded certificate that will be used by the replica to
+	// authenticate against the source database server. If this field
+	// is used then the 'clientKey' and the 'caCertificate' fields are
+	// mandatory.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	ClientCertificateSecretRef *v1.SecretKeySelector `json:"clientCertificateSecretRef,omitempty" tf:"-"`
+
+	// PEM-encoded private key associated with the Client Certificate.
+	// If this field is used then the 'client_certificate' and the
+	// 'ca_certificate' fields are mandatory.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	ClientKeySecretRef *v1.SecretKeySelector `json:"clientKeySecretRef,omitempty" tf:"-"`
 }
 
 type SSLConfigObservation struct {

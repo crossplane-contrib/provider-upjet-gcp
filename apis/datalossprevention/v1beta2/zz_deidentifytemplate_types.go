@@ -1782,6 +1782,10 @@ type CryptoDeterministicConfigCryptoKeyTransientParameters struct {
 }
 
 type CryptoDeterministicConfigCryptoKeyUnwrappedInitParameters struct {
+
+	// A 128/192/256 bit key.
+	// A base64-encoded string.
+	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
 }
 
 type CryptoDeterministicConfigCryptoKeyUnwrappedObservation struct {
@@ -1791,7 +1795,7 @@ type CryptoDeterministicConfigCryptoKeyUnwrappedParameters struct {
 
 	// A 128/192/256 bit key.
 	// A base64-encoded string.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
 }
 
@@ -2028,6 +2032,10 @@ type CryptoHashConfigCryptoKeyTransientParameters struct {
 }
 
 type CryptoHashConfigCryptoKeyUnwrappedInitParameters struct {
+
+	// A 128/192/256 bit key.
+	// A base64-encoded string.
+	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
 }
 
 type CryptoHashConfigCryptoKeyUnwrappedObservation struct {
@@ -2037,7 +2045,7 @@ type CryptoHashConfigCryptoKeyUnwrappedParameters struct {
 
 	// A 128/192/256 bit key.
 	// A base64-encoded string.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
 }
 
@@ -5901,6 +5909,10 @@ type PrimitiveTransformationCryptoReplaceFfxFpeConfigCryptoKeyTransientParameter
 }
 
 type PrimitiveTransformationCryptoReplaceFfxFpeConfigCryptoKeyUnwrappedInitParameters struct {
+
+	// A 128/192/256 bit key.
+	// A base64-encoded string.
+	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
 }
 
 type PrimitiveTransformationCryptoReplaceFfxFpeConfigCryptoKeyUnwrappedObservation struct {
@@ -5910,7 +5922,7 @@ type PrimitiveTransformationCryptoReplaceFfxFpeConfigCryptoKeyUnwrappedParameter
 
 	// A 128/192/256 bit key.
 	// A base64-encoded string.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
 }
 
@@ -6202,6 +6214,10 @@ type PrimitiveTransformationDateShiftConfigCryptoKeyTransientParameters struct {
 }
 
 type PrimitiveTransformationDateShiftConfigCryptoKeyUnwrappedInitParameters struct {
+
+	// A 128/192/256 bit key.
+	// A base64-encoded string.
+	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
 }
 
 type PrimitiveTransformationDateShiftConfigCryptoKeyUnwrappedObservation struct {
@@ -6211,7 +6227,7 @@ type PrimitiveTransformationDateShiftConfigCryptoKeyUnwrappedParameters struct {
 
 	// A 128/192/256 bit key.
 	// A base64-encoded string.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
 }
 

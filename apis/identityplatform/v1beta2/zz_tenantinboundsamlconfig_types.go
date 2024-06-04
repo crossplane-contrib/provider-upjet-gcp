@@ -14,6 +14,10 @@ import (
 )
 
 type IdPConfigIdPCertificatesInitParameters struct {
+
+	// (Output)
+	// The x509 certificate
+	X509CertificateSecretRef *v1.SecretKeySelector `json:"x509CertificateSecretRef,omitempty" tf:"-"`
 }
 
 type IdPConfigIdPCertificatesObservation struct {

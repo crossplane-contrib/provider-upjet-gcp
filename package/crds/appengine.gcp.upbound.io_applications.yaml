@@ -807,8 +807,6 @@ spec:
                         - name
                         - namespace
                         type: object
-                    required:
-                    - oauth2ClientSecretSecretRef
                     type: object
                   locationId:
                     description: |-
@@ -949,6 +947,27 @@ spec:
                         description: OAuth2 client ID to use for the authentication
                           flow.
                         type: string
+                      oauth2ClientSecretSecretRef:
+                        description: |-
+                          OAuth2 client secret to use for the authentication flow.
+                          The SHA-256 hash of the value is returned in the oauth2ClientSecretSha256 field.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                    required:
+                    - oauth2ClientSecretSecretRef
                     type: object
                   locationId:
                     description: |-

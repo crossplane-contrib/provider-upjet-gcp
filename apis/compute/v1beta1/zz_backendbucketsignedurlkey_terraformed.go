@@ -21,7 +21,7 @@ func (mg *BackendBucketSignedURLKey) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this BackendBucketSignedURLKey
 func (tr *BackendBucketSignedURLKey) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"key_value": "spec.forProvider.keyValueSecretRef"}
+	return map[string]string{"key_value": "keyValueSecretRef"}
 }
 
 // GetObservation of this BackendBucketSignedURLKey

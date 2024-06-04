@@ -21,7 +21,7 @@ func (mg *TenantInboundSAMLConfig) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this TenantInboundSAMLConfig
 func (tr *TenantInboundSAMLConfig) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"idp_config[*].idp_certificates[*].x509_certificate": "spec.forProvider.idpConfig[*].idpCertificates[*].x509CertificateSecretRef"}
+	return map[string]string{"idp_config[*].idp_certificates[*].x509_certificate": "idpConfig[*].idpCertificates[*].x509CertificateSecretRef"}
 }
 
 // GetObservation of this TenantInboundSAMLConfig

@@ -47,6 +47,7 @@ func (in *SSHPublicKeyInitParameters) DeepCopyInto(out *SSHPublicKeyInitParamete
 		*out = new(string)
 		**out = **in
 	}
+	out.KeySecretRef = in.KeySecretRef
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)

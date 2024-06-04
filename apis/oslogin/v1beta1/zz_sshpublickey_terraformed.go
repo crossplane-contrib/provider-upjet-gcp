@@ -21,7 +21,7 @@ func (mg *SSHPublicKey) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this SSHPublicKey
 func (tr *SSHPublicKey) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"key": "spec.forProvider.keySecretRef"}
+	return map[string]string{"key": "keySecretRef"}
 }
 
 // GetObservation of this SSHPublicKey

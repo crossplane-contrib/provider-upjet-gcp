@@ -83,6 +83,11 @@ type VPNTunnelInitParameters struct {
 	// +kubebuilder:validation:Optional
 	RouterSelector *v1.Selector `json:"routerSelector,omitempty" tf:"-"`
 
+	// Shared secret used to set the secure session between the Cloud VPN
+	// gateway and the peer VPN gateway.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	SharedSecretSecretRef v1.SecretKeySelector `json:"sharedSecretSecretRef" tf:"-"`
+
 	// URL of the Target VPN gateway with which this VPN tunnel is
 	// associated.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.VPNGateway

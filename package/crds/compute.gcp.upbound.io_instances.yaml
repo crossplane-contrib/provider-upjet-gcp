@@ -4077,6 +4077,27 @@ spec:
                             Name with which the attached disk will be accessible
                             under /dev/disk/by-id/google-*
                           type: string
+                        diskEncryptionKeyRawSecretRef:
+                          description: |-
+                            A 256-bit [customer-supplied encryption key]
+                            (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
+                            encoded in RFC 4648 base64
+                            to encrypt this disk. Only one of kms_key_self_link and disk_encryption_key_raw may be set.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
                         kmsKeySelfLink:
                           description: |-
                             The self_link of the encryption key that is
@@ -4111,6 +4132,28 @@ spec:
                           Name with which attached disk will be accessible.
                           On the instance, this device will be /dev/disk/by-id/google-{{device_name}}.
                         type: string
+                      diskEncryptionKeyRawSecretRef:
+                        description: |-
+                          A 256-bit [customer-supplied encryption key]
+                          (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
+                          encoded in RFC 4648 base64
+                          to encrypt this disk. Only one of kms_key_self_link and disk_encryption_key_raw
+                          may be set.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
                       initializeParams:
                         description: |-
                           Parameters for a new disk that will be created

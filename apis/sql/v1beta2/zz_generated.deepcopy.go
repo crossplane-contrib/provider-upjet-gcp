@@ -801,6 +801,11 @@ func (in *DatabaseInstanceInitParameters) DeepCopyInto(out *DatabaseInstanceInit
 		*out = new(RestoreBackupContextInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.RootPasswordSecretRef != nil {
+		in, out := &in.RootPasswordSecretRef, &out.RootPasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Settings != nil {
 		in, out := &in.Settings, &out.Settings
 		*out = new(SettingsInitParameters)
@@ -2123,6 +2128,11 @@ func (in *ReplicaConfigurationInitParameters) DeepCopyInto(out *ReplicaConfigura
 		*out = new(float64)
 		**out = **in
 	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.SSLCipher != nil {
 		in, out := &in.SSLCipher, &out.SSLCipher
 		*out = new(string)
@@ -3189,6 +3199,11 @@ func (in *UserInitParameters) DeepCopyInto(out *UserInitParameters) {
 		in, out := &in.PasswordPolicy, &out.PasswordPolicy
 		*out = new(PasswordPolicyInitParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
 	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project

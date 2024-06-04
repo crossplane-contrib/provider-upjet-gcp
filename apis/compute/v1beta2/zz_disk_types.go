@@ -64,6 +64,17 @@ type DiskEncryptionKeyInitParameters struct {
 	// The service account used for the encryption request for the given KMS key.
 	// If absent, the Compute Engine Service Agent service account is used.
 	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	// Specifies a 256-bit customer-supplied encryption key, encoded in
+	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+	// customer-supplied encryption key to either encrypt or decrypt
+	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type DiskEncryptionKeyObservation struct {

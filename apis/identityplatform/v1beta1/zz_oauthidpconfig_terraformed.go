@@ -21,7 +21,7 @@ func (mg *OAuthIdPConfig) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this OAuthIdPConfig
 func (tr *OAuthIdPConfig) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"client_id": "spec.forProvider.clientIdSecretRef", "client_secret": "spec.forProvider.clientSecretSecretRef"}
+	return map[string]string{"client_id": "clientIdSecretRef", "client_secret": "clientSecretSecretRef"}
 }
 
 // GetObservation of this OAuthIdPConfig
