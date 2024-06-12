@@ -1762,8 +1762,6 @@ spec:
                                     type: string
                                 type: object
                             type: object
-                        required:
-                        - passwordSecretRef
                         type: object
                       database:
                         description: Database name.
@@ -2153,6 +2151,25 @@ spec:
                           Cloud SQL properties.
                           Structure is documented below.
                         properties:
+                          passwordSecretRef:
+                            description: |-
+                              Password for database.
+                              Note: This property is sensitive and will not be displayed in the plan.
+                            properties:
+                              key:
+                                description: The key to select.
+                                type: string
+                              name:
+                                description: Name of the secret.
+                                type: string
+                              namespace:
+                                description: Namespace of the secret.
+                                type: string
+                            required:
+                            - key
+                            - name
+                            - namespace
+                            type: object
                           username:
                             description: Username for database.
                             type: string
@@ -2230,6 +2247,8 @@ spec:
                                     type: string
                                 type: object
                             type: object
+                        required:
+                        - passwordSecretRef
                         type: object
                       database:
                         description: Database name.

@@ -2148,8 +2148,6 @@ spec:
                       user:
                         description: The database username.
                         type: string
-                    required:
-                    - passwordSecretRef
                     type: object
                   labels:
                     additionalProperties:
@@ -2709,9 +2707,30 @@ spec:
                       Initial user to setup during cluster creation.
                       Structure is documented below.
                     properties:
+                      passwordSecretRef:
+                        description: |-
+                          The initial password for the user.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
                       user:
                         description: The database username.
                         type: string
+                    required:
+                    - passwordSecretRef
                     type: object
                   labels:
                     additionalProperties:

@@ -21,7 +21,7 @@ func (mg *UptimeCheckConfig) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this UptimeCheckConfig
 func (tr *UptimeCheckConfig) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"http_check[*].auth_info[*].password": "spec.forProvider.httpCheck[*].authInfo[*].passwordSecretRef"}
+	return map[string]string{"http_check[*].auth_info[*].password": "httpCheck[*].authInfo[*].passwordSecretRef"}
 }
 
 // GetObservation of this UptimeCheckConfig

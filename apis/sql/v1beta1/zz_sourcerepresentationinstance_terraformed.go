@@ -21,7 +21,7 @@ func (mg *SourceRepresentationInstance) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this SourceRepresentationInstance
 func (tr *SourceRepresentationInstance) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"password": "spec.forProvider.passwordSecretRef"}
+	return map[string]string{"password": "passwordSecretRef"}
 }
 
 // GetObservation of this SourceRepresentationInstance

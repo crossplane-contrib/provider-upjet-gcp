@@ -3359,8 +3359,6 @@ spec:
                         - name
                         - namespace
                         type: object
-                    required:
-                    - oauth2ClientSecretSecretRef
                     type: object
                   loadBalancingScheme:
                     description: |-
@@ -4185,6 +4183,27 @@ spec:
                       oauth2ClientId:
                         description: OAuth2 Client ID for IAP
                         type: string
+                      oauth2ClientSecretSecretRef:
+                        description: |-
+                          OAuth2 Client Secret for IAP
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                    required:
+                    - oauth2ClientSecretSecretRef
                     type: object
                   loadBalancingScheme:
                     description: |-

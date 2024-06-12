@@ -21,7 +21,7 @@ func (mg *Snapshot) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this Snapshot
 func (tr *Snapshot) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"snapshot_encryption_key[*].raw_key": "spec.forProvider.snapshotEncryptionKey[*].rawKeySecretRef", "source_disk_encryption_key[*].raw_key": "spec.forProvider.sourceDiskEncryptionKey[*].rawKeySecretRef"}
+	return map[string]string{"snapshot_encryption_key[*].raw_key": "snapshotEncryptionKey[*].rawKeySecretRef", "source_disk_encryption_key[*].raw_key": "sourceDiskEncryptionKey[*].rawKeySecretRef"}
 }
 
 // GetObservation of this Snapshot

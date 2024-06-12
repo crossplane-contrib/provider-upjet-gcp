@@ -21,7 +21,7 @@ func (mg *BucketObject) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this BucketObject
 func (tr *BucketObject) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"customer_encryption[*].encryption_key": "spec.forProvider.customerEncryption[*].encryptionKeySecretRef"}
+	return map[string]string{"customer_encryption[*].encryption_key": "customerEncryption[*].encryptionKeySecretRef"}
 }
 
 // GetObservation of this BucketObject

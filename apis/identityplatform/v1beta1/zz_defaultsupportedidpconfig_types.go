@@ -15,6 +15,12 @@ import (
 
 type DefaultSupportedIdPConfigInitParameters struct {
 
+	// OAuth client ID
+	ClientIDSecretRef v1.SecretKeySelector `json:"clientIdSecretRef" tf:"-"`
+
+	// OAuth client secret
+	ClientSecretSecretRef v1.SecretKeySelector `json:"clientSecretSecretRef" tf:"-"`
+
 	// If this IDP allows the user to sign in
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 

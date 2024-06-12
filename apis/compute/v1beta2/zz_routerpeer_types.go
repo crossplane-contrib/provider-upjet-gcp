@@ -108,6 +108,7 @@ type BfdParameters struct {
 }
 
 type Md5AuthenticationKeyInitParameters struct {
+	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
 
 	// Name of this BGP peer. The name must be 1-63 characters long,
 	// and comply with RFC1035. Specifically, the name must be 1-63 characters
@@ -131,7 +132,7 @@ type Md5AuthenticationKeyObservation struct {
 
 type Md5AuthenticationKeyParameters struct {
 
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
 
 	// Name of this BGP peer. The name must be 1-63 characters long,

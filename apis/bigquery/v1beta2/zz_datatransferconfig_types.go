@@ -369,6 +369,10 @@ type ScheduleOptionsParameters struct {
 }
 
 type SensitiveParamsInitParameters struct {
+
+	// The Secret Access Key of the AWS account transferring data from.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	SecretAccessKeySecretRef v1.SecretKeySelector `json:"secretAccessKeySecretRef" tf:"-"`
 }
 
 type SensitiveParamsObservation struct {
@@ -378,7 +382,7 @@ type SensitiveParamsParameters struct {
 
 	// The Secret Access Key of the AWS account transferring data from.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	SecretAccessKeySecretRef v1.SecretKeySelector `json:"secretAccessKeySecretRef" tf:"-"`
 }
 

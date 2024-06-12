@@ -34,6 +34,10 @@ type SourceRepresentationInstanceInitParameters struct {
 	// The IPv4 address and port for the external server, or the the DNS address for the external server. If the external server is hosted on Cloud SQL, the port is 5432.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
+	// The password for the replication user account.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+
 	// The externally accessible port for the source database server.
 	// Defaults to 3306.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`

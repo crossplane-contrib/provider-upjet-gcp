@@ -190,6 +190,10 @@ type IapInitParameters struct {
 
 	// OAuth2 client ID to use for the authentication flow.
 	Oauth2ClientID *string `json:"oauth2ClientId,omitempty" tf:"oauth2_client_id,omitempty"`
+
+	// OAuth2 client secret to use for the authentication flow.
+	// The SHA-256 hash of the value is returned in the oauth2ClientSecretSha256 field.
+	Oauth2ClientSecretSecretRef v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef" tf:"-"`
 }
 
 type IapObservation struct {
@@ -215,7 +219,7 @@ type IapParameters struct {
 
 	// OAuth2 client secret to use for the authentication flow.
 	// The SHA-256 hash of the value is returned in the oauth2ClientSecretSha256 field.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Oauth2ClientSecretSecretRef v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef" tf:"-"`
 }
 

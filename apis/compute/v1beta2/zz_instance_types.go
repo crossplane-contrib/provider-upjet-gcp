@@ -147,6 +147,12 @@ type AttachedDiskInitParameters struct {
 	// under /dev/disk/by-id/google-*
 	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
+	// A 256-bit [customer-supplied encryption key]
+	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
+	// encoded in RFC 4648 base64
+	// to encrypt this disk. Only one of kms_key_self_link and disk_encryption_key_raw may be set.
+	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
+
 	// The self_link of the encryption key that is
 	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
 	// and disk_encryption_key_raw may be set.
@@ -229,6 +235,13 @@ type BootDiskInitParameters struct {
 	// Name with which attached disk will be accessible.
 	// On the instance, this device will be /dev/disk/by-id/google-{{device_name}}.
 	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
+
+	// A 256-bit [customer-supplied encryption key]
+	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
+	// encoded in RFC 4648 base64
+	// to encrypt this disk. Only one of kms_key_self_link and disk_encryption_key_raw
+	// may be set.
+	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
 	// Parameters for a new disk that will be created
 	// alongside the new instance. Either initialize_params or source must be set.

@@ -709,6 +709,26 @@ spec:
                             type: string
                         type: object
                     type: object
+                  sharedSecretSecretRef:
+                    description: |-
+                      Shared secret used to set the secure session between the Cloud VPN
+                      gateway and the peer VPN gateway.
+                      Note: This property is sensitive and will not be displayed in the plan.
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
                   targetVpnGateway:
                     description: |-
                       URL of the Target VPN gateway with which this VPN tunnel is
@@ -876,6 +896,8 @@ spec:
                             type: string
                         type: object
                     type: object
+                required:
+                - sharedSecretSecretRef
                 type: object
               managementPolicies:
                 default:

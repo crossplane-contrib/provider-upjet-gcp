@@ -173,6 +173,8 @@ type InstanceFromTemplateBootDiskInitParameters struct {
 	// Changing this forces a new resource to be created.
 	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
+	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
+
 	InitializeParams *BootDiskInitializeParamsInitParameters `json:"initializeParams,omitempty" tf:"initialize_params,omitempty"`
 
 	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`

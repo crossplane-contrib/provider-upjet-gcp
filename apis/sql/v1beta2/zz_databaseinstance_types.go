@@ -385,6 +385,9 @@ type DatabaseInstanceInitParameters struct {
 	// block during resource creation/update will trigger the restore action after the resource is created/updated.
 	RestoreBackupContext *RestoreBackupContextInitParameters `json:"restoreBackupContext,omitempty" tf:"restore_backup_context,omitempty"`
 
+	// Initial root password. Can be updated. Required for MS SQL Server.
+	RootPasswordSecretRef *v1.SecretKeySelector `json:"rootPasswordSecretRef,omitempty" tf:"-"`
+
 	// The settings to use for the database. The
 	// configuration is detailed below. Required if clone is not set.
 	Settings *SettingsInitParameters `json:"settings,omitempty" tf:"settings,omitempty"`
@@ -1017,6 +1020,9 @@ type ReplicaConfigurationInitParameters struct {
 	// Time in ms between replication
 	// heartbeats.
 	MasterHeartbeatPeriod *float64 `json:"masterHeartbeatPeriod,omitempty" tf:"master_heartbeat_period,omitempty"`
+
+	// Password for the replication connection.
+	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Permissible ciphers for use in SSL encryption.
 	SSLCipher *string `json:"sslCipher,omitempty" tf:"ssl_cipher,omitempty"`

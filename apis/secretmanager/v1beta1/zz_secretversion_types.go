@@ -31,6 +31,9 @@ type SecretVersionInitParameters struct {
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
+	// The secret data. Must be no larger than 64KiB.
+	SecretDataSecretRef v1.SecretKeySelector `json:"secretDataSecretRef" tf:"-"`
+
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
 	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`

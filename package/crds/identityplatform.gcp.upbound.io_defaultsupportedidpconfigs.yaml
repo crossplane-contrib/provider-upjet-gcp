@@ -134,6 +134,40 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  clientIdSecretRef:
+                    description: OAuth client ID
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  clientSecretSecretRef:
+                    description: OAuth client secret
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
                   enabled:
                     description: If this IDP allows the user to sign in
                     type: boolean
@@ -145,6 +179,9 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                required:
+                - clientIdSecretRef
+                - clientSecretSecretRef
                 type: object
               managementPolicies:
                 default:

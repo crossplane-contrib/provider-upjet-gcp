@@ -27,6 +27,11 @@ type BackendBucketSignedURLKeyInitParameters struct {
 	// +kubebuilder:validation:Optional
 	BackendBucketSelector *v1.Selector `json:"backendBucketSelector,omitempty" tf:"-"`
 
+	// 128-bit key value used for signing the URL. The key value must be a
+	// valid RFC 4648 Section 5 base64url encoded string.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	KeyValueSecretRef v1.SecretKeySelector `json:"keyValueSecretRef" tf:"-"`
+
 	// Name of the signed URL key.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 

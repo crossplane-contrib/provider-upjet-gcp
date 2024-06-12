@@ -21,7 +21,7 @@ func (mg *Instance) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this Instance
 func (tr *Instance) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"attached_disk[*].disk_encryption_key_raw": "spec.forProvider.attachedDisk[*].diskEncryptionKeyRawSecretRef", "boot_disk[*].disk_encryption_key_raw": "spec.forProvider.bootDisk[*].diskEncryptionKeyRawSecretRef"}
+	return map[string]string{"attached_disk[*].disk_encryption_key_raw": "attachedDisk[*].diskEncryptionKeyRawSecretRef", "boot_disk[*].disk_encryption_key_raw": "bootDisk[*].diskEncryptionKeyRawSecretRef"}
 }
 
 // GetObservation of this Instance

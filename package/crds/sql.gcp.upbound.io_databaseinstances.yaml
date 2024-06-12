@@ -3077,6 +3077,23 @@ spec:
                           Time in ms between replication
                           heartbeats.
                         type: number
+                      passwordSecretRef:
+                        description: Password for the replication connection.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
                       sslCipher:
                         description: Permissible ciphers for use in SSL encryption.
                         type: string
@@ -3105,6 +3122,24 @@ spec:
                       project:
                         description: The full project ID of the source instance.`
                         type: string
+                    type: object
+                  rootPasswordSecretRef:
+                    description: Initial root password. Can be updated. Required for
+                      MS SQL Server.
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
                     type: object
                   settings:
                     description: |-

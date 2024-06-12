@@ -979,8 +979,6 @@ spec:
                         - name
                         - namespace
                         type: object
-                    required:
-                    - encryptionKeySecretRef
                     type: object
                   detectMd5Hash:
                     description: 'MD5 hash of the data, encoded using base64. This
@@ -1159,6 +1157,25 @@ spec:
                       encryptionAlgorithm:
                         description: 'Encryption algorithm. Default: AES256'
                         type: string
+                      encryptionKeySecretRef:
+                        description: Base64 encoded Customer-Supplied Encryption Key.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                    required:
+                    - encryptionKeySecretRef
                     type: object
                   detectMd5Hash:
                     description: 'MD5 hash of the data, encoded using base64. This

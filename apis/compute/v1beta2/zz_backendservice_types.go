@@ -1441,6 +1441,10 @@ type IapInitParameters struct {
 
 	// OAuth2 Client ID for IAP
 	Oauth2ClientID *string `json:"oauth2ClientId,omitempty" tf:"oauth2_client_id,omitempty"`
+
+	// OAuth2 Client Secret for IAP
+	// Note: This property is sensitive and will not be displayed in the plan.
+	Oauth2ClientSecretSecretRef v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef" tf:"-"`
 }
 
 type IapObservation struct {
@@ -1457,7 +1461,7 @@ type IapParameters struct {
 
 	// OAuth2 Client Secret for IAP
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Oauth2ClientSecretSecretRef v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef" tf:"-"`
 }
 

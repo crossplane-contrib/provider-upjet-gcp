@@ -456,6 +456,10 @@ type ConnectionParameters struct {
 
 type CredentialInitParameters struct {
 
+	// Password for database.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
+
 	// Username for database.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta2.User
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
@@ -479,7 +483,7 @@ type CredentialParameters struct {
 
 	// Password for database.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
 
 	// Username for database.

@@ -21,7 +21,7 @@ func (mg *VPNTunnel) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this VPNTunnel
 func (tr *VPNTunnel) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"shared_secret": "spec.forProvider.sharedSecretSecretRef"}
+	return map[string]string{"shared_secret": "sharedSecretSecretRef"}
 }
 
 // GetObservation of this VPNTunnel

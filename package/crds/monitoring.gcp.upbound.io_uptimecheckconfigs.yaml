@@ -1702,8 +1702,6 @@ spec:
                           username:
                             description: The username to authenticate.
                             type: string
-                        required:
-                        - passwordSecretRef
                         type: object
                       body:
                         description: The request body associated with the HTTP POST
@@ -2140,9 +2138,30 @@ spec:
                           The authentication information. Optional when creating an HTTP check; defaults to empty.
                           Structure is documented below.
                         properties:
+                          passwordSecretRef:
+                            description: |-
+                              The password to authenticate.
+                              Note: This property is sensitive and will not be displayed in the plan.
+                            properties:
+                              key:
+                                description: The key to select.
+                                type: string
+                              name:
+                                description: Name of the secret.
+                                type: string
+                              namespace:
+                                description: Namespace of the secret.
+                                type: string
+                            required:
+                            - key
+                            - name
+                            - namespace
+                            type: object
                           username:
                             description: The username to authenticate.
                             type: string
+                        required:
+                        - passwordSecretRef
                         type: object
                       body:
                         description: The request body associated with the HTTP POST
