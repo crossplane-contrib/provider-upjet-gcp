@@ -317,6 +317,56 @@ func (mg *DefaultObjectAccessControl) ResolveReferences(ctx context.Context, c c
 	return nil
 }
 
+// ResolveReferences of this HMACKey.
+func (mg *HMACKey) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceAccountEmail),
+			Extract:      resource.ExtractParamPath("email", true),
+			Reference:    mg.Spec.ForProvider.ServiceAccountEmailRef,
+			Selector:     mg.Spec.ForProvider.ServiceAccountEmailSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ServiceAccountEmail")
+	}
+	mg.Spec.ForProvider.ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ServiceAccountEmailRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceAccountEmail),
+			Extract:      resource.ExtractParamPath("email", true),
+			Reference:    mg.Spec.InitProvider.ServiceAccountEmailRef,
+			Selector:     mg.Spec.InitProvider.ServiceAccountEmailSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ServiceAccountEmail")
+	}
+	mg.Spec.InitProvider.ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ServiceAccountEmailRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this Notification.
 func (mg *Notification) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed

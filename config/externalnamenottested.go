@@ -392,8 +392,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 
 	// storage
 	//
-	// Imported by using the following projects/{{project}}/hmacKeys/{{access_id}}
-	"google_storage_hmac_key": config.IdentifierFromProvider,
 	// Imported by using the following {{bucket}}/{{object}}/{{entity}}
 	"google_storage_object_access_control": config.TemplatedStringAsIdentifier("entity", "{{ .parameters.bucket }}/{{ .parameters.object }}/{{ .external_name }}"),
 	// No Import

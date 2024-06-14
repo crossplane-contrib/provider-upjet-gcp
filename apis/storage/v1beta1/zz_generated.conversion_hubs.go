@@ -19,6 +19,9 @@ func (tr *DefaultObjectAccessControl) Hub() {}
 func (tr *DefaultObjectACL) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *HMACKey) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *Notification) Hub() {}
 
 // Hub marks this type as a conversion hub.
