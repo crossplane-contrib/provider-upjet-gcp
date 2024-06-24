@@ -43,4 +43,11 @@ func Configure(p *config.Provider) {
 			TerraformName: "google_storage_bucket",
 		}
 	})
+
+	p.AddResourceConfigurator("google_storage_hmac_key", func(r *config.Resource) {
+		r.References["service_account_email"] = config.Reference{
+			TerraformName: "google_service_account",
+			Extractor:     `github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)`,
+		}
+	})
 }

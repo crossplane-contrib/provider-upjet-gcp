@@ -16,6 +16,7 @@ import (
 	bucketobject "github.com/upbound/provider-gcp/internal/controller/storage/bucketobject"
 	defaultobjectaccesscontrol "github.com/upbound/provider-gcp/internal/controller/storage/defaultobjectaccesscontrol"
 	defaultobjectacl "github.com/upbound/provider-gcp/internal/controller/storage/defaultobjectacl"
+	hmackey "github.com/upbound/provider-gcp/internal/controller/storage/hmackey"
 	notification "github.com/upbound/provider-gcp/internal/controller/storage/notification"
 	objectaccesscontrol "github.com/upbound/provider-gcp/internal/controller/storage/objectaccesscontrol"
 	objectacl "github.com/upbound/provider-gcp/internal/controller/storage/objectacl"
@@ -32,6 +33,7 @@ func Setup_storage(mgr ctrl.Manager, o controller.Options) error {
 		bucketobject.Setup,
 		defaultobjectaccesscontrol.Setup,
 		defaultobjectacl.Setup,
+		hmackey.Setup,
 		notification.Setup,
 		objectaccesscontrol.Setup,
 		objectacl.Setup,
