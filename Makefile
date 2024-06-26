@@ -76,7 +76,7 @@ UPTEST_LOCAL_VERSION = v0.12.0-9.gac371c9
 UPTEST_LOCAL_CHANNEL = main
 KUSTOMIZE_VERSION = v5.3.0
 YQ_VERSION = v4.40.5
-UXP_VERSION = 1.14.6-up.1
+CROSSPLANE_VERSION = 1.14.6
 
 export UP_VERSION := $(UP_VERSION)
 export UP_CHANNEL := $(UP_CHANNEL)
@@ -382,3 +382,7 @@ kustomize-crds: output.init $(KUSTOMIZE) $(YQ)
 	@$(OK) Kustomizing CRDs.
 
 .PHONY: kustomize-crds
+
+# TODO(negz): Update CI to use these targets.
+vendor: modules.download
+vendor.check: modules.check
