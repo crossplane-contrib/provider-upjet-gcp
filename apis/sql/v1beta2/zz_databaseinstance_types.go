@@ -386,6 +386,7 @@ type DatabaseInstanceInitParameters struct {
 	RestoreBackupContext *RestoreBackupContextInitParameters `json:"restoreBackupContext,omitempty" tf:"restore_backup_context,omitempty"`
 
 	// Initial root password. Can be updated. Required for MS SQL Server.
+	// Password for the master DB user. If you set autoGenerateRootPassword to true, the Secret referenced here will be created or updated with generated password if it does not already contain one.
 	RootPasswordSecretRef *v1.SecretKeySelector `json:"rootPasswordSecretRef,omitempty" tf:"-"`
 
 	// The settings to use for the database. The
@@ -491,6 +492,12 @@ type DatabaseInstanceObservation struct {
 
 type DatabaseInstanceParameters struct {
 
+	// Initial root password. Can be updated. Required for MS SQL Server.
+	// If true root password will be auto generated and stored in the Secret referencedby rootPasswordSecretRef field
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	AutoGenerateRootPassword *bool `json:"autoGenerateRootPassword,omitempty" tf:"-"`
+
 	// The context needed to create this instance as a clone of another instance. The
 	// configuration is detailed below.
 	// +kubebuilder:validation:Optional
@@ -553,6 +560,7 @@ type DatabaseInstanceParameters struct {
 	RestoreBackupContext *RestoreBackupContextParameters `json:"restoreBackupContext,omitempty" tf:"restore_backup_context,omitempty"`
 
 	// Initial root password. Can be updated. Required for MS SQL Server.
+	// Password for the master DB user. If you set autoGenerateRootPassword to true, the Secret referenced here will be created or updated with generated password if it does not already contain one.
 	// +kubebuilder:validation:Optional
 	RootPasswordSecretRef *v1.SecretKeySelector `json:"rootPasswordSecretRef,omitempty" tf:"-"`
 
