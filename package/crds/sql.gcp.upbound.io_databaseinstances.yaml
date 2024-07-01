@@ -2309,6 +2309,11 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  autoGenerateRootPassword:
+                    description: |-
+                      Initial root password. Can be updated. Required for MS SQL Server.
+                      If true root password will be auto generated and stored in the Secret referencedby rootPasswordSecretRef field
+                    type: boolean
                   clone:
                     description: |-
                       The context needed to create this instance as a clone of another instance. The
@@ -2482,8 +2487,9 @@ spec:
                         type: string
                     type: object
                   rootPasswordSecretRef:
-                    description: Initial root password. Can be updated. Required for
-                      MS SQL Server.
+                    description: |-
+                      Initial root password. Can be updated. Required for MS SQL Server.
+                      Password for the master DB user. If you set autoGenerateRootPassword to true, the Secret referenced here will be created or updated with generated password if it does not already contain one.
                     properties:
                       key:
                         description: The key to select.
@@ -3124,8 +3130,9 @@ spec:
                         type: string
                     type: object
                   rootPasswordSecretRef:
-                    description: Initial root password. Can be updated. Required for
-                      MS SQL Server.
+                    description: |-
+                      Initial root password. Can be updated. Required for MS SQL Server.
+                      Password for the master DB user. If you set autoGenerateRootPassword to true, the Secret referenced here will be created or updated with generated password if it does not already contain one.
                     properties:
                       key:
                         description: The key to select.

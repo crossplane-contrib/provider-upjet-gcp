@@ -6,13 +6,14 @@ package sql
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"strings"
 
-	"github.com/crossplane/upjet/pkg/config"
-
 	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	"github.com/crossplane/crossplane-runtime/pkg/errors"
+	"github.com/crossplane/upjet/pkg/config"
+	"github.com/crossplane/upjet/pkg/types/comments"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/upbound/provider-gcp/config/common"
 )
@@ -29,6 +30,9 @@ const (
 
 	PrivateIPKey = "privateIP"
 	PublicIPKey  = "publicIP"
+
+	autoGenerateRootPasswordFieldPath = "spec.forProvider.autoGenerateRootPassword"
+	rootPasswordSecretRefFieldPath    = "spec.forProvider.rootPasswordSecretRef"
 )
 
 // Configure configures individual resources by adding custom
@@ -80,6 +84,21 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			}
 			return conn, nil
 		}
+		desc, _ := comments.New("If true root password will be auto generated and stored in the Secret referenced"+
+			"by rootPasswordSecretRef field", comments.WithTFTag("-"))
+		r.TerraformResource.Schema["auto_generate_root_password"] = &schema.Schema{
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Description: desc.String(),
+		}
+		r.InitializerFns = append(
+			r.InitializerFns,
+			common.PasswordGenerator(rootPasswordSecretRefFieldPath, autoGenerateRootPasswordFieldPath),
+		)
+		r.TerraformResource.Schema["root_password"].Description = "Password for the " +
+			"master DB user. If you set autoGenerateRootPassword to true, the Secret" +
+			" referenced here will be created or updated with generated password" +
+			" if it does not already contain one."
 	})
 	p.AddResourceConfigurator("google_sql_database", func(r *config.Resource) {
 		r.References["instance"] = config.Reference{
