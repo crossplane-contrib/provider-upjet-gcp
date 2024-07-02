@@ -210,19 +210,29 @@ type RegionInstanceGroupManagerInitParameters struct {
 
 type RegionInstanceGroupManagerInstanceLifecyclePolicyInitParameters struct {
 
-	// ), Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
+	// , Default behavior for all instance or health check failures. Valid options are: REPAIR, DO_NOTHING. If DO_NOTHING then instances will not be repaired. If REPAIR (default), then failed instances will be repaired.
+	DefaultActionOnFailure *string `json:"defaultActionOnFailure,omitempty" tf:"default_action_on_failure,omitempty"`
+
+	// , Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
 	ForceUpdateOnRepair *string `json:"forceUpdateOnRepair,omitempty" tf:"force_update_on_repair,omitempty"`
 }
 
 type RegionInstanceGroupManagerInstanceLifecyclePolicyObservation struct {
 
-	// ), Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
+	// , Default behavior for all instance or health check failures. Valid options are: REPAIR, DO_NOTHING. If DO_NOTHING then instances will not be repaired. If REPAIR (default), then failed instances will be repaired.
+	DefaultActionOnFailure *string `json:"defaultActionOnFailure,omitempty" tf:"default_action_on_failure,omitempty"`
+
+	// , Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
 	ForceUpdateOnRepair *string `json:"forceUpdateOnRepair,omitempty" tf:"force_update_on_repair,omitempty"`
 }
 
 type RegionInstanceGroupManagerInstanceLifecyclePolicyParameters struct {
 
-	// ), Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
+	// , Default behavior for all instance or health check failures. Valid options are: REPAIR, DO_NOTHING. If DO_NOTHING then instances will not be repaired. If REPAIR (default), then failed instances will be repaired.
+	// +kubebuilder:validation:Optional
+	DefaultActionOnFailure *string `json:"defaultActionOnFailure,omitempty" tf:"default_action_on_failure,omitempty"`
+
+	// , Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
 	// +kubebuilder:validation:Optional
 	ForceUpdateOnRepair *string `json:"forceUpdateOnRepair,omitempty" tf:"force_update_on_repair,omitempty"`
 }
@@ -275,6 +285,7 @@ type RegionInstanceGroupManagerObservation struct {
 	// name.
 	BaseInstanceName *string `json:"baseInstanceName,omitempty" tf:"base_instance_name,omitempty"`
 
+	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
 	// An optional textual description of the instance
@@ -590,6 +601,11 @@ type RegionInstanceGroupManagerStatusAllInstancesConfigInitParameters struct {
 }
 
 type RegionInstanceGroupManagerStatusAllInstancesConfigObservation struct {
+
+	// Current all-instances configuration revision. This value is in RFC3339 text format.
+	CurrentRevision *string `json:"currentRevision,omitempty" tf:"current_revision,omitempty"`
+
+	// A bit indicating whether this configuration has been applied to all managed instances in the group.
 	Effective *bool `json:"effective,omitempty" tf:"effective,omitempty"`
 }
 
@@ -601,9 +617,7 @@ type RegionInstanceGroupManagerStatusInitParameters struct {
 
 type RegionInstanceGroupManagerStatusObservation struct {
 
-	// Properties to set on all instances in the group. After setting
-	// allInstancesConfig on the group, you must update the group's instances to
-	// apply the configuration.
+	// Status of all-instances configuration on the group.
 	AllInstancesConfig []RegionInstanceGroupManagerStatusAllInstancesConfigObservation `json:"allInstancesConfig,omitempty" tf:"all_instances_config,omitempty"`
 
 	// A bit indicating whether the managed instance group is in a stable state. A stable state means that: none of the instances in the managed instance group is currently undergoing any type of change (for example, creation, restart, or deletion); no future changes are scheduled for instances in the managed instance group; and the managed instance group itself is not being modified.
@@ -797,7 +811,7 @@ type StatusStatefulObservation struct {
 	// A bit indicating whether the managed instance group has stateful configuration, that is, if you have configured any items in a stateful policy or in per-instance configs. The group might report that it has no stateful config even when there is still some preserved state on a managed instance, for example, if you have deleted all PICs but not yet applied those deletions.
 	HasStatefulConfig *bool `json:"hasStatefulConfig,omitempty" tf:"has_stateful_config,omitempty"`
 
-	// Status of per-instance configs on the instance.
+	// Status of per-instance configs on the instances.
 	PerInstanceConfigs []StatefulPerInstanceConfigsObservation `json:"perInstanceConfigs,omitempty" tf:"per_instance_configs,omitempty"`
 }
 

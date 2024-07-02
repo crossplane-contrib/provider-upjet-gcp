@@ -282,28 +282,46 @@ type BackupScheduleInitParameters struct {
 
 	// A standard cron string that defines a repeating schedule for
 	// creating Backups via this BackupPlan.
+	// This is mutually exclusive with the rpoConfig field since at most one
+	// schedule can be defined for a BackupPlan.
 	// If this is defined, then backupRetainDays must also be defined.
 	CronSchedule *string `json:"cronSchedule,omitempty" tf:"cron_schedule,omitempty"`
 
 	// This flag denotes whether automatic Backup creation is paused for this BackupPlan.
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
+
+	// Defines the RPO schedule configuration for this BackupPlan. This is mutually
+	// exclusive with the cronSchedule field since at most one schedule can be defined
+	// for a BackupPLan. If this is defined, then backupRetainDays must also be defined.
+	// Structure is documented below.
+	RpoConfig *RpoConfigInitParameters `json:"rpoConfig,omitempty" tf:"rpo_config,omitempty"`
 }
 
 type BackupScheduleObservation struct {
 
 	// A standard cron string that defines a repeating schedule for
 	// creating Backups via this BackupPlan.
+	// This is mutually exclusive with the rpoConfig field since at most one
+	// schedule can be defined for a BackupPlan.
 	// If this is defined, then backupRetainDays must also be defined.
 	CronSchedule *string `json:"cronSchedule,omitempty" tf:"cron_schedule,omitempty"`
 
 	// This flag denotes whether automatic Backup creation is paused for this BackupPlan.
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
+
+	// Defines the RPO schedule configuration for this BackupPlan. This is mutually
+	// exclusive with the cronSchedule field since at most one schedule can be defined
+	// for a BackupPLan. If this is defined, then backupRetainDays must also be defined.
+	// Structure is documented below.
+	RpoConfig *RpoConfigObservation `json:"rpoConfig,omitempty" tf:"rpo_config,omitempty"`
 }
 
 type BackupScheduleParameters struct {
 
 	// A standard cron string that defines a repeating schedule for
 	// creating Backups via this BackupPlan.
+	// This is mutually exclusive with the rpoConfig field since at most one
+	// schedule can be defined for a BackupPlan.
 	// If this is defined, then backupRetainDays must also be defined.
 	// +kubebuilder:validation:Optional
 	CronSchedule *string `json:"cronSchedule,omitempty" tf:"cron_schedule,omitempty"`
@@ -311,6 +329,38 @@ type BackupScheduleParameters struct {
 	// This flag denotes whether automatic Backup creation is paused for this BackupPlan.
 	// +kubebuilder:validation:Optional
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
+
+	// Defines the RPO schedule configuration for this BackupPlan. This is mutually
+	// exclusive with the cronSchedule field since at most one schedule can be defined
+	// for a BackupPLan. If this is defined, then backupRetainDays must also be defined.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RpoConfig *RpoConfigParameters `json:"rpoConfig,omitempty" tf:"rpo_config,omitempty"`
+}
+
+type DaysOfWeekInitParameters struct {
+
+	// The exclusion window occurs on these days of each week in UTC.
+	// Only one of singleOccurrenceDate, daily and daysOfWeek may be set.
+	// Structure is documented below.
+	DaysOfWeek []*string `json:"daysOfWeek,omitempty" tf:"days_of_week,omitempty"`
+}
+
+type DaysOfWeekObservation struct {
+
+	// The exclusion window occurs on these days of each week in UTC.
+	// Only one of singleOccurrenceDate, daily and daysOfWeek may be set.
+	// Structure is documented below.
+	DaysOfWeek []*string `json:"daysOfWeek,omitempty" tf:"days_of_week,omitempty"`
+}
+
+type DaysOfWeekParameters struct {
+
+	// The exclusion window occurs on these days of each week in UTC.
+	// Only one of singleOccurrenceDate, daily and daysOfWeek may be set.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DaysOfWeek []*string `json:"daysOfWeek,omitempty" tf:"days_of_week,omitempty"`
 }
 
 type EncryptionKeyInitParameters struct {
@@ -350,6 +400,92 @@ type EncryptionKeyParameters struct {
 	// Selector for a CryptoKey in kms to populate gcpKmsEncryptionKey.
 	// +kubebuilder:validation:Optional
 	GCPKMSEncryptionKeySelector *v1.Selector `json:"gcpKmsEncryptionKeySelector,omitempty" tf:"-"`
+}
+
+type ExclusionWindowsInitParameters struct {
+
+	// The exclusion window occurs every day if set to "True".
+	// Specifying this field to "False" is an error.
+	// Only one of singleOccurrenceDate, daily and daysOfWeek may be set.
+	Daily *bool `json:"daily,omitempty" tf:"daily,omitempty"`
+
+	// The exclusion window occurs on these days of each week in UTC.
+	// Only one of singleOccurrenceDate, daily and daysOfWeek may be set.
+	// Structure is documented below.
+	DaysOfWeek *DaysOfWeekInitParameters `json:"daysOfWeek,omitempty" tf:"days_of_week,omitempty"`
+
+	// Specifies duration of the window in seconds with up to nine fractional digits,
+	// terminated by 's'. Example: "3.5s". Restrictions for duration based on the
+	// recurrence type to allow some time for backup to happen:
+	Duration *string `json:"duration,omitempty" tf:"duration,omitempty"`
+
+	// No recurrence. The exclusion window occurs only once and on this date in UTC.
+	// Only one of singleOccurrenceDate, daily and daysOfWeek may be set.
+	// Structure is documented below.
+	SingleOccurrenceDate *SingleOccurrenceDateInitParameters `json:"singleOccurrenceDate,omitempty" tf:"single_occurrence_date,omitempty"`
+
+	// Specifies the start time of the window using time of the day in UTC.
+	// Structure is documented below.
+	StartTime *StartTimeInitParameters `json:"startTime,omitempty" tf:"start_time,omitempty"`
+}
+
+type ExclusionWindowsObservation struct {
+
+	// The exclusion window occurs every day if set to "True".
+	// Specifying this field to "False" is an error.
+	// Only one of singleOccurrenceDate, daily and daysOfWeek may be set.
+	Daily *bool `json:"daily,omitempty" tf:"daily,omitempty"`
+
+	// The exclusion window occurs on these days of each week in UTC.
+	// Only one of singleOccurrenceDate, daily and daysOfWeek may be set.
+	// Structure is documented below.
+	DaysOfWeek *DaysOfWeekObservation `json:"daysOfWeek,omitempty" tf:"days_of_week,omitempty"`
+
+	// Specifies duration of the window in seconds with up to nine fractional digits,
+	// terminated by 's'. Example: "3.5s". Restrictions for duration based on the
+	// recurrence type to allow some time for backup to happen:
+	Duration *string `json:"duration,omitempty" tf:"duration,omitempty"`
+
+	// No recurrence. The exclusion window occurs only once and on this date in UTC.
+	// Only one of singleOccurrenceDate, daily and daysOfWeek may be set.
+	// Structure is documented below.
+	SingleOccurrenceDate *SingleOccurrenceDateObservation `json:"singleOccurrenceDate,omitempty" tf:"single_occurrence_date,omitempty"`
+
+	// Specifies the start time of the window using time of the day in UTC.
+	// Structure is documented below.
+	StartTime *StartTimeObservation `json:"startTime,omitempty" tf:"start_time,omitempty"`
+}
+
+type ExclusionWindowsParameters struct {
+
+	// The exclusion window occurs every day if set to "True".
+	// Specifying this field to "False" is an error.
+	// Only one of singleOccurrenceDate, daily and daysOfWeek may be set.
+	// +kubebuilder:validation:Optional
+	Daily *bool `json:"daily,omitempty" tf:"daily,omitempty"`
+
+	// The exclusion window occurs on these days of each week in UTC.
+	// Only one of singleOccurrenceDate, daily and daysOfWeek may be set.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DaysOfWeek *DaysOfWeekParameters `json:"daysOfWeek,omitempty" tf:"days_of_week,omitempty"`
+
+	// Specifies duration of the window in seconds with up to nine fractional digits,
+	// terminated by 's'. Example: "3.5s". Restrictions for duration based on the
+	// recurrence type to allow some time for backup to happen:
+	// +kubebuilder:validation:Optional
+	Duration *string `json:"duration" tf:"duration,omitempty"`
+
+	// No recurrence. The exclusion window occurs only once and on this date in UTC.
+	// Only one of singleOccurrenceDate, daily and daysOfWeek may be set.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SingleOccurrenceDate *SingleOccurrenceDateParameters `json:"singleOccurrenceDate,omitempty" tf:"single_occurrence_date,omitempty"`
+
+	// Specifies the start time of the window using time of the day in UTC.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	StartTime *StartTimeParameters `json:"startTime" tf:"start_time,omitempty"`
 }
 
 type NamespacedNamesInitParameters struct {
@@ -400,7 +536,9 @@ type RetentionPolicyInitParameters struct {
 	// existing Backups under it. Backups created AFTER a successful update
 	// will automatically pick up the new value.
 	// NOTE: backupRetainDays must be >= backupDeleteLockDays.
-	// If cronSchedule is defined, then this must be <= 360 * the creation interval.]
+	// If cronSchedule is defined, then this must be <= 360 * the creation interval.
+	// If rpo_config is defined, then this must be
+	// <= 360 * targetRpoMinutes/(1440minutes/day)
 	BackupRetainDays *float64 `json:"backupRetainDays,omitempty" tf:"backup_retain_days,omitempty"`
 
 	// This flag denotes whether the retention policy of this BackupPlan is locked.
@@ -428,7 +566,9 @@ type RetentionPolicyObservation struct {
 	// existing Backups under it. Backups created AFTER a successful update
 	// will automatically pick up the new value.
 	// NOTE: backupRetainDays must be >= backupDeleteLockDays.
-	// If cronSchedule is defined, then this must be <= 360 * the creation interval.]
+	// If cronSchedule is defined, then this must be <= 360 * the creation interval.
+	// If rpo_config is defined, then this must be
+	// <= 360 * targetRpoMinutes/(1440minutes/day)
 	BackupRetainDays *float64 `json:"backupRetainDays,omitempty" tf:"backup_retain_days,omitempty"`
 
 	// This flag denotes whether the retention policy of this BackupPlan is locked.
@@ -457,7 +597,9 @@ type RetentionPolicyParameters struct {
 	// existing Backups under it. Backups created AFTER a successful update
 	// will automatically pick up the new value.
 	// NOTE: backupRetainDays must be >= backupDeleteLockDays.
-	// If cronSchedule is defined, then this must be <= 360 * the creation interval.]
+	// If cronSchedule is defined, then this must be <= 360 * the creation interval.
+	// If rpo_config is defined, then this must be
+	// <= 360 * targetRpoMinutes/(1440minutes/day)
 	// +kubebuilder:validation:Optional
 	BackupRetainDays *float64 `json:"backupRetainDays,omitempty" tf:"backup_retain_days,omitempty"`
 
@@ -466,6 +608,62 @@ type RetentionPolicyParameters struct {
 	// the locked field itself.
 	// +kubebuilder:validation:Optional
 	Locked *bool `json:"locked,omitempty" tf:"locked,omitempty"`
+}
+
+type RpoConfigInitParameters struct {
+
+	// User specified time windows during which backup can NOT happen for this BackupPlan.
+	// Backups should start and finish outside of any given exclusion window. Note: backup
+	// jobs will be scheduled to start and finish outside the duration of the window as
+	// much as possible, but running jobs will not get canceled when it runs into the window.
+	// All the time and date values in exclusionWindows entry in the API are in UTC. We
+	// only allow <=1 recurrence (daily or weekly) exclusion window for a BackupPlan while no
+	// restriction on number of single occurrence windows.
+	// Structure is documented below.
+	ExclusionWindows []ExclusionWindowsInitParameters `json:"exclusionWindows,omitempty" tf:"exclusion_windows,omitempty"`
+
+	// Defines the target RPO for the BackupPlan in minutes, which means the target
+	// maximum data loss in time that is acceptable for this BackupPlan. This must be
+	// at least 60, i.e., 1 hour, and at most 86400, i.e., 60 days.
+	TargetRpoMinutes *float64 `json:"targetRpoMinutes,omitempty" tf:"target_rpo_minutes,omitempty"`
+}
+
+type RpoConfigObservation struct {
+
+	// User specified time windows during which backup can NOT happen for this BackupPlan.
+	// Backups should start and finish outside of any given exclusion window. Note: backup
+	// jobs will be scheduled to start and finish outside the duration of the window as
+	// much as possible, but running jobs will not get canceled when it runs into the window.
+	// All the time and date values in exclusionWindows entry in the API are in UTC. We
+	// only allow <=1 recurrence (daily or weekly) exclusion window for a BackupPlan while no
+	// restriction on number of single occurrence windows.
+	// Structure is documented below.
+	ExclusionWindows []ExclusionWindowsObservation `json:"exclusionWindows,omitempty" tf:"exclusion_windows,omitempty"`
+
+	// Defines the target RPO for the BackupPlan in minutes, which means the target
+	// maximum data loss in time that is acceptable for this BackupPlan. This must be
+	// at least 60, i.e., 1 hour, and at most 86400, i.e., 60 days.
+	TargetRpoMinutes *float64 `json:"targetRpoMinutes,omitempty" tf:"target_rpo_minutes,omitempty"`
+}
+
+type RpoConfigParameters struct {
+
+	// User specified time windows during which backup can NOT happen for this BackupPlan.
+	// Backups should start and finish outside of any given exclusion window. Note: backup
+	// jobs will be scheduled to start and finish outside the duration of the window as
+	// much as possible, but running jobs will not get canceled when it runs into the window.
+	// All the time and date values in exclusionWindows entry in the API are in UTC. We
+	// only allow <=1 recurrence (daily or weekly) exclusion window for a BackupPlan while no
+	// restriction on number of single occurrence windows.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ExclusionWindows []ExclusionWindowsParameters `json:"exclusionWindows,omitempty" tf:"exclusion_windows,omitempty"`
+
+	// Defines the target RPO for the BackupPlan in minutes, which means the target
+	// maximum data loss in time that is acceptable for this BackupPlan. This must be
+	// at least 60, i.e., 1 hour, and at most 86400, i.e., 60 days.
+	// +kubebuilder:validation:Optional
+	TargetRpoMinutes *float64 `json:"targetRpoMinutes" tf:"target_rpo_minutes,omitempty"`
 }
 
 type SelectedApplicationsInitParameters struct {
@@ -507,6 +705,94 @@ type SelectedNamespacesParameters struct {
 	// A list of Kubernetes Namespaces.
 	// +kubebuilder:validation:Optional
 	Namespaces []*string `json:"namespaces" tf:"namespaces,omitempty"`
+}
+
+type SingleOccurrenceDateInitParameters struct {
+
+	// Day of a month.
+	Day *float64 `json:"day,omitempty" tf:"day,omitempty"`
+
+	// Month of a year.
+	Month *float64 `json:"month,omitempty" tf:"month,omitempty"`
+
+	// Year of the date.
+	Year *float64 `json:"year,omitempty" tf:"year,omitempty"`
+}
+
+type SingleOccurrenceDateObservation struct {
+
+	// Day of a month.
+	Day *float64 `json:"day,omitempty" tf:"day,omitempty"`
+
+	// Month of a year.
+	Month *float64 `json:"month,omitempty" tf:"month,omitempty"`
+
+	// Year of the date.
+	Year *float64 `json:"year,omitempty" tf:"year,omitempty"`
+}
+
+type SingleOccurrenceDateParameters struct {
+
+	// Day of a month.
+	// +kubebuilder:validation:Optional
+	Day *float64 `json:"day,omitempty" tf:"day,omitempty"`
+
+	// Month of a year.
+	// +kubebuilder:validation:Optional
+	Month *float64 `json:"month,omitempty" tf:"month,omitempty"`
+
+	// Year of the date.
+	// +kubebuilder:validation:Optional
+	Year *float64 `json:"year,omitempty" tf:"year,omitempty"`
+}
+
+type StartTimeInitParameters struct {
+
+	// Hours of day in 24 hour format.
+	Hours *float64 `json:"hours,omitempty" tf:"hours,omitempty"`
+
+	// Minutes of hour of day.
+	Minutes *float64 `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// Fractions of seconds in nanoseconds.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Seconds of minutes of the time.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type StartTimeObservation struct {
+
+	// Hours of day in 24 hour format.
+	Hours *float64 `json:"hours,omitempty" tf:"hours,omitempty"`
+
+	// Minutes of hour of day.
+	Minutes *float64 `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// Fractions of seconds in nanoseconds.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Seconds of minutes of the time.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type StartTimeParameters struct {
+
+	// Hours of day in 24 hour format.
+	// +kubebuilder:validation:Optional
+	Hours *float64 `json:"hours,omitempty" tf:"hours,omitempty"`
+
+	// Minutes of hour of day.
+	// +kubebuilder:validation:Optional
+	Minutes *float64 `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// Fractions of seconds in nanoseconds.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Seconds of minutes of the time.
+	// +kubebuilder:validation:Optional
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 // BackupBackupPlanSpec defines the desired state of BackupBackupPlan

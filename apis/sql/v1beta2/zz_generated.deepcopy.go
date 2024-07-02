@@ -2691,6 +2691,11 @@ func (in *SettingsInitParameters) DeepCopyInto(out *SettingsInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.EnableGoogleMLIntegration != nil {
+		in, out := &in.EnableGoogleMLIntegration, &out.EnableGoogleMLIntegration
+		*out = new(bool)
+		**out = **in
+	}
 	if in.IPConfiguration != nil {
 		in, out := &in.IPConfiguration, &out.IPConfiguration
 		*out = new(IPConfigurationInitParameters)
@@ -2847,6 +2852,11 @@ func (in *SettingsObservation) DeepCopyInto(out *SettingsObservation) {
 	if in.Edition != nil {
 		in, out := &in.Edition, &out.Edition
 		*out = new(string)
+		**out = **in
+	}
+	if in.EnableGoogleMLIntegration != nil {
+		in, out := &in.EnableGoogleMLIntegration, &out.EnableGoogleMLIntegration
+		*out = new(bool)
 		**out = **in
 	}
 	if in.IPConfiguration != nil {
@@ -3010,6 +3020,11 @@ func (in *SettingsParameters) DeepCopyInto(out *SettingsParameters) {
 	if in.Edition != nil {
 		in, out := &in.Edition, &out.Edition
 		*out = new(string)
+		**out = **in
+	}
+	if in.EnableGoogleMLIntegration != nil {
+		in, out := &in.EnableGoogleMLIntegration, &out.EnableGoogleMLIntegration
+		*out = new(bool)
 		**out = **in
 	}
 	if in.IPConfiguration != nil {

@@ -2399,18 +2399,21 @@ type NotificationChannelStrategyParameters struct {
 type NotificationRateLimitInitParameters struct {
 
 	// Not more than one notification per period.
+	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example "60.5s".
 	Period *string `json:"period,omitempty" tf:"period,omitempty"`
 }
 
 type NotificationRateLimitObservation struct {
 
 	// Not more than one notification per period.
+	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example "60.5s".
 	Period *string `json:"period,omitempty" tf:"period,omitempty"`
 }
 
 type NotificationRateLimitParameters struct {
 
 	// Not more than one notification per period.
+	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example "60.5s".
 	// +kubebuilder:validation:Optional
 	Period *string `json:"period,omitempty" tf:"period,omitempty"`
 }

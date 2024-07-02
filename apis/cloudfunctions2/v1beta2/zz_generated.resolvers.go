@@ -49,6 +49,27 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 
 	}
 	if mg.Spec.ForProvider.BuildConfig != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BuildConfig.ServiceAccount),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.ForProvider.BuildConfig.ServiceAccountRef,
+				Selector:     mg.Spec.ForProvider.BuildConfig.ServiceAccountSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.BuildConfig.ServiceAccount")
+		}
+		mg.Spec.ForProvider.BuildConfig.ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.BuildConfig.ServiceAccountRef = rsp.ResolvedReference
+
+	}
+	if mg.Spec.ForProvider.BuildConfig != nil {
 		if mg.Spec.ForProvider.BuildConfig.Source != nil {
 			if mg.Spec.ForProvider.BuildConfig.Source.StorageSource != nil {
 				{
@@ -270,6 +291,27 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 		mg.Spec.InitProvider.BuildConfig.DockerRepository = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.InitProvider.BuildConfig.DockerRepositoryRef = rsp.ResolvedReference
+
+	}
+	if mg.Spec.InitProvider.BuildConfig != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BuildConfig.ServiceAccount),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.BuildConfig.ServiceAccountRef,
+				Selector:     mg.Spec.InitProvider.BuildConfig.ServiceAccountSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.BuildConfig.ServiceAccount")
+		}
+		mg.Spec.InitProvider.BuildConfig.ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.BuildConfig.ServiceAccountRef = rsp.ResolvedReference
 
 	}
 	if mg.Spec.InitProvider.BuildConfig != nil {

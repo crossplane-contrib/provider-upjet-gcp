@@ -2900,6 +2900,15 @@ spec:
                                 type: array
                             type: object
                         type: object
+                      subjectKeyId:
+                        description: |-
+                          When specified this provides a custom SKI to be used in the certificate. This should only be used to maintain a SKI of an existing CA originally created outside CA service, which was not generated using method (1) described in RFC 5280 section 4.2.1.2..
+                          Structure is documented below.
+                        properties:
+                          keyId:
+                            description: The value of the KeyId in lowercase hexidecimal.
+                            type: string
+                        type: object
                       x509Config:
                         description: |-
                           Describes how some of the technical X.509 fields in a certificate should be populated.
@@ -3560,6 +3569,15 @@ spec:
                                 type: array
                             type: object
                         type: object
+                      subjectKeyId:
+                        description: |-
+                          When specified this provides a custom SKI to be used in the certificate. This should only be used to maintain a SKI of an existing CA originally created outside CA service, which was not generated using method (1) described in RFC 5280 section 4.2.1.2..
+                          Structure is documented below.
+                        properties:
+                          keyId:
+                            description: The value of the KeyId in lowercase hexidecimal.
+                            type: string
+                        type: object
                       x509Config:
                         description: |-
                           Describes how some of the technical X.509 fields in a certificate should be populated.
@@ -4049,9 +4067,7 @@ spec:
                           items:
                             properties:
                               keyId:
-                                description: |-
-                                  (Output)
-                                  Optional. The value of this KeyId encoded in lowercase hexadecimal. This is most likely the 160 bit SHA-1 hash of the public key.
+                                description: The value of the KeyId in lowercase hexidecimal.
                                 type: string
                             type: object
                           type: array
@@ -4239,9 +4255,7 @@ spec:
                           items:
                             properties:
                               keyId:
-                                description: |-
-                                  (Output)
-                                  Optional. The value of this KeyId encoded in lowercase hexadecimal. This is most likely the 160 bit SHA-1 hash of the public key.
+                                description: The value of the KeyId in lowercase hexidecimal.
                                 type: string
                             type: object
                           type: array
@@ -4618,6 +4632,15 @@ spec:
                                   type: string
                                 type: array
                             type: object
+                        type: object
+                      subjectKeyId:
+                        description: |-
+                          When specified this provides a custom SKI to be used in the certificate. This should only be used to maintain a SKI of an existing CA originally created outside CA service, which was not generated using method (1) described in RFC 5280 section 4.2.1.2..
+                          Structure is documented below.
+                        properties:
+                          keyId:
+                            description: The value of the KeyId in lowercase hexidecimal.
+                            type: string
                         type: object
                       x509Config:
                         description: |-

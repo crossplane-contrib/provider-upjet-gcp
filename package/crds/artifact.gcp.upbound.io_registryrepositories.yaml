@@ -1870,11 +1870,25 @@ spec:
                       description:
                         description: The description of the remote source.
                         type: string
+                      disableUpstreamValidation:
+                        description: |-
+                          If true, the remote repository upstream and upstream credentials will
+                          not be validated.
+                        type: boolean
                       dockerRepository:
                         description: |-
                           Specific settings for a Docker remote repository.
                           Structure is documented below.
                         properties:
+                          customRepository:
+                            description: |-
+                              Settings for a remote repository with a custom uri.
+                              Structure is documented below.
+                            properties:
+                              uri:
+                                description: Specific uri to the registry, e.g. "https://registry-1.docker.io"
+                                type: string
+                            type: object
                           publicRepository:
                             description: |-
                               One of the publicly available Yum repositories supported by Artifact Registry.
@@ -1886,6 +1900,15 @@ spec:
                           Specific settings for a Maven remote repository.
                           Structure is documented below.
                         properties:
+                          customRepository:
+                            description: |-
+                              Settings for a remote repository with a custom uri.
+                              Structure is documented below.
+                            properties:
+                              uri:
+                                description: Specific uri to the registry, e.g. "https://registry-1.docker.io"
+                                type: string
+                            type: object
                           publicRepository:
                             description: |-
                               One of the publicly available Yum repositories supported by Artifact Registry.
@@ -1897,6 +1920,15 @@ spec:
                           Specific settings for an Npm remote repository.
                           Structure is documented below.
                         properties:
+                          customRepository:
+                            description: |-
+                              Settings for a remote repository with a custom uri.
+                              Structure is documented below.
+                            properties:
+                              uri:
+                                description: Specific uri to the registry, e.g. "https://registry-1.docker.io"
+                                type: string
+                            type: object
                           publicRepository:
                             description: |-
                               One of the publicly available Yum repositories supported by Artifact Registry.
@@ -1908,6 +1940,15 @@ spec:
                           Specific settings for a Python remote repository.
                           Structure is documented below.
                         properties:
+                          customRepository:
+                            description: |-
+                              Settings for a remote repository with a custom uri.
+                              Structure is documented below.
+                            properties:
+                              uri:
+                                description: Specific uri to the registry, e.g. "https://registry-1.docker.io"
+                                type: string
+                            type: object
                           publicRepository:
                             description: |-
                               One of the publicly available Yum repositories supported by Artifact Registry.
@@ -2325,11 +2366,25 @@ spec:
                       description:
                         description: The description of the remote source.
                         type: string
+                      disableUpstreamValidation:
+                        description: |-
+                          If true, the remote repository upstream and upstream credentials will
+                          not be validated.
+                        type: boolean
                       dockerRepository:
                         description: |-
                           Specific settings for a Docker remote repository.
                           Structure is documented below.
                         properties:
+                          customRepository:
+                            description: |-
+                              Settings for a remote repository with a custom uri.
+                              Structure is documented below.
+                            properties:
+                              uri:
+                                description: Specific uri to the registry, e.g. "https://registry-1.docker.io"
+                                type: string
+                            type: object
                           publicRepository:
                             description: |-
                               One of the publicly available Yum repositories supported by Artifact Registry.
@@ -2341,6 +2396,15 @@ spec:
                           Specific settings for a Maven remote repository.
                           Structure is documented below.
                         properties:
+                          customRepository:
+                            description: |-
+                              Settings for a remote repository with a custom uri.
+                              Structure is documented below.
+                            properties:
+                              uri:
+                                description: Specific uri to the registry, e.g. "https://registry-1.docker.io"
+                                type: string
+                            type: object
                           publicRepository:
                             description: |-
                               One of the publicly available Yum repositories supported by Artifact Registry.
@@ -2352,6 +2416,15 @@ spec:
                           Specific settings for an Npm remote repository.
                           Structure is documented below.
                         properties:
+                          customRepository:
+                            description: |-
+                              Settings for a remote repository with a custom uri.
+                              Structure is documented below.
+                            properties:
+                              uri:
+                                description: Specific uri to the registry, e.g. "https://registry-1.docker.io"
+                                type: string
+                            type: object
                           publicRepository:
                             description: |-
                               One of the publicly available Yum repositories supported by Artifact Registry.
@@ -2363,6 +2436,15 @@ spec:
                           Specific settings for a Python remote repository.
                           Structure is documented below.
                         properties:
+                          customRepository:
+                            description: |-
+                              Settings for a remote repository with a custom uri.
+                              Structure is documented below.
+                            properties:
+                              uri:
+                                description: Specific uri to the registry, e.g. "https://registry-1.docker.io"
+                                type: string
+                            type: object
                           publicRepository:
                             description: |-
                               One of the publicly available Yum repositories supported by Artifact Registry.
@@ -2965,11 +3047,25 @@ spec:
                       description:
                         description: The description of the remote source.
                         type: string
+                      disableUpstreamValidation:
+                        description: |-
+                          If true, the remote repository upstream and upstream credentials will
+                          not be validated.
+                        type: boolean
                       dockerRepository:
                         description: |-
                           Specific settings for a Docker remote repository.
                           Structure is documented below.
                         properties:
+                          customRepository:
+                            description: |-
+                              Settings for a remote repository with a custom uri.
+                              Structure is documented below.
+                            properties:
+                              uri:
+                                description: Specific uri to the registry, e.g. "https://registry-1.docker.io"
+                                type: string
+                            type: object
                           publicRepository:
                             description: |-
                               One of the publicly available Yum repositories supported by Artifact Registry.
@@ -2981,6 +3077,15 @@ spec:
                           Specific settings for a Maven remote repository.
                           Structure is documented below.
                         properties:
+                          customRepository:
+                            description: |-
+                              Settings for a remote repository with a custom uri.
+                              Structure is documented below.
+                            properties:
+                              uri:
+                                description: Specific uri to the registry, e.g. "https://registry-1.docker.io"
+                                type: string
+                            type: object
                           publicRepository:
                             description: |-
                               One of the publicly available Yum repositories supported by Artifact Registry.
@@ -2992,6 +3097,15 @@ spec:
                           Specific settings for an Npm remote repository.
                           Structure is documented below.
                         properties:
+                          customRepository:
+                            description: |-
+                              Settings for a remote repository with a custom uri.
+                              Structure is documented below.
+                            properties:
+                              uri:
+                                description: Specific uri to the registry, e.g. "https://registry-1.docker.io"
+                                type: string
+                            type: object
                           publicRepository:
                             description: |-
                               One of the publicly available Yum repositories supported by Artifact Registry.
@@ -3003,6 +3117,15 @@ spec:
                           Specific settings for a Python remote repository.
                           Structure is documented below.
                         properties:
+                          customRepository:
+                            description: |-
+                              Settings for a remote repository with a custom uri.
+                              Structure is documented below.
+                            properties:
+                              uri:
+                                description: Specific uri to the registry, e.g. "https://registry-1.docker.io"
+                                type: string
+                            type: object
                           publicRepository:
                             description: |-
                               One of the publicly available Yum repositories supported by Artifact Registry.

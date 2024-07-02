@@ -108,39 +108,27 @@ type BfdParameters struct {
 }
 
 type Md5AuthenticationKeyInitParameters struct {
+
+	// The MD5 authentication key for this BGP peer. Maximum length is 80 characters. Can only contain printable ASCII characters
 	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
 
-	// Name of this BGP peer. The name must be 1-63 characters long,
-	// and comply with RFC1035. Specifically, the name must be 1-63 characters
-	// long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which
-	// means the first character must be a lowercase letter, and all
-	// following characters must be a dash, lowercase letter, or digit,
-	// except the last character, which cannot be a dash.
+	// Name used to identify the key. Must be unique within a router. Must comply with RFC1035.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type Md5AuthenticationKeyObservation struct {
 
-	// Name of this BGP peer. The name must be 1-63 characters long,
-	// and comply with RFC1035. Specifically, the name must be 1-63 characters
-	// long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which
-	// means the first character must be a lowercase letter, and all
-	// following characters must be a dash, lowercase letter, or digit,
-	// except the last character, which cannot be a dash.
+	// Name used to identify the key. Must be unique within a router. Must comply with RFC1035.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type Md5AuthenticationKeyParameters struct {
 
+	// The MD5 authentication key for this BGP peer. Maximum length is 80 characters. Can only contain printable ASCII characters
 	// +kubebuilder:validation:Optional
 	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
 
-	// Name of this BGP peer. The name must be 1-63 characters long,
-	// and comply with RFC1035. Specifically, the name must be 1-63 characters
-	// long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which
-	// means the first character must be a lowercase letter, and all
-	// following characters must be a dash, lowercase letter, or digit,
-	// except the last character, which cannot be a dash.
+	// Name used to identify the key. Must be unique within a router. Must comply with RFC1035.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
 }
@@ -238,6 +226,8 @@ type RouterPeerInitParameters struct {
 	// +kubebuilder:validation:Optional
 	InterfaceSelector *v1.Selector `json:"interfaceSelector,omitempty" tf:"-"`
 
+	// Configuration for MD5 authentication on the BGP session.
+	// Structure is documented below.
 	Md5AuthenticationKey *Md5AuthenticationKeyInitParameters `json:"md5AuthenticationKey,omitempty" tf:"md5_authentication_key,omitempty"`
 
 	// Peer BGP Autonomous System Number (ASN).
@@ -356,6 +346,8 @@ type RouterPeerObservation struct {
 	// The resource that configures and manages this BGP peer.
 	ManagementType *string `json:"managementType,omitempty" tf:"management_type,omitempty"`
 
+	// Configuration for MD5 authentication on the BGP session.
+	// Structure is documented below.
 	Md5AuthenticationKey *Md5AuthenticationKeyObservation `json:"md5AuthenticationKey,omitempty" tf:"md5_authentication_key,omitempty"`
 
 	// Peer BGP Autonomous System Number (ASN).
@@ -461,6 +453,8 @@ type RouterPeerParameters struct {
 	// +kubebuilder:validation:Optional
 	InterfaceSelector *v1.Selector `json:"interfaceSelector,omitempty" tf:"-"`
 
+	// Configuration for MD5 authentication on the BGP session.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Md5AuthenticationKey *Md5AuthenticationKeyParameters `json:"md5AuthenticationKey,omitempty" tf:"md5_authentication_key,omitempty"`
 

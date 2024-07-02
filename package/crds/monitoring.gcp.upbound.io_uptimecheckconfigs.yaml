@@ -1677,7 +1677,7 @@ spec:
                         type: array
                       authInfo:
                         description: |-
-                          The authentication information. Optional when creating an HTTP check; defaults to empty.
+                          The authentication information using username and password. Optional when creating an HTTP check; defaults to empty. Do not use with other authentication fields.
                           Structure is documented below.
                         properties:
                           passwordSecretRef:
@@ -1777,6 +1777,17 @@ spec:
                           Default value is GET.
                           Possible values are: METHOD_UNSPECIFIED, GET, POST.
                         type: string
+                      serviceAgentAuthentication:
+                        description: |-
+                          The authentication information using the Monitoring Service Agent. Optional when creating an HTTPS check; defaults to empty. Do not use with other authentication fields.
+                          Structure is documented below.
+                        properties:
+                          type:
+                            description: |-
+                              The type of authentication to use.
+                              Possible values are: SERVICE_AGENT_AUTHENTICATION_TYPE_UNSPECIFIED, OIDC_TOKEN.
+                            type: string
+                        type: object
                       useSsl:
                         description: If true, use HTTPS instead of HTTP to run the
                           check.
@@ -2135,7 +2146,7 @@ spec:
                         type: array
                       authInfo:
                         description: |-
-                          The authentication information. Optional when creating an HTTP check; defaults to empty.
+                          The authentication information using username and password. Optional when creating an HTTP check; defaults to empty. Do not use with other authentication fields.
                           Structure is documented below.
                         properties:
                           passwordSecretRef:
@@ -2237,6 +2248,17 @@ spec:
                           Default value is GET.
                           Possible values are: METHOD_UNSPECIFIED, GET, POST.
                         type: string
+                      serviceAgentAuthentication:
+                        description: |-
+                          The authentication information using the Monitoring Service Agent. Optional when creating an HTTPS check; defaults to empty. Do not use with other authentication fields.
+                          Structure is documented below.
+                        properties:
+                          type:
+                            description: |-
+                              The type of authentication to use.
+                              Possible values are: SERVICE_AGENT_AUTHENTICATION_TYPE_UNSPECIFIED, OIDC_TOKEN.
+                            type: string
+                        type: object
                       useSsl:
                         description: If true, use HTTPS instead of HTTP to run the
                           check.
@@ -2763,7 +2785,7 @@ spec:
                         type: array
                       authInfo:
                         description: |-
-                          The authentication information. Optional when creating an HTTP check; defaults to empty.
+                          The authentication information using username and password. Optional when creating an HTTP check; defaults to empty. Do not use with other authentication fields.
                           Structure is documented below.
                         properties:
                           username:
@@ -2844,6 +2866,17 @@ spec:
                           Default value is GET.
                           Possible values are: METHOD_UNSPECIFIED, GET, POST.
                         type: string
+                      serviceAgentAuthentication:
+                        description: |-
+                          The authentication information using the Monitoring Service Agent. Optional when creating an HTTPS check; defaults to empty. Do not use with other authentication fields.
+                          Structure is documented below.
+                        properties:
+                          type:
+                            description: |-
+                              The type of authentication to use.
+                              Possible values are: SERVICE_AGENT_AUTHENTICATION_TYPE_UNSPECIFIED, OIDC_TOKEN.
+                            type: string
+                        type: object
                       useSsl:
                         description: If true, use HTTPS instead of HTTP to run the
                           check.

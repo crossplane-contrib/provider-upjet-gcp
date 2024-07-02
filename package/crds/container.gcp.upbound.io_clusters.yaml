@@ -6536,6 +6536,16 @@ spec:
                               cluster. It is disabled by default. Set disabled = false to enable.
                             type: boolean
                         type: object
+                      statefulHaConfig:
+                        description: |-
+                          .
+                          The status of the Stateful HA addon, which provides automatic configurable failover for stateful applications.
+                          It is disabled by default for Standard clusters. Set enabled = true to enable.
+                        properties:
+                          enabled:
+                            description: Enables vertical pod autoscaling
+                            type: boolean
+                        type: object
                     type: object
                   allowNetAdmin:
                     description: |-
@@ -6844,6 +6854,10 @@ spec:
                       Note that when this option is enabled, certain features of Standard GKE are not available.
                       See the official documentation
                       for available features.
+                    type: boolean
+                  enableCiliumClusterwideNetworkPolicy:
+                    description: Whether CiliumClusterWideNetworkPolicy is enabled
+                      on this cluster. Defaults to false.
                     type: boolean
                   enableIntranodeVisibility:
                     description: Whether Intra-node visibility is enabled for this
@@ -7592,6 +7606,26 @@ spec:
                           2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
                         type: object
                         x-kubernetes-map-type: granular
+                      secondaryBootDisks:
+                        description: Parameters for secondary boot disks to preload
+                          container images and data on new nodes. Structure is documented
+                          below. gcfs_config must be enabled=true for this feature
+                          to work. min_master_version must also be set to use GKE
+                          1.28.3-gke.106700 or later versions.
+                        items:
+                          properties:
+                            diskImage:
+                              description: Path to disk image to create the secondary
+                                boot disk from. After using the gke-disk-image-builder,
+                                this argument should be global/images/DISK_IMAGE_NAME.
+                              type: string
+                            mode:
+                              description: |-
+                                How to expose the node metadata to the workload running on the node.
+                                Accepted values are:
+                              type: string
+                          type: object
+                        type: array
                       serviceAccount:
                         description: |-
                           The service account to be used by the Node VMs.
@@ -7773,12 +7807,26 @@ spec:
                           provisioned node pools.
                         properties:
                           tags:
-                            description: List of network tags applied to auto-provisioned
-                              node pools.
+                            description: |-
+                              The list of instance tags applied to all nodes. Tags are used to identify
+                              valid sources or targets for network firewalls.
                             items:
                               type: string
                             type: array
                         type: object
+                      resourceManagerTags:
+                        additionalProperties:
+                          type: string
+                        description: A map of resource manager tag keys and values
+                          to be attached to the nodes for managing Compute Engine
+                          firewalls using Network Firewall Policies. Tags must be
+                          according to specifications found here. A maximum of 5 tag
+                          key-value pairs can be specified. Existing tags will be
+                          replaced with new values. Tags must be in one of the following
+                          formats ([KEY]=[VALUE]) 1. tagKeys/{tag_key_id}=tagValues/{tag_value_id}
+                          2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
+                        type: object
+                        x-kubernetes-map-type: granular
                     type: object
                   nodePoolDefaults:
                     description: Default NodePool settings for the entire cluster.
@@ -8209,6 +8257,16 @@ spec:
                               cluster. It is disabled by default. Set disabled = false to enable.
                             type: boolean
                         type: object
+                      statefulHaConfig:
+                        description: |-
+                          .
+                          The status of the Stateful HA addon, which provides automatic configurable failover for stateful applications.
+                          It is disabled by default for Standard clusters. Set enabled = true to enable.
+                        properties:
+                          enabled:
+                            description: Enables vertical pod autoscaling
+                            type: boolean
+                        type: object
                     type: object
                   allowNetAdmin:
                     description: |-
@@ -8517,6 +8575,10 @@ spec:
                       Note that when this option is enabled, certain features of Standard GKE are not available.
                       See the official documentation
                       for available features.
+                    type: boolean
+                  enableCiliumClusterwideNetworkPolicy:
+                    description: Whether CiliumClusterWideNetworkPolicy is enabled
+                      on this cluster. Defaults to false.
                     type: boolean
                   enableIntranodeVisibility:
                     description: Whether Intra-node visibility is enabled for this
@@ -9256,6 +9318,26 @@ spec:
                           2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
                         type: object
                         x-kubernetes-map-type: granular
+                      secondaryBootDisks:
+                        description: Parameters for secondary boot disks to preload
+                          container images and data on new nodes. Structure is documented
+                          below. gcfs_config must be enabled=true for this feature
+                          to work. min_master_version must also be set to use GKE
+                          1.28.3-gke.106700 or later versions.
+                        items:
+                          properties:
+                            diskImage:
+                              description: Path to disk image to create the secondary
+                                boot disk from. After using the gke-disk-image-builder,
+                                this argument should be global/images/DISK_IMAGE_NAME.
+                              type: string
+                            mode:
+                              description: |-
+                                How to expose the node metadata to the workload running on the node.
+                                Accepted values are:
+                              type: string
+                          type: object
+                        type: array
                       serviceAccount:
                         description: |-
                           The service account to be used by the Node VMs.
@@ -9437,12 +9519,26 @@ spec:
                           provisioned node pools.
                         properties:
                           tags:
-                            description: List of network tags applied to auto-provisioned
-                              node pools.
+                            description: |-
+                              The list of instance tags applied to all nodes. Tags are used to identify
+                              valid sources or targets for network firewalls.
                             items:
                               type: string
                             type: array
                         type: object
+                      resourceManagerTags:
+                        additionalProperties:
+                          type: string
+                        description: A map of resource manager tag keys and values
+                          to be attached to the nodes for managing Compute Engine
+                          firewalls using Network Firewall Policies. Tags must be
+                          according to specifications found here. A maximum of 5 tag
+                          key-value pairs can be specified. Existing tags will be
+                          replaced with new values. Tags must be in one of the following
+                          formats ([KEY]=[VALUE]) 1. tagKeys/{tag_key_id}=tagValues/{tag_value_id}
+                          2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
+                        type: object
+                        x-kubernetes-map-type: granular
                     type: object
                   nodePoolDefaults:
                     description: Default NodePool settings for the entire cluster.
@@ -10030,6 +10126,16 @@ spec:
                               cluster. It is disabled by default. Set disabled = false to enable.
                             type: boolean
                         type: object
+                      statefulHaConfig:
+                        description: |-
+                          .
+                          The status of the Stateful HA addon, which provides automatic configurable failover for stateful applications.
+                          It is disabled by default for Standard clusters. Set enabled = true to enable.
+                        properties:
+                          enabled:
+                            description: Enables vertical pod autoscaling
+                            type: boolean
+                        type: object
                     type: object
                   allowNetAdmin:
                     description: |-
@@ -10350,6 +10456,10 @@ spec:
                       Note that when this option is enabled, certain features of Standard GKE are not available.
                       See the official documentation
                       for available features.
+                    type: boolean
+                  enableCiliumClusterwideNetworkPolicy:
+                    description: Whether CiliumClusterWideNetworkPolicy is enabled
+                      on this cluster. Defaults to false.
                     type: boolean
                   enableIntranodeVisibility:
                     description: Whether Intra-node visibility is enabled for this
@@ -11089,6 +11199,26 @@ spec:
                           2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
                         type: object
                         x-kubernetes-map-type: granular
+                      secondaryBootDisks:
+                        description: Parameters for secondary boot disks to preload
+                          container images and data on new nodes. Structure is documented
+                          below. gcfs_config must be enabled=true for this feature
+                          to work. min_master_version must also be set to use GKE
+                          1.28.3-gke.106700 or later versions.
+                        items:
+                          properties:
+                            diskImage:
+                              description: Path to disk image to create the secondary
+                                boot disk from. After using the gke-disk-image-builder,
+                                this argument should be global/images/DISK_IMAGE_NAME.
+                              type: string
+                            mode:
+                              description: |-
+                                How to expose the node metadata to the workload running on the node.
+                                Accepted values are:
+                              type: string
+                          type: object
+                        type: array
                       serviceAccount:
                         description: |-
                           The service account to be used by the Node VMs.
@@ -11611,6 +11741,27 @@ spec:
                                 {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
                               type: object
                               x-kubernetes-map-type: granular
+                            secondaryBootDisks:
+                              description: Parameters for secondary boot disks to
+                                preload container images and data on new nodes. Structure
+                                is documented below. gcfs_config must be enabled=true
+                                for this feature to work. min_master_version must
+                                also be set to use GKE 1.28.3-gke.106700 or later
+                                versions.
+                              items:
+                                properties:
+                                  diskImage:
+                                    description: Path to disk image to create the
+                                      secondary boot disk from. After using the gke-disk-image-builder,
+                                      this argument should be global/images/DISK_IMAGE_NAME.
+                                    type: string
+                                  mode:
+                                    description: |-
+                                      How to expose the node metadata to the workload running on the node.
+                                      Accepted values are:
+                                    type: string
+                                type: object
+                              type: array
                             serviceAccount:
                               description: |-
                                 The service account to be used by the Node VMs.
@@ -11659,8 +11810,9 @@ spec:
                                 for more information. Defaults to false.
                               type: boolean
                             tags:
-                              description: List of network tags applied to auto-provisioned
-                                node pools.
+                              description: |-
+                                The list of instance tags applied to all nodes. Tags are used to identify
+                                valid sources or targets for network firewalls.
                               items:
                                 type: string
                               type: array
@@ -11720,6 +11872,12 @@ spec:
                               description: The accelerator type resource to expose
                                 to this instance. E.g. nvidia-tesla-k80.
                               type: string
+                          type: object
+                        queuedProvisioning:
+                          properties:
+                            enabled:
+                              description: Enables vertical pod autoscaling
+                              type: boolean
                           type: object
                         upgradeSettings:
                           description: Specifies the upgrade settings for NAP created
@@ -11795,12 +11953,26 @@ spec:
                           provisioned node pools.
                         properties:
                           tags:
-                            description: List of network tags applied to auto-provisioned
-                              node pools.
+                            description: |-
+                              The list of instance tags applied to all nodes. Tags are used to identify
+                              valid sources or targets for network firewalls.
                             items:
                               type: string
                             type: array
                         type: object
+                      resourceManagerTags:
+                        additionalProperties:
+                          type: string
+                        description: A map of resource manager tag keys and values
+                          to be attached to the nodes for managing Compute Engine
+                          firewalls using Network Firewall Policies. Tags must be
+                          according to specifications found here. A maximum of 5 tag
+                          key-value pairs can be specified. Existing tags will be
+                          replaced with new values. Tags must be in one of the following
+                          formats ([KEY]=[VALUE]) 1. tagKeys/{tag_key_id}=tagValues/{tag_value_id}
+                          2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
+                        type: object
+                        x-kubernetes-map-type: granular
                     type: object
                   nodePoolDefaults:
                     description: Default NodePool settings for the entire cluster.

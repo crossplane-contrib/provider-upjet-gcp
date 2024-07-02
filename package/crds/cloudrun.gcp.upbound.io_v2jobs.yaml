@@ -2568,8 +2568,8 @@ spec:
                                               the Volume's default mode will be used.
                                             type: number
                                           path:
-                                            description: The relative path of the
-                                              secret in the container.
+                                            description: Path that is exported by
+                                              the NFS server.
                                             type: string
                                           version:
                                             description: The Cloud Secret Manager
@@ -3130,8 +3130,8 @@ spec:
                                               the Volume's default mode will be used.
                                             type: number
                                           path:
-                                            description: The relative path of the
-                                              secret in the container.
+                                            description: Path that is exported by
+                                              the NFS server.
                                             type: string
                                           version:
                                             description: The Cloud Secret Manager
@@ -3906,8 +3906,8 @@ spec:
                                               the Volume's default mode will be used.
                                             type: number
                                           path:
-                                            description: The relative path of the
-                                              secret in the container.
+                                            description: Path that is exported by
+                                              the NFS server.
                                             type: string
                                           version:
                                             description: The Cloud Secret Manager

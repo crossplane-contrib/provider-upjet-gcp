@@ -88,6 +88,11 @@ type AddonsConfigInitParameters struct {
 	// It can only be disabled if the nodes already do not have network policies enabled.
 	// Defaults to disabled; set disabled = false to enable.
 	NetworkPolicyConfig *NetworkPolicyConfigInitParameters `json:"networkPolicyConfig,omitempty" tf:"network_policy_config,omitempty"`
+
+	// .
+	// The status of the Stateful HA addon, which provides automatic configurable failover for stateful applications.
+	// It is disabled by default for Standard clusters. Set enabled = true to enable.
+	StatefulHaConfig *StatefulHaConfigInitParameters `json:"statefulHaConfig,omitempty" tf:"stateful_ha_config,omitempty"`
 }
 
 type AddonsConfigObservation struct {
@@ -143,6 +148,11 @@ type AddonsConfigObservation struct {
 	// It can only be disabled if the nodes already do not have network policies enabled.
 	// Defaults to disabled; set disabled = false to enable.
 	NetworkPolicyConfig *NetworkPolicyConfigObservation `json:"networkPolicyConfig,omitempty" tf:"network_policy_config,omitempty"`
+
+	// .
+	// The status of the Stateful HA addon, which provides automatic configurable failover for stateful applications.
+	// It is disabled by default for Standard clusters. Set enabled = true to enable.
+	StatefulHaConfig *StatefulHaConfigObservation `json:"statefulHaConfig,omitempty" tf:"stateful_ha_config,omitempty"`
 }
 
 type AddonsConfigParameters struct {
@@ -208,6 +218,12 @@ type AddonsConfigParameters struct {
 	// Defaults to disabled; set disabled = false to enable.
 	// +kubebuilder:validation:Optional
 	NetworkPolicyConfig *NetworkPolicyConfigParameters `json:"networkPolicyConfig,omitempty" tf:"network_policy_config,omitempty"`
+
+	// .
+	// The status of the Stateful HA addon, which provides automatic configurable failover for stateful applications.
+	// It is disabled by default for Standard clusters. Set enabled = true to enable.
+	// +kubebuilder:validation:Optional
+	StatefulHaConfig *StatefulHaConfigParameters `json:"statefulHaConfig,omitempty" tf:"stateful_ha_config,omitempty"`
 }
 
 type AdvancedDatapathObservabilityConfigInitParameters struct {
@@ -766,6 +782,9 @@ type ClusterInitParameters struct {
 	// for available features.
 	EnableAutopilot *bool `json:"enableAutopilot,omitempty" tf:"enable_autopilot,omitempty"`
 
+	// Whether CiliumClusterWideNetworkPolicy is enabled on this cluster. Defaults to false.
+	EnableCiliumClusterwideNetworkPolicy *bool `json:"enableCiliumClusterwideNetworkPolicy,omitempty" tf:"enable_cilium_clusterwide_network_policy,omitempty"`
+
 	// Whether Intra-node visibility is enabled for this cluster. This makes same node pod to pod traffic visible for VPC network.
 	EnableIntranodeVisibility *bool `json:"enableIntranodeVisibility,omitempty" tf:"enable_intranode_visibility,omitempty"`
 
@@ -1055,6 +1074,9 @@ type ClusterObservation struct {
 	// See the official documentation
 	// for available features.
 	EnableAutopilot *bool `json:"enableAutopilot,omitempty" tf:"enable_autopilot,omitempty"`
+
+	// Whether CiliumClusterWideNetworkPolicy is enabled on this cluster. Defaults to false.
+	EnableCiliumClusterwideNetworkPolicy *bool `json:"enableCiliumClusterwideNetworkPolicy,omitempty" tf:"enable_cilium_clusterwide_network_policy,omitempty"`
 
 	// Whether Intra-node visibility is enabled for this cluster. This makes same node pod to pod traffic visible for VPC network.
 	EnableIntranodeVisibility *bool `json:"enableIntranodeVisibility,omitempty" tf:"enable_intranode_visibility,omitempty"`
@@ -1387,6 +1409,10 @@ type ClusterParameters struct {
 	// for available features.
 	// +kubebuilder:validation:Optional
 	EnableAutopilot *bool `json:"enableAutopilot,omitempty" tf:"enable_autopilot,omitempty"`
+
+	// Whether CiliumClusterWideNetworkPolicy is enabled on this cluster. Defaults to false.
+	// +kubebuilder:validation:Optional
+	EnableCiliumClusterwideNetworkPolicy *bool `json:"enableCiliumClusterwideNetworkPolicy,omitempty" tf:"enable_cilium_clusterwide_network_policy,omitempty"`
 
 	// Whether Intra-node visibility is enabled for this cluster. This makes same node pod to pod traffic visible for VPC network.
 	// +kubebuilder:validation:Optional
@@ -3007,19 +3033,22 @@ type NetworkPolicyParameters struct {
 
 type NetworkTagsInitParameters struct {
 
-	// List of network tags applied to auto-provisioned node pools.
+	// The list of instance tags applied to all nodes. Tags are used to identify
+	// valid sources or targets for network firewalls.
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
 type NetworkTagsObservation struct {
 
-	// List of network tags applied to auto-provisioned node pools.
+	// The list of instance tags applied to all nodes. Tags are used to identify
+	// valid sources or targets for network firewalls.
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
 type NetworkTagsParameters struct {
 
-	// List of network tags applied to auto-provisioned node pools.
+	// The list of instance tags applied to all nodes. Tags are used to identify
+	// valid sources or targets for network firewalls.
 	// +kubebuilder:validation:Optional
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
@@ -3340,6 +3369,9 @@ type NodeConfigInitParameters struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	// Parameters for secondary boot disks to preload container images and data on new nodes. Structure is documented below. gcfs_config must be enabled=true for this feature to work. min_master_version must also be set to use GKE 1.28.3-gke.106700 or later versions.
+	SecondaryBootDisks []SecondaryBootDisksInitParameters `json:"secondaryBootDisks,omitempty" tf:"secondary_boot_disks,omitempty"`
+
 	// The service account to be used by the Node VMs.
 	// If not specified, the "default" service account is used.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
@@ -3568,6 +3600,9 @@ type NodeConfigObservation struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	// Parameters for secondary boot disks to preload container images and data on new nodes. Structure is documented below. gcfs_config must be enabled=true for this feature to work. min_master_version must also be set to use GKE 1.28.3-gke.106700 or later versions.
+	SecondaryBootDisks []SecondaryBootDisksObservation `json:"secondaryBootDisks,omitempty" tf:"secondary_boot_disks,omitempty"`
+
 	// The service account to be used by the Node VMs.
 	// If not specified, the "default" service account is used.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
@@ -3751,6 +3786,10 @@ type NodeConfigParameters struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	// Parameters for secondary boot disks to preload container images and data on new nodes. Structure is documented below. gcfs_config must be enabled=true for this feature to work. min_master_version must also be set to use GKE 1.28.3-gke.106700 or later versions.
+	// +kubebuilder:validation:Optional
+	SecondaryBootDisks []SecondaryBootDisksParameters `json:"secondaryBootDisks,omitempty" tf:"secondary_boot_disks,omitempty"`
+
 	// The service account to be used by the Node VMs.
 	// If not specified, the "default" service account is used.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
@@ -3815,6 +3854,22 @@ type NodeConfigReservationAffinityObservation struct {
 }
 
 type NodeConfigReservationAffinityParameters struct {
+}
+
+type NodeConfigSecondaryBootDisksInitParameters struct {
+}
+
+type NodeConfigSecondaryBootDisksObservation struct {
+
+	// Path to disk image to create the secondary boot disk from. After using the gke-disk-image-builder, this argument should be global/images/DISK_IMAGE_NAME.
+	DiskImage *string `json:"diskImage,omitempty" tf:"disk_image,omitempty"`
+
+	// How to expose the node metadata to the workload running on the node.
+	// Accepted values are:
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type NodeConfigSecondaryBootDisksParameters struct {
 }
 
 type NodeConfigShieldedInstanceConfigInitParameters struct {
@@ -3891,12 +3946,20 @@ type NodePoolAutoConfigInitParameters struct {
 
 	// The network tag config for the cluster's automatically provisioned node pools.
 	NetworkTags *NetworkTagsInitParameters `json:"networkTags,omitempty" tf:"network_tags,omitempty"`
+
+	// A map of resource manager tag keys and values to be attached to the nodes for managing Compute Engine firewalls using Network Firewall Policies. Tags must be according to specifications found here. A maximum of 5 tag key-value pairs can be specified. Existing tags will be replaced with new values. Tags must be in one of the following formats ([KEY]=[VALUE]) 1. tagKeys/{tag_key_id}=tagValues/{tag_value_id} 2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 type NodePoolAutoConfigObservation struct {
 
 	// The network tag config for the cluster's automatically provisioned node pools.
 	NetworkTags *NetworkTagsObservation `json:"networkTags,omitempty" tf:"network_tags,omitempty"`
+
+	// A map of resource manager tag keys and values to be attached to the nodes for managing Compute Engine firewalls using Network Firewall Policies. Tags must be according to specifications found here. A maximum of 5 tag key-value pairs can be specified. Existing tags will be replaced with new values. Tags must be in one of the following formats ([KEY]=[VALUE]) 1. tagKeys/{tag_key_id}=tagValues/{tag_value_id} 2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 type NodePoolAutoConfigParameters struct {
@@ -3904,6 +3967,11 @@ type NodePoolAutoConfigParameters struct {
 	// The network tag config for the cluster's automatically provisioned node pools.
 	// +kubebuilder:validation:Optional
 	NetworkTags *NetworkTagsParameters `json:"networkTags,omitempty" tf:"network_tags,omitempty"`
+
+	// A map of resource manager tag keys and values to be attached to the nodes for managing Compute Engine firewalls using Network Firewall Policies. Tags must be according to specifications found here. A maximum of 5 tag key-value pairs can be specified. Existing tags will be replaced with new values. Tags must be in one of the following formats ([KEY]=[VALUE]) 1. tagKeys/{tag_key_id}=tagValues/{tag_value_id} 2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 type NodePoolDefaultsInitParameters struct {
@@ -4081,6 +4149,9 @@ type NodePoolNodeConfigObservation struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	// Parameters for secondary boot disks to preload container images and data on new nodes. Structure is documented below. gcfs_config must be enabled=true for this feature to work. min_master_version must also be set to use GKE 1.28.3-gke.106700 or later versions.
+	SecondaryBootDisks []NodeConfigSecondaryBootDisksObservation `json:"secondaryBootDisks,omitempty" tf:"secondary_boot_disks,omitempty"`
+
 	// The service account to be used by the Node VMs.
 	// If not specified, the "default" service account is used.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
@@ -4096,7 +4167,8 @@ type NodePoolNodeConfigObservation struct {
 	// for more information. Defaults to false.
 	Spot *bool `json:"spot,omitempty" tf:"spot,omitempty"`
 
-	// List of network tags applied to auto-provisioned node pools.
+	// The list of instance tags applied to all nodes. Tags are used to identify
+	// valid sources or targets for network firewalls.
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// A list of
@@ -4168,6 +4240,8 @@ type NodePoolObservation struct {
 	NodeLocations []*string `json:"nodeLocations,omitempty" tf:"node_locations,omitempty"`
 
 	PlacementPolicy *PlacementPolicyObservation `json:"placementPolicy,omitempty" tf:"placement_policy,omitempty"`
+
+	QueuedProvisioning *QueuedProvisioningObservation `json:"queuedProvisioning,omitempty" tf:"queued_provisioning,omitempty"`
 
 	// Specifies the upgrade settings for NAP created node pools. Structure is documented below.
 	UpgradeSettings *NodePoolUpgradeSettingsObservation `json:"upgradeSettings,omitempty" tf:"upgrade_settings,omitempty"`
@@ -4404,6 +4478,18 @@ type PubsubParameters struct {
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 }
 
+type QueuedProvisioningInitParameters struct {
+}
+
+type QueuedProvisioningObservation struct {
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type QueuedProvisioningParameters struct {
+}
+
 type RecurringWindowInitParameters struct {
 	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
 
@@ -4598,6 +4684,38 @@ type ResourceUsageExportConfigParameters struct {
 	EnableResourceConsumptionMetering *bool `json:"enableResourceConsumptionMetering,omitempty" tf:"enable_resource_consumption_metering,omitempty"`
 }
 
+type SecondaryBootDisksInitParameters struct {
+
+	// Path to disk image to create the secondary boot disk from. After using the gke-disk-image-builder, this argument should be global/images/DISK_IMAGE_NAME.
+	DiskImage *string `json:"diskImage,omitempty" tf:"disk_image,omitempty"`
+
+	// How to expose the node metadata to the workload running on the node.
+	// Accepted values are:
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type SecondaryBootDisksObservation struct {
+
+	// Path to disk image to create the secondary boot disk from. After using the gke-disk-image-builder, this argument should be global/images/DISK_IMAGE_NAME.
+	DiskImage *string `json:"diskImage,omitempty" tf:"disk_image,omitempty"`
+
+	// How to expose the node metadata to the workload running on the node.
+	// Accepted values are:
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type SecondaryBootDisksParameters struct {
+
+	// Path to disk image to create the secondary boot disk from. After using the gke-disk-image-builder, this argument should be global/images/DISK_IMAGE_NAME.
+	// +kubebuilder:validation:Optional
+	DiskImage *string `json:"diskImage" tf:"disk_image,omitempty"`
+
+	// How to expose the node metadata to the workload running on the node.
+	// Accepted values are:
+	// +kubebuilder:validation:Optional
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
 type SecurityPostureConfigInitParameters struct {
 
 	// Sets the mode of the Kubernetes security posture API's off-cluster features. Available options include DISABLED and BASIC.
@@ -4744,6 +4862,25 @@ type StandardRolloutPolicyParameters struct {
 	// Soak time after each batch gets drained. A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".`.
 	// +kubebuilder:validation:Optional
 	BatchSoakDuration *string `json:"batchSoakDuration,omitempty" tf:"batch_soak_duration,omitempty"`
+}
+
+type StatefulHaConfigInitParameters struct {
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type StatefulHaConfigObservation struct {
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type StatefulHaConfigParameters struct {
+
+	// Enables vertical pod autoscaling
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
 type TaintInitParameters struct {

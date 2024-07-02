@@ -2194,18 +2194,18 @@ spec:
                       geo:
                         description: |-
                           The configuration for Geolocation based routing policy.
-                          Structure is document below.
+                          Structure is documented below.
                         items:
                           properties:
                             healthCheckedTargets:
                               description: |-
                                 The list of targets to be health checked. Note that if DNSSEC is enabled for this zone, only one of rrdatas or health_checked_targets can be set.
-                                Structure is document below.
+                                Structure is documented below.
                               properties:
                                 internalLoadBalancers:
                                   description: |-
                                     The list of internal load balancers to health check.
-                                    Structure is document below.
+                                    Structure is documented below.
                                   items:
                                     properties:
                                       ipAddress:
@@ -2256,8 +2256,8 @@ spec:
                         type: array
                       primaryBackup:
                         description: |-
-                          The configuration for a primary-backup policy with global to regional failover. Queries are responded to with the global primary targets, but if none of the primary targets are healthy, then we fallback to a regional failover policy.
-                          Structure is document below.
+                          The configuration for a failover policy with global to regional failover. Queries are responded to with the global primary targets, but if none of the primary targets are healthy, then we fallback to a regional failover policy.
+                          Structure is documented below.
                         properties:
                           backupGeo:
                             description: |-
@@ -2268,12 +2268,12 @@ spec:
                                 healthCheckedTargets:
                                   description: |-
                                     The list of targets to be health checked. Note that if DNSSEC is enabled for this zone, only one of rrdatas or health_checked_targets can be set.
-                                    Structure is document below.
+                                    Structure is documented below.
                                   properties:
                                     internalLoadBalancers:
                                       description: |-
                                         The list of internal load balancers to health check.
-                                        Structure is document below.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           ipAddress:
@@ -2333,12 +2333,12 @@ spec:
                           primary:
                             description: |-
                               The list of global primary targets to be health checked.
-                              Structure is document below.
+                              Structure is documented below.
                             properties:
                               internalLoadBalancers:
                                 description: |-
                                   The list of internal load balancers to health check.
-                                  Structure is document below.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     ipAddress:
@@ -2690,18 +2690,18 @@ spec:
                       wrr:
                         description: |-
                           The configuration for Weighted Round Robin based routing policy.
-                          Structure is document below.
+                          Structure is documented below.
                         items:
                           properties:
                             healthCheckedTargets:
                               description: |-
                                 The list of targets to be health checked. Note that if DNSSEC is enabled for this zone, only one of rrdatas or health_checked_targets can be set.
-                                Structure is document below.
+                                Structure is documented below.
                               properties:
                                 internalLoadBalancers:
                                   description: |-
                                     The list of internal load balancers to health check.
-                                    Structure is document below.
+                                    Structure is documented below.
                                   items:
                                     properties:
                                       ipAddress:
@@ -2877,18 +2877,18 @@ spec:
                       geo:
                         description: |-
                           The configuration for Geolocation based routing policy.
-                          Structure is document below.
+                          Structure is documented below.
                         items:
                           properties:
                             healthCheckedTargets:
                               description: |-
                                 The list of targets to be health checked. Note that if DNSSEC is enabled for this zone, only one of rrdatas or health_checked_targets can be set.
-                                Structure is document below.
+                                Structure is documented below.
                               properties:
                                 internalLoadBalancers:
                                   description: |-
                                     The list of internal load balancers to health check.
-                                    Structure is document below.
+                                    Structure is documented below.
                                   items:
                                     properties:
                                       ipAddress:
@@ -2939,8 +2939,8 @@ spec:
                         type: array
                       primaryBackup:
                         description: |-
-                          The configuration for a primary-backup policy with global to regional failover. Queries are responded to with the global primary targets, but if none of the primary targets are healthy, then we fallback to a regional failover policy.
-                          Structure is document below.
+                          The configuration for a failover policy with global to regional failover. Queries are responded to with the global primary targets, but if none of the primary targets are healthy, then we fallback to a regional failover policy.
+                          Structure is documented below.
                         properties:
                           backupGeo:
                             description: |-
@@ -2951,12 +2951,12 @@ spec:
                                 healthCheckedTargets:
                                   description: |-
                                     The list of targets to be health checked. Note that if DNSSEC is enabled for this zone, only one of rrdatas or health_checked_targets can be set.
-                                    Structure is document below.
+                                    Structure is documented below.
                                   properties:
                                     internalLoadBalancers:
                                       description: |-
                                         The list of internal load balancers to health check.
-                                        Structure is document below.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           ipAddress:
@@ -3016,12 +3016,12 @@ spec:
                           primary:
                             description: |-
                               The list of global primary targets to be health checked.
-                              Structure is document below.
+                              Structure is documented below.
                             properties:
                               internalLoadBalancers:
                                 description: |-
                                   The list of internal load balancers to health check.
-                                  Structure is document below.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     ipAddress:
@@ -3373,18 +3373,18 @@ spec:
                       wrr:
                         description: |-
                           The configuration for Weighted Round Robin based routing policy.
-                          Structure is document below.
+                          Structure is documented below.
                         items:
                           properties:
                             healthCheckedTargets:
                               description: |-
                                 The list of targets to be health checked. Note that if DNSSEC is enabled for this zone, only one of rrdatas or health_checked_targets can be set.
-                                Structure is document below.
+                                Structure is documented below.
                               properties:
                                 internalLoadBalancers:
                                   description: |-
                                     The list of internal load balancers to health check.
-                                    Structure is document below.
+                                    Structure is documented below.
                                   items:
                                     properties:
                                       ipAddress:
@@ -3657,18 +3657,18 @@ spec:
                       geo:
                         description: |-
                           The configuration for Geolocation based routing policy.
-                          Structure is document below.
+                          Structure is documented below.
                         items:
                           properties:
                             healthCheckedTargets:
                               description: |-
                                 The list of targets to be health checked. Note that if DNSSEC is enabled for this zone, only one of rrdatas or health_checked_targets can be set.
-                                Structure is document below.
+                                Structure is documented below.
                               properties:
                                 internalLoadBalancers:
                                   description: |-
                                     The list of internal load balancers to health check.
-                                    Structure is document below.
+                                    Structure is documented below.
                                   items:
                                     properties:
                                       ipAddress:
@@ -3719,8 +3719,8 @@ spec:
                         type: array
                       primaryBackup:
                         description: |-
-                          The configuration for a primary-backup policy with global to regional failover. Queries are responded to with the global primary targets, but if none of the primary targets are healthy, then we fallback to a regional failover policy.
-                          Structure is document below.
+                          The configuration for a failover policy with global to regional failover. Queries are responded to with the global primary targets, but if none of the primary targets are healthy, then we fallback to a regional failover policy.
+                          Structure is documented below.
                         properties:
                           backupGeo:
                             description: |-
@@ -3731,12 +3731,12 @@ spec:
                                 healthCheckedTargets:
                                   description: |-
                                     The list of targets to be health checked. Note that if DNSSEC is enabled for this zone, only one of rrdatas or health_checked_targets can be set.
-                                    Structure is document below.
+                                    Structure is documented below.
                                   properties:
                                     internalLoadBalancers:
                                       description: |-
                                         The list of internal load balancers to health check.
-                                        Structure is document below.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           ipAddress:
@@ -3796,12 +3796,12 @@ spec:
                           primary:
                             description: |-
                               The list of global primary targets to be health checked.
-                              Structure is document below.
+                              Structure is documented below.
                             properties:
                               internalLoadBalancers:
                                 description: |-
                                   The list of internal load balancers to health check.
-                                  Structure is document below.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     ipAddress:
@@ -3849,18 +3849,18 @@ spec:
                       wrr:
                         description: |-
                           The configuration for Weighted Round Robin based routing policy.
-                          Structure is document below.
+                          Structure is documented below.
                         items:
                           properties:
                             healthCheckedTargets:
                               description: |-
                                 The list of targets to be health checked. Note that if DNSSEC is enabled for this zone, only one of rrdatas or health_checked_targets can be set.
-                                Structure is document below.
+                                Structure is documented below.
                               properties:
                                 internalLoadBalancers:
                                   description: |-
                                     The list of internal load balancers to health check.
-                                    Structure is document below.
+                                    Structure is documented below.
                                   items:
                                     properties:
                                       ipAddress:

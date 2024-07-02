@@ -658,12 +658,22 @@ spec:
                       IPv4 address + prefix length to be configured on Cloud Router
                       Interface for this interconnect attachment.
                     type: string
+                  cloudRouterIpv6Address:
+                    description: |-
+                      IPv6 address + prefix length to be configured on Cloud Router
+                      Interface for this interconnect attachment.
+                    type: string
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
                   customerRouterIpAddress:
                     description: |-
                       IPv4 address + prefix length to be configured on the customer
+                      router subinterface for this interconnect attachment.
+                    type: string
+                  customerRouterIpv6Address:
+                    description: |-
+                      IPv6 address + prefix length to be configured on the customer
                       router subinterface for this interconnect attachment.
                     type: string
                   description:

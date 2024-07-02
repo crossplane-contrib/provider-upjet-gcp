@@ -43,6 +43,19 @@ type BuildConfigInitParameters struct {
 	// function, optional when updating an existing function.
 	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
 
+	// The fully-qualified name of the service account to be used for building the container.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
+
 	// The location of the function source code.
 	// Structure is documented below.
 	Source *SourceInitParameters `json:"source,omitempty" tf:"source,omitempty"`
@@ -86,6 +99,9 @@ type BuildConfigObservation struct {
 	// function, optional when updating an existing function.
 	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
 
+	// The fully-qualified name of the service account to be used for building the container.
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
 	// The location of the function source code.
 	// Structure is documented below.
 	Source *SourceObservation `json:"source,omitempty" tf:"source,omitempty"`
@@ -127,6 +143,20 @@ type BuildConfigParameters struct {
 	// function, optional when updating an existing function.
 	// +kubebuilder:validation:Optional
 	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
+
+	// The fully-qualified name of the service account to be used for building the container.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// The location of the function source code.
 	// Structure is documented below.

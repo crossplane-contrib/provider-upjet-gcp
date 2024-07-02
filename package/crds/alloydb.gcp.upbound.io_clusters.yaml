@@ -2161,6 +2161,49 @@ spec:
                   location:
                     description: The location where the alloydb cluster should reside.
                     type: string
+                  maintenanceUpdatePolicy:
+                    description: |-
+                      MaintenanceUpdatePolicy defines the policy for system updates.
+                      Structure is documented below.
+                    properties:
+                      maintenanceWindows:
+                        description: |-
+                          Preferred windows to perform maintenance. Currently limited to 1.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            day:
+                              description: |-
+                                Preferred day of the week for maintenance, e.g. MONDAY, TUESDAY, etc.
+                                Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
+                              type: string
+                            startTime:
+                              description: |-
+                                Preferred time to start the maintenance operation on the specified day. Maintenance will start within 1 hour of this time.
+                                Structure is documented below.
+                              properties:
+                                hours:
+                                  description: Hours of day in 24 hour format. Should
+                                    be from 0 to 23. An API may choose to allow the
+                                    value "24:00:00" for scenarios like business closing
+                                    time.
+                                  type: number
+                                minutes:
+                                  description: Minutes of hour of day. Currently,
+                                    only the value 0 is supported.
+                                  type: number
+                                nanos:
+                                  description: Fractions of seconds in nanoseconds.
+                                    Currently, only the value 0 is supported.
+                                  type: number
+                                seconds:
+                                  description: Seconds of minutes of the time. Currently,
+                                    only the value 0 is supported.
+                                  type: number
+                              type: object
+                          type: object
+                        type: array
+                    type: object
                   network:
                     description: |-
                       The relative resource name of the VPC network on which the instance can be accessed. It is specified in the following form:
@@ -2741,6 +2784,49 @@ spec:
                       Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
+                  maintenanceUpdatePolicy:
+                    description: |-
+                      MaintenanceUpdatePolicy defines the policy for system updates.
+                      Structure is documented below.
+                    properties:
+                      maintenanceWindows:
+                        description: |-
+                          Preferred windows to perform maintenance. Currently limited to 1.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            day:
+                              description: |-
+                                Preferred day of the week for maintenance, e.g. MONDAY, TUESDAY, etc.
+                                Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
+                              type: string
+                            startTime:
+                              description: |-
+                                Preferred time to start the maintenance operation on the specified day. Maintenance will start within 1 hour of this time.
+                                Structure is documented below.
+                              properties:
+                                hours:
+                                  description: Hours of day in 24 hour format. Should
+                                    be from 0 to 23. An API may choose to allow the
+                                    value "24:00:00" for scenarios like business closing
+                                    time.
+                                  type: number
+                                minutes:
+                                  description: Minutes of hour of day. Currently,
+                                    only the value 0 is supported.
+                                  type: number
+                                nanos:
+                                  description: Fractions of seconds in nanoseconds.
+                                    Currently, only the value 0 is supported.
+                                  type: number
+                                seconds:
+                                  description: Seconds of minutes of the time. Currently,
+                                    only the value 0 is supported.
+                                  type: number
+                              type: object
+                          type: object
+                        type: array
+                    type: object
                   network:
                     description: |-
                       The relative resource name of the VPC network on which the instance can be accessed. It is specified in the following form:
@@ -3556,6 +3642,49 @@ spec:
                   location:
                     description: The location where the alloydb cluster should reside.
                     type: string
+                  maintenanceUpdatePolicy:
+                    description: |-
+                      MaintenanceUpdatePolicy defines the policy for system updates.
+                      Structure is documented below.
+                    properties:
+                      maintenanceWindows:
+                        description: |-
+                          Preferred windows to perform maintenance. Currently limited to 1.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            day:
+                              description: |-
+                                Preferred day of the week for maintenance, e.g. MONDAY, TUESDAY, etc.
+                                Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
+                              type: string
+                            startTime:
+                              description: |-
+                                Preferred time to start the maintenance operation on the specified day. Maintenance will start within 1 hour of this time.
+                                Structure is documented below.
+                              properties:
+                                hours:
+                                  description: Hours of day in 24 hour format. Should
+                                    be from 0 to 23. An API may choose to allow the
+                                    value "24:00:00" for scenarios like business closing
+                                    time.
+                                  type: number
+                                minutes:
+                                  description: Minutes of hour of day. Currently,
+                                    only the value 0 is supported.
+                                  type: number
+                                nanos:
+                                  description: Fractions of seconds in nanoseconds.
+                                    Currently, only the value 0 is supported.
+                                  type: number
+                                seconds:
+                                  description: Seconds of minutes of the time. Currently,
+                                    only the value 0 is supported.
+                                  type: number
+                              type: object
+                          type: object
+                        type: array
+                    type: object
                   migrationSource:
                     description: |-
                       Cluster created via DMS migration.

@@ -1144,7 +1144,7 @@ type SchedulerInitParameters struct {
 	// The amount of memory (GB) for a single Airflow worker.
 	MemoryGb *float64 `json:"memoryGb,omitempty" tf:"memory_gb,omitempty"`
 
-	// The amount of storage (GB) for the Airflow web server.
+	// The amount of storage (GB) for a single Airflow worker.
 	StorageGb *float64 `json:"storageGb,omitempty" tf:"storage_gb,omitempty"`
 }
 
@@ -1159,7 +1159,7 @@ type SchedulerObservation struct {
 	// The amount of memory (GB) for a single Airflow worker.
 	MemoryGb *float64 `json:"memoryGb,omitempty" tf:"memory_gb,omitempty"`
 
-	// The amount of storage (GB) for the Airflow web server.
+	// The amount of storage (GB) for a single Airflow worker.
 	StorageGb *float64 `json:"storageGb,omitempty" tf:"storage_gb,omitempty"`
 }
 
@@ -1177,7 +1177,7 @@ type SchedulerParameters struct {
 	// +kubebuilder:validation:Optional
 	MemoryGb *float64 `json:"memoryGb,omitempty" tf:"memory_gb,omitempty"`
 
-	// The amount of storage (GB) for the Airflow web server.
+	// The amount of storage (GB) for a single Airflow worker.
 	// +kubebuilder:validation:Optional
 	StorageGb *float64 `json:"storageGb,omitempty" tf:"storage_gb,omitempty"`
 }
@@ -1196,6 +1196,7 @@ type SoftwareConfigInitParameters struct {
 	// +mapType=granular
 	EnvVariables map[string]*string `json:"envVariables,omitempty" tf:"env_variables,omitempty"`
 
+	// In Composer 1, use a specific Composer 1 version in this parameter. If omitted, the default is the latest version of Composer 2.
 	ImageVersion *string `json:"imageVersion,omitempty" tf:"image_version,omitempty"`
 
 	// Custom Python Package Index (PyPI) packages to be installed
@@ -1227,6 +1228,7 @@ type SoftwareConfigObservation struct {
 	// +mapType=granular
 	EnvVariables map[string]*string `json:"envVariables,omitempty" tf:"env_variables,omitempty"`
 
+	// In Composer 1, use a specific Composer 1 version in this parameter. If omitted, the default is the latest version of Composer 2.
 	ImageVersion *string `json:"imageVersion,omitempty" tf:"image_version,omitempty"`
 
 	// Custom Python Package Index (PyPI) packages to be installed
@@ -1260,6 +1262,7 @@ type SoftwareConfigParameters struct {
 	// +mapType=granular
 	EnvVariables map[string]*string `json:"envVariables,omitempty" tf:"env_variables,omitempty"`
 
+	// In Composer 1, use a specific Composer 1 version in this parameter. If omitted, the default is the latest version of Composer 2.
 	// +kubebuilder:validation:Optional
 	ImageVersion *string `json:"imageVersion,omitempty" tf:"image_version,omitempty"`
 
@@ -1400,7 +1403,7 @@ type WebServerInitParameters struct {
 	// The amount of memory (GB) for a single Airflow worker.
 	MemoryGb *float64 `json:"memoryGb,omitempty" tf:"memory_gb,omitempty"`
 
-	// The amount of storage (GB) for the Airflow web server.
+	// The amount of storage (GB) for a single Airflow worker.
 	StorageGb *float64 `json:"storageGb,omitempty" tf:"storage_gb,omitempty"`
 }
 
@@ -1431,7 +1434,7 @@ type WebServerObservation struct {
 	// The amount of memory (GB) for a single Airflow worker.
 	MemoryGb *float64 `json:"memoryGb,omitempty" tf:"memory_gb,omitempty"`
 
-	// The amount of storage (GB) for the Airflow web server.
+	// The amount of storage (GB) for a single Airflow worker.
 	StorageGb *float64 `json:"storageGb,omitempty" tf:"storage_gb,omitempty"`
 }
 
@@ -1445,7 +1448,7 @@ type WebServerParameters struct {
 	// +kubebuilder:validation:Optional
 	MemoryGb *float64 `json:"memoryGb,omitempty" tf:"memory_gb,omitempty"`
 
-	// The amount of storage (GB) for the Airflow web server.
+	// The amount of storage (GB) for a single Airflow worker.
 	// +kubebuilder:validation:Optional
 	StorageGb *float64 `json:"storageGb,omitempty" tf:"storage_gb,omitempty"`
 }
@@ -1467,7 +1470,7 @@ type WorkerInitParameters struct {
 	// environment does not go above this number, even if a lower number of workers can handle the load.
 	MinCount *float64 `json:"minCount,omitempty" tf:"min_count,omitempty"`
 
-	// The amount of storage (GB) for the Airflow web server.
+	// The amount of storage (GB) for a single Airflow worker.
 	StorageGb *float64 `json:"storageGb,omitempty" tf:"storage_gb,omitempty"`
 }
 
@@ -1488,7 +1491,7 @@ type WorkerObservation struct {
 	// environment does not go above this number, even if a lower number of workers can handle the load.
 	MinCount *float64 `json:"minCount,omitempty" tf:"min_count,omitempty"`
 
-	// The amount of storage (GB) for the Airflow web server.
+	// The amount of storage (GB) for a single Airflow worker.
 	StorageGb *float64 `json:"storageGb,omitempty" tf:"storage_gb,omitempty"`
 }
 
@@ -1513,7 +1516,7 @@ type WorkerParameters struct {
 	// +kubebuilder:validation:Optional
 	MinCount *float64 `json:"minCount,omitempty" tf:"min_count,omitempty"`
 
-	// The amount of storage (GB) for the Airflow web server.
+	// The amount of storage (GB) for a single Airflow worker.
 	// +kubebuilder:validation:Optional
 	StorageGb *float64 `json:"storageGb,omitempty" tf:"storage_gb,omitempty"`
 }

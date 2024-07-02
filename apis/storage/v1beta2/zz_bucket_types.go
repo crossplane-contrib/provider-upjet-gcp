@@ -124,6 +124,9 @@ type BucketInitParameters struct {
 	// The recovery point objective for cross-region replication of the bucket. Applicable only for dual and multi-region buckets. "DEFAULT" sets default replication. "ASYNC_TURBO" value enables turbo replication, valid for dual-region buckets only. See Turbo Replication for more information. If rpo is not specified at bucket creation, it defaults to "DEFAULT" for dual and multi-region buckets. NOTE If used with single-region bucket, It will throw an error.
 	Rpo *string `json:"rpo,omitempty" tf:"rpo,omitempty"`
 
+	// The bucket's soft delete policy, which defines the period of time that soft-deleted objects will be retained, and cannot be permanently deleted. Structure is documented below.
+	SoftDeletePolicy *SoftDeletePolicyInitParameters `json:"softDeletePolicy,omitempty" tf:"soft_delete_policy,omitempty"`
+
 	// The Storage Class of the new bucket. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE.
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
 
@@ -184,6 +187,8 @@ type BucketObservation struct {
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	ProjectNumber *float64 `json:"projectNumber,omitempty" tf:"project_number,omitempty"`
+
 	// Prevents public access to a bucket. Acceptable values are "inherited" or "enforced". If "inherited", the bucket uses public access prevention. only if the bucket is subject to the public access prevention organization policy constraint. Defaults to "inherited".
 	PublicAccessPrevention *string `json:"publicAccessPrevention,omitempty" tf:"public_access_prevention,omitempty"`
 
@@ -198,6 +203,9 @@ type BucketObservation struct {
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// The bucket's soft delete policy, which defines the period of time that soft-deleted objects will be retained, and cannot be permanently deleted. Structure is documented below.
+	SoftDeletePolicy *SoftDeletePolicyObservation `json:"softDeletePolicy,omitempty" tf:"soft_delete_policy,omitempty"`
 
 	// The Storage Class of the new bucket. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE.
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
@@ -287,6 +295,10 @@ type BucketParameters struct {
 	// The recovery point objective for cross-region replication of the bucket. Applicable only for dual and multi-region buckets. "DEFAULT" sets default replication. "ASYNC_TURBO" value enables turbo replication, valid for dual-region buckets only. See Turbo Replication for more information. If rpo is not specified at bucket creation, it defaults to "DEFAULT" for dual and multi-region buckets. NOTE If used with single-region bucket, It will throw an error.
 	// +kubebuilder:validation:Optional
 	Rpo *string `json:"rpo,omitempty" tf:"rpo,omitempty"`
+
+	// The bucket's soft delete policy, which defines the period of time that soft-deleted objects will be retained, and cannot be permanently deleted. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SoftDeletePolicy *SoftDeletePolicyParameters `json:"softDeletePolicy,omitempty" tf:"soft_delete_policy,omitempty"`
 
 	// The Storage Class of the new bucket. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE.
 	// +kubebuilder:validation:Optional
@@ -618,6 +630,28 @@ type RetentionPolicyParameters struct {
 	// The period of time, in seconds, that objects in the bucket must be retained and cannot be deleted, overwritten, or archived. The value must be less than 2,147,483,647 seconds.
 	// +kubebuilder:validation:Optional
 	RetentionPeriod *float64 `json:"retentionPeriod" tf:"retention_period,omitempty"`
+}
+
+type SoftDeletePolicyInitParameters struct {
+
+	// The duration in seconds that soft-deleted objects in the bucket will be retained and cannot be permanently deleted. Default value is 604800. The value must be in between 604800(7 days) and 7776000(90 days). Note: To disable the soft delete policy on a bucket, This field must be set to 0.
+	RetentionDurationSeconds *float64 `json:"retentionDurationSeconds,omitempty" tf:"retention_duration_seconds,omitempty"`
+}
+
+type SoftDeletePolicyObservation struct {
+
+	// (Computed) Server-determined value that indicates the time from which the policy, or one with a greater retention, was effective. This value is in RFC 3339 format.
+	EffectiveTime *string `json:"effectiveTime,omitempty" tf:"effective_time,omitempty"`
+
+	// The duration in seconds that soft-deleted objects in the bucket will be retained and cannot be permanently deleted. Default value is 604800. The value must be in between 604800(7 days) and 7776000(90 days). Note: To disable the soft delete policy on a bucket, This field must be set to 0.
+	RetentionDurationSeconds *float64 `json:"retentionDurationSeconds,omitempty" tf:"retention_duration_seconds,omitempty"`
+}
+
+type SoftDeletePolicyParameters struct {
+
+	// The duration in seconds that soft-deleted objects in the bucket will be retained and cannot be permanently deleted. Default value is 604800. The value must be in between 604800(7 days) and 7776000(90 days). Note: To disable the soft delete policy on a bucket, This field must be set to 0.
+	// +kubebuilder:validation:Optional
+	RetentionDurationSeconds *float64 `json:"retentionDurationSeconds,omitempty" tf:"retention_duration_seconds,omitempty"`
 }
 
 type VersioningInitParameters struct {

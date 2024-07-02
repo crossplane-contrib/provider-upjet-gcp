@@ -305,6 +305,10 @@ type DatasetInitParameters struct {
 	// A user-friendly description of the dataset
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Information about the external metadata storage where the dataset is defined.
+	// Structure is documented below.
+	ExternalDatasetReference *ExternalDatasetReferenceInitParameters `json:"externalDatasetReference,omitempty" tf:"external_dataset_reference,omitempty"`
+
 	// A descriptive name for the dataset
 	FriendlyName *string `json:"friendlyName,omitempty" tf:"friendly_name,omitempty"`
 
@@ -379,6 +383,10 @@ type DatasetObservation struct {
 
 	// A hash of the resource.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
+
+	// Information about the external metadata storage where the dataset is defined.
+	// Structure is documented below.
+	ExternalDatasetReference *ExternalDatasetReferenceObservation `json:"externalDatasetReference,omitempty" tf:"external_dataset_reference,omitempty"`
 
 	// A descriptive name for the dataset
 	FriendlyName *string `json:"friendlyName,omitempty" tf:"friendly_name,omitempty"`
@@ -470,6 +478,11 @@ type DatasetParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Information about the external metadata storage where the dataset is defined.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ExternalDatasetReference *ExternalDatasetReferenceParameters `json:"externalDatasetReference,omitempty" tf:"external_dataset_reference,omitempty"`
+
 	// A descriptive name for the dataset
 	// +kubebuilder:validation:Optional
 	FriendlyName *string `json:"friendlyName,omitempty" tf:"friendly_name,omitempty"`
@@ -551,6 +564,38 @@ type DefaultEncryptionConfigurationParameters struct {
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
 	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+}
+
+type ExternalDatasetReferenceInitParameters struct {
+
+	// The connection id that is used to access the externalSource.
+	// Format: projects/{projectId}/locations/{locationId}/connections/{connectionId}
+	Connection *string `json:"connection,omitempty" tf:"connection,omitempty"`
+
+	// External source that backs this dataset.
+	ExternalSource *string `json:"externalSource,omitempty" tf:"external_source,omitempty"`
+}
+
+type ExternalDatasetReferenceObservation struct {
+
+	// The connection id that is used to access the externalSource.
+	// Format: projects/{projectId}/locations/{locationId}/connections/{connectionId}
+	Connection *string `json:"connection,omitempty" tf:"connection,omitempty"`
+
+	// External source that backs this dataset.
+	ExternalSource *string `json:"externalSource,omitempty" tf:"external_source,omitempty"`
+}
+
+type ExternalDatasetReferenceParameters struct {
+
+	// The connection id that is used to access the externalSource.
+	// Format: projects/{projectId}/locations/{locationId}/connections/{connectionId}
+	// +kubebuilder:validation:Optional
+	Connection *string `json:"connection" tf:"connection,omitempty"`
+
+	// External source that backs this dataset.
+	// +kubebuilder:validation:Optional
+	ExternalSource *string `json:"externalSource" tf:"external_source,omitempty"`
 }
 
 type RoutineInitParameters struct {

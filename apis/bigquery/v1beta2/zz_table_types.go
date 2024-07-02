@@ -245,6 +245,9 @@ type ExternalDataConfigurationInitParameters struct {
 	// The default value is false.
 	IgnoreUnknownValues *bool `json:"ignoreUnknownValues,omitempty" tf:"ignore_unknown_values,omitempty"`
 
+	// Used to indicate that a JSON variant, rather than normal JSON, is being used as the sourceFormat. This should only be used in combination with the JSON source format. Valid values are: GEOJSON.
+	JSONExtension *string `json:"jsonExtension,omitempty" tf:"json_extension,omitempty"`
+
 	// Additional properties to set if
 	// source_format is set to "JSON". Structure is documented below.
 	JSONOptions *JSONOptionsInitParameters `json:"jsonOptions,omitempty" tf:"json_options,omitempty"`
@@ -337,6 +340,9 @@ type ExternalDataConfigurationObservation struct {
 	// many bad records, an invalid error is returned in the job result.
 	// The default value is false.
 	IgnoreUnknownValues *bool `json:"ignoreUnknownValues,omitempty" tf:"ignore_unknown_values,omitempty"`
+
+	// Used to indicate that a JSON variant, rather than normal JSON, is being used as the sourceFormat. This should only be used in combination with the JSON source format. Valid values are: GEOJSON.
+	JSONExtension *string `json:"jsonExtension,omitempty" tf:"json_extension,omitempty"`
 
 	// Additional properties to set if
 	// source_format is set to "JSON". Structure is documented below.
@@ -439,6 +445,10 @@ type ExternalDataConfigurationParameters struct {
 	// The default value is false.
 	// +kubebuilder:validation:Optional
 	IgnoreUnknownValues *bool `json:"ignoreUnknownValues,omitempty" tf:"ignore_unknown_values,omitempty"`
+
+	// Used to indicate that a JSON variant, rather than normal JSON, is being used as the sourceFormat. This should only be used in combination with the JSON source format. Valid values are: GEOJSON.
+	// +kubebuilder:validation:Optional
+	JSONExtension *string `json:"jsonExtension,omitempty" tf:"json_extension,omitempty"`
 
 	// Additional properties to set if
 	// source_format is set to "JSON". Structure is documented below.

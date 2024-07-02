@@ -1541,6 +1541,20 @@ spec:
                       buckets. NOTE If used with single-region bucket, It will throw
                       an error.
                     type: string
+                  softDeletePolicy:
+                    description: The bucket's soft delete policy, which defines the
+                      period of time that soft-deleted objects will be retained, and
+                      cannot be permanently deleted. Structure is documented below.
+                    properties:
+                      retentionDurationSeconds:
+                        description: 'The duration in seconds that soft-deleted objects
+                          in the bucket will be retained and cannot be permanently
+                          deleted. Default value is 604800. The value must be in between
+                          604800(7 days) and 7776000(90 days). Note: To disable the
+                          soft delete policy on a bucket, This field must be set to
+                          0.'
+                        type: number
+                    type: object
                   storageClass:
                     description: 'The Storage Class of the new bucket. Supported values
                       include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE,
@@ -1832,6 +1846,20 @@ spec:
                       buckets. NOTE If used with single-region bucket, It will throw
                       an error.
                     type: string
+                  softDeletePolicy:
+                    description: The bucket's soft delete policy, which defines the
+                      period of time that soft-deleted objects will be retained, and
+                      cannot be permanently deleted. Structure is documented below.
+                    properties:
+                      retentionDurationSeconds:
+                        description: 'The duration in seconds that soft-deleted objects
+                          in the bucket will be retained and cannot be permanently
+                          deleted. Default value is 604800. The value must be in between
+                          604800(7 days) and 7776000(90 days). Note: To disable the
+                          soft delete policy on a bucket, This field must be set to
+                          0.'
+                        type: number
+                    type: object
                   storageClass:
                     description: 'The Storage Class of the new bucket. Supported values
                       include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE,
@@ -2259,6 +2287,8 @@ spec:
                       The ID of the project in which the resource belongs. If it
                       is not provided, the provider project is used.
                     type: string
+                  projectNumber:
+                    type: number
                   publicAccessPrevention:
                     description: Prevents public access to a bucket. Acceptable values
                       are "inherited" or "enforced". If "inherited", the bucket uses
@@ -2298,6 +2328,25 @@ spec:
                   selfLink:
                     description: The URI of the created resource.
                     type: string
+                  softDeletePolicy:
+                    description: The bucket's soft delete policy, which defines the
+                      period of time that soft-deleted objects will be retained, and
+                      cannot be permanently deleted. Structure is documented below.
+                    properties:
+                      effectiveTime:
+                        description: (Computed) Server-determined value that indicates
+                          the time from which the policy, or one with a greater retention,
+                          was effective. This value is in RFC 3339 format.
+                        type: string
+                      retentionDurationSeconds:
+                        description: 'The duration in seconds that soft-deleted objects
+                          in the bucket will be retained and cannot be permanently
+                          deleted. Default value is 604800. The value must be in between
+                          604800(7 days) and 7776000(90 days). Note: To disable the
+                          soft delete policy on a bucket, This field must be set to
+                          0.'
+                        type: number
+                    type: object
                   storageClass:
                     description: 'The Storage Class of the new bucket. Supported values
                       include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE,

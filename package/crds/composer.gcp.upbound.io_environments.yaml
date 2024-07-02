@@ -3247,6 +3247,9 @@ spec:
                             type: object
                             x-kubernetes-map-type: granular
                           imageVersion:
+                            description: In Composer 1, use a specific Composer 1
+                              version in this parameter. If omitted, the default is
+                              the latest version of Composer 2.
                             type: string
                           pypiPackages:
                             additionalProperties:
@@ -3323,8 +3326,8 @@ spec:
                                   Airflow worker.
                                 type: number
                               storageGb:
-                                description: The amount of storage (GB) for the Airflow
-                                  web server.
+                                description: The amount of storage (GB) for a single
+                                  Airflow worker.
                                 type: number
                             type: object
                           triggerer:
@@ -3356,8 +3359,8 @@ spec:
                                   Airflow worker.
                                 type: number
                               storageGb:
-                                description: The amount of storage (GB) for the Airflow
-                                  web server.
+                                description: The amount of storage (GB) for a single
+                                  Airflow worker.
                                 type: number
                             type: object
                           worker:
@@ -3384,8 +3387,8 @@ spec:
                                   environment does not go above this number, even if a lower number of workers can handle the load.
                                 type: number
                               storageGb:
-                                description: The amount of storage (GB) for the Airflow
-                                  web server.
+                                description: The amount of storage (GB) for a single
+                                  Airflow worker.
                                 type: number
                             type: object
                         type: object
@@ -4080,6 +4083,9 @@ spec:
                             type: object
                             x-kubernetes-map-type: granular
                           imageVersion:
+                            description: In Composer 1, use a specific Composer 1
+                              version in this parameter. If omitted, the default is
+                              the latest version of Composer 2.
                             type: string
                           pypiPackages:
                             additionalProperties:
@@ -4156,8 +4162,8 @@ spec:
                                   Airflow worker.
                                 type: number
                               storageGb:
-                                description: The amount of storage (GB) for the Airflow
-                                  web server.
+                                description: The amount of storage (GB) for a single
+                                  Airflow worker.
                                 type: number
                             type: object
                           triggerer:
@@ -4189,8 +4195,8 @@ spec:
                                   Airflow worker.
                                 type: number
                               storageGb:
-                                description: The amount of storage (GB) for the Airflow
-                                  web server.
+                                description: The amount of storage (GB) for a single
+                                  Airflow worker.
                                 type: number
                             type: object
                           worker:
@@ -4217,8 +4223,8 @@ spec:
                                   environment does not go above this number, even if a lower number of workers can handle the load.
                                 type: number
                               storageGb:
-                                description: The amount of storage (GB) for the Airflow
-                                  web server.
+                                description: The amount of storage (GB) for a single
+                                  Airflow worker.
                                 type: number
                             type: object
                         type: object
@@ -4856,6 +4862,9 @@ spec:
                             type: object
                             x-kubernetes-map-type: granular
                           imageVersion:
+                            description: In Composer 1, use a specific Composer 1
+                              version in this parameter. If omitted, the default is
+                              the latest version of Composer 2.
                             type: string
                           pypiPackages:
                             additionalProperties:
@@ -4932,8 +4941,8 @@ spec:
                                   Airflow worker.
                                 type: number
                               storageGb:
-                                description: The amount of storage (GB) for the Airflow
-                                  web server.
+                                description: The amount of storage (GB) for a single
+                                  Airflow worker.
                                 type: number
                             type: object
                           triggerer:
@@ -4965,8 +4974,8 @@ spec:
                                   Airflow worker.
                                 type: number
                               storageGb:
-                                description: The amount of storage (GB) for the Airflow
-                                  web server.
+                                description: The amount of storage (GB) for a single
+                                  Airflow worker.
                                 type: number
                             type: object
                           worker:
@@ -4993,8 +5002,8 @@ spec:
                                   environment does not go above this number, even if a lower number of workers can handle the load.
                                 type: number
                               storageGb:
-                                description: The amount of storage (GB) for the Airflow
-                                  web server.
+                                description: The amount of storage (GB) for a single
+                                  Airflow worker.
                                 type: number
                             type: object
                         type: object

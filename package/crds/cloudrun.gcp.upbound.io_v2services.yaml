@@ -3502,18 +3502,16 @@ spec:
                                 List of ports to expose from the container. Only a single port can be specified. The specified ports must be listening on all interfaces (0.0.0.0) within the container to be accessible.
                                 If omitted, a port number will be chosen and passed to the container through the PORT environment variable for the container to listen on
                                 Structure is documented below.
-                              items:
-                                properties:
-                                  containerPort:
-                                    description: Port number the container listens
-                                      on. This must be a valid TCP port number, 0
-                                      < containerPort < 65536.
-                                    type: number
-                                  name:
-                                    description: Volume's name.
-                                    type: string
-                                type: object
-                              type: array
+                              properties:
+                                containerPort:
+                                  description: Port number the container listens on.
+                                    This must be a valid TCP port number, 0 < containerPort
+                                    < 65536.
+                                  type: number
+                                name:
+                                  description: Volume's name.
+                                  type: string
+                              type: object
                             resources:
                               description: |-
                                 Compute Resource requirements by this container. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources
@@ -3744,7 +3742,7 @@ spec:
                               type: object
                             gcs:
                               description: |-
-                                Represents a GCS Bucket mounted as a volume.
+                                Cloud Storage bucket mounted as a volume using GCSFuse. This feature is only supported in the gen2 execution environment and requires launch-stage to be set to ALPHA or BETA.
                                 Structure is documented below.
                               properties:
                                 bucket:
@@ -4395,18 +4393,16 @@ spec:
                                 List of ports to expose from the container. Only a single port can be specified. The specified ports must be listening on all interfaces (0.0.0.0) within the container to be accessible.
                                 If omitted, a port number will be chosen and passed to the container through the PORT environment variable for the container to listen on
                                 Structure is documented below.
-                              items:
-                                properties:
-                                  containerPort:
-                                    description: Port number the container listens
-                                      on. This must be a valid TCP port number, 0
-                                      < containerPort < 65536.
-                                    type: number
-                                  name:
-                                    description: Volume's name.
-                                    type: string
-                                type: object
-                              type: array
+                              properties:
+                                containerPort:
+                                  description: Port number the container listens on.
+                                    This must be a valid TCP port number, 0 < containerPort
+                                    < 65536.
+                                  type: number
+                                name:
+                                  description: Volume's name.
+                                  type: string
+                              type: object
                             resources:
                               description: |-
                                 Compute Resource requirements by this container. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources
@@ -4637,7 +4633,7 @@ spec:
                               type: object
                             gcs:
                               description: |-
-                                Represents a GCS Bucket mounted as a volume.
+                                Cloud Storage bucket mounted as a volume using GCSFuse. This feature is only supported in the gen2 execution environment and requires launch-stage to be set to ALPHA or BETA.
                                 Structure is documented below.
                               properties:
                                 bucket:
@@ -5489,18 +5485,16 @@ spec:
                                 List of ports to expose from the container. Only a single port can be specified. The specified ports must be listening on all interfaces (0.0.0.0) within the container to be accessible.
                                 If omitted, a port number will be chosen and passed to the container through the PORT environment variable for the container to listen on
                                 Structure is documented below.
-                              items:
-                                properties:
-                                  containerPort:
-                                    description: Port number the container listens
-                                      on. This must be a valid TCP port number, 0
-                                      < containerPort < 65536.
-                                    type: number
-                                  name:
-                                    description: Volume's name.
-                                    type: string
-                                type: object
-                              type: array
+                              properties:
+                                containerPort:
+                                  description: Port number the container listens on.
+                                    This must be a valid TCP port number, 0 < containerPort
+                                    < 65536.
+                                  type: number
+                                name:
+                                  description: Volume's name.
+                                  type: string
+                              type: object
                             resources:
                               description: |-
                                 Compute Resource requirements by this container. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources
@@ -5731,7 +5725,7 @@ spec:
                               type: object
                             gcs:
                               description: |-
-                                Represents a GCS Bucket mounted as a volume.
+                                Cloud Storage bucket mounted as a volume using GCSFuse. This feature is only supported in the gen2 execution environment and requires launch-stage to be set to ALPHA or BETA.
                                 Structure is documented below.
                               properties:
                                 bucket:

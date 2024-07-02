@@ -126,8 +126,10 @@ spec:
                   parameters:
                     additionalProperties:
                       type: string
-                    description: Key/Value pairs to be passed to the Dataflow job
-                      (as used in the template).
+                    description: |-
+                      Template specific Key/Value pairs to be forwarded to the pipeline's options; keys are
+                      case-sensitive based on the language on which the pipeline is coded, mostly Java.
+                      Note: do not configure Dataflow options here in parameters.
                     type: object
                   project:
                     description: The project in which the resource belongs. If it
@@ -230,8 +232,10 @@ spec:
                   parameters:
                     additionalProperties:
                       type: string
-                    description: Key/Value pairs to be passed to the Dataflow job
-                      (as used in the template).
+                    description: |-
+                      Template specific Key/Value pairs to be forwarded to the pipeline's options; keys are
+                      case-sensitive based on the language on which the pipeline is coded, mostly Java.
+                      Note: do not configure Dataflow options here in parameters.
                     type: object
                   project:
                     description: The project in which the resource belongs. If it
@@ -516,8 +520,10 @@ spec:
                   parameters:
                     additionalProperties:
                       type: string
-                    description: Key/Value pairs to be passed to the Dataflow job
-                      (as used in the template).
+                    description: |-
+                      Template specific Key/Value pairs to be forwarded to the pipeline's options; keys are
+                      case-sensitive based on the language on which the pipeline is coded, mostly Java.
+                      Note: do not configure Dataflow options here in parameters.
                     type: object
                   project:
                     description: The project in which the resource belongs. If it

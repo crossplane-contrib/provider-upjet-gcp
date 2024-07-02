@@ -166,7 +166,7 @@ type HTTPCheckInitParameters struct {
 	// Structure is documented below.
 	AcceptedResponseStatusCodes []AcceptedResponseStatusCodesInitParameters `json:"acceptedResponseStatusCodes,omitempty" tf:"accepted_response_status_codes,omitempty"`
 
-	// The authentication information. Optional when creating an HTTP check; defaults to empty.
+	// The authentication information using username and password. Optional when creating an HTTP check; defaults to empty. Do not use with other authentication fields.
 	// Structure is documented below.
 	AuthInfo *AuthInfoInitParameters `json:"authInfo,omitempty" tf:"auth_info,omitempty"`
 
@@ -202,6 +202,10 @@ type HTTPCheckInitParameters struct {
 	// Possible values are: METHOD_UNSPECIFIED, GET, POST.
 	RequestMethod *string `json:"requestMethod,omitempty" tf:"request_method,omitempty"`
 
+	// The authentication information using the Monitoring Service Agent. Optional when creating an HTTPS check; defaults to empty. Do not use with other authentication fields.
+	// Structure is documented below.
+	ServiceAgentAuthentication *ServiceAgentAuthenticationInitParameters `json:"serviceAgentAuthentication,omitempty" tf:"service_agent_authentication,omitempty"`
+
 	// If true, use HTTPS instead of HTTP to run the check.
 	UseSSL *bool `json:"useSsl,omitempty" tf:"use_ssl,omitempty"`
 
@@ -215,7 +219,7 @@ type HTTPCheckObservation struct {
 	// Structure is documented below.
 	AcceptedResponseStatusCodes []AcceptedResponseStatusCodesObservation `json:"acceptedResponseStatusCodes,omitempty" tf:"accepted_response_status_codes,omitempty"`
 
-	// The authentication information. Optional when creating an HTTP check; defaults to empty.
+	// The authentication information using username and password. Optional when creating an HTTP check; defaults to empty. Do not use with other authentication fields.
 	// Structure is documented below.
 	AuthInfo *AuthInfoObservation `json:"authInfo,omitempty" tf:"auth_info,omitempty"`
 
@@ -251,6 +255,10 @@ type HTTPCheckObservation struct {
 	// Possible values are: METHOD_UNSPECIFIED, GET, POST.
 	RequestMethod *string `json:"requestMethod,omitempty" tf:"request_method,omitempty"`
 
+	// The authentication information using the Monitoring Service Agent. Optional when creating an HTTPS check; defaults to empty. Do not use with other authentication fields.
+	// Structure is documented below.
+	ServiceAgentAuthentication *ServiceAgentAuthenticationObservation `json:"serviceAgentAuthentication,omitempty" tf:"service_agent_authentication,omitempty"`
+
 	// If true, use HTTPS instead of HTTP to run the check.
 	UseSSL *bool `json:"useSsl,omitempty" tf:"use_ssl,omitempty"`
 
@@ -265,7 +273,7 @@ type HTTPCheckParameters struct {
 	// +kubebuilder:validation:Optional
 	AcceptedResponseStatusCodes []AcceptedResponseStatusCodesParameters `json:"acceptedResponseStatusCodes,omitempty" tf:"accepted_response_status_codes,omitempty"`
 
-	// The authentication information. Optional when creating an HTTP check; defaults to empty.
+	// The authentication information using username and password. Optional when creating an HTTP check; defaults to empty. Do not use with other authentication fields.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AuthInfo *AuthInfoParameters `json:"authInfo,omitempty" tf:"auth_info,omitempty"`
@@ -310,6 +318,11 @@ type HTTPCheckParameters struct {
 	// Possible values are: METHOD_UNSPECIFIED, GET, POST.
 	// +kubebuilder:validation:Optional
 	RequestMethod *string `json:"requestMethod,omitempty" tf:"request_method,omitempty"`
+
+	// The authentication information using the Monitoring Service Agent. Optional when creating an HTTPS check; defaults to empty. Do not use with other authentication fields.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ServiceAgentAuthentication *ServiceAgentAuthenticationParameters `json:"serviceAgentAuthentication,omitempty" tf:"service_agent_authentication,omitempty"`
 
 	// If true, use HTTPS instead of HTTP to run the check.
 	// +kubebuilder:validation:Optional
@@ -456,6 +469,28 @@ type ResourceGroupParameters struct {
 	// Possible values are: RESOURCE_TYPE_UNSPECIFIED, INSTANCE, AWS_ELB_LOAD_BALANCER.
 	// +kubebuilder:validation:Optional
 	ResourceType *string `json:"resourceType,omitempty" tf:"resource_type,omitempty"`
+}
+
+type ServiceAgentAuthenticationInitParameters struct {
+
+	// The type of authentication to use.
+	// Possible values are: SERVICE_AGENT_AUTHENTICATION_TYPE_UNSPECIFIED, OIDC_TOKEN.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type ServiceAgentAuthenticationObservation struct {
+
+	// The type of authentication to use.
+	// Possible values are: SERVICE_AGENT_AUTHENTICATION_TYPE_UNSPECIFIED, OIDC_TOKEN.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type ServiceAgentAuthenticationParameters struct {
+
+	// The type of authentication to use.
+	// Possible values are: SERVICE_AGENT_AUTHENTICATION_TYPE_UNSPECIFIED, OIDC_TOKEN.
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type SyntheticMonitorInitParameters struct {

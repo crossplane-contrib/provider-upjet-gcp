@@ -7240,6 +7240,21 @@ func (in *ConsumerAcceptListsInitParameters) DeepCopyInto(out *ConsumerAcceptLis
 		*out = new(float64)
 		**out = **in
 	}
+	if in.NetworkURL != nil {
+		in, out := &in.NetworkURL, &out.NetworkURL
+		*out = new(string)
+		**out = **in
+	}
+	if in.NetworkURLRef != nil {
+		in, out := &in.NetworkURLRef, &out.NetworkURLRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NetworkURLSelector != nil {
+		in, out := &in.NetworkURLSelector, &out.NetworkURLSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ProjectIDOrNum != nil {
 		in, out := &in.ProjectIDOrNum, &out.ProjectIDOrNum
 		*out = new(string)
@@ -7263,6 +7278,11 @@ func (in *ConsumerAcceptListsObservation) DeepCopyInto(out *ConsumerAcceptListsO
 	if in.ConnectionLimit != nil {
 		in, out := &in.ConnectionLimit, &out.ConnectionLimit
 		*out = new(float64)
+		**out = **in
+	}
+	if in.NetworkURL != nil {
+		in, out := &in.NetworkURL, &out.NetworkURL
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProjectIDOrNum != nil {
@@ -7289,6 +7309,21 @@ func (in *ConsumerAcceptListsParameters) DeepCopyInto(out *ConsumerAcceptListsPa
 		in, out := &in.ConnectionLimit, &out.ConnectionLimit
 		*out = new(float64)
 		**out = **in
+	}
+	if in.NetworkURL != nil {
+		in, out := &in.NetworkURL, &out.NetworkURL
+		*out = new(string)
+		**out = **in
+	}
+	if in.NetworkURLRef != nil {
+		in, out := &in.NetworkURLRef, &out.NetworkURLRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NetworkURLSelector != nil {
+		in, out := &in.NetworkURLSelector, &out.NetworkURLSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectIDOrNum != nil {
 		in, out := &in.ProjectIDOrNum, &out.ProjectIDOrNum
@@ -28639,6 +28674,11 @@ func (in *InterconnectAttachmentObservation) DeepCopyInto(out *InterconnectAttac
 		*out = new(string)
 		**out = **in
 	}
+	if in.CloudRouterIPv6Address != nil {
+		in, out := &in.CloudRouterIPv6Address, &out.CloudRouterIPv6Address
+		*out = new(string)
+		**out = **in
+	}
 	if in.CreationTimestamp != nil {
 		in, out := &in.CreationTimestamp, &out.CreationTimestamp
 		*out = new(string)
@@ -28646,6 +28686,11 @@ func (in *InterconnectAttachmentObservation) DeepCopyInto(out *InterconnectAttac
 	}
 	if in.CustomerRouterIPAddress != nil {
 		in, out := &in.CustomerRouterIPAddress, &out.CustomerRouterIPAddress
+		*out = new(string)
+		**out = **in
+	}
+	if in.CustomerRouterIPv6Address != nil {
+		in, out := &in.CustomerRouterIPv6Address, &out.CustomerRouterIPv6Address
 		*out = new(string)
 		**out = **in
 	}
@@ -53022,6 +53067,11 @@ func (in *RegionTargetHTTPSProxyInitParameters) DeepCopyInto(out *RegionTargetHT
 		*out = new(string)
 		**out = **in
 	}
+	if in.ServerTLSPolicy != nil {
+		in, out := &in.ServerTLSPolicy, &out.ServerTLSPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.URLMap != nil {
 		in, out := &in.URLMap, &out.URLMap
 		*out = new(string)
@@ -53146,6 +53196,11 @@ func (in *RegionTargetHTTPSProxyObservation) DeepCopyInto(out *RegionTargetHTTPS
 		*out = new(string)
 		**out = **in
 	}
+	if in.ServerTLSPolicy != nil {
+		in, out := &in.ServerTLSPolicy, &out.ServerTLSPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.URLMap != nil {
 		in, out := &in.URLMap, &out.URLMap
 		*out = new(string)
@@ -53217,6 +53272,11 @@ func (in *RegionTargetHTTPSProxyParameters) DeepCopyInto(out *RegionTargetHTTPSP
 	}
 	if in.SSLPolicy != nil {
 		in, out := &in.SSLPolicy, &out.SSLPolicy
+		*out = new(string)
+		**out = **in
+	}
+	if in.ServerTLSPolicy != nil {
+		in, out := &in.ServerTLSPolicy, &out.ServerTLSPolicy
 		*out = new(string)
 		**out = **in
 	}

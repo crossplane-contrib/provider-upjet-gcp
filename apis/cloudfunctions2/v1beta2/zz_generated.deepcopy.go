@@ -57,6 +57,21 @@ func (in *BuildConfigInitParameters) DeepCopyInto(out *BuildConfigInitParameters
 		*out = new(string)
 		**out = **in
 	}
+	if in.ServiceAccount != nil {
+		in, out := &in.ServiceAccount, &out.ServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.ServiceAccountRef != nil {
+		in, out := &in.ServiceAccountRef, &out.ServiceAccountRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServiceAccountSelector != nil {
+		in, out := &in.ServiceAccountSelector, &out.ServiceAccountSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Source != nil {
 		in, out := &in.Source, &out.Source
 		*out = new(SourceInitParameters)
@@ -128,6 +143,11 @@ func (in *BuildConfigObservation) DeepCopyInto(out *BuildConfigObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ServiceAccount != nil {
+		in, out := &in.ServiceAccount, &out.ServiceAccount
+		*out = new(string)
+		**out = **in
+	}
 	if in.Source != nil {
 		in, out := &in.Source, &out.Source
 		*out = new(SourceObservation)
@@ -193,6 +213,21 @@ func (in *BuildConfigParameters) DeepCopyInto(out *BuildConfigParameters) {
 		in, out := &in.Runtime, &out.Runtime
 		*out = new(string)
 		**out = **in
+	}
+	if in.ServiceAccount != nil {
+		in, out := &in.ServiceAccount, &out.ServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.ServiceAccountRef != nil {
+		in, out := &in.ServiceAccountRef, &out.ServiceAccountRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServiceAccountSelector != nil {
+		in, out := &in.ServiceAccountSelector, &out.ServiceAccountSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Source != nil {
 		in, out := &in.Source, &out.Source

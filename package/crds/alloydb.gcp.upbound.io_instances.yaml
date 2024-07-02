@@ -1300,6 +1300,32 @@ spec:
                         description: The number of CPU's in the VM instance.
                         type: number
                     type: object
+                  networkConfig:
+                    description: |-
+                      Instance level network configuration.
+                      Structure is documented below.
+                    properties:
+                      authorizedExternalNetworks:
+                        description: |-
+                          A list of external networks authorized to access this instance. This
+                          field is only allowed to be set when enable_public_ip is set to
+                          true.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            cidrRange:
+                              description: CIDR range for one authorized network of
+                                the instance.
+                              type: string
+                          type: object
+                        type: array
+                      enablePublicIp:
+                        description: |-
+                          Enabling public ip for the instance. If a user wishes to disable this,
+                          please also clear the list of the authorized external networks set on
+                          the same instance.
+                        type: boolean
+                    type: object
                   queryInsightsConfig:
                     description: |-
                       Configuration for query insights.
@@ -1510,6 +1536,32 @@ spec:
                       cpuCount:
                         description: The number of CPU's in the VM instance.
                         type: number
+                    type: object
+                  networkConfig:
+                    description: |-
+                      Instance level network configuration.
+                      Structure is documented below.
+                    properties:
+                      authorizedExternalNetworks:
+                        description: |-
+                          A list of external networks authorized to access this instance. This
+                          field is only allowed to be set when enable_public_ip is set to
+                          true.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            cidrRange:
+                              description: CIDR range for one authorized network of
+                                the instance.
+                              type: string
+                          type: object
+                        type: array
+                      enablePublicIp:
+                        description: |-
+                          Enabling public ip for the instance. If a user wishes to disable this,
+                          please also clear the list of the authorized external networks set on
+                          the same instance.
+                        type: boolean
                     type: object
                   queryInsightsConfig:
                     description: |-
@@ -1834,6 +1886,38 @@ spec:
                     type: object
                   name:
                     description: The name of the instance resource.
+                    type: string
+                  networkConfig:
+                    description: |-
+                      Instance level network configuration.
+                      Structure is documented below.
+                    properties:
+                      authorizedExternalNetworks:
+                        description: |-
+                          A list of external networks authorized to access this instance. This
+                          field is only allowed to be set when enable_public_ip is set to
+                          true.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            cidrRange:
+                              description: CIDR range for one authorized network of
+                                the instance.
+                              type: string
+                          type: object
+                        type: array
+                      enablePublicIp:
+                        description: |-
+                          Enabling public ip for the instance. If a user wishes to disable this,
+                          please also clear the list of the authorized external networks set on
+                          the same instance.
+                        type: boolean
+                    type: object
+                  publicIpAddress:
+                    description: |-
+                      The public IP addresses for the Instance. This is available ONLY when
+                      networkConfig.enablePublicIp is set to true. This is the connection
+                      endpoint for an end-user application.
                     type: string
                   queryInsightsConfig:
                     description: |-

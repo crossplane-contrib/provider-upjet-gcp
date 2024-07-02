@@ -1949,8 +1949,14 @@ spec:
                     type: string
                   instanceLifecyclePolicy:
                     properties:
+                      defaultActionOnFailure:
+                        description: ', Default behavior for all instance or health
+                          check failures. Valid options are: REPAIR, DO_NOTHING. If
+                          DO_NOTHING then instances will not be repaired. If REPAIR
+                          (default), then failed instances will be repaired.'
+                        type: string
                       forceUpdateOnRepair:
-                        description: '), Specifies whether to apply the group''s latest
+                        description: ', Specifies whether to apply the group''s latest
                           configuration when repairing a VM. Valid options are: YES,
                           NO. If YES and you updated the group''s instance template
                           or per-instance configurations after the VM was created,
@@ -2148,7 +2154,7 @@ spec:
                   updatePolicy:
                     description: The update policy for this managed instance group.
                       Structure is documented below. For more information, see the
-                      official documentation and API
+                      official documentation and API.
                     properties:
                       maxSurgeFixed:
                         description: ', The maximum number of instances that can be
@@ -2481,8 +2487,14 @@ spec:
                     type: string
                   instanceLifecyclePolicy:
                     properties:
+                      defaultActionOnFailure:
+                        description: ', Default behavior for all instance or health
+                          check failures. Valid options are: REPAIR, DO_NOTHING. If
+                          DO_NOTHING then instances will not be repaired. If REPAIR
+                          (default), then failed instances will be repaired.'
+                        type: string
                       forceUpdateOnRepair:
-                        description: '), Specifies whether to apply the group''s latest
+                        description: ', Specifies whether to apply the group''s latest
                           configuration when repairing a VM. Valid options are: YES,
                           NO. If YES and you updated the group''s instance template
                           or per-instance configurations after the VM was created,
@@ -2680,7 +2692,7 @@ spec:
                   updatePolicy:
                     description: The update policy for this managed instance group.
                       Structure is documented below. For more information, see the
-                      official documentation and API
+                      official documentation and API.
                     properties:
                       maxSurgeFixed:
                         description: ', The maximum number of instances that can be
@@ -3093,6 +3105,7 @@ spec:
                       name.
                     type: string
                   creationTimestamp:
+                    description: Creation timestamp in RFC3339 text format.
                     type: string
                   description:
                     description: |-
@@ -3111,8 +3124,14 @@ spec:
                     type: string
                   instanceLifecyclePolicy:
                     properties:
+                      defaultActionOnFailure:
+                        description: ', Default behavior for all instance or health
+                          check failures. Valid options are: REPAIR, DO_NOTHING. If
+                          DO_NOTHING then instances will not be repaired. If REPAIR
+                          (default), then failed instances will be repaired.'
+                        type: string
                       forceUpdateOnRepair:
-                        description: '), Specifies whether to apply the group''s latest
+                        description: ', Specifies whether to apply the group''s latest
                           configuration when repairing a VM. Valid options are: YES,
                           NO. If YES and you updated the group''s instance template
                           or per-instance configurations after the VM was created,
@@ -3223,13 +3242,18 @@ spec:
                     items:
                       properties:
                         allInstancesConfig:
-                          description: |-
-                            Properties to set on all instances in the group. After setting
-                            allInstancesConfig on the group, you must update the group's instances to
-                            apply the configuration.
+                          description: Status of all-instances configuration on the
+                            group.
                           items:
                             properties:
+                              currentRevision:
+                                description: Current all-instances configuration revision.
+                                  This value is in RFC3339 text format.
+                                type: string
                               effective:
+                                description: A bit indicating whether this configuration
+                                  has been applied to all managed instances in the
+                                  group.
                                 type: boolean
                             type: object
                           type: array
@@ -3259,7 +3283,7 @@ spec:
                                 type: boolean
                               perInstanceConfigs:
                                 description: Status of per-instance configs on the
-                                  instance.
+                                  instances.
                                 items:
                                   properties:
                                     allEffective:
@@ -3303,7 +3327,7 @@ spec:
                   updatePolicy:
                     description: The update policy for this managed instance group.
                       Structure is documented below. For more information, see the
-                      official documentation and API
+                      official documentation and API.
                     properties:
                       maxSurgeFixed:
                         description: ', The maximum number of instances that can be

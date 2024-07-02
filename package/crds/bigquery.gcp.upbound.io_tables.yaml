@@ -2243,6 +2243,12 @@ spec:
                           many bad records, an invalid error is returned in the job result.
                           The default value is false.
                         type: boolean
+                      jsonExtension:
+                        description: 'Used to indicate that a JSON variant, rather
+                          than normal JSON, is being used as the sourceFormat. This
+                          should only be used in combination with the JSON source
+                          format. Valid values are: GEOJSON.'
+                        type: string
                       jsonOptions:
                         description: |-
                           Additional properties to set if
@@ -2717,6 +2723,12 @@ spec:
                           many bad records, an invalid error is returned in the job result.
                           The default value is false.
                         type: boolean
+                      jsonExtension:
+                        description: 'Used to indicate that a JSON variant, rather
+                          than normal JSON, is being used as the sourceFormat. This
+                          should only be used in combination with the JSON source
+                          format. Valid values are: GEOJSON.'
+                        type: string
                       jsonOptions:
                         description: |-
                           Additional properties to set if
@@ -3360,6 +3372,12 @@ spec:
                           many bad records, an invalid error is returned in the job result.
                           The default value is false.
                         type: boolean
+                      jsonExtension:
+                        description: 'Used to indicate that a JSON variant, rather
+                          than normal JSON, is being used as the sourceFormat. This
+                          should only be used in combination with the JSON source
+                          format. Valid values are: GEOJSON.'
+                        type: string
                       jsonOptions:
                         description: |-
                           Additional properties to set if

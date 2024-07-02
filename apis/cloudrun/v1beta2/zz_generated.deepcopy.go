@@ -9298,10 +9298,8 @@ func (in *V2ServiceTemplateContainersInitParameters) DeepCopyInto(out *V2Service
 	}
 	if in.Ports != nil {
 		in, out := &in.Ports, &out.Ports
-		*out = make([]TemplateContainersPortsInitParameters, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(TemplateContainersPortsInitParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Resources != nil {
 		in, out := &in.Resources, &out.Resources
@@ -9397,10 +9395,8 @@ func (in *V2ServiceTemplateContainersObservation) DeepCopyInto(out *V2ServiceTem
 	}
 	if in.Ports != nil {
 		in, out := &in.Ports, &out.Ports
-		*out = make([]TemplateContainersPortsObservation, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(TemplateContainersPortsObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Resources != nil {
 		in, out := &in.Resources, &out.Resources
@@ -9496,10 +9492,8 @@ func (in *V2ServiceTemplateContainersParameters) DeepCopyInto(out *V2ServiceTemp
 	}
 	if in.Ports != nil {
 		in, out := &in.Ports, &out.Ports
-		*out = make([]TemplateContainersPortsParameters, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(TemplateContainersPortsParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Resources != nil {
 		in, out := &in.Resources, &out.Resources

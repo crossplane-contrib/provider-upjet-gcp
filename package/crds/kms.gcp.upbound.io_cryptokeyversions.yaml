@@ -708,6 +708,21 @@ spec:
                             type: string
                         type: object
                     type: object
+                  externalProtectionLevelOptions:
+                    description: |-
+                      ExternalProtectionLevelOptions stores a group of additional fields for configuring a CryptoKeyVersion that are specific to the EXTERNAL protection level and EXTERNAL_VPC protection levels.
+                      Structure is documented below.
+                    properties:
+                      ekmConnectionKeyPath:
+                        description: The path to the external key material on the
+                          EKM when using EkmConnection e.g., "v0/my/key". Set this
+                          field instead of externalKeyUri when using an EkmConnection.
+                        type: string
+                      externalKeyUri:
+                        description: The URI for an external resource that this CryptoKeyVersion
+                          represents.
+                        type: string
+                    type: object
                   state:
                     description: |-
                       The current state of the CryptoKeyVersion.
@@ -805,6 +820,21 @@ spec:
                             - IfNotPresent
                             type: string
                         type: object
+                    type: object
+                  externalProtectionLevelOptions:
+                    description: |-
+                      ExternalProtectionLevelOptions stores a group of additional fields for configuring a CryptoKeyVersion that are specific to the EXTERNAL protection level and EXTERNAL_VPC protection levels.
+                      Structure is documented below.
+                    properties:
+                      ekmConnectionKeyPath:
+                        description: The path to the external key material on the
+                          EKM when using EkmConnection e.g., "v0/my/key". Set this
+                          field instead of externalKeyUri when using an EkmConnection.
+                        type: string
+                      externalKeyUri:
+                        description: The URI for an external resource that this CryptoKeyVersion
+                          represents.
+                        type: string
                     type: object
                   state:
                     description: |-
@@ -1003,15 +1033,21 @@ spec:
                             caviumCerts:
                               description: Cavium certificate chain corresponding
                                 to the attestation.
-                              type: string
+                              items:
+                                type: string
+                              type: array
                             googleCardCerts:
                               description: Google card certificate chain corresponding
                                 to the attestation.
-                              type: string
+                              items:
+                                type: string
+                              type: array
                             googlePartitionCerts:
                               description: Google partition certificate chain corresponding
                                 to the attestation.
-                              type: string
+                              items:
+                                type: string
+                              type: array
                           type: object
                         content:
                           description: |-
@@ -1046,6 +1082,21 @@ spec:
                       The name of the cryptoKey associated with the CryptoKeyVersions.
                       Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyring}}/cryptoKeys/{{cryptoKey}}'
                     type: string
+                  externalProtectionLevelOptions:
+                    description: |-
+                      ExternalProtectionLevelOptions stores a group of additional fields for configuring a CryptoKeyVersion that are specific to the EXTERNAL protection level and EXTERNAL_VPC protection levels.
+                      Structure is documented below.
+                    properties:
+                      ekmConnectionKeyPath:
+                        description: The path to the external key material on the
+                          EKM when using EkmConnection e.g., "v0/my/key". Set this
+                          field instead of externalKeyUri when using an EkmConnection.
+                        type: string
+                      externalKeyUri:
+                        description: The URI for an external resource that this CryptoKeyVersion
+                          represents.
+                        type: string
+                    type: object
                   generateTime:
                     description: The time this CryptoKeyVersion key material was generated
                     type: string
