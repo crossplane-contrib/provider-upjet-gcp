@@ -3048,7 +3048,9 @@ spec:
                           Structure is documented below.
                         properties:
                           period:
-                            description: Not more than one notification per period.
+                            description: |-
+                              Not more than one notification per period.
+                              A duration in seconds with up to nine fractional digits, terminated by 's'. Example "60.5s".
                             type: string
                         type: object
                     type: object
@@ -3898,7 +3900,9 @@ spec:
                           Structure is documented below.
                         properties:
                           period:
-                            description: Not more than one notification per period.
+                            description: |-
+                              Not more than one notification per period.
+                              A duration in seconds with up to nine fractional digits, terminated by 's'. Example "60.5s".
                             type: string
                         type: object
                     type: object
@@ -4920,7 +4924,9 @@ spec:
                           Structure is documented below.
                         properties:
                           period:
-                            description: Not more than one notification per period.
+                            description: |-
+                              Not more than one notification per period.
+                              A duration in seconds with up to nine fractional digits, terminated by 's'. Example "60.5s".
                             type: string
                         type: object
                     type: object

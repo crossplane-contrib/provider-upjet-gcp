@@ -37,7 +37,22 @@ type ConsumerAcceptListsInitParameters struct {
 	// create.
 	ConnectionLimit *float64 `json:"connectionLimit,omitempty" tf:"connection_limit,omitempty"`
 
+	// The network that is allowed to connect to this service attachment.
+	// Only one of project_id_or_num and network_url may be set.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
+
+	// Reference to a Network in compute to populate networkUrl.
+	// +kubebuilder:validation:Optional
+	NetworkURLRef *v1.Reference `json:"networkUrlRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate networkUrl.
+	// +kubebuilder:validation:Optional
+	NetworkURLSelector *v1.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
+
 	// A project that is allowed to connect to this service attachment.
+	// Only one of project_id_or_num and network_url may be set.
 	ProjectIDOrNum *string `json:"projectIdOrNum,omitempty" tf:"project_id_or_num,omitempty"`
 }
 
@@ -47,7 +62,12 @@ type ConsumerAcceptListsObservation struct {
 	// create.
 	ConnectionLimit *float64 `json:"connectionLimit,omitempty" tf:"connection_limit,omitempty"`
 
+	// The network that is allowed to connect to this service attachment.
+	// Only one of project_id_or_num and network_url may be set.
+	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
+
 	// A project that is allowed to connect to this service attachment.
+	// Only one of project_id_or_num and network_url may be set.
 	ProjectIDOrNum *string `json:"projectIdOrNum,omitempty" tf:"project_id_or_num,omitempty"`
 }
 
@@ -58,9 +78,25 @@ type ConsumerAcceptListsParameters struct {
 	// +kubebuilder:validation:Optional
 	ConnectionLimit *float64 `json:"connectionLimit" tf:"connection_limit,omitempty"`
 
-	// A project that is allowed to connect to this service attachment.
+	// The network that is allowed to connect to this service attachment.
+	// Only one of project_id_or_num and network_url may be set.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
-	ProjectIDOrNum *string `json:"projectIdOrNum" tf:"project_id_or_num,omitempty"`
+	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
+
+	// Reference to a Network in compute to populate networkUrl.
+	// +kubebuilder:validation:Optional
+	NetworkURLRef *v1.Reference `json:"networkUrlRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate networkUrl.
+	// +kubebuilder:validation:Optional
+	NetworkURLSelector *v1.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
+
+	// A project that is allowed to connect to this service attachment.
+	// Only one of project_id_or_num and network_url may be set.
+	// +kubebuilder:validation:Optional
+	ProjectIDOrNum *string `json:"projectIdOrNum,omitempty" tf:"project_id_or_num,omitempty"`
 }
 
 type ServiceAttachmentInitParameters struct {

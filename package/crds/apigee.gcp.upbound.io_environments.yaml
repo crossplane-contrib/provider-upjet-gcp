@@ -646,6 +646,12 @@ spec:
                   displayName:
                     description: Display name of the environment.
                     type: string
+                  forwardProxyUri:
+                    description: Optional. URI of the forward proxy to be applied
+                      to the runtime instances in this environment. Must be in the
+                      format of {scheme}://{hostname}:{port}. Note that the scheme
+                      must be one of "http" or "https", and the port must be supplied.
+                    type: string
                   nodeConfig:
                     description: |-
                       NodeConfig for setting the min/max number of nodes associated with the environment.
@@ -789,6 +795,12 @@ spec:
                     type: string
                   displayName:
                     description: Display name of the environment.
+                    type: string
+                  forwardProxyUri:
+                    description: Optional. URI of the forward proxy to be applied
+                      to the runtime instances in this environment. Must be in the
+                      format of {scheme}://{hostname}:{port}. Note that the scheme
+                      must be one of "http" or "https", and the port must be supplied.
                     type: string
                   nodeConfig:
                     description: |-
@@ -1011,6 +1023,12 @@ spec:
                     type: string
                   displayName:
                     description: Display name of the environment.
+                    type: string
+                  forwardProxyUri:
+                    description: Optional. URI of the forward proxy to be applied
+                      to the runtime instances in this environment. Must be in the
+                      format of {scheme}://{hostname}:{port}. Note that the scheme
+                      must be one of "http" or "https", and the port must be supplied.
                     type: string
                   id:
                     description: an identifier for the resource with format {{org_id}}/environments/{{name}}

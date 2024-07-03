@@ -94,10 +94,10 @@ type FunctionInitParameters struct {
 	// Description of the function.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Docker Registry to use for storing the function's Docker images. Allowed values are CONTAINER_REGISTRY (default) and ARTIFACT_REGISTRY.
+	// Docker Registry to use for storing the function's Docker images. Allowed values are ARTIFACT_REGISTRY (default) and CONTAINER_REGISTRY.
 	DockerRegistry *string `json:"dockerRegistry,omitempty" tf:"docker_registry,omitempty"`
 
-	// User managed repository created in Artifact Registry optionally with a customer managed encryption key. If specified, deployments will use Artifact Registry. This is the repository to which the function docker image will be pushed after it is built by Cloud Build. If unspecified, Container Registry will be used by default, unless specified otherwise by other means.
+	// User-managed repository created in Artifact Registry to which the function's Docker image will be pushed after it is built by Cloud Build. May optionally be encrypted with a customer-managed encryption key (CMEK). If unspecified and docker_registry is not explicitly set to CONTAINER_REGISTRY, GCF will create and use a default Artifact Registry repository named 'gcf-artifacts' in the region.
 	DockerRepository *string `json:"dockerRepository,omitempty" tf:"docker_repository,omitempty"`
 
 	// Name of the function that will be executed when the Google Cloud Function is triggered.
@@ -203,10 +203,10 @@ type FunctionObservation struct {
 	// Description of the function.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Docker Registry to use for storing the function's Docker images. Allowed values are CONTAINER_REGISTRY (default) and ARTIFACT_REGISTRY.
+	// Docker Registry to use for storing the function's Docker images. Allowed values are ARTIFACT_REGISTRY (default) and CONTAINER_REGISTRY.
 	DockerRegistry *string `json:"dockerRegistry,omitempty" tf:"docker_registry,omitempty"`
 
-	// User managed repository created in Artifact Registry optionally with a customer managed encryption key. If specified, deployments will use Artifact Registry. This is the repository to which the function docker image will be pushed after it is built by Cloud Build. If unspecified, Container Registry will be used by default, unless specified otherwise by other means.
+	// User-managed repository created in Artifact Registry to which the function's Docker image will be pushed after it is built by Cloud Build. May optionally be encrypted with a customer-managed encryption key (CMEK). If unspecified and docker_registry is not explicitly set to CONTAINER_REGISTRY, GCF will create and use a default Artifact Registry repository named 'gcf-artifacts' in the region.
 	DockerRepository *string `json:"dockerRepository,omitempty" tf:"docker_repository,omitempty"`
 
 	// +mapType=granular
@@ -315,11 +315,11 @@ type FunctionParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Docker Registry to use for storing the function's Docker images. Allowed values are CONTAINER_REGISTRY (default) and ARTIFACT_REGISTRY.
+	// Docker Registry to use for storing the function's Docker images. Allowed values are ARTIFACT_REGISTRY (default) and CONTAINER_REGISTRY.
 	// +kubebuilder:validation:Optional
 	DockerRegistry *string `json:"dockerRegistry,omitempty" tf:"docker_registry,omitempty"`
 
-	// User managed repository created in Artifact Registry optionally with a customer managed encryption key. If specified, deployments will use Artifact Registry. This is the repository to which the function docker image will be pushed after it is built by Cloud Build. If unspecified, Container Registry will be used by default, unless specified otherwise by other means.
+	// User-managed repository created in Artifact Registry to which the function's Docker image will be pushed after it is built by Cloud Build. May optionally be encrypted with a customer-managed encryption key (CMEK). If unspecified and docker_registry is not explicitly set to CONTAINER_REGISTRY, GCF will create and use a default Artifact Registry repository named 'gcf-artifacts' in the region.
 	// +kubebuilder:validation:Optional
 	DockerRepository *string `json:"dockerRepository,omitempty" tf:"docker_repository,omitempty"`
 

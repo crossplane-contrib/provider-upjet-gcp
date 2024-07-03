@@ -1220,6 +1220,15 @@ spec:
                       Enable endpoint independent mapping.
                       For more information see the official documentation.
                     type: boolean
+                  endpointTypes:
+                    description: |-
+                      Specifies the endpoint Types supported by the NAT Gateway.
+                      Supported values include:
+                      ENDPOINT_TYPE_VM, ENDPOINT_TYPE_SWG,
+                      ENDPOINT_TYPE_MANAGED_PROXY_LB.
+                    items:
+                      type: string
+                    type: array
                   icmpIdleTimeoutSec:
                     description: Timeout (in seconds) for ICMP connections. Defaults
                       to 30s if not set.
@@ -1579,6 +1588,15 @@ spec:
                       Enable endpoint independent mapping.
                       For more information see the official documentation.
                     type: boolean
+                  endpointTypes:
+                    description: |-
+                      Specifies the endpoint Types supported by the NAT Gateway.
+                      Supported values include:
+                      ENDPOINT_TYPE_VM, ENDPOINT_TYPE_SWG,
+                      ENDPOINT_TYPE_MANAGED_PROXY_LB.
+                    items:
+                      type: string
+                    type: array
                   icmpIdleTimeoutSec:
                     description: Timeout (in seconds) for ICMP connections. Defaults
                       to 30s if not set.
@@ -2020,6 +2038,15 @@ spec:
                       Enable endpoint independent mapping.
                       For more information see the official documentation.
                     type: boolean
+                  endpointTypes:
+                    description: |-
+                      Specifies the endpoint Types supported by the NAT Gateway.
+                      Supported values include:
+                      ENDPOINT_TYPE_VM, ENDPOINT_TYPE_SWG,
+                      ENDPOINT_TYPE_MANAGED_PROXY_LB.
+                    items:
+                      type: string
+                    type: array
                   icmpIdleTimeoutSec:
                     description: Timeout (in seconds) for ICMP connections. Defaults
                       to 30s if not set.

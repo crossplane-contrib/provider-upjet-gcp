@@ -1276,6 +1276,9 @@ type RegionBackendServiceObservation struct {
 	// object. This field is used in optimistic locking.
 	Fingerprint *string `json:"fingerprint,omitempty" tf:"fingerprint,omitempty"`
 
+	// The unique identifier for the resource. This identifier is defined by the server.
+	GeneratedID *float64 `json:"generatedId,omitempty" tf:"generated_id,omitempty"`
+
 	// The set of URLs to HealthCheck resources for health checking
 	// this RegionBackendService. Currently at most one health
 	// check can be specified.

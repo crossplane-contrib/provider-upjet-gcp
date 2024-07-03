@@ -21,16 +21,23 @@ type ConnectorInitParameters struct {
 	// Machine type of VM Instance underlying connector. Default is e2-micro
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
-	// Maximum value of instances in autoscaling group underlying the connector.
+	// Maximum value of instances in autoscaling group underlying the connector. Value must be between 3 and 10, inclusive. Must be
+	// higher than the value specified by min_instances.
 	MaxInstances *float64 `json:"maxInstances,omitempty" tf:"max_instances,omitempty"`
 
-	// Maximum throughput of the connector in Mbps, must be greater than min_throughput. Default is 300.
+	// Maximum throughput of the connector in Mbps, must be greater than min_throughput. Default is 300. Refers to the expected throughput
+	// when using an e2-micro machine type. Value must be a multiple of 100 from 300 through 1000. Must be higher than the value specified by
+	// min_throughput. If both max_throughput and max_instances are provided, max_instances takes precedence over max_throughput. The use of
+	// max_throughput is discouraged in favor of max_instances.
 	MaxThroughput *float64 `json:"maxThroughput,omitempty" tf:"max_throughput,omitempty"`
 
-	// Minimum value of instances in autoscaling group underlying the connector.
+	// Minimum value of instances in autoscaling group underlying the connector. Value must be between 2 and 9, inclusive. Must be
+	// lower than the value specified by max_instances.
 	MinInstances *float64 `json:"minInstances,omitempty" tf:"min_instances,omitempty"`
 
-	// Minimum throughput of the connector in Mbps. Default and min is 200.
+	// Minimum throughput of the connector in Mbps. Default and min is 200. Refers to the expected throughput when using an e2-micro machine type.
+	// Value must be a multiple of 100 from 200 through 900. Must be lower than the value specified by max_throughput. If both min_throughput and
+	// min_instances are provided, min_instances takes precedence over min_throughput. The use of min_throughput is discouraged in favor of min_instances.
 	MinThroughput *float64 `json:"minThroughput,omitempty" tf:"min_throughput,omitempty"`
 
 	// Name or self_link of the VPC network. Required if ip_cidr_range is set.
@@ -68,16 +75,23 @@ type ConnectorObservation struct {
 	// Machine type of VM Instance underlying connector. Default is e2-micro
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
-	// Maximum value of instances in autoscaling group underlying the connector.
+	// Maximum value of instances in autoscaling group underlying the connector. Value must be between 3 and 10, inclusive. Must be
+	// higher than the value specified by min_instances.
 	MaxInstances *float64 `json:"maxInstances,omitempty" tf:"max_instances,omitempty"`
 
-	// Maximum throughput of the connector in Mbps, must be greater than min_throughput. Default is 300.
+	// Maximum throughput of the connector in Mbps, must be greater than min_throughput. Default is 300. Refers to the expected throughput
+	// when using an e2-micro machine type. Value must be a multiple of 100 from 300 through 1000. Must be higher than the value specified by
+	// min_throughput. If both max_throughput and max_instances are provided, max_instances takes precedence over max_throughput. The use of
+	// max_throughput is discouraged in favor of max_instances.
 	MaxThroughput *float64 `json:"maxThroughput,omitempty" tf:"max_throughput,omitempty"`
 
-	// Minimum value of instances in autoscaling group underlying the connector.
+	// Minimum value of instances in autoscaling group underlying the connector. Value must be between 2 and 9, inclusive. Must be
+	// lower than the value specified by max_instances.
 	MinInstances *float64 `json:"minInstances,omitempty" tf:"min_instances,omitempty"`
 
-	// Minimum throughput of the connector in Mbps. Default and min is 200.
+	// Minimum throughput of the connector in Mbps. Default and min is 200. Refers to the expected throughput when using an e2-micro machine type.
+	// Value must be a multiple of 100 from 200 through 900. Must be lower than the value specified by max_throughput. If both min_throughput and
+	// min_instances are provided, min_instances takes precedence over min_throughput. The use of min_throughput is discouraged in favor of min_instances.
 	MinThroughput *float64 `json:"minThroughput,omitempty" tf:"min_throughput,omitempty"`
 
 	// Name or self_link of the VPC network. Required if ip_cidr_range is set.
@@ -111,19 +125,26 @@ type ConnectorParameters struct {
 	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
-	// Maximum value of instances in autoscaling group underlying the connector.
+	// Maximum value of instances in autoscaling group underlying the connector. Value must be between 3 and 10, inclusive. Must be
+	// higher than the value specified by min_instances.
 	// +kubebuilder:validation:Optional
 	MaxInstances *float64 `json:"maxInstances,omitempty" tf:"max_instances,omitempty"`
 
-	// Maximum throughput of the connector in Mbps, must be greater than min_throughput. Default is 300.
+	// Maximum throughput of the connector in Mbps, must be greater than min_throughput. Default is 300. Refers to the expected throughput
+	// when using an e2-micro machine type. Value must be a multiple of 100 from 300 through 1000. Must be higher than the value specified by
+	// min_throughput. If both max_throughput and max_instances are provided, max_instances takes precedence over max_throughput. The use of
+	// max_throughput is discouraged in favor of max_instances.
 	// +kubebuilder:validation:Optional
 	MaxThroughput *float64 `json:"maxThroughput,omitempty" tf:"max_throughput,omitempty"`
 
-	// Minimum value of instances in autoscaling group underlying the connector.
+	// Minimum value of instances in autoscaling group underlying the connector. Value must be between 2 and 9, inclusive. Must be
+	// lower than the value specified by max_instances.
 	// +kubebuilder:validation:Optional
 	MinInstances *float64 `json:"minInstances,omitempty" tf:"min_instances,omitempty"`
 
-	// Minimum throughput of the connector in Mbps. Default and min is 200.
+	// Minimum throughput of the connector in Mbps. Default and min is 200. Refers to the expected throughput when using an e2-micro machine type.
+	// Value must be a multiple of 100 from 200 through 900. Must be lower than the value specified by max_throughput. If both min_throughput and
+	// min_instances are provided, min_instances takes precedence over min_throughput. The use of min_throughput is discouraged in favor of min_instances.
 	// +kubebuilder:validation:Optional
 	MinThroughput *float64 `json:"minThroughput,omitempty" tf:"min_throughput,omitempty"`
 

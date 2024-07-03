@@ -1060,6 +1060,16 @@ type MatchRulesInitParameters struct {
 	// Structure is documented below.
 	MetadataFilters []MatchRulesMetadataFiltersInitParameters `json:"metadataFilters,omitempty" tf:"metadata_filters,omitempty"`
 
+	// For satisfying the matchRule condition, the path of the request
+	// must match the wildcard pattern specified in pathTemplateMatch
+	// after removing any query parameters and anchor that may be part
+	// of the original URL.
+	// pathTemplateMatch must be between 1 and 255 characters
+	// (inclusive).  The pattern specified by pathTemplateMatch may
+	// have at most 5 wildcard operators and at most 5 variable
+	// captures in total.
+	PathTemplateMatch *string `json:"pathTemplateMatch,omitempty" tf:"path_template_match,omitempty"`
+
 	// For satisfying the matchRule condition, the request's path must begin with the
 	// specified prefixMatch. prefixMatch must begin with a /. The value must be
 	// between 1 and 1024 characters. Only one of prefixMatch, fullPathMatch or
@@ -1151,6 +1161,16 @@ type MatchRulesObservation struct {
 	// Structure is documented below.
 	MetadataFilters []MatchRulesMetadataFiltersObservation `json:"metadataFilters,omitempty" tf:"metadata_filters,omitempty"`
 
+	// For satisfying the matchRule condition, the path of the request
+	// must match the wildcard pattern specified in pathTemplateMatch
+	// after removing any query parameters and anchor that may be part
+	// of the original URL.
+	// pathTemplateMatch must be between 1 and 255 characters
+	// (inclusive).  The pattern specified by pathTemplateMatch may
+	// have at most 5 wildcard operators and at most 5 variable
+	// captures in total.
+	PathTemplateMatch *string `json:"pathTemplateMatch,omitempty" tf:"path_template_match,omitempty"`
+
 	// For satisfying the matchRule condition, the request's path must begin with the
 	// specified prefixMatch. prefixMatch must begin with a /. The value must be
 	// between 1 and 1024 characters. Only one of prefixMatch, fullPathMatch or
@@ -1204,6 +1224,17 @@ type MatchRulesParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MetadataFilters []MatchRulesMetadataFiltersParameters `json:"metadataFilters,omitempty" tf:"metadata_filters,omitempty"`
+
+	// For satisfying the matchRule condition, the path of the request
+	// must match the wildcard pattern specified in pathTemplateMatch
+	// after removing any query parameters and anchor that may be part
+	// of the original URL.
+	// pathTemplateMatch must be between 1 and 255 characters
+	// (inclusive).  The pattern specified by pathTemplateMatch may
+	// have at most 5 wildcard operators and at most 5 variable
+	// captures in total.
+	// +kubebuilder:validation:Optional
+	PathTemplateMatch *string `json:"pathTemplateMatch,omitempty" tf:"path_template_match,omitempty"`
 
 	// For satisfying the matchRule condition, the request's path must begin with the
 	// specified prefixMatch. prefixMatch must begin with a /. The value must be
@@ -3670,6 +3701,19 @@ type RouteRulesRouteActionURLRewriteInitParameters struct {
 	// portion of the request's path is replaced by pathPrefixRewrite. The value must
 	// be between 1 and 1024 characters.
 	PathPrefixRewrite *string `json:"pathPrefixRewrite,omitempty" tf:"path_prefix_rewrite,omitempty"`
+
+	// Prior to forwarding the request to the selected origin, if the
+	// request matched a pathTemplateMatch, the matching portion of the
+	// request's path is replaced re-written using the pattern specified
+	// by pathTemplateRewrite.
+	// pathTemplateRewrite must be between 1 and 255 characters
+	// (inclusive), must start with a '/', and must only use variables
+	// captured by the route's pathTemplate matchers.
+	// pathTemplateRewrite may only be used when all of a route's
+	// MatchRules specify pathTemplate.
+	// Only one of pathPrefixRewrite and pathTemplateRewrite may be
+	// specified.
+	PathTemplateRewrite *string `json:"pathTemplateRewrite,omitempty" tf:"path_template_rewrite,omitempty"`
 }
 
 type RouteRulesRouteActionURLRewriteObservation struct {
@@ -3683,6 +3727,19 @@ type RouteRulesRouteActionURLRewriteObservation struct {
 	// portion of the request's path is replaced by pathPrefixRewrite. The value must
 	// be between 1 and 1024 characters.
 	PathPrefixRewrite *string `json:"pathPrefixRewrite,omitempty" tf:"path_prefix_rewrite,omitempty"`
+
+	// Prior to forwarding the request to the selected origin, if the
+	// request matched a pathTemplateMatch, the matching portion of the
+	// request's path is replaced re-written using the pattern specified
+	// by pathTemplateRewrite.
+	// pathTemplateRewrite must be between 1 and 255 characters
+	// (inclusive), must start with a '/', and must only use variables
+	// captured by the route's pathTemplate matchers.
+	// pathTemplateRewrite may only be used when all of a route's
+	// MatchRules specify pathTemplate.
+	// Only one of pathPrefixRewrite and pathTemplateRewrite may be
+	// specified.
+	PathTemplateRewrite *string `json:"pathTemplateRewrite,omitempty" tf:"path_template_rewrite,omitempty"`
 }
 
 type RouteRulesRouteActionURLRewriteParameters struct {
@@ -3698,6 +3755,20 @@ type RouteRulesRouteActionURLRewriteParameters struct {
 	// be between 1 and 1024 characters.
 	// +kubebuilder:validation:Optional
 	PathPrefixRewrite *string `json:"pathPrefixRewrite,omitempty" tf:"path_prefix_rewrite,omitempty"`
+
+	// Prior to forwarding the request to the selected origin, if the
+	// request matched a pathTemplateMatch, the matching portion of the
+	// request's path is replaced re-written using the pattern specified
+	// by pathTemplateRewrite.
+	// pathTemplateRewrite must be between 1 and 255 characters
+	// (inclusive), must start with a '/', and must only use variables
+	// captured by the route's pathTemplate matchers.
+	// pathTemplateRewrite may only be used when all of a route's
+	// MatchRules specify pathTemplate.
+	// Only one of pathPrefixRewrite and pathTemplateRewrite may be
+	// specified.
+	// +kubebuilder:validation:Optional
+	PathTemplateRewrite *string `json:"pathTemplateRewrite,omitempty" tf:"path_template_rewrite,omitempty"`
 }
 
 type RouteRulesRouteActionWeightedBackendServicesInitParameters struct {

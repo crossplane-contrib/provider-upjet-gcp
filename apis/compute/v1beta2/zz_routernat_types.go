@@ -82,6 +82,12 @@ type RouterNATInitParameters struct {
 	// For more information see the official documentation.
 	EnableEndpointIndependentMapping *bool `json:"enableEndpointIndependentMapping,omitempty" tf:"enable_endpoint_independent_mapping,omitempty"`
 
+	// Specifies the endpoint Types supported by the NAT Gateway.
+	// Supported values include:
+	// ENDPOINT_TYPE_VM, ENDPOINT_TYPE_SWG,
+	// ENDPOINT_TYPE_MANAGED_PROXY_LB.
+	EndpointTypes []*string `json:"endpointTypes,omitempty" tf:"endpoint_types,omitempty"`
+
 	// Timeout (in seconds) for ICMP connections. Defaults to 30s if not set.
 	IcmpIdleTimeoutSec *float64 `json:"icmpIdleTimeoutSec,omitempty" tf:"icmp_idle_timeout_sec,omitempty"`
 
@@ -200,6 +206,12 @@ type RouterNATObservation struct {
 	// For more information see the official documentation.
 	EnableEndpointIndependentMapping *bool `json:"enableEndpointIndependentMapping,omitempty" tf:"enable_endpoint_independent_mapping,omitempty"`
 
+	// Specifies the endpoint Types supported by the NAT Gateway.
+	// Supported values include:
+	// ENDPOINT_TYPE_VM, ENDPOINT_TYPE_SWG,
+	// ENDPOINT_TYPE_MANAGED_PROXY_LB.
+	EndpointTypes []*string `json:"endpointTypes,omitempty" tf:"endpoint_types,omitempty"`
+
 	// an identifier for the resource with format {{project}}/{{region}}/{{router}}/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -297,6 +309,13 @@ type RouterNATParameters struct {
 	// For more information see the official documentation.
 	// +kubebuilder:validation:Optional
 	EnableEndpointIndependentMapping *bool `json:"enableEndpointIndependentMapping,omitempty" tf:"enable_endpoint_independent_mapping,omitempty"`
+
+	// Specifies the endpoint Types supported by the NAT Gateway.
+	// Supported values include:
+	// ENDPOINT_TYPE_VM, ENDPOINT_TYPE_SWG,
+	// ENDPOINT_TYPE_MANAGED_PROXY_LB.
+	// +kubebuilder:validation:Optional
+	EndpointTypes []*string `json:"endpointTypes,omitempty" tf:"endpoint_types,omitempty"`
 
 	// Timeout (in seconds) for ICMP connections. Defaults to 30s if not set.
 	// +kubebuilder:validation:Optional

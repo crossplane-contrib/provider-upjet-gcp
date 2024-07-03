@@ -1389,6 +1389,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  dataGovernanceType:
+                    description: |-
+                      If set to DATA_MASKING, the function is validated and made available as a masking function. For more information, see https://cloud.google.com/bigquery/docs/user-defined-functions#custom-mask
+                      Possible values are: DATA_MASKING.
+                    type: string
                   datasetId:
                     description: The ID of the dataset containing this routine
                     type: string
@@ -1818,6 +1823,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  dataGovernanceType:
+                    description: |-
+                      If set to DATA_MASKING, the function is validated and made available as a masking function. For more information, see https://cloud.google.com/bigquery/docs/user-defined-functions#custom-mask
+                      Possible values are: DATA_MASKING.
+                    type: string
                   definitionBody:
                     description: |-
                       The body of the routine. For functions, this is the expression in the AS clause.
@@ -2343,6 +2353,11 @@ spec:
                       The time when this routine was created, in milliseconds since the
                       epoch.
                     type: number
+                  dataGovernanceType:
+                    description: |-
+                      If set to DATA_MASKING, the function is validated and made available as a masking function. For more information, see https://cloud.google.com/bigquery/docs/user-defined-functions#custom-mask
+                      Possible values are: DATA_MASKING.
+                    type: string
                   datasetId:
                     description: The ID of the dataset containing this routine
                     type: string

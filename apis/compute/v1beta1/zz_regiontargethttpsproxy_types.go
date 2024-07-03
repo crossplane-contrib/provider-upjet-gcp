@@ -47,6 +47,17 @@ type RegionTargetHTTPSProxyInitParameters struct {
 	// resource will not have any SSL policy configured.
 	SSLPolicy *string `json:"sslPolicy,omitempty" tf:"ssl_policy,omitempty"`
 
+	// A URL referring to a networksecurity.ServerTlsPolicy
+	// resource that describes how the proxy should authenticate inbound
+	// traffic. serverTlsPolicy only applies to a global TargetHttpsProxy
+	// attached to globalForwardingRules with the loadBalancingScheme
+	// set to INTERNAL_SELF_MANAGED or EXTERNAL or EXTERNAL_MANAGED.
+	// For details which ServerTlsPolicy resources are accepted with
+	// INTERNAL_SELF_MANAGED and which with EXTERNAL, EXTERNAL_MANAGED
+	// loadBalancingScheme consult ServerTlsPolicy documentation.
+	// If left blank, communications are not encrypted.
+	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
+
 	// A reference to the RegionUrlMap resource that defines the mapping from URL
 	// to the RegionBackendService.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.RegionURLMap
@@ -103,6 +114,17 @@ type RegionTargetHTTPSProxyObservation struct {
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// A URL referring to a networksecurity.ServerTlsPolicy
+	// resource that describes how the proxy should authenticate inbound
+	// traffic. serverTlsPolicy only applies to a global TargetHttpsProxy
+	// attached to globalForwardingRules with the loadBalancingScheme
+	// set to INTERNAL_SELF_MANAGED or EXTERNAL or EXTERNAL_MANAGED.
+	// For details which ServerTlsPolicy resources are accepted with
+	// INTERNAL_SELF_MANAGED and which with EXTERNAL, EXTERNAL_MANAGED
+	// loadBalancingScheme consult ServerTlsPolicy documentation.
+	// If left blank, communications are not encrypted.
+	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
+
 	// A reference to the RegionUrlMap resource that defines the mapping from URL
 	// to the RegionBackendService.
 	URLMap *string `json:"urlMap,omitempty" tf:"url_map,omitempty"`
@@ -151,6 +173,18 @@ type RegionTargetHTTPSProxyParameters struct {
 	// resource will not have any SSL policy configured.
 	// +kubebuilder:validation:Optional
 	SSLPolicy *string `json:"sslPolicy,omitempty" tf:"ssl_policy,omitempty"`
+
+	// A URL referring to a networksecurity.ServerTlsPolicy
+	// resource that describes how the proxy should authenticate inbound
+	// traffic. serverTlsPolicy only applies to a global TargetHttpsProxy
+	// attached to globalForwardingRules with the loadBalancingScheme
+	// set to INTERNAL_SELF_MANAGED or EXTERNAL or EXTERNAL_MANAGED.
+	// For details which ServerTlsPolicy resources are accepted with
+	// INTERNAL_SELF_MANAGED and which with EXTERNAL, EXTERNAL_MANAGED
+	// loadBalancingScheme consult ServerTlsPolicy documentation.
+	// If left blank, communications are not encrypted.
+	// +kubebuilder:validation:Optional
+	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
 
 	// A reference to the RegionUrlMap resource that defines the mapping from URL
 	// to the RegionBackendService.

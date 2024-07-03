@@ -5281,12 +5281,33 @@ func (mg *ServiceAttachment) ResolveReferences(ctx context.Context, c client.Rea
 	var rsp reference.ResolutionResponse
 	var mrsp reference.MultiResolutionResponse
 	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.ConsumerAcceptLists); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ConsumerAcceptLists[i3].NetworkURL),
+				Extract:      resource.ExtractParamPath("self_link", true),
+				Reference:    mg.Spec.ForProvider.ConsumerAcceptLists[i3].NetworkURLRef,
+				Selector:     mg.Spec.ForProvider.ConsumerAcceptLists[i3].NetworkURLSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.ConsumerAcceptLists[i3].NetworkURL")
+		}
+		mg.Spec.ForProvider.ConsumerAcceptLists[i3].NetworkURL = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.ConsumerAcceptLists[i3].NetworkURLRef = rsp.ResolvedReference
+
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Subnetwork", "SubnetworkList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
-
 		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 			CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.NATSubnets),
 			Extract:       reference.ExternalName(),
@@ -5319,12 +5340,33 @@ func (mg *ServiceAttachment) ResolveReferences(ctx context.Context, c client.Rea
 	}
 	mg.Spec.ForProvider.TargetService = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TargetServiceRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.ConsumerAcceptLists); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ConsumerAcceptLists[i3].NetworkURL),
+				Extract:      resource.ExtractParamPath("self_link", true),
+				Reference:    mg.Spec.InitProvider.ConsumerAcceptLists[i3].NetworkURLRef,
+				Selector:     mg.Spec.InitProvider.ConsumerAcceptLists[i3].NetworkURLSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.ConsumerAcceptLists[i3].NetworkURL")
+		}
+		mg.Spec.InitProvider.ConsumerAcceptLists[i3].NetworkURL = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.ConsumerAcceptLists[i3].NetworkURLRef = rsp.ResolvedReference
+
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Subnetwork", "SubnetworkList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
-
 		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 			CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.NATSubnets),
 			Extract:       reference.ExternalName(),

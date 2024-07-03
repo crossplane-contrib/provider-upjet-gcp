@@ -1301,7 +1301,7 @@ type V2ServiceTemplateContainersInitParameters struct {
 	// List of ports to expose from the container. Only a single port can be specified. The specified ports must be listening on all interfaces (0.0.0.0) within the container to be accessible.
 	// If omitted, a port number will be chosen and passed to the container through the PORT environment variable for the container to listen on
 	// Structure is documented below.
-	Ports []TemplateContainersPortsInitParameters `json:"ports,omitempty" tf:"ports,omitempty"`
+	Ports *TemplateContainersPortsInitParameters `json:"ports,omitempty" tf:"ports,omitempty"`
 
 	// Compute Resource requirements by this container. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources
 	// Structure is documented below.
@@ -1347,7 +1347,7 @@ type V2ServiceTemplateContainersObservation struct {
 	// List of ports to expose from the container. Only a single port can be specified. The specified ports must be listening on all interfaces (0.0.0.0) within the container to be accessible.
 	// If omitted, a port number will be chosen and passed to the container through the PORT environment variable for the container to listen on
 	// Structure is documented below.
-	Ports []TemplateContainersPortsObservation `json:"ports,omitempty" tf:"ports,omitempty"`
+	Ports *TemplateContainersPortsObservation `json:"ports,omitempty" tf:"ports,omitempty"`
 
 	// Compute Resource requirements by this container. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources
 	// Structure is documented below.
@@ -1401,7 +1401,7 @@ type V2ServiceTemplateContainersParameters struct {
 	// If omitted, a port number will be chosen and passed to the container through the PORT environment variable for the container to listen on
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Ports []TemplateContainersPortsParameters `json:"ports,omitempty" tf:"ports,omitempty"`
+	Ports *TemplateContainersPortsParameters `json:"ports,omitempty" tf:"ports,omitempty"`
 
 	// Compute Resource requirements by this container. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources
 	// Structure is documented below.
@@ -1610,7 +1610,7 @@ type V2ServiceTemplateVolumesInitParameters struct {
 	// Structure is documented below.
 	CloudSQLInstance *VolumesCloudSQLInstanceInitParameters `json:"cloudSqlInstance,omitempty" tf:"cloud_sql_instance,omitempty"`
 
-	// Represents a GCS Bucket mounted as a volume.
+	// Cloud Storage bucket mounted as a volume using GCSFuse. This feature is only supported in the gen2 execution environment and requires launch-stage to be set to ALPHA or BETA.
 	// Structure is documented below.
 	Gcs *GcsInitParameters `json:"gcs,omitempty" tf:"gcs,omitempty"`
 
@@ -1632,7 +1632,7 @@ type V2ServiceTemplateVolumesObservation struct {
 	// Structure is documented below.
 	CloudSQLInstance *VolumesCloudSQLInstanceObservation `json:"cloudSqlInstance,omitempty" tf:"cloud_sql_instance,omitempty"`
 
-	// Represents a GCS Bucket mounted as a volume.
+	// Cloud Storage bucket mounted as a volume using GCSFuse. This feature is only supported in the gen2 execution environment and requires launch-stage to be set to ALPHA or BETA.
 	// Structure is documented below.
 	Gcs *GcsObservation `json:"gcs,omitempty" tf:"gcs,omitempty"`
 
@@ -1655,7 +1655,7 @@ type V2ServiceTemplateVolumesParameters struct {
 	// +kubebuilder:validation:Optional
 	CloudSQLInstance *VolumesCloudSQLInstanceParameters `json:"cloudSqlInstance,omitempty" tf:"cloud_sql_instance,omitempty"`
 
-	// Represents a GCS Bucket mounted as a volume.
+	// Cloud Storage bucket mounted as a volume using GCSFuse. This feature is only supported in the gen2 execution environment and requires launch-stage to be set to ALPHA or BETA.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Gcs *GcsParameters `json:"gcs,omitempty" tf:"gcs,omitempty"`

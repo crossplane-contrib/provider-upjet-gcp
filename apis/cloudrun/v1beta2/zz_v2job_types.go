@@ -262,7 +262,7 @@ type SecretItemsInitParameters struct {
 	// Integer octal mode bits to use on this file, must be a value between 01 and 0777 (octal). If 0 or not set, the Volume's default mode will be used.
 	Mode *float64 `json:"mode,omitempty" tf:"mode,omitempty"`
 
-	// The relative path of the secret in the container.
+	// Path that is exported by the NFS server.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
 	// The Cloud Secret Manager secret version. Can be 'latest' for the latest value or an integer for a specific version.
@@ -274,7 +274,7 @@ type SecretItemsObservation struct {
 	// Integer octal mode bits to use on this file, must be a value between 01 and 0777 (octal). If 0 or not set, the Volume's default mode will be used.
 	Mode *float64 `json:"mode,omitempty" tf:"mode,omitempty"`
 
-	// The relative path of the secret in the container.
+	// Path that is exported by the NFS server.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
 	// The Cloud Secret Manager secret version. Can be 'latest' for the latest value or an integer for a specific version.
@@ -287,7 +287,7 @@ type SecretItemsParameters struct {
 	// +kubebuilder:validation:Optional
 	Mode *float64 `json:"mode,omitempty" tf:"mode,omitempty"`
 
-	// The relative path of the secret in the container.
+	// Path that is exported by the NFS server.
 	// +kubebuilder:validation:Optional
 	Path *string `json:"path" tf:"path,omitempty"`
 

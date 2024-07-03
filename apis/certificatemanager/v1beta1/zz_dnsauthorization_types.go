@@ -32,6 +32,15 @@ type DNSAuthorizationInitParameters struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// type of DNS authorization. If unset during the resource creation, FIXED_RECORD will
+	// be used for global resources, and PER_PROJECT_RECORD will be used for other locations.
+	// FIXED_RECORD DNS authorization uses DNS-01 validation method
+	// PER_PROJECT_RECORD DNS authorization allows for independent management
+	// of Google-managed certificates with DNS authorization across multiple
+	// projects.
+	// Possible values are: FIXED_RECORD, PER_PROJECT_RECORD.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type DNSAuthorizationObservation struct {
@@ -73,6 +82,15 @@ type DNSAuthorizationObservation struct {
 	// and default labels configured on the provider.
 	// +mapType=granular
 	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
+	// type of DNS authorization. If unset during the resource creation, FIXED_RECORD will
+	// be used for global resources, and PER_PROJECT_RECORD will be used for other locations.
+	// FIXED_RECORD DNS authorization uses DNS-01 validation method
+	// PER_PROJECT_RECORD DNS authorization allows for independent management
+	// of Google-managed certificates with DNS authorization across multiple
+	// projects.
+	// Possible values are: FIXED_RECORD, PER_PROJECT_RECORD.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type DNSAuthorizationParameters struct {
@@ -102,6 +120,16 @@ type DNSAuthorizationParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// type of DNS authorization. If unset during the resource creation, FIXED_RECORD will
+	// be used for global resources, and PER_PROJECT_RECORD will be used for other locations.
+	// FIXED_RECORD DNS authorization uses DNS-01 validation method
+	// PER_PROJECT_RECORD DNS authorization allows for independent management
+	// of Google-managed certificates with DNS authorization across multiple
+	// projects.
+	// Possible values are: FIXED_RECORD, PER_PROJECT_RECORD.
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type DNSResourceRecordInitParameters struct {

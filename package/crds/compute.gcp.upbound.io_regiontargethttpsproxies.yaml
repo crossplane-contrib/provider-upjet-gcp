@@ -96,6 +96,18 @@ spec:
                       The Region in which the created target https proxy should reside.
                       If it is not provided, the provider region is used.
                     type: string
+                  serverTlsPolicy:
+                    description: |-
+                      A URL referring to a networksecurity.ServerTlsPolicy
+                      resource that describes how the proxy should authenticate inbound
+                      traffic. serverTlsPolicy only applies to a global TargetHttpsProxy
+                      attached to globalForwardingRules with the loadBalancingScheme
+                      set to INTERNAL_SELF_MANAGED or EXTERNAL or EXTERNAL_MANAGED.
+                      For details which ServerTlsPolicy resources are accepted with
+                      INTERNAL_SELF_MANAGED and which with EXTERNAL, EXTERNAL_MANAGED
+                      loadBalancingScheme consult ServerTlsPolicy documentation.
+                      If left blank, communications are not encrypted.
+                    type: string
                   sslCertificates:
                     description: |-
                       URLs to SslCertificate resources that are used to authenticate connections between users and the load balancer.
@@ -302,6 +314,18 @@ spec:
                     description: |-
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
+                    type: string
+                  serverTlsPolicy:
+                    description: |-
+                      A URL referring to a networksecurity.ServerTlsPolicy
+                      resource that describes how the proxy should authenticate inbound
+                      traffic. serverTlsPolicy only applies to a global TargetHttpsProxy
+                      attached to globalForwardingRules with the loadBalancingScheme
+                      set to INTERNAL_SELF_MANAGED or EXTERNAL or EXTERNAL_MANAGED.
+                      For details which ServerTlsPolicy resources are accepted with
+                      INTERNAL_SELF_MANAGED and which with EXTERNAL, EXTERNAL_MANAGED
+                      loadBalancingScheme consult ServerTlsPolicy documentation.
+                      If left blank, communications are not encrypted.
                     type: string
                   sslCertificates:
                     description: |-
@@ -684,6 +708,18 @@ spec:
                     type: string
                   selfLink:
                     description: The URI of the created resource.
+                    type: string
+                  serverTlsPolicy:
+                    description: |-
+                      A URL referring to a networksecurity.ServerTlsPolicy
+                      resource that describes how the proxy should authenticate inbound
+                      traffic. serverTlsPolicy only applies to a global TargetHttpsProxy
+                      attached to globalForwardingRules with the loadBalancingScheme
+                      set to INTERNAL_SELF_MANAGED or EXTERNAL or EXTERNAL_MANAGED.
+                      For details which ServerTlsPolicy resources are accepted with
+                      INTERNAL_SELF_MANAGED and which with EXTERNAL, EXTERNAL_MANAGED
+                      loadBalancingScheme consult ServerTlsPolicy documentation.
+                      If left blank, communications are not encrypted.
                     type: string
                   sslCertificates:
                     description: |-

@@ -2656,6 +2656,11 @@ spec:
                         description: The edition of the instance, can be ENTERPRISE
                           or ENTERPRISE_PLUS.
                         type: string
+                      enableGoogleMlIntegration:
+                        description: Enables Cloud SQL instances to connect to Vertex
+                          AI and pass requests for real-time predictions and insights.
+                          Defaults to false.
+                        type: boolean
                       insightsConfig:
                         properties:
                           queryInsightsEnabled:
@@ -3298,6 +3303,11 @@ spec:
                         description: The edition of the instance, can be ENTERPRISE
                           or ENTERPRISE_PLUS.
                         type: string
+                      enableGoogleMlIntegration:
+                        description: Enables Cloud SQL instances to connect to Vertex
+                          AI and pass requests for real-time predictions and insights.
+                          Defaults to false.
+                        type: boolean
                       insightsConfig:
                         properties:
                           queryInsightsEnabled:
@@ -4130,6 +4140,11 @@ spec:
                         description: The edition of the instance, can be ENTERPRISE
                           or ENTERPRISE_PLUS.
                         type: string
+                      enableGoogleMlIntegration:
+                        description: Enables Cloud SQL instances to connect to Vertex
+                          AI and pass requests for real-time predictions and insights.
+                          Defaults to false.
+                        type: boolean
                       insightsConfig:
                         properties:
                           queryInsightsEnabled:

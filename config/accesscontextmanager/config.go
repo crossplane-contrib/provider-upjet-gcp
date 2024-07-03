@@ -24,5 +24,6 @@ func Configure(p *config.Provider) {
 			s.Optional = false
 			s.Computed = false
 		}
+		r.MetaResource.Description = "Allows configuring a single GCP resource that should be inside the 'status' block of a service perimeter."
 	})
 }

@@ -13,6 +13,25 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AuthorizedExternalNetworksInitParameters struct {
+
+	// CIDR range for one authorized network of the instance.
+	CidrRange *string `json:"cidrRange,omitempty" tf:"cidr_range,omitempty"`
+}
+
+type AuthorizedExternalNetworksObservation struct {
+
+	// CIDR range for one authorized network of the instance.
+	CidrRange *string `json:"cidrRange,omitempty" tf:"cidr_range,omitempty"`
+}
+
+type AuthorizedExternalNetworksParameters struct {
+
+	// CIDR range for one authorized network of the instance.
+	// +kubebuilder:validation:Optional
+	CidrRange *string `json:"cidrRange,omitempty" tf:"cidr_range,omitempty"`
+}
+
 type ClientConnectionConfigInitParameters struct {
 
 	// Configuration to enforce connectors only (ex: AuthProxy) connections to the database.
@@ -104,6 +123,10 @@ type InstanceInitParameters struct {
 	// Structure is documented below.
 	MachineConfig *MachineConfigInitParameters `json:"machineConfig,omitempty" tf:"machine_config,omitempty"`
 
+	// Instance level network configuration.
+	// Structure is documented below.
+	NetworkConfig *InstanceNetworkConfigInitParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
+
 	// Configuration for query insights.
 	// Structure is documented below.
 	QueryInsightsConfig *QueryInsightsConfigInitParameters `json:"queryInsightsConfig,omitempty" tf:"query_insights_config,omitempty"`
@@ -111,6 +134,50 @@ type InstanceInitParameters struct {
 	// Read pool specific config. If the instance type is READ_POOL, this configuration must be provided.
 	// Structure is documented below.
 	ReadPoolConfig *ReadPoolConfigInitParameters `json:"readPoolConfig,omitempty" tf:"read_pool_config,omitempty"`
+}
+
+type InstanceNetworkConfigInitParameters struct {
+
+	// A list of external networks authorized to access this instance. This
+	// field is only allowed to be set when enable_public_ip is set to
+	// true.
+	// Structure is documented below.
+	AuthorizedExternalNetworks []AuthorizedExternalNetworksInitParameters `json:"authorizedExternalNetworks,omitempty" tf:"authorized_external_networks,omitempty"`
+
+	// Enabling public ip for the instance. If a user wishes to disable this,
+	// please also clear the list of the authorized external networks set on
+	// the same instance.
+	EnablePublicIP *bool `json:"enablePublicIp,omitempty" tf:"enable_public_ip,omitempty"`
+}
+
+type InstanceNetworkConfigObservation struct {
+
+	// A list of external networks authorized to access this instance. This
+	// field is only allowed to be set when enable_public_ip is set to
+	// true.
+	// Structure is documented below.
+	AuthorizedExternalNetworks []AuthorizedExternalNetworksObservation `json:"authorizedExternalNetworks,omitempty" tf:"authorized_external_networks,omitempty"`
+
+	// Enabling public ip for the instance. If a user wishes to disable this,
+	// please also clear the list of the authorized external networks set on
+	// the same instance.
+	EnablePublicIP *bool `json:"enablePublicIp,omitempty" tf:"enable_public_ip,omitempty"`
+}
+
+type InstanceNetworkConfigParameters struct {
+
+	// A list of external networks authorized to access this instance. This
+	// field is only allowed to be set when enable_public_ip is set to
+	// true.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AuthorizedExternalNetworks []AuthorizedExternalNetworksParameters `json:"authorizedExternalNetworks,omitempty" tf:"authorized_external_networks,omitempty"`
+
+	// Enabling public ip for the instance. If a user wishes to disable this,
+	// please also clear the list of the authorized external networks set on
+	// the same instance.
+	// +kubebuilder:validation:Optional
+	EnablePublicIP *bool `json:"enablePublicIp,omitempty" tf:"enable_public_ip,omitempty"`
 }
 
 type InstanceObservation struct {
@@ -183,6 +250,15 @@ type InstanceObservation struct {
 
 	// The name of the instance resource.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Instance level network configuration.
+	// Structure is documented below.
+	NetworkConfig *InstanceNetworkConfigObservation `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
+
+	// The public IP addresses for the Instance. This is available ONLY when
+	// networkConfig.enablePublicIp is set to true. This is the connection
+	// endpoint for an end-user application.
+	PublicIPAddress *string `json:"publicIpAddress,omitempty" tf:"public_ip_address,omitempty"`
 
 	// Configuration for query insights.
 	// Structure is documented below.
@@ -292,6 +368,11 @@ type InstanceParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MachineConfig *MachineConfigParameters `json:"machineConfig,omitempty" tf:"machine_config,omitempty"`
+
+	// Instance level network configuration.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NetworkConfig *InstanceNetworkConfigParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
 
 	// Configuration for query insights.
 	// Structure is documented below.

@@ -233,6 +233,10 @@ type NodePoolInitParameters_2 struct {
 	// the provider-configured project will be used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Specifies node pool-level settings of queued provisioning.
+	// Structure is documented below.
+	QueuedProvisioning *NodePoolQueuedProvisioningInitParameters `json:"queuedProvisioning,omitempty" tf:"queued_provisioning,omitempty"`
+
 	// Specify node upgrade settings to change how GKE upgrades nodes.
 	// The maximum number of nodes upgraded simultaneously is limited to 20. Structure is documented below.
 	UpgradeSettings *NodePoolUpgradeSettingsInitParameters_2 `json:"upgradeSettings,omitempty" tf:"upgrade_settings,omitempty"`
@@ -597,6 +601,8 @@ type NodePoolNodeConfigInitParameters_2 struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	SecondaryBootDisks []NodePoolNodeConfigSecondaryBootDisksInitParameters `json:"secondaryBootDisks,omitempty" tf:"secondary_boot_disks,omitempty"`
+
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
@@ -762,6 +768,8 @@ type NodePoolNodeConfigObservation_2 struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	SecondaryBootDisks []NodePoolNodeConfigSecondaryBootDisksObservation `json:"secondaryBootDisks,omitempty" tf:"secondary_boot_disks,omitempty"`
+
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	ShieldedInstanceConfig *NodePoolNodeConfigShieldedInstanceConfigObservation_2 `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
@@ -871,6 +879,9 @@ type NodePoolNodeConfigParameters_2 struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	SecondaryBootDisks []NodePoolNodeConfigSecondaryBootDisksParameters `json:"secondaryBootDisks,omitempty" tf:"secondary_boot_disks,omitempty"`
+
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
@@ -932,6 +943,27 @@ type NodePoolNodeConfigReservationAffinityParameters struct {
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
+}
+
+type NodePoolNodeConfigSecondaryBootDisksInitParameters struct {
+	DiskImage *string `json:"diskImage,omitempty" tf:"disk_image,omitempty"`
+
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type NodePoolNodeConfigSecondaryBootDisksObservation struct {
+	DiskImage *string `json:"diskImage,omitempty" tf:"disk_image,omitempty"`
+
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type NodePoolNodeConfigSecondaryBootDisksParameters struct {
+
+	// +kubebuilder:validation:Optional
+	DiskImage *string `json:"diskImage" tf:"disk_image,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 }
 
 type NodePoolNodeConfigShieldedInstanceConfigInitParameters_2 struct {
@@ -1080,6 +1112,10 @@ type NodePoolObservation_2 struct {
 	// the provider-configured project will be used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Specifies node pool-level settings of queued provisioning.
+	// Structure is documented below.
+	QueuedProvisioning *NodePoolQueuedProvisioningObservation `json:"queuedProvisioning,omitempty" tf:"queued_provisioning,omitempty"`
+
 	// Specify node upgrade settings to change how GKE upgrades nodes.
 	// The maximum number of nodes upgraded simultaneously is limited to 20. Structure is documented below.
 	UpgradeSettings *NodePoolUpgradeSettingsObservation_2 `json:"upgradeSettings,omitempty" tf:"upgrade_settings,omitempty"`
@@ -1170,6 +1206,11 @@ type NodePoolParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Specifies node pool-level settings of queued provisioning.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	QueuedProvisioning *NodePoolQueuedProvisioningParameters `json:"queuedProvisioning,omitempty" tf:"queued_provisioning,omitempty"`
+
 	// Specify node upgrade settings to change how GKE upgrades nodes.
 	// The maximum number of nodes upgraded simultaneously is limited to 20. Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -1231,6 +1272,25 @@ type NodePoolPlacementPolicyParameters struct {
 	// physical proximity in order to reduce network latency between nodes.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
+}
+
+type NodePoolQueuedProvisioningInitParameters struct {
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type NodePoolQueuedProvisioningObservation struct {
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type NodePoolQueuedProvisioningParameters struct {
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
 type NodePoolUpgradeSettingsBlueGreenSettingsInitParameters struct {

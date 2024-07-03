@@ -2434,6 +2434,15 @@ spec:
                           type: string
                         type: object
                         x-kubernetes-map-type: granular
+                      secondaryBootDisks:
+                        items:
+                          properties:
+                            diskImage:
+                              type: string
+                            mode:
+                              type: string
+                          type: object
+                        type: array
                       serviceAccount:
                         type: string
                       serviceAccountRef:
@@ -2600,6 +2609,16 @@ spec:
                       The ID of the project in which to create the node pool. If blank,
                       the provider-configured project will be used.
                     type: string
+                  queuedProvisioning:
+                    description: |-
+                      Specifies node pool-level settings of queued provisioning.
+                      Structure is documented below.
+                    properties:
+                      enabled:
+                        description: Makes nodes obtainable through the ProvisioningRequest
+                          API exclusively.
+                        type: boolean
+                    type: object
                   upgradeSettings:
                     description: |-
                       Specify node upgrade settings to change how GKE upgrades nodes.
@@ -2940,6 +2959,15 @@ spec:
                           type: string
                         type: object
                         x-kubernetes-map-type: granular
+                      secondaryBootDisks:
+                        items:
+                          properties:
+                            diskImage:
+                              type: string
+                            mode:
+                              type: string
+                          type: object
+                        type: array
                       serviceAccount:
                         type: string
                       serviceAccountRef:
@@ -3106,6 +3134,16 @@ spec:
                       The ID of the project in which to create the node pool. If blank,
                       the provider-configured project will be used.
                     type: string
+                  queuedProvisioning:
+                    description: |-
+                      Specifies node pool-level settings of queued provisioning.
+                      Structure is documented below.
+                    properties:
+                      enabled:
+                        description: Makes nodes obtainable through the ProvisioningRequest
+                          API exclusively.
+                        type: boolean
+                    type: object
                   upgradeSettings:
                     description: |-
                       Specify node upgrade settings to change how GKE upgrades nodes.
@@ -3640,6 +3678,15 @@ spec:
                           type: string
                         type: object
                         x-kubernetes-map-type: granular
+                      secondaryBootDisks:
+                        items:
+                          properties:
+                            diskImage:
+                              type: string
+                            mode:
+                              type: string
+                          type: object
+                        type: array
                       serviceAccount:
                         type: string
                       shieldedInstanceConfig:
@@ -3732,6 +3779,16 @@ spec:
                       The ID of the project in which to create the node pool. If blank,
                       the provider-configured project will be used.
                     type: string
+                  queuedProvisioning:
+                    description: |-
+                      Specifies node pool-level settings of queued provisioning.
+                      Structure is documented below.
+                    properties:
+                      enabled:
+                        description: Makes nodes obtainable through the ProvisioningRequest
+                          API exclusively.
+                        type: boolean
+                    type: object
                   upgradeSettings:
                     description: |-
                       Specify node upgrade settings to change how GKE upgrades nodes.

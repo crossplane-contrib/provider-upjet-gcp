@@ -118,6 +118,8 @@ type FolderSinkInitParameters struct {
 	// Whether or not to include children folders in the sink export. If true, logs
 	// associated with child projects are also exported; otherwise only logs relating to the provided folder are included.
 	IncludeChildren *bool `json:"includeChildren,omitempty" tf:"include_children,omitempty"`
+
+	InterceptChildren *bool `json:"interceptChildren,omitempty" tf:"intercept_children,omitempty"`
 }
 
 type FolderSinkObservation struct {
@@ -152,6 +154,8 @@ type FolderSinkObservation struct {
 	// Whether or not to include children folders in the sink export. If true, logs
 	// associated with child projects are also exported; otherwise only logs relating to the provided folder are included.
 	IncludeChildren *bool `json:"includeChildren,omitempty" tf:"include_children,omitempty"`
+
+	InterceptChildren *bool `json:"interceptChildren,omitempty" tf:"intercept_children,omitempty"`
 
 	// The identity associated with this sink. This identity must be granted write access to the
 	// configured destination.
@@ -205,6 +209,9 @@ type FolderSinkParameters struct {
 	// associated with child projects are also exported; otherwise only logs relating to the provided folder are included.
 	// +kubebuilder:validation:Optional
 	IncludeChildren *bool `json:"includeChildren,omitempty" tf:"include_children,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	InterceptChildren *bool `json:"interceptChildren,omitempty" tf:"intercept_children,omitempty"`
 }
 
 // FolderSinkSpec defines the desired state of FolderSink

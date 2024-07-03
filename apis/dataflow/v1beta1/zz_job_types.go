@@ -48,7 +48,9 @@ type JobInitParameters struct {
 	// One of "drain" or "cancel".  See above note.
 	OnDelete *string `json:"onDelete,omitempty" tf:"on_delete,omitempty"`
 
-	// Key/Value pairs to be passed to the Dataflow job (as used in the template).
+	// Template specific Key/Value pairs to be forwarded to the pipeline's options; keys are
+	// case-sensitive based on the language on which the pipeline is coded, mostly Java.
+	// Note: do not configure Dataflow options here in parameters.
 	Parameters map[string]string `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// The project in which the resource belongs. If it is not provided, the provider project is used.
@@ -122,7 +124,9 @@ type JobObservation struct {
 	// One of "drain" or "cancel".  See above note.
 	OnDelete *string `json:"onDelete,omitempty" tf:"on_delete,omitempty"`
 
-	// Key/Value pairs to be passed to the Dataflow job (as used in the template).
+	// Template specific Key/Value pairs to be forwarded to the pipeline's options; keys are
+	// case-sensitive based on the language on which the pipeline is coded, mostly Java.
+	// Note: do not configure Dataflow options here in parameters.
 	Parameters map[string]string `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// The project in which the resource belongs. If it is not provided, the provider project is used.
@@ -208,7 +212,9 @@ type JobParameters struct {
 	// +kubebuilder:validation:Optional
 	OnDelete *string `json:"onDelete,omitempty" tf:"on_delete,omitempty"`
 
-	// Key/Value pairs to be passed to the Dataflow job (as used in the template).
+	// Template specific Key/Value pairs to be forwarded to the pipeline's options; keys are
+	// case-sensitive based on the language on which the pipeline is coded, mostly Java.
+	// Note: do not configure Dataflow options here in parameters.
 	// +kubebuilder:validation:Optional
 	Parameters map[string]string `json:"parameters,omitempty" tf:"parameters,omitempty"`
 

@@ -142,12 +142,20 @@ type InterconnectAttachmentObservation struct {
 	// Interface for this interconnect attachment.
 	CloudRouterIPAddress *string `json:"cloudRouterIpAddress,omitempty" tf:"cloud_router_ip_address,omitempty"`
 
+	// IPv6 address + prefix length to be configured on Cloud Router
+	// Interface for this interconnect attachment.
+	CloudRouterIPv6Address *string `json:"cloudRouterIpv6Address,omitempty" tf:"cloud_router_ipv6_address,omitempty"`
+
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
 	// IPv4 address + prefix length to be configured on the customer
 	// router subinterface for this interconnect attachment.
 	CustomerRouterIPAddress *string `json:"customerRouterIpAddress,omitempty" tf:"customer_router_ip_address,omitempty"`
+
+	// IPv6 address + prefix length to be configured on the customer
+	// router subinterface for this interconnect attachment.
+	CustomerRouterIPv6Address *string `json:"customerRouterIpv6Address,omitempty" tf:"customer_router_ipv6_address,omitempty"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`

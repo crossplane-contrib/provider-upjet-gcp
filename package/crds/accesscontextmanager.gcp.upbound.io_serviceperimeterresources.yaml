@@ -35,8 +35,8 @@ spec:
     schema:
       openAPIV3Schema:
         description: ServicePerimeterResource is the Schema for the ServicePerimeterResources
-          API. Allows configuring a single GCP resource that should be inside of a
-          service perimeter.
+          API. Allows configuring a single GCP resource that should be inside the
+          'status' block of a service perimeter.
         properties:
           apiVersion:
             description: |-
