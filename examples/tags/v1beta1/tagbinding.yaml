@@ -1,0 +1,50 @@
+apiVersion: tags.gcp.upbound.io/v1beta1
+kind: TagBinding
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tags/v1beta1/tagbinding
+    upjet.upbound.io/manual-intervention: "The resource requires a real Project number"
+  labels:
+    testing.upbound.io/example-name: binding
+  name: binding
+spec:
+  forProvider:
+    parent: //cloudresourcemanager.googleapis.com/projects/&{project_number}
+    tagValueSelector:
+      matchLabels:
+        testing.upbound.io/example-name: value
+
+---
+
+apiVersion: tags.gcp.upbound.io/v1beta1
+kind: TagKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tags/v1beta1/tagbinding
+    upjet.upbound.io/manual-intervention: "The resource requires a real Project ID"
+  labels:
+    testing.upbound.io/example-name: key
+  name: key
+spec:
+  forProvider:
+    description: For keyname resources.
+    parent: projects/&{project_id}
+    shortName: keyname
+
+---
+
+apiVersion: tags.gcp.upbound.io/v1beta1
+kind: TagValue
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tags/v1beta1/tagbinding
+  labels:
+    testing.upbound.io/example-name: value
+  name: value
+spec:
+  forProvider:
+    description: For valuename resources.
+    parentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: key
+    shortName: valuename
