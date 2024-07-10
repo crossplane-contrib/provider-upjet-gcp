@@ -993,6 +993,15 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_certificate_manager_dns_authorization": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/dnsAuthorizations/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/global/certificateMaps/{{map}}/certificateMapEntries/{{name}}
 	"google_certificate_manager_certificate_map_entry": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/global/certificateMaps/{{ .parameters.map }}/certificateMapEntries/{{ .external_name }}"),
+
+	// tags
+	//
+	// Imported by using the following tagBindings/{{name}}
+	"google_tags_tag_binding": config.IdentifierFromProvider,
+	// Imported by using the following tagKeys/{{name}}
+	"google_tags_tag_key": config.IdentifierFromProvider,
+	// Imported by using the following tagValues/{{name}}
+	"google_tags_tag_value": config.IdentifierFromProvider,
 }
 
 // cliReconciledExternalNameConfigs contains all external name configurations

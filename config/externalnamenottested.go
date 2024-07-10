@@ -441,14 +441,8 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 
 	// tags
 	//
-	// Imported by using the following tagKeys/{{name}}
-	"google_tags_tag_key": config.IdentifierFromProvider,
 	// Imported by using the following tagKeys/{{tag_key}} roles/viewer user:jane@example.com
 	"google_tags_tag_key_iam_member": config.TemplatedStringAsIdentifier("tag_key", "tagKeys/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
-	// Imported by using the following tagValues/{{name}}
-	"google_tags_tag_value": config.IdentifierFromProvider,
 	// Imported by using the following tagValues/{{tag_value}} roles/viewer user:jane@example.com
 	"google_tags_tag_value_iam_member": config.TemplatedStringAsIdentifier("tag_value", "tagValues/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
-	// Imported by using the following tagBindings/{{name}}
-	"google_tags_tag_binding": config.IdentifierFromProvider,
 }

@@ -136,6 +136,7 @@ import (
 	v1beta2storage "github.com/upbound/provider-gcp/apis/storage/v1beta2"
 	v1beta1storagetransfer "github.com/upbound/provider-gcp/apis/storagetransfer/v1beta1"
 	v1beta2storagetransfer "github.com/upbound/provider-gcp/apis/storagetransfer/v1beta2"
+	v1beta1tags "github.com/upbound/provider-gcp/apis/tags/v1beta1"
 	v1beta1tpu "github.com/upbound/provider-gcp/apis/tpu/v1beta1"
 	v1beta2tpu "github.com/upbound/provider-gcp/apis/tpu/v1beta2"
 	v1alpha1 "github.com/upbound/provider-gcp/apis/v1alpha1"
@@ -276,6 +277,7 @@ func init() {
 		v1beta2storage.SchemeBuilder.AddToScheme,
 		v1beta1storagetransfer.SchemeBuilder.AddToScheme,
 		v1beta2storagetransfer.SchemeBuilder.AddToScheme,
+		v1beta1tags.SchemeBuilder.AddToScheme,
 		v1beta1tpu.SchemeBuilder.AddToScheme,
 		v1beta2tpu.SchemeBuilder.AddToScheme,
 		v1alpha1.SchemeBuilder.AddToScheme,

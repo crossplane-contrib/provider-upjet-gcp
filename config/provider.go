@@ -61,6 +61,7 @@ import (
 	"github.com/upbound/provider-gcp/config/spanner"
 	"github.com/upbound/provider-gcp/config/sql"
 	"github.com/upbound/provider-gcp/config/storage"
+	"github.com/upbound/provider-gcp/config/tags"
 	"github.com/upbound/provider-gcp/config/tpu"
 	"github.com/upbound/provider-gcp/config/vertexai"
 	"github.com/upbound/provider-gcp/config/vpcaccess"
@@ -238,6 +239,7 @@ func GetProvider(_ context.Context, generationProvider bool) (*ujconfig.Provider
 		bigquery.Configure,
 		beyondcorp.Configure,
 		vertexai.Configure,
+		tags.Configure,
 		tpu.Configure,
 		vpcaccess.Configure,
 		healthcare.Configure,
