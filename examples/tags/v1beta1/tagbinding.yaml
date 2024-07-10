@@ -38,6 +38,7 @@ kind: TagValue
 metadata:
   annotations:
     meta.upbound.io/example-id: tags/v1beta1/tagbinding
+    upjet.upbound.io/manual-intervention: "This resource is skipped because the TagBinding resource is skipped"
   labels:
     testing.upbound.io/example-name: value
   name: value
