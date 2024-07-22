@@ -20,6 +20,7 @@ import (
 	cluster "github.com/upbound/provider-gcp/internal/controller/alloydb/cluster"
 	instance "github.com/upbound/provider-gcp/internal/controller/alloydb/instance"
 	envgroup "github.com/upbound/provider-gcp/internal/controller/apigee/envgroup"
+	envgroupattachment "github.com/upbound/provider-gcp/internal/controller/apigee/envgroupattachment"
 	environment "github.com/upbound/provider-gcp/internal/controller/apigee/environment"
 	environmentiammember "github.com/upbound/provider-gcp/internal/controller/apigee/environmentiammember"
 	instanceapigee "github.com/upbound/provider-gcp/internal/controller/apigee/instance"
@@ -375,6 +376,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		cluster.Setup,
 		instance.Setup,
 		envgroup.Setup,
+		envgroupattachment.Setup,
 		environment.Setup,
 		environmentiammember.Setup,
 		instanceapigee.Setup,
