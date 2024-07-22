@@ -1,0 +1,131 @@
+apiVersion: apigee.gcp.upbound.io/v1beta2
+kind: Organization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/envgroupattachment
+    upjet.upbound.io/manual-intervention: "Organization requires a real Project ID"
+  labels:
+    testing.upbound.io/example-name: env-grp-attachment
+  name: env-grp-attachment
+spec:
+  forProvider:
+    analyticsRegion: us-central1
+    authorizedNetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: env-grp-attachment
+    projectId: ${project.project_id}
+
+---
+
+apiVersion: apigee.gcp.upbound.io/v1beta1
+kind: EnvgroupAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/envgroupattachment
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the parent resource was skipped"
+  labels:
+    testing.upbound.io/example-name: env-grp-attachment
+  name: env-grp-attachment
+spec:
+  forProvider:
+    envgroupIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: env-grp-attachment
+    environmentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: env-grp-attachment
+
+---
+
+apiVersion: apigee.gcp.upbound.io/v1beta1
+kind: Envgroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/envgroupattachment
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the parent resource was skipped"
+  labels:
+    testing.upbound.io/example-name: env-grp-attachment
+  name: env-grp-attachment
+spec:
+  forProvider:
+    hostnames:
+    - abc.foo.com
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: env-grp-attachment
+
+---
+
+apiVersion: apigee.gcp.upbound.io/v1beta2
+kind: Environment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/envgroupattachment
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the parent resource was skipped"
+  labels:
+    testing.upbound.io/example-name: env-grp-attachment
+  name: env-grp-attachment
+spec:
+  forProvider:
+    description: Apigee Environment
+    displayName: my-environment
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: env-grp-attachment
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: GlobalAddress
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/envgroupattachment
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the parent resource was skipped"
+  labels:
+    testing.upbound.io/example-name: env-grp-attachment
+  name: env-grp-attachment
+spec:
+  forProvider:
+    addressType: INTERNAL
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: env-grp-attachment
+    prefixLength: 16
+    project: ${project.project_id}
+    purpose: VPC_PEERING
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/envgroupattachment
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the parent resource was skipped"
+  labels:
+    testing.upbound.io/example-name: env-grp-attachment
+  name: env-grp-attachment
+spec:
+  forProvider:
+    project: ${project.project_id}
+
+---
+
+apiVersion: servicenetworking.gcp.upbound.io/v1beta1
+kind: Connection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/envgroupattachment
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the parent resource was skipped"
+  labels:
+    testing.upbound.io/example-name: env-grp-attachment
+  name: env-grp-attachment
+spec:
+  forProvider:
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: env-grp-attachment
+    reservedPeeringRangesSelector:
+      matchLabels:
+        testing.upbound.io/example-name: env-grp-attachment
+    service: servicenetworking.googleapis.com

@@ -49,6 +49,94 @@ func (mg *Envgroup) ResolveReferences(ctx context.Context, c client.Reader) erro
 	return nil
 }
 
+// ResolveReferences of this EnvgroupAttachment.
+func (mg *EnvgroupAttachment) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("apigee.gcp.upbound.io", "v1beta1", "Envgroup", "EnvgroupList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EnvgroupID),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.ForProvider.EnvgroupIDRef,
+			Selector:     mg.Spec.ForProvider.EnvgroupIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.EnvgroupID")
+	}
+	mg.Spec.ForProvider.EnvgroupID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.EnvgroupIDRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("apigee.gcp.upbound.io", "v1beta2", "Environment", "EnvironmentList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Environment),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.ForProvider.EnvironmentRef,
+			Selector:     mg.Spec.ForProvider.EnvironmentSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Environment")
+	}
+	mg.Spec.ForProvider.Environment = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.EnvironmentRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("apigee.gcp.upbound.io", "v1beta1", "Envgroup", "EnvgroupList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EnvgroupID),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.EnvgroupIDRef,
+			Selector:     mg.Spec.InitProvider.EnvgroupIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.EnvgroupID")
+	}
+	mg.Spec.InitProvider.EnvgroupID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.EnvgroupIDRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("apigee.gcp.upbound.io", "v1beta2", "Environment", "EnvironmentList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Environment),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.InitProvider.EnvironmentRef,
+			Selector:     mg.Spec.InitProvider.EnvironmentSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Environment")
+	}
+	mg.Spec.InitProvider.Environment = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.EnvironmentRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this Environment.
 func (mg *Environment) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed

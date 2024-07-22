@@ -858,6 +858,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following format: {{org_id}}/envgroups/{{name}}
 	"google_apigee_envgroup": config.TemplatedStringAsIdentifier("name", "{{ .parameters.org_id }}/envgroups/{{ .external_name }}"),
+	// Imported by using the following format: {{envgroup_id}}/attachments/{{name}}. Name doesn't exist in parameters, try using IdentifierFromProvider
+	"google_apigee_envgroup_attachment": config.IdentifierFromProvider,
 	// Imported by using the following format: {{org_id}}/environments/{{name}}
 	"google_apigee_environment": config.TemplatedStringAsIdentifier("name", "{{ .parameters.org_id }}/environments/{{ .external_name }}"),
 	// Imported by using the following format: {{org_id}}/instances/{{name}}
