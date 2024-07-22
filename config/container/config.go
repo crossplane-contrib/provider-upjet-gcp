@@ -151,6 +151,9 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			if asDiff, ok := diff.Attributes["autoscaling.#"]; ok && asDiff.Old == "" && asDiff.New == "" {
 				delete(diff.Attributes, "autoscaling.#")
 			}
+			if qpDiff, ok := diff.Attributes["queued_provisioning.#"]; ok && qpDiff.Old == "" && qpDiff.New == "" {
+				delete(diff.Attributes, "queued_provisioning.#")
+			}
 			return diff, nil
 		}
 	})
