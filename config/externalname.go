@@ -855,7 +855,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_bigtable_table_iam_policy": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}/instances/{{ .parameters.table }}"),
 
 	// apigee
-	//
+	// Imported by using the following format: organizations/{{name}}
+	"google_apigee_addons_config": config.IdentifierFromProvider,
 	// Imported by using the following format: {{org_id}}/envgroups/{{name}}
 	"google_apigee_envgroup": config.TemplatedStringAsIdentifier("name", "{{ .parameters.org_id }}/envgroups/{{ .external_name }}"),
 	// Imported by using the following format: {{org_id}}/environments/{{name}}

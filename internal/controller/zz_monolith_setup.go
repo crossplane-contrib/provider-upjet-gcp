@@ -19,6 +19,7 @@ import (
 	backup "github.com/upbound/provider-gcp/internal/controller/alloydb/backup"
 	cluster "github.com/upbound/provider-gcp/internal/controller/alloydb/cluster"
 	instance "github.com/upbound/provider-gcp/internal/controller/alloydb/instance"
+	addonsconfig "github.com/upbound/provider-gcp/internal/controller/apigee/addonsconfig"
 	envgroup "github.com/upbound/provider-gcp/internal/controller/apigee/envgroup"
 	environment "github.com/upbound/provider-gcp/internal/controller/apigee/environment"
 	environmentiammember "github.com/upbound/provider-gcp/internal/controller/apigee/environmentiammember"
@@ -374,6 +375,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		backup.Setup,
 		cluster.Setup,
 		instance.Setup,
+		addonsconfig.Setup,
 		envgroup.Setup,
 		environment.Setup,
 		environmentiammember.Setup,
