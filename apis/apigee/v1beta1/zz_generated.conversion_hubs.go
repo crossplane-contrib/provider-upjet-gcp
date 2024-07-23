@@ -19,4 +19,7 @@ func (tr *EnvgroupAttachment) Hub() {}
 func (tr *Instance) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *InstanceAttachment) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *NATAddress) Hub() {}
