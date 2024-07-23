@@ -25,6 +25,7 @@ import (
 
 	"github.com/upbound/provider-gcp/config/accessapproval"
 	"github.com/upbound/provider-gcp/config/accesscontextmanager"
+	"github.com/upbound/provider-gcp/config/apigee"
 	"github.com/upbound/provider-gcp/config/beyondcorp"
 	"github.com/upbound/provider-gcp/config/bigquery"
 	"github.com/upbound/provider-gcp/config/bigtable"
@@ -225,6 +226,7 @@ func GetProvider(_ context.Context, generationProvider bool) (*ujconfig.Provider
 	for _, configure := range []func(provider *ujconfig.Provider){
 		accessapproval.Configure,
 		accesscontextmanager.Configure,
+		apigee.Configure,
 		bigtable.Configure,
 		composer.Configure,
 		cloudfunctions.Configure,
