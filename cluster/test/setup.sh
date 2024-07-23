@@ -5,6 +5,8 @@ set -aeuo pipefail
 #
 # SPDX-License-Identifier: Apache-2.0
 
+UPTEST_GCP_PROJECT=${UPTEST_GCP_PROJECT:-official-provider-testing}
+
 echo "Running setup.sh"
 
 if [[ -n "${UPTEST_CLOUD_CREDENTIALS:-}" ]]; then
@@ -18,7 +20,7 @@ kind: ProviderConfig
 metadata:
   name: default
 spec:
-  projectID: official-provider-testing
+  projectID: ${UPTEST_GCP_PROJECT}
   credentials:
     source: Secret
     secretRef:
