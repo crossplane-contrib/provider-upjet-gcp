@@ -9,6 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/pkg/controller"
 
+	endpointattachment "github.com/upbound/provider-gcp/internal/controller/apigee/endpointattachment"
 	envgroup "github.com/upbound/provider-gcp/internal/controller/apigee/envgroup"
 	envgroupattachment "github.com/upbound/provider-gcp/internal/controller/apigee/envgroupattachment"
 	environment "github.com/upbound/provider-gcp/internal/controller/apigee/environment"
@@ -22,6 +23,7 @@ import (
 // the supplied manager.
 func Setup_apigee(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		endpointattachment.Setup,
 		envgroup.Setup,
 		envgroupattachment.Setup,
 		environment.Setup,

@@ -1,0 +1,226 @@
+apiVersion: apigee.gcp.upbound.io/v1beta2
+kind: Organization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/endpointattachment
+    upjet.upbound.io/manual-intervention: "Organization requires a real Project ID"
+  labels:
+    testing.upbound.io/example-name: apigee-endpoint-attachment
+  name: apigee-endpoint-attachment
+spec:
+  forProvider:
+    analyticsRegion: us-central1
+    authorizedNetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-endpoint-attachment
+    projectId: ${project.project_id}
+
+---
+
+apiVersion: apigee.gcp.upbound.io/v1beta1
+kind: EndpointAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/endpointattachment
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the parent resource was skipped"
+  labels:
+    testing.upbound.io/example-name: apigee-endpoint-attachment
+  name: apigee-endpoint-attachment
+spec:
+  forProvider:
+    location: us-central1
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-endpoint-attachment
+    serviceAttachmentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-endpoint-attachment
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: GlobalAddress
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/endpointattachment
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the parent resource was skipped"
+  labels:
+    testing.upbound.io/example-name: apigee-endpoint-attachment
+  name: apigee-endpoint-attachment
+spec:
+  forProvider:
+    addressType: INTERNAL
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-endpoint-attachment
+    prefixLength: 16
+    project: ${project.project_id}
+    purpose: VPC_PEERING
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/endpointattachment
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the parent resource was skipped"
+  labels:
+    testing.upbound.io/example-name: apigee-endpoint-attachment
+  name: apigee-endpoint-attachment
+spec:
+  forProvider:
+    project: ${project.project_id}
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/endpointattachment
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the parent resource was skipped"
+  labels:
+    testing.upbound.io/example-name: apigee-endpoint-attachment
+    type: private-service-connect
+  name: apigee-endpoint-attachment
+spec:
+  forProvider:
+    ipCidrRange: 10.1.0.0/16
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-endpoint-attachment
+    purpose: PRIVATE_SERVICE_CONNECT
+    region: us-central1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/endpointattachment
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the parent resource was skipped"
+  labels:
+    testing.upbound.io/example-name: apigee-endpoint-attachment
+    type: internal
+  name: apigee-endpoint-attachment-internal
+spec:
+  forProvider:
+    ipCidrRange: 10.0.0.0/16
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-endpoint-attachment
+    region: us-central1
+
+
+---
+
+apiVersion: servicenetworking.gcp.upbound.io/v1beta1
+kind: Connection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/endpointattachment
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the parent resource was skipped"
+  labels:
+    testing.upbound.io/example-name: apigee-endpoint-attachment
+  name: apigee-endpoint-attachment
+spec:
+  forProvider:
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-endpoint-attachment
+    reservedPeeringRangesSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-endpoint-attachment
+    service: servicenetworking.googleapis.com
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: ServiceAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/endpointattachment
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the parent resource was skipped"
+  labels:
+    testing.upbound.io/example-name: apigee-endpoint-attachment
+  name: apigee-endpoint-attachment
+spec:
+  forProvider:
+    connectionPreference: ACCEPT_AUTOMATIC
+    description: A service attachment
+    enableProxyProtocol: true
+    natSubnetsSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-endpoint-attachment
+        type: private-service-connect
+    region: us-central1
+    targetServiceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-endpoint-attachment
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: RegionHealthCheck
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/endpointattachment
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the parent resource was skipped"
+  labels:
+    testing.upbound.io/example-name: apigee-endpoint-attachment
+  name: apigee-endpoint-attachment
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    tcpHealthCheck:
+    - port: 80
+    timeoutSec: 1
+    region: us-central1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: RegionBackendService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/endpointattachment
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the parent resource was skipped"
+  labels:
+    testing.upbound.io/example-name: apigee-endpoint-attachment
+  name: apigee-endpoint-attachment
+spec:
+  forProvider:
+    healthChecksSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-endpoint-attachment
+    region: us-central1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: ForwardingRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/endpointattachment
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the parent resource was skipped"
+  labels:
+    testing.upbound.io/example-name: apigee-endpoint-attachment
+  name: apigee-endpoint-attachment
+spec:
+  forProvider:
+    allPorts: true
+    backendServiceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-endpoint-attachment
+    loadBalancingScheme: INTERNAL
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-endpoint-attachment
+    region: us-central1
+    subnetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-endpoint-attachment
+        type: internal

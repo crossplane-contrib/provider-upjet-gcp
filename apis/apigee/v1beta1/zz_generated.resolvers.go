@@ -13,12 +13,81 @@ import (
 	errors "github.com/pkg/errors"
 
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
-	client "sigs.k8s.io/controller-runtime/pkg/client"
-
-	// ResolveReferences of this Envgroup.
+	common "github.com/upbound/provider-gcp/config/common"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
+	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
+func (mg *EndpointAttachment) ResolveReferences( // ResolveReferences of this EndpointAttachment.
+	ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("apigee.gcp.upbound.io", "v1beta2", "Organization", "OrganizationList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.OrgID),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.ForProvider.OrgIDRef,
+			Selector:     mg.Spec.ForProvider.OrgIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.OrgID")
+	}
+	mg.Spec.ForProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.OrgIDRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "ServiceAttachment", "ServiceAttachmentList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceAttachment),
+			Extract:      common.ExtractResourceID(),
+			Reference:    mg.Spec.ForProvider.ServiceAttachmentRef,
+			Selector:     mg.Spec.ForProvider.ServiceAttachmentSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ServiceAttachment")
+	}
+	mg.Spec.ForProvider.ServiceAttachment = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ServiceAttachmentRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "ServiceAttachment", "ServiceAttachmentList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceAttachment),
+			Extract:      common.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.ServiceAttachmentRef,
+			Selector:     mg.Spec.InitProvider.ServiceAttachmentSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ServiceAttachment")
+	}
+	mg.Spec.InitProvider.ServiceAttachment = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ServiceAttachmentRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this Envgroup.
 func (mg *Envgroup) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
 	var l xpresource.ManagedList
