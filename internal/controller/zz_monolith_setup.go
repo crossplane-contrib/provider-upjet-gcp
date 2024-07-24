@@ -25,6 +25,7 @@ import (
 	environment "github.com/upbound/provider-gcp/internal/controller/apigee/environment"
 	environmentiammember "github.com/upbound/provider-gcp/internal/controller/apigee/environmentiammember"
 	instanceapigee "github.com/upbound/provider-gcp/internal/controller/apigee/instance"
+	instanceattachment "github.com/upbound/provider-gcp/internal/controller/apigee/instanceattachment"
 	nataddress "github.com/upbound/provider-gcp/internal/controller/apigee/nataddress"
 	organization "github.com/upbound/provider-gcp/internal/controller/apigee/organization"
 	application "github.com/upbound/provider-gcp/internal/controller/appengine/application"
@@ -382,6 +383,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		environment.Setup,
 		environmentiammember.Setup,
 		instanceapigee.Setup,
+		instanceattachment.Setup,
 		nataddress.Setup,
 		organization.Setup,
 		application.Setup,

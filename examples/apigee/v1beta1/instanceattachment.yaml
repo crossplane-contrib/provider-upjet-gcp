@@ -1,0 +1,130 @@
+apiVersion: apigee.gcp.upbound.io/v1beta1
+kind: InstanceAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/instanceattachment
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the dependent Organization resource was skipped"
+  labels:
+    testing.upbound.io/example-name: apigee-instance-attachment
+  name: apigee-instance-attachment
+spec:
+  forProvider:
+    environmentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-instance-attachment
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-instance-attachment
+
+---
+
+apiVersion: apigee.gcp.upbound.io/v1beta2
+kind: Organization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/instanceattachment
+    upjet.upbound.io/manual-intervention: "Organization requires a real Project ID"
+  labels:
+    testing.upbound.io/example-name: apigee-instance-attachment
+  name: apigee-instance-attachment
+spec:
+  forProvider:
+    analyticsRegion: us-central1
+    authorizedNetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-instance-attachment
+    projectId: ${project.project_id}
+
+---
+
+apiVersion: apigee.gcp.upbound.io/v1beta2
+kind: Environment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/instanceattachment
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the dependent Organization resource was skipped"
+  labels:
+    testing.upbound.io/example-name: apigee-instance-attachment
+  name: apigee-instance-attachment
+spec:
+  forProvider:
+    description: Apigee Environment
+    displayName: my-environment
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-instance-attachment
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: GlobalAddress
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/instanceattachment
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the dependent Organization resource was skipped"
+  labels:
+    testing.upbound.io/example-name: apigee-instance-attachment
+  name: apigee-instance-attachment
+spec:
+  forProvider:
+    addressType: INTERNAL
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-instance-attachment
+    prefixLength: 16
+    project: ${project.project_id}
+    purpose: VPC_PEERING
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/instanceattachment
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the dependent Organization resource was skipped"
+  labels:
+    testing.upbound.io/example-name: apigee-instance-attachment
+  name: apigee-instance-attachment
+spec:
+  forProvider:
+    project: ${project.project_id}
+
+---
+
+apiVersion: servicenetworking.gcp.upbound.io/v1beta1
+kind: Connection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/instanceattachment
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the dependent Organization resource was skipped"
+  labels:
+    testing.upbound.io/example-name: apigee-instance-attachment
+  name: apigee-instance-attachment
+spec:
+  forProvider:
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-instance-attachment
+    reservedPeeringRangesSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-instance-attachment
+    service: servicenetworking.googleapis.com
+
+---
+
+apiVersion: apigee.gcp.upbound.io/v1beta1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/instanceattachment
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the dependent Organization resource was skipped"
+  labels:
+    testing.upbound.io/example-name: apigee-instance-attachment
+  name: apigee-instance-attachment
+spec:
+  forProvider:
+    location: us-central1
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-instance-attachment

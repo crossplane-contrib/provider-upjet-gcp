@@ -111,8 +111,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_apigee_environment_iam_binding": config.IdentifierFromProvider,
 	// Imported by using the following format: {{org_id}}/environments/{{environment}}
 	"google_apigee_environment_iam_policy": config.IdentifierFromProvider,
-	// Imported by using the following format: {{instance_id}}/attachments/{{name}}. Name doesn't exist in parameters, try using IdentifierFromProvider
-	"google_apigee_instance_attachment": config.IdentifierFromProvider,
 	// Imported by using the following format: {{instance_id}}/natAddresses/{{name}}
 	"google_apigee_nat_address": config.TemplatedStringAsIdentifier("name", "{{ .parameters.instance_id }}/natAddresses/{{ .external_name }}"),
 	// Imported by using the following format: organizations/{{name}}/syncAuthorization

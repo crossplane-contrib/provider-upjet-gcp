@@ -866,6 +866,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_apigee_environment": config.TemplatedStringAsIdentifier("name", "{{ .parameters.org_id }}/environments/{{ .external_name }}"),
 	// Imported by using the following format: {{org_id}}/instances/{{name}}
 	"google_apigee_instance": config.TemplatedStringAsIdentifier("name", "{{ .parameters.org_id }}/instances/{{ .external_name }}"),
+	// Imported by using the following format: {{instance_id}}/attachments/{{name}}
+	"google_apigee_instance_attachment": config.IdentifierFromProvider,
 	// Imported by using the following format: organizations/{{name}}
 	"google_apigee_organization": config.IdentifierFromProvider,
 	// Imported by using the following format: {{instance_id}}/natAddresses/{{name}}
