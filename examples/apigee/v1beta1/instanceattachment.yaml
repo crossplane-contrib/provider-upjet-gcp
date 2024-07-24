@@ -1,3 +1,23 @@
+apiVersion: apigee.gcp.upbound.io/v1beta1
+kind: InstanceAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/instanceattachment
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the dependent Organization resource was skipped"
+  labels:
+    testing.upbound.io/example-name: apigee-instance-attachment
+  name: apigee-instance-attachment
+spec:
+  forProvider:
+    environmentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-instance-attachment
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-instance-attachment
+
+---
+
 apiVersion: apigee.gcp.upbound.io/v1beta2
 kind: Organization
 metadata:
@@ -22,7 +42,7 @@ kind: Environment
 metadata:
   annotations:
     meta.upbound.io/example-id: apigee/v1beta1/instanceattachment
-    upjet.upbound.io/manual-intervention: "This resource was skipped because the parent resource was skipped"
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the dependent Organization resource was skipped"
   labels:
     testing.upbound.io/example-name: apigee-instance-attachment
   name: apigee-instance-attachment
@@ -41,7 +61,7 @@ kind: GlobalAddress
 metadata:
   annotations:
     meta.upbound.io/example-id: apigee/v1beta1/instanceattachment
-    upjet.upbound.io/manual-intervention: "This resource was skipped because the parent resource was skipped"
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the dependent Organization resource was skipped"
   labels:
     testing.upbound.io/example-name: apigee-instance-attachment
   name: apigee-instance-attachment
@@ -62,7 +82,7 @@ kind: Network
 metadata:
   annotations:
     meta.upbound.io/example-id: apigee/v1beta1/instanceattachment
-    upjet.upbound.io/manual-intervention: "This resource was skipped because the parent resource was skipped"
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the dependent Organization resource was skipped"
   labels:
     testing.upbound.io/example-name: apigee-instance-attachment
   name: apigee-instance-attachment
@@ -77,7 +97,7 @@ kind: Connection
 metadata:
   annotations:
     meta.upbound.io/example-id: apigee/v1beta1/instanceattachment
-    upjet.upbound.io/manual-intervention: "This resource was skipped because the parent resource was skipped"
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the dependent Organization resource was skipped"
   labels:
     testing.upbound.io/example-name: apigee-instance-attachment
   name: apigee-instance-attachment
@@ -94,31 +114,11 @@ spec:
 ---
 
 apiVersion: apigee.gcp.upbound.io/v1beta1
-kind: InstanceAttachment
-metadata:
-  annotations:
-    meta.upbound.io/example-id: apigee/v1beta1/instanceattachment
-    upjet.upbound.io/manual-intervention: "This resource was skipped because the parent resource was skipped"
-  labels:
-    testing.upbound.io/example-name: apigee-instance-attachment
-  name: apigee-instance-attachment
-spec:
-  forProvider:
-    environmentSelector:
-      matchLabels:
-        testing.upbound.io/example-name: apigee-instance-attachment
-    instanceIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: apigee-instance-attachment
-
----
-
-apiVersion: apigee.gcp.upbound.io/v1beta1
 kind: Instance
 metadata:
   annotations:
     meta.upbound.io/example-id: apigee/v1beta1/instanceattachment
-    upjet.upbound.io/manual-intervention: "This resource was skipped because the parent resource was skipped"
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the dependent Organization resource was skipped"
   labels:
     testing.upbound.io/example-name: apigee-instance-attachment
   name: apigee-instance-attachment
