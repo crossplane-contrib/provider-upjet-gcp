@@ -306,6 +306,7 @@ import (
 	instanceiammembernotebooks "github.com/upbound/provider-gcp/internal/controller/notebooks/instanceiammember"
 	runtime "github.com/upbound/provider-gcp/internal/controller/notebooks/runtime"
 	runtimeiammember "github.com/upbound/provider-gcp/internal/controller/notebooks/runtimeiammember"
+	policyorgpolicy "github.com/upbound/provider-gcp/internal/controller/orgpolicy/policy"
 	ospolicyassignment "github.com/upbound/provider-gcp/internal/controller/osconfig/ospolicyassignment"
 	patchdeployment "github.com/upbound/provider-gcp/internal/controller/osconfig/patchdeployment"
 	sshpublickey "github.com/upbound/provider-gcp/internal/controller/oslogin/sshpublickey"
@@ -665,6 +666,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		instanceiammembernotebooks.Setup,
 		runtime.Setup,
 		runtimeiammember.Setup,
+		policyorgpolicy.Setup,
 		ospolicyassignment.Setup,
 		patchdeployment.Setup,
 		sshpublickey.Setup,
