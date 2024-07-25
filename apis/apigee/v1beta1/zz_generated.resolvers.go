@@ -18,8 +18,58 @@ import (
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func (mg *EndpointAttachment) ResolveReferences( // ResolveReferences of this EndpointAttachment.
+func (mg *AddonsConfig) ResolveReferences( // ResolveReferences of this AddonsConfig.
 	ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("apigee.gcp.upbound.io", "v1beta2", "Organization", "OrganizationList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Org),
+			Extract:      resource.ExtractParamPath("name", true),
+			Reference:    mg.Spec.ForProvider.OrgRef,
+			Selector:     mg.Spec.ForProvider.OrgSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Org")
+	}
+	mg.Spec.ForProvider.Org = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.OrgRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("apigee.gcp.upbound.io", "v1beta2", "Organization", "OrganizationList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Org),
+			Extract:      resource.ExtractParamPath("name", true),
+			Reference:    mg.Spec.InitProvider.OrgRef,
+			Selector:     mg.Spec.InitProvider.OrgSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Org")
+	}
+	mg.Spec.InitProvider.Org = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.OrgRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this EndpointAttachment.
+func (mg *EndpointAttachment) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
 	var l xpresource.ManagedList
 	r := reference.NewAPIResolver(c, mg)
