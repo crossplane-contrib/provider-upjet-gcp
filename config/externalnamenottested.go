@@ -428,11 +428,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// Imported by using the following projects/{{project}}/iap_tunnel/zones/{{zone}}/instances/{{tunnel_instance}} roles/iap.tunnelResourceAccessor user:jane@example.com
 	"google_iap_tunnel_instance_iam_member": config.IdentifierFromProvider,
 
-	// orgpolicy
-	//
-	// Imported by using the following {{parent}}/policies/{{name}}
-	"google_org_policy_policy": config.TemplatedStringAsIdentifier("name", "{{ .parameters.parent }}/policies/{{ .external_name }}"),
-
 	// tags
 	//
 	// Imported by using the following tagKeys/{{tag_key}} roles/viewer user:jane@example.com
