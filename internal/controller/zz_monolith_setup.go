@@ -29,6 +29,7 @@ import (
 	instanceattachment "github.com/upbound/provider-gcp/internal/controller/apigee/instanceattachment"
 	nataddress "github.com/upbound/provider-gcp/internal/controller/apigee/nataddress"
 	organization "github.com/upbound/provider-gcp/internal/controller/apigee/organization"
+	syncauthorization "github.com/upbound/provider-gcp/internal/controller/apigee/syncauthorization"
 	application "github.com/upbound/provider-gcp/internal/controller/appengine/application"
 	applicationurldispatchrules "github.com/upbound/provider-gcp/internal/controller/appengine/applicationurldispatchrules"
 	firewallrule "github.com/upbound/provider-gcp/internal/controller/appengine/firewallrule"
@@ -389,6 +390,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		instanceattachment.Setup,
 		nataddress.Setup,
 		organization.Setup,
+		syncauthorization.Setup,
 		application.Setup,
 		applicationurldispatchrules.Setup,
 		firewallrule.Setup,

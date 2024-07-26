@@ -113,8 +113,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_apigee_environment_iam_policy": config.IdentifierFromProvider,
 	// Imported by using the following format: {{instance_id}}/natAddresses/{{name}}
 	"google_apigee_nat_address": config.TemplatedStringAsIdentifier("name", "{{ .parameters.instance_id }}/natAddresses/{{ .external_name }}"),
-	// Imported by using the following format: organizations/{{name}}/syncAuthorization
-	"google_apigee_sync_authorization": config.TemplatedStringAsIdentifier("name", "organizations/{{ .external_name }}/syncAuthorization"),
 
 	// apikeys
 	//

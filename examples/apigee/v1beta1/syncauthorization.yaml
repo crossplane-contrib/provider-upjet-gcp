@@ -1,0 +1,46 @@
+apiVersion: apigee.gcp.upbound.io/v1beta1
+kind: SyncAuthorization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/syncauthorization
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the dependent Organization resource was skipped"
+  labels:
+    testing.upbound.io/example-name: apigee-sync-authorization
+  name: apigee-sync-authorization
+spec:
+  forProvider:
+    name: ${project.project_id}
+    identities:
+    - serviceAccount:apigee-sync-authorization@${project.project_id}.iam.gserviceaccount.com
+
+---
+
+apiVersion: apigee.gcp.upbound.io/v1beta2
+kind: Organization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/syncauthorization
+    upjet.upbound.io/manual-intervention: "Organization requires a real Project ID"
+  labels:
+    testing.upbound.io/example-name: apigee-sync-authorization
+  name: apigee-sync-authorization
+spec:
+  forProvider:
+    analyticsRegion: us-central1
+    runtimeType: HYBRID
+    projectId: ${project.project_id}
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: ServiceAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/syncauthorization
+    upjet.upbound.io/manual-intervention: "This resource was skipped because the dependent Organization resource was skipped"
+  labels:
+    testing.upbound.io/example-name: apigee-sync-authorization
+  name: apigee-sync-authorization
+spec:
+  forProvider:
+    displayName: apigee-sync-authorization
