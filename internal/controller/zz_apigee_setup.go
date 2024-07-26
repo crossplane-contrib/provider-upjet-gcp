@@ -19,6 +19,7 @@ import (
 	instanceattachment "github.com/upbound/provider-gcp/internal/controller/apigee/instanceattachment"
 	nataddress "github.com/upbound/provider-gcp/internal/controller/apigee/nataddress"
 	organization "github.com/upbound/provider-gcp/internal/controller/apigee/organization"
+	syncauthorization "github.com/upbound/provider-gcp/internal/controller/apigee/syncauthorization"
 )
 
 // Setup_apigee creates all controllers with the supplied logger and adds them to
@@ -35,6 +36,7 @@ func Setup_apigee(mgr ctrl.Manager, o controller.Options) error {
 		instanceattachment.Setup,
 		nataddress.Setup,
 		organization.Setup,
+		syncauthorization.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

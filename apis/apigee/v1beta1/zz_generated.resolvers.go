@@ -562,3 +562,34 @@ func (mg *Organization) ResolveReferences(ctx context.Context, c client.Reader) 
 
 	return nil
 }
+
+// ResolveReferences of this SyncAuthorization.
+func (mg *SyncAuthorization) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("apigee.gcp.upbound.io", "v1beta2", "Organization", "OrganizationList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Name),
+			Extract:      resource.ExtractParamPath("name", true),
+			Reference:    mg.Spec.ForProvider.NameRef,
+			Selector:     mg.Spec.ForProvider.NameSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Name")
+	}
+	mg.Spec.ForProvider.Name = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.NameRef = rsp.ResolvedReference
+
+	return nil
+}

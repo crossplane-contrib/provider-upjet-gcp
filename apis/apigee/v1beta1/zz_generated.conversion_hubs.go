@@ -26,3 +26,6 @@ func (tr *InstanceAttachment) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *NATAddress) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *SyncAuthorization) Hub() {}
