@@ -30,6 +30,10 @@ type GlobalAddressInitParameters struct {
 	// Possible values are: IPV4, IPV6.
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
+	// Labels to apply to this address.  A list of key->value pairs.
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
 	// The URL of the network in which to reserve the IP range. The IP range
 	// must be in RFC1918 space. The network cannot be deleted if there are
 	// any reserved IP ranges referring to it.
@@ -76,12 +80,20 @@ type GlobalAddressObservation struct {
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// for all of the labels present on the resource.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/global/addresses/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The IP Version that will be used by this address. The default value is IPV4.
 	// Possible values are: IPV4, IPV6.
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
+
+	// Labels to apply to this address.  A list of key->value pairs.
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The URL of the network in which to reserve the IP range. The IP range
 	// must be in RFC1918 space. The network cannot be deleted if there are
@@ -104,6 +116,11 @@ type GlobalAddressObservation struct {
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type GlobalAddressParameters struct {
@@ -126,6 +143,11 @@ type GlobalAddressParameters struct {
 	// Possible values are: IPV4, IPV6.
 	// +kubebuilder:validation:Optional
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
+
+	// Labels to apply to this address.  A list of key->value pairs.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The URL of the network in which to reserve the IP range. The IP range
 	// must be in RFC1918 space. The network cannot be deleted if there are

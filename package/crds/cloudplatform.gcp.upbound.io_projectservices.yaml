@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: ProjectService is the Schema for the ProjectServices API. Allows
-          management of a single API service for a Google Cloud Platform project.
+          management of a single API service for a Google Cloud project.
         properties:
           apiVersion:
             description: |-
@@ -77,14 +77,14 @@ spec:
                     description: |-
                       If true, services that are enabled
                       and which depend on this service should also be disabled when this service is
-                      destroyed. If false or unset, an error will be generated if any enabled
-                      services depend on this service when destroying it.
+                      destroyed. If false or unset, an error will be returned if any enabled
+                      services depend on this service when attempting to destroy it.
                     type: boolean
                   disableOnDestroy:
                     description: |-
-                      Defaults to true. May be useful in the event
-                      that a project is long-lived but the infrastructure running in that project
-                      changes frequently.
+                      Defaults to true. Most configurations should
+                      set this to false; it should generally only be true or unset in configurations
+                      that manage the google_project resource itself.
                     type: boolean
                   project:
                     description: |-
@@ -188,14 +188,14 @@ spec:
                     description: |-
                       If true, services that are enabled
                       and which depend on this service should also be disabled when this service is
-                      destroyed. If false or unset, an error will be generated if any enabled
-                      services depend on this service when destroying it.
+                      destroyed. If false or unset, an error will be returned if any enabled
+                      services depend on this service when attempting to destroy it.
                     type: boolean
                   disableOnDestroy:
                     description: |-
-                      Defaults to true. May be useful in the event
-                      that a project is long-lived but the infrastructure running in that project
-                      changes frequently.
+                      Defaults to true. Most configurations should
+                      set this to false; it should generally only be true or unset in configurations
+                      that manage the google_project resource itself.
                     type: boolean
                   project:
                     description: |-
@@ -463,14 +463,14 @@ spec:
                     description: |-
                       If true, services that are enabled
                       and which depend on this service should also be disabled when this service is
-                      destroyed. If false or unset, an error will be generated if any enabled
-                      services depend on this service when destroying it.
+                      destroyed. If false or unset, an error will be returned if any enabled
+                      services depend on this service when attempting to destroy it.
                     type: boolean
                   disableOnDestroy:
                     description: |-
-                      Defaults to true. May be useful in the event
-                      that a project is long-lived but the infrastructure running in that project
-                      changes frequently.
+                      Defaults to true. Most configurations should
+                      set this to false; it should generally only be true or unset in configurations
+                      that manage the google_project resource itself.
                     type: boolean
                   id:
                     description: an identifier for the resource with format {{project}}/{{service}}

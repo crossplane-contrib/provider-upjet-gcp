@@ -105,6 +105,14 @@ type InterconnectAttachmentInitParameters struct {
 	// Possible values are: IPV4_IPV6, IPV4_ONLY.
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
 
+	// Length of the IPv4 subnet mask. Allowed values: 29 (default), 30. The default value is 29,
+	// except for Cross-Cloud Interconnect connections that use an InterconnectRemoteLocation with a
+	// constraints.subnetLengthRange.min equal to 30. For example, connections that use an Azure
+	// remote location fall into this category. In these cases, the default value is 30, and
+	// requesting 29 returns an error. Where both 29 and 30 are allowed, 29 is preferred, because it
+	// gives Google Cloud Support more debugging visibility.
+	SubnetLength *float64 `json:"subnetLength,omitempty" tf:"subnet_length,omitempty"`
+
 	// The type of InterconnectAttachment you wish to create. Defaults to
 	// DEDICATED.
 	// Possible values are: DEDICATED, PARTNER, PARTNER_PROVIDER.
@@ -247,6 +255,14 @@ type InterconnectAttachmentObservation struct {
 	// [Output Only] The current state of this attachment's functionality.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	// Length of the IPv4 subnet mask. Allowed values: 29 (default), 30. The default value is 29,
+	// except for Cross-Cloud Interconnect connections that use an InterconnectRemoteLocation with a
+	// constraints.subnetLengthRange.min equal to 30. For example, connections that use an Azure
+	// remote location fall into this category. In these cases, the default value is 30, and
+	// requesting 29 returns an error. Where both 29 and 30 are allowed, 29 is preferred, because it
+	// gives Google Cloud Support more debugging visibility.
+	SubnetLength *float64 `json:"subnetLength,omitempty" tf:"subnet_length,omitempty"`
+
 	// The type of InterconnectAttachment you wish to create. Defaults to
 	// DEDICATED.
 	// Possible values are: DEDICATED, PARTNER, PARTNER_PROVIDER.
@@ -364,6 +380,15 @@ type InterconnectAttachmentParameters struct {
 	// Possible values are: IPV4_IPV6, IPV4_ONLY.
 	// +kubebuilder:validation:Optional
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
+
+	// Length of the IPv4 subnet mask. Allowed values: 29 (default), 30. The default value is 29,
+	// except for Cross-Cloud Interconnect connections that use an InterconnectRemoteLocation with a
+	// constraints.subnetLengthRange.min equal to 30. For example, connections that use an Azure
+	// remote location fall into this category. In these cases, the default value is 30, and
+	// requesting 29 returns an error. Where both 29 and 30 are allowed, 29 is preferred, because it
+	// gives Google Cloud Support more debugging visibility.
+	// +kubebuilder:validation:Optional
+	SubnetLength *float64 `json:"subnetLength,omitempty" tf:"subnet_length,omitempty"`
 
 	// The type of InterconnectAttachment you wish to create. Defaults to
 	// DEDICATED.

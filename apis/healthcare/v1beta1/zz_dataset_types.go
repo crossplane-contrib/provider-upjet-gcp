@@ -15,6 +15,10 @@ import (
 
 type DatasetInitParameters struct {
 
+	// A nested object resource
+	// Structure is documented below.
+	EncryptionSpec *EncryptionSpecInitParameters `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
+
 	// The location for the Dataset.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
@@ -32,6 +36,10 @@ type DatasetInitParameters struct {
 }
 
 type DatasetObservation struct {
+
+	// A nested object resource
+	// Structure is documented below.
+	EncryptionSpec *EncryptionSpecObservation `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/datasets/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -57,6 +65,11 @@ type DatasetObservation struct {
 
 type DatasetParameters struct {
 
+	// A nested object resource
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	EncryptionSpec *EncryptionSpecParameters `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
+
 	// The location for the Dataset.
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
@@ -75,6 +88,54 @@ type DatasetParameters struct {
 	// (e.g., HL7 messages) where no explicit timezone is specified.
 	// +kubebuilder:validation:Optional
 	TimeZone *string `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
+}
+
+type EncryptionSpecInitParameters struct {
+
+	// KMS encryption key that is used to secure this dataset and its sub-resources. The key used for
+	// encryption and the dataset must be in the same location. If empty, the default Google encryption
+	// key will be used to secure this dataset. The format is
+	// projects/{projectId}/locations/{locationId}/keyRings/{keyRingId}/cryptoKeys/{keyId}.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta2.CryptoKey
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// Reference to a CryptoKey in kms to populate kmsKeyName.
+	// +kubebuilder:validation:Optional
+	KMSKeyNameRef *v1.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+
+	// Selector for a CryptoKey in kms to populate kmsKeyName.
+	// +kubebuilder:validation:Optional
+	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+}
+
+type EncryptionSpecObservation struct {
+
+	// KMS encryption key that is used to secure this dataset and its sub-resources. The key used for
+	// encryption and the dataset must be in the same location. If empty, the default Google encryption
+	// key will be used to secure this dataset. The format is
+	// projects/{projectId}/locations/{locationId}/keyRings/{keyRingId}/cryptoKeys/{keyId}.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+}
+
+type EncryptionSpecParameters struct {
+
+	// KMS encryption key that is used to secure this dataset and its sub-resources. The key used for
+	// encryption and the dataset must be in the same location. If empty, the default Google encryption
+	// key will be used to secure this dataset. The format is
+	// projects/{projectId}/locations/{locationId}/keyRings/{keyRingId}/cryptoKeys/{keyId}.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta2.CryptoKey
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// Reference to a CryptoKey in kms to populate kmsKeyName.
+	// +kubebuilder:validation:Optional
+	KMSKeyNameRef *v1.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+
+	// Selector for a CryptoKey in kms to populate kmsKeyName.
+	// +kubebuilder:validation:Optional
+	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 }
 
 // DatasetSpec defines the desired state of Dataset

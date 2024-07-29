@@ -262,6 +262,10 @@ type ClusterInitParameters struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Configuration for Private Service Connect (PSC) for the cluster.
+	// Structure is documented below.
+	PscConfig *PscConfigInitParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
+
 	// The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', both can't be set together.
 	// Structure is documented below.
 	RestoreBackupSource *RestoreBackupSourceInitParameters `json:"restoreBackupSource,omitempty" tf:"restore_backup_source,omitempty"`
@@ -371,6 +375,10 @@ type ClusterObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Configuration for Private Service Connect (PSC) for the cluster.
+	// Structure is documented below.
+	PscConfig *PscConfigObservation `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
 	// Output only. Reconciling (https://google.aip.dev/128#reconciliation).
 	// Set to true if the current state of Cluster does not match the user's intended state, and the service is actively updating the resource to reconcile them.
@@ -494,6 +502,11 @@ type ClusterParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Configuration for Private Service Connect (PSC) for the cluster.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PscConfig *PscConfigParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
 	// The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', both can't be set together.
 	// Structure is documented below.
@@ -729,7 +742,17 @@ type NetworkConfigInitParameters struct {
 
 	// The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster.
 	// It is specified in the form: "projects/{projectNumber}/global/networks/{network_id}".
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Reference to a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 }
 
 type NetworkConfigObservation struct {
@@ -752,8 +775,37 @@ type NetworkConfigParameters struct {
 
 	// The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster.
 	// It is specified in the form: "projects/{projectNumber}/global/networks/{network_id}".
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Reference to a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+}
+
+type PscConfigInitParameters struct {
+
+	// Create an instance that allows connections from Private Service Connect endpoints to the instance.
+	PscEnabled *bool `json:"pscEnabled,omitempty" tf:"psc_enabled,omitempty"`
+}
+
+type PscConfigObservation struct {
+
+	// Create an instance that allows connections from Private Service Connect endpoints to the instance.
+	PscEnabled *bool `json:"pscEnabled,omitempty" tf:"psc_enabled,omitempty"`
+}
+
+type PscConfigParameters struct {
+
+	// Create an instance that allows connections from Private Service Connect endpoints to the instance.
+	// +kubebuilder:validation:Optional
+	PscEnabled *bool `json:"pscEnabled,omitempty" tf:"psc_enabled,omitempty"`
 }
 
 type QuantityBasedRetentionInitParameters struct {

@@ -1198,6 +1198,13 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  autoNetworkTier:
+                    description: |-
+                      The network tier to use when automatically reserving NAT IP addresses.
+                      Must be one of: PREMIUM, STANDARD. If not specified, then the current
+                      project-level default tier is used.
+                      Possible values are: PREMIUM, STANDARD.
+                    type: string
                   drainNatIps:
                     description: |-
                       A list of URLs of the IP resources to be drained. These IPs must be
@@ -1566,6 +1573,13 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  autoNetworkTier:
+                    description: |-
+                      The network tier to use when automatically reserving NAT IP addresses.
+                      Must be one of: PREMIUM, STANDARD. If not specified, then the current
+                      project-level default tier is used.
+                      Possible values are: PREMIUM, STANDARD.
+                    type: string
                   drainNatIps:
                     description: |-
                       A list of URLs of the IP resources to be drained. These IPs must be
@@ -2016,6 +2030,13 @@ spec:
             properties:
               atProvider:
                 properties:
+                  autoNetworkTier:
+                    description: |-
+                      The network tier to use when automatically reserving NAT IP addresses.
+                      Must be one of: PREMIUM, STANDARD. If not specified, then the current
+                      project-level default tier is used.
+                      Possible values are: PREMIUM, STANDARD.
+                    type: string
                   drainNatIps:
                     description: |-
                       A list of URLs of the IP resources to be drained. These IPs must be

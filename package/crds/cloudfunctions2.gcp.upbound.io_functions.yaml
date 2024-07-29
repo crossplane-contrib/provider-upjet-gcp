@@ -2972,6 +2972,11 @@ spec:
                       from the given source.
                       Structure is documented below.
                     properties:
+                      automaticUpdatePolicy:
+                        description: |-
+                          Security patches are applied automatically to the runtime without requiring
+                          the function to be redeployed.
+                        type: object
                       dockerRepository:
                         description: User managed repository created in Artifact Registry
                           optionally with a customer managed encryption key.
@@ -3067,6 +3072,11 @@ spec:
                           for the function.
                         type: object
                         x-kubernetes-map-type: granular
+                      onDeployUpdatePolicy:
+                        description: |-
+                          Security patches are only applied when a function is redeployed.
+                          Structure is documented below.
+                        type: object
                       runtime:
                         description: |-
                           The runtime in which to run the function. Required when deploying a new
@@ -4150,6 +4160,11 @@ spec:
                       from the given source.
                       Structure is documented below.
                     properties:
+                      automaticUpdatePolicy:
+                        description: |-
+                          Security patches are applied automatically to the runtime without requiring
+                          the function to be redeployed.
+                        type: object
                       dockerRepository:
                         description: User managed repository created in Artifact Registry
                           optionally with a customer managed encryption key.
@@ -4245,6 +4260,11 @@ spec:
                           for the function.
                         type: object
                         x-kubernetes-map-type: granular
+                      onDeployUpdatePolicy:
+                        description: |-
+                          Security patches are only applied when a function is redeployed.
+                          Structure is documented below.
+                        type: object
                       runtime:
                         description: |-
                           The runtime in which to run the function. Required when deploying a new
@@ -5482,6 +5502,11 @@ spec:
                       from the given source.
                       Structure is documented below.
                     properties:
+                      automaticUpdatePolicy:
+                        description: |-
+                          Security patches are applied automatically to the runtime without requiring
+                          the function to be redeployed.
+                        type: object
                       build:
                         description: |-
                           (Output)
@@ -5507,6 +5532,17 @@ spec:
                           for the function.
                         type: object
                         x-kubernetes-map-type: granular
+                      onDeployUpdatePolicy:
+                        description: |-
+                          Security patches are only applied when a function is redeployed.
+                          Structure is documented below.
+                        properties:
+                          runtimeVersion:
+                            description: |-
+                              (Output)
+                              The runtime version which was used during latest function deployment.
+                            type: string
+                        type: object
                       runtime:
                         description: |-
                           The runtime in which to run the function. Required when deploying a new

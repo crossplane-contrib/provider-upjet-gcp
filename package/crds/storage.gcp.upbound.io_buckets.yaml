@@ -1418,7 +1418,9 @@ spec:
                           properties:
                             age:
                               description: Minimum age of an object in days to satisfy
-                                this condition.
+                                this condition. If not supplied alongside another
+                                condition and without setting no_age to true, a default
+                                age of 0 will be set.
                               type: number
                             createdBefore:
                               description: A date in the RFC 3339 format YYYY-MM-DD.
@@ -1435,12 +1437,16 @@ spec:
                               description: Days since the date set in the customTime
                                 metadata for the object. This condition is satisfied
                                 when the current date and time is at least the specified
-                                number of days after the customTime.
+                                number of days after the customTime. When set to 0
+                                it will be ignored, and your state will treat it as
+                                though you supplied no days_since_custom_time condition.
                               type: number
                             daysSinceNoncurrentTime:
                               description: Relevant only for versioned objects. Number
                                 of days elapsed since the noncurrent timestamp of
-                                an object.
+                                an object. When set to 0 it will be ignored, and your
+                                state will treat it as though you supplied no days_since_noncurrent_time
+                                condition.
                               type: number
                             matchesPrefix:
                               description: One or more matching name prefixes to satisfy
@@ -1462,20 +1468,49 @@ spec:
                                 type: string
                               type: array
                             noAge:
-                              description: While set true, age value will be omitted.
-                                Note Required to set true when age is unset in the
-                                config file.
+                              description: While set true, age value will be omitted
+                                from requests. This prevents a default age of 0 from
+                                being applied, and if you do not have an age value
+                                set, setting this to true is strongly recommended.
+                                When unset and other conditions are set to zero values,
+                                this can result in a rule that applies your action
+                                to all files in the bucket.
                               type: boolean
                             noncurrentTimeBefore:
                               description: Relevant only for versioned objects. The
                                 date in RFC 3339 (e.g. 2017-06-13) when the object
-                                became nonconcurrent.
+                                became nonconcurrent. When set to 0 it will be ignored,
+                                and your state will treat it as though you supplied
+                                no noncurrent_time_before condition.
                               type: string
                             numNewerVersions:
                               description: Relevant only for versioned objects. The
                                 number of newer versions of an object to satisfy this
+                                condition. When set to 0 it will be ignored and your
+                                state will treat it as though you supplied no num_newer_versions
                                 condition.
                               type: number
+                            sendDaysSinceCustomTimeIfZero:
+                              description: While set true, days_since_custom_time
+                                value will be sent in the request even for zero value
+                                of the field. This field is only useful for setting
+                                0 value to the days_since_custom_time field. It can
+                                be used alone or together with days_since_custom_time.
+                              type: boolean
+                            sendDaysSinceNoncurrentTimeIfZero:
+                              description: While set true, days_since_noncurrent_time
+                                value will be sent in the request even for zero value
+                                of the field. This field is only useful for setting
+                                0 value to the days_since_noncurrent_time field. It
+                                can be used alone or together with days_since_noncurrent_time.
+                              type: boolean
+                            sendNumNewerVersionsIfZero:
+                              description: While set true, num_newer_versions value
+                                will be sent in the request even for zero value of
+                                the field. This field is only useful for setting 0
+                                value to the num_newer_versions field. It can be used
+                                alone or together with num_newer_versions.
+                              type: boolean
                             withState:
                               description: 'Match to live and/or archived objects.
                                 Unversioned buckets have only live objects. Supported
@@ -1723,7 +1758,9 @@ spec:
                           properties:
                             age:
                               description: Minimum age of an object in days to satisfy
-                                this condition.
+                                this condition. If not supplied alongside another
+                                condition and without setting no_age to true, a default
+                                age of 0 will be set.
                               type: number
                             createdBefore:
                               description: A date in the RFC 3339 format YYYY-MM-DD.
@@ -1740,12 +1777,16 @@ spec:
                               description: Days since the date set in the customTime
                                 metadata for the object. This condition is satisfied
                                 when the current date and time is at least the specified
-                                number of days after the customTime.
+                                number of days after the customTime. When set to 0
+                                it will be ignored, and your state will treat it as
+                                though you supplied no days_since_custom_time condition.
                               type: number
                             daysSinceNoncurrentTime:
                               description: Relevant only for versioned objects. Number
                                 of days elapsed since the noncurrent timestamp of
-                                an object.
+                                an object. When set to 0 it will be ignored, and your
+                                state will treat it as though you supplied no days_since_noncurrent_time
+                                condition.
                               type: number
                             matchesPrefix:
                               description: One or more matching name prefixes to satisfy
@@ -1767,20 +1808,49 @@ spec:
                                 type: string
                               type: array
                             noAge:
-                              description: While set true, age value will be omitted.
-                                Note Required to set true when age is unset in the
-                                config file.
+                              description: While set true, age value will be omitted
+                                from requests. This prevents a default age of 0 from
+                                being applied, and if you do not have an age value
+                                set, setting this to true is strongly recommended.
+                                When unset and other conditions are set to zero values,
+                                this can result in a rule that applies your action
+                                to all files in the bucket.
                               type: boolean
                             noncurrentTimeBefore:
                               description: Relevant only for versioned objects. The
                                 date in RFC 3339 (e.g. 2017-06-13) when the object
-                                became nonconcurrent.
+                                became nonconcurrent. When set to 0 it will be ignored,
+                                and your state will treat it as though you supplied
+                                no noncurrent_time_before condition.
                               type: string
                             numNewerVersions:
                               description: Relevant only for versioned objects. The
                                 number of newer versions of an object to satisfy this
+                                condition. When set to 0 it will be ignored and your
+                                state will treat it as though you supplied no num_newer_versions
                                 condition.
                               type: number
+                            sendDaysSinceCustomTimeIfZero:
+                              description: While set true, days_since_custom_time
+                                value will be sent in the request even for zero value
+                                of the field. This field is only useful for setting
+                                0 value to the days_since_custom_time field. It can
+                                be used alone or together with days_since_custom_time.
+                              type: boolean
+                            sendDaysSinceNoncurrentTimeIfZero:
+                              description: While set true, days_since_noncurrent_time
+                                value will be sent in the request even for zero value
+                                of the field. This field is only useful for setting
+                                0 value to the days_since_noncurrent_time field. It
+                                can be used alone or together with days_since_noncurrent_time.
+                              type: boolean
+                            sendNumNewerVersionsIfZero:
+                              description: While set true, num_newer_versions value
+                                will be sent in the request even for zero value of
+                                the field. This field is only useful for setting 0
+                                value to the num_newer_versions field. It can be used
+                                alone or together with num_newer_versions.
+                              type: boolean
                             withState:
                               description: 'Match to live and/or archived objects.
                                 Unversioned buckets have only live objects. Supported
@@ -2200,7 +2270,9 @@ spec:
                           properties:
                             age:
                               description: Minimum age of an object in days to satisfy
-                                this condition.
+                                this condition. If not supplied alongside another
+                                condition and without setting no_age to true, a default
+                                age of 0 will be set.
                               type: number
                             createdBefore:
                               description: A date in the RFC 3339 format YYYY-MM-DD.
@@ -2217,12 +2289,16 @@ spec:
                               description: Days since the date set in the customTime
                                 metadata for the object. This condition is satisfied
                                 when the current date and time is at least the specified
-                                number of days after the customTime.
+                                number of days after the customTime. When set to 0
+                                it will be ignored, and your state will treat it as
+                                though you supplied no days_since_custom_time condition.
                               type: number
                             daysSinceNoncurrentTime:
                               description: Relevant only for versioned objects. Number
                                 of days elapsed since the noncurrent timestamp of
-                                an object.
+                                an object. When set to 0 it will be ignored, and your
+                                state will treat it as though you supplied no days_since_noncurrent_time
+                                condition.
                               type: number
                             matchesPrefix:
                               description: One or more matching name prefixes to satisfy
@@ -2244,20 +2320,49 @@ spec:
                                 type: string
                               type: array
                             noAge:
-                              description: While set true, age value will be omitted.
-                                Note Required to set true when age is unset in the
-                                config file.
+                              description: While set true, age value will be omitted
+                                from requests. This prevents a default age of 0 from
+                                being applied, and if you do not have an age value
+                                set, setting this to true is strongly recommended.
+                                When unset and other conditions are set to zero values,
+                                this can result in a rule that applies your action
+                                to all files in the bucket.
                               type: boolean
                             noncurrentTimeBefore:
                               description: Relevant only for versioned objects. The
                                 date in RFC 3339 (e.g. 2017-06-13) when the object
-                                became nonconcurrent.
+                                became nonconcurrent. When set to 0 it will be ignored,
+                                and your state will treat it as though you supplied
+                                no noncurrent_time_before condition.
                               type: string
                             numNewerVersions:
                               description: Relevant only for versioned objects. The
                                 number of newer versions of an object to satisfy this
+                                condition. When set to 0 it will be ignored and your
+                                state will treat it as though you supplied no num_newer_versions
                                 condition.
                               type: number
+                            sendDaysSinceCustomTimeIfZero:
+                              description: While set true, days_since_custom_time
+                                value will be sent in the request even for zero value
+                                of the field. This field is only useful for setting
+                                0 value to the days_since_custom_time field. It can
+                                be used alone or together with days_since_custom_time.
+                              type: boolean
+                            sendDaysSinceNoncurrentTimeIfZero:
+                              description: While set true, days_since_noncurrent_time
+                                value will be sent in the request even for zero value
+                                of the field. This field is only useful for setting
+                                0 value to the days_since_noncurrent_time field. It
+                                can be used alone or together with days_since_noncurrent_time.
+                              type: boolean
+                            sendNumNewerVersionsIfZero:
+                              description: While set true, num_newer_versions value
+                                will be sent in the request even for zero value of
+                                the field. This field is only useful for setting 0
+                                value to the num_newer_versions field. It can be used
+                                alone or together with num_newer_versions.
+                              type: boolean
                             withState:
                               description: 'Match to live and/or archived objects.
                                 Unversioned buckets have only live objects. Supported

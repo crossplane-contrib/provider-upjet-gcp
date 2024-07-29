@@ -26,9 +26,10 @@ metadata:
 spec:
   forProvider:
     location: us-central1
-    networkSelector:
-      matchLabels:
-        testing.upbound.io/example-name: default
+    networkConfig:
+    - networkSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
 
 ---
 

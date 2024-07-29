@@ -130,7 +130,9 @@ type UserInitParameters struct {
 
 	// The user type. It determines the method to authenticate the
 	// user during login. The default is the database's built-in user type. Flags
-	// include "BUILT_IN", "CLOUD_IAM_USER", "CLOUD_IAM_GROUP" or "CLOUD_IAM_SERVICE_ACCOUNT".
+	// include "BUILT_IN", "CLOUD_IAM_USER", and "CLOUD_IAM_SERVICE_ACCOUNT" for both
+	// Postgres and MySQL.
+	// MySQL also includes "CLOUD_IAM_GROUP", "CLOUD_IAM_GROUP_USER" and "CLOUD_IAM_GROUP_SERVICE_ACCOUNT".
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -162,7 +164,9 @@ type UserObservation struct {
 
 	// The user type. It determines the method to authenticate the
 	// user during login. The default is the database's built-in user type. Flags
-	// include "BUILT_IN", "CLOUD_IAM_USER", "CLOUD_IAM_GROUP" or "CLOUD_IAM_SERVICE_ACCOUNT".
+	// include "BUILT_IN", "CLOUD_IAM_USER", and "CLOUD_IAM_SERVICE_ACCOUNT" for both
+	// Postgres and MySQL.
+	// MySQL also includes "CLOUD_IAM_GROUP", "CLOUD_IAM_GROUP_USER" and "CLOUD_IAM_GROUP_SERVICE_ACCOUNT".
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -211,7 +215,9 @@ type UserParameters struct {
 
 	// The user type. It determines the method to authenticate the
 	// user during login. The default is the database's built-in user type. Flags
-	// include "BUILT_IN", "CLOUD_IAM_USER", "CLOUD_IAM_GROUP" or "CLOUD_IAM_SERVICE_ACCOUNT".
+	// include "BUILT_IN", "CLOUD_IAM_USER", and "CLOUD_IAM_SERVICE_ACCOUNT" for both
+	// Postgres and MySQL.
+	// MySQL also includes "CLOUD_IAM_GROUP", "CLOUD_IAM_GROUP_USER" and "CLOUD_IAM_GROUP_SERVICE_ACCOUNT".
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }

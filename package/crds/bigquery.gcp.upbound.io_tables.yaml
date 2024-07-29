@@ -2079,6 +2079,8 @@ spec:
                         type: object
                     type: object
                   deletionProtection:
+                    description: When the field is set to false, deleting the table
+                      is allowed..
                     type: boolean
                   description:
                     description: The field description.
@@ -2127,6 +2129,116 @@ spec:
                               If is set to true, indicates whether
                               to interpret logical types as the corresponding BigQuery data type
                               (for example, TIMESTAMP), instead of using the raw type (for example, INTEGER).
+                            type: boolean
+                        type: object
+                      bigtableOptions:
+                        description: |-
+                          Additional properties to set if
+                          source_format is set to "BIGTABLE". Structure is documented below.
+                        properties:
+                          columnFamily:
+                            description: A list of column families to expose in the
+                              table schema along with their types. This list restricts
+                              the column families that can be referenced in queries
+                              and specifies their value types. You can use this list
+                              to do type conversions - see the 'type' field for more
+                              details. If you leave this list empty, all column families
+                              are present in the table schema and their values are
+                              read as BYTES. During a query only the column families
+                              referenced in that query are read from Bigtable.  Structure
+                              is documented below.
+                            items:
+                              properties:
+                                column:
+                                  description: A List of columns that should be exposed
+                                    as individual fields as opposed to a list of (column
+                                    name, value) pairs. All columns whose qualifier
+                                    matches a qualifier in this list can be accessed
+                                    as Other columns can be accessed as a list through
+                                    column field.  Structure is documented below.
+                                  items:
+                                    properties:
+                                      encoding:
+                                        description: The character encoding of the
+                                          data. The supported values are UTF-8, UTF-16BE,
+                                          UTF-16LE, UTF-32BE, and UTF-32LE. The default
+                                          value is UTF-8.
+                                        type: string
+                                      fieldName:
+                                        description: If the qualifier is not a valid
+                                          BigQuery field identifier i.e. does not
+                                          match [a-zA-Z][a-zA-Z0-9_]*, a valid identifier
+                                          must be provided as the column field name
+                                          and is used as field name in queries.
+                                        type: string
+                                      onlyReadLatest:
+                                        description: If this is set only the latest
+                                          version of value are exposed for all columns
+                                          in this column family. This can be overridden
+                                          for a specific column by listing that column
+                                          in 'columns' and specifying a different
+                                          setting for that column.
+                                        type: boolean
+                                      qualifierEncoded:
+                                        description: Qualifier of the column. Columns
+                                          in the parent column family that has this
+                                          exact qualifier are exposed as . field.
+                                          If the qualifier is valid UTF-8 string,
+                                          it can be specified in the qualifierString
+                                          field. Otherwise, a base-64 encoded value
+                                          must be set to qualifierEncoded. The column
+                                          field name is the same as the column qualifier.
+                                          However, if the qualifier is not a valid
+                                          BigQuery field identifier i.e. does not
+                                          match [a-zA-Z][a-zA-Z0-9_]*, a valid identifier
+                                          must be provided as fieldName.
+                                        type: string
+                                      qualifierString:
+                                        description: Qualifier string.
+                                        type: string
+                                      type:
+                                        description: Describes the table type.
+                                        type: string
+                                    type: object
+                                  type: array
+                                encoding:
+                                  description: The character encoding of the data.
+                                    The supported values are UTF-8, UTF-16BE, UTF-16LE,
+                                    UTF-32BE, and UTF-32LE. The default value is UTF-8.
+                                  type: string
+                                familyId:
+                                  description: Identifier of the column family.
+                                  type: string
+                                onlyReadLatest:
+                                  description: If this is set only the latest version
+                                    of value are exposed for all columns in this column
+                                    family. This can be overridden for a specific
+                                    column by listing that column in 'columns' and
+                                    specifying a different setting for that column.
+                                  type: boolean
+                                type:
+                                  description: Describes the table type.
+                                  type: string
+                              type: object
+                            type: array
+                          ignoreUnspecifiedColumnFamilies:
+                            description: If field is true, then the column families
+                              that are not specified in columnFamilies list are not
+                              exposed in the table schema. Otherwise, they are read
+                              with BYTES type values. The default value is false.
+                            type: boolean
+                          outputColumnFamiliesAsJson:
+                            description: If field is true, then each column family
+                              will be read as a single JSON column. Otherwise they
+                              are read as a repeated cell structure containing timestamp/value
+                              tuples. The default value is false.
+                            type: boolean
+                          readRowkeyAsString:
+                            description: If field is true, then the rowkey column
+                              families will be read and converted to string. Otherwise
+                              they are read with BYTES type values and users need
+                              to manually cast them with CAST if necessary. The default
+                              value is false.
                             type: boolean
                         type: object
                       compression:
@@ -2475,21 +2587,25 @@ spec:
                         type: object
                     type: object
                   tableReplicationInfo:
+                    description: |-
+                      Replication info of a table created
+                      using "AS REPLICA" DDL like:
+                      CREATE MATERIALIZED VIEW mv1 AS REPLICA OF src_mv.
+                      Structure is documented below.
                     properties:
                       replicationIntervalMs:
+                        description: |-
+                          The interval at which the source
+                          materialized view is polled for updates. The default is 300000.
                         type: number
                       sourceDatasetId:
-                        description: |-
-                          The dataset ID to create the table in.
-                          Changing this forces a new resource to be created.
+                        description: The ID of the source dataset.
                         type: string
                       sourceProjectId:
-                        description: an identifier for the resource with format projects/{{project}}/datasets/{{dataset}}/tables/{{name}}
+                        description: The ID of the source project.
                         type: string
                       sourceTableId:
-                        description: |-
-                          A unique ID for the resource.
-                          Changing this forces a new resource to be created.
+                        description: The ID of the source materialized view.
                         type: string
                     type: object
                   timePartitioning:
@@ -2559,6 +2675,8 @@ spec:
                       type: string
                     type: array
                   deletionProtection:
+                    description: When the field is set to false, deleting the table
+                      is allowed..
                     type: boolean
                   description:
                     description: The field description.
@@ -2607,6 +2725,116 @@ spec:
                               If is set to true, indicates whether
                               to interpret logical types as the corresponding BigQuery data type
                               (for example, TIMESTAMP), instead of using the raw type (for example, INTEGER).
+                            type: boolean
+                        type: object
+                      bigtableOptions:
+                        description: |-
+                          Additional properties to set if
+                          source_format is set to "BIGTABLE". Structure is documented below.
+                        properties:
+                          columnFamily:
+                            description: A list of column families to expose in the
+                              table schema along with their types. This list restricts
+                              the column families that can be referenced in queries
+                              and specifies their value types. You can use this list
+                              to do type conversions - see the 'type' field for more
+                              details. If you leave this list empty, all column families
+                              are present in the table schema and their values are
+                              read as BYTES. During a query only the column families
+                              referenced in that query are read from Bigtable.  Structure
+                              is documented below.
+                            items:
+                              properties:
+                                column:
+                                  description: A List of columns that should be exposed
+                                    as individual fields as opposed to a list of (column
+                                    name, value) pairs. All columns whose qualifier
+                                    matches a qualifier in this list can be accessed
+                                    as Other columns can be accessed as a list through
+                                    column field.  Structure is documented below.
+                                  items:
+                                    properties:
+                                      encoding:
+                                        description: The character encoding of the
+                                          data. The supported values are UTF-8, UTF-16BE,
+                                          UTF-16LE, UTF-32BE, and UTF-32LE. The default
+                                          value is UTF-8.
+                                        type: string
+                                      fieldName:
+                                        description: If the qualifier is not a valid
+                                          BigQuery field identifier i.e. does not
+                                          match [a-zA-Z][a-zA-Z0-9_]*, a valid identifier
+                                          must be provided as the column field name
+                                          and is used as field name in queries.
+                                        type: string
+                                      onlyReadLatest:
+                                        description: If this is set only the latest
+                                          version of value are exposed for all columns
+                                          in this column family. This can be overridden
+                                          for a specific column by listing that column
+                                          in 'columns' and specifying a different
+                                          setting for that column.
+                                        type: boolean
+                                      qualifierEncoded:
+                                        description: Qualifier of the column. Columns
+                                          in the parent column family that has this
+                                          exact qualifier are exposed as . field.
+                                          If the qualifier is valid UTF-8 string,
+                                          it can be specified in the qualifierString
+                                          field. Otherwise, a base-64 encoded value
+                                          must be set to qualifierEncoded. The column
+                                          field name is the same as the column qualifier.
+                                          However, if the qualifier is not a valid
+                                          BigQuery field identifier i.e. does not
+                                          match [a-zA-Z][a-zA-Z0-9_]*, a valid identifier
+                                          must be provided as fieldName.
+                                        type: string
+                                      qualifierString:
+                                        description: Qualifier string.
+                                        type: string
+                                      type:
+                                        description: Describes the table type.
+                                        type: string
+                                    type: object
+                                  type: array
+                                encoding:
+                                  description: The character encoding of the data.
+                                    The supported values are UTF-8, UTF-16BE, UTF-16LE,
+                                    UTF-32BE, and UTF-32LE. The default value is UTF-8.
+                                  type: string
+                                familyId:
+                                  description: Identifier of the column family.
+                                  type: string
+                                onlyReadLatest:
+                                  description: If this is set only the latest version
+                                    of value are exposed for all columns in this column
+                                    family. This can be overridden for a specific
+                                    column by listing that column in 'columns' and
+                                    specifying a different setting for that column.
+                                  type: boolean
+                                type:
+                                  description: Describes the table type.
+                                  type: string
+                              type: object
+                            type: array
+                          ignoreUnspecifiedColumnFamilies:
+                            description: If field is true, then the column families
+                              that are not specified in columnFamilies list are not
+                              exposed in the table schema. Otherwise, they are read
+                              with BYTES type values. The default value is false.
+                            type: boolean
+                          outputColumnFamiliesAsJson:
+                            description: If field is true, then each column family
+                              will be read as a single JSON column. Otherwise they
+                              are read as a repeated cell structure containing timestamp/value
+                              tuples. The default value is false.
+                            type: boolean
+                          readRowkeyAsString:
+                            description: If field is true, then the rowkey column
+                              families will be read and converted to string. Otherwise
+                              they are read with BYTES type values and users need
+                              to manually cast them with CAST if necessary. The default
+                              value is false.
                             type: boolean
                         type: object
                       compression:
@@ -2944,21 +3172,25 @@ spec:
                         type: object
                     type: object
                   tableReplicationInfo:
+                    description: |-
+                      Replication info of a table created
+                      using "AS REPLICA" DDL like:
+                      CREATE MATERIALIZED VIEW mv1 AS REPLICA OF src_mv.
+                      Structure is documented below.
                     properties:
                       replicationIntervalMs:
+                        description: |-
+                          The interval at which the source
+                          materialized view is polled for updates. The default is 300000.
                         type: number
                       sourceDatasetId:
-                        description: |-
-                          The dataset ID to create the table in.
-                          Changing this forces a new resource to be created.
+                        description: The ID of the source dataset.
                         type: string
                       sourceProjectId:
-                        description: an identifier for the resource with format projects/{{project}}/datasets/{{dataset}}/tables/{{name}}
+                        description: The ID of the source project.
                         type: string
                       sourceTableId:
-                        description: |-
-                          A unique ID for the resource.
-                          Changing this forces a new resource to be created.
+                        description: The ID of the source materialized view.
                         type: string
                     type: object
                   timePartitioning:
@@ -3196,6 +3428,8 @@ spec:
                       Changing this forces a new resource to be created.
                     type: string
                   deletionProtection:
+                    description: When the field is set to false, deleting the table
+                      is allowed..
                     type: boolean
                   description:
                     description: The field description.
@@ -3256,6 +3490,116 @@ spec:
                               If is set to true, indicates whether
                               to interpret logical types as the corresponding BigQuery data type
                               (for example, TIMESTAMP), instead of using the raw type (for example, INTEGER).
+                            type: boolean
+                        type: object
+                      bigtableOptions:
+                        description: |-
+                          Additional properties to set if
+                          source_format is set to "BIGTABLE". Structure is documented below.
+                        properties:
+                          columnFamily:
+                            description: A list of column families to expose in the
+                              table schema along with their types. This list restricts
+                              the column families that can be referenced in queries
+                              and specifies their value types. You can use this list
+                              to do type conversions - see the 'type' field for more
+                              details. If you leave this list empty, all column families
+                              are present in the table schema and their values are
+                              read as BYTES. During a query only the column families
+                              referenced in that query are read from Bigtable.  Structure
+                              is documented below.
+                            items:
+                              properties:
+                                column:
+                                  description: A List of columns that should be exposed
+                                    as individual fields as opposed to a list of (column
+                                    name, value) pairs. All columns whose qualifier
+                                    matches a qualifier in this list can be accessed
+                                    as Other columns can be accessed as a list through
+                                    column field.  Structure is documented below.
+                                  items:
+                                    properties:
+                                      encoding:
+                                        description: The character encoding of the
+                                          data. The supported values are UTF-8, UTF-16BE,
+                                          UTF-16LE, UTF-32BE, and UTF-32LE. The default
+                                          value is UTF-8.
+                                        type: string
+                                      fieldName:
+                                        description: If the qualifier is not a valid
+                                          BigQuery field identifier i.e. does not
+                                          match [a-zA-Z][a-zA-Z0-9_]*, a valid identifier
+                                          must be provided as the column field name
+                                          and is used as field name in queries.
+                                        type: string
+                                      onlyReadLatest:
+                                        description: If this is set only the latest
+                                          version of value are exposed for all columns
+                                          in this column family. This can be overridden
+                                          for a specific column by listing that column
+                                          in 'columns' and specifying a different
+                                          setting for that column.
+                                        type: boolean
+                                      qualifierEncoded:
+                                        description: Qualifier of the column. Columns
+                                          in the parent column family that has this
+                                          exact qualifier are exposed as . field.
+                                          If the qualifier is valid UTF-8 string,
+                                          it can be specified in the qualifierString
+                                          field. Otherwise, a base-64 encoded value
+                                          must be set to qualifierEncoded. The column
+                                          field name is the same as the column qualifier.
+                                          However, if the qualifier is not a valid
+                                          BigQuery field identifier i.e. does not
+                                          match [a-zA-Z][a-zA-Z0-9_]*, a valid identifier
+                                          must be provided as fieldName.
+                                        type: string
+                                      qualifierString:
+                                        description: Qualifier string.
+                                        type: string
+                                      type:
+                                        description: Describes the table type.
+                                        type: string
+                                    type: object
+                                  type: array
+                                encoding:
+                                  description: The character encoding of the data.
+                                    The supported values are UTF-8, UTF-16BE, UTF-16LE,
+                                    UTF-32BE, and UTF-32LE. The default value is UTF-8.
+                                  type: string
+                                familyId:
+                                  description: Identifier of the column family.
+                                  type: string
+                                onlyReadLatest:
+                                  description: If this is set only the latest version
+                                    of value are exposed for all columns in this column
+                                    family. This can be overridden for a specific
+                                    column by listing that column in 'columns' and
+                                    specifying a different setting for that column.
+                                  type: boolean
+                                type:
+                                  description: Describes the table type.
+                                  type: string
+                              type: object
+                            type: array
+                          ignoreUnspecifiedColumnFamilies:
+                            description: If field is true, then the column families
+                              that are not specified in columnFamilies list are not
+                              exposed in the table schema. Otherwise, they are read
+                              with BYTES type values. The default value is false.
+                            type: boolean
+                          outputColumnFamiliesAsJson:
+                            description: If field is true, then each column family
+                              will be read as a single JSON column. Otherwise they
+                              are read as a repeated cell structure containing timestamp/value
+                              tuples. The default value is false.
+                            type: boolean
+                          readRowkeyAsString:
+                            description: If field is true, then the rowkey column
+                              families will be read and converted to string. Otherwise
+                              they are read with BYTES type values and users need
+                              to manually cast them with CAST if necessary. The default
+                              value is false.
                             type: boolean
                         type: object
                       compression:
@@ -3628,21 +3972,25 @@ spec:
                         type: object
                     type: object
                   tableReplicationInfo:
+                    description: |-
+                      Replication info of a table created
+                      using "AS REPLICA" DDL like:
+                      CREATE MATERIALIZED VIEW mv1 AS REPLICA OF src_mv.
+                      Structure is documented below.
                     properties:
                       replicationIntervalMs:
+                        description: |-
+                          The interval at which the source
+                          materialized view is polled for updates. The default is 300000.
                         type: number
                       sourceDatasetId:
-                        description: |-
-                          The dataset ID to create the table in.
-                          Changing this forces a new resource to be created.
+                        description: The ID of the source dataset.
                         type: string
                       sourceProjectId:
-                        description: an identifier for the resource with format projects/{{project}}/datasets/{{dataset}}/tables/{{name}}
+                        description: The ID of the source project.
                         type: string
                       sourceTableId:
-                        description: |-
-                          A unique ID for the resource.
-                          Changing this forces a new resource to be created.
+                        description: The ID of the source materialized view.
                         type: string
                     type: object
                   terraformLabels:

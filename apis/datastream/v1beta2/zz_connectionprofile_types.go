@@ -27,6 +27,9 @@ type ConnectionProfileInitParameters struct {
 	// BigQuery warehouse profile.
 	BigqueryProfile *BigqueryProfileInitParameters `json:"bigqueryProfile,omitempty" tf:"bigquery_profile,omitempty"`
 
+	// Create the connection profile without validating it.
+	CreateWithoutValidation *bool `json:"createWithoutValidation,omitempty" tf:"create_without_validation,omitempty"`
+
 	// Display name.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -69,6 +72,9 @@ type ConnectionProfileObservation struct {
 
 	// BigQuery warehouse profile.
 	BigqueryProfile *BigqueryProfileParameters `json:"bigqueryProfile,omitempty" tf:"bigquery_profile,omitempty"`
+
+	// Create the connection profile without validating it.
+	CreateWithoutValidation *bool `json:"createWithoutValidation,omitempty" tf:"create_without_validation,omitempty"`
 
 	// Display name.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -130,6 +136,10 @@ type ConnectionProfileParameters struct {
 	// BigQuery warehouse profile.
 	// +kubebuilder:validation:Optional
 	BigqueryProfile *BigqueryProfileParameters `json:"bigqueryProfile,omitempty" tf:"bigquery_profile,omitempty"`
+
+	// Create the connection profile without validating it.
+	// +kubebuilder:validation:Optional
+	CreateWithoutValidation *bool `json:"createWithoutValidation,omitempty" tf:"create_without_validation,omitempty"`
 
 	// Display name.
 	// +kubebuilder:validation:Optional

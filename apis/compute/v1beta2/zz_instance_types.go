@@ -344,21 +344,31 @@ type BootDiskParameters struct {
 
 type ConfidentialInstanceConfigInitParameters struct {
 
-	// Defines whether the instance should have confidential compute enabled with AMD SEV. on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
+	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. One of the following values: SEV, SEV_SNP. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM.
+	ConfidentialInstanceType *string `json:"confidentialInstanceType,omitempty" tf:"confidential_instance_type,omitempty"`
+
+	// Defines whether the instance should have confidential compute enabled with AMD SEV. If enabled, on_host_maintenance can be set to MIGRATE if min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 }
 
 type ConfidentialInstanceConfigObservation struct {
 
-	// Defines whether the instance should have confidential compute enabled with AMD SEV. on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
+	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. One of the following values: SEV, SEV_SNP. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM.
+	ConfidentialInstanceType *string `json:"confidentialInstanceType,omitempty" tf:"confidential_instance_type,omitempty"`
+
+	// Defines whether the instance should have confidential compute enabled with AMD SEV. If enabled, on_host_maintenance can be set to MIGRATE if min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 }
 
 type ConfidentialInstanceConfigParameters struct {
 
-	// Defines whether the instance should have confidential compute enabled with AMD SEV. on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
+	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. One of the following values: SEV, SEV_SNP. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM.
 	// +kubebuilder:validation:Optional
-	EnableConfidentialCompute *bool `json:"enableConfidentialCompute" tf:"enable_confidential_compute,omitempty"`
+	ConfidentialInstanceType *string `json:"confidentialInstanceType,omitempty" tf:"confidential_instance_type,omitempty"`
+
+	// Defines whether the instance should have confidential compute enabled with AMD SEV. If enabled, on_host_maintenance can be set to MIGRATE if min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
+	// +kubebuilder:validation:Optional
+	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 }
 
 type GuestAcceleratorInitParameters struct {
@@ -712,8 +722,8 @@ type InstanceInitParameters struct {
 
 	// Metadata key/value pairs to make available from
 	// within the instance. Ssh keys attached in the Cloud Console will be removed.
-	// Add them to your config in order to keep them attached to your instance. A
-	// list of default metadata values (e.g. ssh-keys) can be found here
+	// Add them to your config in order to keep them attached to your instance.
+	// A list of predefined metadata keys (e.g. ssh-keys) can be found here
 	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
@@ -860,8 +870,8 @@ type InstanceObservation struct {
 
 	// Metadata key/value pairs to make available from
 	// within the instance. Ssh keys attached in the Cloud Console will be removed.
-	// Add them to your config in order to keep them attached to your instance. A
-	// list of default metadata values (e.g. ssh-keys) can be found here
+	// Add them to your config in order to keep them attached to your instance.
+	// A list of predefined metadata keys (e.g. ssh-keys) can be found here
 	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
@@ -1020,8 +1030,8 @@ type InstanceParameters struct {
 
 	// Metadata key/value pairs to make available from
 	// within the instance. Ssh keys attached in the Cloud Console will be removed.
-	// Add them to your config in order to keep them attached to your instance. A
-	// list of default metadata values (e.g. ssh-keys) can be found here
+	// Add them to your config in order to keep them attached to your instance.
+	// A list of predefined metadata keys (e.g. ssh-keys) can be found here
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
@@ -1134,6 +1144,50 @@ type LocalSsdRecoveryTimeoutObservation struct {
 }
 
 type LocalSsdRecoveryTimeoutParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented with a 0
+	// seconds field and a positive nanos field. Must be from 0 to
+	// 999,999,999 inclusive.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to
+	// 315,576,000,000 inclusive. Note: these bounds are computed from: 60
+	// sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+	// +kubebuilder:validation:Optional
+	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
+}
+
+type MaxRunDurationInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented with a 0
+	// seconds field and a positive nanos field. Must be from 0 to
+	// 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to
+	// 315,576,000,000 inclusive. Note: these bounds are computed from: 60
+	// sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type MaxRunDurationObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented with a 0
+	// seconds field and a positive nanos field. Must be from 0 to
+	// 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to
+	// 315,576,000,000 inclusive. Note: these bounds are computed from: 60
+	// sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type MaxRunDurationParameters struct {
 
 	// Span of time that's a fraction of a second at nanosecond
 	// resolution. Durations less than one second are represented with a 0
@@ -1447,6 +1501,25 @@ type NodeAffinitiesParameters struct {
 	Values []*string `json:"values" tf:"values,omitempty"`
 }
 
+type OnInstanceStopActionInitParameters struct {
+
+	// Whether to discard local SSDs attached to the VM while terminating using max_run_duration. Only supports true at this point.
+	DiscardLocalSsd *bool `json:"discardLocalSsd,omitempty" tf:"discard_local_ssd,omitempty"`
+}
+
+type OnInstanceStopActionObservation struct {
+
+	// Whether to discard local SSDs attached to the VM while terminating using max_run_duration. Only supports true at this point.
+	DiscardLocalSsd *bool `json:"discardLocalSsd,omitempty" tf:"discard_local_ssd,omitempty"`
+}
+
+type OnInstanceStopActionParameters struct {
+
+	// Whether to discard local SSDs attached to the VM while terminating using max_run_duration. Only supports true at this point.
+	// +kubebuilder:validation:Optional
+	DiscardLocalSsd *bool `json:"discardLocalSsd,omitempty" tf:"discard_local_ssd,omitempty"`
+}
+
 type ParamsInitParameters struct {
 
 	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
@@ -1515,6 +1588,9 @@ type SchedulingInitParameters struct {
 	// The local_ssd_recovery_timeout block supports:
 	LocalSsdRecoveryTimeout *LocalSsdRecoveryTimeoutInitParameters `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
+	// The duration of the instance. Instance will run and be terminated after then, the termination action could be defined in instance_termination_action. Structure is documented below.
+	MaxRunDuration *MaxRunDurationInitParameters `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
+
 	// The minimum number of virtual CPUs this instance will consume when running on a sole-tenant node.
 	MinNodeCpus *float64 `json:"minNodeCpus,omitempty" tf:"min_node_cpus,omitempty"`
 
@@ -1529,6 +1605,9 @@ type SchedulingInitParameters struct {
 	// instance. Can be MIGRATE or TERMINATE, for more info, read
 	// here.
 	OnHostMaintenance *string `json:"onHostMaintenance,omitempty" tf:"on_host_maintenance,omitempty"`
+
+	// Specifies the action to be performed when the instance is terminated using max_run_duration and STOP instance_termination_action. Only support true discard_local_ssd at this point. Structure is documented below.
+	OnInstanceStopAction *OnInstanceStopActionInitParameters `json:"onInstanceStopAction,omitempty" tf:"on_instance_stop_action,omitempty"`
 
 	// Specifies if the instance is preemptible.
 	// If this field is set to true, then automatic_restart must be
@@ -1556,6 +1635,9 @@ type SchedulingObservation struct {
 	// The local_ssd_recovery_timeout block supports:
 	LocalSsdRecoveryTimeout *LocalSsdRecoveryTimeoutObservation `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
+	// The duration of the instance. Instance will run and be terminated after then, the termination action could be defined in instance_termination_action. Structure is documented below.
+	MaxRunDuration *MaxRunDurationObservation `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
+
 	// The minimum number of virtual CPUs this instance will consume when running on a sole-tenant node.
 	MinNodeCpus *float64 `json:"minNodeCpus,omitempty" tf:"min_node_cpus,omitempty"`
 
@@ -1570,6 +1652,9 @@ type SchedulingObservation struct {
 	// instance. Can be MIGRATE or TERMINATE, for more info, read
 	// here.
 	OnHostMaintenance *string `json:"onHostMaintenance,omitempty" tf:"on_host_maintenance,omitempty"`
+
+	// Specifies the action to be performed when the instance is terminated using max_run_duration and STOP instance_termination_action. Only support true discard_local_ssd at this point. Structure is documented below.
+	OnInstanceStopAction *OnInstanceStopActionObservation `json:"onInstanceStopAction,omitempty" tf:"on_instance_stop_action,omitempty"`
 
 	// Specifies if the instance is preemptible.
 	// If this field is set to true, then automatic_restart must be
@@ -1600,6 +1685,10 @@ type SchedulingParameters struct {
 	// +kubebuilder:validation:Optional
 	LocalSsdRecoveryTimeout *LocalSsdRecoveryTimeoutParameters `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
+	// The duration of the instance. Instance will run and be terminated after then, the termination action could be defined in instance_termination_action. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MaxRunDuration *MaxRunDurationParameters `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
+
 	// The minimum number of virtual CPUs this instance will consume when running on a sole-tenant node.
 	// +kubebuilder:validation:Optional
 	MinNodeCpus *float64 `json:"minNodeCpus,omitempty" tf:"min_node_cpus,omitempty"`
@@ -1617,6 +1706,10 @@ type SchedulingParameters struct {
 	// here.
 	// +kubebuilder:validation:Optional
 	OnHostMaintenance *string `json:"onHostMaintenance,omitempty" tf:"on_host_maintenance,omitempty"`
+
+	// Specifies the action to be performed when the instance is terminated using max_run_duration and STOP instance_termination_action. Only support true discard_local_ssd at this point. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	OnInstanceStopAction *OnInstanceStopActionParameters `json:"onInstanceStopAction,omitempty" tf:"on_instance_stop_action,omitempty"`
 
 	// Specifies if the instance is preemptible.
 	// If this field is set to true, then automatic_restart must be

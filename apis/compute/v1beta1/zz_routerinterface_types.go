@@ -19,6 +19,9 @@ type RouterInterfaceInitParameters struct {
 	// in the RFC3927 link-local IP space. Changing this forces a new interface to be created.
 	IPRange *string `json:"ipRange,omitempty" tf:"ip_range,omitempty"`
 
+	// IP version of this interface. Can be either IPV4 or IPV6.
+	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
+
 	// The name or resource link to the
 	// VLAN interconnect for this interface. Changing this forces a new interface to
 	// be created. Only one of vpn_tunnel, interconnect_attachment or subnetwork can be specified.
@@ -85,6 +88,9 @@ type RouterInterfaceObservation struct {
 	// in the RFC3927 link-local IP space. Changing this forces a new interface to be created.
 	IPRange *string `json:"ipRange,omitempty" tf:"ip_range,omitempty"`
 
+	// IP version of this interface. Can be either IPV4 or IPV6.
+	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
+
 	// The name or resource link to the
 	// VLAN interconnect for this interface. Changing this forces a new interface to
 	// be created. Only one of vpn_tunnel, interconnect_attachment or subnetwork can be specified.
@@ -130,6 +136,10 @@ type RouterInterfaceParameters struct {
 	// in the RFC3927 link-local IP space. Changing this forces a new interface to be created.
 	// +kubebuilder:validation:Optional
 	IPRange *string `json:"ipRange,omitempty" tf:"ip_range,omitempty"`
+
+	// IP version of this interface. Can be either IPV4 or IPV6.
+	// +kubebuilder:validation:Optional
+	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
 	// The name or resource link to the
 	// VLAN interconnect for this interface. Changing this forces a new interface to

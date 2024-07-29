@@ -2356,7 +2356,8 @@ spec:
                       includes an up-to-date reference of supported versions.
                     type: string
                   deletionProtection:
-                    description: Defaults to true.
+                    description: When the field is set to false, deleting the instance
+                      is allowed.
                     type: boolean
                   encryptionKeyName:
                     description: |-
@@ -2836,7 +2837,9 @@ spec:
                           requireSsl:
                             description: Whether SSL connections over IP are enforced
                               or not. To change this field, also set the corresponding
-                              value in ssl_mode.
+                              value in ssl_mode. It will be fully deprecated in a
+                              future major release. For now, please use ssl_mode with
+                              a compatible require_ssl value instead.
                             type: boolean
                           sslMode:
                             description: Specify how SSL connection should be enforced
@@ -2871,9 +2874,9 @@ spec:
                             description: Hour of day (0-23), ignored if day not set
                             type: number
                           updateTrack:
-                            description: |-
-                              Receive updates earlier (canary) or later
-                              (stable)
+                            description: Receive updates after one week (canary) or
+                              after two weeks (stable) or after five weeks (week5)
+                              of notification.
                             type: string
                         type: object
                       passwordValidationPolicy:
@@ -3003,7 +3006,8 @@ spec:
                       includes an up-to-date reference of supported versions.
                     type: string
                   deletionProtection:
-                    description: Defaults to true.
+                    description: When the field is set to false, deleting the instance
+                      is allowed.
                     type: boolean
                   encryptionKeyName:
                     description: |-
@@ -3483,7 +3487,9 @@ spec:
                           requireSsl:
                             description: Whether SSL connections over IP are enforced
                               or not. To change this field, also set the corresponding
-                              value in ssl_mode.
+                              value in ssl_mode. It will be fully deprecated in a
+                              future major release. For now, please use ssl_mode with
+                              a compatible require_ssl value instead.
                             type: boolean
                           sslMode:
                             description: Specify how SSL connection should be enforced
@@ -3518,9 +3524,9 @@ spec:
                             description: Hour of day (0-23), ignored if day not set
                             type: number
                           updateTrack:
-                            description: |-
-                              Receive updates earlier (canary) or later
-                              (stable)
+                            description: Receive updates after one week (canary) or
+                              after two weeks (stable) or after five weeks (week5)
+                              of notification.
                             type: string
                         type: object
                       passwordValidationPolicy:
@@ -3825,7 +3831,8 @@ spec:
                       includes an up-to-date reference of supported versions.
                     type: string
                   deletionProtection:
-                    description: Defaults to true.
+                    description: When the field is set to false, deleting the instance
+                      is allowed.
                     type: boolean
                   dnsName:
                     description: |-
@@ -4244,7 +4251,9 @@ spec:
                           requireSsl:
                             description: Whether SSL connections over IP are enforced
                               or not. To change this field, also set the corresponding
-                              value in ssl_mode.
+                              value in ssl_mode. It will be fully deprecated in a
+                              future major release. For now, please use ssl_mode with
+                              a compatible require_ssl value instead.
                             type: boolean
                           sslMode:
                             description: Specify how SSL connection should be enforced
@@ -4279,9 +4288,9 @@ spec:
                             description: Hour of day (0-23), ignored if day not set
                             type: number
                           updateTrack:
-                            description: |-
-                              Receive updates earlier (canary) or later
-                              (stable)
+                            description: Receive updates after one week (canary) or
+                              after two weeks (stable) or after five weeks (week5)
+                              of notification.
                             type: string
                         type: object
                       passwordValidationPolicy:

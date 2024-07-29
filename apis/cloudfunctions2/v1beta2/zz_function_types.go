@@ -13,7 +13,20 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AutomaticUpdatePolicyInitParameters struct {
+}
+
+type AutomaticUpdatePolicyObservation struct {
+}
+
+type AutomaticUpdatePolicyParameters struct {
+}
+
 type BuildConfigInitParameters struct {
+
+	// Security patches are applied automatically to the runtime without requiring
+	// the function to be redeployed.
+	AutomaticUpdatePolicy *AutomaticUpdatePolicyInitParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
 
 	// User managed repository created in Artifact Registry optionally with a customer managed encryption key.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/artifact/v1beta2.RegistryRepository
@@ -38,6 +51,10 @@ type BuildConfigInitParameters struct {
 	// User-provided build-time environment variables for the function.
 	// +mapType=granular
 	EnvironmentVariables map[string]*string `json:"environmentVariables,omitempty" tf:"environment_variables,omitempty"`
+
+	// Security patches are only applied when a function is redeployed.
+	// Structure is documented below.
+	OnDeployUpdatePolicy *OnDeployUpdatePolicyInitParameters `json:"onDeployUpdatePolicy,omitempty" tf:"on_deploy_update_policy,omitempty"`
 
 	// The runtime in which to run the function. Required when deploying a new
 	// function, optional when updating an existing function.
@@ -76,6 +93,10 @@ type BuildConfigInitParameters struct {
 
 type BuildConfigObservation struct {
 
+	// Security patches are applied automatically to the runtime without requiring
+	// the function to be redeployed.
+	AutomaticUpdatePolicy *AutomaticUpdatePolicyParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
+
 	// (Output)
 	// The Cloud Build name of the latest successful
 	// deployment of the function.
@@ -95,6 +116,10 @@ type BuildConfigObservation struct {
 	// +mapType=granular
 	EnvironmentVariables map[string]*string `json:"environmentVariables,omitempty" tf:"environment_variables,omitempty"`
 
+	// Security patches are only applied when a function is redeployed.
+	// Structure is documented below.
+	OnDeployUpdatePolicy *OnDeployUpdatePolicyObservation `json:"onDeployUpdatePolicy,omitempty" tf:"on_deploy_update_policy,omitempty"`
+
 	// The runtime in which to run the function. Required when deploying a new
 	// function, optional when updating an existing function.
 	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
@@ -111,6 +136,11 @@ type BuildConfigObservation struct {
 }
 
 type BuildConfigParameters struct {
+
+	// Security patches are applied automatically to the runtime without requiring
+	// the function to be redeployed.
+	// +kubebuilder:validation:Optional
+	AutomaticUpdatePolicy *AutomaticUpdatePolicyParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
 
 	// User managed repository created in Artifact Registry optionally with a customer managed encryption key.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/artifact/v1beta2.RegistryRepository
@@ -138,6 +168,11 @@ type BuildConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	EnvironmentVariables map[string]*string `json:"environmentVariables,omitempty" tf:"environment_variables,omitempty"`
+
+	// Security patches are only applied when a function is redeployed.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	OnDeployUpdatePolicy *OnDeployUpdatePolicyParameters `json:"onDeployUpdatePolicy,omitempty" tf:"on_deploy_update_policy,omitempty"`
 
 	// The runtime in which to run the function. Required when deploying a new
 	// function, optional when updating an existing function.
@@ -528,6 +563,19 @@ type FunctionParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ServiceConfig *ServiceConfigParameters `json:"serviceConfig,omitempty" tf:"service_config,omitempty"`
+}
+
+type OnDeployUpdatePolicyInitParameters struct {
+}
+
+type OnDeployUpdatePolicyObservation struct {
+
+	// (Output)
+	// The runtime version which was used during latest function deployment.
+	RuntimeVersion *string `json:"runtimeVersion,omitempty" tf:"runtime_version,omitempty"`
+}
+
+type OnDeployUpdatePolicyParameters struct {
 }
 
 type RepoSourceInitParameters struct {

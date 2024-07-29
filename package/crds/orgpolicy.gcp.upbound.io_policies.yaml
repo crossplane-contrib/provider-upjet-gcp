@@ -34,10 +34,9 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Policy is the Schema for the Policys API. An organization policy
-          gives you programmatic control over your organization's cloud resources.  Using
-          Organization Policies, you will be able to configure constraints across
-          your entire resource hierarchy.
+        description: Policy is the Schema for the Policys API. Defines an organization
+          policy which is used to specify constraints for configurations of Google
+          Cloud resources.
         properties:
           apiVersion:
             description: |-
@@ -76,9 +75,9 @@ spec:
               forProvider:
                 properties:
                   dryRunSpec:
-                    description: Dry-run policy. Audit-only policy, can be used to
-                      monitor how the policy would have impacted the existing and
-                      future resources if it's enforced.
+                    description: |-
+                      Dry-run policy. Audit-only policy, can be used to monitor how the policy would have impacted the existing and future resources if it's enforced.
+                      Structure is documented below.
                     properties:
                       inheritFromParent:
                         description: Determines the inheritance behavior for this
@@ -98,33 +97,20 @@ spec:
                           be set to false.
                         type: boolean
                       rules:
-                        description: 'In policies for boolean constraints, the following
-                          requirements apply: - There must be one and only one policy
-                          rule where condition is unset. - Boolean policy rules with
-                          conditions must set enforced to the opposite of the policy
-                          rule without a condition. - During policy evaluation, policy
-                          rules with conditions that are true for a target resource
-                          take precedence.'
+                        description: |-
+                          In policies for boolean constraints, the following requirements apply: - There must be one and only one policy rule where condition is unset. - Boolean policy rules with conditions must set enforced to the opposite of the policy rule without a condition. - During policy evaluation, policy rules with conditions that are true for a target resource take precedence.
+                          Structure is documented below.
                         items:
                           properties:
                             allowAll:
                               description: Setting this to "TRUE" means that all values
-                                are allowed. This field can be set only in policies
+                                are allowed. This field can be set only in Policies
                                 for list constraints.
                               type: string
                             condition:
-                              description: 'A condition which determines whether this
-                                rule is used in the evaluation of the policy. When
-                                set, the expression field in the `Expr'' must include
-                                from 1 to 10 subexpressions, joined by the "||" or
-                                "&&" operators. Each subexpression must be of the
-                                form "resource.matchTag(''/tag_key_short_name, ''tag_value_short_name'')".
-                                or "resource.matchTagId(''tagKeys/key_id'', ''tagValues/value_id'')".
-                                where key_name and value_name are the resource names
-                                for Label Keys and Values. These names are available
-                                from the Tag Manager Service. An example expression
-                                is: "resource.matchTag(''123456789/environment, ''prod'')".
-                                or "resource.matchTagId(''tagKeys/123'', ''tagValues/456'')".'
+                              description: |-
+                                A condition which determines whether this rule is used in the evaluation of the policy. When set, the expression field in the `Expr' must include from 1 to 10 subexpressions, joined by the "||" or "&&" operators. Each subexpression must be of the form "resource.matchTag('/tag_key_short_name, 'tag_value_short_name')". or "resource.matchTagId('tagKeys/key_id', 'tagValues/value_id')". where key_name and value_name are the resource names for Label Keys and Values. These names are available from the Tag Manager Service. An example expression is: "resource.matchTag('123456789/environment, 'prod')". or "resource.matchTagId('tagKeys/123', 'tagValues/456')".
+                                Structure is documented below.
                               properties:
                                 description:
                                   description: Optional. Description of the expression.
@@ -149,19 +135,19 @@ spec:
                               type: object
                             denyAll:
                               description: Setting this to "TRUE" means that all values
-                                are denied. This field can be set only in policies
+                                are denied. This field can be set only in Policies
                                 for list constraints.
                               type: string
                             enforce:
-                              description: If "TRUE", then the policy is enforced.
+                              description: If "TRUE", then the Policy is enforced.
                                 If "FALSE", then any configuration is acceptable.
-                                This field can be set only in policies for boolean
+                                This field can be set only in Policies for boolean
                                 constraints.
                               type: string
                             values:
-                              description: List of values to be used for this policy
-                                rule. This field can be set only in policies for list
-                                constraints.
+                              description: |-
+                                List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
+                                Structure is documented below.
                               properties:
                                 allowedValues:
                                   description: List of values allowed at this resource.
@@ -257,7 +243,9 @@ spec:
                         type: object
                     type: object
                   spec:
-                    description: Basic information about the Organization Policy.
+                    description: |-
+                      Basic information about the Organization Policy.
+                      Structure is documented below.
                     properties:
                       inheritFromParent:
                         description: Determines the inheritance behavior for this
@@ -277,33 +265,20 @@ spec:
                           be set to false.
                         type: boolean
                       rules:
-                        description: 'Up to 10 PolicyRules are allowed. In Policies
-                          for boolean constraints, the following requirements apply:
-                          - There must be one and only one PolicyRule where condition
-                          is unset. - BooleanPolicyRules with conditions must set
-                          enforced to the opposite of the PolicyRule without a condition.
-                          - During policy evaluation, PolicyRules with conditions
-                          that are true for a target resource take precedence.'
+                        description: |-
+                          Up to 10 PolicyRules are allowed. In Policies for boolean constraints, the following requirements apply: - There must be one and only one PolicyRule where condition is unset. - BooleanPolicyRules with conditions must set enforced to the opposite of the PolicyRule without a condition. - During policy evaluation, PolicyRules with conditions that are true for a target resource take precedence.
+                          Structure is documented below.
                         items:
                           properties:
                             allowAll:
                               description: Setting this to "TRUE" means that all values
-                                are allowed. This field can be set only in policies
+                                are allowed. This field can be set only in Policies
                                 for list constraints.
                               type: string
                             condition:
-                              description: 'A condition which determines whether this
-                                rule is used in the evaluation of the policy. When
-                                set, the expression field in the `Expr'' must include
-                                from 1 to 10 subexpressions, joined by the "||" or
-                                "&&" operators. Each subexpression must be of the
-                                form "resource.matchTag(''/tag_key_short_name, ''tag_value_short_name'')".
-                                or "resource.matchTagId(''tagKeys/key_id'', ''tagValues/value_id'')".
-                                where key_name and value_name are the resource names
-                                for Label Keys and Values. These names are available
-                                from the Tag Manager Service. An example expression
-                                is: "resource.matchTag(''123456789/environment, ''prod'')".
-                                or "resource.matchTagId(''tagKeys/123'', ''tagValues/456'')".'
+                              description: |-
+                                A condition which determines whether this rule is used in the evaluation of the policy. When set, the expression field in the `Expr' must include from 1 to 10 subexpressions, joined by the "||" or "&&" operators. Each subexpression must be of the form "resource.matchTag('/tag_key_short_name, 'tag_value_short_name')". or "resource.matchTagId('tagKeys/key_id', 'tagValues/value_id')". where key_name and value_name are the resource names for Label Keys and Values. These names are available from the Tag Manager Service. An example expression is: "resource.matchTag('123456789/environment, 'prod')". or "resource.matchTagId('tagKeys/123', 'tagValues/456')".
+                                Structure is documented below.
                               properties:
                                 description:
                                   description: Optional. Description of the expression.
@@ -328,19 +303,19 @@ spec:
                               type: object
                             denyAll:
                               description: Setting this to "TRUE" means that all values
-                                are denied. This field can be set only in policies
+                                are denied. This field can be set only in Policies
                                 for list constraints.
                               type: string
                             enforce:
-                              description: If "TRUE", then the policy is enforced.
+                              description: If "TRUE", then the Policy is enforced.
                                 If "FALSE", then any configuration is acceptable.
-                                This field can be set only in policies for boolean
+                                This field can be set only in Policies for boolean
                                 constraints.
                               type: string
                             values:
-                              description: List of values to be used for this policy
-                                rule. This field can be set only in policies for list
-                                constraints.
+                              description: |-
+                                List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
+                                Structure is documented below.
                               properties:
                                 allowedValues:
                                   description: List of values allowed at this resource.
@@ -371,9 +346,9 @@ spec:
                   autoscaler.
                 properties:
                   dryRunSpec:
-                    description: Dry-run policy. Audit-only policy, can be used to
-                      monitor how the policy would have impacted the existing and
-                      future resources if it's enforced.
+                    description: |-
+                      Dry-run policy. Audit-only policy, can be used to monitor how the policy would have impacted the existing and future resources if it's enforced.
+                      Structure is documented below.
                     properties:
                       inheritFromParent:
                         description: Determines the inheritance behavior for this
@@ -393,33 +368,20 @@ spec:
                           be set to false.
                         type: boolean
                       rules:
-                        description: 'In policies for boolean constraints, the following
-                          requirements apply: - There must be one and only one policy
-                          rule where condition is unset. - Boolean policy rules with
-                          conditions must set enforced to the opposite of the policy
-                          rule without a condition. - During policy evaluation, policy
-                          rules with conditions that are true for a target resource
-                          take precedence.'
+                        description: |-
+                          In policies for boolean constraints, the following requirements apply: - There must be one and only one policy rule where condition is unset. - Boolean policy rules with conditions must set enforced to the opposite of the policy rule without a condition. - During policy evaluation, policy rules with conditions that are true for a target resource take precedence.
+                          Structure is documented below.
                         items:
                           properties:
                             allowAll:
                               description: Setting this to "TRUE" means that all values
-                                are allowed. This field can be set only in policies
+                                are allowed. This field can be set only in Policies
                                 for list constraints.
                               type: string
                             condition:
-                              description: 'A condition which determines whether this
-                                rule is used in the evaluation of the policy. When
-                                set, the expression field in the `Expr'' must include
-                                from 1 to 10 subexpressions, joined by the "||" or
-                                "&&" operators. Each subexpression must be of the
-                                form "resource.matchTag(''/tag_key_short_name, ''tag_value_short_name'')".
-                                or "resource.matchTagId(''tagKeys/key_id'', ''tagValues/value_id'')".
-                                where key_name and value_name are the resource names
-                                for Label Keys and Values. These names are available
-                                from the Tag Manager Service. An example expression
-                                is: "resource.matchTag(''123456789/environment, ''prod'')".
-                                or "resource.matchTagId(''tagKeys/123'', ''tagValues/456'')".'
+                              description: |-
+                                A condition which determines whether this rule is used in the evaluation of the policy. When set, the expression field in the `Expr' must include from 1 to 10 subexpressions, joined by the "||" or "&&" operators. Each subexpression must be of the form "resource.matchTag('/tag_key_short_name, 'tag_value_short_name')". or "resource.matchTagId('tagKeys/key_id', 'tagValues/value_id')". where key_name and value_name are the resource names for Label Keys and Values. These names are available from the Tag Manager Service. An example expression is: "resource.matchTag('123456789/environment, 'prod')". or "resource.matchTagId('tagKeys/123', 'tagValues/456')".
+                                Structure is documented below.
                               properties:
                                 description:
                                   description: Optional. Description of the expression.
@@ -444,19 +406,19 @@ spec:
                               type: object
                             denyAll:
                               description: Setting this to "TRUE" means that all values
-                                are denied. This field can be set only in policies
+                                are denied. This field can be set only in Policies
                                 for list constraints.
                               type: string
                             enforce:
-                              description: If "TRUE", then the policy is enforced.
+                              description: If "TRUE", then the Policy is enforced.
                                 If "FALSE", then any configuration is acceptable.
-                                This field can be set only in policies for boolean
+                                This field can be set only in Policies for boolean
                                 constraints.
                               type: string
                             values:
-                              description: List of values to be used for this policy
-                                rule. This field can be set only in policies for list
-                                constraints.
+                              description: |-
+                                List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
+                                Structure is documented below.
                               properties:
                                 allowedValues:
                                   description: List of values allowed at this resource.
@@ -473,7 +435,9 @@ spec:
                         type: array
                     type: object
                   spec:
-                    description: Basic information about the Organization Policy.
+                    description: |-
+                      Basic information about the Organization Policy.
+                      Structure is documented below.
                     properties:
                       inheritFromParent:
                         description: Determines the inheritance behavior for this
@@ -493,33 +457,20 @@ spec:
                           be set to false.
                         type: boolean
                       rules:
-                        description: 'Up to 10 PolicyRules are allowed. In Policies
-                          for boolean constraints, the following requirements apply:
-                          - There must be one and only one PolicyRule where condition
-                          is unset. - BooleanPolicyRules with conditions must set
-                          enforced to the opposite of the PolicyRule without a condition.
-                          - During policy evaluation, PolicyRules with conditions
-                          that are true for a target resource take precedence.'
+                        description: |-
+                          Up to 10 PolicyRules are allowed. In Policies for boolean constraints, the following requirements apply: - There must be one and only one PolicyRule where condition is unset. - BooleanPolicyRules with conditions must set enforced to the opposite of the PolicyRule without a condition. - During policy evaluation, PolicyRules with conditions that are true for a target resource take precedence.
+                          Structure is documented below.
                         items:
                           properties:
                             allowAll:
                               description: Setting this to "TRUE" means that all values
-                                are allowed. This field can be set only in policies
+                                are allowed. This field can be set only in Policies
                                 for list constraints.
                               type: string
                             condition:
-                              description: 'A condition which determines whether this
-                                rule is used in the evaluation of the policy. When
-                                set, the expression field in the `Expr'' must include
-                                from 1 to 10 subexpressions, joined by the "||" or
-                                "&&" operators. Each subexpression must be of the
-                                form "resource.matchTag(''/tag_key_short_name, ''tag_value_short_name'')".
-                                or "resource.matchTagId(''tagKeys/key_id'', ''tagValues/value_id'')".
-                                where key_name and value_name are the resource names
-                                for Label Keys and Values. These names are available
-                                from the Tag Manager Service. An example expression
-                                is: "resource.matchTag(''123456789/environment, ''prod'')".
-                                or "resource.matchTagId(''tagKeys/123'', ''tagValues/456'')".'
+                              description: |-
+                                A condition which determines whether this rule is used in the evaluation of the policy. When set, the expression field in the `Expr' must include from 1 to 10 subexpressions, joined by the "||" or "&&" operators. Each subexpression must be of the form "resource.matchTag('/tag_key_short_name, 'tag_value_short_name')". or "resource.matchTagId('tagKeys/key_id', 'tagValues/value_id')". where key_name and value_name are the resource names for Label Keys and Values. These names are available from the Tag Manager Service. An example expression is: "resource.matchTag('123456789/environment, 'prod')". or "resource.matchTagId('tagKeys/123', 'tagValues/456')".
+                                Structure is documented below.
                               properties:
                                 description:
                                   description: Optional. Description of the expression.
@@ -544,19 +495,19 @@ spec:
                               type: object
                             denyAll:
                               description: Setting this to "TRUE" means that all values
-                                are denied. This field can be set only in policies
+                                are denied. This field can be set only in Policies
                                 for list constraints.
                               type: string
                             enforce:
-                              description: If "TRUE", then the policy is enforced.
+                              description: If "TRUE", then the Policy is enforced.
                                 If "FALSE", then any configuration is acceptable.
-                                This field can be set only in policies for boolean
+                                This field can be set only in Policies for boolean
                                 constraints.
                               type: string
                             values:
-                              description: List of values to be used for this policy
-                                rule. This field can be set only in policies for list
-                                constraints.
+                              description: |-
+                                List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
+                                Structure is documented below.
                               properties:
                                 allowedValues:
                                   description: List of values allowed at this resource.
@@ -746,19 +697,14 @@ spec:
               atProvider:
                 properties:
                   dryRunSpec:
-                    description: Dry-run policy. Audit-only policy, can be used to
-                      monitor how the policy would have impacted the existing and
-                      future resources if it's enforced.
+                    description: |-
+                      Dry-run policy. Audit-only policy, can be used to monitor how the policy would have impacted the existing and future resources if it's enforced.
+                      Structure is documented below.
                     properties:
                       etag:
-                        description: An opaque tag indicating the current version
-                          of the policy, used for concurrency control. This field
-                          is ignored if used in a CreatePolicy request. When the policyis
-                          returned from either aGetPolicyor aListPoliciesrequest,
-                          thisetagindicates the version of the current policy to use
-                          when executing a read-modify-write loop. When the policy
-                          is returned from aGetEffectivePolicyrequest, theetag` will
-                          be unset.
+                        description: |-
+                          (Output)
+                          An opaque tag indicating the current version of the policy, used for concurrency control. This field is ignored if used in a CreatePolicy request. When the policyis returned from either aGetPolicyor aListPoliciesrequest, thisetagindicates the version of the current policy to use when executing a read-modify-write loop. When the policy is returned from aGetEffectivePolicyrequest, theetag` will be unset.
                         type: string
                       inheritFromParent:
                         description: Determines the inheritance behavior for this
@@ -778,33 +724,20 @@ spec:
                           be set to false.
                         type: boolean
                       rules:
-                        description: 'In policies for boolean constraints, the following
-                          requirements apply: - There must be one and only one policy
-                          rule where condition is unset. - Boolean policy rules with
-                          conditions must set enforced to the opposite of the policy
-                          rule without a condition. - During policy evaluation, policy
-                          rules with conditions that are true for a target resource
-                          take precedence.'
+                        description: |-
+                          In policies for boolean constraints, the following requirements apply: - There must be one and only one policy rule where condition is unset. - Boolean policy rules with conditions must set enforced to the opposite of the policy rule without a condition. - During policy evaluation, policy rules with conditions that are true for a target resource take precedence.
+                          Structure is documented below.
                         items:
                           properties:
                             allowAll:
                               description: Setting this to "TRUE" means that all values
-                                are allowed. This field can be set only in policies
+                                are allowed. This field can be set only in Policies
                                 for list constraints.
                               type: string
                             condition:
-                              description: 'A condition which determines whether this
-                                rule is used in the evaluation of the policy. When
-                                set, the expression field in the `Expr'' must include
-                                from 1 to 10 subexpressions, joined by the "||" or
-                                "&&" operators. Each subexpression must be of the
-                                form "resource.matchTag(''/tag_key_short_name, ''tag_value_short_name'')".
-                                or "resource.matchTagId(''tagKeys/key_id'', ''tagValues/value_id'')".
-                                where key_name and value_name are the resource names
-                                for Label Keys and Values. These names are available
-                                from the Tag Manager Service. An example expression
-                                is: "resource.matchTag(''123456789/environment, ''prod'')".
-                                or "resource.matchTagId(''tagKeys/123'', ''tagValues/456'')".'
+                              description: |-
+                                A condition which determines whether this rule is used in the evaluation of the policy. When set, the expression field in the `Expr' must include from 1 to 10 subexpressions, joined by the "||" or "&&" operators. Each subexpression must be of the form "resource.matchTag('/tag_key_short_name, 'tag_value_short_name')". or "resource.matchTagId('tagKeys/key_id', 'tagValues/value_id')". where key_name and value_name are the resource names for Label Keys and Values. These names are available from the Tag Manager Service. An example expression is: "resource.matchTag('123456789/environment, 'prod')". or "resource.matchTagId('tagKeys/123', 'tagValues/456')".
+                                Structure is documented below.
                               properties:
                                 description:
                                   description: Optional. Description of the expression.
@@ -829,19 +762,19 @@ spec:
                               type: object
                             denyAll:
                               description: Setting this to "TRUE" means that all values
-                                are denied. This field can be set only in policies
+                                are denied. This field can be set only in Policies
                                 for list constraints.
                               type: string
                             enforce:
-                              description: If "TRUE", then the policy is enforced.
+                              description: If "TRUE", then the Policy is enforced.
                                 If "FALSE", then any configuration is acceptable.
-                                This field can be set only in policies for boolean
+                                This field can be set only in Policies for boolean
                                 constraints.
                               type: string
                             values:
-                              description: List of values to be used for this policy
-                                rule. This field can be set only in policies for list
-                                constraints.
+                              description: |-
+                                List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
+                                Structure is documented below.
                               properties:
                                 allowedValues:
                                   description: List of values allowed at this resource.
@@ -857,9 +790,9 @@ spec:
                           type: object
                         type: array
                       updateTime:
-                        description: Output only. The time stamp this was previously
-                          updated. This represents the last time a call to CreatePolicy
-                          or UpdatePolicy was made for that policy.
+                        description: |-
+                          (Output)
+                          Output only. The time stamp this was previously updated. This represents the last time a call to CreatePolicy or UpdatePolicy was made for that policy.
                         type: string
                     type: object
                   etag:
@@ -876,17 +809,14 @@ spec:
                     description: The parent of the resource.
                     type: string
                   spec:
-                    description: Basic information about the Organization Policy.
+                    description: |-
+                      Basic information about the Organization Policy.
+                      Structure is documented below.
                     properties:
                       etag:
-                        description: An opaque tag indicating the current version
-                          of the Policy, used for concurrency control. This field
-                          is ignored if used in a CreatePolicy request. When the Policy
-                          is returned from either a GetPolicy or a ListPolicies request,
-                          this etag indicates the version of the current Policy to
-                          use when executing a read-modify-write loop. When the Policy
-                          is returned from a GetEffectivePolicy request, the etag
-                          will be unset.
+                        description: |-
+                          (Output)
+                          An opaque tag indicating the current version of the Policy, used for concurrency control. This field is ignored if used in a CreatePolicy request. When the Policy is returned from either a GetPolicy or a ListPolicies request, this etag indicates the version of the current Policy to use when executing a read-modify-write loop. When the Policy is returned from a GetEffectivePolicy request, the etag will be unset.
                         type: string
                       inheritFromParent:
                         description: Determines the inheritance behavior for this
@@ -906,33 +836,20 @@ spec:
                           be set to false.
                         type: boolean
                       rules:
-                        description: 'Up to 10 PolicyRules are allowed. In Policies
-                          for boolean constraints, the following requirements apply:
-                          - There must be one and only one PolicyRule where condition
-                          is unset. - BooleanPolicyRules with conditions must set
-                          enforced to the opposite of the PolicyRule without a condition.
-                          - During policy evaluation, PolicyRules with conditions
-                          that are true for a target resource take precedence.'
+                        description: |-
+                          Up to 10 PolicyRules are allowed. In Policies for boolean constraints, the following requirements apply: - There must be one and only one PolicyRule where condition is unset. - BooleanPolicyRules with conditions must set enforced to the opposite of the PolicyRule without a condition. - During policy evaluation, PolicyRules with conditions that are true for a target resource take precedence.
+                          Structure is documented below.
                         items:
                           properties:
                             allowAll:
                               description: Setting this to "TRUE" means that all values
-                                are allowed. This field can be set only in policies
+                                are allowed. This field can be set only in Policies
                                 for list constraints.
                               type: string
                             condition:
-                              description: 'A condition which determines whether this
-                                rule is used in the evaluation of the policy. When
-                                set, the expression field in the `Expr'' must include
-                                from 1 to 10 subexpressions, joined by the "||" or
-                                "&&" operators. Each subexpression must be of the
-                                form "resource.matchTag(''/tag_key_short_name, ''tag_value_short_name'')".
-                                or "resource.matchTagId(''tagKeys/key_id'', ''tagValues/value_id'')".
-                                where key_name and value_name are the resource names
-                                for Label Keys and Values. These names are available
-                                from the Tag Manager Service. An example expression
-                                is: "resource.matchTag(''123456789/environment, ''prod'')".
-                                or "resource.matchTagId(''tagKeys/123'', ''tagValues/456'')".'
+                              description: |-
+                                A condition which determines whether this rule is used in the evaluation of the policy. When set, the expression field in the `Expr' must include from 1 to 10 subexpressions, joined by the "||" or "&&" operators. Each subexpression must be of the form "resource.matchTag('/tag_key_short_name, 'tag_value_short_name')". or "resource.matchTagId('tagKeys/key_id', 'tagValues/value_id')". where key_name and value_name are the resource names for Label Keys and Values. These names are available from the Tag Manager Service. An example expression is: "resource.matchTag('123456789/environment, 'prod')". or "resource.matchTagId('tagKeys/123', 'tagValues/456')".
+                                Structure is documented below.
                               properties:
                                 description:
                                   description: Optional. Description of the expression.
@@ -957,19 +874,19 @@ spec:
                               type: object
                             denyAll:
                               description: Setting this to "TRUE" means that all values
-                                are denied. This field can be set only in policies
+                                are denied. This field can be set only in Policies
                                 for list constraints.
                               type: string
                             enforce:
-                              description: If "TRUE", then the policy is enforced.
+                              description: If "TRUE", then the Policy is enforced.
                                 If "FALSE", then any configuration is acceptable.
-                                This field can be set only in policies for boolean
+                                This field can be set only in Policies for boolean
                                 constraints.
                               type: string
                             values:
-                              description: List of values to be used for this policy
-                                rule. This field can be set only in policies for list
-                                constraints.
+                              description: |-
+                                List of values to be used for this PolicyRule. This field can be set only in Policies for list constraints.
+                                Structure is documented below.
                               properties:
                                 allowedValues:
                                   description: List of values allowed at this resource.
@@ -985,9 +902,9 @@ spec:
                           type: object
                         type: array
                       updateTime:
-                        description: Output only. The time stamp this was previously
-                          updated. This represents the last time a call to CreatePolicy
-                          or UpdatePolicy was made for that Policy.
+                        description: |-
+                          (Output)
+                          Output only. The time stamp this was previously updated. This represents the last time a call to CreatePolicy or UpdatePolicy was made for that Policy.
                         type: string
                     type: object
                 type: object

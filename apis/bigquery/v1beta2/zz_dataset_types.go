@@ -291,10 +291,30 @@ type DatasetInitParameters struct {
 
 	// The default partition expiration for all partitioned tables in
 	// the dataset, in milliseconds.
+	// Once this property is set, all newly-created partitioned tables in
+	// the dataset will have an expirationMs property in the timePartitioning
+	// settings set to this value, and changing the value will only
+	// affect new tables, not existing ones. The storage in a partition will
+	// have an expiration time of its partition time plus this value.
+	// Setting this property overrides the use of defaultTableExpirationMs
+	// for partitioned tables: only one of defaultTableExpirationMs and
+	// defaultPartitionExpirationMs will be used for any new partitioned
+	// table. If you provide an explicit timePartitioning.expirationMs when
+	// creating or updating a partitioned table, that value takes precedence
+	// over the default partition expiration time indicated by this property.
 	DefaultPartitionExpirationMs *float64 `json:"defaultPartitionExpirationMs,omitempty" tf:"default_partition_expiration_ms,omitempty"`
 
 	// The default lifetime of all tables in the dataset, in milliseconds.
 	// The minimum value is 3600000 milliseconds (one hour).
+	// Once this property is set, all newly-created tables in the dataset
+	// will have an expirationTime property set to the creation time plus
+	// the value in this property, and changing the value will only affect
+	// new tables, not existing ones. When the expirationTime for a given
+	// table is reached, that table will be deleted automatically.
+	// If a table's expirationTime is modified or removed before the
+	// table expires, or if you provide an explicit expirationTime when
+	// creating a table, that value takes precedence over the default
+	// expiration time indicated by this property.
 	DefaultTableExpirationMs *float64 `json:"defaultTableExpirationMs,omitempty" tf:"default_table_expiration_ms,omitempty"`
 
 	// If set to true, delete all the tables in the
@@ -324,6 +344,12 @@ type DatasetInitParameters struct {
 
 	// The geographic location where the dataset should reside.
 	// See official docs.
+	// There are two types of locations, regional or multi-regional. A regional
+	// location is a specific geographic place, such as Tokyo, and a multi-regional
+	// location is a large geographic area, such as the United States, that
+	// contains at least two geographic places.
+	// The default value is multi-regional location US.
+	// Changing this forces a new resource to be created.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// Defines the time travel window in hours. The value can be from 48 to 168 hours (2 to 7 days).
@@ -363,10 +389,30 @@ type DatasetObservation struct {
 
 	// The default partition expiration for all partitioned tables in
 	// the dataset, in milliseconds.
+	// Once this property is set, all newly-created partitioned tables in
+	// the dataset will have an expirationMs property in the timePartitioning
+	// settings set to this value, and changing the value will only
+	// affect new tables, not existing ones. The storage in a partition will
+	// have an expiration time of its partition time plus this value.
+	// Setting this property overrides the use of defaultTableExpirationMs
+	// for partitioned tables: only one of defaultTableExpirationMs and
+	// defaultPartitionExpirationMs will be used for any new partitioned
+	// table. If you provide an explicit timePartitioning.expirationMs when
+	// creating or updating a partitioned table, that value takes precedence
+	// over the default partition expiration time indicated by this property.
 	DefaultPartitionExpirationMs *float64 `json:"defaultPartitionExpirationMs,omitempty" tf:"default_partition_expiration_ms,omitempty"`
 
 	// The default lifetime of all tables in the dataset, in milliseconds.
 	// The minimum value is 3600000 milliseconds (one hour).
+	// Once this property is set, all newly-created tables in the dataset
+	// will have an expirationTime property set to the creation time plus
+	// the value in this property, and changing the value will only affect
+	// new tables, not existing ones. When the expirationTime for a given
+	// table is reached, that table will be deleted automatically.
+	// If a table's expirationTime is modified or removed before the
+	// table expires, or if you provide an explicit expirationTime when
+	// creating a table, that value takes precedence over the default
+	// expiration time indicated by this property.
 	DefaultTableExpirationMs *float64 `json:"defaultTableExpirationMs,omitempty" tf:"default_table_expiration_ms,omitempty"`
 
 	// If set to true, delete all the tables in the
@@ -410,6 +456,12 @@ type DatasetObservation struct {
 
 	// The geographic location where the dataset should reside.
 	// See official docs.
+	// There are two types of locations, regional or multi-regional. A regional
+	// location is a specific geographic place, such as Tokyo, and a multi-regional
+	// location is a large geographic area, such as the United States, that
+	// contains at least two geographic places.
+	// The default value is multi-regional location US.
+	// Changing this forces a new resource to be created.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// Defines the time travel window in hours. The value can be from 48 to 168 hours (2 to 7 days).
@@ -460,11 +512,31 @@ type DatasetParameters struct {
 
 	// The default partition expiration for all partitioned tables in
 	// the dataset, in milliseconds.
+	// Once this property is set, all newly-created partitioned tables in
+	// the dataset will have an expirationMs property in the timePartitioning
+	// settings set to this value, and changing the value will only
+	// affect new tables, not existing ones. The storage in a partition will
+	// have an expiration time of its partition time plus this value.
+	// Setting this property overrides the use of defaultTableExpirationMs
+	// for partitioned tables: only one of defaultTableExpirationMs and
+	// defaultPartitionExpirationMs will be used for any new partitioned
+	// table. If you provide an explicit timePartitioning.expirationMs when
+	// creating or updating a partitioned table, that value takes precedence
+	// over the default partition expiration time indicated by this property.
 	// +kubebuilder:validation:Optional
 	DefaultPartitionExpirationMs *float64 `json:"defaultPartitionExpirationMs,omitempty" tf:"default_partition_expiration_ms,omitempty"`
 
 	// The default lifetime of all tables in the dataset, in milliseconds.
 	// The minimum value is 3600000 milliseconds (one hour).
+	// Once this property is set, all newly-created tables in the dataset
+	// will have an expirationTime property set to the creation time plus
+	// the value in this property, and changing the value will only affect
+	// new tables, not existing ones. When the expirationTime for a given
+	// table is reached, that table will be deleted automatically.
+	// If a table's expirationTime is modified or removed before the
+	// table expires, or if you provide an explicit expirationTime when
+	// creating a table, that value takes precedence over the default
+	// expiration time indicated by this property.
 	// +kubebuilder:validation:Optional
 	DefaultTableExpirationMs *float64 `json:"defaultTableExpirationMs,omitempty" tf:"default_table_expiration_ms,omitempty"`
 
@@ -501,6 +573,12 @@ type DatasetParameters struct {
 
 	// The geographic location where the dataset should reside.
 	// See official docs.
+	// There are two types of locations, regional or multi-regional. A regional
+	// location is a specific geographic place, such as Tokyo, and a multi-regional
+	// location is a large geographic area, such as the United States, that
+	// contains at least two geographic places.
+	// The default value is multi-regional location US.
+	// Changing this forces a new resource to be created.
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 

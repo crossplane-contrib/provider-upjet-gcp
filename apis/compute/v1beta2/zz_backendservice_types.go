@@ -21,6 +21,7 @@ type BackendInitParameters struct {
 	// and CONNECTION (for TCP/SSL).
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
+	// From version 6.0.0 default value will be UTILIZATION to match default GCP value.
 	// Default value is UTILIZATION.
 	// Possible values are: UTILIZATION, RATE, CONNECTION.
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
@@ -118,6 +119,7 @@ type BackendObservation struct {
 	// and CONNECTION (for TCP/SSL).
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
+	// From version 6.0.0 default value will be UTILIZATION to match default GCP value.
 	// Default value is UTILIZATION.
 	// Possible values are: UTILIZATION, RATE, CONNECTION.
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
@@ -205,6 +207,7 @@ type BackendParameters struct {
 	// and CONNECTION (for TCP/SSL).
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
+	// From version 6.0.0 default value will be UTILIZATION to match default GCP value.
 	// Default value is UTILIZATION.
 	// Possible values are: UTILIZATION, RATE, CONNECTION.
 	// +kubebuilder:validation:Optional
@@ -574,6 +577,8 @@ type BackendServiceInitParameters struct {
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
 	// Applicable backend service types can be a global backend service with the
 	// loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
+	// From version 6.0.
+	// Default values are enforce by GCP without providing them.
 	// Structure is documented below.
 	OutlierDetection *OutlierDetectionInitParameters `json:"outlierDetection,omitempty" tf:"outlier_detection,omitempty"`
 
@@ -604,13 +609,19 @@ type BackendServiceInitParameters struct {
 	// Structure is documented below.
 	SecuritySettings *SecuritySettingsInitParameters `json:"securitySettings,omitempty" tf:"security_settings,omitempty"`
 
+	// URL to networkservices.ServiceLbPolicy resource.
+	// Can only be set if load balancing scheme is EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED and the scope is global.
+	ServiceLBPolicy *string `json:"serviceLbPolicy,omitempty" tf:"service_lb_policy,omitempty"`
+
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
 	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE.
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
 
-	// How many seconds to wait for the backend before considering it a
-	// failed request. Default is 30 seconds. Valid range is [1, 86400].
+	// The backend service timeout has a different meaning depending on the type of load balancer.
+	// For more information see, Backend service settings.
+	// The default is 30 seconds.
+	// The full range of timeout values allowed goes from 1 through 2,147,483,647 seconds.
 	TimeoutSec *float64 `json:"timeoutSec,omitempty" tf:"timeout_sec,omitempty"`
 }
 
@@ -729,6 +740,8 @@ type BackendServiceObservation struct {
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
 	// Applicable backend service types can be a global backend service with the
 	// loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
+	// From version 6.0.
+	// Default values are enforce by GCP without providing them.
 	// Structure is documented below.
 	OutlierDetection *OutlierDetectionObservation `json:"outlierDetection,omitempty" tf:"outlier_detection,omitempty"`
 
@@ -762,13 +775,19 @@ type BackendServiceObservation struct {
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// URL to networkservices.ServiceLbPolicy resource.
+	// Can only be set if load balancing scheme is EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED and the scope is global.
+	ServiceLBPolicy *string `json:"serviceLbPolicy,omitempty" tf:"service_lb_policy,omitempty"`
+
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
 	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE.
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
 
-	// How many seconds to wait for the backend before considering it a
-	// failed request. Default is 30 seconds. Valid range is [1, 86400].
+	// The backend service timeout has a different meaning depending on the type of load balancer.
+	// For more information see, Backend service settings.
+	// The default is 30 seconds.
+	// The full range of timeout values allowed goes from 1 through 2,147,483,647 seconds.
 	TimeoutSec *float64 `json:"timeoutSec,omitempty" tf:"timeout_sec,omitempty"`
 }
 
@@ -902,6 +921,8 @@ type BackendServiceParameters struct {
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
 	// Applicable backend service types can be a global backend service with the
 	// loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
+	// From version 6.0.
+	// Default values are enforce by GCP without providing them.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	OutlierDetection *OutlierDetectionParameters `json:"outlierDetection,omitempty" tf:"outlier_detection,omitempty"`
@@ -938,14 +959,21 @@ type BackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	SecuritySettings *SecuritySettingsParameters `json:"securitySettings,omitempty" tf:"security_settings,omitempty"`
 
+	// URL to networkservices.ServiceLbPolicy resource.
+	// Can only be set if load balancing scheme is EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED and the scope is global.
+	// +kubebuilder:validation:Optional
+	ServiceLBPolicy *string `json:"serviceLbPolicy,omitempty" tf:"service_lb_policy,omitempty"`
+
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
 	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE.
 	// +kubebuilder:validation:Optional
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
 
-	// How many seconds to wait for the backend before considering it a
-	// failed request. Default is 30 seconds. Valid range is [1, 86400].
+	// The backend service timeout has a different meaning depending on the type of load balancer.
+	// For more information see, Backend service settings.
+	// The default is 30 seconds.
+	// The full range of timeout values allowed goes from 1 through 2,147,483,647 seconds.
 	// +kubebuilder:validation:Optional
 	TimeoutSec *float64 `json:"timeoutSec,omitempty" tf:"timeout_sec,omitempty"`
 }

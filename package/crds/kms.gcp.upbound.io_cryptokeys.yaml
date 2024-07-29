@@ -662,7 +662,7 @@ spec:
                   destroyScheduledDuration:
                     description: |-
                       The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED.
-                      If not specified at creation time, the default duration is 24 hours.
+                      If not specified at creation time, the default duration is 30 days.
                     type: string
                   importOnly:
                     description: Whether this key may contain imported versions only.
@@ -770,7 +770,8 @@ spec:
                   skipInitialVersionCreation:
                     description: |-
                       If set to true, the request will create a CryptoKey without any CryptoKeyVersions.
-                      You must use the google_kms_key_ring_import_job resource to import the CryptoKeyVersion.
+                      You must use the google_kms_crypto_key_version resource to create a new CryptoKeyVersion
+                      or google_kms_key_ring_import_job resource to import the CryptoKeyVersion.
                     type: boolean
                   versionTemplate:
                     description: |-
@@ -810,7 +811,7 @@ spec:
                   destroyScheduledDuration:
                     description: |-
                       The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED.
-                      If not specified at creation time, the default duration is 24 hours.
+                      If not specified at creation time, the default duration is 30 days.
                     type: string
                   importOnly:
                     description: Whether this key may contain imported versions only.
@@ -839,7 +840,8 @@ spec:
                   skipInitialVersionCreation:
                     description: |-
                       If set to true, the request will create a CryptoKey without any CryptoKeyVersions.
-                      You must use the google_kms_key_ring_import_job resource to import the CryptoKeyVersion.
+                      You must use the google_kms_crypto_key_version resource to create a new CryptoKeyVersion
+                      or google_kms_key_ring_import_job resource to import the CryptoKeyVersion.
                     type: boolean
                   versionTemplate:
                     description: |-
@@ -1038,7 +1040,7 @@ spec:
                   destroyScheduledDuration:
                     description: |-
                       The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED.
-                      If not specified at creation time, the default duration is 24 hours.
+                      If not specified at creation time, the default duration is 30 days.
                     type: string
                   effectiveLabels:
                     additionalProperties:
@@ -1100,7 +1102,8 @@ spec:
                   skipInitialVersionCreation:
                     description: |-
                       If set to true, the request will create a CryptoKey without any CryptoKeyVersions.
-                      You must use the google_kms_key_ring_import_job resource to import the CryptoKeyVersion.
+                      You must use the google_kms_crypto_key_version resource to create a new CryptoKeyVersion
+                      or google_kms_key_ring_import_job resource to import the CryptoKeyVersion.
                     type: boolean
                   terraformLabels:
                     additionalProperties:

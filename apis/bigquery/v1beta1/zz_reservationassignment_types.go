@@ -24,7 +24,8 @@ type ReservationAssignmentInitParameters struct {
 	// The location for the resource
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -45,13 +46,15 @@ type ReservationAssignmentObservation struct {
 	// Output only. The resource name of the assignment.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The reservation for the resource
 	Reservation *string `json:"reservation,omitempty" tf:"reservation,omitempty"`
 
-	// Assignment will remain in PENDING state if no active capacity commitment is present. It will become ACTIVE when some capacity commitment becomes active. Possible values: STATE_UNSPECIFIED, PENDING, ACTIVE
+	// Assignment will remain in PENDING state if no active capacity commitment is present. It will become ACTIVE when some capacity commitment becomes active.
+	// Possible values: STATE_UNSPECIFIED, PENDING, ACTIVE
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
 
@@ -69,7 +72,8 @@ type ReservationAssignmentParameters struct {
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -115,7 +119,7 @@ type ReservationAssignmentStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// ReservationAssignment is the Schema for the ReservationAssignments API. The BigqueryReservation Assignment resource
+// ReservationAssignment is the Schema for the ReservationAssignments API. The BigqueryReservation Assignment resource.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

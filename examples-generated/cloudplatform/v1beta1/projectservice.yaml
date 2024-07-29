@@ -8,7 +8,7 @@ metadata:
   name: project
 spec:
   forProvider:
-    disableDependentServices: true
+    disableOnDestroy: false
     projectSelector:
       matchLabels:
         testing.upbound.io/example-name: example

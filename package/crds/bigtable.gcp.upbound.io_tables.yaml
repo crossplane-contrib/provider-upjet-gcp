@@ -73,6 +73,13 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  automatedBackupPolicy:
+                    properties:
+                      frequency:
+                        type: string
+                      retentionPeriod:
+                        type: string
+                    type: object
                   changeStreamRetention:
                     description: Duration to retain change stream data for the table.
                       Set to 0 to disable. Must be between 1 and 7 days.
@@ -196,6 +203,13 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  automatedBackupPolicy:
+                    properties:
+                      frequency:
+                        type: string
+                      retentionPeriod:
+                        type: string
+                    type: object
                   changeStreamRetention:
                     description: Duration to retain change stream data for the table.
                       Set to 0 to disable. Must be between 1 and 7 days.
@@ -401,6 +415,13 @@ spec:
             properties:
               atProvider:
                 properties:
+                  automatedBackupPolicy:
+                    properties:
+                      frequency:
+                        type: string
+                      retentionPeriod:
+                        type: string
+                    type: object
                   changeStreamRetention:
                     description: Duration to retain change stream data for the table.
                       Set to 0 to disable. Must be between 1 and 7 days.

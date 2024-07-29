@@ -187,6 +187,28 @@ type ExprObservation struct {
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
 }
 
+type ExprOptionsInitParameters struct {
+
+	// reCAPTCHA configuration options to be applied for the rule. If the rule does not evaluate reCAPTCHA tokens, this field has no effect.
+	// Structure is documented below.
+	RecaptchaOptions *RecaptchaOptionsInitParameters `json:"recaptchaOptions,omitempty" tf:"recaptcha_options,omitempty"`
+}
+
+type ExprOptionsObservation struct {
+
+	// reCAPTCHA configuration options to be applied for the rule. If the rule does not evaluate reCAPTCHA tokens, this field has no effect.
+	// Structure is documented below.
+	RecaptchaOptions *RecaptchaOptionsObservation `json:"recaptchaOptions,omitempty" tf:"recaptcha_options,omitempty"`
+}
+
+type ExprOptionsParameters struct {
+
+	// reCAPTCHA configuration options to be applied for the rule. If the rule does not evaluate reCAPTCHA tokens, this field has no effect.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RecaptchaOptions *RecaptchaOptionsParameters `json:"recaptchaOptions" tf:"recaptcha_options,omitempty"`
+}
+
 type ExprParameters struct {
 
 	// Textual representation of an expression in Common Expression Language syntax.
@@ -404,6 +426,35 @@ type RecaptchaOptionsConfigParameters struct {
 	RedirectSiteKey *string `json:"redirectSiteKey" tf:"redirect_site_key,omitempty"`
 }
 
+type RecaptchaOptionsInitParameters struct {
+
+	// A list of site keys to be used during the validation of reCAPTCHA action-tokens. The provided site keys need to be created from reCAPTCHA API under the same project where the security policy is created.
+	ActionTokenSiteKeys []*string `json:"actionTokenSiteKeys,omitempty" tf:"action_token_site_keys,omitempty"`
+
+	// A list of site keys to be used during the validation of reCAPTCHA session-tokens. The provided site keys need to be created from reCAPTCHA API under the same project where the security policy is created.
+	SessionTokenSiteKeys []*string `json:"sessionTokenSiteKeys,omitempty" tf:"session_token_site_keys,omitempty"`
+}
+
+type RecaptchaOptionsObservation struct {
+
+	// A list of site keys to be used during the validation of reCAPTCHA action-tokens. The provided site keys need to be created from reCAPTCHA API under the same project where the security policy is created.
+	ActionTokenSiteKeys []*string `json:"actionTokenSiteKeys,omitempty" tf:"action_token_site_keys,omitempty"`
+
+	// A list of site keys to be used during the validation of reCAPTCHA session-tokens. The provided site keys need to be created from reCAPTCHA API under the same project where the security policy is created.
+	SessionTokenSiteKeys []*string `json:"sessionTokenSiteKeys,omitempty" tf:"session_token_site_keys,omitempty"`
+}
+
+type RecaptchaOptionsParameters struct {
+
+	// A list of site keys to be used during the validation of reCAPTCHA action-tokens. The provided site keys need to be created from reCAPTCHA API under the same project where the security policy is created.
+	// +kubebuilder:validation:Optional
+	ActionTokenSiteKeys []*string `json:"actionTokenSiteKeys,omitempty" tf:"action_token_site_keys,omitempty"`
+
+	// A list of site keys to be used during the validation of reCAPTCHA session-tokens. The provided site keys need to be created from reCAPTCHA API under the same project where the security policy is created.
+	// +kubebuilder:validation:Optional
+	SessionTokenSiteKeys []*string `json:"sessionTokenSiteKeys,omitempty" tf:"session_token_site_keys,omitempty"`
+}
+
 type RedirectOptionsInitParameters struct {
 
 	// Target for the redirect action. This is required if the type is EXTERNAL_302 and cannot be specified for GOOGLE_RECAPTCHA.
@@ -523,6 +574,10 @@ type RuleMatchInitParameters struct {
 	// Structure is documented below.
 	Expr *ExprInitParameters `json:"expr,omitempty" tf:"expr,omitempty"`
 
+	// The configuration options available when specifying a user defined CEVAL expression (i.e., 'expr').
+	// Structure is documented below.
+	ExprOptions *ExprOptionsInitParameters `json:"exprOptions,omitempty" tf:"expr_options,omitempty"`
+
 	// Predefined rule expression. If this field is specified, config must also be specified.
 	// Available options:
 	VersionedExpr *string `json:"versionedExpr,omitempty" tf:"versioned_expr,omitempty"`
@@ -539,6 +594,10 @@ type RuleMatchObservation struct {
 	// such as origin.ip, source.region_code and contents in the request header.
 	// Structure is documented below.
 	Expr *ExprObservation `json:"expr,omitempty" tf:"expr,omitempty"`
+
+	// The configuration options available when specifying a user defined CEVAL expression (i.e., 'expr').
+	// Structure is documented below.
+	ExprOptions *ExprOptionsObservation `json:"exprOptions,omitempty" tf:"expr_options,omitempty"`
 
 	// Predefined rule expression. If this field is specified, config must also be specified.
 	// Available options:
@@ -558,6 +617,11 @@ type RuleMatchParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Expr *ExprParameters `json:"expr,omitempty" tf:"expr,omitempty"`
+
+	// The configuration options available when specifying a user defined CEVAL expression (i.e., 'expr').
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ExprOptions *ExprOptionsParameters `json:"exprOptions,omitempty" tf:"expr_options,omitempty"`
 
 	// Predefined rule expression. If this field is specified, config must also be specified.
 	// Available options:

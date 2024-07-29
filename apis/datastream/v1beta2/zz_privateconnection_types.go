@@ -31,6 +31,9 @@ type ErrorParameters struct {
 
 type PrivateConnectionInitParameters struct {
 
+	// If set to true, will skip validations.
+	CreateWithoutValidation *bool `json:"createWithoutValidation,omitempty" tf:"create_without_validation,omitempty"`
+
 	// Display name.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -51,6 +54,9 @@ type PrivateConnectionInitParameters struct {
 }
 
 type PrivateConnectionObservation struct {
+
+	// If set to true, will skip validations.
+	CreateWithoutValidation *bool `json:"createWithoutValidation,omitempty" tf:"create_without_validation,omitempty"`
 
 	// Display name.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -96,6 +102,10 @@ type PrivateConnectionObservation struct {
 }
 
 type PrivateConnectionParameters struct {
+
+	// If set to true, will skip validations.
+	// +kubebuilder:validation:Optional
+	CreateWithoutValidation *bool `json:"createWithoutValidation,omitempty" tf:"create_without_validation,omitempty"`
 
 	// Display name.
 	// +kubebuilder:validation:Optional

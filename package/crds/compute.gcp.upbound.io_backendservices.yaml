@@ -2802,6 +2802,7 @@ spec:
                             and CONNECTION (for TCP/SSL).
                             See the Backend Services Overview
                             for an explanation of load balancing modes.
+                            From version 6.0.0 default value will be UTILIZATION to match default GCP value.
                             Default value is UTILIZATION.
                             Possible values are: UTILIZATION, RATE, CONNECTION.
                           type: string
@@ -3450,6 +3451,8 @@ spec:
                       Settings controlling eviction of unhealthy hosts from the load balancing pool.
                       Applicable backend service types can be a global backend service with the
                       loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
+                      From version 6.0.
+                      Default values are enforce by GCP without providing them.
                       Structure is documented below.
                     properties:
                       baseEjectionTime:
@@ -3598,6 +3601,11 @@ spec:
                           type: string
                         type: array
                     type: object
+                  serviceLbPolicy:
+                    description: |-
+                      URL to networkservices.ServiceLbPolicy resource.
+                      Can only be set if load balancing scheme is EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED and the scope is global.
+                    type: string
                   sessionAffinity:
                     description: |-
                       Type of session affinity to use. The default is NONE. Session affinity is
@@ -3606,8 +3614,10 @@ spec:
                     type: string
                   timeoutSec:
                     description: |-
-                      How many seconds to wait for the backend before considering it a
-                      failed request. Default is 30 seconds. Valid range is [1, 86400].
+                      The backend service timeout has a different meaning depending on the type of load balancer.
+                      For more information see, Backend service settings.
+                      The default is 30 seconds.
+                      The full range of timeout values allowed goes from 1 through 2,147,483,647 seconds.
                     type: number
                 type: object
               initProvider:
@@ -3645,6 +3655,7 @@ spec:
                             and CONNECTION (for TCP/SSL).
                             See the Backend Services Overview
                             for an explanation of load balancing modes.
+                            From version 6.0.0 default value will be UTILIZATION to match default GCP value.
                             Default value is UTILIZATION.
                             Possible values are: UTILIZATION, RATE, CONNECTION.
                           type: string
@@ -4295,6 +4306,8 @@ spec:
                       Settings controlling eviction of unhealthy hosts from the load balancing pool.
                       Applicable backend service types can be a global backend service with the
                       loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
+                      From version 6.0.
+                      Default values are enforce by GCP without providing them.
                       Structure is documented below.
                     properties:
                       baseEjectionTime:
@@ -4443,6 +4456,11 @@ spec:
                           type: string
                         type: array
                     type: object
+                  serviceLbPolicy:
+                    description: |-
+                      URL to networkservices.ServiceLbPolicy resource.
+                      Can only be set if load balancing scheme is EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED and the scope is global.
+                    type: string
                   sessionAffinity:
                     description: |-
                       Type of session affinity to use. The default is NONE. Session affinity is
@@ -4451,8 +4469,10 @@ spec:
                     type: string
                   timeoutSec:
                     description: |-
-                      How many seconds to wait for the backend before considering it a
-                      failed request. Default is 30 seconds. Valid range is [1, 86400].
+                      The backend service timeout has a different meaning depending on the type of load balancer.
+                      For more information see, Backend service settings.
+                      The default is 30 seconds.
+                      The full range of timeout values allowed goes from 1 through 2,147,483,647 seconds.
                     type: number
                 type: object
               managementPolicies:
@@ -4649,6 +4669,7 @@ spec:
                             and CONNECTION (for TCP/SSL).
                             See the Backend Services Overview
                             for an explanation of load balancing modes.
+                            From version 6.0.0 default value will be UTILIZATION to match default GCP value.
                             Default value is UTILIZATION.
                             Possible values are: UTILIZATION, RATE, CONNECTION.
                           type: string
@@ -5138,6 +5159,8 @@ spec:
                       Settings controlling eviction of unhealthy hosts from the load balancing pool.
                       Applicable backend service types can be a global backend service with the
                       loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
+                      From version 6.0.
+                      Default values are enforce by GCP without providing them.
                       Structure is documented below.
                     properties:
                       baseEjectionTime:
@@ -5289,6 +5312,11 @@ spec:
                   selfLink:
                     description: The URI of the created resource.
                     type: string
+                  serviceLbPolicy:
+                    description: |-
+                      URL to networkservices.ServiceLbPolicy resource.
+                      Can only be set if load balancing scheme is EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED and the scope is global.
+                    type: string
                   sessionAffinity:
                     description: |-
                       Type of session affinity to use. The default is NONE. Session affinity is
@@ -5297,8 +5325,10 @@ spec:
                     type: string
                   timeoutSec:
                     description: |-
-                      How many seconds to wait for the backend before considering it a
-                      failed request. Default is 30 seconds. Valid range is [1, 86400].
+                      The backend service timeout has a different meaning depending on the type of load balancer.
+                      For more information see, Backend service settings.
+                      The default is 30 seconds.
+                      The full range of timeout values allowed goes from 1 through 2,147,483,647 seconds.
                     type: number
                 type: object
               conditions:

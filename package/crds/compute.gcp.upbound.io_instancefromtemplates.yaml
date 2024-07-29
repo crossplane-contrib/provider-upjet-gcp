@@ -1989,6 +1989,8 @@ spec:
                     type: boolean
                   confidentialInstanceConfig:
                     properties:
+                      confidentialInstanceType:
+                        type: string
                       enableConfidentialCompute:
                         type: boolean
                     type: object
@@ -2302,6 +2304,13 @@ spec:
                           seconds:
                             type: number
                         type: object
+                      maxRunDuration:
+                        properties:
+                          nanos:
+                            type: number
+                          seconds:
+                            type: number
+                        type: object
                       minNodeCpus:
                         type: number
                       nodeAffinities:
@@ -2320,6 +2329,11 @@ spec:
                         type: array
                       onHostMaintenance:
                         type: string
+                      onInstanceStopAction:
+                        properties:
+                          discardLocalSsd:
+                            type: boolean
+                        type: object
                       preemptible:
                         type: boolean
                       provisioningModel:
@@ -2559,6 +2573,8 @@ spec:
                     type: boolean
                   confidentialInstanceConfig:
                     properties:
+                      confidentialInstanceType:
+                        type: string
                       enableConfidentialCompute:
                         type: boolean
                     type: object
@@ -2872,6 +2888,13 @@ spec:
                           seconds:
                             type: number
                         type: object
+                      maxRunDuration:
+                        properties:
+                          nanos:
+                            type: number
+                          seconds:
+                            type: number
+                        type: object
                       minNodeCpus:
                         type: number
                       nodeAffinities:
@@ -2890,6 +2913,11 @@ spec:
                         type: array
                       onHostMaintenance:
                         type: string
+                      onInstanceStopAction:
+                        properties:
+                          discardLocalSsd:
+                            type: boolean
+                        type: object
                       preemptible:
                         type: boolean
                       provisioningModel:
@@ -3278,6 +3306,8 @@ spec:
                     type: boolean
                   confidentialInstanceConfig:
                     properties:
+                      confidentialInstanceType:
+                        type: string
                       enableConfidentialCompute:
                         type: boolean
                     type: object
@@ -3463,6 +3493,13 @@ spec:
                           seconds:
                             type: number
                         type: object
+                      maxRunDuration:
+                        properties:
+                          nanos:
+                            type: number
+                          seconds:
+                            type: number
+                        type: object
                       minNodeCpus:
                         type: number
                       nodeAffinities:
@@ -3481,6 +3518,11 @@ spec:
                         type: array
                       onHostMaintenance:
                         type: string
+                      onInstanceStopAction:
+                        properties:
+                          discardLocalSsd:
+                            type: boolean
+                        type: object
                       preemptible:
                         type: boolean
                       provisioningModel:

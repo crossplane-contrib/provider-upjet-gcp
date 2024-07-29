@@ -420,6 +420,11 @@ func (in *BackupConfigInitParameters) DeepCopyInto(out *BackupConfigInitParamete
 		*out = new(bool)
 		**out = **in
 	}
+	if in.PermissiveMode != nil {
+		in, out := &in.PermissiveMode, &out.PermissiveMode
+		*out = new(bool)
+		**out = **in
+	}
 	if in.SelectedApplications != nil {
 		in, out := &in.SelectedApplications, &out.SelectedApplications
 		*out = new(SelectedApplicationsInitParameters)
@@ -465,6 +470,11 @@ func (in *BackupConfigObservation) DeepCopyInto(out *BackupConfigObservation) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.PermissiveMode != nil {
+		in, out := &in.PermissiveMode, &out.PermissiveMode
+		*out = new(bool)
+		**out = **in
+	}
 	if in.SelectedApplications != nil {
 		in, out := &in.SelectedApplications, &out.SelectedApplications
 		*out = new(SelectedApplicationsObservation)
@@ -507,6 +517,11 @@ func (in *BackupConfigParameters) DeepCopyInto(out *BackupConfigParameters) {
 	}
 	if in.IncludeVolumeData != nil {
 		in, out := &in.IncludeVolumeData, &out.IncludeVolumeData
+		*out = new(bool)
+		**out = **in
+	}
+	if in.PermissiveMode != nil {
+		in, out := &in.PermissiveMode, &out.PermissiveMode
 		*out = new(bool)
 		**out = **in
 	}

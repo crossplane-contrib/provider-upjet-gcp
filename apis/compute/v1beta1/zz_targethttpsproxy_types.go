@@ -16,13 +16,15 @@ import (
 type TargetHTTPSProxyInitParameters struct {
 
 	// URLs to certificate manager certificate resources that are used to authenticate connections between users and the load balancer.
-	// Currently, you may specify up to 15 certificates. Certificate manager certificates do not apply when the load balancing scheme is set to INTERNAL_SELF_MANAGED.
+	// Certificate manager certificates only apply when the load balancing scheme is set to INTERNAL_MANAGED.
+	// For EXTERNAL and EXTERNAL_MANAGED, use certificate_map instead.
 	// sslCertificates and certificateManagerCertificates fields can not be defined together.
 	// Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificates/{resourceName} or just the self_link projects/{project}/locations/{location}/certificates/{resourceName}
 	CertificateManagerCertificates []*string `json:"certificateManagerCertificates,omitempty" tf:"certificate_manager_certificates,omitempty"`
 
 	// A reference to the CertificateMap resource uri that identifies a certificate map
-	// associated with the given target proxy. This field can only be set for global target proxies.
+	// associated with the given target proxy. This field is only supported for EXTERNAL and EXTERNAL_MANAGED load balancing schemes.
+	// For INTERNAL_MANAGED, use certificate_manager_certificates instead.
 	// Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificateMaps/{resourceName}.
 	CertificateMap *string `json:"certificateMap,omitempty" tf:"certificate_map,omitempty"`
 
@@ -83,6 +85,13 @@ type TargetHTTPSProxyInitParameters struct {
 	// If left blank, communications are not encrypted.
 	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
 
+	// Specifies whether TLS 1.3 0-RTT Data (“Early Data”) should be accepted for this service.
+	// Early Data allows a TLS resumption handshake to include the initial application payload
+	// (a HTTP request) alongside the handshake, reducing the effective round trips to “zero”.
+	// This applies to TLS 1.3 connections over TCP (HTTP/2) as well as over UDP (QUIC/h3).
+	// Possible values are: STRICT, PERMISSIVE, DISABLED.
+	TLSEarlyData *string `json:"tlsEarlyData,omitempty" tf:"tls_early_data,omitempty"`
+
 	// A reference to the UrlMap resource that defines the mapping from URL
 	// to the BackendService.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta2.URLMap
@@ -101,13 +110,15 @@ type TargetHTTPSProxyInitParameters struct {
 type TargetHTTPSProxyObservation struct {
 
 	// URLs to certificate manager certificate resources that are used to authenticate connections between users and the load balancer.
-	// Currently, you may specify up to 15 certificates. Certificate manager certificates do not apply when the load balancing scheme is set to INTERNAL_SELF_MANAGED.
+	// Certificate manager certificates only apply when the load balancing scheme is set to INTERNAL_MANAGED.
+	// For EXTERNAL and EXTERNAL_MANAGED, use certificate_map instead.
 	// sslCertificates and certificateManagerCertificates fields can not be defined together.
 	// Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificates/{resourceName} or just the self_link projects/{project}/locations/{location}/certificates/{resourceName}
 	CertificateManagerCertificates []*string `json:"certificateManagerCertificates,omitempty" tf:"certificate_manager_certificates,omitempty"`
 
 	// A reference to the CertificateMap resource uri that identifies a certificate map
-	// associated with the given target proxy. This field can only be set for global target proxies.
+	// associated with the given target proxy. This field is only supported for EXTERNAL and EXTERNAL_MANAGED load balancing schemes.
+	// For INTERNAL_MANAGED, use certificate_manager_certificates instead.
 	// Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificateMaps/{resourceName}.
 	CertificateMap *string `json:"certificateMap,omitempty" tf:"certificate_map,omitempty"`
 
@@ -171,6 +182,13 @@ type TargetHTTPSProxyObservation struct {
 	// If left blank, communications are not encrypted.
 	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
 
+	// Specifies whether TLS 1.3 0-RTT Data (“Early Data”) should be accepted for this service.
+	// Early Data allows a TLS resumption handshake to include the initial application payload
+	// (a HTTP request) alongside the handshake, reducing the effective round trips to “zero”.
+	// This applies to TLS 1.3 connections over TCP (HTTP/2) as well as over UDP (QUIC/h3).
+	// Possible values are: STRICT, PERMISSIVE, DISABLED.
+	TLSEarlyData *string `json:"tlsEarlyData,omitempty" tf:"tls_early_data,omitempty"`
+
 	// A reference to the UrlMap resource that defines the mapping from URL
 	// to the BackendService.
 	URLMap *string `json:"urlMap,omitempty" tf:"url_map,omitempty"`
@@ -179,14 +197,16 @@ type TargetHTTPSProxyObservation struct {
 type TargetHTTPSProxyParameters struct {
 
 	// URLs to certificate manager certificate resources that are used to authenticate connections between users and the load balancer.
-	// Currently, you may specify up to 15 certificates. Certificate manager certificates do not apply when the load balancing scheme is set to INTERNAL_SELF_MANAGED.
+	// Certificate manager certificates only apply when the load balancing scheme is set to INTERNAL_MANAGED.
+	// For EXTERNAL and EXTERNAL_MANAGED, use certificate_map instead.
 	// sslCertificates and certificateManagerCertificates fields can not be defined together.
 	// Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificates/{resourceName} or just the self_link projects/{project}/locations/{location}/certificates/{resourceName}
 	// +kubebuilder:validation:Optional
 	CertificateManagerCertificates []*string `json:"certificateManagerCertificates,omitempty" tf:"certificate_manager_certificates,omitempty"`
 
 	// A reference to the CertificateMap resource uri that identifies a certificate map
-	// associated with the given target proxy. This field can only be set for global target proxies.
+	// associated with the given target proxy. This field is only supported for EXTERNAL and EXTERNAL_MANAGED load balancing schemes.
+	// For INTERNAL_MANAGED, use certificate_manager_certificates instead.
 	// Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificateMaps/{resourceName}.
 	// +kubebuilder:validation:Optional
 	CertificateMap *string `json:"certificateMap,omitempty" tf:"certificate_map,omitempty"`
@@ -255,6 +275,14 @@ type TargetHTTPSProxyParameters struct {
 	// If left blank, communications are not encrypted.
 	// +kubebuilder:validation:Optional
 	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
+
+	// Specifies whether TLS 1.3 0-RTT Data (“Early Data”) should be accepted for this service.
+	// Early Data allows a TLS resumption handshake to include the initial application payload
+	// (a HTTP request) alongside the handshake, reducing the effective round trips to “zero”.
+	// This applies to TLS 1.3 connections over TCP (HTTP/2) as well as over UDP (QUIC/h3).
+	// Possible values are: STRICT, PERMISSIVE, DISABLED.
+	// +kubebuilder:validation:Optional
+	TLSEarlyData *string `json:"tlsEarlyData,omitempty" tf:"tls_early_data,omitempty"`
 
 	// A reference to the UrlMap resource that defines the mapping from URL
 	// to the BackendService.

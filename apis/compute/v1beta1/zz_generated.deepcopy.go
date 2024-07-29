@@ -14856,6 +14856,22 @@ func (in *GlobalAddressInitParameters) DeepCopyInto(out *GlobalAddressInitParame
 		*out = new(string)
 		**out = **in
 	}
+	if in.Labels != nil {
+		in, out := &in.Labels, &out.Labels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.Network != nil {
 		in, out := &in.Network, &out.Network
 		*out = new(string)
@@ -14953,6 +14969,22 @@ func (in *GlobalAddressObservation) DeepCopyInto(out *GlobalAddressObservation) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.EffectiveLabels != nil {
+		in, out := &in.EffectiveLabels, &out.EffectiveLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
@@ -14962,6 +14994,22 @@ func (in *GlobalAddressObservation) DeepCopyInto(out *GlobalAddressObservation) 
 		in, out := &in.IPVersion, &out.IPVersion
 		*out = new(string)
 		**out = **in
+	}
+	if in.Labels != nil {
+		in, out := &in.Labels, &out.Labels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.Network != nil {
 		in, out := &in.Network, &out.Network
@@ -14987,6 +15035,22 @@ func (in *GlobalAddressObservation) DeepCopyInto(out *GlobalAddressObservation) 
 		in, out := &in.SelfLink, &out.SelfLink
 		*out = new(string)
 		**out = **in
+	}
+	if in.TerraformLabels != nil {
+		in, out := &in.TerraformLabels, &out.TerraformLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 }
 
@@ -15022,6 +15086,22 @@ func (in *GlobalAddressParameters) DeepCopyInto(out *GlobalAddressParameters) {
 		in, out := &in.IPVersion, &out.IPVersion
 		*out = new(string)
 		**out = **in
+	}
+	if in.Labels != nil {
+		in, out := &in.Labels, &out.Labels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.Network != nil {
 		in, out := &in.Network, &out.Network
@@ -28591,6 +28671,11 @@ func (in *InterconnectAttachmentInitParameters) DeepCopyInto(out *InterconnectAt
 		*out = new(string)
 		**out = **in
 	}
+	if in.SubnetLength != nil {
+		in, out := &in.SubnetLength, &out.SubnetLength
+		*out = new(float64)
+		**out = **in
+	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
@@ -28787,6 +28872,11 @@ func (in *InterconnectAttachmentObservation) DeepCopyInto(out *InterconnectAttac
 		*out = new(string)
 		**out = **in
 	}
+	if in.SubnetLength != nil {
+		in, out := &in.SubnetLength, &out.SubnetLength
+		*out = new(float64)
+		**out = **in
+	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
@@ -28897,6 +28987,11 @@ func (in *InterconnectAttachmentParameters) DeepCopyInto(out *InterconnectAttach
 	if in.StackType != nil {
 		in, out := &in.StackType, &out.StackType
 		*out = new(string)
+		**out = **in
+	}
+	if in.SubnetLength != nil {
+		in, out := &in.SubnetLength, &out.SubnetLength
+		*out = new(float64)
 		**out = **in
 	}
 	if in.Type != nil {
@@ -60087,6 +60182,11 @@ func (in *RouterInterfaceInitParameters) DeepCopyInto(out *RouterInterfaceInitPa
 		*out = new(string)
 		**out = **in
 	}
+	if in.IPVersion != nil {
+		in, out := &in.IPVersion, &out.IPVersion
+		*out = new(string)
+		**out = **in
+	}
 	if in.InterconnectAttachment != nil {
 		in, out := &in.InterconnectAttachment, &out.InterconnectAttachment
 		*out = new(string)
@@ -60209,6 +60309,11 @@ func (in *RouterInterfaceObservation) DeepCopyInto(out *RouterInterfaceObservati
 		*out = new(string)
 		**out = **in
 	}
+	if in.IPVersion != nil {
+		in, out := &in.IPVersion, &out.IPVersion
+		*out = new(string)
+		**out = **in
+	}
 	if in.InterconnectAttachment != nil {
 		in, out := &in.InterconnectAttachment, &out.InterconnectAttachment
 		*out = new(string)
@@ -60271,6 +60376,11 @@ func (in *RouterInterfaceParameters) DeepCopyInto(out *RouterInterfaceParameters
 	*out = *in
 	if in.IPRange != nil {
 		in, out := &in.IPRange, &out.IPRange
+		*out = new(string)
+		**out = **in
+	}
+	if in.IPVersion != nil {
+		in, out := &in.IPVersion, &out.IPVersion
 		*out = new(string)
 		**out = **in
 	}
@@ -69385,6 +69495,11 @@ func (in *TargetHTTPSProxyInitParameters) DeepCopyInto(out *TargetHTTPSProxyInit
 		*out = new(string)
 		**out = **in
 	}
+	if in.TLSEarlyData != nil {
+		in, out := &in.TLSEarlyData, &out.TLSEarlyData
+		*out = new(string)
+		**out = **in
+	}
 	if in.URLMap != nil {
 		in, out := &in.URLMap, &out.URLMap
 		*out = new(string)
@@ -69529,6 +69644,11 @@ func (in *TargetHTTPSProxyObservation) DeepCopyInto(out *TargetHTTPSProxyObserva
 		*out = new(string)
 		**out = **in
 	}
+	if in.TLSEarlyData != nil {
+		in, out := &in.TLSEarlyData, &out.TLSEarlyData
+		*out = new(string)
+		**out = **in
+	}
 	if in.URLMap != nil {
 		in, out := &in.URLMap, &out.URLMap
 		*out = new(string)
@@ -69620,6 +69740,11 @@ func (in *TargetHTTPSProxyParameters) DeepCopyInto(out *TargetHTTPSProxyParamete
 	}
 	if in.ServerTLSPolicy != nil {
 		in, out := &in.ServerTLSPolicy, &out.ServerTLSPolicy
+		*out = new(string)
+		**out = **in
+	}
+	if in.TLSEarlyData != nil {
+		in, out := &in.TLSEarlyData, &out.TLSEarlyData
 		*out = new(string)
 		**out = **in
 	}

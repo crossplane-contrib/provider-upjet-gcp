@@ -13,7 +13,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     indexConfigs:
-      file_path: jsonPayload.request.status
+    - fieldPath: jsonPayload.request.status
       type: INDEX_TYPE_STRING
     location: global
     retentionDays: 30

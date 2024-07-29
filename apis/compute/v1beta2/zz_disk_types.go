@@ -227,6 +227,10 @@ type DiskInitParameters struct {
 	// Structure is documented below.
 	SourceSnapshotEncryptionKey *SourceSnapshotEncryptionKeyInitParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
 
+	// The URL of the storage pool in which the new disk is created.
+	// For example:
+	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
+
 	// URL of the disk type resource describing which disk type to use to
 	// create the disk. Provide this when creating the disk.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
@@ -380,6 +384,10 @@ type DiskObservation struct {
 	// used.
 	SourceSnapshotID *string `json:"sourceSnapshotId,omitempty" tf:"source_snapshot_id,omitempty"`
 
+	// The URL of the storage pool in which the new disk is created.
+	// For example:
+	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
+
 	// The combination of labels configured directly on the resource
 	// and default labels configured on the provider.
 	// +mapType=granular
@@ -516,6 +524,11 @@ type DiskParameters struct {
 	// +kubebuilder:validation:Optional
 	SourceSnapshotEncryptionKey *SourceSnapshotEncryptionKeyParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
 
+	// The URL of the storage pool in which the new disk is created.
+	// For example:
+	// +kubebuilder:validation:Optional
+	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
+
 	// URL of the disk type resource describing which disk type to use to
 	// create the disk. Provide this when creating the disk.
 	// +kubebuilder:validation:Optional
@@ -529,21 +542,18 @@ type DiskParameters struct {
 type GuestOsFeaturesInitParameters struct {
 
 	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type GuestOsFeaturesObservation struct {
 
 	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type GuestOsFeaturesParameters struct {
 
 	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }

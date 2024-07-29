@@ -7169,10 +7169,11 @@ spec:
                       enableComponents:
                         description: 'The GKE components exposing metrics. Supported
                           values include: SYSTEM_COMPONENTS, APISERVER, SCHEDULER,
-                          CONTROLLER_MANAGER, STORAGE, HPA, POD, DAEMONSET, DEPLOYMENT
-                          and STATEFULSET. In beta provider, WORKLOADS is supported
-                          on top of those 10 values. (WORKLOADS is deprecated and
-                          removed in GKE 1.24.)'
+                          CONTROLLER_MANAGER, STORAGE, HPA, POD, DAEMONSET, DEPLOYMENT,
+                          STATEFULSET, KUBELET, CADVISOR and DCGM. In beta provider,
+                          WORKLOADS is supported on top of those 12 values. (WORKLOADS
+                          is deprecated and removed in GKE 1.24.) KUBELET and CADVISOR
+                          are only supported in GKE 1.29.3-gke.1093000 and above.'
                         items:
                           type: string
                         type: array
@@ -7303,6 +7304,10 @@ spec:
                           Specifies options for controlling
                           advanced machine features. Structure is documented below.
                         properties:
+                          enableNestedVirtualization:
+                            description: Defines whether the instance should have
+                              nested virtualization enabled. Defaults to false.
+                            type: boolean
                           threadsPerCore:
                             description: The number of threads per physical core.
                               To disable simultaneous multithreading (SMT) set this
@@ -7324,6 +7329,37 @@ spec:
                           enabled:
                             description: Enables vertical pod autoscaling
                             type: boolean
+                        type: object
+                      containerdConfig:
+                        description: Parameters to customize containerd runtime. Structure
+                          is documented below.
+                        properties:
+                          privateRegistryAccessConfig:
+                            description: 'Configuration for private container registries.
+                              There are two fields in this config:'
+                            properties:
+                              certificateAuthorityDomainConfig:
+                                description: 'List of configuration objects for CA
+                                  and domains. Each object identifies a certificate
+                                  and its assigned domains. See how to configure for
+                                  private container registries for more detail. Example:'
+                                items:
+                                  properties:
+                                    fqdns:
+                                      items:
+                                        type: string
+                                      type: array
+                                    gcpSecretManagerCertificateConfig:
+                                      properties:
+                                        secretUri:
+                                          type: string
+                                      type: object
+                                  type: object
+                                type: array
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
+                            type: object
                         type: object
                       diskSizeGb:
                         description: |-
@@ -7836,6 +7872,38 @@ spec:
                       nodeConfigDefaults:
                         description: Subset of NodeConfig message that has defaults.
                         properties:
+                          containerdConfig:
+                            description: Parameters to customize containerd runtime.
+                              Structure is documented below.
+                            properties:
+                              privateRegistryAccessConfig:
+                                description: 'Configuration for private container
+                                  registries. There are two fields in this config:'
+                                properties:
+                                  certificateAuthorityDomainConfig:
+                                    description: 'List of configuration objects for
+                                      CA and domains. Each object identifies a certificate
+                                      and its assigned domains. See how to configure
+                                      for private container registries for more detail.
+                                      Example:'
+                                    items:
+                                      properties:
+                                        fqdns:
+                                          items:
+                                            type: string
+                                          type: array
+                                        gcpSecretManagerCertificateConfig:
+                                          properties:
+                                            secretUri:
+                                              type: string
+                                          type: object
+                                      type: object
+                                    type: array
+                                  enabled:
+                                    description: Enables vertical pod autoscaling
+                                    type: boolean
+                                type: object
+                            type: object
                           loggingVariant:
                             description: The type of logging agent that is deployed
                               by default for newly created node pools in the cluster.
@@ -8003,8 +8071,8 @@ spec:
                     properties:
                       mode:
                         description: Sets the mode of the Kubernetes security posture
-                          API's off-cluster features. Available options include DISABLED
-                          and BASIC.
+                          API's off-cluster features. Available options include DISABLED,
+                          BASIC, and ENTERPRISE.
                         type: string
                       vulnerabilityMode:
                         description: Sets the mode of the Kubernetes security posture
@@ -8881,10 +8949,11 @@ spec:
                       enableComponents:
                         description: 'The GKE components exposing metrics. Supported
                           values include: SYSTEM_COMPONENTS, APISERVER, SCHEDULER,
-                          CONTROLLER_MANAGER, STORAGE, HPA, POD, DAEMONSET, DEPLOYMENT
-                          and STATEFULSET. In beta provider, WORKLOADS is supported
-                          on top of those 10 values. (WORKLOADS is deprecated and
-                          removed in GKE 1.24.)'
+                          CONTROLLER_MANAGER, STORAGE, HPA, POD, DAEMONSET, DEPLOYMENT,
+                          STATEFULSET, KUBELET, CADVISOR and DCGM. In beta provider,
+                          WORKLOADS is supported on top of those 12 values. (WORKLOADS
+                          is deprecated and removed in GKE 1.24.) KUBELET and CADVISOR
+                          are only supported in GKE 1.29.3-gke.1093000 and above.'
                         items:
                           type: string
                         type: array
@@ -9015,6 +9084,10 @@ spec:
                           Specifies options for controlling
                           advanced machine features. Structure is documented below.
                         properties:
+                          enableNestedVirtualization:
+                            description: Defines whether the instance should have
+                              nested virtualization enabled. Defaults to false.
+                            type: boolean
                           threadsPerCore:
                             description: The number of threads per physical core.
                               To disable simultaneous multithreading (SMT) set this
@@ -9036,6 +9109,37 @@ spec:
                           enabled:
                             description: Enables vertical pod autoscaling
                             type: boolean
+                        type: object
+                      containerdConfig:
+                        description: Parameters to customize containerd runtime. Structure
+                          is documented below.
+                        properties:
+                          privateRegistryAccessConfig:
+                            description: 'Configuration for private container registries.
+                              There are two fields in this config:'
+                            properties:
+                              certificateAuthorityDomainConfig:
+                                description: 'List of configuration objects for CA
+                                  and domains. Each object identifies a certificate
+                                  and its assigned domains. See how to configure for
+                                  private container registries for more detail. Example:'
+                                items:
+                                  properties:
+                                    fqdns:
+                                      items:
+                                        type: string
+                                      type: array
+                                    gcpSecretManagerCertificateConfig:
+                                      properties:
+                                        secretUri:
+                                          type: string
+                                      type: object
+                                  type: object
+                                type: array
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
+                            type: object
                         type: object
                       diskSizeGb:
                         description: |-
@@ -9548,6 +9652,38 @@ spec:
                       nodeConfigDefaults:
                         description: Subset of NodeConfig message that has defaults.
                         properties:
+                          containerdConfig:
+                            description: Parameters to customize containerd runtime.
+                              Structure is documented below.
+                            properties:
+                              privateRegistryAccessConfig:
+                                description: 'Configuration for private container
+                                  registries. There are two fields in this config:'
+                                properties:
+                                  certificateAuthorityDomainConfig:
+                                    description: 'List of configuration objects for
+                                      CA and domains. Each object identifies a certificate
+                                      and its assigned domains. See how to configure
+                                      for private container registries for more detail.
+                                      Example:'
+                                    items:
+                                      properties:
+                                        fqdns:
+                                          items:
+                                            type: string
+                                          type: array
+                                        gcpSecretManagerCertificateConfig:
+                                          properties:
+                                            secretUri:
+                                              type: string
+                                          type: object
+                                      type: object
+                                    type: array
+                                  enabled:
+                                    description: Enables vertical pod autoscaling
+                                    type: boolean
+                                type: object
+                            type: object
                           loggingVariant:
                             description: The type of logging agent that is deployed
                               by default for newly created node pools in the cluster.
@@ -9715,8 +9851,8 @@ spec:
                     properties:
                       mode:
                         description: Sets the mode of the Kubernetes security posture
-                          API's off-cluster features. Available options include DISABLED
-                          and BASIC.
+                          API's off-cluster features. Available options include DISABLED,
+                          BASIC, and ENTERPRISE.
                         type: string
                       vulnerabilityMode:
                         description: Sets the mode of the Kubernetes security posture
@@ -10819,10 +10955,11 @@ spec:
                       enableComponents:
                         description: 'The GKE components exposing metrics. Supported
                           values include: SYSTEM_COMPONENTS, APISERVER, SCHEDULER,
-                          CONTROLLER_MANAGER, STORAGE, HPA, POD, DAEMONSET, DEPLOYMENT
-                          and STATEFULSET. In beta provider, WORKLOADS is supported
-                          on top of those 10 values. (WORKLOADS is deprecated and
-                          removed in GKE 1.24.)'
+                          CONTROLLER_MANAGER, STORAGE, HPA, POD, DAEMONSET, DEPLOYMENT,
+                          STATEFULSET, KUBELET, CADVISOR and DCGM. In beta provider,
+                          WORKLOADS is supported on top of those 12 values. (WORKLOADS
+                          is deprecated and removed in GKE 1.24.) KUBELET and CADVISOR
+                          are only supported in GKE 1.29.3-gke.1093000 and above.'
                         items:
                           type: string
                         type: array
@@ -10879,6 +11016,10 @@ spec:
                           Specifies options for controlling
                           advanced machine features. Structure is documented below.
                         properties:
+                          enableNestedVirtualization:
+                            description: Defines whether the instance should have
+                              nested virtualization enabled. Defaults to false.
+                            type: boolean
                           threadsPerCore:
                             description: The number of threads per physical core.
                               To disable simultaneous multithreading (SMT) set this
@@ -10900,6 +11041,37 @@ spec:
                           enabled:
                             description: Enables vertical pod autoscaling
                             type: boolean
+                        type: object
+                      containerdConfig:
+                        description: Parameters to customize containerd runtime. Structure
+                          is documented below.
+                        properties:
+                          privateRegistryAccessConfig:
+                            description: 'Configuration for private container registries.
+                              There are two fields in this config:'
+                            properties:
+                              certificateAuthorityDomainConfig:
+                                description: 'List of configuration objects for CA
+                                  and domains. Each object identifies a certificate
+                                  and its assigned domains. See how to configure for
+                                  private container registries for more detail. Example:'
+                                items:
+                                  properties:
+                                    fqdns:
+                                      items:
+                                        type: string
+                                      type: array
+                                    gcpSecretManagerCertificateConfig:
+                                      properties:
+                                        secretUri:
+                                          type: string
+                                      type: object
+                                  type: object
+                                type: array
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
+                            type: object
                         type: object
                       diskSizeGb:
                         description: |-
@@ -11392,11 +11564,8 @@ spec:
                                 endpoint via private networking.
                               type: boolean
                             networkPerformanceConfig:
-                              description: Network bandwidth tier configuration.
                               properties:
                                 totalEgressBandwidthTier:
-                                  description: Specifies the total network bandwidth
-                                    tier for the NodePool.
                                   type: string
                               type: object
                             podCidrOverprovisionConfig:
@@ -11421,6 +11590,11 @@ spec:
                                 Specifies options for controlling
                                 advanced machine features. Structure is documented below.
                               properties:
+                                enableNestedVirtualization:
+                                  description: Defines whether the instance should
+                                    have nested virtualization enabled. Defaults to
+                                    false.
+                                  type: boolean
                                 threadsPerCore:
                                   description: The number of threads per physical
                                     core. To disable simultaneous multithreading (SMT)
@@ -11443,6 +11617,38 @@ spec:
                                 enabled:
                                   description: Enables vertical pod autoscaling
                                   type: boolean
+                              type: object
+                            containerdConfig:
+                              description: Parameters to customize containerd runtime.
+                                Structure is documented below.
+                              properties:
+                                privateRegistryAccessConfig:
+                                  description: 'Configuration for private container
+                                    registries. There are two fields in this config:'
+                                  properties:
+                                    certificateAuthorityDomainConfig:
+                                      description: 'List of configuration objects
+                                        for CA and domains. Each object identifies
+                                        a certificate and its assigned domains. See
+                                        how to configure for private container registries
+                                        for more detail. Example:'
+                                      items:
+                                        properties:
+                                          fqdns:
+                                            items:
+                                              type: string
+                                            type: array
+                                          gcpSecretManagerCertificateConfig:
+                                            properties:
+                                              secretUri:
+                                                type: string
+                                            type: object
+                                        type: object
+                                      type: array
+                                    enabled:
+                                      description: Enables vertical pod autoscaling
+                                      type: boolean
+                                  type: object
                               type: object
                             diskSizeGb:
                               description: |-
@@ -11982,6 +12188,38 @@ spec:
                       nodeConfigDefaults:
                         description: Subset of NodeConfig message that has defaults.
                         properties:
+                          containerdConfig:
+                            description: Parameters to customize containerd runtime.
+                              Structure is documented below.
+                            properties:
+                              privateRegistryAccessConfig:
+                                description: 'Configuration for private container
+                                  registries. There are two fields in this config:'
+                                properties:
+                                  certificateAuthorityDomainConfig:
+                                    description: 'List of configuration objects for
+                                      CA and domains. Each object identifies a certificate
+                                      and its assigned domains. See how to configure
+                                      for private container registries for more detail.
+                                      Example:'
+                                    items:
+                                      properties:
+                                        fqdns:
+                                          items:
+                                            type: string
+                                          type: array
+                                        gcpSecretManagerCertificateConfig:
+                                          properties:
+                                            secretUri:
+                                              type: string
+                                          type: object
+                                      type: object
+                                    type: array
+                                  enabled:
+                                    description: Enables vertical pod autoscaling
+                                    type: boolean
+                                type: object
+                            type: object
                           loggingVariant:
                             description: The type of logging agent that is deployed
                               by default for newly created node pools in the cluster.
@@ -12163,8 +12401,8 @@ spec:
                     properties:
                       mode:
                         description: Sets the mode of the Kubernetes security posture
-                          API's off-cluster features. Available options include DISABLED
-                          and BASIC.
+                          API's off-cluster features. Available options include DISABLED,
+                          BASIC, and ENTERPRISE.
                         type: string
                       vulnerabilityMode:
                         description: Sets the mode of the Kubernetes security posture

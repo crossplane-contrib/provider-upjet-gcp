@@ -13,6 +13,27 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AutomatedBackupPolicyInitParameters struct {
+	Frequency *string `json:"frequency,omitempty" tf:"frequency,omitempty"`
+
+	RetentionPeriod *string `json:"retentionPeriod,omitempty" tf:"retention_period,omitempty"`
+}
+
+type AutomatedBackupPolicyObservation struct {
+	Frequency *string `json:"frequency,omitempty" tf:"frequency,omitempty"`
+
+	RetentionPeriod *string `json:"retentionPeriod,omitempty" tf:"retention_period,omitempty"`
+}
+
+type AutomatedBackupPolicyParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Frequency *string `json:"frequency,omitempty" tf:"frequency,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RetentionPeriod *string `json:"retentionPeriod,omitempty" tf:"retention_period,omitempty"`
+}
+
 type ColumnFamilyInitParameters struct {
 
 	// The name of the column family.
@@ -33,6 +54,7 @@ type ColumnFamilyParameters struct {
 }
 
 type TableInitParameters struct {
+	AutomatedBackupPolicy *AutomatedBackupPolicyInitParameters `json:"automatedBackupPolicy,omitempty" tf:"automated_backup_policy,omitempty"`
 
 	// Duration to retain change stream data for the table. Set to 0 to disable. Must be between 1 and 7 days.
 	ChangeStreamRetention *string `json:"changeStreamRetention,omitempty" tf:"change_stream_retention,omitempty"`
@@ -52,6 +74,7 @@ type TableInitParameters struct {
 }
 
 type TableObservation struct {
+	AutomatedBackupPolicy *AutomatedBackupPolicyObservation `json:"automatedBackupPolicy,omitempty" tf:"automated_backup_policy,omitempty"`
 
 	// Duration to retain change stream data for the table. Set to 0 to disable. Must be between 1 and 7 days.
 	ChangeStreamRetention *string `json:"changeStreamRetention,omitempty" tf:"change_stream_retention,omitempty"`
@@ -77,6 +100,9 @@ type TableObservation struct {
 }
 
 type TableParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AutomatedBackupPolicy *AutomatedBackupPolicyParameters `json:"automatedBackupPolicy,omitempty" tf:"automated_backup_policy,omitempty"`
 
 	// Duration to retain change stream data for the table. Set to 0 to disable. Must be between 1 and 7 days.
 	// +kubebuilder:validation:Optional

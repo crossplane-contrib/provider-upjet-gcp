@@ -232,17 +232,24 @@ type InstanceFromTemplateBootDiskParameters struct {
 }
 
 type InstanceFromTemplateConfidentialInstanceConfigInitParameters struct {
+	ConfidentialInstanceType *string `json:"confidentialInstanceType,omitempty" tf:"confidential_instance_type,omitempty"`
+
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 }
 
 type InstanceFromTemplateConfidentialInstanceConfigObservation struct {
+	ConfidentialInstanceType *string `json:"confidentialInstanceType,omitempty" tf:"confidential_instance_type,omitempty"`
+
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 }
 
 type InstanceFromTemplateConfidentialInstanceConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
-	EnableConfidentialCompute *bool `json:"enableConfidentialCompute" tf:"enable_confidential_compute,omitempty"`
+	ConfidentialInstanceType *string `json:"confidentialInstanceType,omitempty" tf:"confidential_instance_type,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 }
 
 type InstanceFromTemplateGuestAcceleratorInitParameters struct {
@@ -762,11 +769,15 @@ type InstanceFromTemplateSchedulingInitParameters struct {
 
 	LocalSsdRecoveryTimeout *SchedulingLocalSsdRecoveryTimeoutInitParameters `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
+	MaxRunDuration *SchedulingMaxRunDurationInitParameters `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
+
 	MinNodeCpus *float64 `json:"minNodeCpus,omitempty" tf:"min_node_cpus,omitempty"`
 
 	NodeAffinities []SchedulingNodeAffinitiesInitParameters `json:"nodeAffinities,omitempty" tf:"node_affinities,omitempty"`
 
 	OnHostMaintenance *string `json:"onHostMaintenance,omitempty" tf:"on_host_maintenance,omitempty"`
+
+	OnInstanceStopAction *SchedulingOnInstanceStopActionInitParameters `json:"onInstanceStopAction,omitempty" tf:"on_instance_stop_action,omitempty"`
 
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
@@ -780,11 +791,15 @@ type InstanceFromTemplateSchedulingObservation struct {
 
 	LocalSsdRecoveryTimeout *SchedulingLocalSsdRecoveryTimeoutObservation `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
+	MaxRunDuration *SchedulingMaxRunDurationObservation `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
+
 	MinNodeCpus *float64 `json:"minNodeCpus,omitempty" tf:"min_node_cpus,omitempty"`
 
 	NodeAffinities []SchedulingNodeAffinitiesObservation `json:"nodeAffinities,omitempty" tf:"node_affinities,omitempty"`
 
 	OnHostMaintenance *string `json:"onHostMaintenance,omitempty" tf:"on_host_maintenance,omitempty"`
+
+	OnInstanceStopAction *SchedulingOnInstanceStopActionObservation `json:"onInstanceStopAction,omitempty" tf:"on_instance_stop_action,omitempty"`
 
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
@@ -803,6 +818,9 @@ type InstanceFromTemplateSchedulingParameters struct {
 	LocalSsdRecoveryTimeout *SchedulingLocalSsdRecoveryTimeoutParameters `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	MaxRunDuration *SchedulingMaxRunDurationParameters `json:"maxRunDuration,omitempty" tf:"max_run_duration,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	MinNodeCpus *float64 `json:"minNodeCpus,omitempty" tf:"min_node_cpus,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -810,6 +828,9 @@ type InstanceFromTemplateSchedulingParameters struct {
 
 	// +kubebuilder:validation:Optional
 	OnHostMaintenance *string `json:"onHostMaintenance,omitempty" tf:"on_host_maintenance,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	OnInstanceStopAction *SchedulingOnInstanceStopActionParameters `json:"onInstanceStopAction,omitempty" tf:"on_instance_stop_action,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
@@ -1063,6 +1084,27 @@ type SchedulingLocalSsdRecoveryTimeoutParameters struct {
 	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
 
+type SchedulingMaxRunDurationInitParameters struct {
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type SchedulingMaxRunDurationObservation struct {
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type SchedulingMaxRunDurationParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
+}
+
 type SchedulingNodeAffinitiesInitParameters struct {
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
@@ -1092,6 +1134,20 @@ type SchedulingNodeAffinitiesParameters struct {
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Values []*string `json:"values" tf:"values,omitempty"`
+}
+
+type SchedulingOnInstanceStopActionInitParameters struct {
+	DiscardLocalSsd *bool `json:"discardLocalSsd,omitempty" tf:"discard_local_ssd,omitempty"`
+}
+
+type SchedulingOnInstanceStopActionObservation struct {
+	DiscardLocalSsd *bool `json:"discardLocalSsd,omitempty" tf:"discard_local_ssd,omitempty"`
+}
+
+type SchedulingOnInstanceStopActionParameters struct {
+
+	// +kubebuilder:validation:Optional
+	DiscardLocalSsd *bool `json:"discardLocalSsd,omitempty" tf:"discard_local_ssd,omitempty"`
 }
 
 // InstanceFromTemplateSpec defines the desired state of InstanceFromTemplate

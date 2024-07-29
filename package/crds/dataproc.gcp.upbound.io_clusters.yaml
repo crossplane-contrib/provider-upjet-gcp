@@ -3455,6 +3455,13 @@ spec:
                                               The disk type of the primary disk attached to each node.
                                               One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
                                             type: string
+                                          localSsdInterface:
+                                            description: |-
+                                              Optional. Interface type of local SSDs (default is "scsi").
+                                              Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+                                              Memory Express). See
+                                              local SSD performance.
+                                            type: string
                                           numLocalSsds:
                                             description: |-
                                               The amount of local SSD disks that will be
@@ -3797,6 +3804,13 @@ spec:
                                   The disk type of the primary disk attached to each node.
                                   One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
                                 type: string
+                              localSsdInterface:
+                                description: |-
+                                  Optional. Interface type of local SSDs (default is "scsi").
+                                  Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+                                  Memory Express). See
+                                  local SSD performance.
+                                type: string
                               numLocalSsds:
                                 description: |-
                                   The amount of local SSD disks that will be
@@ -3857,6 +3871,13 @@ spec:
                                 description: |-
                                   The disk type of the primary disk attached to each node.
                                   One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+                                type: string
+                              localSsdInterface:
+                                description: |-
+                                  Optional. Interface type of local SSDs (default is "scsi").
+                                  Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+                                  Memory Express). See
+                                  local SSD performance.
                                 type: string
                               numLocalSsds:
                                 description: |-
@@ -4069,6 +4090,13 @@ spec:
                                 description: |-
                                   The disk type of the primary disk attached to each node.
                                   One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+                                type: string
+                              localSsdInterface:
+                                description: |-
+                                  Optional. Interface type of local SSDs (default is "scsi").
+                                  Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+                                  Memory Express). See
+                                  local SSD performance.
                                 type: string
                               numLocalSsds:
                                 description: |-
@@ -4392,6 +4420,13 @@ spec:
                                               The disk type of the primary disk attached to each node.
                                               One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
                                             type: string
+                                          localSsdInterface:
+                                            description: |-
+                                              Optional. Interface type of local SSDs (default is "scsi").
+                                              Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+                                              Memory Express). See
+                                              local SSD performance.
+                                            type: string
                                           numLocalSsds:
                                             description: |-
                                               The amount of local SSD disks that will be
@@ -4734,6 +4769,13 @@ spec:
                                   The disk type of the primary disk attached to each node.
                                   One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
                                 type: string
+                              localSsdInterface:
+                                description: |-
+                                  Optional. Interface type of local SSDs (default is "scsi").
+                                  Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+                                  Memory Express). See
+                                  local SSD performance.
+                                type: string
                               numLocalSsds:
                                 description: |-
                                   The amount of local SSD disks that will be
@@ -4794,6 +4836,13 @@ spec:
                                 description: |-
                                   The disk type of the primary disk attached to each node.
                                   One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+                                type: string
+                              localSsdInterface:
+                                description: |-
+                                  Optional. Interface type of local SSDs (default is "scsi").
+                                  Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+                                  Memory Express). See
+                                  local SSD performance.
                                 type: string
                               numLocalSsds:
                                 description: |-
@@ -5006,6 +5055,13 @@ spec:
                                 description: |-
                                   The disk type of the primary disk attached to each node.
                                   One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+                                type: string
+                              localSsdInterface:
+                                description: |-
+                                  Optional. Interface type of local SSDs (default is "scsi").
+                                  Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+                                  Memory Express). See
+                                  local SSD performance.
                                 type: string
                               numLocalSsds:
                                 description: |-
@@ -5498,6 +5554,13 @@ spec:
                                               The disk type of the primary disk attached to each node.
                                               One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
                                             type: string
+                                          localSsdInterface:
+                                            description: |-
+                                              Optional. Interface type of local SSDs (default is "scsi").
+                                              Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+                                              Memory Express). See
+                                              local SSD performance.
+                                            type: string
                                           numLocalSsds:
                                             description: |-
                                               The amount of local SSD disks that will be
@@ -5790,6 +5853,13 @@ spec:
                                   The disk type of the primary disk attached to each node.
                                   One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
                                 type: string
+                              localSsdInterface:
+                                description: |-
+                                  Optional. Interface type of local SSDs (default is "scsi").
+                                  Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+                                  Memory Express). See
+                                  local SSD performance.
+                                type: string
                               numLocalSsds:
                                 description: |-
                                   The amount of local SSD disks that will be
@@ -5857,6 +5927,13 @@ spec:
                                 description: |-
                                   The disk type of the primary disk attached to each node.
                                   One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+                                type: string
+                              localSsdInterface:
+                                description: |-
+                                  Optional. Interface type of local SSDs (default is "scsi").
+                                  Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+                                  Memory Express). See
+                                  local SSD performance.
                                 type: string
                               numLocalSsds:
                                 description: |-
@@ -6094,6 +6171,13 @@ spec:
                                 description: |-
                                   The disk type of the primary disk attached to each node.
                                   One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+                                type: string
+                              localSsdInterface:
+                                description: |-
+                                  Optional. Interface type of local SSDs (default is "scsi").
+                                  Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+                                  Memory Express). See
+                                  local SSD performance.
                                 type: string
                               numLocalSsds:
                                 description: |-

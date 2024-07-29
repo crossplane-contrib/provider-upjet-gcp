@@ -200,12 +200,18 @@ type RouterPeerInitParameters struct {
 	// The default is true.
 	Enable *bool `json:"enable,omitempty" tf:"enable,omitempty"`
 
+	// Enable IPv4 traffic over BGP Peer. It is enabled by default if the peerIpAddress is version 4.
+	EnableIPv4 *bool `json:"enableIpv4,omitempty" tf:"enable_ipv4,omitempty"`
+
 	// Enable IPv6 traffic over BGP Peer. If not specified, it is disabled by default.
 	EnableIPv6 *bool `json:"enableIpv6,omitempty" tf:"enable_ipv6,omitempty"`
 
 	// IP address of the interface inside Google Cloud Platform.
 	// Only IPv4 is supported.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// IPv4 address of the interface inside Google Cloud Platform.
+	IPv4NexthopAddress *string `json:"ipv4NexthopAddress,omitempty" tf:"ipv4_nexthop_address,omitempty"`
 
 	// IPv6 address of the interface inside Google Cloud Platform.
 	// The address must be in the range 2600:2d00:0:2::/64 or 2600:2d00:0:3::/64.
@@ -247,6 +253,9 @@ type RouterPeerInitParameters struct {
 	// Selector for a Address in compute to populate peerIpAddress.
 	// +kubebuilder:validation:Optional
 	PeerIPAddressSelector *v1.Selector `json:"peerIpAddressSelector,omitempty" tf:"-"`
+
+	// IPv4 address of the BGP interface outside Google Cloud Platform.
+	PeerIPv4NexthopAddress *string `json:"peerIpv4NexthopAddress,omitempty" tf:"peer_ipv4_nexthop_address,omitempty"`
 
 	// IPv6 address of the BGP interface outside Google Cloud Platform.
 	// The address must be in the range 2600:2d00:0:2::/64 or 2600:2d00:0:3::/64.
@@ -324,6 +333,9 @@ type RouterPeerObservation struct {
 	// The default is true.
 	Enable *bool `json:"enable,omitempty" tf:"enable,omitempty"`
 
+	// Enable IPv4 traffic over BGP Peer. It is enabled by default if the peerIpAddress is version 4.
+	EnableIPv4 *bool `json:"enableIpv4,omitempty" tf:"enable_ipv4,omitempty"`
+
 	// Enable IPv6 traffic over BGP Peer. If not specified, it is disabled by default.
 	EnableIPv6 *bool `json:"enableIpv6,omitempty" tf:"enable_ipv6,omitempty"`
 
@@ -333,6 +345,9 @@ type RouterPeerObservation struct {
 	// IP address of the interface inside Google Cloud Platform.
 	// Only IPv4 is supported.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// IPv4 address of the interface inside Google Cloud Platform.
+	IPv4NexthopAddress *string `json:"ipv4NexthopAddress,omitempty" tf:"ipv4_nexthop_address,omitempty"`
 
 	// IPv6 address of the interface inside Google Cloud Platform.
 	// The address must be in the range 2600:2d00:0:2::/64 or 2600:2d00:0:3::/64.
@@ -357,6 +372,9 @@ type RouterPeerObservation struct {
 	// IP address of the BGP interface outside Google Cloud Platform.
 	// Only IPv4 is supported. Required if ip_address is set.
 	PeerIPAddress *string `json:"peerIpAddress,omitempty" tf:"peer_ip_address,omitempty"`
+
+	// IPv4 address of the BGP interface outside Google Cloud Platform.
+	PeerIPv4NexthopAddress *string `json:"peerIpv4NexthopAddress,omitempty" tf:"peer_ipv4_nexthop_address,omitempty"`
 
 	// IPv6 address of the BGP interface outside Google Cloud Platform.
 	// The address must be in the range 2600:2d00:0:2::/64 or 2600:2d00:0:3::/64.
@@ -423,6 +441,10 @@ type RouterPeerParameters struct {
 	// +kubebuilder:validation:Optional
 	Enable *bool `json:"enable,omitempty" tf:"enable,omitempty"`
 
+	// Enable IPv4 traffic over BGP Peer. It is enabled by default if the peerIpAddress is version 4.
+	// +kubebuilder:validation:Optional
+	EnableIPv4 *bool `json:"enableIpv4,omitempty" tf:"enable_ipv4,omitempty"`
+
 	// Enable IPv6 traffic over BGP Peer. If not specified, it is disabled by default.
 	// +kubebuilder:validation:Optional
 	EnableIPv6 *bool `json:"enableIpv6,omitempty" tf:"enable_ipv6,omitempty"`
@@ -431,6 +453,10 @@ type RouterPeerParameters struct {
 	// Only IPv4 is supported.
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// IPv4 address of the interface inside Google Cloud Platform.
+	// +kubebuilder:validation:Optional
+	IPv4NexthopAddress *string `json:"ipv4NexthopAddress,omitempty" tf:"ipv4_nexthop_address,omitempty"`
 
 	// IPv6 address of the interface inside Google Cloud Platform.
 	// The address must be in the range 2600:2d00:0:2::/64 or 2600:2d00:0:3::/64.
@@ -477,6 +503,10 @@ type RouterPeerParameters struct {
 	// Selector for a Address in compute to populate peerIpAddress.
 	// +kubebuilder:validation:Optional
 	PeerIPAddressSelector *v1.Selector `json:"peerIpAddressSelector,omitempty" tf:"-"`
+
+	// IPv4 address of the BGP interface outside Google Cloud Platform.
+	// +kubebuilder:validation:Optional
+	PeerIPv4NexthopAddress *string `json:"peerIpv4NexthopAddress,omitempty" tf:"peer_ipv4_nexthop_address,omitempty"`
 
 	// IPv6 address of the BGP interface outside Google Cloud Platform.
 	// The address must be in the range 2600:2d00:0:2::/64 or 2600:2d00:0:3::/64.

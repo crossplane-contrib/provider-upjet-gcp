@@ -1606,6 +1606,10 @@ spec:
                   bigqueryProfile:
                     description: BigQuery warehouse profile.
                     type: object
+                  createWithoutValidation:
+                    description: Create the connection profile without validating
+                      it.
+                    type: boolean
                   displayName:
                     description: Display name.
                     type: string
@@ -2204,6 +2208,10 @@ spec:
                   bigqueryProfile:
                     description: BigQuery warehouse profile.
                     type: object
+                  createWithoutValidation:
+                    description: Create the connection profile without validating
+                      it.
+                    type: boolean
                   displayName:
                     description: Display name.
                     type: string
@@ -2966,6 +2974,10 @@ spec:
                   bigqueryProfile:
                     description: BigQuery warehouse profile.
                     type: object
+                  createWithoutValidation:
+                    description: Create the connection profile without validating
+                      it.
+                    type: boolean
                   displayName:
                     description: Display name.
                     type: string

@@ -2472,6 +2472,8 @@ spec:
                         type: object
                     type: object
                   deletionProtection:
+                    description: When the field is set to false, deleting the CertificateAuthority
+                      is allowed.
                     type: boolean
                   desiredState:
                     description: Desired state of the CertificateAuthority. Set this
@@ -3092,6 +3094,8 @@ spec:
                         type: object
                     type: object
                   deletionProtection:
+                    description: When the field is set to false, deleting the CertificateAuthority
+                      is allowed.
                     type: boolean
                   desiredState:
                     description: Desired state of the CertificateAuthority. Set this
@@ -3824,6 +3828,8 @@ spec:
                       fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
                     type: string
                   deletionProtection:
+                    description: When the field is set to false, deleting the CertificateAuthority
+                      is allowed.
                     type: boolean
                   desiredState:
                     description: Desired state of the CertificateAuthority. Set this

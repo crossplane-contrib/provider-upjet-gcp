@@ -127,6 +127,10 @@ type InstanceInitParameters struct {
 	// Structure is documented below.
 	NetworkConfig *InstanceNetworkConfigInitParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
 
+	// Configuration for Private Service Connect (PSC) for the instance.
+	// Structure is documented below.
+	PscInstanceConfig *PscInstanceConfigInitParameters `json:"pscInstanceConfig,omitempty" tf:"psc_instance_config,omitempty"`
+
 	// Configuration for query insights.
 	// Structure is documented below.
 	QueryInsightsConfig *QueryInsightsConfigInitParameters `json:"queryInsightsConfig,omitempty" tf:"query_insights_config,omitempty"`
@@ -255,6 +259,10 @@ type InstanceObservation struct {
 	// Structure is documented below.
 	NetworkConfig *InstanceNetworkConfigObservation `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
 
+	// Configuration for Private Service Connect (PSC) for the instance.
+	// Structure is documented below.
+	PscInstanceConfig *PscInstanceConfigObservation `json:"pscInstanceConfig,omitempty" tf:"psc_instance_config,omitempty"`
+
 	// The public IP addresses for the Instance. This is available ONLY when
 	// networkConfig.enablePublicIp is set to true. This is the connection
 	// endpoint for an end-user application.
@@ -374,6 +382,11 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkConfig *InstanceNetworkConfigParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
 
+	// Configuration for Private Service Connect (PSC) for the instance.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PscInstanceConfig *PscInstanceConfigParameters `json:"pscInstanceConfig,omitempty" tf:"psc_instance_config,omitempty"`
+
 	// Configuration for query insights.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -402,6 +415,39 @@ type MachineConfigParameters struct {
 	// The number of CPU's in the VM instance.
 	// +kubebuilder:validation:Optional
 	CPUCount *float64 `json:"cpuCount,omitempty" tf:"cpu_count,omitempty"`
+}
+
+type PscInstanceConfigInitParameters struct {
+
+	// List of consumer projects that are allowed to create PSC endpoints to service-attachments to this instance.
+	// These should be specified as project numbers only.
+	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
+}
+
+type PscInstanceConfigObservation struct {
+
+	// List of consumer projects that are allowed to create PSC endpoints to service-attachments to this instance.
+	// These should be specified as project numbers only.
+	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
+
+	// (Output)
+	// The DNS name of the instance for PSC connectivity.
+	// Name convention: ...alloydb-psc.goog
+	PscDNSName *string `json:"pscDnsName,omitempty" tf:"psc_dns_name,omitempty"`
+
+	// (Output)
+	// The service attachment created when Private Service Connect (PSC) is enabled for the instance.
+	// The name of the resource will be in the format of
+	// projects/<alloydb-tenant-project-number>/regions/<region-name>/serviceAttachments/<service-attachment-name>
+	ServiceAttachmentLink *string `json:"serviceAttachmentLink,omitempty" tf:"service_attachment_link,omitempty"`
+}
+
+type PscInstanceConfigParameters struct {
+
+	// List of consumer projects that are allowed to create PSC endpoints to service-attachments to this instance.
+	// These should be specified as project numbers only.
+	// +kubebuilder:validation:Optional
+	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
 }
 
 type QueryInsightsConfigInitParameters struct {

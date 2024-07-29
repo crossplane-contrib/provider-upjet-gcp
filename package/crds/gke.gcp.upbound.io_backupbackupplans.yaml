@@ -1283,6 +1283,12 @@ spec:
                           This flag specifies whether volume data should be backed up when PVCs are
                           included in the scope of a Backup.
                         type: boolean
+                      permissiveMode:
+                        description: |-
+                          This flag specifies whether Backups will not fail when
+                          Backup for GKE detects Kubernetes configuration that is
+                          non-standard or requires additional setup to restore.
+                        type: boolean
                       selectedApplications:
                         description: |-
                           A list of namespaced Kubernetes Resources.
@@ -1683,6 +1689,12 @@ spec:
                         description: |-
                           This flag specifies whether volume data should be backed up when PVCs are
                           included in the scope of a Backup.
+                        type: boolean
+                      permissiveMode:
+                        description: |-
+                          This flag specifies whether Backups will not fail when
+                          Backup for GKE detects Kubernetes configuration that is
+                          non-standard or requires additional setup to restore.
                         type: boolean
                       selectedApplications:
                         description: |-
@@ -2162,6 +2174,12 @@ spec:
                         description: |-
                           This flag specifies whether volume data should be backed up when PVCs are
                           included in the scope of a Backup.
+                        type: boolean
+                      permissiveMode:
+                        description: |-
+                          This flag specifies whether Backups will not fail when
+                          Backup for GKE detects Kubernetes configuration that is
+                          non-standard or requires additional setup to restore.
                         type: boolean
                       selectedApplications:
                         description: |-

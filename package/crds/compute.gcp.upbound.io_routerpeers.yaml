@@ -1633,6 +1633,10 @@ spec:
                       If set to true, the peer connection can be established with routing information.
                       The default is true.
                     type: boolean
+                  enableIpv4:
+                    description: Enable IPv4 traffic over BGP Peer. It is enabled
+                      by default if the peerIpAddress is version 4.
+                    type: boolean
                   enableIpv6:
                     description: Enable IPv6 traffic over BGP Peer. If not specified,
                       it is disabled by default.
@@ -1721,6 +1725,10 @@ spec:
                     description: |-
                       IP address of the interface inside Google Cloud Platform.
                       Only IPv4 is supported.
+                    type: string
+                  ipv4NexthopAddress:
+                    description: IPv4 address of the interface inside Google Cloud
+                      Platform.
                     type: string
                   ipv6NexthopAddress:
                     description: |-
@@ -1842,6 +1850,10 @@ spec:
                             type: string
                         type: object
                     type: object
+                  peerIpv4NexthopAddress:
+                    description: IPv4 address of the BGP interface outside Google
+                      Cloud Platform.
+                    type: string
                   peerIpv6NexthopAddress:
                     description: |-
                       IPv6 address of the BGP interface outside Google Cloud Platform.
@@ -2190,6 +2202,10 @@ spec:
                       If set to true, the peer connection can be established with routing information.
                       The default is true.
                     type: boolean
+                  enableIpv4:
+                    description: Enable IPv4 traffic over BGP Peer. It is enabled
+                      by default if the peerIpAddress is version 4.
+                    type: boolean
                   enableIpv6:
                     description: Enable IPv6 traffic over BGP Peer. If not specified,
                       it is disabled by default.
@@ -2278,6 +2294,10 @@ spec:
                     description: |-
                       IP address of the interface inside Google Cloud Platform.
                       Only IPv4 is supported.
+                    type: string
+                  ipv4NexthopAddress:
+                    description: IPv4 address of the interface inside Google Cloud
+                      Platform.
                     type: string
                   ipv6NexthopAddress:
                     description: |-
@@ -2401,6 +2421,10 @@ spec:
                             type: string
                         type: object
                     type: object
+                  peerIpv4NexthopAddress:
+                    description: IPv4 address of the BGP interface outside Google
+                      Cloud Platform.
+                    type: string
                   peerIpv6NexthopAddress:
                     description: |-
                       IPv6 address of the BGP interface outside Google Cloud Platform.
@@ -2835,6 +2859,10 @@ spec:
                       If set to true, the peer connection can be established with routing information.
                       The default is true.
                     type: boolean
+                  enableIpv4:
+                    description: Enable IPv4 traffic over BGP Peer. It is enabled
+                      by default if the peerIpAddress is version 4.
+                    type: boolean
                   enableIpv6:
                     description: Enable IPv6 traffic over BGP Peer. If not specified,
                       it is disabled by default.
@@ -2850,6 +2878,10 @@ spec:
                     description: |-
                       IP address of the interface inside Google Cloud Platform.
                       Only IPv4 is supported.
+                    type: string
+                  ipv4NexthopAddress:
+                    description: IPv4 address of the interface inside Google Cloud
+                      Platform.
                     type: string
                   ipv6NexthopAddress:
                     description: |-
@@ -2881,6 +2913,10 @@ spec:
                     description: |-
                       IP address of the BGP interface outside Google Cloud Platform.
                       Only IPv4 is supported. Required if ip_address is set.
+                    type: string
+                  peerIpv4NexthopAddress:
+                    description: IPv4 address of the BGP interface outside Google
+                      Cloud Platform.
                     type: string
                   peerIpv6NexthopAddress:
                     description: |-

@@ -3228,6 +3228,11 @@ func (in *CertificateTemplateInitParameters) DeepCopyInto(out *CertificateTempla
 			(*out)[key] = outVal
 		}
 	}
+	if in.MaximumLifetime != nil {
+		in, out := &in.MaximumLifetime, &out.MaximumLifetime
+		*out = new(string)
+		**out = **in
+	}
 	if in.PassthroughExtensions != nil {
 		in, out := &in.PassthroughExtensions, &out.PassthroughExtensions
 		*out = new(PassthroughExtensionsInitParameters)
@@ -3347,6 +3352,11 @@ func (in *CertificateTemplateObservation) DeepCopyInto(out *CertificateTemplateO
 		*out = new(string)
 		**out = **in
 	}
+	if in.MaximumLifetime != nil {
+		in, out := &in.MaximumLifetime, &out.MaximumLifetime
+		*out = new(string)
+		**out = **in
+	}
 	if in.PassthroughExtensions != nil {
 		in, out := &in.PassthroughExtensions, &out.PassthroughExtensions
 		*out = new(PassthroughExtensionsObservation)
@@ -3426,6 +3436,11 @@ func (in *CertificateTemplateParameters) DeepCopyInto(out *CertificateTemplatePa
 	}
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.MaximumLifetime != nil {
+		in, out := &in.MaximumLifetime, &out.MaximumLifetime
 		*out = new(string)
 		**out = **in
 	}

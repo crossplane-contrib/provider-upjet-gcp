@@ -59,7 +59,7 @@ type JobInitParameters struct {
 	// The region in which the created job should run.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// The Service Account email used to create the job.
+	// The Service Account email used to create the job. This should be just an email e.g. myserviceaccount@myproject.iam.gserviceaccount.com. Do not include any serviceAccount: or other prefix.
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// See above note.
@@ -135,7 +135,7 @@ type JobObservation struct {
 	// The region in which the created job should run.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// The Service Account email used to create the job.
+	// The Service Account email used to create the job. This should be just an email e.g. myserviceaccount@myproject.iam.gserviceaccount.com. Do not include any serviceAccount: or other prefix.
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// See above note.
@@ -226,7 +226,7 @@ type JobParameters struct {
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// The Service Account email used to create the job.
+	// The Service Account email used to create the job. This should be just an email e.g. myserviceaccount@myproject.iam.gserviceaccount.com. Do not include any serviceAccount: or other prefix.
 	// +kubebuilder:validation:Optional
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 

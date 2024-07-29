@@ -685,6 +685,11 @@ func (in *GarbageCollectionPolicyInitParameters) DeepCopyInto(out *GarbageCollec
 		*out = new(string)
 		**out = **in
 	}
+	if in.IgnoreWarnings != nil {
+		in, out := &in.IgnoreWarnings, &out.IgnoreWarnings
+		*out = new(bool)
+		**out = **in
+	}
 	if in.InstanceName != nil {
 		in, out := &in.InstanceName, &out.InstanceName
 		*out = new(string)
@@ -804,6 +809,11 @@ func (in *GarbageCollectionPolicyObservation) DeepCopyInto(out *GarbageCollectio
 		*out = new(string)
 		**out = **in
 	}
+	if in.IgnoreWarnings != nil {
+		in, out := &in.IgnoreWarnings, &out.IgnoreWarnings
+		*out = new(bool)
+		**out = **in
+	}
 	if in.InstanceName != nil {
 		in, out := &in.InstanceName, &out.InstanceName
 		*out = new(string)
@@ -864,6 +874,11 @@ func (in *GarbageCollectionPolicyParameters) DeepCopyInto(out *GarbageCollection
 	if in.GcRules != nil {
 		in, out := &in.GcRules, &out.GcRules
 		*out = new(string)
+		**out = **in
+	}
+	if in.IgnoreWarnings != nil {
+		in, out := &in.IgnoreWarnings, &out.IgnoreWarnings
+		*out = new(bool)
 		**out = **in
 	}
 	if in.InstanceName != nil {
@@ -1543,6 +1558,11 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ForceDestroy != nil {
+		in, out := &in.ForceDestroy, &out.ForceDestroy
+		*out = new(bool)
+		**out = **in
+	}
 	if in.InstanceType != nil {
 		in, out := &in.InstanceType, &out.InstanceType
 		*out = new(string)
@@ -1649,6 +1669,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 			(*out)[key] = outVal
 		}
 	}
+	if in.ForceDestroy != nil {
+		in, out := &in.ForceDestroy, &out.ForceDestroy
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
@@ -1726,6 +1751,11 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
 		*out = new(string)
+		**out = **in
+	}
+	if in.ForceDestroy != nil {
+		in, out := &in.ForceDestroy, &out.ForceDestroy
+		*out = new(bool)
 		**out = **in
 	}
 	if in.InstanceType != nil {

@@ -319,7 +319,7 @@ type BucketParameters struct {
 
 type ConditionInitParameters struct {
 
-	// Minimum age of an object in days to satisfy this condition.
+	// Minimum age of an object in days to satisfy this condition. If not supplied alongside another condition and without setting no_age to true, a default age of 0 will be set.
 	Age *float64 `json:"age,omitempty" tf:"age,omitempty"`
 
 	// A date in the RFC 3339 format YYYY-MM-DD. This condition is satisfied when an object is created before midnight of the specified date in UTC.
@@ -328,10 +328,10 @@ type ConditionInitParameters struct {
 	// A date in the RFC 3339 format YYYY-MM-DD. This condition is satisfied when the customTime metadata for the object is set to an earlier date than the date used in this lifecycle condition.
 	CustomTimeBefore *string `json:"customTimeBefore,omitempty" tf:"custom_time_before,omitempty"`
 
-	// Days since the date set in the customTime metadata for the object. This condition is satisfied when the current date and time is at least the specified number of days after the customTime.
+	// Days since the date set in the customTime metadata for the object. This condition is satisfied when the current date and time is at least the specified number of days after the customTime. When set to 0 it will be ignored, and your state will treat it as though you supplied no days_since_custom_time condition.
 	DaysSinceCustomTime *float64 `json:"daysSinceCustomTime,omitempty" tf:"days_since_custom_time,omitempty"`
 
-	// Relevant only for versioned objects. Number of days elapsed since the noncurrent timestamp of an object.
+	// Relevant only for versioned objects. Number of days elapsed since the noncurrent timestamp of an object. When set to 0 it will be ignored, and your state will treat it as though you supplied no days_since_noncurrent_time condition.
 	DaysSinceNoncurrentTime *float64 `json:"daysSinceNoncurrentTime,omitempty" tf:"days_since_noncurrent_time,omitempty"`
 
 	// One or more matching name prefixes to satisfy this condition.
@@ -343,14 +343,23 @@ type ConditionInitParameters struct {
 	// One or more matching name suffixes to satisfy this condition.
 	MatchesSuffix []*string `json:"matchesSuffix,omitempty" tf:"matches_suffix,omitempty"`
 
-	// While set true, age value will be omitted. Note Required to set true when age is unset in the config file.
+	// While set true, age value will be omitted from requests. This prevents a default age of 0 from being applied, and if you do not have an age value set, setting this to true is strongly recommended. When unset and other conditions are set to zero values, this can result in a rule that applies your action to all files in the bucket.
 	NoAge *bool `json:"noAge,omitempty" tf:"no_age,omitempty"`
 
-	// Relevant only for versioned objects. The date in RFC 3339 (e.g. 2017-06-13) when the object became nonconcurrent.
+	// Relevant only for versioned objects. The date in RFC 3339 (e.g. 2017-06-13) when the object became nonconcurrent. When set to 0 it will be ignored, and your state will treat it as though you supplied no noncurrent_time_before condition.
 	NoncurrentTimeBefore *string `json:"noncurrentTimeBefore,omitempty" tf:"noncurrent_time_before,omitempty"`
 
-	// Relevant only for versioned objects. The number of newer versions of an object to satisfy this condition.
+	// Relevant only for versioned objects. The number of newer versions of an object to satisfy this condition. When set to 0 it will be ignored and your state will treat it as though you supplied no num_newer_versions condition.
 	NumNewerVersions *float64 `json:"numNewerVersions,omitempty" tf:"num_newer_versions,omitempty"`
+
+	// While set true, days_since_custom_time value will be sent in the request even for zero value of the field. This field is only useful for setting 0 value to the days_since_custom_time field. It can be used alone or together with days_since_custom_time.
+	SendDaysSinceCustomTimeIfZero *bool `json:"sendDaysSinceCustomTimeIfZero,omitempty" tf:"send_days_since_custom_time_if_zero,omitempty"`
+
+	// While set true, days_since_noncurrent_time value will be sent in the request even for zero value of the field. This field is only useful for setting 0 value to the days_since_noncurrent_time field. It can be used alone or together with days_since_noncurrent_time.
+	SendDaysSinceNoncurrentTimeIfZero *bool `json:"sendDaysSinceNoncurrentTimeIfZero,omitempty" tf:"send_days_since_noncurrent_time_if_zero,omitempty"`
+
+	// While set true, num_newer_versions value will be sent in the request even for zero value of the field. This field is only useful for setting 0 value to the num_newer_versions field. It can be used alone or together with num_newer_versions.
+	SendNumNewerVersionsIfZero *bool `json:"sendNumNewerVersionsIfZero,omitempty" tf:"send_num_newer_versions_if_zero,omitempty"`
 
 	// Match to live and/or archived objects. Unversioned buckets have only live objects. Supported values include: "LIVE", "ARCHIVED", "ANY".
 	WithState *string `json:"withState,omitempty" tf:"with_state,omitempty"`
@@ -358,7 +367,7 @@ type ConditionInitParameters struct {
 
 type ConditionObservation struct {
 
-	// Minimum age of an object in days to satisfy this condition.
+	// Minimum age of an object in days to satisfy this condition. If not supplied alongside another condition and without setting no_age to true, a default age of 0 will be set.
 	Age *float64 `json:"age,omitempty" tf:"age,omitempty"`
 
 	// A date in the RFC 3339 format YYYY-MM-DD. This condition is satisfied when an object is created before midnight of the specified date in UTC.
@@ -367,10 +376,10 @@ type ConditionObservation struct {
 	// A date in the RFC 3339 format YYYY-MM-DD. This condition is satisfied when the customTime metadata for the object is set to an earlier date than the date used in this lifecycle condition.
 	CustomTimeBefore *string `json:"customTimeBefore,omitempty" tf:"custom_time_before,omitempty"`
 
-	// Days since the date set in the customTime metadata for the object. This condition is satisfied when the current date and time is at least the specified number of days after the customTime.
+	// Days since the date set in the customTime metadata for the object. This condition is satisfied when the current date and time is at least the specified number of days after the customTime. When set to 0 it will be ignored, and your state will treat it as though you supplied no days_since_custom_time condition.
 	DaysSinceCustomTime *float64 `json:"daysSinceCustomTime,omitempty" tf:"days_since_custom_time,omitempty"`
 
-	// Relevant only for versioned objects. Number of days elapsed since the noncurrent timestamp of an object.
+	// Relevant only for versioned objects. Number of days elapsed since the noncurrent timestamp of an object. When set to 0 it will be ignored, and your state will treat it as though you supplied no days_since_noncurrent_time condition.
 	DaysSinceNoncurrentTime *float64 `json:"daysSinceNoncurrentTime,omitempty" tf:"days_since_noncurrent_time,omitempty"`
 
 	// One or more matching name prefixes to satisfy this condition.
@@ -382,14 +391,23 @@ type ConditionObservation struct {
 	// One or more matching name suffixes to satisfy this condition.
 	MatchesSuffix []*string `json:"matchesSuffix,omitempty" tf:"matches_suffix,omitempty"`
 
-	// While set true, age value will be omitted. Note Required to set true when age is unset in the config file.
+	// While set true, age value will be omitted from requests. This prevents a default age of 0 from being applied, and if you do not have an age value set, setting this to true is strongly recommended. When unset and other conditions are set to zero values, this can result in a rule that applies your action to all files in the bucket.
 	NoAge *bool `json:"noAge,omitempty" tf:"no_age,omitempty"`
 
-	// Relevant only for versioned objects. The date in RFC 3339 (e.g. 2017-06-13) when the object became nonconcurrent.
+	// Relevant only for versioned objects. The date in RFC 3339 (e.g. 2017-06-13) when the object became nonconcurrent. When set to 0 it will be ignored, and your state will treat it as though you supplied no noncurrent_time_before condition.
 	NoncurrentTimeBefore *string `json:"noncurrentTimeBefore,omitempty" tf:"noncurrent_time_before,omitempty"`
 
-	// Relevant only for versioned objects. The number of newer versions of an object to satisfy this condition.
+	// Relevant only for versioned objects. The number of newer versions of an object to satisfy this condition. When set to 0 it will be ignored and your state will treat it as though you supplied no num_newer_versions condition.
 	NumNewerVersions *float64 `json:"numNewerVersions,omitempty" tf:"num_newer_versions,omitempty"`
+
+	// While set true, days_since_custom_time value will be sent in the request even for zero value of the field. This field is only useful for setting 0 value to the days_since_custom_time field. It can be used alone or together with days_since_custom_time.
+	SendDaysSinceCustomTimeIfZero *bool `json:"sendDaysSinceCustomTimeIfZero,omitempty" tf:"send_days_since_custom_time_if_zero,omitempty"`
+
+	// While set true, days_since_noncurrent_time value will be sent in the request even for zero value of the field. This field is only useful for setting 0 value to the days_since_noncurrent_time field. It can be used alone or together with days_since_noncurrent_time.
+	SendDaysSinceNoncurrentTimeIfZero *bool `json:"sendDaysSinceNoncurrentTimeIfZero,omitempty" tf:"send_days_since_noncurrent_time_if_zero,omitempty"`
+
+	// While set true, num_newer_versions value will be sent in the request even for zero value of the field. This field is only useful for setting 0 value to the num_newer_versions field. It can be used alone or together with num_newer_versions.
+	SendNumNewerVersionsIfZero *bool `json:"sendNumNewerVersionsIfZero,omitempty" tf:"send_num_newer_versions_if_zero,omitempty"`
 
 	// Match to live and/or archived objects. Unversioned buckets have only live objects. Supported values include: "LIVE", "ARCHIVED", "ANY".
 	WithState *string `json:"withState,omitempty" tf:"with_state,omitempty"`
@@ -397,7 +415,7 @@ type ConditionObservation struct {
 
 type ConditionParameters struct {
 
-	// Minimum age of an object in days to satisfy this condition.
+	// Minimum age of an object in days to satisfy this condition. If not supplied alongside another condition and without setting no_age to true, a default age of 0 will be set.
 	// +kubebuilder:validation:Optional
 	Age *float64 `json:"age,omitempty" tf:"age,omitempty"`
 
@@ -409,11 +427,11 @@ type ConditionParameters struct {
 	// +kubebuilder:validation:Optional
 	CustomTimeBefore *string `json:"customTimeBefore,omitempty" tf:"custom_time_before,omitempty"`
 
-	// Days since the date set in the customTime metadata for the object. This condition is satisfied when the current date and time is at least the specified number of days after the customTime.
+	// Days since the date set in the customTime metadata for the object. This condition is satisfied when the current date and time is at least the specified number of days after the customTime. When set to 0 it will be ignored, and your state will treat it as though you supplied no days_since_custom_time condition.
 	// +kubebuilder:validation:Optional
 	DaysSinceCustomTime *float64 `json:"daysSinceCustomTime,omitempty" tf:"days_since_custom_time,omitempty"`
 
-	// Relevant only for versioned objects. Number of days elapsed since the noncurrent timestamp of an object.
+	// Relevant only for versioned objects. Number of days elapsed since the noncurrent timestamp of an object. When set to 0 it will be ignored, and your state will treat it as though you supplied no days_since_noncurrent_time condition.
 	// +kubebuilder:validation:Optional
 	DaysSinceNoncurrentTime *float64 `json:"daysSinceNoncurrentTime,omitempty" tf:"days_since_noncurrent_time,omitempty"`
 
@@ -429,17 +447,29 @@ type ConditionParameters struct {
 	// +kubebuilder:validation:Optional
 	MatchesSuffix []*string `json:"matchesSuffix,omitempty" tf:"matches_suffix,omitempty"`
 
-	// While set true, age value will be omitted. Note Required to set true when age is unset in the config file.
+	// While set true, age value will be omitted from requests. This prevents a default age of 0 from being applied, and if you do not have an age value set, setting this to true is strongly recommended. When unset and other conditions are set to zero values, this can result in a rule that applies your action to all files in the bucket.
 	// +kubebuilder:validation:Optional
 	NoAge *bool `json:"noAge,omitempty" tf:"no_age,omitempty"`
 
-	// Relevant only for versioned objects. The date in RFC 3339 (e.g. 2017-06-13) when the object became nonconcurrent.
+	// Relevant only for versioned objects. The date in RFC 3339 (e.g. 2017-06-13) when the object became nonconcurrent. When set to 0 it will be ignored, and your state will treat it as though you supplied no noncurrent_time_before condition.
 	// +kubebuilder:validation:Optional
 	NoncurrentTimeBefore *string `json:"noncurrentTimeBefore,omitempty" tf:"noncurrent_time_before,omitempty"`
 
-	// Relevant only for versioned objects. The number of newer versions of an object to satisfy this condition.
+	// Relevant only for versioned objects. The number of newer versions of an object to satisfy this condition. When set to 0 it will be ignored and your state will treat it as though you supplied no num_newer_versions condition.
 	// +kubebuilder:validation:Optional
 	NumNewerVersions *float64 `json:"numNewerVersions,omitempty" tf:"num_newer_versions,omitempty"`
+
+	// While set true, days_since_custom_time value will be sent in the request even for zero value of the field. This field is only useful for setting 0 value to the days_since_custom_time field. It can be used alone or together with days_since_custom_time.
+	// +kubebuilder:validation:Optional
+	SendDaysSinceCustomTimeIfZero *bool `json:"sendDaysSinceCustomTimeIfZero,omitempty" tf:"send_days_since_custom_time_if_zero,omitempty"`
+
+	// While set true, days_since_noncurrent_time value will be sent in the request even for zero value of the field. This field is only useful for setting 0 value to the days_since_noncurrent_time field. It can be used alone or together with days_since_noncurrent_time.
+	// +kubebuilder:validation:Optional
+	SendDaysSinceNoncurrentTimeIfZero *bool `json:"sendDaysSinceNoncurrentTimeIfZero,omitempty" tf:"send_days_since_noncurrent_time_if_zero,omitempty"`
+
+	// While set true, num_newer_versions value will be sent in the request even for zero value of the field. This field is only useful for setting 0 value to the num_newer_versions field. It can be used alone or together with num_newer_versions.
+	// +kubebuilder:validation:Optional
+	SendNumNewerVersionsIfZero *bool `json:"sendNumNewerVersionsIfZero,omitempty" tf:"send_num_newer_versions_if_zero,omitempty"`
 
 	// Match to live and/or archived objects. Unversioned buckets have only live objects. Supported values include: "LIVE", "ARCHIVED", "ANY".
 	// +kubebuilder:validation:Optional

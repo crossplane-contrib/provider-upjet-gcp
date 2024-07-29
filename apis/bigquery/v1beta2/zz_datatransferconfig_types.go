@@ -74,7 +74,8 @@ type DataTransferConfigInitParameters struct {
 	// jun 13:15, and first sunday of quarter 00:00. See more explanation
 	// about the format here:
 	// https://cloud.google.com/appengine/docs/flexible/python/scheduling-jobs-with-cron-yaml#the_schedule_format
-	// NOTE: the granularity should be at least 8 hours, or less frequent.
+	// NOTE: The minimum interval time between recurring transfers depends
+	// on the data source; refer to the documentation for your data source.
 	Schedule *string `json:"schedule,omitempty" tf:"schedule,omitempty"`
 
 	// Options customizing the data transfer schedule.
@@ -158,7 +159,8 @@ type DataTransferConfigObservation struct {
 	// jun 13:15, and first sunday of quarter 00:00. See more explanation
 	// about the format here:
 	// https://cloud.google.com/appengine/docs/flexible/python/scheduling-jobs-with-cron-yaml#the_schedule_format
-	// NOTE: the granularity should be at least 8 hours, or less frequent.
+	// NOTE: The minimum interval time between recurring transfers depends
+	// on the data source; refer to the documentation for your data source.
 	Schedule *string `json:"schedule,omitempty" tf:"schedule,omitempty"`
 
 	// Options customizing the data transfer schedule.
@@ -251,7 +253,8 @@ type DataTransferConfigParameters struct {
 	// jun 13:15, and first sunday of quarter 00:00. See more explanation
 	// about the format here:
 	// https://cloud.google.com/appengine/docs/flexible/python/scheduling-jobs-with-cron-yaml#the_schedule_format
-	// NOTE: the granularity should be at least 8 hours, or less frequent.
+	// NOTE: The minimum interval time between recurring transfers depends
+	// on the data source; refer to the documentation for your data source.
 	// +kubebuilder:validation:Optional
 	Schedule *string `json:"schedule,omitempty" tf:"schedule,omitempty"`
 

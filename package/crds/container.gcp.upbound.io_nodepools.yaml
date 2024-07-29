@@ -2241,13 +2241,21 @@ spec:
                         description: Whether nodes have internal IP addresses only.
                         type: boolean
                       networkPerformanceConfig:
+                        description: Network bandwidth tier configuration. Structure
+                          is documented below.
                         properties:
                           totalEgressBandwidthTier:
+                            description: Specifies the total network bandwidth tier
+                              for the NodePool.
                             type: string
                         type: object
                       podCidrOverprovisionConfig:
+                        description: Configuration for node-pool level pod cidr overprovision.
+                          If not set, the cluster level setting will be inherited.
+                          Structure is documented below.
                         properties:
                           disabled:
+                            description: Whether pod cidr overprovision is disabled.
                             type: boolean
                         type: object
                       podIpv4CidrBlock:
@@ -2272,6 +2280,8 @@ spec:
                     properties:
                       advancedMachineFeatures:
                         properties:
+                          enableNestedVirtualization:
+                            type: boolean
                           threadsPerCore:
                             type: number
                         type: object
@@ -2285,6 +2295,30 @@ spec:
                             description: Makes nodes obtainable through the ProvisioningRequest
                               API exclusively.
                             type: boolean
+                        type: object
+                      containerdConfig:
+                        properties:
+                          privateRegistryAccessConfig:
+                            properties:
+                              certificateAuthorityDomainConfig:
+                                items:
+                                  properties:
+                                    fqdns:
+                                      items:
+                                        type: string
+                                      type: array
+                                    gcpSecretManagerCertificateConfig:
+                                      properties:
+                                        secretUri:
+                                          type: string
+                                      type: object
+                                  type: object
+                                type: array
+                              enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
+                                type: boolean
+                            type: object
                         type: object
                       diskSizeGb:
                         type: number
@@ -2766,13 +2800,21 @@ spec:
                         description: Whether nodes have internal IP addresses only.
                         type: boolean
                       networkPerformanceConfig:
+                        description: Network bandwidth tier configuration. Structure
+                          is documented below.
                         properties:
                           totalEgressBandwidthTier:
+                            description: Specifies the total network bandwidth tier
+                              for the NodePool.
                             type: string
                         type: object
                       podCidrOverprovisionConfig:
+                        description: Configuration for node-pool level pod cidr overprovision.
+                          If not set, the cluster level setting will be inherited.
+                          Structure is documented below.
                         properties:
                           disabled:
+                            description: Whether pod cidr overprovision is disabled.
                             type: boolean
                         type: object
                       podIpv4CidrBlock:
@@ -2797,6 +2839,8 @@ spec:
                     properties:
                       advancedMachineFeatures:
                         properties:
+                          enableNestedVirtualization:
+                            type: boolean
                           threadsPerCore:
                             type: number
                         type: object
@@ -2810,6 +2854,30 @@ spec:
                             description: Makes nodes obtainable through the ProvisioningRequest
                               API exclusively.
                             type: boolean
+                        type: object
+                      containerdConfig:
+                        properties:
+                          privateRegistryAccessConfig:
+                            properties:
+                              certificateAuthorityDomainConfig:
+                                items:
+                                  properties:
+                                    fqdns:
+                                      items:
+                                        type: string
+                                      type: array
+                                    gcpSecretManagerCertificateConfig:
+                                      properties:
+                                        secretUri:
+                                          type: string
+                                      type: object
+                                  type: object
+                                type: array
+                              enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
+                                type: boolean
+                            type: object
                         type: object
                       diskSizeGb:
                         type: number
@@ -3474,13 +3542,21 @@ spec:
                         description: Whether nodes have internal IP addresses only.
                         type: boolean
                       networkPerformanceConfig:
+                        description: Network bandwidth tier configuration. Structure
+                          is documented below.
                         properties:
                           totalEgressBandwidthTier:
+                            description: Specifies the total network bandwidth tier
+                              for the NodePool.
                             type: string
                         type: object
                       podCidrOverprovisionConfig:
+                        description: Configuration for node-pool level pod cidr overprovision.
+                          If not set, the cluster level setting will be inherited.
+                          Structure is documented below.
                         properties:
                           disabled:
+                            description: Whether pod cidr overprovision is disabled.
                             type: boolean
                         type: object
                       podIpv4CidrBlock:
@@ -3505,6 +3581,8 @@ spec:
                     properties:
                       advancedMachineFeatures:
                         properties:
+                          enableNestedVirtualization:
+                            type: boolean
                           threadsPerCore:
                             type: number
                         type: object
@@ -3518,6 +3596,30 @@ spec:
                             description: Makes nodes obtainable through the ProvisioningRequest
                               API exclusively.
                             type: boolean
+                        type: object
+                      containerdConfig:
+                        properties:
+                          privateRegistryAccessConfig:
+                            properties:
+                              certificateAuthorityDomainConfig:
+                                items:
+                                  properties:
+                                    fqdns:
+                                      items:
+                                        type: string
+                                      type: array
+                                    gcpSecretManagerCertificateConfig:
+                                      properties:
+                                        secretUri:
+                                          type: string
+                                      type: object
+                                  type: object
+                                type: array
+                              enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
+                                type: boolean
+                            type: object
                         type: object
                       diskSizeGb:
                         type: number

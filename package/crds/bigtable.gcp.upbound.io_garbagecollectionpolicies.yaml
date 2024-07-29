@@ -849,6 +849,12 @@ spec:
                       GC policy. Conflicts with mode, max_age and max_version. Conflicts
                       with mode, max_age and max_version.
                     type: string
+                  ignoreWarnings:
+                    description: |-
+                      Boolean for whether to allow ignoring warnings when updating the gc policy.
+                      Setting this to true allows relaxing the gc policy for replicated clusters by up to 90 days, but keep in mind this may increase how long clusters are inconsistent. Make sure
+                      you understand the risks listed at https://cloud.google.com/bigtable/docs/garbage-collection#increasing before setting this option.
+                    type: boolean
                   instanceName:
                     description: The name of the Bigtable instance.
                     type: string
@@ -1060,6 +1066,12 @@ spec:
                       GC policy. Conflicts with mode, max_age and max_version. Conflicts
                       with mode, max_age and max_version.
                     type: string
+                  ignoreWarnings:
+                    description: |-
+                      Boolean for whether to allow ignoring warnings when updating the gc policy.
+                      Setting this to true allows relaxing the gc policy for replicated clusters by up to 90 days, but keep in mind this may increase how long clusters are inconsistent. Make sure
+                      you understand the risks listed at https://cloud.google.com/bigtable/docs/garbage-collection#increasing before setting this option.
+                    type: boolean
                   instanceName:
                     description: The name of the Bigtable instance.
                     type: string
@@ -1438,6 +1450,12 @@ spec:
                     type: string
                   id:
                     type: string
+                  ignoreWarnings:
+                    description: |-
+                      Boolean for whether to allow ignoring warnings when updating the gc policy.
+                      Setting this to true allows relaxing the gc policy for replicated clusters by up to 90 days, but keep in mind this may increase how long clusters are inconsistent. Make sure
+                      you understand the risks listed at https://cloud.google.com/bigtable/docs/garbage-collection#increasing before setting this option.
+                    type: boolean
                   instanceName:
                     description: The name of the Bigtable instance.
                     type: string

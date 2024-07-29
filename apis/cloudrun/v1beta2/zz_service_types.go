@@ -391,10 +391,7 @@ type HTTPGetInitParameters struct {
 	// Structure is documented below.
 	HTTPHeaders []HTTPHeadersInitParameters `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
 
-	// The relative path of the file to map the key to.
-	// May not be an absolute path.
-	// May not contain the path element '..'.
-	// May not start with the string '..'.
+	// Path exported by the NFS server
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
 	// Port number to access on the container. Number must be in the range 1 to 65535.
@@ -408,10 +405,7 @@ type HTTPGetObservation struct {
 	// Structure is documented below.
 	HTTPHeaders []HTTPHeadersObservation `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
 
-	// The relative path of the file to map the key to.
-	// May not be an absolute path.
-	// May not contain the path element '..'.
-	// May not start with the string '..'.
+	// Path exported by the NFS server
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
 	// Port number to access on the container. Number must be in the range 1 to 65535.
@@ -426,10 +420,7 @@ type HTTPGetParameters struct {
 	// +kubebuilder:validation:Optional
 	HTTPHeaders []HTTPHeadersParameters `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
 
-	// The relative path of the file to map the key to.
-	// May not be an absolute path.
-	// May not contain the path element '..'.
-	// May not start with the string '..'.
+	// Path exported by the NFS server
 	// +kubebuilder:validation:Optional
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
@@ -480,10 +471,7 @@ type ItemsInitParameters struct {
 	// the result can be other mode bits set.
 	Mode *float64 `json:"mode,omitempty" tf:"mode,omitempty"`
 
-	// The relative path of the file to map the key to.
-	// May not be an absolute path.
-	// May not contain the path element '..'.
-	// May not start with the string '..'.
+	// Path exported by the NFS server
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 }
 
@@ -499,10 +487,7 @@ type ItemsObservation struct {
 	// the result can be other mode bits set.
 	Mode *float64 `json:"mode,omitempty" tf:"mode,omitempty"`
 
-	// The relative path of the file to map the key to.
-	// May not be an absolute path.
-	// May not contain the path element '..'.
-	// May not start with the string '..'.
+	// Path exported by the NFS server
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 }
 
@@ -520,10 +505,7 @@ type ItemsParameters struct {
 	// +kubebuilder:validation:Optional
 	Mode *float64 `json:"mode,omitempty" tf:"mode,omitempty"`
 
-	// The relative path of the file to map the key to.
-	// May not be an absolute path.
-	// May not contain the path element '..'.
-	// May not start with the string '..'.
+	// Path exported by the NFS server
 	// +kubebuilder:validation:Optional
 	Path *string `json:"path" tf:"path,omitempty"`
 }
@@ -1353,10 +1335,7 @@ type StartupProbeHTTPGetInitParameters struct {
 	// Structure is documented below.
 	HTTPHeaders []HTTPGetHTTPHeadersInitParameters `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
 
-	// The relative path of the file to map the key to.
-	// May not be an absolute path.
-	// May not contain the path element '..'.
-	// May not start with the string '..'.
+	// Path exported by the NFS server
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
 	// Port number to access on the container. Number must be in the range 1 to 65535.
@@ -1370,10 +1349,7 @@ type StartupProbeHTTPGetObservation struct {
 	// Structure is documented below.
 	HTTPHeaders []HTTPGetHTTPHeadersObservation `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
 
-	// The relative path of the file to map the key to.
-	// May not be an absolute path.
-	// May not contain the path element '..'.
-	// May not start with the string '..'.
+	// Path exported by the NFS server
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
 	// Port number to access on the container. Number must be in the range 1 to 65535.
@@ -1388,10 +1364,7 @@ type StartupProbeHTTPGetParameters struct {
 	// +kubebuilder:validation:Optional
 	HTTPHeaders []HTTPGetHTTPHeadersParameters `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
 
-	// The relative path of the file to map the key to.
-	// May not be an absolute path.
-	// May not contain the path element '..'.
-	// May not start with the string '..'.
+	// Path exported by the NFS server
 	// +kubebuilder:validation:Optional
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 

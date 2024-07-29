@@ -1863,7 +1863,7 @@ spec:
                                 type: string
                               repositoryPath:
                                 description: Specific repository from the base, e.g.
-                                  "centos/8-stream/BaseOS/x86_64/os"
+                                  "pub/rocky/9/BaseOS/x86_64/os"
                                 type: string
                             type: object
                         type: object
@@ -2069,7 +2069,7 @@ spec:
                                 type: string
                               repositoryPath:
                                 description: Specific repository from the base, e.g.
-                                  "centos/8-stream/BaseOS/x86_64/os"
+                                  "pub/rocky/9/BaseOS/x86_64/os"
                                 type: string
                             type: object
                         type: object
@@ -2359,7 +2359,7 @@ spec:
                                 type: string
                               repositoryPath:
                                 description: Specific repository from the base, e.g.
-                                  "centos/8-stream/BaseOS/x86_64/os"
+                                  "pub/rocky/9/BaseOS/x86_64/os"
                                 type: string
                             type: object
                         type: object
@@ -2565,7 +2565,7 @@ spec:
                                 type: string
                               repositoryPath:
                                 description: Specific repository from the base, e.g.
-                                  "centos/8-stream/BaseOS/x86_64/os"
+                                  "pub/rocky/9/BaseOS/x86_64/os"
                                 type: string
                             type: object
                         type: object
@@ -3040,7 +3040,7 @@ spec:
                                 type: string
                               repositoryPath:
                                 description: Specific repository from the base, e.g.
-                                  "centos/8-stream/BaseOS/x86_64/os"
+                                  "pub/rocky/9/BaseOS/x86_64/os"
                                 type: string
                             type: object
                         type: object
@@ -3170,7 +3170,7 @@ spec:
                                 type: string
                               repositoryPath:
                                 description: Specific repository from the base, e.g.
-                                  "centos/8-stream/BaseOS/x86_64/os"
+                                  "pub/rocky/9/BaseOS/x86_64/os"
                                 type: string
                             type: object
                         type: object

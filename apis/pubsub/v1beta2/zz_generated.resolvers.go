@@ -131,6 +131,48 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 	var rsp reference.ResolutionResponse
 	var err error
 
+	if mg.Spec.ForProvider.BigqueryConfig != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BigqueryConfig.ServiceAccountEmail),
+				Extract:      resource.ExtractParamPath("email", true),
+				Reference:    mg.Spec.ForProvider.BigqueryConfig.ServiceAccountEmailRef,
+				Selector:     mg.Spec.ForProvider.BigqueryConfig.ServiceAccountEmailSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.BigqueryConfig.ServiceAccountEmail")
+		}
+		mg.Spec.ForProvider.BigqueryConfig.ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.BigqueryConfig.ServiceAccountEmailRef = rsp.ResolvedReference
+
+	}
+	if mg.Spec.ForProvider.CloudStorageConfig != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CloudStorageConfig.ServiceAccountEmail),
+				Extract:      resource.ExtractParamPath("email", true),
+				Reference:    mg.Spec.ForProvider.CloudStorageConfig.ServiceAccountEmailRef,
+				Selector:     mg.Spec.ForProvider.CloudStorageConfig.ServiceAccountEmailSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.CloudStorageConfig.ServiceAccountEmail")
+		}
+		mg.Spec.ForProvider.CloudStorageConfig.ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.CloudStorageConfig.ServiceAccountEmailRef = rsp.ResolvedReference
+
+	}
 	if mg.Spec.ForProvider.DeadLetterPolicy != nil {
 		{
 			m, l, err = apisresolver.GetManagedResource("pubsub.gcp.upbound.io", "v1beta2", "Topic", "TopicList")
@@ -171,6 +213,48 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 	mg.Spec.ForProvider.Topic = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TopicRef = rsp.ResolvedReference
 
+	if mg.Spec.InitProvider.BigqueryConfig != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BigqueryConfig.ServiceAccountEmail),
+				Extract:      resource.ExtractParamPath("email", true),
+				Reference:    mg.Spec.InitProvider.BigqueryConfig.ServiceAccountEmailRef,
+				Selector:     mg.Spec.InitProvider.BigqueryConfig.ServiceAccountEmailSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.BigqueryConfig.ServiceAccountEmail")
+		}
+		mg.Spec.InitProvider.BigqueryConfig.ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.BigqueryConfig.ServiceAccountEmailRef = rsp.ResolvedReference
+
+	}
+	if mg.Spec.InitProvider.CloudStorageConfig != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CloudStorageConfig.ServiceAccountEmail),
+				Extract:      resource.ExtractParamPath("email", true),
+				Reference:    mg.Spec.InitProvider.CloudStorageConfig.ServiceAccountEmailRef,
+				Selector:     mg.Spec.InitProvider.CloudStorageConfig.ServiceAccountEmailSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.CloudStorageConfig.ServiceAccountEmail")
+		}
+		mg.Spec.InitProvider.CloudStorageConfig.ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.CloudStorageConfig.ServiceAccountEmailRef = rsp.ResolvedReference
+
+	}
 	if mg.Spec.InitProvider.DeadLetterPolicy != nil {
 		{
 			m, l, err = apisresolver.GetManagedResource("pubsub.gcp.upbound.io", "v1beta2", "Topic", "TopicList")

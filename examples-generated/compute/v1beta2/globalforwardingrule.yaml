@@ -140,7 +140,7 @@ spec:
     disk:
     - autoDelete: true
       boot: true
-      sourceImage: debian-cloud/debian-10
+      sourceImage: debian-cloud/debian-12
     machineType: e2-small
     metadata:
       startup-script: |

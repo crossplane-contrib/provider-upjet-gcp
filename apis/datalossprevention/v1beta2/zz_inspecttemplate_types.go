@@ -1221,7 +1221,7 @@ type MaxFindingsPerInfoTypeParameters struct {
 	// specified in another InfoTypeLimit.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	InfoType *MaxFindingsPerInfoTypeInfoTypeParameters `json:"infoType" tf:"info_type,omitempty"`
+	InfoType *MaxFindingsPerInfoTypeInfoTypeParameters `json:"infoType,omitempty" tf:"info_type,omitempty"`
 
 	// Max findings limit for the given infoType.
 	// +kubebuilder:validation:Optional

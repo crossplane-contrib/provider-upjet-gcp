@@ -65,6 +65,12 @@ type ActionParameters struct {
 
 type RouterNATInitParameters struct {
 
+	// The network tier to use when automatically reserving NAT IP addresses.
+	// Must be one of: PREMIUM, STANDARD. If not specified, then the current
+	// project-level default tier is used.
+	// Possible values are: PREMIUM, STANDARD.
+	AutoNetworkTier *string `json:"autoNetworkTier,omitempty" tf:"auto_network_tier,omitempty"`
+
 	// A list of URLs of the IP resources to be drained. These IPs must be
 	// valid static external IPs that have been assigned to the NAT.
 	// +listType=set
@@ -189,6 +195,12 @@ type RouterNATLogConfigParameters struct {
 
 type RouterNATObservation struct {
 
+	// The network tier to use when automatically reserving NAT IP addresses.
+	// Must be one of: PREMIUM, STANDARD. If not specified, then the current
+	// project-level default tier is used.
+	// Possible values are: PREMIUM, STANDARD.
+	AutoNetworkTier *string `json:"autoNetworkTier,omitempty" tf:"auto_network_tier,omitempty"`
+
 	// A list of URLs of the IP resources to be drained. These IPs must be
 	// valid static external IPs that have been assigned to the NAT.
 	// +listType=set
@@ -289,6 +301,13 @@ type RouterNATObservation struct {
 }
 
 type RouterNATParameters struct {
+
+	// The network tier to use when automatically reserving NAT IP addresses.
+	// Must be one of: PREMIUM, STANDARD. If not specified, then the current
+	// project-level default tier is used.
+	// Possible values are: PREMIUM, STANDARD.
+	// +kubebuilder:validation:Optional
+	AutoNetworkTier *string `json:"autoNetworkTier,omitempty" tf:"auto_network_tier,omitempty"`
 
 	// A list of URLs of the IP resources to be drained. These IPs must be
 	// valid static external IPs that have been assigned to the NAT.

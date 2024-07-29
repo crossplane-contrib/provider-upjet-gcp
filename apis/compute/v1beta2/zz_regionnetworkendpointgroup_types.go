@@ -270,7 +270,7 @@ type RegionNetworkEndpointGroupInitParameters struct {
 
 	// Type of network endpoints in this network endpoint group. Defaults to SERVERLESS.
 	// Default value is SERVERLESS.
-	// Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT, INTERNET_IP_PORT, INTERNET_FQDN_PORT.
+	// Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT, INTERNET_IP_PORT, INTERNET_FQDN_PORT, GCE_VM_IP_PORTMAP.
 	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
 
 	// Reference to a Network in compute to populate network.
@@ -346,7 +346,7 @@ type RegionNetworkEndpointGroupObservation struct {
 
 	// Type of network endpoints in this network endpoint group. Defaults to SERVERLESS.
 	// Default value is SERVERLESS.
-	// Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT, INTERNET_IP_PORT, INTERNET_FQDN_PORT.
+	// Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT, INTERNET_IP_PORT, INTERNET_FQDN_PORT, GCE_VM_IP_PORTMAP.
 	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -404,7 +404,7 @@ type RegionNetworkEndpointGroupParameters struct {
 
 	// Type of network endpoints in this network endpoint group. Defaults to SERVERLESS.
 	// Default value is SERVERLESS.
-	// Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT, INTERNET_IP_PORT, INTERNET_FQDN_PORT.
+	// Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT, INTERNET_IP_PORT, INTERNET_FQDN_PORT, GCE_VM_IP_PORTMAP.
 	// +kubebuilder:validation:Optional
 	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
 
@@ -483,7 +483,7 @@ type RegionNetworkEndpointGroupStatus struct {
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 
-// RegionNetworkEndpointGroup is the Schema for the RegionNetworkEndpointGroups API. A regional NEG that can support Serverless Products and proxying traffic to external backends.
+// RegionNetworkEndpointGroup is the Schema for the RegionNetworkEndpointGroups API. A regional NEG that can support Serverless Products, proxying traffic to external backends and providing traffic to the PSC port mapping endpoints.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

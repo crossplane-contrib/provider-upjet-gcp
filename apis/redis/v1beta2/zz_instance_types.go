@@ -80,6 +80,9 @@ type InstanceInitParameters struct {
 	// Structure is documented below.
 	MaintenancePolicy *MaintenancePolicyInitParameters `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
 
+	// The self service update maintenance version.
+	MaintenanceVersion *string `json:"maintenanceVersion,omitempty" tf:"maintenance_version,omitempty"`
+
 	// Redis memory size in GiB.
 	MemorySizeGb *float64 `json:"memorySizeGb,omitempty" tf:"memory_size_gb,omitempty"`
 
@@ -203,6 +206,9 @@ type InstanceObservation struct {
 	// Upcoming maintenance schedule.
 	// Structure is documented below.
 	MaintenanceSchedule []MaintenanceScheduleObservation `json:"maintenanceSchedule,omitempty" tf:"maintenance_schedule,omitempty"`
+
+	// The self service update maintenance version.
+	MaintenanceVersion *string `json:"maintenanceVersion,omitempty" tf:"maintenance_version,omitempty"`
 
 	// Redis memory size in GiB.
 	MemorySizeGb *float64 `json:"memorySizeGb,omitempty" tf:"memory_size_gb,omitempty"`
@@ -365,6 +371,10 @@ type InstanceParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MaintenancePolicy *MaintenancePolicyParameters `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
+
+	// The self service update maintenance version.
+	// +kubebuilder:validation:Optional
+	MaintenanceVersion *string `json:"maintenanceVersion,omitempty" tf:"maintenance_version,omitempty"`
 
 	// Redis memory size in GiB.
 	// +kubebuilder:validation:Optional

@@ -35,9 +35,10 @@ spec:
         name: example-secret
         namespace: upbound-system
     location: us-central1
-    networkSelector:
-      matchLabels:
-        testing.upbound.io/example-name: default
+    networkConfig:
+    - networkSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
 
 ---
 

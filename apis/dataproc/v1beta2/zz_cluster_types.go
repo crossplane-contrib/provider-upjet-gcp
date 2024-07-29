@@ -762,6 +762,12 @@ type DiskConfigInitParameters struct {
 	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
 
+	// Optional. Interface type of local SSDs (default is "scsi").
+	// Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+	// Memory Express). See
+	// local SSD performance.
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
 	// The amount of local SSD disks that will be
 	// attached to each master cluster node. Defaults to 0.
 	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
@@ -779,6 +785,12 @@ type DiskConfigObservation struct {
 	// The disk type of the primary disk attached to each node.
 	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Optional. Interface type of local SSDs (default is "scsi").
+	// Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+	// Memory Express). See
+	// local SSD performance.
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
 
 	// The amount of local SSD disks that will be
 	// attached to each master cluster node. Defaults to 0.
@@ -799,6 +811,13 @@ type DiskConfigParameters struct {
 	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
 	// +kubebuilder:validation:Optional
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Optional. Interface type of local SSDs (default is "scsi").
+	// Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+	// Memory Express). See
+	// local SSD performance.
+	// +kubebuilder:validation:Optional
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
 
 	// The amount of local SSD disks that will be
 	// attached to each master cluster node. Defaults to 0.
@@ -1583,6 +1602,12 @@ type MasterConfigDiskConfigInitParameters struct {
 	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
 
+	// Optional. Interface type of local SSDs (default is "scsi").
+	// Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+	// Memory Express). See
+	// local SSD performance.
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
 	// The amount of local SSD disks that will be
 	// attached to each master cluster node. Defaults to 0.
 	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
@@ -1600,6 +1625,12 @@ type MasterConfigDiskConfigObservation struct {
 	// The disk type of the primary disk attached to each node.
 	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Optional. Interface type of local SSDs (default is "scsi").
+	// Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+	// Memory Express). See
+	// local SSD performance.
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
 
 	// The amount of local SSD disks that will be
 	// attached to each master cluster node. Defaults to 0.
@@ -1620,6 +1651,13 @@ type MasterConfigDiskConfigParameters struct {
 	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
 	// +kubebuilder:validation:Optional
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Optional. Interface type of local SSDs (default is "scsi").
+	// Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+	// Memory Express). See
+	// local SSD performance.
+	// +kubebuilder:validation:Optional
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
 
 	// The amount of local SSD disks that will be
 	// attached to each master cluster node. Defaults to 0.
@@ -2014,6 +2052,12 @@ type PreemptibleWorkerConfigDiskConfigInitParameters struct {
 	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
 
+	// Optional. Interface type of local SSDs (default is "scsi").
+	// Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+	// Memory Express). See
+	// local SSD performance.
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
 	// The amount of local SSD disks that will be
 	// attached to each master cluster node. Defaults to 0.
 	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
@@ -2031,6 +2075,12 @@ type PreemptibleWorkerConfigDiskConfigObservation struct {
 	// The disk type of the primary disk attached to each node.
 	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Optional. Interface type of local SSDs (default is "scsi").
+	// Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+	// Memory Express). See
+	// local SSD performance.
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
 
 	// The amount of local SSD disks that will be
 	// attached to each master cluster node. Defaults to 0.
@@ -2051,6 +2101,13 @@ type PreemptibleWorkerConfigDiskConfigParameters struct {
 	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
 	// +kubebuilder:validation:Optional
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Optional. Interface type of local SSDs (default is "scsi").
+	// Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+	// Memory Express). See
+	// local SSD performance.
+	// +kubebuilder:validation:Optional
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
 
 	// The amount of local SSD disks that will be
 	// attached to each master cluster node. Defaults to 0.
@@ -2411,6 +2468,12 @@ type WorkerConfigDiskConfigInitParameters struct {
 	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
 
+	// Optional. Interface type of local SSDs (default is "scsi").
+	// Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+	// Memory Express). See
+	// local SSD performance.
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
 	// The amount of local SSD disks that will be
 	// attached to each master cluster node. Defaults to 0.
 	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
@@ -2428,6 +2491,12 @@ type WorkerConfigDiskConfigObservation struct {
 	// The disk type of the primary disk attached to each node.
 	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Optional. Interface type of local SSDs (default is "scsi").
+	// Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+	// Memory Express). See
+	// local SSD performance.
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
 
 	// The amount of local SSD disks that will be
 	// attached to each master cluster node. Defaults to 0.
@@ -2448,6 +2517,13 @@ type WorkerConfigDiskConfigParameters struct {
 	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
 	// +kubebuilder:validation:Optional
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Optional. Interface type of local SSDs (default is "scsi").
+	// Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+	// Memory Express). See
+	// local SSD performance.
+	// +kubebuilder:validation:Optional
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
 
 	// The amount of local SSD disks that will be
 	// attached to each master cluster node. Defaults to 0.
