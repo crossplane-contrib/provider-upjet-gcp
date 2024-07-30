@@ -300,6 +300,49 @@ spec:
                   location:
                     description: The location where the alloydb cluster should reside.
                     type: string
+                  maintenanceUpdatePolicy:
+                    description: |-
+                      MaintenanceUpdatePolicy defines the policy for system updates.
+                      Structure is documented below.
+                    properties:
+                      maintenanceWindows:
+                        description: |-
+                          Preferred windows to perform maintenance. Currently limited to 1.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            day:
+                              description: |-
+                                Preferred day of the week for maintenance, e.g. MONDAY, TUESDAY, etc.
+                                Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
+                              type: string
+                            startTime:
+                              description: |-
+                                Preferred time to start the maintenance operation on the specified day. Maintenance will start within 1 hour of this time.
+                                Structure is documented below.
+                              properties:
+                                hours:
+                                  description: Hours of day in 24 hour format. Should
+                                    be from 0 to 23. An API may choose to allow the
+                                    value "24:00:00" for scenarios like business closing
+                                    time.
+                                  type: number
+                                minutes:
+                                  description: Minutes of hour of day. Currently,
+                                    only the value 0 is supported.
+                                  type: number
+                                nanos:
+                                  description: Fractions of seconds in nanoseconds.
+                                    Currently, only the value 0 is supported.
+                                  type: number
+                                seconds:
+                                  description: Seconds of minutes of the time. Currently,
+                                    only the value 0 is supported.
+                                  type: number
+                              type: object
+                          type: object
+                        type: array
+                    type: object
                   network:
                     description: |-
                       The relative resource name of the VPC network on which the instance can be accessed. It is specified in the following form:
@@ -321,6 +364,82 @@ spec:
                             The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster.
                             It is specified in the form: "projects/{projectNumber}/global/networks/{network_id}".
                           type: string
+                        networkRef:
+                          description: Reference to a Network in compute to populate
+                            network.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        networkSelector:
+                          description: Selector for a Network in compute to populate
+                            network.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
                       type: object
                     type: array
                   networkRef:
@@ -402,6 +521,16 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  pscConfig:
+                    description: |-
+                      Configuration for Private Service Connect (PSC) for the cluster.
+                      Structure is documented below.
+                    properties:
+                      pscEnabled:
+                        description: Create an instance that allows connections from
+                          Private Service Connect endpoints to the instance.
+                        type: boolean
+                    type: object
                   restoreBackupSource:
                     description: |-
                       The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', both can't be set together.
@@ -885,6 +1014,49 @@ spec:
                       Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
+                  maintenanceUpdatePolicy:
+                    description: |-
+                      MaintenanceUpdatePolicy defines the policy for system updates.
+                      Structure is documented below.
+                    properties:
+                      maintenanceWindows:
+                        description: |-
+                          Preferred windows to perform maintenance. Currently limited to 1.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            day:
+                              description: |-
+                                Preferred day of the week for maintenance, e.g. MONDAY, TUESDAY, etc.
+                                Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
+                              type: string
+                            startTime:
+                              description: |-
+                                Preferred time to start the maintenance operation on the specified day. Maintenance will start within 1 hour of this time.
+                                Structure is documented below.
+                              properties:
+                                hours:
+                                  description: Hours of day in 24 hour format. Should
+                                    be from 0 to 23. An API may choose to allow the
+                                    value "24:00:00" for scenarios like business closing
+                                    time.
+                                  type: number
+                                minutes:
+                                  description: Minutes of hour of day. Currently,
+                                    only the value 0 is supported.
+                                  type: number
+                                nanos:
+                                  description: Fractions of seconds in nanoseconds.
+                                    Currently, only the value 0 is supported.
+                                  type: number
+                                seconds:
+                                  description: Seconds of minutes of the time. Currently,
+                                    only the value 0 is supported.
+                                  type: number
+                              type: object
+                          type: object
+                        type: array
+                    type: object
                   network:
                     description: |-
                       The relative resource name of the VPC network on which the instance can be accessed. It is specified in the following form:
@@ -906,6 +1078,82 @@ spec:
                             The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster.
                             It is specified in the form: "projects/{projectNumber}/global/networks/{network_id}".
                           type: string
+                        networkRef:
+                          description: Reference to a Network in compute to populate
+                            network.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        networkSelector:
+                          description: Selector for a Network in compute to populate
+                            network.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
                       type: object
                     type: array
                   networkRef:
@@ -987,6 +1235,16 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  pscConfig:
+                    description: |-
+                      Configuration for Private Service Connect (PSC) for the cluster.
+                      Structure is documented below.
+                    properties:
+                      pscEnabled:
+                        description: Create an instance that allows connections from
+                          Private Service Connect endpoints to the instance.
+                        type: boolean
+                    type: object
                   restoreBackupSource:
                     description: |-
                       The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', both can't be set together.
@@ -1726,6 +1984,49 @@ spec:
                   location:
                     description: The location where the alloydb cluster should reside.
                     type: string
+                  maintenanceUpdatePolicy:
+                    description: |-
+                      MaintenanceUpdatePolicy defines the policy for system updates.
+                      Structure is documented below.
+                    properties:
+                      maintenanceWindows:
+                        description: |-
+                          Preferred windows to perform maintenance. Currently limited to 1.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            day:
+                              description: |-
+                                Preferred day of the week for maintenance, e.g. MONDAY, TUESDAY, etc.
+                                Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
+                              type: string
+                            startTime:
+                              description: |-
+                                Preferred time to start the maintenance operation on the specified day. Maintenance will start within 1 hour of this time.
+                                Structure is documented below.
+                              properties:
+                                hours:
+                                  description: Hours of day in 24 hour format. Should
+                                    be from 0 to 23. An API may choose to allow the
+                                    value "24:00:00" for scenarios like business closing
+                                    time.
+                                  type: number
+                                minutes:
+                                  description: Minutes of hour of day. Currently,
+                                    only the value 0 is supported.
+                                  type: number
+                                nanos:
+                                  description: Fractions of seconds in nanoseconds.
+                                    Currently, only the value 0 is supported.
+                                  type: number
+                                seconds:
+                                  description: Seconds of minutes of the time. Currently,
+                                    only the value 0 is supported.
+                                  type: number
+                              type: object
+                          type: object
+                        type: array
+                    type: object
                   migrationSource:
                     description: |-
                       Cluster created via DMS migration.
@@ -1776,6 +2077,16 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  pscConfig:
+                    description: |-
+                      Configuration for Private Service Connect (PSC) for the cluster.
+                      Structure is documented below.
+                    properties:
+                      pscEnabled:
+                        description: Create an instance that allows connections from
+                          Private Service Connect endpoints to the instance.
+                        type: boolean
+                    type: object
                   reconciling:
                     description: |-
                       Output only. Reconciling (https://google.aip.dev/128#reconciliation).

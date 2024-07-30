@@ -236,6 +236,10 @@ type ClusterInitParameters struct {
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// MaintenanceUpdatePolicy defines the policy for system updates.
+	// Structure is documented below.
+	MaintenanceUpdatePolicy *MaintenanceUpdatePolicyInitParameters `json:"maintenanceUpdatePolicy,omitempty" tf:"maintenance_update_policy,omitempty"`
+
 	// The relative resource name of the VPC network on which the instance can be accessed. It is specified in the following form:
 	// "projects/{projectNumber}/global/networks/{network_id}".
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
@@ -257,6 +261,10 @@ type ClusterInitParameters struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Configuration for Private Service Connect (PSC) for the cluster.
+	// Structure is documented below.
+	PscConfig *PscConfigInitParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
 	// The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', both can't be set together.
 	// Structure is documented below.
@@ -345,6 +353,10 @@ type ClusterObservation struct {
 	// The location where the alloydb cluster should reside.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
+	// MaintenanceUpdatePolicy defines the policy for system updates.
+	// Structure is documented below.
+	MaintenanceUpdatePolicy *MaintenanceUpdatePolicyObservation `json:"maintenanceUpdatePolicy,omitempty" tf:"maintenance_update_policy,omitempty"`
+
 	// Cluster created via DMS migration.
 	// Structure is documented below.
 	MigrationSource []MigrationSourceObservation `json:"migrationSource,omitempty" tf:"migration_source,omitempty"`
@@ -363,6 +375,10 @@ type ClusterObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Configuration for Private Service Connect (PSC) for the cluster.
+	// Structure is documented below.
+	PscConfig *PscConfigObservation `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
 	// Output only. Reconciling (https://google.aip.dev/128#reconciliation).
 	// Set to true if the current state of Cluster does not match the user's intended state, and the service is actively updating the resource to reconcile them.
@@ -457,6 +473,11 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 
+	// MaintenanceUpdatePolicy defines the policy for system updates.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MaintenanceUpdatePolicy *MaintenanceUpdatePolicyParameters `json:"maintenanceUpdatePolicy,omitempty" tf:"maintenance_update_policy,omitempty"`
+
 	// The relative resource name of the VPC network on which the instance can be accessed. It is specified in the following form:
 	// "projects/{projectNumber}/global/networks/{network_id}".
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
@@ -481,6 +502,11 @@ type ClusterParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Configuration for Private Service Connect (PSC) for the cluster.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PscConfig *PscConfigParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
 	// The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', both can't be set together.
 	// Structure is documented below.
@@ -629,6 +655,63 @@ type InitialUserParameters struct {
 	User *string `json:"user,omitempty" tf:"user,omitempty"`
 }
 
+type MaintenanceUpdatePolicyInitParameters struct {
+
+	// Preferred windows to perform maintenance. Currently limited to 1.
+	// Structure is documented below.
+	MaintenanceWindows []MaintenanceWindowsInitParameters `json:"maintenanceWindows,omitempty" tf:"maintenance_windows,omitempty"`
+}
+
+type MaintenanceUpdatePolicyObservation struct {
+
+	// Preferred windows to perform maintenance. Currently limited to 1.
+	// Structure is documented below.
+	MaintenanceWindows []MaintenanceWindowsObservation `json:"maintenanceWindows,omitempty" tf:"maintenance_windows,omitempty"`
+}
+
+type MaintenanceUpdatePolicyParameters struct {
+
+	// Preferred windows to perform maintenance. Currently limited to 1.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MaintenanceWindows []MaintenanceWindowsParameters `json:"maintenanceWindows,omitempty" tf:"maintenance_windows,omitempty"`
+}
+
+type MaintenanceWindowsInitParameters struct {
+
+	// Preferred day of the week for maintenance, e.g. MONDAY, TUESDAY, etc.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
+	Day *string `json:"day,omitempty" tf:"day,omitempty"`
+
+	// Preferred time to start the maintenance operation on the specified day. Maintenance will start within 1 hour of this time.
+	// Structure is documented below.
+	StartTime *StartTimeInitParameters `json:"startTime,omitempty" tf:"start_time,omitempty"`
+}
+
+type MaintenanceWindowsObservation struct {
+
+	// Preferred day of the week for maintenance, e.g. MONDAY, TUESDAY, etc.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
+	Day *string `json:"day,omitempty" tf:"day,omitempty"`
+
+	// Preferred time to start the maintenance operation on the specified day. Maintenance will start within 1 hour of this time.
+	// Structure is documented below.
+	StartTime *StartTimeObservation `json:"startTime,omitempty" tf:"start_time,omitempty"`
+}
+
+type MaintenanceWindowsParameters struct {
+
+	// Preferred day of the week for maintenance, e.g. MONDAY, TUESDAY, etc.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
+	// +kubebuilder:validation:Optional
+	Day *string `json:"day" tf:"day,omitempty"`
+
+	// Preferred time to start the maintenance operation on the specified day. Maintenance will start within 1 hour of this time.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	StartTime *StartTimeParameters `json:"startTime" tf:"start_time,omitempty"`
+}
+
 type MigrationSourceInitParameters struct {
 }
 
@@ -655,7 +738,17 @@ type NetworkConfigInitParameters struct {
 
 	// The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster.
 	// It is specified in the form: "projects/{projectNumber}/global/networks/{network_id}".
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Reference to a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 }
 
 type NetworkConfigObservation struct {
@@ -678,8 +771,37 @@ type NetworkConfigParameters struct {
 
 	// The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster.
 	// It is specified in the form: "projects/{projectNumber}/global/networks/{network_id}".
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Reference to a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+}
+
+type PscConfigInitParameters struct {
+
+	// Create an instance that allows connections from Private Service Connect endpoints to the instance.
+	PscEnabled *bool `json:"pscEnabled,omitempty" tf:"psc_enabled,omitempty"`
+}
+
+type PscConfigObservation struct {
+
+	// Create an instance that allows connections from Private Service Connect endpoints to the instance.
+	PscEnabled *bool `json:"pscEnabled,omitempty" tf:"psc_enabled,omitempty"`
+}
+
+type PscConfigParameters struct {
+
+	// Create an instance that allows connections from Private Service Connect endpoints to the instance.
+	// +kubebuilder:validation:Optional
+	PscEnabled *bool `json:"pscEnabled,omitempty" tf:"psc_enabled,omitempty"`
 }
 
 type QuantityBasedRetentionInitParameters struct {
@@ -829,6 +951,55 @@ type SecondaryConfigParameters struct {
 	// Selector for a Cluster in alloydb to populate primaryClusterName.
 	// +kubebuilder:validation:Optional
 	PrimaryClusterNameSelector *v1.Selector `json:"primaryClusterNameSelector,omitempty" tf:"-"`
+}
+
+type StartTimeInitParameters struct {
+
+	// Hours of day in 24 hour format. Should be from 0 to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+	Hours *float64 `json:"hours,omitempty" tf:"hours,omitempty"`
+
+	// Minutes of hour of day. Currently, only the value 0 is supported.
+	Minutes *float64 `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// Fractions of seconds in nanoseconds. Currently, only the value 0 is supported.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Seconds of minutes of the time. Currently, only the value 0 is supported.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type StartTimeObservation struct {
+
+	// Hours of day in 24 hour format. Should be from 0 to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+	Hours *float64 `json:"hours,omitempty" tf:"hours,omitempty"`
+
+	// Minutes of hour of day. Currently, only the value 0 is supported.
+	Minutes *float64 `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// Fractions of seconds in nanoseconds. Currently, only the value 0 is supported.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Seconds of minutes of the time. Currently, only the value 0 is supported.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type StartTimeParameters struct {
+
+	// Hours of day in 24 hour format. Should be from 0 to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+	// +kubebuilder:validation:Optional
+	Hours *float64 `json:"hours" tf:"hours,omitempty"`
+
+	// Minutes of hour of day. Currently, only the value 0 is supported.
+	// +kubebuilder:validation:Optional
+	Minutes *float64 `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// Fractions of seconds in nanoseconds. Currently, only the value 0 is supported.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Seconds of minutes of the time. Currently, only the value 0 is supported.
+	// +kubebuilder:validation:Optional
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type StartTimesInitParameters struct {

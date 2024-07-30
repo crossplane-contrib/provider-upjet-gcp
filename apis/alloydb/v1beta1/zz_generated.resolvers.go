@@ -96,6 +96,27 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 	mg.Spec.ForProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NetworkRef = rsp.ResolvedReference
 
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.NetworkConfig); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.NetworkConfig[i3].Network),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.ForProvider.NetworkConfig[i3].NetworkRef,
+				Selector:     mg.Spec.ForProvider.NetworkConfig[i3].NetworkSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.NetworkConfig[i3].Network")
+		}
+		mg.Spec.ForProvider.NetworkConfig[i3].Network = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.NetworkConfig[i3].NetworkRef = rsp.ResolvedReference
+
+	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.RestoreBackupSource); i3++ {
 		{
 			m, l, err = apisresolver.GetManagedResource("alloydb.gcp.upbound.io", "v1beta1", "Backup", "BackupList")
@@ -178,6 +199,27 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 	mg.Spec.InitProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.NetworkRef = rsp.ResolvedReference
 
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.NetworkConfig); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NetworkConfig[i3].Network),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.InitProvider.NetworkConfig[i3].NetworkRef,
+				Selector:     mg.Spec.InitProvider.NetworkConfig[i3].NetworkSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.NetworkConfig[i3].Network")
+		}
+		mg.Spec.InitProvider.NetworkConfig[i3].Network = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.NetworkConfig[i3].NetworkRef = rsp.ResolvedReference
+
+	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.RestoreBackupSource); i3++ {
 		{
 			m, l, err = apisresolver.GetManagedResource("alloydb.gcp.upbound.io", "v1beta1", "Backup", "BackupList")

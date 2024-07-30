@@ -696,6 +696,20 @@ spec:
                   description:
                     description: A user-friendly description of the dataset
                     type: string
+                  externalDatasetReference:
+                    description: |-
+                      Information about the external metadata storage where the dataset is defined.
+                      Structure is documented below.
+                    properties:
+                      connection:
+                        description: |-
+                          The connection id that is used to access the externalSource.
+                          Format: projects/{projectId}/locations/{locationId}/connections/{connectionId}
+                        type: string
+                      externalSource:
+                        description: External source that backs this dataset.
+                        type: string
+                    type: object
                   friendlyName:
                     description: A descriptive name for the dataset
                     type: string
@@ -727,6 +741,17 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  resourceTags:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The tags attached to this table. Tag keys are globally unique. Tag key is expected to be
+                      in the namespaced format, for example "123456789012/environment" where 123456789012 is the
+                      ID of the parent organization or project resource for this tag key. Tag value is expected
+                      to be the short name, for example "Production". See Tag definitions
+                      for more details.
+                    type: object
+                    x-kubernetes-map-type: granular
                   storageBillingModel:
                     description: |-
                       Specifies the storage billing model for the dataset.
@@ -1371,6 +1396,20 @@ spec:
                   description:
                     description: A user-friendly description of the dataset
                     type: string
+                  externalDatasetReference:
+                    description: |-
+                      Information about the external metadata storage where the dataset is defined.
+                      Structure is documented below.
+                    properties:
+                      connection:
+                        description: |-
+                          The connection id that is used to access the externalSource.
+                          Format: projects/{projectId}/locations/{locationId}/connections/{connectionId}
+                        type: string
+                      externalSource:
+                        description: External source that backs this dataset.
+                        type: string
+                    type: object
                   friendlyName:
                     description: A descriptive name for the dataset
                     type: string
@@ -1397,6 +1436,17 @@ spec:
                     description: Defines the time travel window in hours. The value
                       can be from 48 to 168 hours (2 to 7 days).
                     type: string
+                  resourceTags:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The tags attached to this table. Tag keys are globally unique. Tag key is expected to be
+                      in the namespaced format, for example "123456789012/environment" where 123456789012 is the
+                      ID of the parent organization or project resource for this tag key. Tag value is expected
+                      to be the short name, for example "Production". See Tag definitions
+                      for more details.
+                    type: object
+                    x-kubernetes-map-type: granular
                   storageBillingModel:
                     description: |-
                       Specifies the storage billing model for the dataset.
@@ -1758,6 +1808,20 @@ spec:
                   etag:
                     description: A hash of the resource.
                     type: string
+                  externalDatasetReference:
+                    description: |-
+                      Information about the external metadata storage where the dataset is defined.
+                      Structure is documented below.
+                    properties:
+                      connection:
+                        description: |-
+                          The connection id that is used to access the externalSource.
+                          Format: projects/{projectId}/locations/{locationId}/connections/{connectionId}
+                        type: string
+                      externalSource:
+                        description: External source that backs this dataset.
+                        type: string
+                    type: object
                   friendlyName:
                     description: A descriptive name for the dataset
                     type: string
@@ -1797,6 +1861,17 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  resourceTags:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The tags attached to this table. Tag keys are globally unique. Tag key is expected to be
+                      in the namespaced format, for example "123456789012/environment" where 123456789012 is the
+                      ID of the parent organization or project resource for this tag key. Tag value is expected
+                      to be the short name, for example "Production". See Tag definitions
+                      for more details.
+                    type: object
+                    x-kubernetes-map-type: granular
                   selfLink:
                     description: The URI of the created resource.
                     type: string

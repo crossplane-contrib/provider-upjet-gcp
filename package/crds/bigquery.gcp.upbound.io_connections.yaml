@@ -447,6 +447,11 @@ spec:
                   friendlyName:
                     description: A descriptive name for the connection
                     type: string
+                  kmsKeyName:
+                    description: |-
+                      Optional. The Cloud KMS key that is used for encryption.
+                      Example: projects/[kms_project_id]/locations/[region]/keyRings/[key_region]/cryptoKeys/[key]
+                    type: string
                   location:
                     description: |-
                       The geographic location where the connection should reside.
@@ -938,6 +943,11 @@ spec:
                   friendlyName:
                     description: A descriptive name for the connection
                     type: string
+                  kmsKeyName:
+                    description: |-
+                      Optional. The Cloud KMS key that is used for encryption.
+                      Example: projects/[kms_project_id]/locations/[region]/keyRings/[key_region]/cryptoKeys/[key]
+                    type: string
                   location:
                     description: |-
                       The geographic location where the connection should reside.
@@ -1406,6 +1416,11 @@ spec:
                     type: boolean
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/connections/{{connection_id}}
+                    type: string
+                  kmsKeyName:
+                    description: |-
+                      Optional. The Cloud KMS key that is used for encryption.
+                      Example: projects/[kms_project_id]/locations/[region]/keyRings/[key_region]/cryptoKeys/[key]
                     type: string
                   location:
                     description: |-

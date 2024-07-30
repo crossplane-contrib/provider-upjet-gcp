@@ -158,6 +158,9 @@ type InstanceInitParameters struct {
 	// The human-readable display name of the Bigtable instance. Defaults to the instance name.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// Deleting a BigTable instance can be blocked if any backups are present in the instance. Defaults to false.
+	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
+
 	// The instance type to create. One of "DEVELOPMENT" or "PRODUCTION". Defaults to "PRODUCTION".
 	// It is recommended to leave this field unspecified since the distinction between "DEVELOPMENT" and "PRODUCTION" instances is going away,
 	// and all instances will become "PRODUCTION" instances. This means that new and existing "DEVELOPMENT" instances will be converted to
@@ -188,6 +191,9 @@ type InstanceObservation struct {
 
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
+	// Deleting a BigTable instance can be blocked if any backups are present in the instance. Defaults to false.
+	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/instances/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -226,6 +232,10 @@ type InstanceParameters struct {
 	// The human-readable display name of the Bigtable instance. Defaults to the instance name.
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Deleting a BigTable instance can be blocked if any backups are present in the instance. Defaults to false.
+	// +kubebuilder:validation:Optional
+	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
 
 	// The instance type to create. One of "DEVELOPMENT" or "PRODUCTION". Defaults to "PRODUCTION".
 	// It is recommended to leave this field unspecified since the distinction between "DEVELOPMENT" and "PRODUCTION" instances is going away,

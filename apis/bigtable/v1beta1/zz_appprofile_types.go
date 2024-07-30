@@ -15,6 +15,10 @@ import (
 
 type AppProfileInitParameters struct {
 
+	// Specifies that this app profile is intended for read-only usage via the Data Boost feature.
+	// Structure is documented below.
+	DataBoostIsolationReadOnly *DataBoostIsolationReadOnlyInitParameters `json:"dataBoostIsolationReadOnly,omitempty" tf:"data_boost_isolation_read_only,omitempty"`
+
 	// Long form description of the use case for this app profile.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -42,6 +46,10 @@ type AppProfileInitParameters struct {
 }
 
 type AppProfileObservation struct {
+
+	// Specifies that this app profile is intended for read-only usage via the Data Boost feature.
+	// Structure is documented below.
+	DataBoostIsolationReadOnly *DataBoostIsolationReadOnlyObservation `json:"dataBoostIsolationReadOnly,omitempty" tf:"data_boost_isolation_read_only,omitempty"`
 
 	// Long form description of the use case for this app profile.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -79,6 +87,11 @@ type AppProfileObservation struct {
 }
 
 type AppProfileParameters struct {
+
+	// Specifies that this app profile is intended for read-only usage via the Data Boost feature.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DataBoostIsolationReadOnly *DataBoostIsolationReadOnlyParameters `json:"dataBoostIsolationReadOnly,omitempty" tf:"data_boost_isolation_read_only,omitempty"`
 
 	// Long form description of the use case for this app profile.
 	// +kubebuilder:validation:Optional
@@ -124,6 +137,28 @@ type AppProfileParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	StandardIsolation []StandardIsolationParameters `json:"standardIsolation,omitempty" tf:"standard_isolation,omitempty"`
+}
+
+type DataBoostIsolationReadOnlyInitParameters struct {
+
+	// The Compute Billing Owner for this Data Boost App Profile.
+	// Possible values are: HOST_PAYS.
+	ComputeBillingOwner *string `json:"computeBillingOwner,omitempty" tf:"compute_billing_owner,omitempty"`
+}
+
+type DataBoostIsolationReadOnlyObservation struct {
+
+	// The Compute Billing Owner for this Data Boost App Profile.
+	// Possible values are: HOST_PAYS.
+	ComputeBillingOwner *string `json:"computeBillingOwner,omitempty" tf:"compute_billing_owner,omitempty"`
+}
+
+type DataBoostIsolationReadOnlyParameters struct {
+
+	// The Compute Billing Owner for this Data Boost App Profile.
+	// Possible values are: HOST_PAYS.
+	// +kubebuilder:validation:Optional
+	ComputeBillingOwner *string `json:"computeBillingOwner" tf:"compute_billing_owner,omitempty"`
 }
 
 type SingleClusterRoutingInitParameters struct {

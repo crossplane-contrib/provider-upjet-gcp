@@ -15,6 +15,14 @@ import (
 
 type OrganizationInitParameters struct {
 
+	// Cloud KMS key name used for encrypting API consumer data.
+	APIConsumerDataEncryptionKeyName *string `json:"apiConsumerDataEncryptionKeyName,omitempty" tf:"api_consumer_data_encryption_key_name,omitempty"`
+
+	// This field is needed only for customers using non-default data residency regions.
+	// Apigee stores some control plane data only in single region.
+	// This field determines which single region Apigee should use.
+	APIConsumerDataLocation *string `json:"apiConsumerDataLocation,omitempty" tf:"api_consumer_data_location,omitempty"`
+
 	// Primary GCP region for analytics data storage. For valid values, see Create an Apigee organization.
 	AnalyticsRegion *string `json:"analyticsRegion,omitempty" tf:"analytics_region,omitempty"`
 
@@ -35,6 +43,10 @@ type OrganizationInitParameters struct {
 
 	// Billing type of the Apigee organization. See Apigee pricing.
 	BillingType *string `json:"billingType,omitempty" tf:"billing_type,omitempty"`
+
+	// Cloud KMS key name used for encrypting control plane data that is stored in a multi region.
+	// Only used for the data residency region "US" or "EU".
+	ControlPlaneEncryptionKeyName *string `json:"controlPlaneEncryptionKeyName,omitempty" tf:"control_plane_encryption_key_name,omitempty"`
 
 	// Description of the Apigee organization.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -88,6 +100,14 @@ type OrganizationInitParameters struct {
 
 type OrganizationObservation struct {
 
+	// Cloud KMS key name used for encrypting API consumer data.
+	APIConsumerDataEncryptionKeyName *string `json:"apiConsumerDataEncryptionKeyName,omitempty" tf:"api_consumer_data_encryption_key_name,omitempty"`
+
+	// This field is needed only for customers using non-default data residency regions.
+	// Apigee stores some control plane data only in single region.
+	// This field determines which single region Apigee should use.
+	APIConsumerDataLocation *string `json:"apiConsumerDataLocation,omitempty" tf:"api_consumer_data_location,omitempty"`
+
 	// Primary GCP region for analytics data storage. For valid values, see Create an Apigee organization.
 	AnalyticsRegion *string `json:"analyticsRegion,omitempty" tf:"analytics_region,omitempty"`
 
@@ -105,6 +125,10 @@ type OrganizationObservation struct {
 	// Output only. Base64-encoded public certificate for the root CA of the Apigee organization.
 	// Valid only when RuntimeType is CLOUD. A base64-encoded string.
 	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
+
+	// Cloud KMS key name used for encrypting control plane data that is stored in a multi region.
+	// Only used for the data residency region "US" or "EU".
+	ControlPlaneEncryptionKeyName *string `json:"controlPlaneEncryptionKeyName,omitempty" tf:"control_plane_encryption_key_name,omitempty"`
 
 	// Description of the Apigee organization.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -158,6 +182,16 @@ type OrganizationObservation struct {
 
 type OrganizationParameters struct {
 
+	// Cloud KMS key name used for encrypting API consumer data.
+	// +kubebuilder:validation:Optional
+	APIConsumerDataEncryptionKeyName *string `json:"apiConsumerDataEncryptionKeyName,omitempty" tf:"api_consumer_data_encryption_key_name,omitempty"`
+
+	// This field is needed only for customers using non-default data residency regions.
+	// Apigee stores some control plane data only in single region.
+	// This field determines which single region Apigee should use.
+	// +kubebuilder:validation:Optional
+	APIConsumerDataLocation *string `json:"apiConsumerDataLocation,omitempty" tf:"api_consumer_data_location,omitempty"`
+
 	// Primary GCP region for analytics data storage. For valid values, see Create an Apigee organization.
 	// +kubebuilder:validation:Optional
 	AnalyticsRegion *string `json:"analyticsRegion,omitempty" tf:"analytics_region,omitempty"`
@@ -181,6 +215,11 @@ type OrganizationParameters struct {
 	// Billing type of the Apigee organization. See Apigee pricing.
 	// +kubebuilder:validation:Optional
 	BillingType *string `json:"billingType,omitempty" tf:"billing_type,omitempty"`
+
+	// Cloud KMS key name used for encrypting control plane data that is stored in a multi region.
+	// Only used for the data residency region "US" or "EU".
+	// +kubebuilder:validation:Optional
+	ControlPlaneEncryptionKeyName *string `json:"controlPlaneEncryptionKeyName,omitempty" tf:"control_plane_encryption_key_name,omitempty"`
 
 	// Description of the Apigee organization.
 	// +kubebuilder:validation:Optional

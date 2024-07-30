@@ -305,6 +305,10 @@ type DatasetInitParameters struct {
 	// A user-friendly description of the dataset
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Information about the external metadata storage where the dataset is defined.
+	// Structure is documented below.
+	ExternalDatasetReference *ExternalDatasetReferenceInitParameters `json:"externalDatasetReference,omitempty" tf:"external_dataset_reference,omitempty"`
+
 	// A descriptive name for the dataset
 	FriendlyName *string `json:"friendlyName,omitempty" tf:"friendly_name,omitempty"`
 
@@ -324,6 +328,14 @@ type DatasetInitParameters struct {
 
 	// Defines the time travel window in hours. The value can be from 48 to 168 hours (2 to 7 days).
 	MaxTimeTravelHours *string `json:"maxTimeTravelHours,omitempty" tf:"max_time_travel_hours,omitempty"`
+
+	// The tags attached to this table. Tag keys are globally unique. Tag key is expected to be
+	// in the namespaced format, for example "123456789012/environment" where 123456789012 is the
+	// ID of the parent organization or project resource for this tag key. Tag value is expected
+	// to be the short name, for example "Production". See Tag definitions
+	// for more details.
+	// +mapType=granular
+	ResourceTags map[string]*string `json:"resourceTags,omitempty" tf:"resource_tags,omitempty"`
 
 	// Specifies the storage billing model for the dataset.
 	// Set this flag value to LOGICAL to use logical bytes for storage billing,
@@ -380,6 +392,10 @@ type DatasetObservation struct {
 	// A hash of the resource.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
+	// Information about the external metadata storage where the dataset is defined.
+	// Structure is documented below.
+	ExternalDatasetReference *ExternalDatasetReferenceObservation `json:"externalDatasetReference,omitempty" tf:"external_dataset_reference,omitempty"`
+
 	// A descriptive name for the dataset
 	FriendlyName *string `json:"friendlyName,omitempty" tf:"friendly_name,omitempty"`
 
@@ -410,6 +426,14 @@ type DatasetObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The tags attached to this table. Tag keys are globally unique. Tag key is expected to be
+	// in the namespaced format, for example "123456789012/environment" where 123456789012 is the
+	// ID of the parent organization or project resource for this tag key. Tag value is expected
+	// to be the short name, for example "Production". See Tag definitions
+	// for more details.
+	// +mapType=granular
+	ResourceTags map[string]*string `json:"resourceTags,omitempty" tf:"resource_tags,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
@@ -470,6 +494,11 @@ type DatasetParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Information about the external metadata storage where the dataset is defined.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ExternalDatasetReference *ExternalDatasetReferenceParameters `json:"externalDatasetReference,omitempty" tf:"external_dataset_reference,omitempty"`
+
 	// A descriptive name for the dataset
 	// +kubebuilder:validation:Optional
 	FriendlyName *string `json:"friendlyName,omitempty" tf:"friendly_name,omitempty"`
@@ -499,6 +528,15 @@ type DatasetParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The tags attached to this table. Tag keys are globally unique. Tag key is expected to be
+	// in the namespaced format, for example "123456789012/environment" where 123456789012 is the
+	// ID of the parent organization or project resource for this tag key. Tag value is expected
+	// to be the short name, for example "Production". See Tag definitions
+	// for more details.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceTags map[string]*string `json:"resourceTags,omitempty" tf:"resource_tags,omitempty"`
 
 	// Specifies the storage billing model for the dataset.
 	// Set this flag value to LOGICAL to use logical bytes for storage billing,
@@ -551,6 +589,38 @@ type DefaultEncryptionConfigurationParameters struct {
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
 	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+}
+
+type ExternalDatasetReferenceInitParameters struct {
+
+	// The connection id that is used to access the externalSource.
+	// Format: projects/{projectId}/locations/{locationId}/connections/{connectionId}
+	Connection *string `json:"connection,omitempty" tf:"connection,omitempty"`
+
+	// External source that backs this dataset.
+	ExternalSource *string `json:"externalSource,omitempty" tf:"external_source,omitempty"`
+}
+
+type ExternalDatasetReferenceObservation struct {
+
+	// The connection id that is used to access the externalSource.
+	// Format: projects/{projectId}/locations/{locationId}/connections/{connectionId}
+	Connection *string `json:"connection,omitempty" tf:"connection,omitempty"`
+
+	// External source that backs this dataset.
+	ExternalSource *string `json:"externalSource,omitempty" tf:"external_source,omitempty"`
+}
+
+type ExternalDatasetReferenceParameters struct {
+
+	// The connection id that is used to access the externalSource.
+	// Format: projects/{projectId}/locations/{locationId}/connections/{connectionId}
+	// +kubebuilder:validation:Optional
+	Connection *string `json:"connection" tf:"connection,omitempty"`
+
+	// External source that backs this dataset.
+	// +kubebuilder:validation:Optional
+	ExternalSource *string `json:"externalSource" tf:"external_source,omitempty"`
 }
 
 type RoutineInitParameters struct {

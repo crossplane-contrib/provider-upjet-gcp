@@ -38,6 +38,183 @@ type AvroOptionsParameters struct {
 	UseAvroLogicalTypes *bool `json:"useAvroLogicalTypes" tf:"use_avro_logical_types,omitempty"`
 }
 
+type BigtableOptionsInitParameters struct {
+
+	// A list of column families to expose in the table schema along with their types. This list restricts the column families that can be referenced in queries and specifies their value types. You can use this list to do type conversions - see the 'type' field for more details. If you leave this list empty, all column families are present in the table schema and their values are read as BYTES. During a query only the column families referenced in that query are read from Bigtable.  Structure is documented below.
+	ColumnFamily []ColumnFamilyInitParameters `json:"columnFamily,omitempty" tf:"column_family,omitempty"`
+
+	// If field is true, then the column families that are not specified in columnFamilies list are not exposed in the table schema. Otherwise, they are read with BYTES type values. The default value is false.
+	IgnoreUnspecifiedColumnFamilies *bool `json:"ignoreUnspecifiedColumnFamilies,omitempty" tf:"ignore_unspecified_column_families,omitempty"`
+
+	// If field is true, then each column family will be read as a single JSON column. Otherwise they are read as a repeated cell structure containing timestamp/value tuples. The default value is false.
+	OutputColumnFamiliesAsJSON *bool `json:"outputColumnFamiliesAsJson,omitempty" tf:"output_column_families_as_json,omitempty"`
+
+	// If field is true, then the rowkey column families will be read and converted to string. Otherwise they are read with BYTES type values and users need to manually cast them with CAST if necessary. The default value is false.
+	ReadRowkeyAsString *bool `json:"readRowkeyAsString,omitempty" tf:"read_rowkey_as_string,omitempty"`
+}
+
+type BigtableOptionsObservation struct {
+
+	// A list of column families to expose in the table schema along with their types. This list restricts the column families that can be referenced in queries and specifies their value types. You can use this list to do type conversions - see the 'type' field for more details. If you leave this list empty, all column families are present in the table schema and their values are read as BYTES. During a query only the column families referenced in that query are read from Bigtable.  Structure is documented below.
+	ColumnFamily []ColumnFamilyObservation `json:"columnFamily,omitempty" tf:"column_family,omitempty"`
+
+	// If field is true, then the column families that are not specified in columnFamilies list are not exposed in the table schema. Otherwise, they are read with BYTES type values. The default value is false.
+	IgnoreUnspecifiedColumnFamilies *bool `json:"ignoreUnspecifiedColumnFamilies,omitempty" tf:"ignore_unspecified_column_families,omitempty"`
+
+	// If field is true, then each column family will be read as a single JSON column. Otherwise they are read as a repeated cell structure containing timestamp/value tuples. The default value is false.
+	OutputColumnFamiliesAsJSON *bool `json:"outputColumnFamiliesAsJson,omitempty" tf:"output_column_families_as_json,omitempty"`
+
+	// If field is true, then the rowkey column families will be read and converted to string. Otherwise they are read with BYTES type values and users need to manually cast them with CAST if necessary. The default value is false.
+	ReadRowkeyAsString *bool `json:"readRowkeyAsString,omitempty" tf:"read_rowkey_as_string,omitempty"`
+}
+
+type BigtableOptionsParameters struct {
+
+	// A list of column families to expose in the table schema along with their types. This list restricts the column families that can be referenced in queries and specifies their value types. You can use this list to do type conversions - see the 'type' field for more details. If you leave this list empty, all column families are present in the table schema and their values are read as BYTES. During a query only the column families referenced in that query are read from Bigtable.  Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ColumnFamily []ColumnFamilyParameters `json:"columnFamily,omitempty" tf:"column_family,omitempty"`
+
+	// If field is true, then the column families that are not specified in columnFamilies list are not exposed in the table schema. Otherwise, they are read with BYTES type values. The default value is false.
+	// +kubebuilder:validation:Optional
+	IgnoreUnspecifiedColumnFamilies *bool `json:"ignoreUnspecifiedColumnFamilies,omitempty" tf:"ignore_unspecified_column_families,omitempty"`
+
+	// If field is true, then each column family will be read as a single JSON column. Otherwise they are read as a repeated cell structure containing timestamp/value tuples. The default value is false.
+	// +kubebuilder:validation:Optional
+	OutputColumnFamiliesAsJSON *bool `json:"outputColumnFamiliesAsJson,omitempty" tf:"output_column_families_as_json,omitempty"`
+
+	// If field is true, then the rowkey column families will be read and converted to string. Otherwise they are read with BYTES type values and users need to manually cast them with CAST if necessary. The default value is false.
+	// +kubebuilder:validation:Optional
+	ReadRowkeyAsString *bool `json:"readRowkeyAsString,omitempty" tf:"read_rowkey_as_string,omitempty"`
+}
+
+type ColumnFamilyInitParameters struct {
+
+	// A List of columns that should be exposed as individual fields as opposed to a list of (column name, value) pairs. All columns whose qualifier matches a qualifier in this list can be accessed as Other columns can be accessed as a list through column field.  Structure is documented below.
+	Column []ColumnInitParameters `json:"column,omitempty" tf:"column,omitempty"`
+
+	// The character encoding of the data. The supported values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE, and UTF-32LE. The default value is UTF-8.
+	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
+
+	// Identifier of the column family.
+	FamilyID *string `json:"familyId,omitempty" tf:"family_id,omitempty"`
+
+	// If this is set only the latest version of value are exposed for all columns in this column family. This can be overridden for a specific column by listing that column in 'columns' and specifying a different setting for that column.
+	OnlyReadLatest *bool `json:"onlyReadLatest,omitempty" tf:"only_read_latest,omitempty"`
+
+	// Describes the table type.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type ColumnFamilyObservation struct {
+
+	// A List of columns that should be exposed as individual fields as opposed to a list of (column name, value) pairs. All columns whose qualifier matches a qualifier in this list can be accessed as Other columns can be accessed as a list through column field.  Structure is documented below.
+	Column []ColumnObservation `json:"column,omitempty" tf:"column,omitempty"`
+
+	// The character encoding of the data. The supported values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE, and UTF-32LE. The default value is UTF-8.
+	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
+
+	// Identifier of the column family.
+	FamilyID *string `json:"familyId,omitempty" tf:"family_id,omitempty"`
+
+	// If this is set only the latest version of value are exposed for all columns in this column family. This can be overridden for a specific column by listing that column in 'columns' and specifying a different setting for that column.
+	OnlyReadLatest *bool `json:"onlyReadLatest,omitempty" tf:"only_read_latest,omitempty"`
+
+	// Describes the table type.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type ColumnFamilyParameters struct {
+
+	// A List of columns that should be exposed as individual fields as opposed to a list of (column name, value) pairs. All columns whose qualifier matches a qualifier in this list can be accessed as Other columns can be accessed as a list through column field.  Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Column []ColumnParameters `json:"column,omitempty" tf:"column,omitempty"`
+
+	// The character encoding of the data. The supported values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE, and UTF-32LE. The default value is UTF-8.
+	// +kubebuilder:validation:Optional
+	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
+
+	// Identifier of the column family.
+	// +kubebuilder:validation:Optional
+	FamilyID *string `json:"familyId,omitempty" tf:"family_id,omitempty"`
+
+	// If this is set only the latest version of value are exposed for all columns in this column family. This can be overridden for a specific column by listing that column in 'columns' and specifying a different setting for that column.
+	// +kubebuilder:validation:Optional
+	OnlyReadLatest *bool `json:"onlyReadLatest,omitempty" tf:"only_read_latest,omitempty"`
+
+	// Describes the table type.
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type ColumnInitParameters struct {
+
+	// The character encoding of the data. The supported values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE, and UTF-32LE. The default value is UTF-8.
+	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
+
+	// If the qualifier is not a valid BigQuery field identifier i.e. does not match [a-zA-Z][a-zA-Z0-9_]*, a valid identifier must be provided as the column field name and is used as field name in queries.
+	FieldName *string `json:"fieldName,omitempty" tf:"field_name,omitempty"`
+
+	// If this is set only the latest version of value are exposed for all columns in this column family. This can be overridden for a specific column by listing that column in 'columns' and specifying a different setting for that column.
+	OnlyReadLatest *bool `json:"onlyReadLatest,omitempty" tf:"only_read_latest,omitempty"`
+
+	// Qualifier of the column. Columns in the parent column family that has this exact qualifier are exposed as . field. If the qualifier is valid UTF-8 string, it can be specified in the qualifierString field. Otherwise, a base-64 encoded value must be set to qualifierEncoded. The column field name is the same as the column qualifier. However, if the qualifier is not a valid BigQuery field identifier i.e. does not match [a-zA-Z][a-zA-Z0-9_]*, a valid identifier must be provided as fieldName.
+	QualifierEncoded *string `json:"qualifierEncoded,omitempty" tf:"qualifier_encoded,omitempty"`
+
+	// Qualifier string.
+	QualifierString *string `json:"qualifierString,omitempty" tf:"qualifier_string,omitempty"`
+
+	// Describes the table type.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type ColumnObservation struct {
+
+	// The character encoding of the data. The supported values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE, and UTF-32LE. The default value is UTF-8.
+	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
+
+	// If the qualifier is not a valid BigQuery field identifier i.e. does not match [a-zA-Z][a-zA-Z0-9_]*, a valid identifier must be provided as the column field name and is used as field name in queries.
+	FieldName *string `json:"fieldName,omitempty" tf:"field_name,omitempty"`
+
+	// If this is set only the latest version of value are exposed for all columns in this column family. This can be overridden for a specific column by listing that column in 'columns' and specifying a different setting for that column.
+	OnlyReadLatest *bool `json:"onlyReadLatest,omitempty" tf:"only_read_latest,omitempty"`
+
+	// Qualifier of the column. Columns in the parent column family that has this exact qualifier are exposed as . field. If the qualifier is valid UTF-8 string, it can be specified in the qualifierString field. Otherwise, a base-64 encoded value must be set to qualifierEncoded. The column field name is the same as the column qualifier. However, if the qualifier is not a valid BigQuery field identifier i.e. does not match [a-zA-Z][a-zA-Z0-9_]*, a valid identifier must be provided as fieldName.
+	QualifierEncoded *string `json:"qualifierEncoded,omitempty" tf:"qualifier_encoded,omitempty"`
+
+	// Qualifier string.
+	QualifierString *string `json:"qualifierString,omitempty" tf:"qualifier_string,omitempty"`
+
+	// Describes the table type.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type ColumnParameters struct {
+
+	// The character encoding of the data. The supported values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE, and UTF-32LE. The default value is UTF-8.
+	// +kubebuilder:validation:Optional
+	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
+
+	// If the qualifier is not a valid BigQuery field identifier i.e. does not match [a-zA-Z][a-zA-Z0-9_]*, a valid identifier must be provided as the column field name and is used as field name in queries.
+	// +kubebuilder:validation:Optional
+	FieldName *string `json:"fieldName,omitempty" tf:"field_name,omitempty"`
+
+	// If this is set only the latest version of value are exposed for all columns in this column family. This can be overridden for a specific column by listing that column in 'columns' and specifying a different setting for that column.
+	// +kubebuilder:validation:Optional
+	OnlyReadLatest *bool `json:"onlyReadLatest,omitempty" tf:"only_read_latest,omitempty"`
+
+	// Qualifier of the column. Columns in the parent column family that has this exact qualifier are exposed as . field. If the qualifier is valid UTF-8 string, it can be specified in the qualifierString field. Otherwise, a base-64 encoded value must be set to qualifierEncoded. The column field name is the same as the column qualifier. However, if the qualifier is not a valid BigQuery field identifier i.e. does not match [a-zA-Z][a-zA-Z0-9_]*, a valid identifier must be provided as fieldName.
+	// +kubebuilder:validation:Optional
+	QualifierEncoded *string `json:"qualifierEncoded,omitempty" tf:"qualifier_encoded,omitempty"`
+
+	// Qualifier string.
+	// +kubebuilder:validation:Optional
+	QualifierString *string `json:"qualifierString,omitempty" tf:"qualifier_string,omitempty"`
+
+	// Describes the table type.
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
 type ColumnReferencesInitParameters struct {
 
 	// :  The column in the primary key that are
@@ -207,6 +384,10 @@ type ExternalDataConfigurationInitParameters struct {
 	// "AVRO".  Structure is documented below.
 	AvroOptions []AvroOptionsInitParameters `json:"avroOptions,omitempty" tf:"avro_options,omitempty"`
 
+	// Additional properties to set if
+	// source_format is set to "BIGTABLE". Structure is documented below.
+	BigtableOptions *BigtableOptionsInitParameters `json:"bigtableOptions,omitempty" tf:"bigtable_options,omitempty"`
+
 	// The compression type of the data source.
 	// Valid values are "NONE" or "GZIP".
 	Compression *string `json:"compression,omitempty" tf:"compression,omitempty"`
@@ -244,6 +425,9 @@ type ExternalDataConfigurationInitParameters struct {
 	// many bad records, an invalid error is returned in the job result.
 	// The default value is false.
 	IgnoreUnknownValues *bool `json:"ignoreUnknownValues,omitempty" tf:"ignore_unknown_values,omitempty"`
+
+	// Used to indicate that a JSON variant, rather than normal JSON, is being used as the sourceFormat. This should only be used in combination with the JSON source format. Valid values are: GEOJSON.
+	JSONExtension *string `json:"jsonExtension,omitempty" tf:"json_extension,omitempty"`
 
 	// Additional properties to set if
 	// source_format is set to "JSON". Structure is documented below.
@@ -300,6 +484,10 @@ type ExternalDataConfigurationObservation struct {
 	// "AVRO".  Structure is documented below.
 	AvroOptions []AvroOptionsObservation `json:"avroOptions,omitempty" tf:"avro_options,omitempty"`
 
+	// Additional properties to set if
+	// source_format is set to "BIGTABLE". Structure is documented below.
+	BigtableOptions *BigtableOptionsObservation `json:"bigtableOptions,omitempty" tf:"bigtable_options,omitempty"`
+
 	// The compression type of the data source.
 	// Valid values are "NONE" or "GZIP".
 	Compression *string `json:"compression,omitempty" tf:"compression,omitempty"`
@@ -337,6 +525,9 @@ type ExternalDataConfigurationObservation struct {
 	// many bad records, an invalid error is returned in the job result.
 	// The default value is false.
 	IgnoreUnknownValues *bool `json:"ignoreUnknownValues,omitempty" tf:"ignore_unknown_values,omitempty"`
+
+	// Used to indicate that a JSON variant, rather than normal JSON, is being used as the sourceFormat. This should only be used in combination with the JSON source format. Valid values are: GEOJSON.
+	JSONExtension *string `json:"jsonExtension,omitempty" tf:"json_extension,omitempty"`
 
 	// Additional properties to set if
 	// source_format is set to "JSON". Structure is documented below.
@@ -395,6 +586,11 @@ type ExternalDataConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	AvroOptions []AvroOptionsParameters `json:"avroOptions,omitempty" tf:"avro_options,omitempty"`
 
+	// Additional properties to set if
+	// source_format is set to "BIGTABLE". Structure is documented below.
+	// +kubebuilder:validation:Optional
+	BigtableOptions *BigtableOptionsParameters `json:"bigtableOptions,omitempty" tf:"bigtable_options,omitempty"`
+
 	// The compression type of the data source.
 	// Valid values are "NONE" or "GZIP".
 	// +kubebuilder:validation:Optional
@@ -439,6 +635,10 @@ type ExternalDataConfigurationParameters struct {
 	// The default value is false.
 	// +kubebuilder:validation:Optional
 	IgnoreUnknownValues *bool `json:"ignoreUnknownValues,omitempty" tf:"ignore_unknown_values,omitempty"`
+
+	// Used to indicate that a JSON variant, rather than normal JSON, is being used as the sourceFormat. This should only be used in combination with the JSON source format. Valid values are: GEOJSON.
+	// +kubebuilder:validation:Optional
+	JSONExtension *string `json:"jsonExtension,omitempty" tf:"json_extension,omitempty"`
 
 	// Additional properties to set if
 	// source_format is set to "JSON". Structure is documented below.
@@ -936,11 +1136,17 @@ type TableConstraintsParameters struct {
 
 type TableInitParameters struct {
 
+	// If set to true, it allows table
+	// deletion when there are still resource tags attached. The default value is
+	// false.
+	AllowResourceTagsOnDeletion *bool `json:"allowResourceTagsOnDeletion,omitempty" tf:"allow_resource_tags_on_deletion,omitempty"`
+
 	// Specifies column names to use for data clustering.
 	// Up to four top-level columns are allowed, and should be specified in
 	// descending priority order.
 	Clustering []*string `json:"clustering,omitempty" tf:"clustering,omitempty"`
 
+	// When the field is set to false, deleting the table is allowed..
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// The field description.
@@ -989,6 +1195,14 @@ type TableInitParameters struct {
 	// specified.
 	RequirePartitionFilter *bool `json:"requirePartitionFilter,omitempty" tf:"require_partition_filter,omitempty"`
 
+	// The tags attached to this table. Tag keys are
+	// globally unique. Tag key is expected to be in the namespaced format, for
+	// example "123456789012/environment" where 123456789012 is the ID of the
+	// parent organization or project resource for this tag key. Tag value is
+	// expected to be the short name, for example "Production".
+	// +mapType=granular
+	ResourceTags map[string]*string `json:"resourceTags,omitempty" tf:"resource_tags,omitempty"`
+
 	// A JSON schema for the table.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 
@@ -996,6 +1210,10 @@ type TableInitParameters struct {
 	// Structure is documented below.
 	TableConstraints []TableConstraintsInitParameters `json:"tableConstraints,omitempty" tf:"table_constraints,omitempty"`
 
+	// Replication info of a table created
+	// using "AS REPLICA" DDL like:
+	// CREATE MATERIALIZED VIEW mv1 AS REPLICA OF src_mv.
+	// Structure is documented below.
 	TableReplicationInfo []TableReplicationInfoInitParameters `json:"tableReplicationInfo,omitempty" tf:"table_replication_info,omitempty"`
 
 	// If specified, configures time-based
@@ -1009,6 +1227,11 @@ type TableInitParameters struct {
 
 type TableObservation struct {
 
+	// If set to true, it allows table
+	// deletion when there are still resource tags attached. The default value is
+	// false.
+	AllowResourceTagsOnDeletion *bool `json:"allowResourceTagsOnDeletion,omitempty" tf:"allow_resource_tags_on_deletion,omitempty"`
+
 	// Specifies column names to use for data clustering.
 	// Up to four top-level columns are allowed, and should be specified in
 	// descending priority order.
@@ -1021,6 +1244,7 @@ type TableObservation struct {
 	// Changing this forces a new resource to be created.
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
+	// When the field is set to false, deleting the table is allowed..
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// The field description.
@@ -1097,6 +1321,14 @@ type TableObservation struct {
 	// specified.
 	RequirePartitionFilter *bool `json:"requirePartitionFilter,omitempty" tf:"require_partition_filter,omitempty"`
 
+	// The tags attached to this table. Tag keys are
+	// globally unique. Tag key is expected to be in the namespaced format, for
+	// example "123456789012/environment" where 123456789012 is the ID of the
+	// parent organization or project resource for this tag key. Tag value is
+	// expected to be the short name, for example "Production".
+	// +mapType=granular
+	ResourceTags map[string]*string `json:"resourceTags,omitempty" tf:"resource_tags,omitempty"`
+
 	// A JSON schema for the table.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 
@@ -1107,6 +1339,10 @@ type TableObservation struct {
 	// Structure is documented below.
 	TableConstraints []TableConstraintsObservation `json:"tableConstraints,omitempty" tf:"table_constraints,omitempty"`
 
+	// Replication info of a table created
+	// using "AS REPLICA" DDL like:
+	// CREATE MATERIALIZED VIEW mv1 AS REPLICA OF src_mv.
+	// Structure is documented below.
 	TableReplicationInfo []TableReplicationInfoObservation `json:"tableReplicationInfo,omitempty" tf:"table_replication_info,omitempty"`
 
 	// The combination of labels configured directly on the resource and default labels configured on the provider.
@@ -1126,6 +1362,12 @@ type TableObservation struct {
 }
 
 type TableParameters struct {
+
+	// If set to true, it allows table
+	// deletion when there are still resource tags attached. The default value is
+	// false.
+	// +kubebuilder:validation:Optional
+	AllowResourceTagsOnDeletion *bool `json:"allowResourceTagsOnDeletion,omitempty" tf:"allow_resource_tags_on_deletion,omitempty"`
 
 	// Specifies column names to use for data clustering.
 	// Up to four top-level columns are allowed, and should be specified in
@@ -1147,6 +1389,7 @@ type TableParameters struct {
 	// +kubebuilder:validation:Optional
 	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
+	// When the field is set to false, deleting the table is allowed..
 	// +kubebuilder:validation:Optional
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
@@ -1211,6 +1454,15 @@ type TableParameters struct {
 	// +kubebuilder:validation:Optional
 	RequirePartitionFilter *bool `json:"requirePartitionFilter,omitempty" tf:"require_partition_filter,omitempty"`
 
+	// The tags attached to this table. Tag keys are
+	// globally unique. Tag key is expected to be in the namespaced format, for
+	// example "123456789012/environment" where 123456789012 is the ID of the
+	// parent organization or project resource for this tag key. Tag value is
+	// expected to be the short name, for example "Production".
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceTags map[string]*string `json:"resourceTags,omitempty" tf:"resource_tags,omitempty"`
+
 	// A JSON schema for the table.
 	// +kubebuilder:validation:Optional
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
@@ -1220,6 +1472,10 @@ type TableParameters struct {
 	// +kubebuilder:validation:Optional
 	TableConstraints []TableConstraintsParameters `json:"tableConstraints,omitempty" tf:"table_constraints,omitempty"`
 
+	// Replication info of a table created
+	// using "AS REPLICA" DDL like:
+	// CREATE MATERIALIZED VIEW mv1 AS REPLICA OF src_mv.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	TableReplicationInfo []TableReplicationInfoParameters `json:"tableReplicationInfo,omitempty" tf:"table_replication_info,omitempty"`
 

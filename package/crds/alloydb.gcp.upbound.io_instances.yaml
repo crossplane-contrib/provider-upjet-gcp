@@ -321,6 +321,45 @@ spec:
                           type: number
                       type: object
                     type: array
+                  networkConfig:
+                    description: |-
+                      Instance level network configuration.
+                      Structure is documented below.
+                    properties:
+                      authorizedExternalNetworks:
+                        description: |-
+                          A list of external networks authorized to access this instance. This
+                          field is only allowed to be set when enable_public_ip is set to
+                          true.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            cidrRange:
+                              description: CIDR range for one authorized network of
+                                the instance.
+                              type: string
+                          type: object
+                        type: array
+                      enablePublicIp:
+                        description: |-
+                          Enabling public ip for the instance. If a user wishes to disable this,
+                          please also clear the list of the authorized external networks set on
+                          the same instance.
+                        type: boolean
+                    type: object
+                  pscInstanceConfig:
+                    description: |-
+                      Configuration for Private Service Connect (PSC) for the instance.
+                      Structure is documented below.
+                    properties:
+                      allowedConsumerProjects:
+                        description: |-
+                          List of consumer projects that are allowed to create PSC endpoints to service-attachments to this instance.
+                          These should be specified as project numbers only.
+                        items:
+                          type: string
+                        type: array
+                    type: object
                   queryInsightsConfig:
                     description: |-
                       Configuration for query insights.
@@ -543,6 +582,45 @@ spec:
                           type: number
                       type: object
                     type: array
+                  networkConfig:
+                    description: |-
+                      Instance level network configuration.
+                      Structure is documented below.
+                    properties:
+                      authorizedExternalNetworks:
+                        description: |-
+                          A list of external networks authorized to access this instance. This
+                          field is only allowed to be set when enable_public_ip is set to
+                          true.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            cidrRange:
+                              description: CIDR range for one authorized network of
+                                the instance.
+                              type: string
+                          type: object
+                        type: array
+                      enablePublicIp:
+                        description: |-
+                          Enabling public ip for the instance. If a user wishes to disable this,
+                          please also clear the list of the authorized external networks set on
+                          the same instance.
+                        type: boolean
+                    type: object
+                  pscInstanceConfig:
+                    description: |-
+                      Configuration for Private Service Connect (PSC) for the instance.
+                      Structure is documented below.
+                    properties:
+                      allowedConsumerProjects:
+                        description: |-
+                          List of consumer projects that are allowed to create PSC endpoints to service-attachments to this instance.
+                          These should be specified as project numbers only.
+                        items:
+                          type: string
+                        type: array
+                    type: object
                   queryInsightsConfig:
                     description: |-
                       Configuration for query insights.
@@ -877,6 +955,64 @@ spec:
                     type: array
                   name:
                     description: The name of the instance resource.
+                    type: string
+                  networkConfig:
+                    description: |-
+                      Instance level network configuration.
+                      Structure is documented below.
+                    properties:
+                      authorizedExternalNetworks:
+                        description: |-
+                          A list of external networks authorized to access this instance. This
+                          field is only allowed to be set when enable_public_ip is set to
+                          true.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            cidrRange:
+                              description: CIDR range for one authorized network of
+                                the instance.
+                              type: string
+                          type: object
+                        type: array
+                      enablePublicIp:
+                        description: |-
+                          Enabling public ip for the instance. If a user wishes to disable this,
+                          please also clear the list of the authorized external networks set on
+                          the same instance.
+                        type: boolean
+                    type: object
+                  pscInstanceConfig:
+                    description: |-
+                      Configuration for Private Service Connect (PSC) for the instance.
+                      Structure is documented below.
+                    properties:
+                      allowedConsumerProjects:
+                        description: |-
+                          List of consumer projects that are allowed to create PSC endpoints to service-attachments to this instance.
+                          These should be specified as project numbers only.
+                        items:
+                          type: string
+                        type: array
+                      pscDnsName:
+                        description: |-
+                          (Output)
+                          The DNS name of the instance for PSC connectivity.
+                          Name convention: ...alloydb-psc.goog
+                        type: string
+                      serviceAttachmentLink:
+                        description: |-
+                          (Output)
+                          The service attachment created when Private Service Connect (PSC) is enabled for the instance.
+                          The name of the resource will be in the format of
+                          projects/<alloydb-tenant-project-number>/regions/<region-name>/serviceAttachments/<service-attachment-name>
+                        type: string
+                    type: object
+                  publicIpAddress:
+                    description: |-
+                      The public IP addresses for the Instance. This is available ONLY when
+                      networkConfig.enablePublicIp is set to true. This is the connection
+                      endpoint for an end-user application.
                     type: string
                   queryInsightsConfig:
                     description: |-
