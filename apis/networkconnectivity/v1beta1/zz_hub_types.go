@@ -19,13 +19,16 @@ type HubInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Immutable. The name of the hub. Hub names must be unique. They use the following form: projects/{project_number}/locations/global/hubs/{hub_id}
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -44,22 +47,27 @@ type HubObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Immutable. The name of the hub. Hub names must be unique. They use the following form: projects/{project_number}/locations/global/hubs/{hub_id}
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The VPC network associated with this hub's spokes. All of the VPN tunnels, VLAN attachments, and router appliance instances referenced by this hub's spokes must belong to this VPC network. This field is read-only. Network Connectivity Center automatically populates it based on the set of spokes attached to the hub.
+	// Structure is documented below.
 	RoutingVpcs []RoutingVpcsObservation `json:"routingVpcs,omitempty" tf:"routing_vpcs,omitempty"`
 
-	// Output only. The current lifecycle state of this hub. Possible values: STATE_UNSPECIFIED, CREATING, ACTIVE, DELETING
+	// Output only. The current lifecycle state of this hub.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
-	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
 	// +mapType=granular
 	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
@@ -77,6 +85,8 @@ type HubParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
@@ -85,7 +95,8 @@ type HubParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The project for the resource
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
@@ -94,6 +105,8 @@ type RoutingVpcsInitParameters struct {
 }
 
 type RoutingVpcsObservation struct {
+
+	// The URI of the VPC network.
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
 }
 
@@ -136,9 +149,8 @@ type HubStatus struct {
 type Hub struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
-	Spec   HubSpec   `json:"spec"`
-	Status HubStatus `json:"status,omitempty"`
+	Spec              HubSpec   `json:"spec"`
+	Status            HubStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -74,6 +74,9 @@ spec:
               forProvider:
                 properties:
                   automatedBackupPolicy:
+                    description: Defines an automated backup policy for a table, specified
+                      by Retention Period and Frequency. To disable, set both Retention
+                      Period and Frequency to 0.
                     properties:
                       frequency:
                         type: string
@@ -204,6 +207,9 @@ spec:
                   autoscaler.
                 properties:
                   automatedBackupPolicy:
+                    description: Defines an automated backup policy for a table, specified
+                      by Retention Period and Frequency. To disable, set both Retention
+                      Period and Frequency to 0.
                     properties:
                       frequency:
                         type: string
@@ -416,6 +422,9 @@ spec:
               atProvider:
                 properties:
                   automatedBackupPolicy:
+                    description: Defines an automated backup policy for a table, specified
+                      by Retention Period and Frequency. To disable, set both Retention
+                      Period and Frequency to 0.
                     properties:
                       frequency:
                         type: string

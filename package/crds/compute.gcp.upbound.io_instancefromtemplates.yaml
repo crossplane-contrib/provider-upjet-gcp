@@ -1975,6 +1975,8 @@ spec:
                             x-kubernetes-map-type: granular
                           size:
                             type: number
+                          storagePool:
+                            type: string
                           type:
                             type: string
                         type: object
@@ -2559,6 +2561,8 @@ spec:
                             x-kubernetes-map-type: granular
                           size:
                             type: number
+                          storagePool:
+                            type: string
                           type:
                             type: string
                         type: object
@@ -3292,6 +3296,8 @@ spec:
                             x-kubernetes-map-type: granular
                           size:
                             type: number
+                          storagePool:
+                            type: string
                           type:
                             type: string
                         type: object

@@ -138,29 +138,37 @@ type NodeConfigGuestAcceleratorGpuSharingConfigParameters struct {
 }
 
 type NodeConfigSoleTenantConfigNodeAffinityInitParameters struct {
+
+	// name" as the key and specify the name of your reservation as its value.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 
+	// name"
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
 type NodeConfigSoleTenantConfigNodeAffinityObservation struct {
+
+	// name" as the key and specify the name of your reservation as its value.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 
+	// name"
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
 type NodeConfigSoleTenantConfigNodeAffinityParameters struct {
 
+	// name" as the key and specify the name of your reservation as its value.
 	// +kubebuilder:validation:Optional
 	Key *string `json:"key" tf:"key,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Operator *string `json:"operator" tf:"operator,omitempty"`
 
+	// name"
 	// +kubebuilder:validation:Optional
 	Values []*string `json:"values" tf:"values,omitempty"`
 }
@@ -488,6 +496,7 @@ type NodePoolNodeConfigEffectiveTaintsInitParameters struct {
 type NodePoolNodeConfigEffectiveTaintsObservation struct {
 	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
 
+	// name" as the key and specify the name of your reservation as its value.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
@@ -691,6 +700,8 @@ type NodePoolNodeConfigInitParameters_2 struct {
 
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
+	// The configuration of the desired reservation which instances could take capacity from.
+	// Structure is documented below.
 	ReservationAffinity *NodePoolNodeConfigReservationAffinityInitParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
 	// +mapType=granular
@@ -860,6 +871,8 @@ type NodePoolNodeConfigObservation_2 struct {
 
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
+	// The configuration of the desired reservation which instances could take capacity from.
+	// Structure is documented below.
 	ReservationAffinity *NodePoolNodeConfigReservationAffinityObservation `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
 	// +mapType=granular
@@ -971,6 +984,8 @@ type NodePoolNodeConfigParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
+	// The configuration of the desired reservation which instances could take capacity from.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ReservationAffinity *NodePoolNodeConfigReservationAffinityParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
@@ -1018,31 +1033,45 @@ type NodePoolNodeConfigParameters_2 struct {
 }
 
 type NodePoolNodeConfigReservationAffinityInitParameters struct {
+
+	// The type of reservation consumption
+	// Accepted values are:
 	ConsumeReservationType *string `json:"consumeReservationType,omitempty" tf:"consume_reservation_type,omitempty"`
 
+	// name" as the key and specify the name of your reservation as its value.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
+	// name"
 	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
 type NodePoolNodeConfigReservationAffinityObservation struct {
+
+	// The type of reservation consumption
+	// Accepted values are:
 	ConsumeReservationType *string `json:"consumeReservationType,omitempty" tf:"consume_reservation_type,omitempty"`
 
+	// name" as the key and specify the name of your reservation as its value.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
+	// name"
 	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
 type NodePoolNodeConfigReservationAffinityParameters struct {
 
+	// The type of reservation consumption
+	// Accepted values are:
 	// +kubebuilder:validation:Optional
 	ConsumeReservationType *string `json:"consumeReservationType" tf:"consume_reservation_type,omitempty"`
 
+	// name" as the key and specify the name of your reservation as its value.
 	// +kubebuilder:validation:Optional
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
+	// name"
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
@@ -1107,6 +1136,7 @@ type NodePoolNodeConfigSoleTenantConfigParameters struct {
 type NodePoolNodeConfigTaintInitParameters struct {
 	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
 
+	// name" as the key and specify the name of your reservation as its value.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
@@ -1115,6 +1145,7 @@ type NodePoolNodeConfigTaintInitParameters struct {
 type NodePoolNodeConfigTaintObservation struct {
 	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
 
+	// name" as the key and specify the name of your reservation as its value.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
@@ -1125,6 +1156,7 @@ type NodePoolNodeConfigTaintParameters struct {
 	// +kubebuilder:validation:Optional
 	Effect *string `json:"effect" tf:"effect,omitempty"`
 
+	// name" as the key and specify the name of your reservation as its value.
 	// +kubebuilder:validation:Optional
 	Key *string `json:"key" tf:"key,omitempty"`
 

@@ -3307,6 +3307,11 @@ spec:
                               The size of the image in gigabytes. If not specified, it
                               will inherit the size of its base image.
                             type: number
+                          storagePool:
+                            description: |-
+                              The URL of the storage pool in which the new disk is created.
+                              For example:
+                            type: string
                           type:
                             description: The type of reservation from which this instance
                               can consume resources.
@@ -4339,6 +4344,11 @@ spec:
                               The size of the image in gigabytes. If not specified, it
                               will inherit the size of its base image.
                             type: number
+                          storagePool:
+                            description: |-
+                              The URL of the storage pool in which the new disk is created.
+                              For example:
+                            type: string
                           type:
                             description: The type of reservation from which this instance
                               can consume resources.
@@ -5430,6 +5440,11 @@ spec:
                               The size of the image in gigabytes. If not specified, it
                               will inherit the size of its base image.
                             type: number
+                          storagePool:
+                            description: |-
+                              The URL of the storage pool in which the new disk is created.
+                              For example:
+                            type: string
                           type:
                             description: The type of reservation from which this instance
                               can consume resources.

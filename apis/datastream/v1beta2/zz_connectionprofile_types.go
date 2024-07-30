@@ -66,6 +66,10 @@ type ConnectionProfileInitParameters struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// SQL Server database profile.
+	// Structure is documented below.
+	SQLServerProfile *SQLServerProfileInitParameters `json:"sqlServerProfile,omitempty" tf:"sql_server_profile,omitempty"`
 }
 
 type ConnectionProfileObservation struct {
@@ -124,6 +128,10 @@ type ConnectionProfileObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// SQL Server database profile.
+	// Structure is documented below.
+	SQLServerProfile *SQLServerProfileObservation `json:"sqlServerProfile,omitempty" tf:"sql_server_profile,omitempty"`
 
 	// The combination of labels configured directly on the resource
 	// and default labels configured on the provider.
@@ -190,6 +198,11 @@ type ConnectionProfileParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// SQL Server database profile.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SQLServerProfile *SQLServerProfileParameters `json:"sqlServerProfile,omitempty" tf:"sql_server_profile,omitempty"`
 }
 
 type ForwardSSHConnectivityInitParameters struct {
@@ -561,6 +574,120 @@ type PrivateConnectivityParameters struct {
 	// Selector for a PrivateConnection in datastream to populate privateConnection.
 	// +kubebuilder:validation:Optional
 	PrivateConnectionSelector *v1.Selector `json:"privateConnectionSelector,omitempty" tf:"-"`
+}
+
+type SQLServerProfileInitParameters struct {
+
+	// Database for the SQL Server connection.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta1.Database
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+
+	// Reference to a Database in sql to populate database.
+	// +kubebuilder:validation:Optional
+	DatabaseRef *v1.Reference `json:"databaseRef,omitempty" tf:"-"`
+
+	// Selector for a Database in sql to populate database.
+	// +kubebuilder:validation:Optional
+	DatabaseSelector *v1.Selector `json:"databaseSelector,omitempty" tf:"-"`
+
+	// Hostname for the SQL Server connection.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta2.DatabaseInstance
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("public_ip_address",true)
+	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
+	// Reference to a DatabaseInstance in sql to populate hostname.
+	// +kubebuilder:validation:Optional
+	HostnameRef *v1.Reference `json:"hostnameRef,omitempty" tf:"-"`
+
+	// Selector for a DatabaseInstance in sql to populate hostname.
+	// +kubebuilder:validation:Optional
+	HostnameSelector *v1.Selector `json:"hostnameSelector,omitempty" tf:"-"`
+
+	// Password for the SQL Server connection.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
+
+	// Port for the SQL Server connection.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// Username for the SQL Server connection.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta2.User
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+
+	// Reference to a User in sql to populate username.
+	// +kubebuilder:validation:Optional
+	UsernameRef *v1.Reference `json:"usernameRef,omitempty" tf:"-"`
+
+	// Selector for a User in sql to populate username.
+	// +kubebuilder:validation:Optional
+	UsernameSelector *v1.Selector `json:"usernameSelector,omitempty" tf:"-"`
+}
+
+type SQLServerProfileObservation struct {
+
+	// Database for the SQL Server connection.
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+
+	// Hostname for the SQL Server connection.
+	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
+	// Port for the SQL Server connection.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// Username for the SQL Server connection.
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+}
+
+type SQLServerProfileParameters struct {
+
+	// Database for the SQL Server connection.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta1.Database
+	// +kubebuilder:validation:Optional
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+
+	// Reference to a Database in sql to populate database.
+	// +kubebuilder:validation:Optional
+	DatabaseRef *v1.Reference `json:"databaseRef,omitempty" tf:"-"`
+
+	// Selector for a Database in sql to populate database.
+	// +kubebuilder:validation:Optional
+	DatabaseSelector *v1.Selector `json:"databaseSelector,omitempty" tf:"-"`
+
+	// Hostname for the SQL Server connection.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta2.DatabaseInstance
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("public_ip_address",true)
+	// +kubebuilder:validation:Optional
+	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
+	// Reference to a DatabaseInstance in sql to populate hostname.
+	// +kubebuilder:validation:Optional
+	HostnameRef *v1.Reference `json:"hostnameRef,omitempty" tf:"-"`
+
+	// Selector for a DatabaseInstance in sql to populate hostname.
+	// +kubebuilder:validation:Optional
+	HostnameSelector *v1.Selector `json:"hostnameSelector,omitempty" tf:"-"`
+
+	// Password for the SQL Server connection.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
+	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
+
+	// Port for the SQL Server connection.
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// Username for the SQL Server connection.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/sql/v1beta2.User
+	// +kubebuilder:validation:Optional
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+
+	// Reference to a User in sql to populate username.
+	// +kubebuilder:validation:Optional
+	UsernameRef *v1.Reference `json:"usernameRef,omitempty" tf:"-"`
+
+	// Selector for a User in sql to populate username.
+	// +kubebuilder:validation:Optional
+	UsernameSelector *v1.Selector `json:"usernameSelector,omitempty" tf:"-"`
 }
 
 type SSLConfigInitParameters struct {

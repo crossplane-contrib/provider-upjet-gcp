@@ -29,6 +29,8 @@ type BootDiskInitializeParamsInitParameters struct {
 
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
+	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
+
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -47,6 +49,8 @@ type BootDiskInitializeParamsObservation struct {
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
+
+	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
 
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -74,6 +78,9 @@ type BootDiskInitializeParamsParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`

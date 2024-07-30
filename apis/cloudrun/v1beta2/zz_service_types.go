@@ -965,8 +965,8 @@ type ServiceInitParameters struct {
 type ServiceMetadataInitParameters struct {
 
 	// Annotations is a key value map stored with a resource that
-	// may be set by external tools to store and retrieve arbitrary metadata. More
-	// info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
+	// may be set by external tools to store and retrieve arbitrary metadata.
+	// More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
 	// keys to configure features on a Revision template:
@@ -995,8 +995,8 @@ type ServiceMetadataInitParameters struct {
 type ServiceMetadataObservation struct {
 
 	// Annotations is a key value map stored with a resource that
-	// may be set by external tools to store and retrieve arbitrary metadata. More
-	// info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
+	// may be set by external tools to store and retrieve arbitrary metadata.
+	// More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
 	// keys to configure features on a Revision template:
@@ -1049,8 +1049,8 @@ type ServiceMetadataObservation struct {
 type ServiceMetadataParameters struct {
 
 	// Annotations is a key value map stored with a resource that
-	// may be set by external tools to store and retrieve arbitrary metadata. More
-	// info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
+	// may be set by external tools to store and retrieve arbitrary metadata.
+	// More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
 	// keys to configure features on a Revision template:
@@ -1547,8 +1547,8 @@ type TemplateInitParameters struct {
 type TemplateMetadataInitParameters struct {
 
 	// Annotations is a key value map stored with a resource that
-	// may be set by external tools to store and retrieve arbitrary metadata. More
-	// info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
+	// may be set by external tools to store and retrieve arbitrary metadata.
+	// More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
 	// keys to configure features on a Revision template:
@@ -1571,8 +1571,8 @@ type TemplateMetadataInitParameters struct {
 type TemplateMetadataObservation struct {
 
 	// Annotations is a key value map stored with a resource that
-	// may be set by external tools to store and retrieve arbitrary metadata. More
-	// info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
+	// may be set by external tools to store and retrieve arbitrary metadata.
+	// More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
 	// keys to configure features on a Revision template:
@@ -1616,8 +1616,8 @@ type TemplateMetadataObservation struct {
 type TemplateMetadataParameters struct {
 
 	// Annotations is a key value map stored with a resource that
-	// may be set by external tools to store and retrieve arbitrary metadata. More
-	// info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
+	// may be set by external tools to store and retrieve arbitrary metadata.
+	// More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
 	// keys to configure features on a Revision template:
@@ -1680,7 +1680,8 @@ type TemplateParameters struct {
 type TemplateSpecInitParameters struct {
 
 	// ContainerConcurrency specifies the maximum allowed in-flight (concurrent)
-	// requests per container of the Revision. Values are:
+	// requests per container of the Revision. If not specified or 0, defaults to 80 when
+	// requested CPU >= 1 and defaults to 1 when requested CPU < 1.
 	ContainerConcurrency *float64 `json:"containerConcurrency,omitempty" tf:"container_concurrency,omitempty"`
 
 	// Containers defines the unit of execution for this Revision.
@@ -1706,7 +1707,8 @@ type TemplateSpecInitParameters struct {
 type TemplateSpecObservation struct {
 
 	// ContainerConcurrency specifies the maximum allowed in-flight (concurrent)
-	// requests per container of the Revision. Values are:
+	// requests per container of the Revision. If not specified or 0, defaults to 80 when
+	// requested CPU >= 1 and defaults to 1 when requested CPU < 1.
 	ContainerConcurrency *float64 `json:"containerConcurrency,omitempty" tf:"container_concurrency,omitempty"`
 
 	// Containers defines the unit of execution for this Revision.
@@ -1739,7 +1741,8 @@ type TemplateSpecObservation struct {
 type TemplateSpecParameters struct {
 
 	// ContainerConcurrency specifies the maximum allowed in-flight (concurrent)
-	// requests per container of the Revision. Values are:
+	// requests per container of the Revision. If not specified or 0, defaults to 80 when
+	// requested CPU >= 1 and defaults to 1 when requested CPU < 1.
 	// +kubebuilder:validation:Optional
 	ContainerConcurrency *float64 `json:"containerConcurrency,omitempty" tf:"container_concurrency,omitempty"`
 

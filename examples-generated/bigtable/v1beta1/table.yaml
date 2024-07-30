@@ -8,6 +8,9 @@ metadata:
   name: table
 spec:
   forProvider:
+    automatedBackupPolicy:
+    - frequency: 24h0m0s
+      retentionPeriod: 72h0m0s
     changeStreamRetention: 24h0m0s
     columnFamily:
     - family: family-first

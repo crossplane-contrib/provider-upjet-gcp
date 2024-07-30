@@ -6536,6 +6536,37 @@ spec:
                               cluster. It is disabled by default. Set disabled = false to enable.
                             type: boolean
                         type: object
+                      rayOperatorConfig:
+                        description: |-
+                          . The status of the Ray Operator
+                          addon.
+                          It is disabled by default. Set enabled = true to enable. The minimum
+                          cluster version to enable Ray is 1.30.0-gke.1747000.
+                        items:
+                          properties:
+                            enabled:
+                              description: Enables vertical pod autoscaling
+                              type: boolean
+                            rayClusterLoggingConfig:
+                              description: |-
+                                Logging configuration for the cluster.
+                                Structure is documented below.
+                              properties:
+                                enabled:
+                                  description: Enables vertical pod autoscaling
+                                  type: boolean
+                              type: object
+                            rayClusterMonitoringConfig:
+                              description: |-
+                                Monitoring configuration for the cluster.
+                                Structure is documented below.
+                              properties:
+                                enabled:
+                                  description: Enables vertical pod autoscaling
+                                  type: boolean
+                              type: object
+                          type: object
+                        type: array
                       statefulHaConfig:
                         description: |-
                           .
@@ -8325,6 +8356,37 @@ spec:
                               cluster. It is disabled by default. Set disabled = false to enable.
                             type: boolean
                         type: object
+                      rayOperatorConfig:
+                        description: |-
+                          . The status of the Ray Operator
+                          addon.
+                          It is disabled by default. Set enabled = true to enable. The minimum
+                          cluster version to enable Ray is 1.30.0-gke.1747000.
+                        items:
+                          properties:
+                            enabled:
+                              description: Enables vertical pod autoscaling
+                              type: boolean
+                            rayClusterLoggingConfig:
+                              description: |-
+                                Logging configuration for the cluster.
+                                Structure is documented below.
+                              properties:
+                                enabled:
+                                  description: Enables vertical pod autoscaling
+                                  type: boolean
+                              type: object
+                            rayClusterMonitoringConfig:
+                              description: |-
+                                Monitoring configuration for the cluster.
+                                Structure is documented below.
+                              properties:
+                                enabled:
+                                  description: Enables vertical pod autoscaling
+                                  type: boolean
+                              type: object
+                          type: object
+                        type: array
                       statefulHaConfig:
                         description: |-
                           .
@@ -10262,6 +10324,37 @@ spec:
                               cluster. It is disabled by default. Set disabled = false to enable.
                             type: boolean
                         type: object
+                      rayOperatorConfig:
+                        description: |-
+                          . The status of the Ray Operator
+                          addon.
+                          It is disabled by default. Set enabled = true to enable. The minimum
+                          cluster version to enable Ray is 1.30.0-gke.1747000.
+                        items:
+                          properties:
+                            enabled:
+                              description: Enables vertical pod autoscaling
+                              type: boolean
+                            rayClusterLoggingConfig:
+                              description: |-
+                                Logging configuration for the cluster.
+                                Structure is documented below.
+                              properties:
+                                enabled:
+                                  description: Enables vertical pod autoscaling
+                                  type: boolean
+                              type: object
+                            rayClusterMonitoringConfig:
+                              description: |-
+                                Monitoring configuration for the cluster.
+                                Structure is documented below.
+                              properties:
+                                enabled:
+                                  description: Enables vertical pod autoscaling
+                                  type: boolean
+                              type: object
+                          type: object
+                        type: array
                       statefulHaConfig:
                         description: |-
                           .

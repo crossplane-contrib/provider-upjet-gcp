@@ -54,6 +54,8 @@ type ColumnFamilyParameters struct {
 }
 
 type TableInitParameters struct {
+
+	// Defines an automated backup policy for a table, specified by Retention Period and Frequency. To disable, set both Retention Period and Frequency to 0.
 	AutomatedBackupPolicy *AutomatedBackupPolicyInitParameters `json:"automatedBackupPolicy,omitempty" tf:"automated_backup_policy,omitempty"`
 
 	// Duration to retain change stream data for the table. Set to 0 to disable. Must be between 1 and 7 days.
@@ -74,6 +76,8 @@ type TableInitParameters struct {
 }
 
 type TableObservation struct {
+
+	// Defines an automated backup policy for a table, specified by Retention Period and Frequency. To disable, set both Retention Period and Frequency to 0.
 	AutomatedBackupPolicy *AutomatedBackupPolicyObservation `json:"automatedBackupPolicy,omitempty" tf:"automated_backup_policy,omitempty"`
 
 	// Duration to retain change stream data for the table. Set to 0 to disable. Must be between 1 and 7 days.
@@ -101,6 +105,7 @@ type TableObservation struct {
 
 type TableParameters struct {
 
+	// Defines an automated backup policy for a table, specified by Retention Period and Frequency. To disable, set both Retention Period and Frequency to 0.
 	// +kubebuilder:validation:Optional
 	AutomatedBackupPolicy *AutomatedBackupPolicyParameters `json:"automatedBackupPolicy,omitempty" tf:"automated_backup_policy,omitempty"`
 

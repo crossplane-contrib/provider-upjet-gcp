@@ -534,6 +534,10 @@ type InitializeParamsInitParameters struct {
 	// will inherit the size of its base image.
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
+	// The URL of the storage pool in which the new disk is created.
+	// For example:
+	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
+
 	// The type of reservation from which this instance can consume resources.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -585,6 +589,10 @@ type InitializeParamsObservation struct {
 	// The size of the image in gigabytes. If not specified, it
 	// will inherit the size of its base image.
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
+
+	// The URL of the storage pool in which the new disk is created.
+	// For example:
+	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
 
 	// The type of reservation from which this instance can consume resources.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
@@ -653,6 +661,11 @@ type InitializeParamsParameters struct {
 	// will inherit the size of its base image.
 	// +kubebuilder:validation:Optional
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
+
+	// The URL of the storage pool in which the new disk is created.
+	// For example:
+	// +kubebuilder:validation:Optional
+	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
 
 	// The type of reservation from which this instance can consume resources.
 	// +kubebuilder:validation:Optional

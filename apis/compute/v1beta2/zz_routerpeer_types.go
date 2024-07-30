@@ -107,6 +107,28 @@ type BfdParameters struct {
 	SessionInitializationMode *string `json:"sessionInitializationMode" tf:"session_initialization_mode,omitempty"`
 }
 
+type CustomLearnedIPRangesInitParameters struct {
+
+	// The IP range to advertise. The value must be a
+	// CIDR-formatted string.
+	Range *string `json:"range,omitempty" tf:"range,omitempty"`
+}
+
+type CustomLearnedIPRangesObservation struct {
+
+	// The IP range to advertise. The value must be a
+	// CIDR-formatted string.
+	Range *string `json:"range,omitempty" tf:"range,omitempty"`
+}
+
+type CustomLearnedIPRangesParameters struct {
+
+	// The IP range to advertise. The value must be a
+	// CIDR-formatted string.
+	// +kubebuilder:validation:Optional
+	Range *string `json:"range" tf:"range,omitempty"`
+}
+
 type Md5AuthenticationKeyInitParameters struct {
 
 	// The MD5 authentication key for this BGP peer. Maximum length is 80 characters. Can only contain printable ASCII characters
@@ -193,6 +215,10 @@ type RouterPeerInitParameters struct {
 	// BFD configuration for the BGP peering.
 	// Structure is documented below.
 	Bfd *BfdInitParameters `json:"bfd,omitempty" tf:"bfd,omitempty"`
+
+	CustomLearnedIPRanges []CustomLearnedIPRangesInitParameters `json:"customLearnedIpRanges,omitempty" tf:"custom_learned_ip_ranges,omitempty"`
+
+	CustomLearnedRoutePriority *float64 `json:"customLearnedRoutePriority,omitempty" tf:"custom_learned_route_priority,omitempty"`
 
 	// The status of the BGP peer connection. If set to false, any active session
 	// with the peer is terminated and all associated routing information is removed.
@@ -327,6 +353,10 @@ type RouterPeerObservation struct {
 	// Structure is documented below.
 	Bfd *BfdObservation `json:"bfd,omitempty" tf:"bfd,omitempty"`
 
+	CustomLearnedIPRanges []CustomLearnedIPRangesObservation `json:"customLearnedIpRanges,omitempty" tf:"custom_learned_ip_ranges,omitempty"`
+
+	CustomLearnedRoutePriority *float64 `json:"customLearnedRoutePriority,omitempty" tf:"custom_learned_route_priority,omitempty"`
+
 	// The status of the BGP peer connection. If set to false, any active session
 	// with the peer is terminated and all associated routing information is removed.
 	// If set to true, the peer connection can be established with routing information.
@@ -433,6 +463,12 @@ type RouterPeerParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Bfd *BfdParameters `json:"bfd,omitempty" tf:"bfd,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CustomLearnedIPRanges []CustomLearnedIPRangesParameters `json:"customLearnedIpRanges,omitempty" tf:"custom_learned_ip_ranges,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CustomLearnedRoutePriority *float64 `json:"customLearnedRoutePriority,omitempty" tf:"custom_learned_route_priority,omitempty"`
 
 	// The status of the BGP peer connection. If set to false, any active session
 	// with the peer is terminated and all associated routing information is removed.

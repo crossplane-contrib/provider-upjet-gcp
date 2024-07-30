@@ -89,6 +89,12 @@ type AddonsConfigInitParameters struct {
 	// Defaults to disabled; set disabled = false to enable.
 	NetworkPolicyConfig *NetworkPolicyConfigInitParameters `json:"networkPolicyConfig,omitempty" tf:"network_policy_config,omitempty"`
 
+	// . The status of the Ray Operator
+	// addon.
+	// It is disabled by default. Set enabled = true to enable. The minimum
+	// cluster version to enable Ray is 1.30.0-gke.1747000.
+	RayOperatorConfig []RayOperatorConfigInitParameters `json:"rayOperatorConfig,omitempty" tf:"ray_operator_config,omitempty"`
+
 	// .
 	// The status of the Stateful HA addon, which provides automatic configurable failover for stateful applications.
 	// It is disabled by default for Standard clusters. Set enabled = true to enable.
@@ -148,6 +154,12 @@ type AddonsConfigObservation struct {
 	// It can only be disabled if the nodes already do not have network policies enabled.
 	// Defaults to disabled; set disabled = false to enable.
 	NetworkPolicyConfig *NetworkPolicyConfigObservation `json:"networkPolicyConfig,omitempty" tf:"network_policy_config,omitempty"`
+
+	// . The status of the Ray Operator
+	// addon.
+	// It is disabled by default. Set enabled = true to enable. The minimum
+	// cluster version to enable Ray is 1.30.0-gke.1747000.
+	RayOperatorConfig []RayOperatorConfigObservation `json:"rayOperatorConfig,omitempty" tf:"ray_operator_config,omitempty"`
 
 	// .
 	// The status of the Stateful HA addon, which provides automatic configurable failover for stateful applications.
@@ -218,6 +230,13 @@ type AddonsConfigParameters struct {
 	// Defaults to disabled; set disabled = false to enable.
 	// +kubebuilder:validation:Optional
 	NetworkPolicyConfig *NetworkPolicyConfigParameters `json:"networkPolicyConfig,omitempty" tf:"network_policy_config,omitempty"`
+
+	// . The status of the Ray Operator
+	// addon.
+	// It is disabled by default. Set enabled = true to enable. The minimum
+	// cluster version to enable Ray is 1.30.0-gke.1747000.
+	// +kubebuilder:validation:Optional
+	RayOperatorConfig []RayOperatorConfigParameters `json:"rayOperatorConfig,omitempty" tf:"ray_operator_config,omitempty"`
 
 	// .
 	// The status of the Stateful HA addon, which provides automatic configurable failover for stateful applications.
@@ -4736,6 +4755,89 @@ type QueuedProvisioningObservation struct {
 }
 
 type QueuedProvisioningParameters struct {
+}
+
+type RayClusterLoggingConfigInitParameters struct {
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type RayClusterLoggingConfigObservation struct {
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type RayClusterLoggingConfigParameters struct {
+
+	// Enables vertical pod autoscaling
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
+type RayClusterMonitoringConfigInitParameters struct {
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type RayClusterMonitoringConfigObservation struct {
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type RayClusterMonitoringConfigParameters struct {
+
+	// Enables vertical pod autoscaling
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
+type RayOperatorConfigInitParameters struct {
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// Logging configuration for the cluster.
+	// Structure is documented below.
+	RayClusterLoggingConfig *RayClusterLoggingConfigInitParameters `json:"rayClusterLoggingConfig,omitempty" tf:"ray_cluster_logging_config,omitempty"`
+
+	// Monitoring configuration for the cluster.
+	// Structure is documented below.
+	RayClusterMonitoringConfig *RayClusterMonitoringConfigInitParameters `json:"rayClusterMonitoringConfig,omitempty" tf:"ray_cluster_monitoring_config,omitempty"`
+}
+
+type RayOperatorConfigObservation struct {
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// Logging configuration for the cluster.
+	// Structure is documented below.
+	RayClusterLoggingConfig *RayClusterLoggingConfigObservation `json:"rayClusterLoggingConfig,omitempty" tf:"ray_cluster_logging_config,omitempty"`
+
+	// Monitoring configuration for the cluster.
+	// Structure is documented below.
+	RayClusterMonitoringConfig *RayClusterMonitoringConfigObservation `json:"rayClusterMonitoringConfig,omitempty" tf:"ray_cluster_monitoring_config,omitempty"`
+}
+
+type RayOperatorConfigParameters struct {
+
+	// Enables vertical pod autoscaling
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+
+	// Logging configuration for the cluster.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RayClusterLoggingConfig *RayClusterLoggingConfigParameters `json:"rayClusterLoggingConfig,omitempty" tf:"ray_cluster_logging_config,omitempty"`
+
+	// Monitoring configuration for the cluster.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RayClusterMonitoringConfig *RayClusterMonitoringConfigParameters `json:"rayClusterMonitoringConfig,omitempty" tf:"ray_cluster_monitoring_config,omitempty"`
 }
 
 type RecurringWindowInitParameters struct {

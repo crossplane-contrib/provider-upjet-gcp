@@ -2447,12 +2447,21 @@ spec:
                       preemptible:
                         type: boolean
                       reservationAffinity:
+                        description: |-
+                          The configuration of the desired reservation which instances could take capacity from.
+                          Structure is documented below.
                         properties:
                           consumeReservationType:
+                            description: |-
+                              The type of reservation consumption
+                              Accepted values are:
                             type: string
                           key:
+                            description: name" as the key and specify the name of
+                              your reservation as its value.
                             type: string
                           values:
+                            description: name"
                             items:
                               type: string
                             type: array
@@ -2568,10 +2577,13 @@ spec:
                             items:
                               properties:
                                 key:
+                                  description: name" as the key and specify the name
+                                    of your reservation as its value.
                                   type: string
                                 operator:
                                   type: string
                                 values:
+                                  description: name"
                                   items:
                                     type: string
                                   type: array
@@ -2590,6 +2602,8 @@ spec:
                             effect:
                               type: string
                             key:
+                              description: name" as the key and specify the name of
+                                your reservation as its value.
                               type: string
                             value:
                               type: string
@@ -3006,12 +3020,21 @@ spec:
                       preemptible:
                         type: boolean
                       reservationAffinity:
+                        description: |-
+                          The configuration of the desired reservation which instances could take capacity from.
+                          Structure is documented below.
                         properties:
                           consumeReservationType:
+                            description: |-
+                              The type of reservation consumption
+                              Accepted values are:
                             type: string
                           key:
+                            description: name" as the key and specify the name of
+                              your reservation as its value.
                             type: string
                           values:
+                            description: name"
                             items:
                               type: string
                             type: array
@@ -3127,10 +3150,13 @@ spec:
                             items:
                               properties:
                                 key:
+                                  description: name" as the key and specify the name
+                                    of your reservation as its value.
                                   type: string
                                 operator:
                                   type: string
                                 values:
+                                  description: name"
                                   items:
                                     type: string
                                   type: array
@@ -3149,6 +3175,8 @@ spec:
                             effect:
                               type: string
                             key:
+                              description: name" as the key and specify the name of
+                                your reservation as its value.
                               type: string
                             value:
                               type: string
@@ -3631,6 +3659,8 @@ spec:
                             effect:
                               type: string
                             key:
+                              description: name" as the key and specify the name of
+                                your reservation as its value.
                               type: string
                             value:
                               type: string
@@ -3759,12 +3789,21 @@ spec:
                       preemptible:
                         type: boolean
                       reservationAffinity:
+                        description: |-
+                          The configuration of the desired reservation which instances could take capacity from.
+                          Structure is documented below.
                         properties:
                           consumeReservationType:
+                            description: |-
+                              The type of reservation consumption
+                              Accepted values are:
                             type: string
                           key:
+                            description: name" as the key and specify the name of
+                              your reservation as its value.
                             type: string
                           values:
+                            description: name"
                             items:
                               type: string
                             type: array
@@ -3804,10 +3843,13 @@ spec:
                             items:
                               properties:
                                 key:
+                                  description: name" as the key and specify the name
+                                    of your reservation as its value.
                                   type: string
                                 operator:
                                   type: string
                                 values:
+                                  description: name"
                                   items:
                                     type: string
                                   type: array
@@ -3826,6 +3868,8 @@ spec:
                             effect:
                               type: string
                             key:
+                              description: name" as the key and specify the name of
+                                your reservation as its value.
                               type: string
                             value:
                               type: string

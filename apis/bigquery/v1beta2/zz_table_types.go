@@ -1136,6 +1136,11 @@ type TableConstraintsParameters struct {
 
 type TableInitParameters struct {
 
+	// If set to true, it allows table
+	// deletion when there are still resource tags attached. The default value is
+	// false.
+	AllowResourceTagsOnDeletion *bool `json:"allowResourceTagsOnDeletion,omitempty" tf:"allow_resource_tags_on_deletion,omitempty"`
+
 	// Specifies column names to use for data clustering.
 	// Up to four top-level columns are allowed, and should be specified in
 	// descending priority order.
@@ -1190,6 +1195,14 @@ type TableInitParameters struct {
 	// specified.
 	RequirePartitionFilter *bool `json:"requirePartitionFilter,omitempty" tf:"require_partition_filter,omitempty"`
 
+	// The tags attached to this table. Tag keys are
+	// globally unique. Tag key is expected to be in the namespaced format, for
+	// example "123456789012/environment" where 123456789012 is the ID of the
+	// parent organization or project resource for this tag key. Tag value is
+	// expected to be the short name, for example "Production".
+	// +mapType=granular
+	ResourceTags map[string]*string `json:"resourceTags,omitempty" tf:"resource_tags,omitempty"`
+
 	// A JSON schema for the table.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 
@@ -1213,6 +1226,11 @@ type TableInitParameters struct {
 }
 
 type TableObservation struct {
+
+	// If set to true, it allows table
+	// deletion when there are still resource tags attached. The default value is
+	// false.
+	AllowResourceTagsOnDeletion *bool `json:"allowResourceTagsOnDeletion,omitempty" tf:"allow_resource_tags_on_deletion,omitempty"`
 
 	// Specifies column names to use for data clustering.
 	// Up to four top-level columns are allowed, and should be specified in
@@ -1303,6 +1321,14 @@ type TableObservation struct {
 	// specified.
 	RequirePartitionFilter *bool `json:"requirePartitionFilter,omitempty" tf:"require_partition_filter,omitempty"`
 
+	// The tags attached to this table. Tag keys are
+	// globally unique. Tag key is expected to be in the namespaced format, for
+	// example "123456789012/environment" where 123456789012 is the ID of the
+	// parent organization or project resource for this tag key. Tag value is
+	// expected to be the short name, for example "Production".
+	// +mapType=granular
+	ResourceTags map[string]*string `json:"resourceTags,omitempty" tf:"resource_tags,omitempty"`
+
 	// A JSON schema for the table.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 
@@ -1336,6 +1362,12 @@ type TableObservation struct {
 }
 
 type TableParameters struct {
+
+	// If set to true, it allows table
+	// deletion when there are still resource tags attached. The default value is
+	// false.
+	// +kubebuilder:validation:Optional
+	AllowResourceTagsOnDeletion *bool `json:"allowResourceTagsOnDeletion,omitempty" tf:"allow_resource_tags_on_deletion,omitempty"`
 
 	// Specifies column names to use for data clustering.
 	// Up to four top-level columns are allowed, and should be specified in
@@ -1421,6 +1453,15 @@ type TableParameters struct {
 	// specified.
 	// +kubebuilder:validation:Optional
 	RequirePartitionFilter *bool `json:"requirePartitionFilter,omitempty" tf:"require_partition_filter,omitempty"`
+
+	// The tags attached to this table. Tag keys are
+	// globally unique. Tag key is expected to be in the namespaced format, for
+	// example "123456789012/environment" where 123456789012 is the ID of the
+	// parent organization or project resource for this tag key. Tag value is
+	// expected to be the short name, for example "Production".
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceTags map[string]*string `json:"resourceTags,omitempty" tf:"resource_tags,omitempty"`
 
 	// A JSON schema for the table.
 	// +kubebuilder:validation:Optional

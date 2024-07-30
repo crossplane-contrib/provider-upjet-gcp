@@ -1626,6 +1626,18 @@ spec:
                           Possible values are: ACTIVE, DISABLED, PASSIVE.
                         type: string
                     type: object
+                  customLearnedIpRanges:
+                    items:
+                      properties:
+                        range:
+                          description: |-
+                            The IP range to advertise. The value must be a
+                            CIDR-formatted string.
+                          type: string
+                      type: object
+                    type: array
+                  customLearnedRoutePriority:
+                    type: number
                   enable:
                     description: |-
                       The status of the BGP peer connection. If set to false, any active session
@@ -2195,6 +2207,18 @@ spec:
                           Possible values are: ACTIVE, DISABLED, PASSIVE.
                         type: string
                     type: object
+                  customLearnedIpRanges:
+                    items:
+                      properties:
+                        range:
+                          description: |-
+                            The IP range to advertise. The value must be a
+                            CIDR-formatted string.
+                          type: string
+                      type: object
+                    type: array
+                  customLearnedRoutePriority:
+                    type: number
                   enable:
                     description: |-
                       The status of the BGP peer connection. If set to false, any active session
@@ -2852,6 +2876,18 @@ spec:
                           Possible values are: ACTIVE, DISABLED, PASSIVE.
                         type: string
                     type: object
+                  customLearnedIpRanges:
+                    items:
+                      properties:
+                        range:
+                          description: |-
+                            The IP range to advertise. The value must be a
+                            CIDR-formatted string.
+                          type: string
+                      type: object
+                    type: array
+                  customLearnedRoutePriority:
+                    type: number
                   enable:
                     description: |-
                       The status of the BGP peer connection. If set to false, any active session

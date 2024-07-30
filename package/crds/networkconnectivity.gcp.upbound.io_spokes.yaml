@@ -1257,16 +1257,16 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: Optional labels in key:value format. For more information
-                      about labels, see Requirements for labels.
+                    description: |-
+                      Optional labels in key:value format. For more information about labels, see Requirements for labels.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   linkedInterconnectAttachments:
-                    description: A collection of VLAN attachment resources. These
-                      resources should be redundant attachments that all advertise
-                      the same prefixes to Google Cloud. Alternatively, in active/passive
-                      configurations, all attachments should be capable of advertising
-                      the same prefixes.
+                    description: |-
+                      A collection of VLAN attachment resources. These resources should be redundant attachments that all advertise the same prefixes to Google Cloud. Alternatively, in active/passive configurations, all attachments should be capable of advertising the same prefixes.
+                      Structure is documented below.
                     properties:
                       siteToSiteDataTransfer:
                         description: A value that controls whether site-to-site data
@@ -1280,10 +1280,14 @@ spec:
                         type: array
                     type: object
                   linkedRouterApplianceInstances:
-                    description: The URIs of linked Router appliance resources
+                    description: |-
+                      The URIs of linked Router appliance resources
+                      Structure is documented below.
                     properties:
                       instances:
-                        description: The list of router appliance instances
+                        description: |-
+                          The list of router appliance instances
+                          Structure is documented below.
                         items:
                           properties:
                             ipAddress:
@@ -1377,7 +1381,9 @@ spec:
                         type: boolean
                     type: object
                   linkedVpcNetwork:
-                    description: VPC network that is associated with the spoke.
+                    description: |-
+                      VPC network that is associated with the spoke.
+                      Structure is documented below.
                     properties:
                       excludeExportRanges:
                         description: IP ranges encompassing the subnets to be excluded
@@ -1466,7 +1472,9 @@ spec:
                         type: object
                     type: object
                   linkedVpnTunnels:
-                    description: The URIs of linked VPN tunnel resources
+                    description: |-
+                      The URIs of linked VPN tunnel resources
+                      Structure is documented below.
                     properties:
                       siteToSiteDataTransfer:
                         description: A value that controls whether site-to-site data
@@ -1487,7 +1495,9 @@ spec:
                       be unique.
                     type: string
                   project:
-                    description: The project for the resource
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                 type: object
               initProvider:
@@ -1589,16 +1599,16 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: Optional labels in key:value format. For more information
-                      about labels, see Requirements for labels.
+                    description: |-
+                      Optional labels in key:value format. For more information about labels, see Requirements for labels.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   linkedInterconnectAttachments:
-                    description: A collection of VLAN attachment resources. These
-                      resources should be redundant attachments that all advertise
-                      the same prefixes to Google Cloud. Alternatively, in active/passive
-                      configurations, all attachments should be capable of advertising
-                      the same prefixes.
+                    description: |-
+                      A collection of VLAN attachment resources. These resources should be redundant attachments that all advertise the same prefixes to Google Cloud. Alternatively, in active/passive configurations, all attachments should be capable of advertising the same prefixes.
+                      Structure is documented below.
                     properties:
                       siteToSiteDataTransfer:
                         description: A value that controls whether site-to-site data
@@ -1612,10 +1622,14 @@ spec:
                         type: array
                     type: object
                   linkedRouterApplianceInstances:
-                    description: The URIs of linked Router appliance resources
+                    description: |-
+                      The URIs of linked Router appliance resources
+                      Structure is documented below.
                     properties:
                       instances:
-                        description: The list of router appliance instances
+                        description: |-
+                          The list of router appliance instances
+                          Structure is documented below.
                         items:
                           properties:
                             ipAddress:
@@ -1709,7 +1723,9 @@ spec:
                         type: boolean
                     type: object
                   linkedVpcNetwork:
-                    description: VPC network that is associated with the spoke.
+                    description: |-
+                      VPC network that is associated with the spoke.
+                      Structure is documented below.
                     properties:
                       excludeExportRanges:
                         description: IP ranges encompassing the subnets to be excluded
@@ -1798,7 +1814,9 @@ spec:
                         type: object
                     type: object
                   linkedVpnTunnels:
-                    description: The URIs of linked VPN tunnel resources
+                    description: |-
+                      The URIs of linked VPN tunnel resources
+                      Structure is documented below.
                     properties:
                       siteToSiteDataTransfer:
                         description: A value that controls whether site-to-site data
@@ -1819,7 +1837,9 @@ spec:
                       be unique.
                     type: string
                   project:
-                    description: The project for the resource
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                 type: object
               managementPolicies:
@@ -2024,16 +2044,16 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: Optional labels in key:value format. For more information
-                      about labels, see Requirements for labels.
+                    description: |-
+                      Optional labels in key:value format. For more information about labels, see Requirements for labels.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
                   linkedInterconnectAttachments:
-                    description: A collection of VLAN attachment resources. These
-                      resources should be redundant attachments that all advertise
-                      the same prefixes to Google Cloud. Alternatively, in active/passive
-                      configurations, all attachments should be capable of advertising
-                      the same prefixes.
+                    description: |-
+                      A collection of VLAN attachment resources. These resources should be redundant attachments that all advertise the same prefixes to Google Cloud. Alternatively, in active/passive configurations, all attachments should be capable of advertising the same prefixes.
+                      Structure is documented below.
                     properties:
                       siteToSiteDataTransfer:
                         description: A value that controls whether site-to-site data
@@ -2047,10 +2067,14 @@ spec:
                         type: array
                     type: object
                   linkedRouterApplianceInstances:
-                    description: The URIs of linked Router appliance resources
+                    description: |-
+                      The URIs of linked Router appliance resources
+                      Structure is documented below.
                     properties:
                       instances:
-                        description: The list of router appliance instances
+                        description: |-
+                          The list of router appliance instances
+                          Structure is documented below.
                         items:
                           properties:
                             ipAddress:
@@ -2068,7 +2092,9 @@ spec:
                         type: boolean
                     type: object
                   linkedVpcNetwork:
-                    description: VPC network that is associated with the spoke.
+                    description: |-
+                      VPC network that is associated with the spoke.
+                      Structure is documented below.
                     properties:
                       excludeExportRanges:
                         description: IP ranges encompassing the subnets to be excluded
@@ -2081,7 +2107,9 @@ spec:
                         type: string
                     type: object
                   linkedVpnTunnels:
-                    description: The URIs of linked VPN tunnel resources
+                    description: |-
+                      The URIs of linked VPN tunnel resources
+                      Structure is documented below.
                     properties:
                       siteToSiteDataTransfer:
                         description: A value that controls whether site-to-site data
@@ -2102,18 +2130,20 @@ spec:
                       be unique.
                     type: string
                   project:
-                    description: The project for the resource
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   state:
-                    description: 'Output only. The current lifecycle state of this
-                      spoke. Possible values: STATE_UNSPECIFIED, CREATING, ACTIVE,
-                      DELETING'
+                    description: Output only. The current lifecycle state of this
+                      spoke.
                     type: string
                   terraformLabels:
                     additionalProperties:
                       type: string
-                    description: The combination of labels configured directly on
-                      the resource and default labels configured on the provider.
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
                     type: object
                     x-kubernetes-map-type: granular
                   uniqueId:

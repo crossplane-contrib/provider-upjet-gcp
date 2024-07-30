@@ -627,6 +627,17 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  dataBoostIsolationReadOnly:
+                    description: |-
+                      Specifies that this app profile is intended for read-only usage via the Data Boost feature.
+                      Structure is documented below.
+                    properties:
+                      computeBillingOwner:
+                        description: |-
+                          The Compute Billing Owner for this Data Boost App Profile.
+                          Possible values are: HOST_PAYS.
+                        type: string
+                    type: object
                   description:
                     description: Long form description of the use case for this app
                       profile.
@@ -768,6 +779,17 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  dataBoostIsolationReadOnly:
+                    description: |-
+                      Specifies that this app profile is intended for read-only usage via the Data Boost feature.
+                      Structure is documented below.
+                    properties:
+                      computeBillingOwner:
+                        description: |-
+                          The Compute Billing Owner for this Data Boost App Profile.
+                          Possible values are: HOST_PAYS.
+                        type: string
+                    type: object
                   description:
                     description: Long form description of the use case for this app
                       profile.
@@ -990,6 +1012,17 @@ spec:
             properties:
               atProvider:
                 properties:
+                  dataBoostIsolationReadOnly:
+                    description: |-
+                      Specifies that this app profile is intended for read-only usage via the Data Boost feature.
+                      Structure is documented below.
+                    properties:
+                      computeBillingOwner:
+                        description: |-
+                          The Compute Billing Owner for this Data Boost App Profile.
+                          Possible values are: HOST_PAYS.
+                        type: string
+                    type: object
                   description:
                     description: Long form description of the use case for this app
                       profile.

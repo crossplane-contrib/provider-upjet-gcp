@@ -139,7 +139,7 @@ type IndexStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// Index is the Schema for the Indexs API. Describes a composite index for Cloud Datastore.
+// Index is the Schema for the Indexs API. Describes a composite index for Firestore in Datastore Mode.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
