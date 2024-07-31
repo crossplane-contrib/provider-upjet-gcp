@@ -307,7 +307,7 @@ type DatasetInitParameters struct {
 
 	// Information about the external metadata storage where the dataset is defined.
 	// Structure is documented below.
-	ExternalDatasetReference *ExternalDatasetReferenceInitParameters `json:"externalDatasetReference,omitempty" tf:"external_dataset_reference,omitempty"`
+	ExternalDatasetReference []ExternalDatasetReferenceInitParameters `json:"externalDatasetReference,omitempty" tf:"external_dataset_reference,omitempty"`
 
 	// A descriptive name for the dataset
 	FriendlyName *string `json:"friendlyName,omitempty" tf:"friendly_name,omitempty"`
@@ -394,7 +394,7 @@ type DatasetObservation struct {
 
 	// Information about the external metadata storage where the dataset is defined.
 	// Structure is documented below.
-	ExternalDatasetReference *ExternalDatasetReferenceObservation `json:"externalDatasetReference,omitempty" tf:"external_dataset_reference,omitempty"`
+	ExternalDatasetReference []ExternalDatasetReferenceObservation `json:"externalDatasetReference,omitempty" tf:"external_dataset_reference,omitempty"`
 
 	// A descriptive name for the dataset
 	FriendlyName *string `json:"friendlyName,omitempty" tf:"friendly_name,omitempty"`
@@ -497,7 +497,7 @@ type DatasetParameters struct {
 	// Information about the external metadata storage where the dataset is defined.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	ExternalDatasetReference *ExternalDatasetReferenceParameters `json:"externalDatasetReference,omitempty" tf:"external_dataset_reference,omitempty"`
+	ExternalDatasetReference []ExternalDatasetReferenceParameters `json:"externalDatasetReference,omitempty" tf:"external_dataset_reference,omitempty"`
 
 	// A descriptive name for the dataset
 	// +kubebuilder:validation:Optional

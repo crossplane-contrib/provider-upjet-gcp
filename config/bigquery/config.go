@@ -13,9 +13,6 @@ import (
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_bigquery_dataset", func(r *config.Resource) {
 		delete(r.References, "access.dataset.dataset.project_id")
-		r.TerraformConversions = []config.TerraformConversion{
-			config.NewTFSingletonConversion(),
-		}
 	})
 	p.AddResourceConfigurator("google_bigquery_dataset_access", func(r *config.Resource) {
 		delete(r.References, "view.project_id")
