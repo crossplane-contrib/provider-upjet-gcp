@@ -158,6 +158,8 @@ spec:
                                 x-kubernetes-map-type: granular
                               size:
                                 type: number
+                              storagePool:
+                                type: string
                               type:
                                 type: string
                             type: object
@@ -175,6 +177,8 @@ spec:
                   confidentialInstanceConfig:
                     items:
                       properties:
+                        confidentialInstanceType:
+                          type: string
                         enableConfidentialCompute:
                           type: boolean
                       type: object
@@ -500,6 +504,13 @@ spec:
                                 type: number
                             type: object
                           type: array
+                        maxRunDuration:
+                          properties:
+                            nanos:
+                              type: number
+                            seconds:
+                              type: number
+                          type: object
                         minNodeCpus:
                           type: number
                         nodeAffinities:
@@ -518,6 +529,11 @@ spec:
                           type: array
                         onHostMaintenance:
                           type: string
+                        onInstanceStopAction:
+                          properties:
+                            discardLocalSsd:
+                              type: boolean
+                          type: object
                         preemptible:
                           type: boolean
                         provisioningModel:
@@ -712,6 +728,24 @@ spec:
                             A unique name for the resource, required by GCE.
                             Changing this forces a new resource to be created.
                           type: string
+                        diskEncryptionKeyRawSecretRef:
+                          description: A SecretKeySelector is a reference to a secret
+                            key in an arbitrary namespace.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
                         initializeParams:
                           items:
                             properties:
@@ -734,6 +768,8 @@ spec:
                                 x-kubernetes-map-type: granular
                               size:
                                 type: number
+                              storagePool:
+                                type: string
                               type:
                                 type: string
                             type: object
@@ -751,6 +787,8 @@ spec:
                   confidentialInstanceConfig:
                     items:
                       properties:
+                        confidentialInstanceType:
+                          type: string
                         enableConfidentialCompute:
                           type: boolean
                       type: object
@@ -1076,6 +1114,13 @@ spec:
                                 type: number
                             type: object
                           type: array
+                        maxRunDuration:
+                          properties:
+                            nanos:
+                              type: number
+                            seconds:
+                              type: number
+                          type: object
                         minNodeCpus:
                           type: number
                         nodeAffinities:
@@ -1094,6 +1139,11 @@ spec:
                           type: array
                         onHostMaintenance:
                           type: string
+                        onInstanceStopAction:
+                          properties:
+                            discardLocalSsd:
+                              type: boolean
+                          type: object
                         preemptible:
                           type: boolean
                         provisioningModel:
@@ -1477,6 +1527,8 @@ spec:
                                 x-kubernetes-map-type: granular
                               size:
                                 type: number
+                              storagePool:
+                                type: string
                               type:
                                 type: string
                             type: object
@@ -1494,6 +1546,8 @@ spec:
                   confidentialInstanceConfig:
                     items:
                       properties:
+                        confidentialInstanceType:
+                          type: string
                         enableConfidentialCompute:
                           type: boolean
                       type: object
@@ -1691,6 +1745,13 @@ spec:
                                 type: number
                             type: object
                           type: array
+                        maxRunDuration:
+                          properties:
+                            nanos:
+                              type: number
+                            seconds:
+                              type: number
+                          type: object
                         minNodeCpus:
                           type: number
                         nodeAffinities:
@@ -1709,6 +1770,11 @@ spec:
                           type: array
                         onHostMaintenance:
                           type: string
+                        onInstanceStopAction:
+                          properties:
+                            discardLocalSsd:
+                              type: boolean
+                          type: object
                         preemptible:
                           type: boolean
                         provisioningModel:

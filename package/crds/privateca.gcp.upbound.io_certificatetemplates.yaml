@@ -136,6 +136,15 @@ spec:
                   location:
                     description: The location for the resource
                     type: string
+                  maximumLifetime:
+                    description: Optional. The maximum lifetime allowed for all issued
+                      certificates that use this template. If the issuing CaPool's
+                      IssuancePolicy specifies a maximum lifetime the minimum of the
+                      two durations will be the maximum lifetime for issued. Note
+                      that if the issuing CertificateAuthority expires before a Certificate's
+                      requested maximum_lifetime, the effective lifetime will be explicitly
+                      truncated to match it.
+                    type: string
                   passthroughExtensions:
                     description: Optional. Describes the set of X.509 extensions that
                       may appear in a Certificate issued using this CertificateTemplate.
@@ -425,6 +434,15 @@ spec:
                     description: Optional. Labels with user-defined metadata.
                     type: object
                     x-kubernetes-map-type: granular
+                  maximumLifetime:
+                    description: Optional. The maximum lifetime allowed for all issued
+                      certificates that use this template. If the issuing CaPool's
+                      IssuancePolicy specifies a maximum lifetime the minimum of the
+                      two durations will be the maximum lifetime for issued. Note
+                      that if the issuing CertificateAuthority expires before a Certificate's
+                      requested maximum_lifetime, the effective lifetime will be explicitly
+                      truncated to match it.
+                    type: string
                   passthroughExtensions:
                     description: Optional. Describes the set of X.509 extensions that
                       may appear in a Certificate issued using this CertificateTemplate.
@@ -888,6 +906,15 @@ spec:
                     x-kubernetes-map-type: granular
                   location:
                     description: The location for the resource
+                    type: string
+                  maximumLifetime:
+                    description: Optional. The maximum lifetime allowed for all issued
+                      certificates that use this template. If the issuing CaPool's
+                      IssuancePolicy specifies a maximum lifetime the minimum of the
+                      two durations will be the maximum lifetime for issued. Note
+                      that if the issuing CertificateAuthority expires before a Certificate's
+                      requested maximum_lifetime, the effective lifetime will be explicitly
+                      truncated to match it.
                     type: string
                   passthroughExtensions:
                     description: Optional. Describes the set of X.509 extensions that

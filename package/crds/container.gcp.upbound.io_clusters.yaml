@@ -213,6 +213,47 @@ spec:
                                 type: boolean
                             type: object
                           type: array
+                        rayOperatorConfig:
+                          description: |-
+                            . The status of the Ray Operator
+                            addon.
+                            It is disabled by default. Set enabled = true to enable. The minimum
+                            cluster version to enable Ray is 1.30.0-gke.1747000.
+                          items:
+                            properties:
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
+                              rayClusterLoggingConfig:
+                                description: |-
+                                  Logging configuration for the cluster.
+                                  Structure is documented below.
+                                properties:
+                                  enabled:
+                                    description: Enables vertical pod autoscaling
+                                    type: boolean
+                                type: object
+                              rayClusterMonitoringConfig:
+                                description: |-
+                                  Monitoring configuration for the cluster.
+                                  Structure is documented below.
+                                properties:
+                                  enabled:
+                                    description: Enables vertical pod autoscaling
+                                    type: boolean
+                                type: object
+                            type: object
+                          type: array
+                        statefulHaConfig:
+                          description: |-
+                            .
+                            The status of the Stateful HA addon, which provides automatic configurable failover for stateful applications.
+                            It is disabled by default for Standard clusters. Set enabled = true to enable.
+                          properties:
+                            enabled:
+                              description: Enables vertical pod autoscaling
+                              type: boolean
+                          type: object
                       type: object
                     type: array
                   allowNetAdmin:
@@ -560,6 +601,10 @@ spec:
                       Note that when this option is enabled, certain features of Standard GKE are not available.
                       See the official documentation
                       for available features.
+                    type: boolean
+                  enableCiliumClusterwideNetworkPolicy:
+                    description: Whether CiliumClusterWideNetworkPolicy is enabled
+                      on this cluster. Defaults to false.
                     type: boolean
                   enableIntranodeVisibility:
                     description: Whether Intra-node visibility is enabled for this
@@ -1047,6 +1092,10 @@ spec:
                             advanced machine features. Structure is documented below.
                           items:
                             properties:
+                              enableNestedVirtualization:
+                                description: Defines whether the instance should have
+                                  nested virtualization enabled. Defaults to false.
+                                type: boolean
                               threadsPerCore:
                                 description: The number of threads per physical core.
                                   To disable simultaneous multithreading (SMT) set
@@ -1073,6 +1122,38 @@ spec:
                                 type: boolean
                             type: object
                           type: array
+                        containerdConfig:
+                          description: Parameters to customize containerd runtime.
+                            Structure is documented below.
+                          properties:
+                            privateRegistryAccessConfig:
+                              description: 'Configuration for private container registries.
+                                There are two fields in this config:'
+                              properties:
+                                certificateAuthorityDomainConfig:
+                                  description: 'List of configuration objects for
+                                    CA and domains. Each object identifies a certificate
+                                    and its assigned domains. See how to configure
+                                    for private container registries for more detail.
+                                    Example:'
+                                  items:
+                                    properties:
+                                      fqdns:
+                                        items:
+                                          type: string
+                                        type: array
+                                      gcpSecretManagerCertificateConfig:
+                                        properties:
+                                          secretUri:
+                                            type: string
+                                        type: object
+                                    type: object
+                                  type: array
+                                enabled:
+                                  description: Enables vertical pod autoscaling
+                                  type: boolean
+                              type: object
+                          type: object
                         diskSizeGb:
                           description: |-
                             Size of the disk attached to each node, specified
@@ -1381,6 +1462,26 @@ spec:
                             2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
                           type: object
                           x-kubernetes-map-type: granular
+                        secondaryBootDisks:
+                          description: Parameters for secondary boot disks to preload
+                            container images and data on new nodes. Structure is documented
+                            below. gcfs_config must be enabled=true for this feature
+                            to work. min_master_version must also be set to use GKE
+                            1.28.3-gke.106700 or later versions.
+                          items:
+                            properties:
+                              diskImage:
+                                description: Path to disk image to create the secondary
+                                  boot disk from. After using the gke-disk-image-builder,
+                                  this argument should be global/images/DISK_IMAGE_NAME.
+                                type: string
+                              mode:
+                                description: |-
+                                  How to expose the node metadata to the workload running on the node.
+                                  Accepted values are:
+                                type: string
+                            type: object
+                          type: array
                         serviceAccount:
                           description: |-
                             The service account to be used by the Node VMs.
@@ -1582,6 +1683,19 @@ spec:
                                 type: array
                             type: object
                           type: array
+                        resourceManagerTags:
+                          additionalProperties:
+                            type: string
+                          description: A map of resource manager tag keys and values
+                            to be attached to the nodes for managing Compute Engine
+                            firewalls using Network Firewall Policies. Tags must be
+                            according to specifications found here. A maximum of 5
+                            tag key-value pairs can be specified. Existing tags will
+                            be replaced with new values. Tags must be in one of the
+                            following formats ([KEY]=[VALUE]) 1. tagKeys/{tag_key_id}=tagValues/{tag_value_id}
+                            2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
+                          type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   nodePoolDefaults:
@@ -1594,6 +1708,38 @@ spec:
                           description: Subset of NodeConfig message that has defaults.
                           items:
                             properties:
+                              containerdConfig:
+                                description: Parameters to customize containerd runtime.
+                                  Structure is documented below.
+                                properties:
+                                  privateRegistryAccessConfig:
+                                    description: 'Configuration for private container
+                                      registries. There are two fields in this config:'
+                                    properties:
+                                      certificateAuthorityDomainConfig:
+                                        description: 'List of configuration objects
+                                          for CA and domains. Each object identifies
+                                          a certificate and its assigned domains.
+                                          See how to configure for private container
+                                          registries for more detail. Example:'
+                                        items:
+                                          properties:
+                                            fqdns:
+                                              items:
+                                                type: string
+                                              type: array
+                                            gcpSecretManagerCertificateConfig:
+                                              properties:
+                                                secretUri:
+                                                  type: string
+                                              type: object
+                                          type: object
+                                        type: array
+                                      enabled:
+                                        description: Enables vertical pod autoscaling
+                                        type: boolean
+                                    type: object
+                                type: object
                               loggingVariant:
                                 description: The type of logging agent that is deployed
                                   by default for newly created node pools in the cluster.
@@ -2065,6 +2211,47 @@ spec:
                                 type: boolean
                             type: object
                           type: array
+                        rayOperatorConfig:
+                          description: |-
+                            . The status of the Ray Operator
+                            addon.
+                            It is disabled by default. Set enabled = true to enable. The minimum
+                            cluster version to enable Ray is 1.30.0-gke.1747000.
+                          items:
+                            properties:
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
+                              rayClusterLoggingConfig:
+                                description: |-
+                                  Logging configuration for the cluster.
+                                  Structure is documented below.
+                                properties:
+                                  enabled:
+                                    description: Enables vertical pod autoscaling
+                                    type: boolean
+                                type: object
+                              rayClusterMonitoringConfig:
+                                description: |-
+                                  Monitoring configuration for the cluster.
+                                  Structure is documented below.
+                                properties:
+                                  enabled:
+                                    description: Enables vertical pod autoscaling
+                                    type: boolean
+                                type: object
+                            type: object
+                          type: array
+                        statefulHaConfig:
+                          description: |-
+                            .
+                            The status of the Stateful HA addon, which provides automatic configurable failover for stateful applications.
+                            It is disabled by default for Standard clusters. Set enabled = true to enable.
+                          properties:
+                            enabled:
+                              description: Enables vertical pod autoscaling
+                              type: boolean
+                          type: object
                       type: object
                     type: array
                   allowNetAdmin:
@@ -2412,6 +2599,10 @@ spec:
                       Note that when this option is enabled, certain features of Standard GKE are not available.
                       See the official documentation
                       for available features.
+                    type: boolean
+                  enableCiliumClusterwideNetworkPolicy:
+                    description: Whether CiliumClusterWideNetworkPolicy is enabled
+                      on this cluster. Defaults to false.
                     type: boolean
                   enableIntranodeVisibility:
                     description: Whether Intra-node visibility is enabled for this
@@ -2890,6 +3081,10 @@ spec:
                             advanced machine features. Structure is documented below.
                           items:
                             properties:
+                              enableNestedVirtualization:
+                                description: Defines whether the instance should have
+                                  nested virtualization enabled. Defaults to false.
+                                type: boolean
                               threadsPerCore:
                                 description: The number of threads per physical core.
                                   To disable simultaneous multithreading (SMT) set
@@ -2916,6 +3111,38 @@ spec:
                                 type: boolean
                             type: object
                           type: array
+                        containerdConfig:
+                          description: Parameters to customize containerd runtime.
+                            Structure is documented below.
+                          properties:
+                            privateRegistryAccessConfig:
+                              description: 'Configuration for private container registries.
+                                There are two fields in this config:'
+                              properties:
+                                certificateAuthorityDomainConfig:
+                                  description: 'List of configuration objects for
+                                    CA and domains. Each object identifies a certificate
+                                    and its assigned domains. See how to configure
+                                    for private container registries for more detail.
+                                    Example:'
+                                  items:
+                                    properties:
+                                      fqdns:
+                                        items:
+                                          type: string
+                                        type: array
+                                      gcpSecretManagerCertificateConfig:
+                                        properties:
+                                          secretUri:
+                                            type: string
+                                        type: object
+                                    type: object
+                                  type: array
+                                enabled:
+                                  description: Enables vertical pod autoscaling
+                                  type: boolean
+                              type: object
+                          type: object
                         diskSizeGb:
                           description: |-
                             Size of the disk attached to each node, specified
@@ -3224,6 +3451,26 @@ spec:
                             2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
                           type: object
                           x-kubernetes-map-type: granular
+                        secondaryBootDisks:
+                          description: Parameters for secondary boot disks to preload
+                            container images and data on new nodes. Structure is documented
+                            below. gcfs_config must be enabled=true for this feature
+                            to work. min_master_version must also be set to use GKE
+                            1.28.3-gke.106700 or later versions.
+                          items:
+                            properties:
+                              diskImage:
+                                description: Path to disk image to create the secondary
+                                  boot disk from. After using the gke-disk-image-builder,
+                                  this argument should be global/images/DISK_IMAGE_NAME.
+                                type: string
+                              mode:
+                                description: |-
+                                  How to expose the node metadata to the workload running on the node.
+                                  Accepted values are:
+                                type: string
+                            type: object
+                          type: array
                         serviceAccount:
                           description: |-
                             The service account to be used by the Node VMs.
@@ -3425,6 +3672,19 @@ spec:
                                 type: array
                             type: object
                           type: array
+                        resourceManagerTags:
+                          additionalProperties:
+                            type: string
+                          description: A map of resource manager tag keys and values
+                            to be attached to the nodes for managing Compute Engine
+                            firewalls using Network Firewall Policies. Tags must be
+                            according to specifications found here. A maximum of 5
+                            tag key-value pairs can be specified. Existing tags will
+                            be replaced with new values. Tags must be in one of the
+                            following formats ([KEY]=[VALUE]) 1. tagKeys/{tag_key_id}=tagValues/{tag_value_id}
+                            2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
+                          type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   nodePoolDefaults:
@@ -3437,6 +3697,38 @@ spec:
                           description: Subset of NodeConfig message that has defaults.
                           items:
                             properties:
+                              containerdConfig:
+                                description: Parameters to customize containerd runtime.
+                                  Structure is documented below.
+                                properties:
+                                  privateRegistryAccessConfig:
+                                    description: 'Configuration for private container
+                                      registries. There are two fields in this config:'
+                                    properties:
+                                      certificateAuthorityDomainConfig:
+                                        description: 'List of configuration objects
+                                          for CA and domains. Each object identifies
+                                          a certificate and its assigned domains.
+                                          See how to configure for private container
+                                          registries for more detail. Example:'
+                                        items:
+                                          properties:
+                                            fqdns:
+                                              items:
+                                                type: string
+                                              type: array
+                                            gcpSecretManagerCertificateConfig:
+                                              properties:
+                                                secretUri:
+                                                  type: string
+                                              type: object
+                                          type: object
+                                        type: array
+                                      enabled:
+                                        description: Enables vertical pod autoscaling
+                                        type: boolean
+                                    type: object
+                                type: object
                               loggingVariant:
                                 description: The type of logging agent that is deployed
                                   by default for newly created node pools in the cluster.
@@ -4065,6 +4357,47 @@ spec:
                                 type: boolean
                             type: object
                           type: array
+                        rayOperatorConfig:
+                          description: |-
+                            . The status of the Ray Operator
+                            addon.
+                            It is disabled by default. Set enabled = true to enable. The minimum
+                            cluster version to enable Ray is 1.30.0-gke.1747000.
+                          items:
+                            properties:
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
+                              rayClusterLoggingConfig:
+                                description: |-
+                                  Logging configuration for the cluster.
+                                  Structure is documented below.
+                                properties:
+                                  enabled:
+                                    description: Enables vertical pod autoscaling
+                                    type: boolean
+                                type: object
+                              rayClusterMonitoringConfig:
+                                description: |-
+                                  Monitoring configuration for the cluster.
+                                  Structure is documented below.
+                                properties:
+                                  enabled:
+                                    description: Enables vertical pod autoscaling
+                                    type: boolean
+                                type: object
+                            type: object
+                          type: array
+                        statefulHaConfig:
+                          description: |-
+                            .
+                            The status of the Stateful HA addon, which provides automatic configurable failover for stateful applications.
+                            It is disabled by default for Standard clusters. Set enabled = true to enable.
+                          properties:
+                            enabled:
+                              description: Enables vertical pod autoscaling
+                              type: boolean
+                          type: object
                       type: object
                     type: array
                   allowNetAdmin:
@@ -4424,6 +4757,10 @@ spec:
                       Note that when this option is enabled, certain features of Standard GKE are not available.
                       See the official documentation
                       for available features.
+                    type: boolean
+                  enableCiliumClusterwideNetworkPolicy:
+                    description: Whether CiliumClusterWideNetworkPolicy is enabled
+                      on this cluster. Defaults to false.
                     type: boolean
                   enableIntranodeVisibility:
                     description: Whether Intra-node visibility is enabled for this
@@ -4885,6 +5222,10 @@ spec:
                             advanced machine features. Structure is documented below.
                           items:
                             properties:
+                              enableNestedVirtualization:
+                                description: Defines whether the instance should have
+                                  nested virtualization enabled. Defaults to false.
+                                type: boolean
                               threadsPerCore:
                                 description: The number of threads per physical core.
                                   To disable simultaneous multithreading (SMT) set
@@ -4911,6 +5252,38 @@ spec:
                                 type: boolean
                             type: object
                           type: array
+                        containerdConfig:
+                          description: Parameters to customize containerd runtime.
+                            Structure is documented below.
+                          properties:
+                            privateRegistryAccessConfig:
+                              description: 'Configuration for private container registries.
+                                There are two fields in this config:'
+                              properties:
+                                certificateAuthorityDomainConfig:
+                                  description: 'List of configuration objects for
+                                    CA and domains. Each object identifies a certificate
+                                    and its assigned domains. See how to configure
+                                    for private container registries for more detail.
+                                    Example:'
+                                  items:
+                                    properties:
+                                      fqdns:
+                                        items:
+                                          type: string
+                                        type: array
+                                      gcpSecretManagerCertificateConfig:
+                                        properties:
+                                          secretUri:
+                                            type: string
+                                        type: object
+                                    type: object
+                                  type: array
+                                enabled:
+                                  description: Enables vertical pod autoscaling
+                                  type: boolean
+                              type: object
+                          type: object
                         diskSizeGb:
                           description: |-
                             Size of the disk attached to each node, specified
@@ -5236,6 +5609,26 @@ spec:
                             2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
                           type: object
                           x-kubernetes-map-type: granular
+                        secondaryBootDisks:
+                          description: Parameters for secondary boot disks to preload
+                            container images and data on new nodes. Structure is documented
+                            below. gcfs_config must be enabled=true for this feature
+                            to work. min_master_version must also be set to use GKE
+                            1.28.3-gke.106700 or later versions.
+                          items:
+                            properties:
+                              diskImage:
+                                description: Path to disk image to create the secondary
+                                  boot disk from. After using the gke-disk-image-builder,
+                                  this argument should be global/images/DISK_IMAGE_NAME.
+                                type: string
+                              mode:
+                                description: |-
+                                  How to expose the node metadata to the workload running on the node.
+                                  Accepted values are:
+                                type: string
+                            type: object
+                          type: array
                         serviceAccount:
                           description: |-
                             The service account to be used by the Node VMs.
@@ -5461,6 +5854,11 @@ spec:
                                   advanced machine features. Structure is documented below.
                                 items:
                                   properties:
+                                    enableNestedVirtualization:
+                                      description: Defines whether the instance should
+                                        have nested virtualization enabled. Defaults
+                                        to false.
+                                      type: boolean
                                     threadsPerCore:
                                       description: The number of threads per physical
                                         core. To disable simultaneous multithreading
@@ -5488,6 +5886,38 @@ spec:
                                       type: boolean
                                   type: object
                                 type: array
+                              containerdConfig:
+                                description: Parameters to customize containerd runtime.
+                                  Structure is documented below.
+                                properties:
+                                  privateRegistryAccessConfig:
+                                    description: 'Configuration for private container
+                                      registries. There are two fields in this config:'
+                                    properties:
+                                      certificateAuthorityDomainConfig:
+                                        description: 'List of configuration objects
+                                          for CA and domains. Each object identifies
+                                          a certificate and its assigned domains.
+                                          See how to configure for private container
+                                          registries for more detail. Example:'
+                                        items:
+                                          properties:
+                                            fqdns:
+                                              items:
+                                                type: string
+                                              type: array
+                                            gcpSecretManagerCertificateConfig:
+                                              properties:
+                                                secretUri:
+                                                  type: string
+                                              type: object
+                                          type: object
+                                        type: array
+                                      enabled:
+                                        description: Enables vertical pod autoscaling
+                                        type: boolean
+                                    type: object
+                                type: object
                               diskSizeGb:
                                 description: |-
                                   Size of the disk attached to each node, specified
@@ -5811,6 +6241,28 @@ spec:
                                   2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
                                 type: object
                                 x-kubernetes-map-type: granular
+                              secondaryBootDisks:
+                                description: Parameters for secondary boot disks to
+                                  preload container images and data on new nodes.
+                                  Structure is documented below. gcfs_config must
+                                  be enabled=true for this feature to work. min_master_version
+                                  must also be set to use GKE 1.28.3-gke.106700 or
+                                  later versions.
+                                items:
+                                  properties:
+                                    diskImage:
+                                      description: Path to disk image to create the
+                                        secondary boot disk from. After using the
+                                        gke-disk-image-builder, this argument should
+                                        be global/images/DISK_IMAGE_NAME.
+                                      type: string
+                                    mode:
+                                      description: |-
+                                        How to expose the node metadata to the workload running on the node.
+                                        Accepted values are:
+                                      type: string
+                                  type: object
+                                type: array
                               serviceAccount:
                                 description: |-
                                   The service account to be used by the Node VMs.
@@ -5930,6 +6382,12 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        queuedProvisioning:
+                          properties:
+                            enabled:
+                              description: Enables vertical pod autoscaling
+                              type: boolean
+                          type: object
                         upgradeSettings:
                           description: Specifies the upgrade settings for NAP created
                             node pools. Structure is documented below.
@@ -6019,6 +6477,19 @@ spec:
                                 type: array
                             type: object
                           type: array
+                        resourceManagerTags:
+                          additionalProperties:
+                            type: string
+                          description: A map of resource manager tag keys and values
+                            to be attached to the nodes for managing Compute Engine
+                            firewalls using Network Firewall Policies. Tags must be
+                            according to specifications found here. A maximum of 5
+                            tag key-value pairs can be specified. Existing tags will
+                            be replaced with new values. Tags must be in one of the
+                            following formats ([KEY]=[VALUE]) 1. tagKeys/{tag_key_id}=tagValues/{tag_value_id}
+                            2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
+                          type: object
+                          x-kubernetes-map-type: granular
                       type: object
                     type: array
                   nodePoolDefaults:
@@ -6031,6 +6502,38 @@ spec:
                           description: Subset of NodeConfig message that has defaults.
                           items:
                             properties:
+                              containerdConfig:
+                                description: Parameters to customize containerd runtime.
+                                  Structure is documented below.
+                                properties:
+                                  privateRegistryAccessConfig:
+                                    description: 'Configuration for private container
+                                      registries. There are two fields in this config:'
+                                    properties:
+                                      certificateAuthorityDomainConfig:
+                                        description: 'List of configuration objects
+                                          for CA and domains. Each object identifies
+                                          a certificate and its assigned domains.
+                                          See how to configure for private container
+                                          registries for more detail. Example:'
+                                        items:
+                                          properties:
+                                            fqdns:
+                                              items:
+                                                type: string
+                                              type: array
+                                            gcpSecretManagerCertificateConfig:
+                                              properties:
+                                                secretUri:
+                                                  type: string
+                                              type: object
+                                          type: object
+                                        type: array
+                                      enabled:
+                                        description: Enables vertical pod autoscaling
+                                        type: boolean
+                                    type: object
+                                type: object
                               loggingVariant:
                                 description: The type of logging agent that is deployed
                                   by default for newly created node pools in the cluster.

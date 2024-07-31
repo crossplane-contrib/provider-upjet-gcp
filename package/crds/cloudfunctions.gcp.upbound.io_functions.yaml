@@ -83,6 +83,10 @@ spec:
                     description: A set of key/value environment variable pairs available
                       during build time.
                     type: object
+                  buildServiceAccount:
+                    description: If provided, the self-provided service account to
+                      use to build the function. The format of this field is projects/{project}/serviceAccounts/{serviceAccountEmail}
+                    type: string
                   buildWorkerPool:
                     description: Name of the Cloud Build Custom Worker Pool that should
                       be used to build the function.
@@ -489,6 +493,10 @@ spec:
                     description: A set of key/value environment variable pairs available
                       during build time.
                     type: object
+                  buildServiceAccount:
+                    description: If provided, the self-provided service account to
+                      use to build the function. The format of this field is projects/{project}/serviceAccounts/{serviceAccountEmail}
+                    type: string
                   buildWorkerPool:
                     description: Name of the Cloud Build Custom Worker Pool that should
                       be used to build the function.
@@ -1053,6 +1061,10 @@ spec:
                     description: A set of key/value environment variable pairs available
                       during build time.
                     type: object
+                  buildServiceAccount:
+                    description: If provided, the self-provided service account to
+                      use to build the function. The format of this field is projects/{project}/serviceAccounts/{serviceAccountEmail}
+                    type: string
                   buildWorkerPool:
                     description: Name of the Cloud Build Custom Worker Pool that should
                       be used to build the function.

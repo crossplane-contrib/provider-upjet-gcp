@@ -349,6 +349,27 @@ spec:
                           type: string
                       type: object
                     type: array
+                  passwordSecretRef:
+                    description: |-
+                      The password for the user. Can be updated. For Postgres
+                      instances this is a Required field, unless type is set to either CLOUD_IAM_USER
+                      or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
+                      and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
                   project:
                     description: |-
                       The ID of the project in which the resource belongs. If it

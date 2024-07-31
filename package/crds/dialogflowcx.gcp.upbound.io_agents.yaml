@@ -351,6 +351,25 @@ spec:
                             Structure is documented below.
                           items:
                             properties:
+                              accessTokenSecretRef:
+                                description: |-
+                                  The access token used to authenticate the access to the GitHub repository.
+                                  Note: This property is sensitive and will not be displayed in the plan.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
                               branches:
                                 description: A list of branches configured to be used
                                   from Dialogflow.

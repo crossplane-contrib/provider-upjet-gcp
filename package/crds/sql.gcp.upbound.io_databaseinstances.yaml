@@ -442,6 +442,11 @@ spec:
                           description: The edition of the instance, can be ENTERPRISE
                             or ENTERPRISE_PLUS.
                           type: string
+                        enableGoogleMlIntegration:
+                          description: Enables Cloud SQL instances to connect to Vertex
+                            AI and pass requests for real-time predictions and insights.
+                            Defaults to false.
+                          type: boolean
                         insightsConfig:
                           items:
                             properties:
@@ -885,6 +890,23 @@ spec:
                             Time in ms between replication
                             heartbeats.
                           type: number
+                        passwordSecretRef:
+                          description: Password for the replication connection.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
                         sslCipher:
                           description: Permissible ciphers for use in SSL encryption.
                           type: string
@@ -917,6 +939,24 @@ spec:
                           type: string
                       type: object
                     type: array
+                  rootPasswordSecretRef:
+                    description: Initial root password. Can be updated. Required for
+                      MS SQL Server.
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
                   settings:
                     description: |-
                       The settings to use for the database. The
@@ -1090,6 +1130,11 @@ spec:
                           description: The edition of the instance, can be ENTERPRISE
                             or ENTERPRISE_PLUS.
                           type: string
+                        enableGoogleMlIntegration:
+                          description: Enables Cloud SQL instances to connect to Vertex
+                            AI and pass requests for real-time predictions and insights.
+                            Defaults to false.
+                          type: boolean
                         insightsConfig:
                           items:
                             properties:
@@ -1963,6 +2008,11 @@ spec:
                           description: The edition of the instance, can be ENTERPRISE
                             or ENTERPRISE_PLUS.
                           type: string
+                        enableGoogleMlIntegration:
+                          description: Enables Cloud SQL instances to connect to Vertex
+                            AI and pass requests for real-time predictions and insights.
+                            Defaults to false.
+                          type: boolean
                         insightsConfig:
                           items:
                             properties:

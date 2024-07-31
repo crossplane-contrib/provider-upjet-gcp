@@ -221,6 +221,11 @@ spec:
                       Whether or not to include children folders in the sink export. If true, logs
                       associated with child projects are also exported; otherwise only logs relating to the provided folder are included.
                     type: boolean
+                  interceptChildren:
+                    description: |-
+                      Whether or not to intercept logs from child projects. If true, matching logs will not
+                      match with sinks in child resources, except _Required sinks. This sink will be visible to child resources when listing sinks.
+                    type: boolean
                 type: object
               initProvider:
                 description: |-
@@ -301,6 +306,11 @@ spec:
                     description: |-
                       Whether or not to include children folders in the sink export. If true, logs
                       associated with child projects are also exported; otherwise only logs relating to the provided folder are included.
+                    type: boolean
+                  interceptChildren:
+                    description: |-
+                      Whether or not to intercept logs from child projects. If true, matching logs will not
+                      match with sinks in child resources, except _Required sinks. This sink will be visible to child resources when listing sinks.
                     type: boolean
                 type: object
               managementPolicies:
@@ -554,6 +564,11 @@ spec:
                     description: |-
                       Whether or not to include children folders in the sink export. If true, logs
                       associated with child projects are also exported; otherwise only logs relating to the provided folder are included.
+                    type: boolean
+                  interceptChildren:
+                    description: |-
+                      Whether or not to intercept logs from child projects. If true, matching logs will not
+                      match with sinks in child resources, except _Required sinks. This sink will be visible to child resources when listing sinks.
                     type: boolean
                   writerIdentity:
                     description: |-

@@ -72,6 +72,11 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  cryptoKeyBackend:
+                    description: |-
+                      The resource name of the backend environment associated with all CryptoKeyVersions within this CryptoKey.
+                      The resource name is in the format "projects//locations//ekmConnections/*" and only applies to "EXTERNAL_VPC" keys.
+                    type: string
                   destroyScheduledDuration:
                     description: |-
                       The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED.
@@ -218,6 +223,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  cryptoKeyBackend:
+                    description: |-
+                      The resource name of the backend environment associated with all CryptoKeyVersions within this CryptoKey.
+                      The resource name is in the format "projects//locations//ekmConnections/*" and only applies to "EXTERNAL_VPC" keys.
+                    type: string
                   destroyScheduledDuration:
                     description: |-
                       The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED.
@@ -444,6 +454,11 @@ spec:
             properties:
               atProvider:
                 properties:
+                  cryptoKeyBackend:
+                    description: |-
+                      The resource name of the backend environment associated with all CryptoKeyVersions within this CryptoKey.
+                      The resource name is in the format "projects//locations//ekmConnections/*" and only applies to "EXTERNAL_VPC" keys.
+                    type: string
                   destroyScheduledDuration:
                     description: |-
                       The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED.

@@ -445,6 +445,33 @@ spec:
                           type: number
                       type: object
                     type: array
+                  scheduledBackup:
+                    description: |-
+                      The configuration of scheduled backup for the metastore service.
+                      Structure is documented below.
+                    properties:
+                      backupLocation:
+                        description: A Cloud Storage URI of a folder, in the format
+                          gs://<bucket_name>/<path_inside_bucket>. A sub-folder <backup_folder>
+                          containing backup files will be stored below it.
+                        type: string
+                      cronSchedule:
+                        description: 'The scheduled interval in Cron format, see https://en.wikipedia.org/wiki/Cron
+                          The default is empty: scheduled backup is not enabled. Must
+                          be specified to enable scheduled backups.'
+                        type: string
+                      enabled:
+                        description: Defines whether the scheduled backup is enabled.
+                          The default value is false.
+                        type: boolean
+                      timeZone:
+                        description: Specifies the time zone to be used when interpreting
+                          cronSchedule. Must be a time zone name from the time zone
+                          database (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones),
+                          e.g. America/Los_Angeles or Africa/Abidjan. If left unspecified,
+                          the default is UTC.
+                        type: string
+                    type: object
                   telemetryConfig:
                     description: |-
                       The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
@@ -845,6 +872,33 @@ spec:
                           type: number
                       type: object
                     type: array
+                  scheduledBackup:
+                    description: |-
+                      The configuration of scheduled backup for the metastore service.
+                      Structure is documented below.
+                    properties:
+                      backupLocation:
+                        description: A Cloud Storage URI of a folder, in the format
+                          gs://<bucket_name>/<path_inside_bucket>. A sub-folder <backup_folder>
+                          containing backup files will be stored below it.
+                        type: string
+                      cronSchedule:
+                        description: 'The scheduled interval in Cron format, see https://en.wikipedia.org/wiki/Cron
+                          The default is empty: scheduled backup is not enabled. Must
+                          be specified to enable scheduled backups.'
+                        type: string
+                      enabled:
+                        description: Defines whether the scheduled backup is enabled.
+                          The default value is false.
+                        type: boolean
+                      timeZone:
+                        description: Specifies the time zone to be used when interpreting
+                          cronSchedule. Must be a time zone name from the time zone
+                          database (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones),
+                          e.g. America/Los_Angeles or Africa/Abidjan. If left unspecified,
+                          the default is UTC.
+                        type: string
+                    type: object
                   telemetryConfig:
                     description: |-
                       The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
@@ -1280,6 +1334,33 @@ spec:
                           type: number
                       type: object
                     type: array
+                  scheduledBackup:
+                    description: |-
+                      The configuration of scheduled backup for the metastore service.
+                      Structure is documented below.
+                    properties:
+                      backupLocation:
+                        description: A Cloud Storage URI of a folder, in the format
+                          gs://<bucket_name>/<path_inside_bucket>. A sub-folder <backup_folder>
+                          containing backup files will be stored below it.
+                        type: string
+                      cronSchedule:
+                        description: 'The scheduled interval in Cron format, see https://en.wikipedia.org/wiki/Cron
+                          The default is empty: scheduled backup is not enabled. Must
+                          be specified to enable scheduled backups.'
+                        type: string
+                      enabled:
+                        description: Defines whether the scheduled backup is enabled.
+                          The default value is false.
+                        type: boolean
+                      timeZone:
+                        description: Specifies the time zone to be used when interpreting
+                          cronSchedule. Must be a time zone name from the time zone
+                          database (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones),
+                          e.g. America/Los_Angeles or Africa/Abidjan. If left unspecified,
+                          the default is UTC.
+                        type: string
+                    type: object
                   state:
                     description: The current state of the metastore service.
                     type: string

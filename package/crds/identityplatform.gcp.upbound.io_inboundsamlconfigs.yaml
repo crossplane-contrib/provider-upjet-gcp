@@ -182,6 +182,26 @@ spec:
                             The IdP's certificate data to verify the signature in the SAMLResponse issued by the IDP.
                             Structure is documented below.
                           items:
+                            properties:
+                              x509CertificateSecretRef:
+                                description: |-
+                                  (Output)
+                                  The x509 certificate
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
                             type: object
                           type: array
                         idpEntityId:

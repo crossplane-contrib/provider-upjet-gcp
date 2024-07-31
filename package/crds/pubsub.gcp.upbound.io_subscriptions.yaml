@@ -154,6 +154,10 @@ spec:
                             The bucket must be created by the user. The bucket name
                             must be without any prefix like "gs://".
                           type: string
+                        filenameDatetimeFormat:
+                          description: User-provided format string specifying how
+                            to represent datetimes in Cloud Storage filenames.
+                          type: string
                         filenamePrefix:
                           description: User-provided prefix for Cloud Storage filename.
                           type: string
@@ -628,6 +632,10 @@ spec:
                           description: User-provided name for the Cloud Storage bucket.
                             The bucket must be created by the user. The bucket name
                             must be without any prefix like "gs://".
+                          type: string
+                        filenameDatetimeFormat:
+                          description: User-provided format string specifying how
+                            to represent datetimes in Cloud Storage filenames.
                           type: string
                         filenamePrefix:
                           description: User-provided prefix for Cloud Storage filename.
@@ -1262,6 +1270,10 @@ spec:
                           description: User-provided name for the Cloud Storage bucket.
                             The bucket must be created by the user. The bucket name
                             must be without any prefix like "gs://".
+                          type: string
+                        filenameDatetimeFormat:
+                          description: User-provided format string specifying how
+                            to represent datetimes in Cloud Storage filenames.
                           type: string
                         filenamePrefix:
                           description: User-provided prefix for Cloud Storage filename.

@@ -277,6 +277,8 @@ spec:
                         advancedMachineFeatures:
                           items:
                             properties:
+                              enableNestedVirtualization:
+                                type: boolean
                               threadsPerCore:
                                 type: number
                             type: object
@@ -294,6 +296,30 @@ spec:
                                 type: boolean
                             type: object
                           type: array
+                        containerdConfig:
+                          properties:
+                            privateRegistryAccessConfig:
+                              properties:
+                                certificateAuthorityDomainConfig:
+                                  items:
+                                    properties:
+                                      fqdns:
+                                        items:
+                                          type: string
+                                        type: array
+                                      gcpSecretManagerCertificateConfig:
+                                        properties:
+                                          secretUri:
+                                            type: string
+                                        type: object
+                                    type: object
+                                  type: array
+                                enabled:
+                                  description: Makes nodes obtainable through the
+                                    ProvisioningRequest API exclusively.
+                                  type: boolean
+                              type: object
+                          type: object
                         diskSizeGb:
                           type: number
                         diskType:
@@ -469,6 +495,15 @@ spec:
                             type: string
                           type: object
                           x-kubernetes-map-type: granular
+                        secondaryBootDisks:
+                          items:
+                            properties:
+                              diskImage:
+                                type: string
+                              mode:
+                                type: string
+                            type: object
+                          type: array
                         serviceAccount:
                           type: string
                         serviceAccountRef:
@@ -647,6 +682,16 @@ spec:
                       The ID of the project in which to create the node pool. If blank,
                       the provider-configured project will be used.
                     type: string
+                  queuedProvisioning:
+                    description: |-
+                      Specifies node pool-level settings of queued provisioning.
+                      Structure is documented below.
+                    properties:
+                      enabled:
+                        description: Makes nodes obtainable through the ProvisioningRequest
+                          API exclusively.
+                        type: boolean
+                    type: object
                   upgradeSettings:
                     description: |-
                       Specify node upgrade settings to change how GKE upgrades nodes.
@@ -844,6 +889,8 @@ spec:
                         advancedMachineFeatures:
                           items:
                             properties:
+                              enableNestedVirtualization:
+                                type: boolean
                               threadsPerCore:
                                 type: number
                             type: object
@@ -861,6 +908,30 @@ spec:
                                 type: boolean
                             type: object
                           type: array
+                        containerdConfig:
+                          properties:
+                            privateRegistryAccessConfig:
+                              properties:
+                                certificateAuthorityDomainConfig:
+                                  items:
+                                    properties:
+                                      fqdns:
+                                        items:
+                                          type: string
+                                        type: array
+                                      gcpSecretManagerCertificateConfig:
+                                        properties:
+                                          secretUri:
+                                            type: string
+                                        type: object
+                                    type: object
+                                  type: array
+                                enabled:
+                                  description: Makes nodes obtainable through the
+                                    ProvisioningRequest API exclusively.
+                                  type: boolean
+                              type: object
+                          type: object
                         diskSizeGb:
                           type: number
                         diskType:
@@ -1036,6 +1107,15 @@ spec:
                             type: string
                           type: object
                           x-kubernetes-map-type: granular
+                        secondaryBootDisks:
+                          items:
+                            properties:
+                              diskImage:
+                                type: string
+                              mode:
+                                type: string
+                            type: object
+                          type: array
                         serviceAccount:
                           type: string
                         serviceAccountRef:
@@ -1214,6 +1294,16 @@ spec:
                       The ID of the project in which to create the node pool. If blank,
                       the provider-configured project will be used.
                     type: string
+                  queuedProvisioning:
+                    description: |-
+                      Specifies node pool-level settings of queued provisioning.
+                      Structure is documented below.
+                    properties:
+                      enabled:
+                        description: Makes nodes obtainable through the ProvisioningRequest
+                          API exclusively.
+                        type: boolean
+                    type: object
                   upgradeSettings:
                     description: |-
                       Specify node upgrade settings to change how GKE upgrades nodes.
@@ -1594,6 +1684,8 @@ spec:
                         advancedMachineFeatures:
                           items:
                             properties:
+                              enableNestedVirtualization:
+                                type: boolean
                               threadsPerCore:
                                 type: number
                             type: object
@@ -1611,6 +1703,30 @@ spec:
                                 type: boolean
                             type: object
                           type: array
+                        containerdConfig:
+                          properties:
+                            privateRegistryAccessConfig:
+                              properties:
+                                certificateAuthorityDomainConfig:
+                                  items:
+                                    properties:
+                                      fqdns:
+                                        items:
+                                          type: string
+                                        type: array
+                                      gcpSecretManagerCertificateConfig:
+                                        properties:
+                                          secretUri:
+                                            type: string
+                                        type: object
+                                    type: object
+                                  type: array
+                                enabled:
+                                  description: Makes nodes obtainable through the
+                                    ProvisioningRequest API exclusively.
+                                  type: boolean
+                              type: object
+                          type: object
                         diskSizeGb:
                           type: number
                         diskType:
@@ -1797,6 +1913,15 @@ spec:
                             type: string
                           type: object
                           x-kubernetes-map-type: granular
+                        secondaryBootDisks:
+                          items:
+                            properties:
+                              diskImage:
+                                type: string
+                              mode:
+                                type: string
+                            type: object
+                          type: array
                         serviceAccount:
                           type: string
                         shieldedInstanceConfig:
@@ -1901,6 +2026,16 @@ spec:
                       The ID of the project in which to create the node pool. If blank,
                       the provider-configured project will be used.
                     type: string
+                  queuedProvisioning:
+                    description: |-
+                      Specifies node pool-level settings of queued provisioning.
+                      Structure is documented below.
+                    properties:
+                      enabled:
+                        description: Makes nodes obtainable through the ProvisioningRequest
+                          API exclusively.
+                        type: boolean
+                    type: object
                   upgradeSettings:
                     description: |-
                       Specify node upgrade settings to change how GKE upgrades nodes.

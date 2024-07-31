@@ -875,6 +875,11 @@ func (in *DatabaseInstanceInitParameters) DeepCopyInto(out *DatabaseInstanceInit
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.RootPasswordSecretRef != nil {
+		in, out := &in.RootPasswordSecretRef, &out.RootPasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Settings != nil {
 		in, out := &in.Settings, &out.Settings
 		*out = make([]SettingsInitParameters, len(*in))
@@ -2382,6 +2387,11 @@ func (in *ReplicaConfigurationInitParameters) DeepCopyInto(out *ReplicaConfigura
 		*out = new(float64)
 		**out = **in
 	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.SSLCipher != nil {
 		in, out := &in.SSLCipher, &out.SSLCipher
 		*out = new(string)
@@ -3179,6 +3189,11 @@ func (in *SettingsInitParameters) DeepCopyInto(out *SettingsInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.EnableGoogleMLIntegration != nil {
+		in, out := &in.EnableGoogleMLIntegration, &out.EnableGoogleMLIntegration
+		*out = new(bool)
+		**out = **in
+	}
 	if in.IPConfiguration != nil {
 		in, out := &in.IPConfiguration, &out.IPConfiguration
 		*out = make([]IPConfigurationInitParameters, len(*in))
@@ -3357,6 +3372,11 @@ func (in *SettingsObservation) DeepCopyInto(out *SettingsObservation) {
 	if in.Edition != nil {
 		in, out := &in.Edition, &out.Edition
 		*out = new(string)
+		**out = **in
+	}
+	if in.EnableGoogleMLIntegration != nil {
+		in, out := &in.EnableGoogleMLIntegration, &out.EnableGoogleMLIntegration
+		*out = new(bool)
 		**out = **in
 	}
 	if in.IPConfiguration != nil {
@@ -3542,6 +3562,11 @@ func (in *SettingsParameters) DeepCopyInto(out *SettingsParameters) {
 	if in.Edition != nil {
 		in, out := &in.Edition, &out.Edition
 		*out = new(string)
+		**out = **in
+	}
+	if in.EnableGoogleMLIntegration != nil {
+		in, out := &in.EnableGoogleMLIntegration, &out.EnableGoogleMLIntegration
+		*out = new(bool)
 		**out = **in
 	}
 	if in.IPConfiguration != nil {
@@ -4049,6 +4074,11 @@ func (in *UserInitParameters) DeepCopyInto(out *UserInitParameters) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
 	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
