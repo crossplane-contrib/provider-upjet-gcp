@@ -15,6 +15,10 @@ import (
 
 type CryptoKeyInitParameters struct {
 
+	// The resource name of the backend environment associated with all CryptoKeyVersions within this CryptoKey.
+	// The resource name is in the format "projects//locations//ekmConnections/*" and only applies to "EXTERNAL_VPC" keys.
+	CryptoKeyBackend *string `json:"cryptoKeyBackend,omitempty" tf:"crypto_key_backend,omitempty"`
+
 	// The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED.
 	// If not specified at creation time, the default duration is 24 hours.
 	DestroyScheduledDuration *string `json:"destroyScheduledDuration,omitempty" tf:"destroy_scheduled_duration,omitempty"`
@@ -48,6 +52,10 @@ type CryptoKeyInitParameters struct {
 }
 
 type CryptoKeyObservation struct {
+
+	// The resource name of the backend environment associated with all CryptoKeyVersions within this CryptoKey.
+	// The resource name is in the format "projects//locations//ekmConnections/*" and only applies to "EXTERNAL_VPC" keys.
+	CryptoKeyBackend *string `json:"cryptoKeyBackend,omitempty" tf:"crypto_key_backend,omitempty"`
 
 	// The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED.
 	// If not specified at creation time, the default duration is 24 hours.
@@ -103,6 +111,11 @@ type CryptoKeyObservation struct {
 }
 
 type CryptoKeyParameters struct {
+
+	// The resource name of the backend environment associated with all CryptoKeyVersions within this CryptoKey.
+	// The resource name is in the format "projects//locations//ekmConnections/*" and only applies to "EXTERNAL_VPC" keys.
+	// +kubebuilder:validation:Optional
+	CryptoKeyBackend *string `json:"cryptoKeyBackend,omitempty" tf:"crypto_key_backend,omitempty"`
 
 	// The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED.
 	// If not specified at creation time, the default duration is 24 hours.

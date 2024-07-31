@@ -13,6 +13,98 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AwsKinesisInitParameters struct {
+
+	// AWS role ARN to be used for Federated Identity authentication with
+	// Kinesis. Check the Pub/Sub docs for how to set up this role and the
+	// required permissions that need to be attached to it.
+	AwsRoleArn *string `json:"awsRoleArn,omitempty" tf:"aws_role_arn,omitempty"`
+
+	// The Kinesis consumer ARN to used for ingestion in
+	// Enhanced Fan-Out mode. The consumer must be already
+	// created and ready to be used.
+	ConsumerArn *string `json:"consumerArn,omitempty" tf:"consumer_arn,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
+	// role). The awsRoleArn must be set up with accounts.google.com:sub
+	// equals to this service account number.
+	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
+
+	// The Kinesis stream ARN to ingest data from.
+	StreamArn *string `json:"streamArn,omitempty" tf:"stream_arn,omitempty"`
+}
+
+type AwsKinesisObservation struct {
+
+	// AWS role ARN to be used for Federated Identity authentication with
+	// Kinesis. Check the Pub/Sub docs for how to set up this role and the
+	// required permissions that need to be attached to it.
+	AwsRoleArn *string `json:"awsRoleArn,omitempty" tf:"aws_role_arn,omitempty"`
+
+	// The Kinesis consumer ARN to used for ingestion in
+	// Enhanced Fan-Out mode. The consumer must be already
+	// created and ready to be used.
+	ConsumerArn *string `json:"consumerArn,omitempty" tf:"consumer_arn,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
+	// role). The awsRoleArn must be set up with accounts.google.com:sub
+	// equals to this service account number.
+	GCPServiceAccount *string `json:"gcpServiceAccount,omitempty" tf:"gcp_service_account,omitempty"`
+
+	// The Kinesis stream ARN to ingest data from.
+	StreamArn *string `json:"streamArn,omitempty" tf:"stream_arn,omitempty"`
+}
+
+type AwsKinesisParameters struct {
+
+	// AWS role ARN to be used for Federated Identity authentication with
+	// Kinesis. Check the Pub/Sub docs for how to set up this role and the
+	// required permissions that need to be attached to it.
+	// +kubebuilder:validation:Optional
+	AwsRoleArn *string `json:"awsRoleArn" tf:"aws_role_arn,omitempty"`
+
+	// The Kinesis consumer ARN to used for ingestion in
+	// Enhanced Fan-Out mode. The consumer must be already
+	// created and ready to be used.
+	// +kubebuilder:validation:Optional
+	ConsumerArn *string `json:"consumerArn" tf:"consumer_arn,omitempty"`
+
+	// The GCP service account to be used for Federated Identity authentication
+	// with Kinesis (via a AssumeRoleWithWebIdentity call for the provided
+	// role). The awsRoleArn must be set up with accounts.google.com:sub
+	// equals to this service account number.
+	// +kubebuilder:validation:Optional
+	GCPServiceAccount *string `json:"gcpServiceAccount" tf:"gcp_service_account,omitempty"`
+
+	// The Kinesis stream ARN to ingest data from.
+	// +kubebuilder:validation:Optional
+	StreamArn *string `json:"streamArn" tf:"stream_arn,omitempty"`
+}
+
+type IngestionDataSourceSettingsInitParameters struct {
+
+	// Settings for ingestion from Amazon Kinesis Data Streams.
+	// Structure is documented below.
+	AwsKinesis *AwsKinesisInitParameters `json:"awsKinesis,omitempty" tf:"aws_kinesis,omitempty"`
+}
+
+type IngestionDataSourceSettingsObservation struct {
+
+	// Settings for ingestion from Amazon Kinesis Data Streams.
+	// Structure is documented below.
+	AwsKinesis *AwsKinesisObservation `json:"awsKinesis,omitempty" tf:"aws_kinesis,omitempty"`
+}
+
+type IngestionDataSourceSettingsParameters struct {
+
+	// Settings for ingestion from Amazon Kinesis Data Streams.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AwsKinesis *AwsKinesisParameters `json:"awsKinesis,omitempty" tf:"aws_kinesis,omitempty"`
+}
+
 type MessageStoragePolicyInitParameters struct {
 
 	// A list of IDs of GCP regions where messages that are published to
@@ -93,6 +185,10 @@ type SchemaSettingsParameters struct {
 
 type TopicInitParameters struct {
 
+	// Settings for ingestion from a data source into this topic.
+	// Structure is documented below.
+	IngestionDataSourceSettings *IngestionDataSourceSettingsInitParameters `json:"ingestionDataSourceSettings,omitempty" tf:"ingestion_data_source_settings,omitempty"`
+
 	// The resource name of the Cloud KMS CryptoKey to be used to protect access
 	// to messages published on this topic. Your project's PubSub service account
 	// (service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com) must have
@@ -148,6 +244,10 @@ type TopicObservation struct {
 	// an identifier for the resource with format projects/{{project}}/topics/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Settings for ingestion from a data source into this topic.
+	// Structure is documented below.
+	IngestionDataSourceSettings *IngestionDataSourceSettingsObservation `json:"ingestionDataSourceSettings,omitempty" tf:"ingestion_data_source_settings,omitempty"`
+
 	// The resource name of the Cloud KMS CryptoKey to be used to protect access
 	// to messages published on this topic. Your project's PubSub service account
 	// (service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com) must have
@@ -190,6 +290,11 @@ type TopicObservation struct {
 }
 
 type TopicParameters struct {
+
+	// Settings for ingestion from a data source into this topic.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	IngestionDataSourceSettings *IngestionDataSourceSettingsParameters `json:"ingestionDataSourceSettings,omitempty" tf:"ingestion_data_source_settings,omitempty"`
 
 	// The resource name of the Cloud KMS CryptoKey to be used to protect access
 	// to messages published on this topic. Your project's PubSub service account

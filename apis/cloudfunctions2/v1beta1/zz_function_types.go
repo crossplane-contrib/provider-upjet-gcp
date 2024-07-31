@@ -13,7 +13,17 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AutomaticUpdatePolicyInitParameters struct {
+}
+
+type AutomaticUpdatePolicyParameters struct {
+}
+
 type BuildConfigInitParameters struct {
+
+	// Security patches are applied automatically to the runtime without requiring
+	// the function to be redeployed.
+	AutomaticUpdatePolicy *AutomaticUpdatePolicyInitParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
 
 	// User managed repository created in Artifact Registry optionally with a customer managed encryption key.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/artifact/v1beta1.RegistryRepository
@@ -39,9 +49,26 @@ type BuildConfigInitParameters struct {
 	// +mapType=granular
 	EnvironmentVariables map[string]*string `json:"environmentVariables,omitempty" tf:"environment_variables,omitempty"`
 
+	// Security patches are only applied when a function is redeployed.
+	// Structure is documented below.
+	OnDeployUpdatePolicy *OnDeployUpdatePolicyInitParameters `json:"onDeployUpdatePolicy,omitempty" tf:"on_deploy_update_policy,omitempty"`
+
 	// The runtime in which to run the function. Required when deploying a new
 	// function, optional when updating an existing function.
 	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
+
+	// The fully-qualified name of the service account to be used for building the container.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// The location of the function source code.
 	// Structure is documented below.
@@ -63,6 +90,10 @@ type BuildConfigInitParameters struct {
 
 type BuildConfigObservation struct {
 
+	// Security patches are applied automatically to the runtime without requiring
+	// the function to be redeployed.
+	AutomaticUpdatePolicy *AutomaticUpdatePolicyParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
+
 	// (Output)
 	// The Cloud Build name of the latest successful
 	// deployment of the function.
@@ -82,9 +113,16 @@ type BuildConfigObservation struct {
 	// +mapType=granular
 	EnvironmentVariables map[string]*string `json:"environmentVariables,omitempty" tf:"environment_variables,omitempty"`
 
+	// Security patches are only applied when a function is redeployed.
+	// Structure is documented below.
+	OnDeployUpdatePolicy *OnDeployUpdatePolicyObservation `json:"onDeployUpdatePolicy,omitempty" tf:"on_deploy_update_policy,omitempty"`
+
 	// The runtime in which to run the function. Required when deploying a new
 	// function, optional when updating an existing function.
 	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
+
+	// The fully-qualified name of the service account to be used for building the container.
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	// The location of the function source code.
 	// Structure is documented below.
@@ -95,6 +133,11 @@ type BuildConfigObservation struct {
 }
 
 type BuildConfigParameters struct {
+
+	// Security patches are applied automatically to the runtime without requiring
+	// the function to be redeployed.
+	// +kubebuilder:validation:Optional
+	AutomaticUpdatePolicy *AutomaticUpdatePolicyParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
 
 	// User managed repository created in Artifact Registry optionally with a customer managed encryption key.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/artifact/v1beta1.RegistryRepository
@@ -123,10 +166,29 @@ type BuildConfigParameters struct {
 	// +mapType=granular
 	EnvironmentVariables map[string]*string `json:"environmentVariables,omitempty" tf:"environment_variables,omitempty"`
 
+	// Security patches are only applied when a function is redeployed.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	OnDeployUpdatePolicy *OnDeployUpdatePolicyParameters `json:"onDeployUpdatePolicy,omitempty" tf:"on_deploy_update_policy,omitempty"`
+
 	// The runtime in which to run the function. Required when deploying a new
 	// function, optional when updating an existing function.
 	// +kubebuilder:validation:Optional
 	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
+
+	// The fully-qualified name of the service account to be used for building the container.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// The location of the function source code.
 	// Structure is documented below.
@@ -498,6 +560,19 @@ type FunctionParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ServiceConfig []ServiceConfigParameters `json:"serviceConfig,omitempty" tf:"service_config,omitempty"`
+}
+
+type OnDeployUpdatePolicyInitParameters struct {
+}
+
+type OnDeployUpdatePolicyObservation struct {
+
+	// (Output)
+	// The runtime version which was used during latest function deployment.
+	RuntimeVersion *string `json:"runtimeVersion,omitempty" tf:"runtime_version,omitempty"`
+}
+
+type OnDeployUpdatePolicyParameters struct {
 }
 
 type RepoSourceInitParameters struct {

@@ -124,6 +124,9 @@ type BucketInitParameters struct {
 	// The recovery point objective for cross-region replication of the bucket. Applicable only for dual and multi-region buckets. "DEFAULT" sets default replication. "ASYNC_TURBO" value enables turbo replication, valid for dual-region buckets only. See Turbo Replication for more information. If rpo is not specified at bucket creation, it defaults to "DEFAULT" for dual and multi-region buckets. NOTE If used with single-region bucket, It will throw an error.
 	Rpo *string `json:"rpo,omitempty" tf:"rpo,omitempty"`
 
+	// The bucket's soft delete policy, which defines the period of time that soft-deleted objects will be retained, and cannot be permanently deleted. Structure is documented below.
+	SoftDeletePolicy *SoftDeletePolicyInitParameters `json:"softDeletePolicy,omitempty" tf:"soft_delete_policy,omitempty"`
+
 	// The Storage Class of the new bucket. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE.
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
 
@@ -184,6 +187,8 @@ type BucketObservation struct {
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	ProjectNumber *float64 `json:"projectNumber,omitempty" tf:"project_number,omitempty"`
+
 	// Prevents public access to a bucket. Acceptable values are "inherited" or "enforced". If "inherited", the bucket uses public access prevention. only if the bucket is subject to the public access prevention organization policy constraint. Defaults to "inherited".
 	PublicAccessPrevention *string `json:"publicAccessPrevention,omitempty" tf:"public_access_prevention,omitempty"`
 
@@ -198,6 +203,9 @@ type BucketObservation struct {
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// The bucket's soft delete policy, which defines the period of time that soft-deleted objects will be retained, and cannot be permanently deleted. Structure is documented below.
+	SoftDeletePolicy *SoftDeletePolicyObservation `json:"softDeletePolicy,omitempty" tf:"soft_delete_policy,omitempty"`
 
 	// The Storage Class of the new bucket. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE.
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
@@ -288,6 +296,10 @@ type BucketParameters struct {
 	// +kubebuilder:validation:Optional
 	Rpo *string `json:"rpo,omitempty" tf:"rpo,omitempty"`
 
+	// The bucket's soft delete policy, which defines the period of time that soft-deleted objects will be retained, and cannot be permanently deleted. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SoftDeletePolicy *SoftDeletePolicyParameters `json:"softDeletePolicy,omitempty" tf:"soft_delete_policy,omitempty"`
+
 	// The Storage Class of the new bucket. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE.
 	// +kubebuilder:validation:Optional
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
@@ -340,6 +352,15 @@ type ConditionInitParameters struct {
 	// Relevant only for versioned objects. The number of newer versions of an object to satisfy this condition.
 	NumNewerVersions *float64 `json:"numNewerVersions,omitempty" tf:"num_newer_versions,omitempty"`
 
+	// While set true, days_since_custom_time value will be sent in the request even for zero value of the field. This field is only useful for setting 0 value to the days_since_custom_time field. It can be used alone or together with days_since_custom_time.
+	SendDaysSinceCustomTimeIfZero *bool `json:"sendDaysSinceCustomTimeIfZero,omitempty" tf:"send_days_since_custom_time_if_zero,omitempty"`
+
+	// While set true, days_since_noncurrent_time value will be sent in the request even for zero value of the field. This field is only useful for setting 0 value to the days_since_noncurrent_time field. It can be used alone or together with days_since_noncurrent_time.
+	SendDaysSinceNoncurrentTimeIfZero *bool `json:"sendDaysSinceNoncurrentTimeIfZero,omitempty" tf:"send_days_since_noncurrent_time_if_zero,omitempty"`
+
+	// While set true, num_newer_versions value will be sent in the request even for zero value of the field. This field is only useful for setting 0 value to the num_newer_versions field. It can be used alone or together with num_newer_versions.
+	SendNumNewerVersionsIfZero *bool `json:"sendNumNewerVersionsIfZero,omitempty" tf:"send_num_newer_versions_if_zero,omitempty"`
+
 	// Match to live and/or archived objects. Unversioned buckets have only live objects. Supported values include: "LIVE", "ARCHIVED", "ANY".
 	WithState *string `json:"withState,omitempty" tf:"with_state,omitempty"`
 }
@@ -378,6 +399,15 @@ type ConditionObservation struct {
 
 	// Relevant only for versioned objects. The number of newer versions of an object to satisfy this condition.
 	NumNewerVersions *float64 `json:"numNewerVersions,omitempty" tf:"num_newer_versions,omitempty"`
+
+	// While set true, days_since_custom_time value will be sent in the request even for zero value of the field. This field is only useful for setting 0 value to the days_since_custom_time field. It can be used alone or together with days_since_custom_time.
+	SendDaysSinceCustomTimeIfZero *bool `json:"sendDaysSinceCustomTimeIfZero,omitempty" tf:"send_days_since_custom_time_if_zero,omitempty"`
+
+	// While set true, days_since_noncurrent_time value will be sent in the request even for zero value of the field. This field is only useful for setting 0 value to the days_since_noncurrent_time field. It can be used alone or together with days_since_noncurrent_time.
+	SendDaysSinceNoncurrentTimeIfZero *bool `json:"sendDaysSinceNoncurrentTimeIfZero,omitempty" tf:"send_days_since_noncurrent_time_if_zero,omitempty"`
+
+	// While set true, num_newer_versions value will be sent in the request even for zero value of the field. This field is only useful for setting 0 value to the num_newer_versions field. It can be used alone or together with num_newer_versions.
+	SendNumNewerVersionsIfZero *bool `json:"sendNumNewerVersionsIfZero,omitempty" tf:"send_num_newer_versions_if_zero,omitempty"`
 
 	// Match to live and/or archived objects. Unversioned buckets have only live objects. Supported values include: "LIVE", "ARCHIVED", "ANY".
 	WithState *string `json:"withState,omitempty" tf:"with_state,omitempty"`
@@ -428,6 +458,18 @@ type ConditionParameters struct {
 	// Relevant only for versioned objects. The number of newer versions of an object to satisfy this condition.
 	// +kubebuilder:validation:Optional
 	NumNewerVersions *float64 `json:"numNewerVersions,omitempty" tf:"num_newer_versions,omitempty"`
+
+	// While set true, days_since_custom_time value will be sent in the request even for zero value of the field. This field is only useful for setting 0 value to the days_since_custom_time field. It can be used alone or together with days_since_custom_time.
+	// +kubebuilder:validation:Optional
+	SendDaysSinceCustomTimeIfZero *bool `json:"sendDaysSinceCustomTimeIfZero,omitempty" tf:"send_days_since_custom_time_if_zero,omitempty"`
+
+	// While set true, days_since_noncurrent_time value will be sent in the request even for zero value of the field. This field is only useful for setting 0 value to the days_since_noncurrent_time field. It can be used alone or together with days_since_noncurrent_time.
+	// +kubebuilder:validation:Optional
+	SendDaysSinceNoncurrentTimeIfZero *bool `json:"sendDaysSinceNoncurrentTimeIfZero,omitempty" tf:"send_days_since_noncurrent_time_if_zero,omitempty"`
+
+	// While set true, num_newer_versions value will be sent in the request even for zero value of the field. This field is only useful for setting 0 value to the num_newer_versions field. It can be used alone or together with num_newer_versions.
+	// +kubebuilder:validation:Optional
+	SendNumNewerVersionsIfZero *bool `json:"sendNumNewerVersionsIfZero,omitempty" tf:"send_num_newer_versions_if_zero,omitempty"`
 
 	// Match to live and/or archived objects. Unversioned buckets have only live objects. Supported values include: "LIVE", "ARCHIVED", "ANY".
 	// +kubebuilder:validation:Optional
@@ -618,6 +660,28 @@ type RetentionPolicyParameters struct {
 	// The period of time, in seconds, that objects in the bucket must be retained and cannot be deleted, overwritten, or archived. The value must be less than 2,147,483,647 seconds.
 	// +kubebuilder:validation:Optional
 	RetentionPeriod *float64 `json:"retentionPeriod" tf:"retention_period,omitempty"`
+}
+
+type SoftDeletePolicyInitParameters struct {
+
+	// The duration in seconds that soft-deleted objects in the bucket will be retained and cannot be permanently deleted. Default value is 604800. The value must be in between 604800(7 days) and 7776000(90 days). Note: To disable the soft delete policy on a bucket, This field must be set to 0.
+	RetentionDurationSeconds *float64 `json:"retentionDurationSeconds,omitempty" tf:"retention_duration_seconds,omitempty"`
+}
+
+type SoftDeletePolicyObservation struct {
+
+	// (Computed) Server-determined value that indicates the time from which the policy, or one with a greater retention, was effective. This value is in RFC 3339 format.
+	EffectiveTime *string `json:"effectiveTime,omitempty" tf:"effective_time,omitempty"`
+
+	// The duration in seconds that soft-deleted objects in the bucket will be retained and cannot be permanently deleted. Default value is 604800. The value must be in between 604800(7 days) and 7776000(90 days). Note: To disable the soft delete policy on a bucket, This field must be set to 0.
+	RetentionDurationSeconds *float64 `json:"retentionDurationSeconds,omitempty" tf:"retention_duration_seconds,omitempty"`
+}
+
+type SoftDeletePolicyParameters struct {
+
+	// The duration in seconds that soft-deleted objects in the bucket will be retained and cannot be permanently deleted. Default value is 604800. The value must be in between 604800(7 days) and 7776000(90 days). Note: To disable the soft delete policy on a bucket, This field must be set to 0.
+	// +kubebuilder:validation:Optional
+	RetentionDurationSeconds *float64 `json:"retentionDurationSeconds,omitempty" tf:"retention_duration_seconds,omitempty"`
 }
 
 type VersioningInitParameters struct {

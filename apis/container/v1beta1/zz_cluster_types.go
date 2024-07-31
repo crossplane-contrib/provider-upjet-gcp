@@ -88,6 +88,17 @@ type AddonsConfigInitParameters struct {
 	// It can only be disabled if the nodes already do not have network policies enabled.
 	// Defaults to disabled; set disabled = false to enable.
 	NetworkPolicyConfig []NetworkPolicyConfigInitParameters `json:"networkPolicyConfig,omitempty" tf:"network_policy_config,omitempty"`
+
+	// . The status of the Ray Operator
+	// addon.
+	// It is disabled by default. Set enabled = true to enable. The minimum
+	// cluster version to enable Ray is 1.30.0-gke.1747000.
+	RayOperatorConfig []RayOperatorConfigInitParameters `json:"rayOperatorConfig,omitempty" tf:"ray_operator_config,omitempty"`
+
+	// .
+	// The status of the Stateful HA addon, which provides automatic configurable failover for stateful applications.
+	// It is disabled by default for Standard clusters. Set enabled = true to enable.
+	StatefulHaConfig *StatefulHaConfigInitParameters `json:"statefulHaConfig,omitempty" tf:"stateful_ha_config,omitempty"`
 }
 
 type AddonsConfigObservation struct {
@@ -143,6 +154,17 @@ type AddonsConfigObservation struct {
 	// It can only be disabled if the nodes already do not have network policies enabled.
 	// Defaults to disabled; set disabled = false to enable.
 	NetworkPolicyConfig []NetworkPolicyConfigObservation `json:"networkPolicyConfig,omitempty" tf:"network_policy_config,omitempty"`
+
+	// . The status of the Ray Operator
+	// addon.
+	// It is disabled by default. Set enabled = true to enable. The minimum
+	// cluster version to enable Ray is 1.30.0-gke.1747000.
+	RayOperatorConfig []RayOperatorConfigObservation `json:"rayOperatorConfig,omitempty" tf:"ray_operator_config,omitempty"`
+
+	// .
+	// The status of the Stateful HA addon, which provides automatic configurable failover for stateful applications.
+	// It is disabled by default for Standard clusters. Set enabled = true to enable.
+	StatefulHaConfig *StatefulHaConfigObservation `json:"statefulHaConfig,omitempty" tf:"stateful_ha_config,omitempty"`
 }
 
 type AddonsConfigParameters struct {
@@ -208,6 +230,19 @@ type AddonsConfigParameters struct {
 	// Defaults to disabled; set disabled = false to enable.
 	// +kubebuilder:validation:Optional
 	NetworkPolicyConfig []NetworkPolicyConfigParameters `json:"networkPolicyConfig,omitempty" tf:"network_policy_config,omitempty"`
+
+	// . The status of the Ray Operator
+	// addon.
+	// It is disabled by default. Set enabled = true to enable. The minimum
+	// cluster version to enable Ray is 1.30.0-gke.1747000.
+	// +kubebuilder:validation:Optional
+	RayOperatorConfig []RayOperatorConfigParameters `json:"rayOperatorConfig,omitempty" tf:"ray_operator_config,omitempty"`
+
+	// .
+	// The status of the Stateful HA addon, which provides automatic configurable failover for stateful applications.
+	// It is disabled by default for Standard clusters. Set enabled = true to enable.
+	// +kubebuilder:validation:Optional
+	StatefulHaConfig *StatefulHaConfigParameters `json:"statefulHaConfig,omitempty" tf:"stateful_ha_config,omitempty"`
 }
 
 type AdvancedDatapathObservabilityConfigInitParameters struct {
@@ -251,17 +286,27 @@ type AdvancedDatapathObservabilityConfigParameters struct {
 
 type AdvancedMachineFeaturesInitParameters struct {
 
+	// Defines whether the instance should have nested virtualization enabled. Defaults to false.
+	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
+
 	// The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. If unset, the maximum number of threads supported per core by the underlying processor is assumed.
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
 }
 
 type AdvancedMachineFeaturesObservation struct {
 
+	// Defines whether the instance should have nested virtualization enabled. Defaults to false.
+	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
+
 	// The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. If unset, the maximum number of threads supported per core by the underlying processor is assumed.
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
 }
 
 type AdvancedMachineFeaturesParameters struct {
+
+	// Defines whether the instance should have nested virtualization enabled. Defaults to false.
+	// +kubebuilder:validation:Optional
+	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
 
 	// The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. If unset, the maximum number of threads supported per core by the underlying processor is assumed.
 	// +kubebuilder:validation:Optional
@@ -539,6 +584,31 @@ type BlueGreenSettingsStandardRolloutPolicyObservation struct {
 type BlueGreenSettingsStandardRolloutPolicyParameters struct {
 }
 
+type CertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservation struct {
+	SecretURI *string `json:"secretUri,omitempty" tf:"secret_uri,omitempty"`
+}
+
+type CertificateAuthorityDomainConfigInitParameters struct {
+	Fqdns []*string `json:"fqdns,omitempty" tf:"fqdns,omitempty"`
+
+	GCPSecretManagerCertificateConfig *GCPSecretManagerCertificateConfigInitParameters `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
+}
+
+type CertificateAuthorityDomainConfigObservation struct {
+	Fqdns []*string `json:"fqdns,omitempty" tf:"fqdns,omitempty"`
+
+	GCPSecretManagerCertificateConfig *GCPSecretManagerCertificateConfigObservation `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
+}
+
+type CertificateAuthorityDomainConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Fqdns []*string `json:"fqdns" tf:"fqdns,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	GCPSecretManagerCertificateConfig *GCPSecretManagerCertificateConfigParameters `json:"gcpSecretManagerCertificateConfig" tf:"gcp_secret_manager_certificate_config,omitempty"`
+}
+
 type CidrBlocksInitParameters struct {
 
 	// External network that can access Kubernetes master through HTTPS.
@@ -765,6 +835,9 @@ type ClusterInitParameters struct {
 	// See the official documentation
 	// for available features.
 	EnableAutopilot *bool `json:"enableAutopilot,omitempty" tf:"enable_autopilot,omitempty"`
+
+	// Whether CiliumClusterWideNetworkPolicy is enabled on this cluster. Defaults to false.
+	EnableCiliumClusterwideNetworkPolicy *bool `json:"enableCiliumClusterwideNetworkPolicy,omitempty" tf:"enable_cilium_clusterwide_network_policy,omitempty"`
 
 	// Whether Intra-node visibility is enabled for this cluster. This makes same node pod to pod traffic visible for VPC network.
 	EnableIntranodeVisibility *bool `json:"enableIntranodeVisibility,omitempty" tf:"enable_intranode_visibility,omitempty"`
@@ -1057,6 +1130,9 @@ type ClusterObservation struct {
 	// See the official documentation
 	// for available features.
 	EnableAutopilot *bool `json:"enableAutopilot,omitempty" tf:"enable_autopilot,omitempty"`
+
+	// Whether CiliumClusterWideNetworkPolicy is enabled on this cluster. Defaults to false.
+	EnableCiliumClusterwideNetworkPolicy *bool `json:"enableCiliumClusterwideNetworkPolicy,omitempty" tf:"enable_cilium_clusterwide_network_policy,omitempty"`
 
 	// Whether Intra-node visibility is enabled for this cluster. This makes same node pod to pod traffic visible for VPC network.
 	EnableIntranodeVisibility *bool `json:"enableIntranodeVisibility,omitempty" tf:"enable_intranode_visibility,omitempty"`
@@ -1392,6 +1468,10 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	EnableAutopilot *bool `json:"enableAutopilot,omitempty" tf:"enable_autopilot,omitempty"`
 
+	// Whether CiliumClusterWideNetworkPolicy is enabled on this cluster. Defaults to false.
+	// +kubebuilder:validation:Optional
+	EnableCiliumClusterwideNetworkPolicy *bool `json:"enableCiliumClusterwideNetworkPolicy,omitempty" tf:"enable_cilium_clusterwide_network_policy,omitempty"`
+
 	// Whether Intra-node visibility is enabled for this cluster. This makes same node pod to pod traffic visible for VPC network.
 	// +kubebuilder:validation:Optional
 	EnableIntranodeVisibility *bool `json:"enableIntranodeVisibility,omitempty" tf:"enable_intranode_visibility,omitempty"`
@@ -1706,6 +1786,55 @@ type ConfigConnectorConfigParameters struct {
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
+type ContainerdConfigInitParameters struct {
+
+	// Configuration for private container registries. There are two fields in this config:
+	PrivateRegistryAccessConfig *PrivateRegistryAccessConfigInitParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+}
+
+type ContainerdConfigObservation struct {
+
+	// Configuration for private container registries. There are two fields in this config:
+	PrivateRegistryAccessConfig *PrivateRegistryAccessConfigObservation `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+}
+
+type ContainerdConfigParameters struct {
+
+	// Configuration for private container registries. There are two fields in this config:
+	// +kubebuilder:validation:Optional
+	PrivateRegistryAccessConfig *PrivateRegistryAccessConfigParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+}
+
+type ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigInitParameters struct {
+	Fqdns []*string `json:"fqdns,omitempty" tf:"fqdns,omitempty"`
+
+	GCPSecretManagerCertificateConfig *PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigInitParameters `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
+}
+
+type ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigObservation struct {
+	Fqdns []*string `json:"fqdns,omitempty" tf:"fqdns,omitempty"`
+
+	GCPSecretManagerCertificateConfig *PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservation `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
+}
+
+type ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Fqdns []*string `json:"fqdns" tf:"fqdns,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	GCPSecretManagerCertificateConfig *PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigParameters `json:"gcpSecretManagerCertificateConfig" tf:"gcp_secret_manager_certificate_config,omitempty"`
+}
+
+type ContainerdConfigPrivateRegistryAccessConfigObservation struct {
+
+	// List of configuration objects for CA and domains. Each object identifies a certificate and its assigned domains. See how to configure for private container registries for more detail. Example:
+	CertificateAuthorityDomainConfig []PrivateRegistryAccessConfigCertificateAuthorityDomainConfigObservation `json:"certificateAuthorityDomainConfig,omitempty" tf:"certificate_authority_domain_config,omitempty"`
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
 type CostManagementConfigInitParameters struct {
 
 	// Whether to enable the cost allocation feature.
@@ -2017,6 +2146,20 @@ type GCPFilestoreCsiDriverConfigParameters struct {
 	// Enables vertical pod autoscaling
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
+type GCPSecretManagerCertificateConfigInitParameters struct {
+	SecretURI *string `json:"secretUri,omitempty" tf:"secret_uri,omitempty"`
+}
+
+type GCPSecretManagerCertificateConfigObservation struct {
+	SecretURI *string `json:"secretUri,omitempty" tf:"secret_uri,omitempty"`
+}
+
+type GCPSecretManagerCertificateConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	SecretURI *string `json:"secretUri" tf:"secret_uri,omitempty"`
 }
 
 type GatewayAPIConfigInitParameters struct {
@@ -3074,6 +3217,9 @@ type NodeConfigAdvancedMachineFeaturesInitParameters struct {
 
 type NodeConfigAdvancedMachineFeaturesObservation struct {
 
+	// Defines whether the instance should have nested virtualization enabled. Defaults to false.
+	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
+
 	// The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. If unset, the maximum number of threads supported per core by the underlying processor is assumed.
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
 }
@@ -3100,7 +3246,64 @@ type NodeConfigConfidentialNodesParameters struct {
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
+type NodeConfigContainerdConfigObservation struct {
+
+	// Configuration for private container registries. There are two fields in this config:
+	PrivateRegistryAccessConfig *ContainerdConfigPrivateRegistryAccessConfigObservation `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+}
+
+type NodeConfigDefaultsContainerdConfigInitParameters struct {
+
+	// Configuration for private container registries. There are two fields in this config:
+	PrivateRegistryAccessConfig *NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigInitParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+}
+
+type NodeConfigDefaultsContainerdConfigObservation struct {
+
+	// Configuration for private container registries. There are two fields in this config:
+	PrivateRegistryAccessConfig *NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigObservation `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+}
+
+type NodeConfigDefaultsContainerdConfigParameters struct {
+
+	// Configuration for private container registries. There are two fields in this config:
+	// +kubebuilder:validation:Optional
+	PrivateRegistryAccessConfig *NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+}
+
+type NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigInitParameters struct {
+
+	// List of configuration objects for CA and domains. Each object identifies a certificate and its assigned domains. See how to configure for private container registries for more detail. Example:
+	CertificateAuthorityDomainConfig []ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigInitParameters `json:"certificateAuthorityDomainConfig,omitempty" tf:"certificate_authority_domain_config,omitempty"`
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigObservation struct {
+
+	// List of configuration objects for CA and domains. Each object identifies a certificate and its assigned domains. See how to configure for private container registries for more detail. Example:
+	CertificateAuthorityDomainConfig []ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigObservation `json:"certificateAuthorityDomainConfig,omitempty" tf:"certificate_authority_domain_config,omitempty"`
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigParameters struct {
+
+	// List of configuration objects for CA and domains. Each object identifies a certificate and its assigned domains. See how to configure for private container registries for more detail. Example:
+	// +kubebuilder:validation:Optional
+	CertificateAuthorityDomainConfig []ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigParameters `json:"certificateAuthorityDomainConfig,omitempty" tf:"certificate_authority_domain_config,omitempty"`
+
+	// Enables vertical pod autoscaling
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
 type NodeConfigDefaultsInitParameters struct {
+
+	// Parameters to customize containerd runtime. Structure is documented below.
+	ContainerdConfig *NodeConfigDefaultsContainerdConfigInitParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
 
 	// The type of logging agent that is deployed by default for newly created node pools in the cluster. Valid values include DEFAULT and MAX_THROUGHPUT. See Increasing logging agent throughput for more information.
 	LoggingVariant *string `json:"loggingVariant,omitempty" tf:"logging_variant,omitempty"`
@@ -3108,11 +3311,18 @@ type NodeConfigDefaultsInitParameters struct {
 
 type NodeConfigDefaultsObservation struct {
 
+	// Parameters to customize containerd runtime. Structure is documented below.
+	ContainerdConfig *NodeConfigDefaultsContainerdConfigObservation `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
+
 	// The type of logging agent that is deployed by default for newly created node pools in the cluster. Valid values include DEFAULT and MAX_THROUGHPUT. See Increasing logging agent throughput for more information.
 	LoggingVariant *string `json:"loggingVariant,omitempty" tf:"logging_variant,omitempty"`
 }
 
 type NodeConfigDefaultsParameters struct {
+
+	// Parameters to customize containerd runtime. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ContainerdConfig *NodeConfigDefaultsContainerdConfigParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
 
 	// The type of logging agent that is deployed by default for newly created node pools in the cluster. Valid values include DEFAULT and MAX_THROUGHPUT. See Increasing logging agent throughput for more information.
 	// +kubebuilder:validation:Optional
@@ -3232,6 +3442,9 @@ type NodeConfigInitParameters struct {
 	// Configuration for Confidential Nodes feature. Structure is documented below documented below.
 	ConfidentialNodes []NodeConfigConfidentialNodesInitParameters `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
 
+	// Parameters to customize containerd runtime. Structure is documented below.
+	ContainerdConfig *ContainerdConfigInitParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
+
 	// Size of the disk attached to each node, specified
 	// in GB. The smallest allowed disk size is 10GB. Defaults to 100GB.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
@@ -3350,6 +3563,9 @@ type NodeConfigInitParameters struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	// Parameters for secondary boot disks to preload container images and data on new nodes. Structure is documented below. gcfs_config must be enabled=true for this feature to work. min_master_version must also be set to use GKE 1.28.3-gke.106700 or later versions.
+	SecondaryBootDisks []SecondaryBootDisksInitParameters `json:"secondaryBootDisks,omitempty" tf:"secondary_boot_disks,omitempty"`
+
 	// The service account to be used by the Node VMs.
 	// If not specified, the "default" service account is used.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
@@ -3460,6 +3676,9 @@ type NodeConfigObservation struct {
 
 	// Configuration for Confidential Nodes feature. Structure is documented below documented below.
 	ConfidentialNodes []NodeConfigConfidentialNodesObservation `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
+
+	// Parameters to customize containerd runtime. Structure is documented below.
+	ContainerdConfig *ContainerdConfigObservation `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
 
 	// Size of the disk attached to each node, specified
 	// in GB. The smallest allowed disk size is 10GB. Defaults to 100GB.
@@ -3582,6 +3801,9 @@ type NodeConfigObservation struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	// Parameters for secondary boot disks to preload container images and data on new nodes. Structure is documented below. gcfs_config must be enabled=true for this feature to work. min_master_version must also be set to use GKE 1.28.3-gke.106700 or later versions.
+	SecondaryBootDisks []SecondaryBootDisksObservation `json:"secondaryBootDisks,omitempty" tf:"secondary_boot_disks,omitempty"`
+
 	// The service account to be used by the Node VMs.
 	// If not specified, the "default" service account is used.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
@@ -3625,6 +3847,10 @@ type NodeConfigParameters struct {
 	// Configuration for Confidential Nodes feature. Structure is documented below documented below.
 	// +kubebuilder:validation:Optional
 	ConfidentialNodes []NodeConfigConfidentialNodesParameters `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
+
+	// Parameters to customize containerd runtime. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ContainerdConfig *ContainerdConfigParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
 
 	// Size of the disk attached to each node, specified
 	// in GB. The smallest allowed disk size is 10GB. Defaults to 100GB.
@@ -3770,6 +3996,10 @@ type NodeConfigParameters struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	// Parameters for secondary boot disks to preload container images and data on new nodes. Structure is documented below. gcfs_config must be enabled=true for this feature to work. min_master_version must also be set to use GKE 1.28.3-gke.106700 or later versions.
+	// +kubebuilder:validation:Optional
+	SecondaryBootDisks []SecondaryBootDisksParameters `json:"secondaryBootDisks,omitempty" tf:"secondary_boot_disks,omitempty"`
+
 	// The service account to be used by the Node VMs.
 	// If not specified, the "default" service account is used.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
@@ -3834,6 +4064,16 @@ type NodeConfigReservationAffinityObservation struct {
 }
 
 type NodeConfigReservationAffinityParameters struct {
+}
+
+type NodeConfigSecondaryBootDisksObservation struct {
+
+	// Path to disk image to create the secondary boot disk from. After using the gke-disk-image-builder, this argument should be global/images/DISK_IMAGE_NAME.
+	DiskImage *string `json:"diskImage,omitempty" tf:"disk_image,omitempty"`
+
+	// How to expose the node metadata to the workload running on the node.
+	// Accepted values are:
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 }
 
 type NodeConfigShieldedInstanceConfigInitParameters struct {
@@ -3910,12 +4150,20 @@ type NodePoolAutoConfigInitParameters struct {
 
 	// The network tag config for the cluster's automatically provisioned node pools.
 	NetworkTags []NetworkTagsInitParameters `json:"networkTags,omitempty" tf:"network_tags,omitempty"`
+
+	// A map of resource manager tag keys and values to be attached to the nodes for managing Compute Engine firewalls using Network Firewall Policies. Tags must be according to specifications found here. A maximum of 5 tag key-value pairs can be specified. Existing tags will be replaced with new values. Tags must be in one of the following formats ([KEY]=[VALUE]) 1. tagKeys/{tag_key_id}=tagValues/{tag_value_id} 2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 type NodePoolAutoConfigObservation struct {
 
 	// The network tag config for the cluster's automatically provisioned node pools.
 	NetworkTags []NetworkTagsObservation `json:"networkTags,omitempty" tf:"network_tags,omitempty"`
+
+	// A map of resource manager tag keys and values to be attached to the nodes for managing Compute Engine firewalls using Network Firewall Policies. Tags must be according to specifications found here. A maximum of 5 tag key-value pairs can be specified. Existing tags will be replaced with new values. Tags must be in one of the following formats ([KEY]=[VALUE]) 1. tagKeys/{tag_key_id}=tagValues/{tag_value_id} 2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 type NodePoolAutoConfigParameters struct {
@@ -3923,6 +4171,11 @@ type NodePoolAutoConfigParameters struct {
 	// The network tag config for the cluster's automatically provisioned node pools.
 	// +kubebuilder:validation:Optional
 	NetworkTags []NetworkTagsParameters `json:"networkTags,omitempty" tf:"network_tags,omitempty"`
+
+	// A map of resource manager tag keys and values to be attached to the nodes for managing Compute Engine firewalls using Network Firewall Policies. Tags must be according to specifications found here. A maximum of 5 tag key-value pairs can be specified. Existing tags will be replaced with new values. Tags must be in one of the following formats ([KEY]=[VALUE]) 1. tagKeys/{tag_key_id}=tagValues/{tag_value_id} 2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 type NodePoolDefaultsInitParameters struct {
@@ -3988,6 +4241,9 @@ type NodePoolNodeConfigObservation struct {
 
 	// Configuration for Confidential Nodes feature. Structure is documented below documented below.
 	ConfidentialNodes []NodePoolNodeConfigConfidentialNodesObservation `json:"confidentialNodes,omitempty" tf:"confidential_nodes,omitempty"`
+
+	// Parameters to customize containerd runtime. Structure is documented below.
+	ContainerdConfig *NodeConfigContainerdConfigObservation `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
 
 	// Size of the disk attached to each node, specified
 	// in GB. The smallest allowed disk size is 10GB. Defaults to 100GB.
@@ -4100,6 +4356,9 @@ type NodePoolNodeConfigObservation struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	// Parameters for secondary boot disks to preload container images and data on new nodes. Structure is documented below. gcfs_config must be enabled=true for this feature to work. min_master_version must also be set to use GKE 1.28.3-gke.106700 or later versions.
+	SecondaryBootDisks []NodeConfigSecondaryBootDisksObservation `json:"secondaryBootDisks,omitempty" tf:"secondary_boot_disks,omitempty"`
+
 	// The service account to be used by the Node VMs.
 	// If not specified, the "default" service account is used.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
@@ -4187,6 +4446,8 @@ type NodePoolObservation struct {
 	NodeLocations []*string `json:"nodeLocations,omitempty" tf:"node_locations,omitempty"`
 
 	PlacementPolicy []PlacementPolicyObservation `json:"placementPolicy,omitempty" tf:"placement_policy,omitempty"`
+
+	QueuedProvisioning *QueuedProvisioningObservation `json:"queuedProvisioning,omitempty" tf:"queued_provisioning,omitempty"`
 
 	// Specifies the upgrade settings for NAP created node pools. Structure is documented below.
 	UpgradeSettings []NodePoolUpgradeSettingsObservation `json:"upgradeSettings,omitempty" tf:"upgrade_settings,omitempty"`
@@ -4384,6 +4645,55 @@ type PrivateClusterConfigParameters struct {
 	PrivateEndpointSubnetwork *string `json:"privateEndpointSubnetwork,omitempty" tf:"private_endpoint_subnetwork,omitempty"`
 }
 
+type PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigInitParameters struct {
+	SecretURI *string `json:"secretUri,omitempty" tf:"secret_uri,omitempty"`
+}
+
+type PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservation struct {
+	SecretURI *string `json:"secretUri,omitempty" tf:"secret_uri,omitempty"`
+}
+
+type PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	SecretURI *string `json:"secretUri" tf:"secret_uri,omitempty"`
+}
+
+type PrivateRegistryAccessConfigCertificateAuthorityDomainConfigObservation struct {
+	Fqdns []*string `json:"fqdns,omitempty" tf:"fqdns,omitempty"`
+
+	GCPSecretManagerCertificateConfig *CertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservation `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
+}
+
+type PrivateRegistryAccessConfigInitParameters struct {
+
+	// List of configuration objects for CA and domains. Each object identifies a certificate and its assigned domains. See how to configure for private container registries for more detail. Example:
+	CertificateAuthorityDomainConfig []CertificateAuthorityDomainConfigInitParameters `json:"certificateAuthorityDomainConfig,omitempty" tf:"certificate_authority_domain_config,omitempty"`
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type PrivateRegistryAccessConfigObservation struct {
+
+	// List of configuration objects for CA and domains. Each object identifies a certificate and its assigned domains. See how to configure for private container registries for more detail. Example:
+	CertificateAuthorityDomainConfig []CertificateAuthorityDomainConfigObservation `json:"certificateAuthorityDomainConfig,omitempty" tf:"certificate_authority_domain_config,omitempty"`
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type PrivateRegistryAccessConfigParameters struct {
+
+	// List of configuration objects for CA and domains. Each object identifies a certificate and its assigned domains. See how to configure for private container registries for more detail. Example:
+	// +kubebuilder:validation:Optional
+	CertificateAuthorityDomainConfig []CertificateAuthorityDomainConfigParameters `json:"certificateAuthorityDomainConfig,omitempty" tf:"certificate_authority_domain_config,omitempty"`
+
+	// Enables vertical pod autoscaling
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
 type PubsubInitParameters struct {
 
 	// Whether or not the notification config is enabled
@@ -4421,6 +4731,95 @@ type PubsubParameters struct {
 	// The pubsub topic to push upgrade notifications to. Must be in the same project as the cluster. Must be in the format: projects/{project}/topics/{topic}.
 	// +kubebuilder:validation:Optional
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
+}
+
+type QueuedProvisioningObservation struct {
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type RayClusterLoggingConfigInitParameters struct {
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type RayClusterLoggingConfigObservation struct {
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type RayClusterLoggingConfigParameters struct {
+
+	// Enables vertical pod autoscaling
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
+type RayClusterMonitoringConfigInitParameters struct {
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type RayClusterMonitoringConfigObservation struct {
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type RayClusterMonitoringConfigParameters struct {
+
+	// Enables vertical pod autoscaling
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
+type RayOperatorConfigInitParameters struct {
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// Logging configuration for the cluster.
+	// Structure is documented below.
+	RayClusterLoggingConfig *RayClusterLoggingConfigInitParameters `json:"rayClusterLoggingConfig,omitempty" tf:"ray_cluster_logging_config,omitempty"`
+
+	// Monitoring configuration for the cluster.
+	// Structure is documented below.
+	RayClusterMonitoringConfig *RayClusterMonitoringConfigInitParameters `json:"rayClusterMonitoringConfig,omitempty" tf:"ray_cluster_monitoring_config,omitempty"`
+}
+
+type RayOperatorConfigObservation struct {
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// Logging configuration for the cluster.
+	// Structure is documented below.
+	RayClusterLoggingConfig *RayClusterLoggingConfigObservation `json:"rayClusterLoggingConfig,omitempty" tf:"ray_cluster_logging_config,omitempty"`
+
+	// Monitoring configuration for the cluster.
+	// Structure is documented below.
+	RayClusterMonitoringConfig *RayClusterMonitoringConfigObservation `json:"rayClusterMonitoringConfig,omitempty" tf:"ray_cluster_monitoring_config,omitempty"`
+}
+
+type RayOperatorConfigParameters struct {
+
+	// Enables vertical pod autoscaling
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+
+	// Logging configuration for the cluster.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RayClusterLoggingConfig *RayClusterLoggingConfigParameters `json:"rayClusterLoggingConfig,omitempty" tf:"ray_cluster_logging_config,omitempty"`
+
+	// Monitoring configuration for the cluster.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RayClusterMonitoringConfig *RayClusterMonitoringConfigParameters `json:"rayClusterMonitoringConfig,omitempty" tf:"ray_cluster_monitoring_config,omitempty"`
 }
 
 type RecurringWindowInitParameters struct {
@@ -4617,6 +5016,38 @@ type ResourceUsageExportConfigParameters struct {
 	EnableResourceConsumptionMetering *bool `json:"enableResourceConsumptionMetering,omitempty" tf:"enable_resource_consumption_metering,omitempty"`
 }
 
+type SecondaryBootDisksInitParameters struct {
+
+	// Path to disk image to create the secondary boot disk from. After using the gke-disk-image-builder, this argument should be global/images/DISK_IMAGE_NAME.
+	DiskImage *string `json:"diskImage,omitempty" tf:"disk_image,omitempty"`
+
+	// How to expose the node metadata to the workload running on the node.
+	// Accepted values are:
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type SecondaryBootDisksObservation struct {
+
+	// Path to disk image to create the secondary boot disk from. After using the gke-disk-image-builder, this argument should be global/images/DISK_IMAGE_NAME.
+	DiskImage *string `json:"diskImage,omitempty" tf:"disk_image,omitempty"`
+
+	// How to expose the node metadata to the workload running on the node.
+	// Accepted values are:
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type SecondaryBootDisksParameters struct {
+
+	// Path to disk image to create the secondary boot disk from. After using the gke-disk-image-builder, this argument should be global/images/DISK_IMAGE_NAME.
+	// +kubebuilder:validation:Optional
+	DiskImage *string `json:"diskImage" tf:"disk_image,omitempty"`
+
+	// How to expose the node metadata to the workload running on the node.
+	// Accepted values are:
+	// +kubebuilder:validation:Optional
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
 type SecurityPostureConfigInitParameters struct {
 
 	// Sets the mode of the Kubernetes security posture API's off-cluster features. Available options include DISABLED and BASIC.
@@ -4763,6 +5194,25 @@ type StandardRolloutPolicyParameters struct {
 	// Soak time after each batch gets drained. A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".`.
 	// +kubebuilder:validation:Optional
 	BatchSoakDuration *string `json:"batchSoakDuration,omitempty" tf:"batch_soak_duration,omitempty"`
+}
+
+type StatefulHaConfigInitParameters struct {
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type StatefulHaConfigObservation struct {
+
+	// Enables vertical pod autoscaling
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type StatefulHaConfigParameters struct {
+
+	// Enables vertical pod autoscaling
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
 type TaintInitParameters struct {

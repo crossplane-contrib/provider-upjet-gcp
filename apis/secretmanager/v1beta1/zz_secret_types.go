@@ -237,6 +237,13 @@ type SecretInitParameters struct {
 	// { "name": "wrench", "mass": "1.3kg", "count": "3" }.
 	// +mapType=granular
 	VersionAliases map[string]*string `json:"versionAliases,omitempty" tf:"version_aliases,omitempty"`
+
+	// Secret Version TTL after destruction request.
+	// This is a part of the delayed delete feature on Secret Version.
+	// For secret with versionDestroyTtl>0, version destruction doesn't happen immediately
+	// on calling destroy instead the version goes to a disabled state and
+	// the actual destruction happens after this TTL expires.
+	VersionDestroyTTL *string `json:"versionDestroyTtl,omitempty" tf:"version_destroy_ttl,omitempty"`
 }
 
 type SecretObservation struct {
@@ -322,6 +329,13 @@ type SecretObservation struct {
 	// { "name": "wrench", "mass": "1.3kg", "count": "3" }.
 	// +mapType=granular
 	VersionAliases map[string]*string `json:"versionAliases,omitempty" tf:"version_aliases,omitempty"`
+
+	// Secret Version TTL after destruction request.
+	// This is a part of the delayed delete feature on Secret Version.
+	// For secret with versionDestroyTtl>0, version destruction doesn't happen immediately
+	// on calling destroy instead the version goes to a disabled state and
+	// the actual destruction happens after this TTL expires.
+	VersionDestroyTTL *string `json:"versionDestroyTtl,omitempty" tf:"version_destroy_ttl,omitempty"`
 }
 
 type SecretParameters struct {
@@ -395,6 +409,14 @@ type SecretParameters struct {
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	VersionAliases map[string]*string `json:"versionAliases,omitempty" tf:"version_aliases,omitempty"`
+
+	// Secret Version TTL after destruction request.
+	// This is a part of the delayed delete feature on Secret Version.
+	// For secret with versionDestroyTtl>0, version destruction doesn't happen immediately
+	// on calling destroy instead the version goes to a disabled state and
+	// the actual destruction happens after this TTL expires.
+	// +kubebuilder:validation:Optional
+	VersionDestroyTTL *string `json:"versionDestroyTtl,omitempty" tf:"version_destroy_ttl,omitempty"`
 }
 
 type TopicsInitParameters struct {

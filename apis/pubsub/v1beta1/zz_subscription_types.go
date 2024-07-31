@@ -121,6 +121,9 @@ type CloudStorageConfigInitParameters struct {
 	// User-provided name for the Cloud Storage bucket. The bucket must be created by the user. The bucket name must be without any prefix like "gs://".
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
+	// User-provided format string specifying how to represent datetimes in Cloud Storage filenames.
+	FilenameDatetimeFormat *string `json:"filenameDatetimeFormat,omitempty" tf:"filename_datetime_format,omitempty"`
+
 	// User-provided prefix for Cloud Storage filename.
 	FilenamePrefix *string `json:"filenamePrefix,omitempty" tf:"filename_prefix,omitempty"`
 
@@ -145,6 +148,9 @@ type CloudStorageConfigObservation struct {
 
 	// User-provided name for the Cloud Storage bucket. The bucket must be created by the user. The bucket name must be without any prefix like "gs://".
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// User-provided format string specifying how to represent datetimes in Cloud Storage filenames.
+	FilenameDatetimeFormat *string `json:"filenameDatetimeFormat,omitempty" tf:"filename_datetime_format,omitempty"`
 
 	// User-provided prefix for Cloud Storage filename.
 	FilenamePrefix *string `json:"filenamePrefix,omitempty" tf:"filename_prefix,omitempty"`
@@ -176,6 +182,10 @@ type CloudStorageConfigParameters struct {
 	// User-provided name for the Cloud Storage bucket. The bucket must be created by the user. The bucket name must be without any prefix like "gs://".
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
+
+	// User-provided format string specifying how to represent datetimes in Cloud Storage filenames.
+	// +kubebuilder:validation:Optional
+	FilenameDatetimeFormat *string `json:"filenameDatetimeFormat,omitempty" tf:"filename_datetime_format,omitempty"`
 
 	// User-provided prefix for Cloud Storage filename.
 	// +kubebuilder:validation:Optional

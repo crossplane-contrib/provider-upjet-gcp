@@ -13,6 +13,59 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AwsV4AuthenticationInitParameters struct {
+
+	// The identifier of an access key used for s3 bucket authentication.
+	AccessKeyID *string `json:"accessKeyId,omitempty" tf:"access_key_id,omitempty"`
+
+	// The access key used for s3 bucket authentication.
+	// Required for updating or creating a backend that uses AWS v4 signature authentication, but will not be returned as part of the configuration when queried with a REST API GET request.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	AccessKeySecretRef *v1.SecretKeySelector `json:"accessKeySecretRef,omitempty" tf:"-"`
+
+	// The optional version identifier for the access key. You can use this to keep track of different iterations of your access key.
+	AccessKeyVersion *string `json:"accessKeyVersion,omitempty" tf:"access_key_version,omitempty"`
+
+	// The name of the cloud region of your origin. This is a free-form field with the name of the region your cloud uses to host your origin.
+	// For example, "us-east-1" for AWS or "us-ashburn-1" for OCI.
+	OriginRegion *string `json:"originRegion,omitempty" tf:"origin_region,omitempty"`
+}
+
+type AwsV4AuthenticationObservation struct {
+
+	// The identifier of an access key used for s3 bucket authentication.
+	AccessKeyID *string `json:"accessKeyId,omitempty" tf:"access_key_id,omitempty"`
+
+	// The optional version identifier for the access key. You can use this to keep track of different iterations of your access key.
+	AccessKeyVersion *string `json:"accessKeyVersion,omitempty" tf:"access_key_version,omitempty"`
+
+	// The name of the cloud region of your origin. This is a free-form field with the name of the region your cloud uses to host your origin.
+	// For example, "us-east-1" for AWS or "us-ashburn-1" for OCI.
+	OriginRegion *string `json:"originRegion,omitempty" tf:"origin_region,omitempty"`
+}
+
+type AwsV4AuthenticationParameters struct {
+
+	// The identifier of an access key used for s3 bucket authentication.
+	// +kubebuilder:validation:Optional
+	AccessKeyID *string `json:"accessKeyId,omitempty" tf:"access_key_id,omitempty"`
+
+	// The access key used for s3 bucket authentication.
+	// Required for updating or creating a backend that uses AWS v4 signature authentication, but will not be returned as part of the configuration when queried with a REST API GET request.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
+	AccessKeySecretRef *v1.SecretKeySelector `json:"accessKeySecretRef,omitempty" tf:"-"`
+
+	// The optional version identifier for the access key. You can use this to keep track of different iterations of your access key.
+	// +kubebuilder:validation:Optional
+	AccessKeyVersion *string `json:"accessKeyVersion,omitempty" tf:"access_key_version,omitempty"`
+
+	// The name of the cloud region of your origin. This is a free-form field with the name of the region your cloud uses to host your origin.
+	// For example, "us-east-1" for AWS or "us-ashburn-1" for OCI.
+	// +kubebuilder:validation:Optional
+	OriginRegion *string `json:"originRegion,omitempty" tf:"origin_region,omitempty"`
+}
+
 type BackendInitParameters struct {
 
 	// Specifies the balancing mode for this backend.
@@ -604,6 +657,10 @@ type BackendServiceInitParameters struct {
 	// Structure is documented below.
 	SecuritySettings []SecuritySettingsInitParameters `json:"securitySettings,omitempty" tf:"security_settings,omitempty"`
 
+	// URL to networkservices.ServiceLbPolicy resource.
+	// Can only be set if load balancing scheme is EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED and the scope is global.
+	ServiceLBPolicy *string `json:"serviceLbPolicy,omitempty" tf:"service_lb_policy,omitempty"`
+
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
 	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE.
@@ -761,6 +818,10 @@ type BackendServiceObservation struct {
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// URL to networkservices.ServiceLbPolicy resource.
+	// Can only be set if load balancing scheme is EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED and the scope is global.
+	ServiceLBPolicy *string `json:"serviceLbPolicy,omitempty" tf:"service_lb_policy,omitempty"`
 
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
@@ -937,6 +998,11 @@ type BackendServiceParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SecuritySettings []SecuritySettingsParameters `json:"securitySettings,omitempty" tf:"security_settings,omitempty"`
+
+	// URL to networkservices.ServiceLbPolicy resource.
+	// Can only be set if load balancing scheme is EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED and the scope is global.
+	// +kubebuilder:validation:Optional
+	ServiceLBPolicy *string `json:"serviceLbPolicy,omitempty" tf:"service_lb_policy,omitempty"`
 
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
@@ -1823,6 +1889,11 @@ type PolicyParameters struct {
 
 type SecuritySettingsInitParameters struct {
 
+	// The configuration needed to generate a signature for access to private storage buckets that support AWS's Signature Version 4 for authentication.
+	// Allowed only for INTERNET_IP_PORT and INTERNET_FQDN_PORT NEG backends.
+	// Structure is documented below.
+	AwsV4Authentication *AwsV4AuthenticationInitParameters `json:"awsV4Authentication,omitempty" tf:"aws_v4_authentication,omitempty"`
+
 	// ClientTlsPolicy is a resource that specifies how a client should authenticate
 	// connections to backends of a service. This resource itself does not affect
 	// configuration unless it is attached to a backend service resource.
@@ -1836,6 +1907,11 @@ type SecuritySettingsInitParameters struct {
 
 type SecuritySettingsObservation struct {
 
+	// The configuration needed to generate a signature for access to private storage buckets that support AWS's Signature Version 4 for authentication.
+	// Allowed only for INTERNET_IP_PORT and INTERNET_FQDN_PORT NEG backends.
+	// Structure is documented below.
+	AwsV4Authentication *AwsV4AuthenticationObservation `json:"awsV4Authentication,omitempty" tf:"aws_v4_authentication,omitempty"`
+
 	// ClientTlsPolicy is a resource that specifies how a client should authenticate
 	// connections to backends of a service. This resource itself does not affect
 	// configuration unless it is attached to a backend service resource.
@@ -1848,6 +1924,12 @@ type SecuritySettingsObservation struct {
 }
 
 type SecuritySettingsParameters struct {
+
+	// The configuration needed to generate a signature for access to private storage buckets that support AWS's Signature Version 4 for authentication.
+	// Allowed only for INTERNET_IP_PORT and INTERNET_FQDN_PORT NEG backends.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AwsV4Authentication *AwsV4AuthenticationParameters `json:"awsV4Authentication,omitempty" tf:"aws_v4_authentication,omitempty"`
 
 	// ClientTlsPolicy is a resource that specifies how a client should authenticate
 	// connections to backends of a service. This resource itself does not affect
