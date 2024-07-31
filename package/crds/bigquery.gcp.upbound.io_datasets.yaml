@@ -700,16 +700,18 @@ spec:
                     description: |-
                       Information about the external metadata storage where the dataset is defined.
                       Structure is documented below.
-                    properties:
-                      connection:
-                        description: |-
-                          The connection id that is used to access the externalSource.
-                          Format: projects/{projectId}/locations/{locationId}/connections/{connectionId}
-                        type: string
-                      externalSource:
-                        description: External source that backs this dataset.
-                        type: string
-                    type: object
+                    items:
+                      properties:
+                        connection:
+                          description: |-
+                            The connection id that is used to access the externalSource.
+                            Format: projects/{projectId}/locations/{locationId}/connections/{connectionId}
+                          type: string
+                        externalSource:
+                          description: External source that backs this dataset.
+                          type: string
+                      type: object
+                    type: array
                   friendlyName:
                     description: A descriptive name for the dataset
                     type: string
@@ -1400,16 +1402,18 @@ spec:
                     description: |-
                       Information about the external metadata storage where the dataset is defined.
                       Structure is documented below.
-                    properties:
-                      connection:
-                        description: |-
-                          The connection id that is used to access the externalSource.
-                          Format: projects/{projectId}/locations/{locationId}/connections/{connectionId}
-                        type: string
-                      externalSource:
-                        description: External source that backs this dataset.
-                        type: string
-                    type: object
+                    items:
+                      properties:
+                        connection:
+                          description: |-
+                            The connection id that is used to access the externalSource.
+                            Format: projects/{projectId}/locations/{locationId}/connections/{connectionId}
+                          type: string
+                        externalSource:
+                          description: External source that backs this dataset.
+                          type: string
+                      type: object
+                    type: array
                   friendlyName:
                     description: A descriptive name for the dataset
                     type: string
@@ -1812,16 +1816,18 @@ spec:
                     description: |-
                       Information about the external metadata storage where the dataset is defined.
                       Structure is documented below.
-                    properties:
-                      connection:
-                        description: |-
-                          The connection id that is used to access the externalSource.
-                          Format: projects/{projectId}/locations/{locationId}/connections/{connectionId}
-                        type: string
-                      externalSource:
-                        description: External source that backs this dataset.
-                        type: string
-                    type: object
+                    items:
+                      properties:
+                        connection:
+                          description: |-
+                            The connection id that is used to access the externalSource.
+                            Format: projects/{projectId}/locations/{locationId}/connections/{connectionId}
+                          type: string
+                        externalSource:
+                          description: External source that backs this dataset.
+                          type: string
+                      type: object
+                    type: array
                   friendlyName:
                     description: A descriptive name for the dataset
                     type: string

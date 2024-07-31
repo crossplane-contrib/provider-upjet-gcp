@@ -5772,8 +5772,10 @@ func (in *DatasetInitParameters) DeepCopyInto(out *DatasetInitParameters) {
 	}
 	if in.ExternalDatasetReference != nil {
 		in, out := &in.ExternalDatasetReference, &out.ExternalDatasetReference
-		*out = new(ExternalDatasetReferenceInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ExternalDatasetReferenceInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.FriendlyName != nil {
 		in, out := &in.FriendlyName, &out.FriendlyName
@@ -5946,8 +5948,10 @@ func (in *DatasetObservation) DeepCopyInto(out *DatasetObservation) {
 	}
 	if in.ExternalDatasetReference != nil {
 		in, out := &in.ExternalDatasetReference, &out.ExternalDatasetReference
-		*out = new(ExternalDatasetReferenceObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ExternalDatasetReferenceObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.FriendlyName != nil {
 		in, out := &in.FriendlyName, &out.FriendlyName
@@ -6098,8 +6102,10 @@ func (in *DatasetParameters) DeepCopyInto(out *DatasetParameters) {
 	}
 	if in.ExternalDatasetReference != nil {
 		in, out := &in.ExternalDatasetReference, &out.ExternalDatasetReference
-		*out = new(ExternalDatasetReferenceParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ExternalDatasetReferenceParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.FriendlyName != nil {
 		in, out := &in.FriendlyName, &out.FriendlyName
