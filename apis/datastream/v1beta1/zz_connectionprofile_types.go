@@ -69,7 +69,7 @@ type ConnectionProfileInitParameters struct {
 
 	// SQL Server database profile.
 	// Structure is documented below.
-	SQLServerProfile *SQLServerProfileInitParameters `json:"sqlServerProfile,omitempty" tf:"sql_server_profile,omitempty"`
+	SQLServerProfile []SQLServerProfileInitParameters `json:"sqlServerProfile,omitempty" tf:"sql_server_profile,omitempty"`
 }
 
 type ConnectionProfileObservation struct {
@@ -131,7 +131,7 @@ type ConnectionProfileObservation struct {
 
 	// SQL Server database profile.
 	// Structure is documented below.
-	SQLServerProfile *SQLServerProfileObservation `json:"sqlServerProfile,omitempty" tf:"sql_server_profile,omitempty"`
+	SQLServerProfile []SQLServerProfileObservation `json:"sqlServerProfile,omitempty" tf:"sql_server_profile,omitempty"`
 
 	// The combination of labels configured directly on the resource
 	// and default labels configured on the provider.
@@ -202,7 +202,7 @@ type ConnectionProfileParameters struct {
 	// SQL Server database profile.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	SQLServerProfile *SQLServerProfileParameters `json:"sqlServerProfile,omitempty" tf:"sql_server_profile,omitempty"`
+	SQLServerProfile []SQLServerProfileParameters `json:"sqlServerProfile,omitempty" tf:"sql_server_profile,omitempty"`
 }
 
 type ForwardSSHConnectivityInitParameters struct {

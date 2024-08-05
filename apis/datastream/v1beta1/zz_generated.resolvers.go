@@ -110,67 +110,67 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 		mg.Spec.ForProvider.PrivateConnectivity[i3].PrivateConnectionRef = rsp.ResolvedReference
 
 	}
-	if mg.Spec.ForProvider.SQLServerProfile != nil {
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.SQLServerProfile); i3++ {
 		{
 			m, l, err = apisresolver.GetManagedResource("sql.gcp.upbound.io", "v1beta1", "Database", "DatabaseList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SQLServerProfile.Database),
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SQLServerProfile[i3].Database),
 				Extract:      reference.ExternalName(),
-				Reference:    mg.Spec.ForProvider.SQLServerProfile.DatabaseRef,
-				Selector:     mg.Spec.ForProvider.SQLServerProfile.DatabaseSelector,
+				Reference:    mg.Spec.ForProvider.SQLServerProfile[i3].DatabaseRef,
+				Selector:     mg.Spec.ForProvider.SQLServerProfile[i3].DatabaseSelector,
 				To:           reference.To{List: l, Managed: m},
 			})
 		}
 		if err != nil {
-			return errors.Wrap(err, "mg.Spec.ForProvider.SQLServerProfile.Database")
+			return errors.Wrap(err, "mg.Spec.ForProvider.SQLServerProfile[i3].Database")
 		}
-		mg.Spec.ForProvider.SQLServerProfile.Database = reference.ToPtrValue(rsp.ResolvedValue)
-		mg.Spec.ForProvider.SQLServerProfile.DatabaseRef = rsp.ResolvedReference
+		mg.Spec.ForProvider.SQLServerProfile[i3].Database = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.SQLServerProfile[i3].DatabaseRef = rsp.ResolvedReference
 
 	}
-	if mg.Spec.ForProvider.SQLServerProfile != nil {
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.SQLServerProfile); i3++ {
 		{
 			m, l, err = apisresolver.GetManagedResource("sql.gcp.upbound.io", "v1beta2", "DatabaseInstance", "DatabaseInstanceList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SQLServerProfile.Hostname),
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SQLServerProfile[i3].Hostname),
 				Extract:      resource.ExtractParamPath("public_ip_address", true),
-				Reference:    mg.Spec.ForProvider.SQLServerProfile.HostnameRef,
-				Selector:     mg.Spec.ForProvider.SQLServerProfile.HostnameSelector,
+				Reference:    mg.Spec.ForProvider.SQLServerProfile[i3].HostnameRef,
+				Selector:     mg.Spec.ForProvider.SQLServerProfile[i3].HostnameSelector,
 				To:           reference.To{List: l, Managed: m},
 			})
 		}
 		if err != nil {
-			return errors.Wrap(err, "mg.Spec.ForProvider.SQLServerProfile.Hostname")
+			return errors.Wrap(err, "mg.Spec.ForProvider.SQLServerProfile[i3].Hostname")
 		}
-		mg.Spec.ForProvider.SQLServerProfile.Hostname = reference.ToPtrValue(rsp.ResolvedValue)
-		mg.Spec.ForProvider.SQLServerProfile.HostnameRef = rsp.ResolvedReference
+		mg.Spec.ForProvider.SQLServerProfile[i3].Hostname = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.SQLServerProfile[i3].HostnameRef = rsp.ResolvedReference
 
 	}
-	if mg.Spec.ForProvider.SQLServerProfile != nil {
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.SQLServerProfile); i3++ {
 		{
 			m, l, err = apisresolver.GetManagedResource("sql.gcp.upbound.io", "v1beta2", "User", "UserList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SQLServerProfile.Username),
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SQLServerProfile[i3].Username),
 				Extract:      reference.ExternalName(),
-				Reference:    mg.Spec.ForProvider.SQLServerProfile.UsernameRef,
-				Selector:     mg.Spec.ForProvider.SQLServerProfile.UsernameSelector,
+				Reference:    mg.Spec.ForProvider.SQLServerProfile[i3].UsernameRef,
+				Selector:     mg.Spec.ForProvider.SQLServerProfile[i3].UsernameSelector,
 				To:           reference.To{List: l, Managed: m},
 			})
 		}
 		if err != nil {
-			return errors.Wrap(err, "mg.Spec.ForProvider.SQLServerProfile.Username")
+			return errors.Wrap(err, "mg.Spec.ForProvider.SQLServerProfile[i3].Username")
 		}
-		mg.Spec.ForProvider.SQLServerProfile.Username = reference.ToPtrValue(rsp.ResolvedValue)
-		mg.Spec.ForProvider.SQLServerProfile.UsernameRef = rsp.ResolvedReference
+		mg.Spec.ForProvider.SQLServerProfile[i3].Username = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.SQLServerProfile[i3].UsernameRef = rsp.ResolvedReference
 
 	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.PostgresqlProfile); i3++ {
@@ -257,67 +257,67 @@ func (mg *ConnectionProfile) ResolveReferences( // ResolveReferences of this Con
 		mg.Spec.InitProvider.PrivateConnectivity[i3].PrivateConnectionRef = rsp.ResolvedReference
 
 	}
-	if mg.Spec.InitProvider.SQLServerProfile != nil {
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.SQLServerProfile); i3++ {
 		{
 			m, l, err = apisresolver.GetManagedResource("sql.gcp.upbound.io", "v1beta1", "Database", "DatabaseList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SQLServerProfile.Database),
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SQLServerProfile[i3].Database),
 				Extract:      reference.ExternalName(),
-				Reference:    mg.Spec.InitProvider.SQLServerProfile.DatabaseRef,
-				Selector:     mg.Spec.InitProvider.SQLServerProfile.DatabaseSelector,
+				Reference:    mg.Spec.InitProvider.SQLServerProfile[i3].DatabaseRef,
+				Selector:     mg.Spec.InitProvider.SQLServerProfile[i3].DatabaseSelector,
 				To:           reference.To{List: l, Managed: m},
 			})
 		}
 		if err != nil {
-			return errors.Wrap(err, "mg.Spec.InitProvider.SQLServerProfile.Database")
+			return errors.Wrap(err, "mg.Spec.InitProvider.SQLServerProfile[i3].Database")
 		}
-		mg.Spec.InitProvider.SQLServerProfile.Database = reference.ToPtrValue(rsp.ResolvedValue)
-		mg.Spec.InitProvider.SQLServerProfile.DatabaseRef = rsp.ResolvedReference
+		mg.Spec.InitProvider.SQLServerProfile[i3].Database = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.SQLServerProfile[i3].DatabaseRef = rsp.ResolvedReference
 
 	}
-	if mg.Spec.InitProvider.SQLServerProfile != nil {
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.SQLServerProfile); i3++ {
 		{
 			m, l, err = apisresolver.GetManagedResource("sql.gcp.upbound.io", "v1beta2", "DatabaseInstance", "DatabaseInstanceList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SQLServerProfile.Hostname),
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SQLServerProfile[i3].Hostname),
 				Extract:      resource.ExtractParamPath("public_ip_address", true),
-				Reference:    mg.Spec.InitProvider.SQLServerProfile.HostnameRef,
-				Selector:     mg.Spec.InitProvider.SQLServerProfile.HostnameSelector,
+				Reference:    mg.Spec.InitProvider.SQLServerProfile[i3].HostnameRef,
+				Selector:     mg.Spec.InitProvider.SQLServerProfile[i3].HostnameSelector,
 				To:           reference.To{List: l, Managed: m},
 			})
 		}
 		if err != nil {
-			return errors.Wrap(err, "mg.Spec.InitProvider.SQLServerProfile.Hostname")
+			return errors.Wrap(err, "mg.Spec.InitProvider.SQLServerProfile[i3].Hostname")
 		}
-		mg.Spec.InitProvider.SQLServerProfile.Hostname = reference.ToPtrValue(rsp.ResolvedValue)
-		mg.Spec.InitProvider.SQLServerProfile.HostnameRef = rsp.ResolvedReference
+		mg.Spec.InitProvider.SQLServerProfile[i3].Hostname = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.SQLServerProfile[i3].HostnameRef = rsp.ResolvedReference
 
 	}
-	if mg.Spec.InitProvider.SQLServerProfile != nil {
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.SQLServerProfile); i3++ {
 		{
 			m, l, err = apisresolver.GetManagedResource("sql.gcp.upbound.io", "v1beta2", "User", "UserList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SQLServerProfile.Username),
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SQLServerProfile[i3].Username),
 				Extract:      reference.ExternalName(),
-				Reference:    mg.Spec.InitProvider.SQLServerProfile.UsernameRef,
-				Selector:     mg.Spec.InitProvider.SQLServerProfile.UsernameSelector,
+				Reference:    mg.Spec.InitProvider.SQLServerProfile[i3].UsernameRef,
+				Selector:     mg.Spec.InitProvider.SQLServerProfile[i3].UsernameSelector,
 				To:           reference.To{List: l, Managed: m},
 			})
 		}
 		if err != nil {
-			return errors.Wrap(err, "mg.Spec.InitProvider.SQLServerProfile.Username")
+			return errors.Wrap(err, "mg.Spec.InitProvider.SQLServerProfile[i3].Username")
 		}
-		mg.Spec.InitProvider.SQLServerProfile.Username = reference.ToPtrValue(rsp.ResolvedValue)
-		mg.Spec.InitProvider.SQLServerProfile.UsernameRef = rsp.ResolvedReference
+		mg.Spec.InitProvider.SQLServerProfile[i3].Username = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.SQLServerProfile[i3].UsernameRef = rsp.ResolvedReference
 
 	}
 

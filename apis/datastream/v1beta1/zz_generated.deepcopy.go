@@ -168,8 +168,10 @@ func (in *ConnectionProfileInitParameters) DeepCopyInto(out *ConnectionProfileIn
 	}
 	if in.SQLServerProfile != nil {
 		in, out := &in.SQLServerProfile, &out.SQLServerProfile
-		*out = new(SQLServerProfileInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]SQLServerProfileInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -329,8 +331,10 @@ func (in *ConnectionProfileObservation) DeepCopyInto(out *ConnectionProfileObser
 	}
 	if in.SQLServerProfile != nil {
 		in, out := &in.SQLServerProfile, &out.SQLServerProfile
-		*out = new(SQLServerProfileObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]SQLServerProfileObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.TerraformLabels != nil {
 		in, out := &in.TerraformLabels, &out.TerraformLabels
@@ -448,8 +452,10 @@ func (in *ConnectionProfileParameters) DeepCopyInto(out *ConnectionProfileParame
 	}
 	if in.SQLServerProfile != nil {
 		in, out := &in.SQLServerProfile, &out.SQLServerProfile
-		*out = new(SQLServerProfileParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]SQLServerProfileParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
